@@ -1,5 +1,6 @@
 # Avoid repetition at all costs.
 import os
+import os.path as osp
 import json
 import string
 import subprocess
@@ -45,9 +46,9 @@ def zipDirs (dirList) :
         List of directories to zip.
     """
     filesInDirList = list(map(os.listdir, dirList))
-    for files, dirName in zip(filesInDirList, dirList) : 
-        files.sort()
-        files = [os.path.join(dirName, f) for f in files]
+    for i in range(len(dirList)) :
+        filesInDirList[i].sort()
+        filesInDirList[i] = [os.path.join(dirList[i], f) for f in filesInDirList[i]]
     return zip(*filesInDirList)
 
 
@@ -208,7 +209,7 @@ def parallelize(indirList, outdir, function, writer) :
     names = [f[:f.rfind('.')] for f in os.listdir(indirList[0])]
 
     inFullPaths = zipDirs(indirList)
-    outFullPaths = [os.path.join(outDir, name) for name in names]
+    outFullPaths = [os.path.join(outdir, name) for name in names]
 
     inChunks = more_itertools.divide(cpus, inFullPaths)
     outChunks = more_itertools.divide(cpus, outFullPaths)
@@ -335,9 +336,9 @@ class GraphReadWrite () :
         """
         with open(inFile, 'r') as fd :
             dct = json.loads(fd.read())
-        if graphType == 'cytoscape' :
+        if self.graphType == 'cytoscape' :
             return nx.readwrite.json_graph.cytoscape_graph(data)
-        elif graphType == 'tree' :
+        elif self.graphType == 'tree' :
             return nx.readwrite.json_graph.tree_graph(data)
         
         raise ValueError ('Unsupported Graph Type')
@@ -354,9 +355,9 @@ class GraphReadWrite () :
             Path to the output file.
         """
         dct = None
-        if graphType == 'cytoscape' :
+        if self.graphType == 'cytoscape' :
             dct = nx.readwrite.json_graph.cytoscape_data(G)
-        elif graphType == 'tree' :
+        elif self.graphType == 'tree' :
             T, r = G
             dct = nx.readwrite.json_graph.tree_data(T, r)
 
@@ -560,7 +561,7 @@ def complexCross (x, y) :
     return np.linalg.norm(np.cross(v1,v2))
 
     
-def d2 (path, bins=10, nSamples=100) :
+def d2 (path, docbb, bins=10, nSamples=100) :
     """
     Compute the d2 descriptors of the path.
     Take two random points on the curve
@@ -572,6 +573,8 @@ def d2 (path, bins=10, nSamples=100) :
     ----------
     path : svg.Path
         Input path.
+    docbb : list
+        bounding box of the document.
     bins : int
         Number of histogram bins. Also the
         dimension of the descriptor.
@@ -606,7 +609,7 @@ def d2 (path, bins=10, nSamples=100) :
 
     return hist 
 
-def shell(path, bins=10) :
+def shell(path, docbb, bins=10) :
     """
     Like d2 but instead of random points,
     we use points at fixed intervals on
@@ -616,6 +619,8 @@ def shell(path, bins=10) :
     ----------
     path : svg.Path
         Input path.
+    docbb : list
+        bounding box of the document.
     bins : int
         Number of histogram bins. Also the
         dimension of the descriptor.
@@ -647,7 +652,7 @@ def shell(path, bins=10) :
         hist[b] += 1
     return hist
 
-def a3 (path, bins=10, nSamples=100) :
+def a3 (path, docbb, bins=10, nSamples=100) :
     """
     Compute the a3 descriptors of the path.
     Take three random points on the curve
@@ -658,6 +663,8 @@ def a3 (path, bins=10, nSamples=100) :
     ----------
     path : svg.Path
         Input path.
+    docbb : list
+        bounding box of the document.
     bins : int
         Number of histogram bins. Also the
         dimension of the descriptor.
@@ -697,7 +704,7 @@ def a3 (path, bins=10, nSamples=100) :
 
     return hist
 
-def d3 (path, bins=10, nSamples=100) :
+def d3 (path, docbb, bins=10, nSamples=100) :
     """
     Compute the d3 descriptors of the path.
     Take three random points on the curve
@@ -707,6 +714,8 @@ def d3 (path, bins=10, nSamples=100) :
     ----------
     path : svg.Path
         Input path.
+    docbb : list
+        bounding box of the document.
     bins : int
         Number of histogram bins. Also the
         dimension of the descriptor.
@@ -745,7 +754,7 @@ def d3 (path, bins=10, nSamples=100) :
 
     return hist 
 
-def fd (path, nSamples=100) :
+def fd (path, docbb, nSamples=100) :
     """
     Compute the fourier descriptors of the
     path with respect to its centroid.
@@ -753,7 +762,9 @@ def fd (path, nSamples=100) :
     Parameters
     ----------
     path : svg.Path
-        Input path.
+        Input path. 
+    docbb : list
+        Bounding Box of the document.
     nSamples : int
         Sampling frequency for the path
     """
@@ -766,7 +777,7 @@ def fd (path, nSamples=100) :
     rt = np.abs(pts - centroid)    
     an = np.fft.fft(rt) / nSamples
     bn = np.abs(an / an[0])
-    return bn[:min(nSamples,20)]
+    return bn[:min(nSamples,20)].tolist()
     
 def relbb (path, docbb) :
     """ 
@@ -823,8 +834,7 @@ def symGraph (paths) :
                 etype='symmetry'
             )
 
-    return G
-
+    return subgraph(G, lambda x : x['error'] < 1)
 
 def adjGraph (paths) :
     """
@@ -855,6 +865,8 @@ def adjGraph (paths) :
             if pi.approx_adj(pj) :
                 G.add_edge(i, j, etype='adjacency')
 
+    return G
+
 def graphFromSvg (svgFile, graphFunction) : 
     """
     Produce a relationship graph for 
@@ -867,9 +879,33 @@ def graphFromSvg (svgFile, graphFunction) :
     graphFunction : lambda 
         path relation computer.
     """
-    doc = Document(svgFile)
+    doc = svg.Document(svgFile)
     paths = doc.flatten_all_paths()
-    return graphFunction(paths)
+    G = graphFunction(paths)
+    return G
+
+def relationshipGraph (svgFile, relFunctions) :
+    """
+    Take the svg, find graphs
+    for all relationship types
+    and combine them into one single
+    graph for clustering.
+
+    Parameters
+    ----------
+    svgFile : str
+        path to svg file.
+    relFunctions : list
+        List of graph computing functions
+    """
+    graphs = map(lambda x : graphFromSvg(svgFile, x), relFunctions)
+    graph = None
+    for g in graphs :
+        if graph is None:
+            graph = g
+        else :
+            graph = nx.compose(graph, g)
+    return graph
 
 def treeImageFromJson (jsonFile) :
     """
@@ -1001,7 +1037,7 @@ def putOnCanvas (pts, images, outFile) :
     
     imwrite(outFile, canvas)
 
-def graphCluster (G, algo) :
+def graphCluster (G, algo, doc, descFunctions) :
     """
     Hierarchical clustering of a graph into
     a dendogram. Given an algorithm to 
@@ -1018,6 +1054,11 @@ def graphCluster (G, algo) :
     algo : lambda
         The partitioning algorithm
         to be used
+    doc : svg.Document
+        Used to set node attributes.
+    descFunctions : list
+        List of descriptor functions
+        to compute for each leaf node.
     """
 
     def cluster (lst) :
@@ -1041,12 +1082,28 @@ def graphCluster (G, algo) :
             rId = cluster(list(r))
             tree.add_edge(curId, lId)
             tree.add_edge(curId, rId)
+            # Add indices of paths in this subtree.
+            tree.nodes[curId]['pathSet'] = lst
         else :
             pathId = lst.pop()
             tree.nodes[curId]['pathSet'] = [pathId]
+            # Add descriptors
+            tree.nodes[curId]['desc'] = []
+            for f in descFunctions : 
+                tree.nodes[curId]['desc'].extend(f(paths[pathId].path, vbox))
 
+        # Add svg
+        tree.nodes[curId]['svg'] = getSubsetSvg(
+            paths, 
+            tree.nodes[curId]['pathSet'], 
+            vbox
+        )
+        # Add image
+        # tree.nodes[curId]['img'] = svgStringToBitmap(tree.nodes[curId]['svg'])
         return curId
 
+    paths = doc.flatten_all_paths()
+    vbox = doc.get_viewbox()
     tree = nx.DiGraph()
     idxDct = {'idx' : 0}
     root = 0
@@ -1075,106 +1132,25 @@ def treeApply (T, r, function) :
 
     function(T, r, T.neighbors(r))
 
-def addPathIndicesToTree (T, r) :
-    """
-    Convenience function to add 
-    path indices to tree.
-
-    Parameters
-    ----------
-    T : nx.DiGraph
-        The tree.
-    r : object
-        Root of the tree.
-    """
-
-    def addPathIndices (tree, node) :
-        neighbors = tree.neighbors(node)
-        if len(neighbors) != 0 :
-            lst = more_itertools.collapse(map(lambda n : tree.nodes[n]['pathSet'], neighbors))
-            tree.nodes[node]['pathSet'] = lst
-
-    treeApply(T, r, addPathIndices)
-
-def addSvgStringToTree (T, r, doc) :
-    """
-    Convenience function to add 
-    svg string to tree.
-
-    Parameters
-    ----------
-    T : nx.DiGraph
-        The tree.
-    r : object
-        Root of the tree.
-    doc : svg.Document
-        Svg document.
-    """
-    paths = doc.flatten_all_paths()
-    vbox = doc.get_viewbox()
-
-    def addSvg(tree, node) :
-        neighbors = tree.neighbors(node) 
-        if len(neighbors) != 0 : 
-            lst = more_itertools.collapse(map(lambda n : tree.nodes[n]['pathSet'], neighbors))
-            tree.nodes[node]['svg'] = getSubsetSvg(paths, lst, vbox)
-
-    treeApply (T, r, addSvg)
-
-def addDescriptorToTree (T, r, doc, descriptorFunction) : 
-    """
-    Convenience function to add 
-    descriptors to the leaves of
-    the tree.
-
-    Parameters
-    ----------
-    T : nx.DiGraph
-        The tree.
-    r : object
-        Root of the tree.
-    doc : svg.Document
-        Svg document.
-    descriptorFunction : lambda
-        A function which takes a path
-        and returns the descriptor.
-    """
-    paths = doc.flatten_all_paths()
-    vbox = doc.get_viewbox()
-
-    def addDescriptor (tree, node) :
-        neighbors = tree.neighbors(node)
-        if len(neighbors) == 0 :
-            pathId = tree.nodes[node]['pathSet'][0]
-            tree.nodes[node]['descriptor'] = descriptorFunction(paths[pathId])
-
-    treeApply(T, r, addDescriptor)
-
-def addImageToTree (T, r) :
+def svgStringToBitmap (svgString) :
     alphabets = string.ascii_lowercase
 
-    def addImage (tree, node) :
-        svg = tree.nodes[node]['svg']
+    svgName = ''.join(random.choices(alphabets, k=10)) + '.svg'
+    svgName = osp.join('/tmp', svgName)
 
-        svgFileName = ''.join(random.choices(alphabets, k=10)) + '.svg'
-        svgFileName = os.path.join('/tmp', svgFileName)
+    pngName = ''.join(random.choices(alphabets, k=10)) + '.png'
+    pngName = osp.join('/tmp', pngName)
 
-        pngFileName = ''.join(random.choices(alphabets, k=10)) + '.png'
-        pngFileName = os.path.join('/tmp', pngFileName)
+    with open(svgName, 'w+') as fd :
+        fd.write(svgString)
 
-        with open(svgFileName, 'w+') as fd: 
-            fd.write(svg)
+    rasterize(svgName, pngName)
+    img = image.imread(pngName)
 
-        rasterize(svgFileName, pngFileName)
+    os.remove(svgName)
+    os.remove(pngName)
 
-        img = image.imread(pngFileName)
-
-        os.remove(svgFileName)
-        os.remove(pngFileName)
-
-        tree.nodes[node]['img'] = img.tolist()
-
-    treeApply(T, r, addImage)
+    return img.tolist()
 
 def matplotlibFigureSaver (obj, fname) :
     """ 

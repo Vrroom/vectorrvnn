@@ -5,45 +5,64 @@ from torch.utils import data
 from scipy.io import loadmat
 from enum import Enum
 import os
-import graphOps
+import os.path as osp
 import json
 import networkx as nx
-from networkx.algorithms import bipartite, matching
 import svgpathtools as svg
 from Utilities import *
+from Config import *
 import re
-
-def relationshipGraph (svgFile) :
-    """
-    Take the svg, find graphs
-    for all relationship types
-    and combine them into one single
-    graph for clustering.
-
-    Parameters
-    ----------
-    svgFile : str
-        path to svg file.
-    """
-    # List of all relationship computers
-    relFunctions = [
-        adjGraph,
-        symGraph
-    ]
-    graphs = map(lambda x : graphFromSvg(svgFile, x), relFunctions)
-    graph = None
-    for g in graphs :
-        if graph is None: 
-            graph = g
-        else :
-            graph = nx.compose(graph, g)
-    return graph
 
 def str2list (s) :
     l = re.split('\[|\]|, ', s)
     l = l[1:-1]
     l = [int(i) for i in l]
     return l
+
+def createTrees (fileTuple) : 
+    """
+    GRAPH_CLUSTER_ALGO is a dictionary
+    containing graph partitioning algorithms.
+
+    Use those algorithms to create trees.
+
+    Helper function while calling parallelize.
+
+    Parameters
+    ----------
+    fileTuple : tuple
+        (Path to file)
+    """
+    fileName, = fileTuple
+    G = relationshipGraph(fileName, RELATION_FUNCTIONS)
+    treesAndPrefixes = []
+    for key, val in GRAPH_CLUSTER_ALGO.items():
+        tree = graphCluster(G, val, svg.Document(fileName), DESC_FUNCTIONS)
+        treesAndPrefixes.append((tree, key))
+    return treesAndPrefixes
+
+def treeWriter(treesAndPrefixes, name) :
+    """
+    Wrap graph writing operation
+    into a top level function. 
+
+    Helper function while calling
+    parallelize.
+
+    Parameters
+    ----------
+    treesAndPrefixes : list 
+        List of trees along with a 
+        prefix indicating which graph 
+        partitioning algorithm was 
+        used to make that tree.
+    name : str
+        Name of the data point to 
+        save by.
+    """
+    for rootedTree, prefix in treesAndPrefixes :
+        fileName = name + '_' + prefix + '.json'
+        GraphReadWrite('tree').write(rootedTree, fileName)
 
 class NodeType(Enum):
     """ 
@@ -126,21 +145,30 @@ class GRASSDataset(data.Dataset):
     to handle data.
     """
 
-    def __init__(self, treeDir, transform=None):
+    def __init__(self, transform=None):
         """ 
         Constructor
 
-        The treeDir contains a bunch of jsons
-        representing the tree structure along with 
-        path descriptors for each data point. These
-        jsons are read and converted into Tree objects.
+        If the jsons are not there, then generate trees 
+        using the parameters present in config.
 
-        Parameters
-        ----------
-        treeDir : str
-            The address of the directory
+        Else, use the jsons as the tree dataset.
         """
-        self.trees = [Tree((os.path.join(treeDir,f))) for f in os.listdir(treeDir)]
+        files = os.listdir(SAVE_TREES_DIR)
+
+        if len(files) == 0 :
+            print("Making trees from scratch!")
+            parallelize(
+                [DATA_DIRECTORY], 
+                SAVE_TREES_DIR, 
+                createTrees,
+                treeWriter
+            )
+
+        files = os.listdir(SAVE_TREES_DIR)
+        self.trees = [
+            Tree((osp.join(SAVE_TREES_DIR,f))) for f in files
+        ]
 
     def __getitem__(self, index):
         return self.trees[index]

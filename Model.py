@@ -3,6 +3,7 @@ import torch
 from torch import nn
 from torch.autograd import Variable
 from time import time
+from Config import *
 
 #########################################################################################
 ## Encoder
@@ -80,18 +81,14 @@ class GRASSEncoder(nn.Module):
     the PathEncoder
     """
 
-    def __init__(self, config):
+    def __init__(self):
         """
         Constructor
 
-        Parameters
-        ----------
-        config : util.Config
-            The configuration class for the experiment.
         """
         super(GRASSEncoder, self).__init__()
-        self.path_encoder = PathEncoder(config.path_code_size, config.feature_size)
-        self.merge_encoder = MergeEncoder(config.feature_size, config.hidden_size)
+        self.path_encoder = PathEncoder(PATH_CODE_SIZE, FEATURE_SIZE)
+        self.merge_encoder = MergeEncoder(FEATURE_SIZE, HIDDEN_SIZE)
 
     def pathEncoder(self, path):
         return self.path_encoder(path)
@@ -211,10 +208,10 @@ class GRASSDecoder(nn.Module):
     Removed the node classifier 
     because it is quite useless for us.
     """
-    def __init__(self, config):
+    def __init__(self):
         super(GRASSDecoder, self).__init__()
-        self.path_decoder = PathDecoder(config.feature_size, config.path_code_size)
-        self.merge_decoder = MergeDecoder(config.feature_size, config.hidden_size)
+        self.path_decoder = PathDecoder(FEATURE_SIZE, PATH_CODE_SIZE)
+        self.merge_decoder = MergeDecoder(FEATURE_SIZE, HIDDEN_SIZE)
         self.mseLoss = nn.MSELoss()  # pytorch's mean squared error loss
         self.creLoss = nn.CrossEntropyLoss()  # pytorch's cross entropy loss (NOTE: no softmax is needed before)
 
