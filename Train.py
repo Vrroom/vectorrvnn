@@ -55,12 +55,12 @@ def setupData () :
     print("Loading data ...... ", end='', flush=True)
 
     grass_data = GRASSDataset()
-
+    identity = lambda x : x
     train_iter = torch.utils.data.DataLoader(
         grass_data, 
         batch_size=BATCH_SIZE, 
-        shuffle=True, 
-        collate_fn=id
+        shuffle=True,
+        collate_fn=identity
     )
 
     print("DONE")
@@ -89,9 +89,7 @@ def main () :
     for epoch in range(EPOCHS):
         print(header)
         for batch_idx, batch in enumerate(train_iter):
-            import pdb
-            pdb.set_trace()
-            individual_loss = map(lambda x : treeLoss(x, encoder, decoder), batch)
+            individual_loss = list(map(lambda x : Model.treeLoss(x, encoder, decoder), batch))
             total_loss = reduce(lambda x, y : x + y, individual_loss)
 
             # Do parameter optimization

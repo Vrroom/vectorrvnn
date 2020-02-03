@@ -150,6 +150,7 @@ class GRASSDecoder(nn.Module):
         return self.merge_decoder(feature)
     
     def pathLossEstimator(self, path_feature, gt_path_feature):
+        # What the hell is this
         return torch.cat([self.mseLoss(b, gt).mul(0.4).unsqueeze(0) for b, gt in zip(path_feature, gt_path_feature)], 0)
 
     def vectorAdder(self, v1, v2):
@@ -174,28 +175,35 @@ def treeLoss (tree, encoder, decoder) :
     stack = []
 
     def encode_node (node) :
-        isLeaf = len(list(tree.tree.neighbors(node))) == 0
+        neighbors = list(tree.tree.neighbors(node))
+        isLeaf = len(neighbors) == 0
         if isLeaf : 
             path = tree.tree.nodes[node]['desc']
-            stack.append(path)
             feature = encoder.pathEncoder(path)
+            stack.append(path)
+            stack.append(feature)
             return feature
-        elif node.is_merge() :
-            childFeatures = list(map(encode_node, tree.tree.neighbors(node)))
+        else :
+            childFeatures = list(map(encode_node, neighbors))
             feature = encoder.mergeEncoder(*childFeatures) 
             stack.append(feature)
             return feature
 
     def decode_node (node, feature) :
-        isLeaf = len(list(tree.tree.neighbors(node))) == 0
+        neighbors = list(tree.tree.neighbors(node))
+        isLeaf = len(neighbors) == 0
         if isLeaf : 
-            path = stack.pop()
-            feature = decoder.pathDecoder(feature)
-            return decoder.pathLossEstimator(path, feature)
-        elif node.is_merge() :
+            featureOld = stack.pop()
+            pathOld = stack.pop()
+            path = decoder.pathDecoder(feature)
+            loss1 = decoder.mseLoss(path, pathOld)
+            loss2 = decoder.mseLoss(feature, featureOld)
+            return loss1 + loss2
+        else :
             top = stack.pop()
             children = decoder.mergeDecoder(feature)
-            loss = reduce(lambda x, y : x + y, children)
+            losses = map(decode_node, reversed(neighbors), children)
+            loss = reduce(lambda x, y : x + y, losses)
             loss += decoder.mseLoss(top, feature)
             return loss
 
