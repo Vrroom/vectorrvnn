@@ -9,6 +9,7 @@ whether to use GPU or not etc
 """
 # Dataset directory
 DATA_DIRECTORY = './Emojis/Train/'
+TEST_DATA = './Emojis/Test/'
 
 # Vector Dimensions
 PATH_CODE_SIZE = 24
@@ -56,3 +57,4 @@ RESUME_SNAPSHOT = ''
 
 SAVE_TREES = False
 SAVE_TREES_DIR = './Trees/Train/'
+SAVE_TEST_TREES_DIR = './Trees/Test/'

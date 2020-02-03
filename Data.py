@@ -1,6 +1,7 @@
 import sys
 import numpy as np
 import torch
+import string
 from torch.utils import data
 from scipy.io import loadmat
 from enum import Enum
@@ -111,36 +112,82 @@ class Tree(object):
             self.nPaths = len(self.tree.nodes[self.root]['pathSet'])
 
     def setTree(self, tree) :
+        """
+        To be used when a restore file is
+        not specified. The tree is created 
+        from a nx.DiGraph
+
+        Parameters
+        ----------
+        tree : nx.DiGraph
+        """
         self.tree = tree
         self.root = findRoot(tree)
         self.nPaths = len(self.tree.nodes[self.root]['pathSet'])
 
-    def merge(self, thatTree): 
-        # TODO Broken Stuff ahead
+    def merge(self, thoseTrees, paths, vbox): 
         """
-        BROKEN
-        Merge this tree with thatTree.
+        Merge this tree with a list of trees.
         
         This is a helper function used while 
         creating the hierarchy at test time.
         
-        A new root node is created with the
-        current tree as the left subtree and
-        thatTree as the right subtree.
+        The new node's label is some random 
+        string.
 
         Parameters
         ----------
-        thatTree : Tree
-            The right subtree for the merger
+        thoseTrees : list
+            A list of subtrees to be combined with
+        paths : list
+            List of paths to create the svg string
+            for the merge
+        vbox : list
+            Bounding Box. To be used to create the
+            svg string.
         """
-        pathSet1 = self.root.pathSet
-        pathSet2 = thatTree.root.pathSet
-        combine = pathSet1 + pathSet2
-        self.root = Node(left=self.root, 
-                         right=thatTree.root, 
-                         node_type=NodeType.MERGE, 
-                         pathSet=combine)
-        self.nPaths += thatTree.nPaths
+        newRoot = randomString(10)
+
+        nxThoseTrees = list(map(lambda x : x.tree, thoseTrees))
+        self.tree = nx.compose_all([self.tree, *nxThoseTrees])
+        self.tree.add_node(newRoot)
+
+        newEdges = list(map(lambda x : (newRoot, x.root), thoseTrees))
+        self.tree.add_edge(newRoot, self.root)
+        self.tree.add_edges_from(newEdges)
+
+        self.root = newRoot
+
+        self.tree.nodes[self.root]['pathSet'] = list(more_itertools.collapse(
+            [
+                self.tree.nodes[i]['pathSet'] 
+                for i 
+                in self.tree.neighbors(self.root)
+            ]
+        ))
+
+        self.tree.nodes[self.root]['svg'] = getSubsetSvg(
+            paths,
+            self.tree.nodes[self.root]['pathSet'],
+            vbox
+        )
+
+        self.nPaths += sum([t.nPaths for t in thoseTrees])
+
+    def relabel(self) :
+        """
+        At test time, while merging, we have 
+        to pick arbitrary labels for the 
+        internal nodes.
+
+        This will fix that and give integer
+        labels to all nodes.
+        """
+        strLabels = filter(lambda x : isinstance(x, str), self.tree.nodes)
+        newLabels = range(self.nPaths, self.tree.number_of_nodes())
+        mapping = dict(zip(strLabels, newLabels))
+        self.tree = nx.relabel_nodes(self.tree, mapping, copy=False) 
+        self.root = mapping[self.root]
 
     def save (self, out) :
         GraphReadWrite('tree').write((self.tree, self.root), out) 

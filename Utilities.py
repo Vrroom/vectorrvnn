@@ -1088,9 +1088,9 @@ def graphCluster (G, algo, doc, descFunctions) :
             pathId = lst.pop()
             tree.nodes[curId]['pathSet'] = [pathId]
             # Add descriptors
-            tree.nodes[curId]['desc'] = []
-            for f in descFunctions : 
-                tree.nodes[curId]['desc'].extend(f(paths[pathId].path, vbox))
+            tree.nodes[curId]['desc'] = more_itertools.collapse(
+                [f(paths[pathId].path, vbox) for f in descFunctions]
+            )
 
         # Add svg
         tree.nodes[curId]['svg'] = getSubsetSvg(
@@ -1132,13 +1132,24 @@ def treeApply (T, r, function) :
 
     function(T, r, T.neighbors(r))
 
-def svgStringToBitmap (svgString) :
-    alphabets = string.ascii_lowercase
+def randomString(k) : 
+    """
+    Return a random string of lower case
+    alphabets.
 
-    svgName = ''.join(random.choices(alphabets, k=10)) + '.svg'
+    Parameters
+    ----------
+    k : int
+        Length of the random string.
+    """
+    alphabets = string.ascii_lowercase
+    return ''.join(random.choices(alphabets, k=k))
+
+def svgStringToBitmap (svgString) :
+    svgName = randomString(10) + '.svg'
     svgName = osp.join('/tmp', svgName)
 
-    pngName = ''.join(random.choices(alphabets, k=10)) + '.png'
+    pngName = randomString(10) + '.png'
     pngName = osp.join('/tmp', pngName)
 
     with open(svgName, 'w+') as fd :
@@ -1196,5 +1207,3 @@ def configReadme (path) :
         fd.write('```\n')
         fd.write(content)
         fd.write('```\n')
-
-
