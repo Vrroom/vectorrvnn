@@ -18,10 +18,10 @@ Organisation
 ------------
 
 1. Config.py: Contains the parameters for the current experiment.
-..* Change network hyperparameters.
-..* Specify descriptors from the list of functions in Utilities.py or write your own.
-..* Specify how different SVG paths are related.
-..* Specify which graph clustering algorithms to be used to create training trees.
+	- Change network hyperparameters.
+	- Specify descriptors from the list of functions in Utilities.py or write your own.
+	- Specify how different SVG paths are related.
+	- Specify which graph clustering algorithms to be used to create training trees.
 2. Utilities.py: Contains all Utility functions that I could think of. These range
 from descriptor calculation to data generation.
 3. Model.py: Contains the Recursive Network Architecture and a loss computation
