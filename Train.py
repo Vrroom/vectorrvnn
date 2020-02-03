@@ -1,5 +1,7 @@
 import time
 import os
+from functools import reduce
+import os.path as osp
 from time import gmtime, strftime
 from datetime import datetime
 import torch
@@ -8,12 +10,31 @@ from torch.autograd import Variable
 import torch.utils.data
 # from torchfoldext import FoldExt
 from Config import *
+from Utilities import *
 from Data import GRASSDataset
 from Model import GRASSEncoder
 from Model import GRASSDecoder
 import Model
 
-def main () :
+def setupModelDirectory () :
+    if not osp.exists(MODEL_SAVE_PATH):
+        os.makedirs(MODEL_SAVE_PATH)
+    current_expt_folder = osp.join(MODEL_SAVE_PATH, 'expt_'+strftime("%Y-%m-%d_%H-%M-%S",gmtime()))
+    if not os.path.exists(current_expt_folder):
+        os.makedirs(current_expt_folder)
+    configReadme(osp.join(current_expt_folder, 'README.md'))
+    return current_expt_folder
+
+def setupLog () :
+    fd_log = open('training_log.log', mode='a')
+    fd_log.write('\n\nTraining log at '+datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+    fd_log.write('\n#epoch: {}'.format(EPOCHS))
+    fd_log.write('\nbatch_size: {}'.format(BATCH_SIZE))
+    fd_log.write('\ncuda: {}'.format(CUDA))
+    fd_log.flush()
+    return fd_log
+
+def setupModel () :
     torch.cuda.set_device(GPU)
 
     if CUDA and torch.cuda.is_available():
@@ -28,22 +49,27 @@ def main () :
         encoder.cuda()
         decoder.cuda()
 
+    return encoder, decoder
+
+def setupData () :
     print("Loading data ...... ", end='', flush=True)
 
-    grass_data = None
     grass_data = GRASSDataset()
-
-    def my_collate(batch):
-        return batch
 
     train_iter = torch.utils.data.DataLoader(
         grass_data, 
         batch_size=BATCH_SIZE, 
         shuffle=True, 
-        collate_fn=my_collate
+        collate_fn=id
     )
 
     print("DONE")
+    return train_iter
+
+def main () :
+    encoder, decoder = setupModel()
+    train_iter = setupData()
+    expt_dir = setupModelDirectory()
 
     encoder_opt = torch.optim.Adam(encoder.parameters(), lr=1e-3)
     decoder_opt = torch.optim.Adam(decoder.parameters(), lr=1e-3)
@@ -52,63 +78,63 @@ def main () :
 
     start = time.time()
 
-# if config.save_snapshot:
-#     if not os.path.exists(config.save_path):
-#         os.makedirs(config.save_path)
-#     snapshot_folder = os.path.join(config.save_path, 'snapshots_'+strftime("%Y-%m-%d_%H-%M-%S",gmtime()))
-#     if not os.path.exists(snapshot_folder):
-#         os.makedirs(snapshot_folder)
-# 
-# if config.save_log:
-#     fd_log = open('training_log.log', mode='a')
-#     fd_log.write('\n\nTraining log at '+datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-#     fd_log.write('\n#epoch: {}'.format(config.epochs))
-#     fd_log.write('\nbatch_size: {}'.format(config.batch_size))
-#     fd_log.write('\ncuda: {}'.format(config.cuda))
-#     fd_log.flush()
-# 
-# header = '     Time    Epoch     Iteration    Progress(%)  TotalLoss'
-# log_template = ' '.join('{:>9s},{:>5.0f}/{:<5.0f},{:>5.0f}/{:<5.0f},{:>9.1f}%,{:>10.2f}'.split(','))
-# 
-# total_iter = config.epochs * len(train_iter)
-# 
-# for epoch in range(config.epochs):
-#     print(header)
-#     for batch_idx, batch in enumerate(train_iter):
-#         total_loss = torch.tensor([0])
-#         for example in batch : 
-#             import pdb 
-#             pdb.set_trace()
-#             total_loss += encode_decode(example, encoder, decoder)
-#         # Do parameter optimization
-#         encoder_opt.zero_grad()
-#         decoder_opt.zero_grad()
-#         total_loss.backward()
-#         encoder_opt.step()
-#         decoder_opt.step()
-#         # Report statistics
-#         if batch_idx % config.show_log_every == 0:
-#             print(log_template.format(strftime("%H:%M:%S",time.gmtime(time.time()-start)),
-#                 epoch, config.epochs, 1+batch_idx, len(train_iter),
-#                 100. * (1+batch_idx+len(train_iter)*epoch) / (len(train_iter)*config.epochs), total_loss.data.item()))
-# 
-#     # Save snapshots of the models being trained
-#     if config.save_snapshot and (epoch+1) % config.save_snapshot_every == 0 :
-#         print("Saving snapshots of the models ...... ", end='', flush=True)
-#         torch.save(encoder, snapshot_folder+'//auto_encoder_model_epoch_{}_loss_{:.2f}.pkl'.format(epoch+1, total_loss.data.item()))
-#         torch.save(decoder, snapshot_folder+'//auto_decoder_model_epoch_{}_loss_{:.2f}.pkl'.format(epoch+1, total_loss.data.item()))
-#         print("DONE")
-#     # Save training log
-#     if config.save_log and (epoch+1) % config.save_log_every == 0 :
-#         fd_log = open('training_log.log', mode='a')
-#         fd_log.write('\nepoch:{} total_loss:{:.2f}'.format(epoch+1, total_loss.data.item()))
-#         fd_log.close()
-# 
-# # Save the final models
-# print("Saving final models ...... ", end='', flush=True)
-# torch.save(encoder, config.save_path+'//auto_encoder_model.pkl')
-# torch.save(decoder, config.save_path+'//auto_decoder_model.pkl')
-# print("DONE")
+    if SAVE_LOG:
+        fd_log = setupLog()
+
+    total_iter = EPOCHS * len(train_iter)
+
+    header = '     Time    Epoch     Iteration    Progress(%)  TotalLoss'
+    log_template = ' '.join('{:>9s},{:>5.0f}/{:<5.0f},{:>5.0f}/{:<5.0f},{:>9.1f}%,{:>10.2f}'.split(','))
+
+    for epoch in range(EPOCHS):
+        print(header)
+        for batch_idx, batch in enumerate(train_iter):
+            import pdb
+            pdb.set_trace()
+            individual_loss = map(lambda x : treeLoss(x, encoder, decoder), batch)
+            total_loss = reduce(lambda x, y : x + y, individual_loss)
+
+            # Do parameter optimization
+            encoder_opt.zero_grad()
+            decoder_opt.zero_grad()
+            total_loss.backward()
+            encoder_opt.step()
+            decoder_opt.step()
+
+            # Report statistics
+            if batch_idx % SHOW_LOG_EVERY == 0:
+                elapsedTime = strftime("%H:%M:%S",time.gmtime(time.time()-start))
+                donePercent = 100. * (1 + batch_idx + len(train_iter) * epoch) / total_iter
+                print(log_template.format(
+                    elapsedTime, 
+                    epoch, 
+                    EPOCHS, 
+                    1+batch_idx, 
+                    len(train_iter), 
+                    donePercent, 
+                    total_loss.data.item()
+                ))
+
+        # Save snapshots of the models being trained
+        if SAVE_SNAPSHOT and (epoch+1) % SAVE_SNAPSHOT_EVERY == 0 :
+            print("Saving snapshots of the models ...... ", end='', flush=True)
+            encoder_path = 'encoder_epoch{}_loss_{:.2f}.pkl'.format(epoch+1, total_loss.data.item())
+            decoder_path = 'decoder_epoch{}_loss_{:.2f}.pkl'.format(epoch+1, total_loss.data.item())
+            torch.save(encoder, osp.join(expt_dir, encoder_path))
+            torch.save(decoder, osp.join(expt_dir, decoder_path))
+            print("DONE")
+
+        # Save training log
+        if SAVE_LOG and (epoch+1) % SAVE_LOG_EVERY == 0 :
+            fd_log = open('training_log.log', mode='a')
+            fd_log.write('\nepoch:{} total_loss:{:.2f}'.format(epoch+1, total_loss.data.item()))
+            fd_log.close()
+
+    # Save the final models
+    print("Saving final models ...... ", end='', flush=True)
+    torch.save(encoder, osp.join(expt_dir, 'encoder.pkl'))
+    torch.save(decoder, osp.join(expt_dir, 'decoder.pkl'))
+    print("DONE")
 
 if __name__ == "__main__" :
     main()

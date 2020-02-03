@@ -100,14 +100,20 @@ class Tree(object):
         self.nPaths = 0
         if not restoreFile is None :
             self.tree = GraphReadWrite('tree').read(restoreFile)
-            self.root = findRoot(tree)
+            self.root = findRoot(self.tree)
             self.restoreFile = restoreFile
-            self.nPaths = len(self.root.pathSet)
+            
+            for n in self.tree.nodes :
+                if 'desc' in self.tree.nodes[n] :
+                    tensorified = torch.tensor(self.tree.nodes[n]['desc']).cuda()
+                    self.tree.nodes[n]['desc'] = tensorified
+
+            self.nPaths = len(self.tree.nodes[self.root]['pathSet'])
 
     def setTree(self, tree) :
         self.tree = tree
         self.root = findRoot(tree)
-        self.nPaths = len(self.tree.nodes[root]['pathSet'])
+        self.nPaths = len(self.tree.nodes[self.root]['pathSet'])
 
     def merge(self, thatTree): 
         # TODO Broken Stuff ahead

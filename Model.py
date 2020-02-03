@@ -2,12 +2,9 @@ import math
 import torch
 from torch import nn
 from torch.autograd import Variable
+from functools import reduce
 from time import time
 from Config import *
-
-#########################################################################################
-## Encoder
-#########################################################################################
 
 class PathEncoder(nn.Module):
     """
@@ -46,6 +43,8 @@ class MergeEncoder(nn.Module):
 
     Question: What can be done to make this invariant
     to the order of the subtrees?
+
+    Answer: Obfuscate the inputs to the network.
     """
 
     def __init__(self, feature_size, hidden_size):
@@ -84,7 +83,6 @@ class GRASSEncoder(nn.Module):
     def __init__(self):
         """
         Constructor
-
         """
         super(GRASSEncoder, self).__init__()
         self.path_encoder = PathEncoder(PATH_CODE_SIZE, FEATURE_SIZE)
@@ -95,75 +93,6 @@ class GRASSEncoder(nn.Module):
 
     def mergeEncoder(self, left, right):
         return self.merge_encoder(left, right)
-
-def encode_structure_fold(fold, tree):
-    """
-    Something you have to do 
-    to specify the order of operations
-    to tensorFold
-    """
-    def encode_node(node):
-        if node.is_leaf():
-            return fold.add('pathEncoder', node.path)
-        elif node.is_merge():
-            left = encode_node(node.left)
-            right = encode_node(node.right)
-            return fold.add('mergeEncoder', left, right)
-
-    return encode_node(tree.root)
-
-def encode_decode (tree, encoder, decoder) : 
-    """
-    Compute reconstruction loss at 
-    each level of the tree. 
-    For that we have to store all
-    intermediate computations during 
-    the encoding stage and pop it while
-    decoding to measure the loss
-
-    Parameters
-    ----------
-    tree : grassdata.Tree
-        The RvNN tree
-    encoder : GRASSEncoder
-    decoder : GRASSDecoder
-    """
-    stack = []
-
-    def encode_node (node) :
-        if node.is_leaf() : 
-            stack.append(node.path)
-            feature = encoder.pathEncoder(node.path)
-            return feature
-        elif node.is_merge() :
-            left = encode_node(node.left)
-            right = encode_node(node.right)
-            feature = encoder.mergeEncoder(left, right) 
-            stack.append(feature)
-            return feature
-
-    def decode_node (node, feature) :
-        if node.is_leaf() : 
-            path = stack.pop()
-            feature = decoder.pathDecoder(feature)
-            return decoder.pathLossEstimator(path, feature)
-        elif node.is_merge() :
-            top = stack.pop()
-            left, right = decoder.mergeDecoder(feature)
-            loss = decode_node(node.right, right)
-            loss += decode_node(node.left, left)
-            loss += decoder.mseLoss(top, feature)
-            return loss
-
-    rootCode = encode_node(tree.root) 
-    totalLoss = decode_node(tree.root, rootCode)
-    return totalLoss
-
-
-
-#########################################################################################
-## Decoder
-#########################################################################################
 
 class MergeDecoder(nn.Module):
     """
@@ -184,7 +113,6 @@ class MergeDecoder(nn.Module):
         right_feature = self.mlp_right(vector)
         right_feature = self.tanh(right_feature)
         return left_feature, right_feature
-
 
 class PathDecoder(nn.Module):
     """
@@ -227,24 +155,50 @@ class GRASSDecoder(nn.Module):
     def vectorAdder(self, v1, v2):
         return v1.add_(v2)
 
-
-def decode_structure_fold(fold, feature, tree):
-    """ 
-    Encoding the operations 
-    suitable for tensorFold
+def treeLoss (tree, encoder, decoder) : 
     """
-    def decode_node_path(node, feature):
-        if node.is_leaf():
-            path = fold.add('pathDecoder', feature)
-            recon_loss = fold.add('pathLossEstimator', path, node.path)
-            return recon_loss
-        elif node.is_merge():
-            left, right = fold.add('mergeDecoder', feature).split(2)
-            left_loss = decode_node_path(node.left, left)
-            right_loss = decode_node_path(node.right, right)
-            loss = fold.add('vectorAdder', left_loss, right_loss)
+    Compute reconstruction loss at 
+    each level of the tree. 
+    For that we have to store all
+    intermediate computations during 
+    the encoding stage and pop it while
+    decoding to measure the loss
+
+    Parameters
+    ----------
+    tree : grassdata.Tree
+        The RvNN tree
+    encoder : GRASSEncoder
+    decoder : GRASSDecoder
+    """
+    stack = []
+
+    def encode_node (node) :
+        isLeaf = len(list(tree.tree.neighbors(node))) == 0
+        if isLeaf : 
+            path = tree.tree.nodes[node]['desc']
+            stack.append(path)
+            feature = encoder.pathEncoder(path)
+            return feature
+        elif node.is_merge() :
+            childFeatures = list(map(encode_node, tree.tree.neighbors(node)))
+            feature = encoder.mergeEncoder(*childFeatures) 
+            stack.append(feature)
+            return feature
+
+    def decode_node (node, feature) :
+        isLeaf = len(list(tree.tree.neighbors(node))) == 0
+        if isLeaf : 
+            path = stack.pop()
+            feature = decoder.pathDecoder(feature)
+            return decoder.pathLossEstimator(path, feature)
+        elif node.is_merge() :
+            top = stack.pop()
+            children = decoder.mergeDecoder(feature)
+            loss = reduce(lambda x, y : x + y, children)
+            loss += decoder.mseLoss(top, feature)
             return loss
 
-    loss = decode_node_path(tree.root, feature)
-    return loss
-
+    rootCode = encode_node(tree.root) 
+    totalLoss = decode_node(tree.root, rootCode)
+    return totalLoss

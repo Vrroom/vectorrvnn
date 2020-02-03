@@ -337,9 +337,9 @@ class GraphReadWrite () :
         with open(inFile, 'r') as fd :
             dct = json.loads(fd.read())
         if self.graphType == 'cytoscape' :
-            return nx.readwrite.json_graph.cytoscape_graph(data)
+            return nx.readwrite.json_graph.cytoscape_graph(dct)
         elif self.graphType == 'tree' :
-            return nx.readwrite.json_graph.tree_graph(data)
+            return nx.readwrite.json_graph.tree_graph(dct)
         
         raise ValueError ('Unsupported Graph Type')
 
@@ -1177,4 +1177,24 @@ def findRoot (tree) :
         Rooted tree with unknown root.
     """
     return next(nx.topological_sort(tree))
+
+def configReadme (path) :
+    """
+    I think it is a good idea to save the 
+    current snapshot of the config 
+    file along with the trained model.
+
+    Parameters
+    ----------
+    path : str
+        Path to save to.
+    """
+    with open('Config.py', 'r') as fd: 
+        content = fd.read()
+    with open(path, 'w+') as fd :
+        fd.write('Configuration used:\n')
+        fd.write('```\n')
+        fd.write(content)
+        fd.write('```\n')
+
 
