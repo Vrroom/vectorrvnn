@@ -907,9 +907,10 @@ def relationshipGraph (svgFile, relFunctions) :
             graph = nx.compose(graph, g)
     return graph
 
-def treeImageFromJson (jsonFile) :
+def treeImageFromJson (jsonTuple) :
     """
-    Given a json file representing the
+    Given a tuple containing
+    a single json file representing the
     tree structure of a particular svg,
     we visualize the figure using 
     matplotlib.
@@ -924,17 +925,19 @@ def treeImageFromJson (jsonFile) :
 
     Parameters
     ----------
-    jsonFile : str
-        Path to the jsonFile containing
+    jsonTuple : tuple
+        singleton tuple containing path 
+        to the json file containing
         tree data.
     """
+    jsonFile, = jsonTuple
     fig, ax = plt.subplots(dpi=1500)
     G = GraphReadWrite('tree').read(jsonFile)
     pos = graphviz_layout(G, prog='dot')
     ax.set_aspect('equal')
     nx.draw(G, pos, ax=ax, node_size=1)
     for n in G :
-        img = G.nodes[n]['img']
+        img = svgStringToBitmap(G.nodes[n]['svg'])
         imagebox = OffsetImage(img, zoom=0.2)
         imagebox.image.axes = ax
         ab = AnnotationBbox(imagebox, pos[n], pad=0)
