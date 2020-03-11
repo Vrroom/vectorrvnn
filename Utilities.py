@@ -7,6 +7,7 @@ import subprocess
 import more_itertools
 import itertools
 import networkx as nx
+import xml.etree.ElementTree as ET
 from networkx.drawing.nx_agraph import graphviz_layout
 from networkx.algorithms import bipartite
 from networkx.algorithms import community
@@ -206,9 +207,10 @@ def parallelize(indirList, outdir, function, writer) :
 
     cpus = mp.cpu_count()
 
-    names = [f[:f.rfind('.')] for f in os.listdir(indirList[0])]
+    names = list(map(lambda x : os.path.splitext(x)[0], os.listdir(indirList[0])))
+    names.sort()
 
-    inFullPaths = zipDirs(indirList)
+    inFullPaths = list(zipDirs(indirList))
     outFullPaths = [os.path.join(outdir, name) for name in names]
 
     inChunks = more_itertools.divide(cpus, inFullPaths)
@@ -236,7 +238,7 @@ def rasterize(svgFile, outFile) :
     outFile : str
         Path to where to store output
     """
-    subprocess.call(['inkscape', '-z', '-f', svgFile, '-j', '-e', outFile])
+    subprocess.call(['inkscape', '-h 72', '-w 72', '-z', '-f', svgFile, '-j', '-e', outFile])
 
 def singlePathSvg(path, vb, out) :
     """
@@ -907,6 +909,35 @@ def relationshipGraph (svgFile, relFunctions) :
             graph = nx.compose(graph, g)
     return graph
 
+def treeImageFromGraph (G) :
+    """
+    Visualize the paths as depicted
+    by the tree structure of the 
+    graph.
+
+    This helps us understand whether the 
+    network's decomposition is good or
+    not.
+
+    Parameters
+    ----------
+    G : nx.DiGraph
+        Hierarchy of paths
+    """
+    fig, ax = plt.subplots(dpi=1500)
+    pos = graphviz_layout(G, prog='dot')
+    ax.set_aspect('equal')
+    nx.draw(G, pos, ax=ax, node_size=0.5, arrowsize=1)
+    for n in G :
+        img = svgStringToBitmap(G.nodes[n]['svg'])
+#        imagebox = OffsetImage(img, zoom=0.2)
+        imagebox = OffsetImage(img, zoom=0.08)
+        imagebox.image.axes = ax
+        ab = AnnotationBbox(imagebox, pos[n], pad=0)
+        ax.add_artist(ab)
+    ax.axis('off')
+    return (fig, ax)
+
 def treeImageFromJson (jsonTuple) :
     """
     Given a tuple containing
@@ -931,19 +962,8 @@ def treeImageFromJson (jsonTuple) :
         tree data.
     """
     jsonFile, = jsonTuple
-    fig, ax = plt.subplots(dpi=1500)
     G = GraphReadWrite('tree').read(jsonFile)
-    pos = graphviz_layout(G, prog='dot')
-    ax.set_aspect('equal')
-    nx.draw(G, pos, ax=ax, node_size=1)
-    for n in G :
-        img = svgStringToBitmap(G.nodes[n]['svg'])
-        imagebox = OffsetImage(img, zoom=0.2)
-        imagebox.image.axes = ax
-        ab = AnnotationBbox(imagebox, pos[n], pad=0)
-        ax.add_artist(ab)
-    ax.axis('off')
-    return (fig, ax)
+    return treeImageFromGraph(G)
 
 def hik (a, b) :
     """
@@ -1113,7 +1133,6 @@ def graphCluster (G, algo, doc, descFunctions) :
     cluster(list(G.nodes))
     return tree, root
 
-
 def treeApply (T, r, function) : 
     """
     Apply function to all nodes in the
@@ -1210,3 +1229,89 @@ def configReadme (path) :
         fd.write('```\n')
         fd.write(content)
         fd.write('```\n')
+
+def svgToTree (svgFile) : 
+    """
+    Infer the tree structure from the
+    XML document. 
+
+    Parameters
+    ----------
+    svgFile : str
+        Path to the svgFile.
+    """
+
+    def skeletonTree(tree) :
+        """
+        Remove all elements which were 
+        going to be rendered. These are 
+        paths, lines, circles etc. 
+
+        Parameters 
+        ----------
+        tree : ElementTree
+            The parsed XML tree.
+        """
+        skeleton = copy.deepcopy(tree)
+        root = skeleton.getroot()
+        for tag in relevantTags : 
+            allTags = root.findall(tag)
+            for instance in allTags :
+                root.remove(instance)
+        return skeleton
+
+    def buildTreeGraph (element, svgString) :
+        """
+        Recursively create networkx tree and 
+        add svg strings to the tree 
+        corresponding to the SVG document.
+
+        Parameters
+        ----------
+        element : Element
+            Element at this level of the
+            tree.
+        svgString : str
+            String representation of this
+            element.
+        """
+        curId = r['idx']
+        T.add_node(curId, svg=svgString)
+        for child in element : 
+            if child.tag in relevantTags : 
+                r['idx'] += 1
+                childId = r['idx']
+                skeletonCopy = copy.deepcopy(skeleton)
+                skeletonCopy.getroot().append(child)
+                elementStr = str(ET.tostring(skeletonCopy.getroot()), 'utf-8')
+                buildTreeGraph(child, elementStr)
+                T.add_edge(curId, childId)
+
+    relevantTags = [
+        '{http://www.w3.org/2000/svg}rect',
+        '{http://www.w3.org/2000/svg}circle',
+        '{http://www.w3.org/2000/svg}ellipse',
+        '{http://www.w3.org/2000/svg}line', 
+        '{http://www.w3.org/2000/svg}polyline',
+        '{http://www.w3.org/2000/svg}polygon',
+        '{http://www.w3.org/2000/svg}path',
+        '{http://www.w3.org/2000/svg}g'
+    ]
+
+    tree = ET.parse(svgFile)
+    root = tree.getroot()
+    skeleton = skeletonTree(tree)
+
+    T = nx.DiGraph()
+    r = {'idx' : 0} 
+
+    rootString = str(ET.tostring(root), 'utf-8')
+    buildTreeGraph (root, rootString)
+    return T
+
+def comp (fileTuple) : 
+    fileName, = fileTuple
+    return treeImageFromGraph(svgToTree(fileName))
+
+if __name__ == "__main__" : 
+    parallelize(['./Avatar/Train/'], './Avatar/Hierarchies/Train/', comp, matplotlibFigureSaver)
