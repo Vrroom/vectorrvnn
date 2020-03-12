@@ -11,6 +11,7 @@ import torch.optim as optim
 from torch.autograd import Variable
 import matplotlib.pyplot as plt
 import multiprocessing as mp
+from more_itertools import flatten
 
 class Trainer () :
     """
@@ -99,6 +100,17 @@ class Trainer () :
             self.runExpt(i + 1, config)
 
     def runExpt (self, i, config) :
+        """
+        Run the i-th experiment using the
+        configurations present in config.
+
+        Parameters
+        ----------
+        i : int
+            Index of the experiment.
+        config : dict
+            Dictionary containing parameters.
+        """
         configPath, trainingTreesPath, modelPath = self.createDirectories(i, config)
 
         logging.info(f'Starting Expt {i}')
@@ -146,6 +158,10 @@ class Trainer () :
             collate_fn=lambda x : x
         )
 
+    def compareWithGroundTruth (self) : 
+        # TODO
+        pass
+
     def setModel (self, config, modelPath) : 
         deviceNumber = config['gpu']
         torch.cuda.set_device(deviceNumber)
@@ -186,7 +202,8 @@ class Trainer () :
 
         def trainOneEpoch () :
             for batchIdx, batch in enumerate(self.trainDataLoader):
-                losses = map(lambda x : Model.treeLoss(x, encoder, decoder), batch)
+                trees = map(lambda x : x[0], flatten(batch))
+                losses = map(lambda x : Model.treeLoss(x, encoder, decoder), trees)
                 totalLoss = reduce(lambda x, y : x + y, losses)
 
                 encoderOpt.zero_grad()

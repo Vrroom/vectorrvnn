@@ -15,6 +15,7 @@ from Utilities import *
 from Config import *
 import re
 import logging
+from functools import partial
 
 def str2list (s) :
     l = re.split('\[|\]|, ', s)
@@ -22,7 +23,7 @@ def str2list (s) :
     l = [int(i) for i in l]
     return l
 
-def createTrees (fileTuple, graphClusterAlgo=None, 
+def createTrees (fileName, graphClusterAlgo=None, 
         relationFunctions=None, descFunctions=None) : 
     """
     Create trees by using the clustering algos 
@@ -33,8 +34,8 @@ def createTrees (fileTuple, graphClusterAlgo=None,
 
     Parameters
     ----------
-    fileTuple : tuple
-        (Path to file)
+    fileName : str
+        Path to file.
     graphClusterAlgo : None or list
         Collection of graph clustering algorithms
         to build dendograms.
@@ -45,7 +46,6 @@ def createTrees (fileTuple, graphClusterAlgo=None,
         Function used to compute the path 
         descriptors.
     """
-    fileName, = fileTuple
     G = relationshipGraph(fileName, relationFunctions)
     treesAndPrefixes = []
     for algo in graphClusterAlgo:
@@ -53,7 +53,7 @@ def createTrees (fileTuple, graphClusterAlgo=None,
         treesAndPrefixes.append((tree, algo.__name__))
     return treesAndPrefixes
 
-def treeWriter(treesAndPrefixes, name) :
+def treeWriter(treesAndPrefixes, path) :
     """
     Wrap graph writing operation
     into a top level function. 
@@ -68,13 +68,14 @@ def treeWriter(treesAndPrefixes, name) :
         prefix indicating which graph 
         partitioning algorithm was 
         used to make that tree.
-    name : str
-        Name of the data point to 
-        save by.
+    path : str
+        Where to save these trees.
     """
     for rootedTree, prefix in treesAndPrefixes :
-        fileName = name + '_' + prefix + '.json'
-        GraphReadWrite('tree').write(rootedTree, fileName)
+        name, ext = osp.splitext(path)
+        name = name + '_' + prefix
+        path_ = name + '.' + ext
+        GraphReadWrite('tree').write(rootedTree, path_)
 
 class NodeType(Enum):
     """ 
@@ -209,16 +210,14 @@ class GRASSDataset(data.Dataset):
     to handle data.
     """
 
-    def __init__(self, svgDir, treesDir=None, transform=None, **kwargs):
+    def __init__(self, svgDir, makeTrees=False, transform=None, **kwargs):
         """ 
         Constructor.
 
-        If treesDir is given, use those
-        trees in the dataset. Else prepare
-        them from scratch using heuristics.
-
+        If you need to make dendograms 
+        from scratch, do that.
         Also, compute ground truth.
-        
+
         Parameters
         ----------
         svgDir : str
@@ -239,21 +238,9 @@ class GRASSDataset(data.Dataset):
         with mp.Pool(mp.cpu_count()) as p : 
             self.groundTruth = p.map(getTreeStructureFromSVG, self.svgFiles)
 
-        if treesDir is not None : 
-            files = listdir(treesDir)
-
-            if len(files) == 0 :
-                logging.info("Making trees from scratch!")
-                parallelize(
-                    [svgDir], 
-                    treesDir, 
-                    createTrees,
-                    treeWriter,
-                    **kwargs
-                )
-
-            files = listdir(treesDir)
-            self.trees = [Tree(f) for f in files]
+        if makeTrees : 
+            with mp.Pool(mp.cpu_count()) as p : 
+                self.trees = p.map(partial(createTrees, **kwargs), self.svgFiles)
 
     def __getitem__(self, index):
         """
@@ -269,10 +256,25 @@ class GRASSDataset(data.Dataset):
         and the ground truth tree constitute the 
         datapoint.
         """
-        if self.treesDir is None : 
+        if not self.makeTrees: 
             return self.svgFiles[index], self.groundTruth[index]
         else :
             return self.svgFiles[index], self.groundTruth[index], self.trees[index]
 
     def __len__(self):
         return len(self.svgFiles)
+
+    def save (self, savePath) : 
+        """
+        Save all the training trees in this
+        directory.
+
+        Parameters
+        ----------
+        savePath : str
+            Path to be saved to.
+        """
+        for svgFile, trees in zip(self.svgFiles, self.trees) : 
+            head, = osp.split(svgFile)
+            name, _ = osp.splitext(head)
+            treeWriter(trees, osp.join(savePath, name + '.json'))
