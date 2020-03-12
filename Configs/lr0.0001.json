@@ -1,0 +1,13 @@
+{
+	"path_code_size" : 24,
+	"feature_size" : 80,
+	"hidden_size" : 200,
+	"epochs" : 100,
+	"batch_size" : 500,
+	"lr" : 0.0001,
+	"lr_decay_by" : 1,
+	"lr_decay_every" : 1,
+	"desc_functions" : ["fd", "relbb"],
+	"relation_functions" : ["symGraph", "adjGraph"],
+	"graph_cluster_algo" : ["community.kernighan_lin_bisection"]
+}

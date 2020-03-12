@@ -26,6 +26,26 @@ from imageio import imwrite
 import math
 from skimage import transform
 
+def argmax(l) :
+    """
+    Compute the argmax of a list.
+
+    Parameters
+    ----------
+    l : list
+    """
+    return next(filter(lambda x : max(l) == b[x], range(len(l))))
+
+def argmin(l) :
+    """
+    Compute the argmin of a list.
+
+    Parameters
+    ----------
+    l : list
+    """
+    return next(filter(lambda x : min(l) == b[x], range(len(l))))
+
 def zipDirs (dirList) :
     """ 
     A common operation is to get SVGs
@@ -171,7 +191,7 @@ def match (rt1, rt2) :
 
     return cost(r1, r2)
 
-def parallelize(indirList, outdir, function, writer) :
+def parallelize(indirList, outdir, function, writer, **kwargs) :
     """ 
     Use multiprocessing library to 
     parallelize preprocessing. 
@@ -202,8 +222,8 @@ def parallelize(indirList, outdir, function, writer) :
 
     def subTask (inChunk, outChunk) :
         for i, o in zip(inChunk, outChunk) :
-            obj = function(i)
-            writer(obj, o)
+            obj = function(i, **kwargs)
+            writer(obj, o, **kwargs)
 
     cpus = mp.cpu_count()
 
@@ -1230,7 +1250,7 @@ def configReadme (path) :
         fd.write(content)
         fd.write('```\n')
 
-def svgToTree (svgFile) : 
+def getTreeStructureFromSVG (svgFile) : 
     """
     Infer the tree structure from the
     XML document. 
@@ -1308,6 +1328,18 @@ def svgToTree (svgFile) :
     rootString = str(ET.tostring(root), 'utf-8')
     buildTreeGraph (root, rootString)
     return T
+
+def listdir (path) :
+    """
+    Convenience function to get 
+    full path details while calling os.listdir
+
+    Parameters
+    ----------
+    path : str
+        Path to be listed.
+    """
+    return [osp.join(path, f) for f in os.listdir(path)]
 
 def comp (fileTuple) : 
     fileName, = fileTuple

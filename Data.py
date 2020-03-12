@@ -1,4 +1,5 @@
 import sys
+import multiprocessing as mp
 import numpy as np
 import torch
 import string
@@ -13,6 +14,7 @@ import svgpathtools as svg
 from Utilities import *
 from Config import *
 import re
+import logging
 
 def str2list (s) :
     l = re.split('\[|\]|, ', s)
@@ -20,12 +22,12 @@ def str2list (s) :
     l = [int(i) for i in l]
     return l
 
-def createTrees (fileTuple) : 
+def createTrees (fileTuple, graphClusterAlgo=None, 
+        relationFunctions=None, descFunctions=None) : 
     """
-    GRAPH_CLUSTER_ALGO is a dictionary
-    containing graph partitioning algorithms.
-
-    Use those algorithms to create trees.
+    Create trees by using the clustering algos 
+    present in graphClusterAlgo on the graph created
+    from the SVG using relationFunctions. 
 
     Helper function while calling parallelize.
 
@@ -33,13 +35,22 @@ def createTrees (fileTuple) :
     ----------
     fileTuple : tuple
         (Path to file)
+    graphClusterAlgo : None or list
+        Collection of graph clustering algorithms
+        to build dendograms.
+    relationFunctions : list
+        They detect whether an edge exists between
+        a pair of paths.
+    descFunctions : list
+        Function used to compute the path 
+        descriptors.
     """
     fileName, = fileTuple
-    G = relationshipGraph(fileName, RELATION_FUNCTIONS)
+    G = relationshipGraph(fileName, relationFunctions)
     treesAndPrefixes = []
-    for key, val in GRAPH_CLUSTER_ALGO.items():
-        tree = graphCluster(G, val, svg.Document(fileName), DESC_FUNCTIONS)
-        treesAndPrefixes.append((tree, key))
+    for algo in graphClusterAlgo:
+        tree = graphCluster(G, algo, svg.Document(fileName), descFunctions)
+        treesAndPrefixes.append((tree, algo.__name__))
     return treesAndPrefixes
 
 def treeWriter(treesAndPrefixes, name) :
@@ -198,33 +209,70 @@ class GRASSDataset(data.Dataset):
     to handle data.
     """
 
-    def __init__(self, transform=None):
+    def __init__(self, svgDir, treesDir=None, transform=None, **kwargs):
         """ 
-        Constructor
+        Constructor.
 
-        If the jsons are not there, then generate trees 
-        using the parameters present in config.
+        If treesDir is given, use those
+        trees in the dataset. Else prepare
+        them from scratch using heuristics.
 
-        Else, use the jsons as the tree dataset.
+        Also, compute ground truth.
+        
+        Parameters
+        ----------
+        svgDir : str
+            Path to SVGs.
+        treesDir : str or None
+            Where to store the trees constructed of
+            the heuristics.
+        transform : 
+            Some function to apply a transformation
+            on the dataset.
         """
-        files = os.listdir(SAVE_TREES_DIR)
+        self.svgDir = svgDir
+        self.treesDir = treesDir
+        self.transform = transform
 
-        if len(files) == 0 :
-            print("Making trees from scratch!")
-            parallelize(
-                [DATA_DIRECTORY], 
-                SAVE_TREES_DIR, 
-                createTrees,
-                treeWriter
-            )
+        self.svgFiles = listdir(svgDir)
 
-        files = os.listdir(SAVE_TREES_DIR)
-        self.trees = [
-            Tree((osp.join(SAVE_TREES_DIR,f))) for f in files
-        ]
+        with mp.Pool(mp.cpu_count()) as p : 
+            self.groundTruth = p.map(getTreeStructureFromSVG, self.svgFiles)
+
+        if treesDir is not None : 
+            files = listdir(treesDir)
+
+            if len(files) == 0 :
+                logging.info("Making trees from scratch!")
+                parallelize(
+                    [svgDir], 
+                    treesDir, 
+                    createTrees,
+                    treeWriter,
+                    **kwargs
+                )
+
+            files = listdir(treesDir)
+            self.trees = [Tree(f) for f in files]
 
     def __getitem__(self, index):
-        return self.trees[index]
+        """
+        The same class can be used depending on
+        whether the data is for Training, Validation
+        or testing. The datapoint is different 
+        depending on what the usage is. 
+
+        For Training, you need to also compute the
+        training trees using our heuristic algorithm.
+
+        For Validation and Testing, only the SVG file
+        and the ground truth tree constitute the 
+        datapoint.
+        """
+        if self.treesDir is None : 
+            return self.svgFiles[index], self.groundTruth[index]
+        else :
+            return self.svgFiles[index], self.groundTruth[index], self.trees[index]
 
     def __len__(self):
-        return len(self.trees)
+        return len(self.svgFiles)
