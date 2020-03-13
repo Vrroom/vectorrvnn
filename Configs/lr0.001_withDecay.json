@@ -9,5 +9,5 @@
 	"lr_decay_every" : 5,
 	"desc_functions" : ["fd", "relbb"],
 	"relation_functions" : ["symGraph", "adjGraph"],
-	"graph_cluster_algo" : ["community.kernighan_lin_bisection"]
+	"graph_cluster_algo" : ["kernighan_lin_bisection"]
 }

@@ -10,7 +10,7 @@ import networkx as nx
 import xml.etree.ElementTree as ET
 from networkx.drawing.nx_agraph import graphviz_layout
 from networkx.algorithms import bipartite
-from networkx.algorithms import community
+from networkx.algorithms.community import kernighan_lin_bisection
 import copy
 import multiprocessing as mp
 import svgpathtools as svg
@@ -34,7 +34,7 @@ def argmax(l) :
     ----------
     l : list
     """
-    return next(filter(lambda x : max(l) == b[x], range(len(l))))
+    return next(filter(lambda x : max(l) == l[x], range(len(l))))
 
 def argmin(l) :
     """
@@ -44,7 +44,7 @@ def argmin(l) :
     ----------
     l : list
     """
-    return next(filter(lambda x : min(l) == b[x], range(len(l))))
+    return next(filter(lambda x : min(l) == l[x], range(len(l))))
 
 def zipDirs (dirList) :
     """ 
@@ -629,7 +629,7 @@ def d2 (path, docbb, bins=10, nSamples=100) :
 
         hist[bIdx] += 1
 
-    return hist 
+    return hist.tolist()
 
 def shell(path, docbb, bins=10) :
     """
@@ -1131,9 +1131,9 @@ def graphCluster (G, algo, doc, descFunctions) :
             pathId = lst.pop()
             tree.nodes[curId]['pathSet'] = [pathId]
             # Add descriptors
-            tree.nodes[curId]['desc'] = more_itertools.collapse(
+            tree.nodes[curId]['desc'] = list(more_itertools.collapse(
                 [f(paths[pathId].path, vbox) for f in descFunctions]
-            )
+            ))
 
         # Add svg
         tree.nodes[curId]['svg'] = getSubsetSvg(

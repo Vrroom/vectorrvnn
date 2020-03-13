@@ -4,7 +4,6 @@ from torch import nn
 from torch.autograd import Variable
 from functools import reduce
 from time import time
-from Config import *
 
 class PathEncoder(nn.Module):
     """
@@ -65,8 +64,8 @@ class MergeEncoder(nn.Module):
         sizes = hidden_size if type(hidden_size) is list else [hidden_size]
         sizes = [feature_size, *sizes]
 
-        self.left = [nn.Linear(a, b) for a, b in zip(sizes, sizes[1:])]
-        self.right = [nn.Linear(a, b, bias=False) for a, b in zip(sizes, sizes[1:])]
+        self.left = nn.ModuleList([nn.Linear(a, b) for a, b in zip(sizes, sizes[1:])])
+        self.right = nn.ModuleList([nn.Linear(a, b, bias=False) for a, b in zip(sizes, sizes[1:])])
 
         self.second = nn.Linear(sizes[-1], feature_size)
         self.tanh = nn.Tanh()
@@ -131,8 +130,8 @@ class MergeDecoder(nn.Module):
         self.first = nn.Linear(feature_size, sizes[-1])
 
         revSizes = list(reversed(sizes))
-        self.left = [nn.Linear(a, b) for a, b in zip(revSizes, revSizes[1:])]
-        self.right = [nn.Linear(a, b) for a, b in zip(revSizes, revSizes[1:])]
+        self.left  = nn.ModuleList([nn.Linear(a, b) for a, b in zip(revSizes, revSizes[1:])])
+        self.right = nn.ModuleList([nn.Linear(a, b) for a, b in zip(revSizes, revSizes[1:])])
 
         self.tanh = nn.Tanh()
 

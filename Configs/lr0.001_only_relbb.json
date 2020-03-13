@@ -1,5 +1,5 @@
 {
-	"path_code_size" : 24,
+	"path_code_size" : 4,
 	"feature_size" : 80,
 	"hidden_size" : 200,
 	"epochs" : 100,
@@ -9,5 +9,5 @@
 	"lr_decay_every" : 1,
 	"desc_functions" : ["relbb"],
 	"relation_functions" : ["symGraph", "adjGraph"],
-	"graph_cluster_algo" : ["community.kernighan_lin_bisection"]
+	"graph_cluster_algo" : ["kernighan_lin_bisection"]
 }

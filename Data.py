@@ -1,4 +1,5 @@
 import sys
+import pickle
 import multiprocessing as mp
 import numpy as np
 import torch
@@ -12,7 +13,6 @@ import json
 import networkx as nx
 import svgpathtools as svg
 from Utilities import *
-from Config import *
 import re
 import logging
 from functools import partial
@@ -23,35 +23,57 @@ def str2list (s) :
     l = [int(i) for i in l]
     return l
 
-def createTrees (fileName, graphClusterAlgo=None, 
-        relationFunctions=None, descFunctions=None) : 
+class TreeCreator () :
     """
     Create trees by using the clustering algos 
-    present in graphClusterAlgo on the graph created
+    present in graphClusterAlgos on the graph created
     from the SVG using relationFunctions. 
 
-    Helper function while calling parallelize.
+    mp.Pool can't handle lambda functions. 
+    Something about them being unpickleable. 
 
-    Parameters
-    ----------
-    fileName : str
-        Path to file.
-    graphClusterAlgo : None or list
-        Collection of graph clustering algorithms
-        to build dendograms.
-    relationFunctions : list
-        They detect whether an edge exists between
-        a pair of paths.
-    descFunctions : list
-        Function used to compute the path 
-        descriptors.
+    As a result, I have to provide context using
+    this class.
     """
-    G = relationshipGraph(fileName, relationFunctions)
-    treesAndPrefixes = []
-    for algo in graphClusterAlgo:
-        tree = graphCluster(G, algo, svg.Document(fileName), descFunctions)
-        treesAndPrefixes.append((tree, algo.__name__))
-    return treesAndPrefixes
+    def __init__ (self, graphClusterAlgos, relationFunctions, descFunctions) :
+        """
+        Constructor. 
+
+        Parameters
+        ----------
+        graphClusterAlgos : list
+            Collection of graph clustering algorithms
+            to build dendograms.
+        relationFunctions : list
+            They detect whether an edge exists between
+            a pair of paths.
+        descFunctions : list
+            Function used to compute the path 
+            descriptors.
+        """
+        self.graphClusterAlgos = graphClusterAlgos
+        self.relationFunctions = relationFunctions
+        self.descFunctions = descFunctions
+
+    def __call__ (self, fileName) : 
+        """
+        Make this class callable.
+
+        Parameters
+        ----------
+        fileName : str
+            Path to the input SVG file.
+        """
+        G = relationshipGraph(fileName, self.relationFunctions)
+        treesAndPrefixes = []
+        for algo in self.graphClusterAlgos:
+            dendogram = graphCluster(G, algo, 
+                    svg.Document(fileName), self.descFunctions)
+            tree = Tree()
+            tree.setTree(*dendogram)
+            tree.tensorify()
+            treesAndPrefixes.append((tree, algo.__name__))
+        return treesAndPrefixes
 
 def treeWriter(treesAndPrefixes, path) :
     """
@@ -116,14 +138,21 @@ class Tree(object):
             self.root = findRoot(self.tree)
             self.restoreFile = restoreFile
             
-            for n in self.tree.nodes :
-                if 'desc' in self.tree.nodes[n] :
-                    tensorified = torch.tensor(self.tree.nodes[n]['desc']).cuda()
-                    self.tree.nodes[n]['desc'] = tensorified
-
+            self.tensorify()
             self.nPaths = len(self.tree.nodes[self.root]['pathSet'])
+    
+    def tensorify (self) : 
+        for n in self.tree.nodes :
+            if 'desc' in self.tree.nodes[n] : 
+                tensorified = torch.tensor(self.tree.nodes[n]['desc']).cuda()
+                self.tree.nodes[n]['desc'] = tensorified
 
-    def setTree(self, tree) :
+    def untensorify (self) :
+        for n in self.tree.nodes :
+            if 'desc' in self.tree.nodes[n] : 
+                self.tree.nodes[n]['desc'] = self.tree.nodes[n]['desc'].tolist()
+
+    def setTree(self, tree, root) :
         """
         To be used when a restore file is
         not specified. The tree is created 
@@ -134,7 +163,7 @@ class Tree(object):
         tree : nx.DiGraph
         """
         self.tree = tree
-        self.root = findRoot(tree)
+        self.root = root
         self.nPaths = len(self.tree.nodes[self.root]['pathSet'])
 
     def merge(self, thoseTrees, paths, vbox): 
@@ -222,15 +251,14 @@ class GRASSDataset(data.Dataset):
         ----------
         svgDir : str
             Path to SVGs.
-        treesDir : str or None
-            Where to store the trees constructed of
-            the heuristics.
+        makeTrees : bool
+            Whether to make trees or not.
         transform : 
             Some function to apply a transformation
             on the dataset.
         """
         self.svgDir = svgDir
-        self.treesDir = treesDir
+        self.makeTrees = makeTrees
         self.transform = transform
 
         self.svgFiles = listdir(svgDir)
@@ -239,8 +267,9 @@ class GRASSDataset(data.Dataset):
             self.groundTruth = p.map(getTreeStructureFromSVG, self.svgFiles)
 
         if makeTrees : 
+            creator = TreeCreator(**kwargs)
             with mp.Pool(mp.cpu_count()) as p : 
-                self.trees = p.map(partial(createTrees, **kwargs), self.svgFiles)
+                self.trees = p.map(creator, self.svgFiles)
 
     def __getitem__(self, index):
         """
