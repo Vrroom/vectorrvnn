@@ -435,10 +435,12 @@ class Trainer () :
             return totalLoss.data.item()
 
         def createAndSaveTrainingPlot () :
-            plt.plot(range(epochs), losses) 
-            plt.xlabel('Epochs')
-            plt.ylabel('Training Loss')
-            plt.savefig(osp.join(configPath, 'TrainingPlot'))
+            fig, axes = plt.subplots()
+            axes.plot(range(epochs), losses) 
+            axes.set_xlabel('Epochs')
+            axes.set_ylabel('Training Loss')
+            fig.savefig(osp.join(configPath, 'TrainingPlot'))
+            fig.close()
 
         nBatches = len(self.trainDataLoader)
         epochs = config['epochs']
@@ -491,10 +493,12 @@ class Trainer () :
         path : str
             Where to save the plot.
         """
-        plt.hist(treeDist)
-        plt.xlabel('Tree Edit Distance')
-        plt.ylabel('Frequency')
-        plt.savefig(path)
+        fig, axes = plt.subplots()
+        axes.hist(treeDist)
+        axes.set_xlabel('Tree Edit Distance')
+        axes.set_ylabel('Frequency')
+        fig.savefig(path)
+        fig.close()
 
     def crossValidate(self, config, encoder, decoder, configPath) :
         """
