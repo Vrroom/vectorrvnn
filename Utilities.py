@@ -26,25 +26,154 @@ from imageio import imwrite
 import math
 from skimage import transform
 
-def argmax(l) :
+def leaves (tree) :
+    """
+    Returns the leaf nodes in a
+    directed tree.
+
+    Parameters
+    ----------
+    tree : nx.DiGraph
+    """
+    return list(filter (lambda x : tree.out_degree(x) == 0, tree.nodes))
+
+def nonLeaves (tree) :
+    """
+    Returns the internal nodes in a
+    directed tree.
+
+    Parameters
+    ----------
+    tree : nx.DiGraph
+    """
+    return list(filter (lambda x : tree.out_degree(x) > 0, tree.nodes))
+
+def pairwiseDisjoint (setList) :
+    """
+    Checks whether the sets in the
+    list are pairwise disjoint.
+
+    Parameters
+    ----------
+    setList : list
+    """
+    for s1, s2 in itertools.combinations(setList, 2) :
+        if not s1.isdisjoint(s2) : 
+            return False
+    return True
+
+def hasDuplicates (lst) :
+    """
+    Check whether a list has duplicates.
+
+    Parameters
+    ----------
+    lst : list
+    """
+    return len(set(lst)) != len(lst)
+
+def mergeTrees (trees) : 
+    """
+    Merge a list of trees into a single 
+    tree. 
+    
+    The catch is that the leaf nodes
+    which represent path indices in our setup
+    have to be distinctly labeled across the
+    trees. 
+    
+    So we only relabel the internal
+    nodes so that while composing, we
+    don't introduce edges which shouldn't
+    be there. 
+
+    Finally we add a new root node with
+    these subtrees as the children.
+
+    Example
+    -------
+    >>> tree1 = nx.DiGraph()
+    >>> tree2 = nx.DiGraph()
+    >>> tree1.add_edges_from([(3, 1), (3, 2)])
+    >>> tree2.add_edges_from([(4, 3), (5, 4)])
+    >>> print(mergeTrees([tree1, tree2]).edges)
+
+    Parameters
+    ----------
+    trees : list
+    """
+    def relabelTree (tree) : 
+        nonlocal maxIdx
+        internalNodes = nonLeaves(tree)
+
+        newId = range(maxIdx, maxIdx + len(internalNodes))
+        newLabels = dict(zip(internalNodes, newId))
+
+        maxIdx += len(internalNodes)
+        return nx.relabel_nodes(tree, newLabels, copy=True)
+
+    allLeaves = list(more_itertools.collapse(map(leaves, trees)))
+
+    maxIdx = max(allLeaves) + 1
+
+    relabeledTrees = list(map(relabelTree, trees))
+    roots = map(findRoot, relabeledTrees)
+
+    newTree = nx.compose_all(relabeledTrees)
+    newEdges = list(map(lambda x : (maxIdx, x), roots))
+    newTree.add_edges_from(newEdges)
+    newTree.nodes[maxIdx]['pathSet'] = allLeaves
+
+    return newTree
+
+def removeIndices (lst, indices) :
+    """
+    In place removal of items at given indices. 
+    Obtained from : 
+
+    https://stackoverflow.com/questions/497426/deleting-multiple-elements-from-a-list
+
+    Parameters
+    ----------
+    lst : list
+        List from which indices are to be
+        removed.
+    indices : list
+        List of indices. No error checking is 
+        done.
+    """
+    for i in sorted(indices, reverse=True):
+        del lst[i] 
+
+def argmax(lst) :
     """
     Compute the argmax of a list.
 
     Parameters
     ----------
-    l : list
+    lst : list
     """
-    return next(filter(lambda x : max(l) == l[x], range(len(l))))
+    return next(filter(lambda x : max(lst) == lst[x], range(len(lst))))
 
-def argmin(l) :
+def argmax(lst) :
+    """
+    Compute the argmax of a list.
+
+    Parameters
+    ----------
+    lst : list
+    """
+    return next(filter(lambda x : max(lst) == lst[x], range(len(lst))))
+
+def argmin(lst) :
     """
     Compute the argmin of a list.
 
     Parameters
     ----------
-    l : list
+    lst : list
     """
-    return next(filter(lambda x : min(l) == l[x], range(len(l))))
+    return next(filter(lambda x : min(lst) == lst[x], range(len(lst))))
 
 def zipDirs (dirList) :
     """ 
@@ -1170,8 +1299,7 @@ def treeApply (T, r, function) :
         and performs some operation.
     """
     for child in T.neighbors(r) :
-        treeApply(T, r, function)
-
+        treeApply(T, child, function)
     function(T, r, T.neighbors(r))
 
 def randomString(k) : 
@@ -1290,22 +1418,11 @@ def getTreeStructureFromSVG (svgFile) :
         ----------
         element : Element
             Element at this level of the
-            tree.
-        svgString : str
-            String representation of this
-            element.
-        """
-        curId = r['idx']
-        T.add_node(curId, svg=svgString)
-        for child in element : 
-            if child.tag in relevantTags : 
-                r['idx'] += 1
-                childId = r['idx']
-                skeletonCopy = copy.deepcopy(skeleton)
                 skeletonCopy.getroot().append(child)
                 elementStr = str(ET.tostring(skeletonCopy.getroot()), 'utf-8')
                 buildTreeGraph(child, elementStr)
                 T.add_edge(curId, childId)
+        """
 
     relevantTags = [
         '{http://www.w3.org/2000/svg}rect',
@@ -1346,4 +1463,9 @@ def comp (fileTuple) :
     return treeImageFromGraph(svgToTree(fileName))
 
 if __name__ == "__main__" : 
-    parallelize(['./Avatar/Train/'], './Avatar/Hierarchies/Train/', comp, matplotlibFigureSaver)
+    # parallelize(['./Avatar/Train/'], './Avatar/Hierarchies/Train/', comp, matplotlibFigureSaver)
+    tree1 = nx.DiGraph()
+    tree2 = nx.DiGraph()
+    tree1.add_edges_from([(3, 1), (3, 2)])
+    tree2.add_edges_from([(4, 3), (5, 4)])
+    print(mergeTrees([tree1, tree2]).edges)

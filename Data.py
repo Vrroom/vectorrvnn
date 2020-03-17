@@ -33,7 +33,8 @@ class TreeCreator () :
     Something about them being unpickleable. 
 
     As a result, I have to provide context using
-    this class.
+    this class. Although now I realized that I 
+    could use partial!
     """
     def __init__ (self, graphClusterAlgos, relationFunctions, descFunctions) :
         """
@@ -67,10 +68,9 @@ class TreeCreator () :
         G = relationshipGraph(fileName, self.relationFunctions)
         treesAndPrefixes = []
         for algo in self.graphClusterAlgos:
-            dendogram = graphCluster(G, algo, 
+            dendogram, _ = graphCluster(G, algo, 
                     svg.Document(fileName), self.descFunctions)
-            tree = Tree()
-            tree.setTree(*dendogram)
+            tree = Tree(dendogram)
             tree.tensorify()
             treesAndPrefixes.append((tree, algo.__name__))
         return treesAndPrefixes
@@ -114,32 +114,31 @@ class Tree(object):
     a datapoint. 
     """
 
-    def __init__(self, restoreFile=None) :
+    @classmethod
+    def fromFile(restoreFile) : 
+        tree = GraphReadWrite('tree').read(restoreFile)
+        return Tree(tree)
+
+    def __init__(self, tree) :
         """ 
         Constructor
 
-        Takes a json file and constructs a tree object.
-        the json file represents a tree in networkx's
-        tree graph format. The tree is retrieved 
-        from the json and tensorified.
-
-        If the restoreFile is not given, then you
-        have to give a nx.DiGraph tree.
+        Wrap a nx.DiGraph and provide relevant 
+        functions to manipulate it.
 
         Parameters
         ----------
-        restoreFile : str
-            File address    
+        tree : nx.DiGraph
+            RvNN's topology.
         """
+        self.tree = tree
+        self.root = findRoot(self.tree)
+        self.nPaths = len(tree.nodes[self.root]['pathSet'])
+        self.restoreFile = None
+        self.rootCode = None
 
-        self.nPaths = 0
-        if not restoreFile is None :
-            self.tree = GraphReadWrite('tree').read(restoreFile)
-            self.root = findRoot(self.tree)
-            self.restoreFile = restoreFile
-            
-            self.tensorify()
-            self.nPaths = len(self.tree.nodes[self.root]['pathSet'])
+    def __lt__ (self, other) : 
+        return id(self) < id(other)
     
     def tensorify (self) : 
         for n in self.tree.nodes :
@@ -152,83 +151,11 @@ class Tree(object):
             if 'desc' in self.tree.nodes[n] : 
                 self.tree.nodes[n]['desc'] = self.tree.nodes[n]['desc'].tolist()
 
-    def setTree(self, tree, root) :
-        """
-        To be used when a restore file is
-        not specified. The tree is created 
-        from a nx.DiGraph
-
-        Parameters
-        ----------
-        tree : nx.DiGraph
-        """
-        self.tree = tree
-        self.root = root
-        self.nPaths = len(self.tree.nodes[self.root]['pathSet'])
-
-    def merge(self, thoseTrees, paths, vbox): 
-        """
-        Merge this tree with a list of trees.
-        
-        This is a helper function used while 
-        creating the hierarchy at test time.
-        
-        The new node's label is some random 
-        string.
-
-        Parameters
-        ----------
-        thoseTrees : list
-            A list of subtrees to be combined with
-        paths : list
-            List of paths to create the svg string
-            for the merge
-        vbox : list
-            Bounding Box. To be used to create the
-            svg string.
-        """
-        newRoot = randomString(10)
-
-        nxThoseTrees = list(map(lambda x : x.tree, thoseTrees))
-        self.tree = nx.compose_all([self.tree, *nxThoseTrees])
-        self.tree.add_node(newRoot)
-
-        newEdges = list(map(lambda x : (newRoot, x.root), thoseTrees))
-        self.tree.add_edge(newRoot, self.root)
-        self.tree.add_edges_from(newEdges)
-
-        self.root = newRoot
-
-        self.tree.nodes[self.root]['pathSet'] = list(more_itertools.collapse(
-            [
-                self.tree.nodes[i]['pathSet'] 
-                for i 
-                in self.tree.neighbors(self.root)
-            ]
-        ))
-
-        self.tree.nodes[self.root]['svg'] = getSubsetSvg(
-            paths,
-            self.tree.nodes[self.root]['pathSet'],
-            vbox
-        )
-
-        self.nPaths += sum([t.nPaths for t in thoseTrees])
-
-    def relabel(self) :
-        """
-        At test time, while merging, we have 
-        to pick arbitrary labels for the 
-        internal nodes.
-
-        This will fix that and give integer
-        labels to all nodes.
-        """
-        strLabels = filter(lambda x : isinstance(x, str), self.tree.nodes)
-        newLabels = range(self.nPaths, self.tree.number_of_nodes())
-        mapping = dict(zip(strLabels, newLabels))
-        self.tree = nx.relabel_nodes(self.tree, mapping, copy=False) 
-        self.root = mapping[self.root]
+    def setSVGAttributes (self, paths, vb) :
+        def getter (n, *args) :
+            lst = self.tree.nodes[n]['pathSet']
+            return getSubsetSvg(paths, lst, vb)
+        treeApply(self.tree, self.root, getter)
 
     def save (self, out) :
         GraphReadWrite('tree').write((self.tree, self.root), out) 

@@ -1,10 +1,12 @@
 from Data import GRASSDataset
+import cProfile
 import Data
 from functools import reduce, partial
 import torch.multiprocessing
 import Model
 from Model import GRASSEncoder, GRASSDecoder
 import torch
+import torch.nn as nn
 import torch.optim as optim
 import json
 import time
@@ -20,93 +22,7 @@ from more_itertools import collapse
 import svgpathtools as svg
 from copy import deepcopy
 import math
-
-def findTree (config, svgFile, encoder, decoder) :
-    """
-    Do a local greedy search to find a hierarchy.
-    
-    Roughly, the algorithm is the follows:
-        1) Keep a list of all sub-trees formed so far.
-           Initially this is a list of leaf nodes.
-        2) Try all possible pairs of trees in the list
-           and find the one whose merge results in the
-           lowest loss.
-        3) Remove the 2 trees that were merged and add
-           the merged tree back.
-        4) If the list has only one tree left, return
-           this tree.
-
-    Parameters
-    ----------
-    config : dict
-        Configuration to figure
-        out which descriptors to use.
-    svgFile : str
-        Path to svgFile
-    encoder : GRASSEncoder
-        Encoding model
-    decoder : GRASSDecoder
-        Decoding model
-
-    """
-    functionGetter = lambda x : getattr(Utilities, x) 
-    descFunctions = list(map(functionGetter, config['desc_functions']))
-
-    doc = svg.Document(svgFile)
-    paths = svg.Document(svgFile).flatten_all_paths()
-    vb = doc.get_viewbox()
-
-    trees = [] 
-
-    # Populate the candidate list with leaves
-    for idx, path in enumerate(paths) :
-        descriptors = [f(paths[idx].path, vb) for f in descFunctions]
-        flattened = list(more_itertools.collapse(descriptors))
-
-        nxTree = nx.DiGraph()
-        nxTree.add_node(idx)
-
-        nxTree.nodes[idx]['desc'] = flattened
-        nxTree.nodes[idx]['pathSet'] = [idx]
-        nxTree.nodes[idx]['svg'] = getSubsetSvg(paths, [idx], vb)
-        
-        tree = Data.Tree()
-        tree.setTree(nxTree, idx)
-        tree.tensorify()
-
-        trees.append(tree)
-
-    # Do local greedy search over the space of 
-    # candidate trees.
-    st = time.time()
-    ll = len(trees)
-    while len(trees) > 1 : 
-        minI, minJ = -1, -1
-        minLoss = math.inf
-        bestTree = None
-        for i in range(len(trees)) :
-            for j in range(len(trees)) :
-                if i != j : 
-                    treeI = deepcopy(trees[i])
-                    treeJ = deepcopy(trees[j])
-
-                    treeI.merge([treeJ], paths, vb)
-
-                    loss = Model.treeLoss(treeI, encoder, decoder).item()
-                    
-                    if loss < minLoss :
-                        minI = min(i, j)
-                        minJ = max(i, j)
-                        minLoss = loss
-                        bestTree = treeI
-         
-        trees.remove(trees[minI])
-        trees.remove(trees[minJ - 1])
-        trees.append(bestTree)
-
-    print(st - time.time(), svgFile, ll)
-    trees[0].relabel()
-    return trees[0]
+from Test import findTree
 
 def compareNetTreeWithGroundTruth (sample, encoder, decoder, config, path=None) :
     """
@@ -132,6 +48,8 @@ def compareNetTreeWithGroundTruth (sample, encoder, decoder, config, path=None) 
     """
     svgFile, gt = sample
 
+    import pdb
+    pdb.set_trace()
     netTree = findTree(config, svgFile, encoder, decoder)
     netRoot = netTree.root
     gtRoot = findRoot(gt)
@@ -266,8 +184,8 @@ class Trainer () :
 
             self.startTrainingLoop(encoder, decoder, config, modelPath, configPath)
             self.crossValidate(config, encoder, decoder, configPath)
-        except Exception :
-            logging.error(f'Failed at config {i}')
+        except Exception as e:
+            logging.error(f'Failed at config {i} : {str(e)}')
 
     def createDirectories (self, i, config) : 
         """
@@ -440,7 +358,7 @@ class Trainer () :
             axes.set_xlabel('Epochs')
             axes.set_ylabel('Training Loss')
             fig.savefig(osp.join(configPath, 'TrainingPlot'))
-            fig.close()
+            plt.close(fig)
 
         nBatches = len(self.trainDataLoader)
         epochs = config['epochs']
@@ -498,7 +416,7 @@ class Trainer () :
         axes.set_xlabel('Tree Edit Distance')
         axes.set_ylabel('Frequency')
         fig.savefig(path)
-        fig.close()
+        plt.close(fig)
 
     def crossValidate(self, config, encoder, decoder, configPath) :
         """
@@ -526,7 +444,7 @@ class Trainer () :
 
         self.treeDistHistogram(treeDist, osp.join(configPath, 'CVHistogram'))
         
-        score = sum(treeDist) / len(treeDist)
+        score = sum(treeDist) / (len(treeDist) + 1)
         logging.info(f'Cross Validation Score : {score}')
         self.modelScores.append(score)
 
@@ -548,11 +466,13 @@ class Trainer () :
 
         self.saveSnapshots(testDir, bestEncoder, bestDecoder, 'bestEnc.pkl', 'bestDec.pkl')
          
-        with torch.multiprocessing.Pool(mp.cpu_count()) as p : 
-            treeDist = p.map(
-                    partial(compareNetTreeWithGroundTruth, 
-                        encoder=bestEncoder, decoder=bestDecoder, config=config, path=finalTreesDir), 
-                    self.testData)
+        # with torch.multiprocessing.Pool(mp.cpu_count()) as p : 
+        #     treeDist = p.map(
+        #             partial(compareNetTreeWithGroundTruth, 
+        #                 encoder=bestEncoder, decoder=bestDecoder, config=config, path=finalTreesDir), 
+        #             self.testData)
+        treeDist = list(map(partial(compareNetTreeWithGroundTruth, 
+            encoder=bestEncoder, decoder=bestDecoder, config=config, path=finalTreesDir), self.testData))
 
         self.treeDistHistogram(treeDist, osp.join(testDir, 'Histogram'))
 
@@ -572,7 +492,7 @@ class Trainer () :
         logging.info(f'Made directory: {path}')
     
 def main () :
-    torch.multiprocessing.set_start_method('spawn')
+    # torch.multiprocessing.set_start_method('spawn')
     with open('commonConfig.json') as fd :
         commonConfig = json.load(fd)
 
