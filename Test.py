@@ -22,20 +22,20 @@ def findTree (config, svgFile, encoder, decoder) :
     encoder : GRASSEncoder
     decoder : GRASSDecoder
     """
-    pr = cProfile.Profile()
-    pr.enable()
     def computeMerges(pair) :
         tl, tr = pair
         root = encoder.mergeEncoder(tl.rootCode, tr.rootCode)
         l, r = decoder.mergeDecoder(root) 
-        loss = torch.norm(l - tl.rootCode) + torch.norm(r - tr.rootCode)
-        return (loss.item(), tl, tr, root)
+        loss = (torch.norm(l - tl.rootCode) + torch.norm(r - tr.rootCode)).item()
+        loss += (tl.loss + tr.loss)
+        return (loss, tl, tr, root)
 
     def makeLeaf (paths, idx, feature) : 
         leaf = nx.DiGraph()
         leaf.add_node(idx, pathSet=[idx])
         tree = Tree(leaf)
         tree.rootCode = feature
+        tree.loss = 0
         return tree
 
     def toLeaves (pathObj) :
@@ -63,17 +63,19 @@ def findTree (config, svgFile, encoder, decoder) :
         if tl not in trees or tr not in trees : 
             continue
 
+        print(tl.nPaths, tr.nPaths)
+
         trees.remove(tl)
         trees.remove(tr)
 
         newTree = Tree(mergeTrees([tl.tree, tr.tree]))
+
         newTree.rootCode = root
+        newTree.loss = loss
 
         trees.append(newTree)
 
         if newTree.nPaths == totalPaths : 
-            pr.disable()
-            pr.dump_stats('profile_results.pr')
             return newTree
         else :
             newCombinations = itertools.product(trees[:-1], [newTree])

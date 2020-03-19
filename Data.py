@@ -136,6 +136,7 @@ class Tree(object):
         self.nPaths = len(tree.nodes[self.root]['pathSet'])
         self.restoreFile = None
         self.rootCode = None
+        self.loss = None
 
     def __lt__ (self, other) : 
         return id(self) < id(other)

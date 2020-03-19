@@ -48,8 +48,6 @@ def compareNetTreeWithGroundTruth (sample, encoder, decoder, config, path=None) 
     """
     svgFile, gt = sample
 
-    import pdb
-    pdb.set_trace()
     netTree = findTree(config, svgFile, encoder, decoder)
     netRoot = netTree.root
     gtRoot = findRoot(gt)
