@@ -1418,11 +1418,22 @@ def getTreeStructureFromSVG (svgFile) :
         ----------
         element : Element
             Element at this level of the
+            tree.
+        svgString : str
+            String representation of this
+            element.
+        """
+        curId = r['idx']
+        T.add_node(curId, svg=svgString)
+        for child in element : 
+            if child.tag in relevantTags : 
+                r['idx'] += 1
+                childId = r['idx']
+                skeletonCopy = copy.deepcopy(skeleton)
                 skeletonCopy.getroot().append(child)
                 elementStr = str(ET.tostring(skeletonCopy.getroot()), 'utf-8')
                 buildTreeGraph(child, elementStr)
                 T.add_edge(curId, childId)
-        """
 
     relevantTags = [
         '{http://www.w3.org/2000/svg}rect',
