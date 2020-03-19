@@ -1457,6 +1457,31 @@ def getTreeStructureFromSVG (svgFile) :
     buildTreeGraph (root, rootString)
     return T
 
+def loadModels (encoderFile, decoderFile, cuda=True) : 
+    """
+    Simple convenience function to load 
+    encoder and decoder models from a
+    set of files. 
+
+    Parameters
+    ----------
+    encoderFile : str
+        Path to saved encoder Model.
+    decoderFile : str
+        Path to saved decoder Model.
+    cuda : bool
+        Optional argument to specify
+        whether to use CUDA.
+    """
+    encoder = torch.load(encoderFile)
+    decoder = torch.load(decoderFile)
+    
+    if cuda: 
+        encoder.cuda()
+        decoder.cuda()
+
+    return encoder, decoder
+
 def listdir (path) :
     """
     Convenience function to get 
