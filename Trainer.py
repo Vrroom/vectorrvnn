@@ -23,6 +23,7 @@ import svgpathtools as svg
 from copy import deepcopy
 import math
 from Test import findTree
+from torchfold import Fold
 
 def compareNetTreeWithGroundTruth (sample, encoder, decoder, config, path=None) :
     """
@@ -253,6 +254,8 @@ class Trainer () :
         config : dict
             Configuration for this sub-experiment.
         """
+        import pdb
+        pdb.set_trace()
         torch.cuda.set_device(self.gpu)
 
         if self.cuda and torch.cuda.is_available() : 
@@ -333,14 +336,23 @@ class Trainer () :
                 ))
 
             for batchIdx, batch in enumerate(self.trainDataLoader):
-                trees = filter(lambda x : type(x) is Data.Tree, collapse(batch))
-                losses = map(lambda x : Model.treeLoss(x, encoder, decoder), trees)
-                totalLoss = reduce(lambda x, y : x + y, losses)
+
+                encFold = Fold(cuda=self.cuda)
+
+                rootCodeDicts = [dict() for _ in batch]
+                encFoldNodes = [Model.encodeFold(encFold, ex[0], rcd) 
+                    for ex, rcd in zip(batch, rootCodeDicts)]
+
+                encFoldNodes = encFold.apply(encoder, [encFoldNodes])
+
+                decFold = Fold(cuda=self.cuda)
+                decFoldNodes = [Model.decodeFold(decFold, f, ex[0], d)
+                    for f, ex, d in zip(encFoldNodes, batch, rootCodeDicts)]
 
                 encoderOpt.zero_grad()
                 decoderOpt.zero_grad()
 
-                totalLoss.backward()
+                totalLoss = decoder.apply(decoder, [decFoldNodes])
 
                 encoderOpt.step()
                 decoderOpt.step()

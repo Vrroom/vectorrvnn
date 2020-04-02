@@ -1,12 +1,12 @@
 {
-	"train_directory"     : "./SmallAvatar/Train/",
-	"test_directory"      : "./SmallAvatar/Test/",
-	"cv_directory"        : "./SmallAvatar/Validate/",
+	"train_directory"     : "./Avatar/Train/",
+	"test_directory"      : "./Avatar/Test/",
+	"cv_directory"        : "./Avatar/Validate/",
 	"log_file"            : "test.log",
 	"show_log_every"      : 5,
 	"save_snapshot_every" : 5,
-	"cuda"                : true,
-	"gpu"                 : 0,
+	"cuda"                : false,
+	"gpu"                 : -1,
 	"expt_path"           : "./Expts/"
 }
 

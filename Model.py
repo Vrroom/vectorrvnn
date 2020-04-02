@@ -247,3 +247,44 @@ def treeLoss (tree, encoder, decoder) :
     rootCode = encode_node(tree.root) 
     totalLoss = decode_node(tree.root, rootCode)
     return totalLoss
+
+def encodeFold(fold, tree, nodeCodes):
+
+    def encodeNode(node):
+        neighbors = list(tree.tree.neighbors(node))
+        isLeaf = len(neighbors) == 0
+        if isLeaf:
+            path = tree.tree.nodes[node]['desc']
+            return fold.add('pathEncoder', path)
+        else : 
+            lIdx= tree.tree.nodes[node][0]
+            left = encodeNode(tree.nodes[node][0])
+            right = encodeNode(tree.nodes[node][1])
+            merge = fold.add('mergeEncoder', left, right)
+            nodeCodes[node] = merge
+            return merge
+        
+    encoding = encodeNode(tree.root)
+    return encoding
+
+def decodeFold(fold, feature, tree, nodeCodes):
+    
+    def decodeNode(node, feature):
+        neighbors = list(tree.tree.neighbors(node))
+        isLeaf = len(neighbors) == 0
+        if isLeaf:
+            path = tree.tree.nodes[node]['desc']
+            reconPath = fold.add('pathDecoder', feature)
+            return fold.add('mseLoss', path, reconPath)
+        else :
+            lNode, rNode = neighbors
+            left, right = fold.add('mergeDecoder', feature).split(2)
+            leftLoss = decodeNode(lNode, left)
+            rightLoss = decodeNode(rNode, right)
+            loss = fold.add('mseLoss', nodeCodes[node], feature)
+            childLoss = fold.add('vectorAdder', leftLoss, rightLoss)
+            return fold.add('vectorAdder', loss, childLoss)
+
+    loss = decodeNode(tree.root, feature)
+    return loss
+
