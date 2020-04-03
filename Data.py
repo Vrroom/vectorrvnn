@@ -144,7 +144,7 @@ class Tree(object):
     def tensorify (self) : 
         for n in self.tree.nodes :
             if 'desc' in self.tree.nodes[n] : 
-                tensorified = torch.tensor(self.tree.nodes[n]['desc']).cuda()
+                tensorified = torch.tensor(self.tree.nodes[n]['desc']).reshape((1, -1))
                 self.tree.nodes[n]['desc'] = tensorified
 
     def untensorify (self) :
@@ -191,8 +191,9 @@ class GRASSDataset(data.Dataset):
 
         self.svgFiles = listdir(svgDir)
 
-        with mp.Pool(mp.cpu_count()) as p : 
-            self.groundTruth = p.map(getTreeStructureFromSVG, self.svgFiles)
+        self.groundTruth = self.svgFiles
+        # with mp.Pool(mp.cpu_count()) as p : 
+        #     self.groundTruth = p.map(getTreeStructureFromSVG, self.svgFiles)
 
         if makeTrees : 
             creator = TreeCreator(**kwargs)

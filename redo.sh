@@ -1,3 +1,3 @@
 rm -r Expts
-rm trainer_log.log
+rm test.log
 mkdir Expts

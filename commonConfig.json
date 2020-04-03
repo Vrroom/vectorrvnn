@@ -1,7 +1,7 @@
 {
-	"train_directory"     : "./Avatar/Train/",
-	"test_directory"      : "./Avatar/Test/",
-	"cv_directory"        : "./Avatar/Validate/",
+	"train_directory"     : "./Emojis/Validate/",
+	"test_directory"      : "./Emojis/Validate/",
+	"cv_directory"        : "./Emojis/Validate/",
 	"log_file"            : "test.log",
 	"show_log_every"      : 5,
 	"save_snapshot_every" : 5,

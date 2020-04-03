@@ -1,10 +1,11 @@
 from Data import GRASSDataset
+import sys
 import cProfile
 import Data
 from functools import reduce, partial
 import torch.multiprocessing
 import Model
-from Model import GRASSEncoder, GRASSDecoder
+from Model import GRASSAutoEncoder
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -23,44 +24,44 @@ import svgpathtools as svg
 from copy import deepcopy
 import math
 from Test import findTree
-from torchfold import Fold
+from TorchFoldExt import FoldExt
 
-def compareNetTreeWithGroundTruth (sample, encoder, decoder, config, path=None) :
-    """
-    Use the encoder and decoder to find
-    the optimal tree and compare it
-    with the ground truth using tree edit
-    distance
-
-    Parameters
-    ----------
-    sample : tuple
-        (svgFile, groundTruthTree)
-    encoder : GRASSEncoder
-        Encoder network.
-    decoder : GRASSDecoder
-        Decoder network.
-    config : dict
-        Configuration dictionary.
-    path : None or str
-        If path is None, don't save the inferred
-        tree. Else do save it at the specified
-        location.
-    """
-    svgFile, gt = sample
-
-    netTree = findTree(config, svgFile, encoder, decoder)
-    netRoot = netTree.root
-    gtRoot = findRoot(gt)
-
-    if path is not None: 
-        netTree.untensorify()
-        _, svgFile = osp.split(svgFile)
-        svgName, ext = osp.splitext(svgFile)
-        savePath = osp.join(path, svgName) + '.json'
-        GraphReadWrite('tree').write((netTree.tree, netRoot), savePath)
-
-    return match((netRoot, netTree.tree), (gtRoot, gt))
+# def compareNetTreeWithGroundTruth (sample, encoder, decoder, config, path=None) :
+#     """
+#     Use the encoder and decoder to find
+#     the optimal tree and compare it
+#     with the ground truth using tree edit
+#     distance
+# 
+#     Parameters
+#     ----------
+#     sample : tuple
+#         (svgFile, groundTruthTree)
+#     encoder : GRASSEncoder
+#         Encoder network.
+#     decoder : GRASSDecoder
+#         Decoder network.
+#     config : dict
+#         Configuration dictionary.
+#     path : None or str
+#         If path is None, don't save the inferred
+#         tree. Else do save it at the specified
+#         location.
+#     """
+#     svgFile, gt = sample
+# 
+#     netTree = findTree(config, svgFile, encoder, decoder)
+#     netRoot = netTree.root
+#     gtRoot = findRoot(gt)
+# 
+#     if path is not None: 
+#         netTree.untensorify()
+#         _, svgFile = osp.split(svgFile)
+#         svgName, ext = osp.splitext(svgFile)
+#         savePath = osp.join(path, svgName) + '.json'
+#         GraphReadWrite('tree').write((netTree.tree, netRoot), savePath)
+# 
+#     return match((netRoot, netTree.tree), (gtRoot, gt))
 
 class Trainer () :
     """
@@ -151,10 +152,10 @@ class Trainer () :
         self.makeDir(self.exptDir)
         self.makeDir(self.modelDir)
 
-        logging.info('Loading Cross-validation Data')
-        self.cvData = GRASSDataset(self.cvDir)
-        logging.info('Loading Test Data')
-        self.testData = GRASSDataset(self.testDir)
+        # logging.info('Loading Cross-validation Data')
+        # self.cvData = GRASSDataset(self.cvDir)
+        # logging.info('Loading Test Data')
+        # self.testData = GRASSDataset(self.testDir)
 
         for i, config in enumerate(self.configs) :
             self.runExpt(i + 1, config)
@@ -171,20 +172,20 @@ class Trainer () :
         config : dict
             Dictionary containing parameters.
         """
-        try :
-            configPath, trainingTreesPath, modelPath = self.createDirectories(i, config)
+        # try :
+        configPath, trainingTreesPath, modelPath = self.createDirectories(i, config)
 
-            logging.info(f'Starting Expt {i}')
+        logging.info(f'Starting Expt {i}')
 
-            self.setTrainDataLoader(config)
-            self.setModel(config)
+        self.setTrainDataLoader(config)
+        self.setModel(config)
 
-            encoder, decoder = self.models[-1]
+        autoencoder = self.models[-1]
 
-            self.startTrainingLoop(encoder, decoder, config, modelPath, configPath)
-            self.crossValidate(config, encoder, decoder, configPath)
-        except Exception as e:
-            logging.error(f'Failed at config {i} : {str(e)}')
+        self.startTrainingLoop(autoencoder, config, modelPath, configPath)
+        # self.crossValidate(config, encoder, decoder, configPath)
+        # except Exception as e:
+        #     logging.error(f'Failed at config {i} : {str(e)}')
 
     def createDirectories (self, i, config) : 
         """
@@ -254,8 +255,6 @@ class Trainer () :
         config : dict
             Configuration for this sub-experiment.
         """
-        import pdb
-        pdb.set_trace()
         torch.cuda.set_device(self.gpu)
 
         if self.cuda and torch.cuda.is_available() : 
@@ -263,16 +262,14 @@ class Trainer () :
         else :
             logging.info('Not using CUDA')
 
-        encoder = GRASSEncoder(config)
-        decoder = GRASSDecoder(config)
+        autoencoder = GRASSAutoEncoder(config)
 
         if self.cuda :
-            encoder = encoder.cuda()
-            decoder = decoder.cuda()
+            autoencoder = autoencoder.cuda()
 
-        self.models.append((encoder, decoder))
+        self.models.append(autoencoder)
 
-    def saveSnapshots (self, path, encoder, decoder, encName, decName) : 
+    def saveSnapshots (self, path, autoencoder, name) : 
         """
         Convenience function to save model snapshots
         at any moment.
@@ -282,20 +279,15 @@ class Trainer () :
         path : str
             Path in which the two networks
             have to be saved.
-        encoder : GRASSEncoder
-            Encoder network.
-        decoder : GRASSDecoder
-            Decoder network.
-        encName : str
-            File name for output.
-        decName : str
+        autoencoder : GRASSAutoEncoder
+            AutoEncoder Network.
+        name : str
             File name for output.
         """
-        logging.info(f'Saving Models {encName}, {decName}') 
-        torch.save(encoder, osp.join(path, encName))
-        torch.save(decoder, osp.join(path, decName))
+        logging.info(f'Saving Model {name}') 
+        torch.save(autoencoder, osp.join(path, name))
 
-    def startTrainingLoop(self, encoder, decoder, config, modelPath, configPath) :
+    def startTrainingLoop(self, autoencoder, config, modelPath, configPath) :
         """
         Training Loop. Probably hotspot for bugs.
         Uses the specs given in the config dictionary
@@ -307,10 +299,8 @@ class Trainer () :
 
         Parameters
         ----------
-        encoder : GRASSEncoder
-            Encoder Network.
-        decoder : GRASSDecoder
-            Decoder Network.
+        autoencoder : GRASSAutoEncoder
+            AutoEncoder network.
         config : dict
             Configuration for this sub-experiment.
         modelPath : str
@@ -337,25 +327,14 @@ class Trainer () :
 
             for batchIdx, batch in enumerate(self.trainDataLoader):
 
-                encFold = Fold(cuda=self.cuda)
-
-                rootCodeDicts = [dict() for _ in batch]
-                encFoldNodes = [Model.encodeFold(encFold, ex[0], rcd) 
-                    for ex, rcd in zip(batch, rootCodeDicts)]
-
-                encFoldNodes = encFold.apply(encoder, [encFoldNodes])
-
-                decFold = Fold(cuda=self.cuda)
-                decFoldNodes = [Model.decodeFold(decFold, f, ex[0], d)
-                    for f, ex, d in zip(encFoldNodes, batch, rootCodeDicts)]
-
-                encoderOpt.zero_grad()
-                decoderOpt.zero_grad()
-
-                totalLoss = decoder.apply(decoder, [decFoldNodes])
-
-                encoderOpt.step()
-                decoderOpt.step()
+                fold = FoldExt(cuda=self.cuda)
+                trees = filter(lambda x : type(x) is Data.Tree, collapse(batch))
+                nodes = [Model.lossFold(fold, tree) for tree in trees]
+                
+                opt.zero_grad()
+                totalLoss = sum(fold.apply(autoencoder, [nodes]))
+                totalLoss.backward()
+                opt.step()
 
                 if batchIdx % self.logFrequency == 0:
                     reportStatistics()
@@ -373,14 +352,12 @@ class Trainer () :
         nBatches = len(self.trainDataLoader)
         epochs = config['epochs']
 
-        encoderOpt = optim.Adam(encoder.parameters(), lr=config['lr'])
-        decoderOpt = optim.Adam(decoder.parameters(), lr=config['lr'])
+        opt = optim.Adam(autoencoder.parameters(), lr=config['lr'])
 
         gamma = 1 / config['lr_decay_by']
         decayEvery = config['lr_decay_every']
 
-        encoderSched = optim.lr_scheduler.StepLR(encoderOpt, decayEvery, gamma=gamma)
-        decoderSched = optim.lr_scheduler.StepLR(decoderOpt, decayEvery, gamma=gamma)
+        sched = optim.lr_scheduler.StepLR(opt, decayEvery, gamma=gamma)
 
         logging.info('Starting Training')
 
@@ -396,17 +373,15 @@ class Trainer () :
         for epoch in range(epochs):
             logging.info(header)
             loss = trainOneEpoch()
-            encoderSched.step()
-            decoderSched.step()
+            sched.step()
 
             if (epoch + 1) % self.saveFrequency == 0 :
-                encName = 'encoder_epoch{}_loss_{:.2f}.pkl'.format(epoch+1, loss)
-                decName = 'decoder_epoch{}_loss_{:.2f}.pkl'.format(epoch+1, loss)
-                self.saveSnapshots(modelPath, encoder, decoder, encName, decName)
+                name = 'autoencoder_epoch{}_loss_{:.2f}.pkl'.format(epoch+1, loss)
+                self.saveSnapshots(modelPath, autoencoder, name)
 
             losses.append(loss)
         
-        self.saveSnapshots(modelPath, encoder, decoder, 'encoder.pkl', 'decoder.pkl')
+        self.saveSnapshots(modelPath, autoencoder, 'autoencoder.pkl')
         createAndSaveTrainingPlot()
 
     def treeDistHistogram(self, treeDist, path) :
@@ -428,66 +403,64 @@ class Trainer () :
         fig.savefig(path)
         plt.close(fig)
 
-    def crossValidate(self, config, encoder, decoder, configPath) :
-        """
-        Compute the tree edit distances to the
-        ground truth and average them. This is the 
-        score of this model.
-
-        Parameters
-        ----------
-        config : dict
-            Configuration for this sub-experiment.
-        encoder : GRASSEncoder
-            Encoder Network.
-        decoder : GRASSDecoder
-            Decoder Network.
-        configPath : str
-            Path to where we are storing this
-            experiment's results.
-        """
-        with torch.multiprocessing.Pool(mp.cpu_count()) as p : 
-            treeDist = p.map(
-                    partial(compareNetTreeWithGroundTruth, 
-                        encoder=encoder, decoder=decoder, config=config), 
-                    self.cvData)
-
-        self.treeDistHistogram(treeDist, osp.join(configPath, 'CVHistogram'))
-        
-        score = sum(treeDist) / (len(treeDist) + 1)
-        logging.info(f'Cross Validation Score : {score}')
-        self.modelScores.append(score)
-
-    def test(self) : 
-        """
-        Select the model with the smallest 
-        average tree edit distance. Compute
-        tree edit distances for it. Also store
-        the inferred trees in the directory.
-        """
-        testDir = osp.join(self.exptDir, 'Test')
-        self.makeDir(testDir)
-
-        finalTreesDir = osp.join(testDir, 'FinalTrees')
-        self.makeDir(finalTreesDir)
-
-        bestEncoder, bestDecoder = self.models[argmin(self.modelScores)]
-        config = self.configs[argmin(self.modelScores)]
-
-        self.saveSnapshots(testDir, bestEncoder, bestDecoder, 'bestEnc.pkl', 'bestDec.pkl')
-         
-        # with torch.multiprocessing.Pool(mp.cpu_count()) as p : 
-        #     treeDist = p.map(
-        #             partial(compareNetTreeWithGroundTruth, 
-        #                 encoder=bestEncoder, decoder=bestDecoder, config=config, path=finalTreesDir), 
-        #             self.testData)
-        treeDist = list(map(partial(compareNetTreeWithGroundTruth, 
-            encoder=bestEncoder, decoder=bestDecoder, config=config, path=finalTreesDir), self.testData))
-
-        self.treeDistHistogram(treeDist, osp.join(testDir, 'Histogram'))
-
-        score = sum(treeDist) / len(treeDist)
-        logging.info(f'Test Score : {score}')
+#    def crossValidate(self, config, autoencoder, configPath) :
+#        """
+#        Compute the tree edit distances to the
+#        ground truth and average them. This is the 
+#        score of this model.
+#
+#        Parameters
+#        ----------
+#        config : dict
+#            Configuration for this sub-experiment.
+#        autoencoder : GRASSAutoEncoder
+#            Encoder Network.
+#        configPath : str
+#            Path to where we are storing this
+#            experiment's results.
+#        """
+#        with torch.multiprocessing.Pool(mp.cpu_count()) as p : 
+#            treeDist = p.map(
+#                    partial(compareNetTreeWithGroundTruth, 
+#                        encoder=autoencoder, config=config), 
+#                    self.cvData)
+#
+#        self.treeDistHistogram(treeDist, osp.join(configPath, 'CVHistogram'))
+#        
+#        score = sum(treeDist) / (len(treeDist) + 1)
+#        logging.info(f'Cross Validation Score : {score}')
+#        self.modelScores.append(score)
+#
+#    def test(self) : 
+#        """
+#        Select the model with the smallest 
+#        average tree edit distance. Compute
+#        tree edit distances for it. Also store
+#        the inferred trees in the directory.
+#        """
+#        testDir = osp.join(self.exptDir, 'Test')
+#        self.makeDir(testDir)
+#
+#        finalTreesDir = osp.join(testDir, 'FinalTrees')
+#        self.makeDir(finalTreesDir)
+#
+#        bestEncoder, bestDecoder = self.models[argmin(self.modelScores)]
+#        config = self.configs[argmin(self.modelScores)]
+#
+#        self.saveSnapshots(testDir, bestEncoder, bestDecoder, 'bestEnc.pkl', 'bestDec.pkl')
+#         
+#        # with torch.multiprocessing.Pool(mp.cpu_count()) as p : 
+#        #     treeDist = p.map(
+#        #             partial(compareNetTreeWithGroundTruth, 
+#        #                 encoder=bestEncoder, decoder=bestDecoder, config=config, path=finalTreesDir), 
+#        #             self.testData)
+#        treeDist = list(map(partial(compareNetTreeWithGroundTruth, 
+#            encoder=bestEncoder, decoder=bestDecoder, config=config, path=finalTreesDir), self.testData))
+#
+#        self.treeDistHistogram(treeDist, osp.join(testDir, 'Histogram'))
+#
+#        score = sum(treeDist) / len(treeDist)
+#        logging.info(f'Test Score : {score}')
 
     def makeDir (self, path) :
         """
@@ -515,7 +488,7 @@ def main () :
 
     trainer = Trainer(commonConfig, configs)
     trainer.run()
-    trainer.test()
+    #trainer.test()
 
 if __name__ == "__main__" :
     main()
