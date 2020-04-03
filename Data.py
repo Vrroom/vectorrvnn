@@ -191,9 +191,8 @@ class GRASSDataset(data.Dataset):
 
         self.svgFiles = listdir(svgDir)
 
-        self.groundTruth = self.svgFiles
-        # with mp.Pool(mp.cpu_count()) as p : 
-        #     self.groundTruth = p.map(getTreeStructureFromSVG, self.svgFiles)
+        with mp.Pool(mp.cpu_count()) as p : 
+            self.groundTruth = p.map(getTreeStructureFromSVG, self.svgFiles)
 
         if makeTrees : 
             creator = TreeCreator(**kwargs)
@@ -232,7 +231,5 @@ class GRASSDataset(data.Dataset):
         savePath : str
             Path to be saved to.
         """
-        for svgFile, trees in zip(self.svgFiles, self.trees) : 
-            head, = osp.split(svgFile)
-            name, _ = osp.splitext(head)
-            treeWriter(trees, osp.join(savePath, name + '.json'))
+        with open(savePath, 'wb') as fd :
+            pickle.dump(self, fd)

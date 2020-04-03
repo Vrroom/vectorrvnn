@@ -1,6 +1,6 @@
 from Data import GRASSDataset
 import sys
-import cProfile
+import pickle
 import Data
 from functools import reduce, partial
 import torch.multiprocessing
@@ -26,42 +26,40 @@ import math
 from Test import findTree
 from TorchFoldExt import FoldExt
 
-# def compareNetTreeWithGroundTruth (sample, encoder, decoder, config, path=None) :
-#     """
-#     Use the encoder and decoder to find
-#     the optimal tree and compare it
-#     with the ground truth using tree edit
-#     distance
-# 
-#     Parameters
-#     ----------
-#     sample : tuple
-#         (svgFile, groundTruthTree)
-#     encoder : GRASSEncoder
-#         Encoder network.
-#     decoder : GRASSDecoder
-#         Decoder network.
-#     config : dict
-#         Configuration dictionary.
-#     path : None or str
-#         If path is None, don't save the inferred
-#         tree. Else do save it at the specified
-#         location.
-#     """
-#     svgFile, gt = sample
-# 
-#     netTree = findTree(config, svgFile, encoder, decoder)
-#     netRoot = netTree.root
-#     gtRoot = findRoot(gt)
-# 
-#     if path is not None: 
-#         netTree.untensorify()
-#         _, svgFile = osp.split(svgFile)
-#         svgName, ext = osp.splitext(svgFile)
-#         savePath = osp.join(path, svgName) + '.json'
-#         GraphReadWrite('tree').write((netTree.tree, netRoot), savePath)
-# 
-#     return match((netRoot, netTree.tree), (gtRoot, gt))
+def compareNetTreeWithGroundTruth (sample, autoencoder, config, path=None) :
+    """
+    Use the encoder and decoder to find
+    the optimal tree and compare it
+    with the ground truth using tree edit
+    distance
+
+    Parameters
+    ----------
+    sample : tuple
+        (svgFile, groundTruthTree)
+    autoencoder : GRASSAutoEncoder
+        AutoEncoder network.
+    config : dict
+        Configuration dictionary.
+    path : None or str
+        If path is None, don't save the inferred
+        tree. Else do save it at the specified
+        location.
+    """
+    svgFile, gt = sample
+
+    netTree = findTree(config, svgFile, autoencoder)
+    netRoot = netTree.root
+    gtRoot = findRoot(gt)
+
+    if path is not None: 
+        netTree.untensorify()
+        _, svgFile = osp.split(svgFile)
+        svgName, ext = osp.splitext(svgFile)
+        savePath = osp.join(path, svgName) + '.json'
+        GraphReadWrite('tree').write((netTree.tree, netRoot), savePath)
+
+    return match((netRoot, netTree.tree), (gtRoot, gt))
 
 class Trainer () :
     """
@@ -152,10 +150,8 @@ class Trainer () :
         self.makeDir(self.exptDir)
         self.makeDir(self.modelDir)
 
-        # logging.info('Loading Cross-validation Data')
-        # self.cvData = GRASSDataset(self.cvDir)
-        # logging.info('Loading Test Data')
-        # self.testData = GRASSDataset(self.testDir)
+        logging.info('Loading Cross-validation Data')
+        self.cvData = GRASSDataset(self.cvDir)
 
         for i, config in enumerate(self.configs) :
             self.runExpt(i + 1, config)
@@ -244,6 +240,8 @@ class Trainer () :
             shuffle=True,
             collate_fn=lambda x : x
         )
+
+        self.trainData.save('trainData.pkl')
 
     def setModel (self, config) : 
         """
@@ -438,6 +436,8 @@ class Trainer () :
 #        tree edit distances for it. Also store
 #        the inferred trees in the directory.
 #        """
+        # logging.info('Loading Test Data')
+        # self.testData = GRASSDataset(self.testDir)
 #        testDir = osp.join(self.exptDir, 'Test')
 #        self.makeDir(testDir)
 #
