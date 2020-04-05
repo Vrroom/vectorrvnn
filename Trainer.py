@@ -326,12 +326,15 @@ class Trainer () :
             for batchIdx, batch in enumerate(self.trainDataLoader):
 
                 fold = Fold(cuda=self.cuda)
-                trees = filter(lambda x : type(x) is Data.Tree, collapse(batch))
+                trees = list(filter(lambda x : type(x) is Data.Tree, collapse(batch)))
+                losses = list(map(lambda x : Model.treeLoss(x, autoencoder), trees))
+                totalLoss1 = reduce(lambda x, y : x + y, losses)
                 nodes = [Model.lossFold(fold, tree) for tree in trees]
                 
                 opt.zero_grad()
                 totalLoss, *_ = fold.apply(autoencoder, [nodes])
                 totalLoss = sum(totalLoss)
+                print(totalLoss, totalLoss1)
                 totalLoss.backward()
                 opt.step()
 

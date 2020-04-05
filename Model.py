@@ -159,20 +159,20 @@ class GRASSAutoEncoder(nn.Module):
     def mergeDecoder(self, feature):
         return self.merge_decoder(feature)
 
-    def mseLoss1(self, a, b) : 
+    def mseLoss(self, a, b) : 
 #        return self.mse_loss(a, b).reshape((1,1))
-        return self.mse_loss(a, b).view((1, 1))
+        return self.mse_loss(a, b)
 
     def mseLoss2(self, a, b) : 
 #        return self.mse_loss(a, b).reshape((1,1))
         return self.mse_loss(a, b).view((1, 1))
     
     def mseLossEstimator(self, path_feature, gt_path_feature):
-        a = [self.mse_loss(b, gt).mul(0.4).unsqueeze(0) for b, gt in zip(path_feature, gt_path_feature)]
+        a = [self.mse_loss(b, gt).unsqueeze(0) for b, gt in zip(path_feature, gt_path_feature)]
         return torch.cat(a, 0)
 
     def mseLossEstimator_(self, path_feature, gt_path_feature):
-        a = [self.mse_loss(b, gt).mul(0.4).unsqueeze(0) for b, gt in zip(path_feature, gt_path_feature)]
+        a = [self.mse_loss(b, gt).unsqueeze(0) for b, gt in zip(path_feature, gt_path_feature)]
         return torch.cat(a, 0)
 
     def pathEncoder(self, path):
@@ -188,25 +188,31 @@ def lossFold (fold, tree) :
 
     def encodeNode(node):
         neighbors = list(tree.tree.neighbors(node))
+        neighbors.sort()
         isLeaf = len(neighbors) == 0
         if isLeaf:
             path = tree.tree.nodes[node]['desc']
-            return fold.add('pathEncoder', path)
+            feature = fold.add('pathEncoder', path)
+            rootCodes[node] = feature
+            return feature
         else : 
             lNode, rNode = neighbors
             left = encodeNode(lNode)
             right = encodeNode(rNode)
-            merge = fold.add('mergeEncoder', left, right)
-            rootCodes[node] = merge
-            return merge
+            feature = fold.add('mergeEncoder', left, right)
+            rootCodes[node] = feature
+            return feature
 
     def decodeNode(node, feature):
         neighbors = list(tree.tree.neighbors(node))
+        neighbors.sort()
         isLeaf = len(neighbors) == 0
         if isLeaf:
             path = tree.tree.nodes[node]['desc']
             reconPath = fold.add('pathDecoder', feature)
-            return fold.add('mseLossEstimator_', path, reconPath)
+            loss1 = fold.add('mseLossEstimator_', path, reconPath) 
+            loss2 = fold.add('mseLossEstimator', rootCodes[node], feature)
+            return fold.add('vectorAdder', loss1, loss2)
         else :
             lNode, rNode = neighbors
             left, right = fold.add('mergeDecoder', feature).split(2)
@@ -219,3 +225,60 @@ def lossFold (fold, tree) :
     rootCodes = dict()
     loss = decodeNode(tree.root, encodeNode(tree.root))
     return loss
+
+def treeLoss (tree, autoencoder) : 
+    """
+    Compute reconstruction loss at 
+    each level of the tree. 
+    For that we have to store all
+    intermediate computations during 
+    the encoding stage and pop it while
+    decoding to measure the loss
+
+    Parameters
+    ----------
+    tree : grassdata.Tree
+        The RvNN tree
+    encoder : GRASSEncoder
+    decoder : GRASSDecoder
+    """
+    stack = []
+
+    def encode_node (node) :
+        neighbors = list(tree.tree.neighbors(node))
+        neighbors.sort()
+        isLeaf = len(neighbors) == 0
+        if isLeaf : 
+            path = tree.tree.nodes[node]['desc']
+            feature = autoencoder.pathEncoder(path)
+            stack.append(path)
+            stack.append(feature)
+            return feature
+        else :
+            childFeatures = list(map(encode_node, neighbors))
+            feature = autoencoder.mergeEncoder(*childFeatures) 
+            stack.append(feature)
+            return feature
+
+    def decode_node (node, feature) :
+        neighbors = list(tree.tree.neighbors(node))
+        neighbors.sort()
+        isLeaf = len(neighbors) == 0
+        if isLeaf : 
+            featureOld = stack.pop()
+            pathOld = stack.pop()
+            path = autoencoder.pathDecoder(feature)
+            loss1 = autoencoder.mseLoss(path, pathOld)
+            loss2 = autoencoder.mseLoss(feature, featureOld)
+            return loss1 + loss2
+        else :
+            top = stack.pop()
+            children = autoencoder.mergeDecoder(feature)
+            losses = map(decode_node, reversed(neighbors), reversed(children))
+            loss = reduce(lambda x, y : x + y, losses)
+            loss += autoencoder.mseLoss(top, feature)
+            return loss
+
+    rootCode = encode_node(tree.root) 
+    totalLoss = decode_node(tree.root, rootCode)
+    return totalLoss
