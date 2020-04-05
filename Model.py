@@ -159,11 +159,21 @@ class GRASSAutoEncoder(nn.Module):
     def mergeDecoder(self, feature):
         return self.merge_decoder(feature)
 
-    def mseLoss(self, a, b) : 
-        return self.mse_loss(a, b).reshape((1,1))
+    def mseLoss1(self, a, b) : 
+#        return self.mse_loss(a, b).reshape((1,1))
+        return self.mse_loss(a, b).view((1, 1))
+
+    def mseLoss2(self, a, b) : 
+#        return self.mse_loss(a, b).reshape((1,1))
+        return self.mse_loss(a, b).view((1, 1))
     
     def mseLossEstimator(self, path_feature, gt_path_feature):
-        return torch.cat([self.mse_loss(b, gt).mul(0.4).unsqueeze(0) for b, gt in zip(path_feature, gt_path_feature)], 0)
+        a = [self.mse_loss(b, gt).mul(0.4).unsqueeze(0) for b, gt in zip(path_feature, gt_path_feature)]
+        return torch.cat(a, 0)
+
+    def mseLossEstimator_(self, path_feature, gt_path_feature):
+        a = [self.mse_loss(b, gt).mul(0.4).unsqueeze(0) for b, gt in zip(path_feature, gt_path_feature)]
+        return torch.cat(a, 0)
 
     def pathEncoder(self, path):
         return self.path_encoder(path)
@@ -196,7 +206,7 @@ def lossFold (fold, tree) :
         if isLeaf:
             path = tree.tree.nodes[node]['desc']
             reconPath = fold.add('pathDecoder', feature)
-            return fold.add('mseLossEstimator', path, reconPath)
+            return fold.add('mseLossEstimator_', path, reconPath)
         else :
             lNode, rNode = neighbors
             left, right = fold.add('mergeDecoder', feature).split(2)

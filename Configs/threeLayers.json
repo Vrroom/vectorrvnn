@@ -3,7 +3,7 @@
 	"feature_size" : 80,
 	"hidden_size" : [100, 100],
 	"epochs" : 1,
-	"batch_size" : 1,
+	"batch_size" : 2,
 	"lr" : 0.001,
 	"lr_decay_by" : 1,
 	"lr_decay_every" : 1,

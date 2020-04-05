@@ -24,7 +24,7 @@ import svgpathtools as svg
 from copy import deepcopy
 import math
 from Test import findTree
-from TorchFoldExt import FoldExt
+from torchfold import Fold
 
 def compareNetTreeWithGroundTruth (sample, autoencoder, config, path=None) :
     """
@@ -241,7 +241,7 @@ class Trainer () :
             collate_fn=lambda x : x
         )
 
-        self.trainData.save('trainData.pkl')
+        #self.trainData.save('trainData.pkl')
 
     def setModel (self, config) : 
         """
@@ -325,12 +325,13 @@ class Trainer () :
 
             for batchIdx, batch in enumerate(self.trainDataLoader):
 
-                fold = FoldExt(cuda=self.cuda)
+                fold = Fold(cuda=self.cuda)
                 trees = filter(lambda x : type(x) is Data.Tree, collapse(batch))
                 nodes = [Model.lossFold(fold, tree) for tree in trees]
                 
                 opt.zero_grad()
-                totalLoss = sum(fold.apply(autoencoder, [nodes]))
+                totalLoss, *_ = fold.apply(autoencoder, [nodes])
+                totalLoss = sum(totalLoss)
                 totalLoss.backward()
                 opt.step()
 
