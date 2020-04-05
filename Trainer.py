@@ -227,13 +227,18 @@ class Trainer () :
         graphClusterAlgos = list(map(functionGetter, config['graph_cluster_algo']))
 
         logging.info('Loading Training Data')
-        self.trainData = GRASSDataset(
-            self.trainDir, 
-            makeTrees=True, 
-            graphClusterAlgos=graphClusterAlgos,
-            relationFunctions=relationFunctions,
-            descFunctions=descFunctions
-        )
+        # self.trainData = GRASSDataset(
+        #     self.trainDir, 
+        #     makeTrees=True, 
+        #     graphClusterAlgos=graphClusterAlgos,
+        #     relationFunctions=relationFunctions,
+        #     descFunctions=descFunctions
+        # )
+        with open('trainData.pkl', 'rb') as fd : 
+            self.trainData = pickle.load(fd)
+
+        bs = config['batch_size']
+        logging.info(f'Batch Size {bs}')
         self.trainDataLoader = torch.utils.data.DataLoader(
             self.trainData, 
             batch_size=config['batch_size'], 
@@ -241,7 +246,7 @@ class Trainer () :
             collate_fn=lambda x : x
         )
 
-        #self.trainData.save('trainData.pkl')
+        # self.trainData.save('trainData.pkl')
 
     def setModel (self, config) : 
         """
@@ -326,15 +331,14 @@ class Trainer () :
             for batchIdx, batch in enumerate(self.trainDataLoader):
 
                 fold = Fold(cuda=self.cuda)
-                trees = list(filter(lambda x : type(x) is Data.Tree, collapse(batch)))
-                losses = list(map(lambda x : Model.treeLoss(x, autoencoder), trees))
-                totalLoss1 = reduce(lambda x, y : x + y, losses)
-                nodes = [Model.lossFold(fold, tree) for tree in trees]
+                trees = filter(lambda x : type(x) is Data.Tree, collapse(batch))
+                losses = map(lambda x : Model.treeLoss(x, autoencoder), trees)
+                # nodes = [Model.lossFold(fold, tree) for tree in trees]
                 
                 opt.zero_grad()
-                totalLoss, *_ = fold.apply(autoencoder, [nodes])
-                totalLoss = sum(totalLoss)
-                print(totalLoss, totalLoss1)
+                # totalLoss, *_ = fold.apply(autoencoder, [nodes])
+                # totalLoss = sum(totalLoss)
+                totalLoss = reduce(lambda x, y : x + y, losses)
                 totalLoss.backward()
                 opt.step()
 
