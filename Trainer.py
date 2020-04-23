@@ -170,14 +170,10 @@ class Trainer () :
             Dictionary containing parameters.
         """
         configPath, trainingTreesPath, modelPath = self.createDirectories(i, config)
-
         self.logger.info(f'Starting Expt {i}')
-
         self.setTrainDataLoader(config)
         self.setModel(config)
-
         autoencoder = self.models[-1]
-
         self.startTrainingLoop(autoencoder, config, modelPath, configPath)
         self.crossValidate(config, autoencoder, configPath)
 
@@ -232,6 +228,8 @@ class Trainer () :
             relationFunctions=relationFunctions,
             descFunctions=descFunctions
         )
+
+        self.trainData.save('trainData.pkl')
 
         self.trainDataLoader = torch.utils.data.DataLoader(
             self.trainData, 

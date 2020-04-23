@@ -1437,14 +1437,6 @@ def graphCluster (G, algo, doc, descFunctions) :
                 [f(paths[pathId].path, vbox) for f in descFunctions]
             ))
 
-        # Add svg
-        tree.nodes[curId]['svg'] = getSubsetSvg(
-            paths, 
-            tree.nodes[curId]['pathSet'], 
-            vbox
-        )
-        # Add image
-        # tree.nodes[curId]['img'] = svgStringToBitmap(tree.nodes[curId]['svg'])
         return curId
 
     paths = doc.flatten_all_paths()
