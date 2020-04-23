@@ -1,7 +1,7 @@
 {
 	"train_directory"     : "./TestSVGs/",
-	"test_directory"      : "./SmallEmojis/Train/",
-	"cv_directory"        : "./SmallEmojis/Train/",
+	"test_directory"      : "./TestSVGs/",
+	"cv_directory"        : "./TestSVGs/",
 	"log_file"            : "test.log",
 	"show_log_every"      : 1,
 	"save_snapshot_every" : 5,

@@ -11,7 +11,7 @@ import cProfile
 import Utilities
 from Utilities import *
 
-def findTree (config, svgFile, autoencoder) :
+def findTree (config, svgFile, autoencoder, cuda) :
     """
     Find the best tree by local greedy search. 
 
@@ -20,6 +20,8 @@ def findTree (config, svgFile, autoencoder) :
     config : dict
     svgFile : str
     autoencoder : GRASSAutoEncoder
+    cuda : bool
+        Whether to use CUDA.
     """
     def computeMerges(pair) :
         tl, tr = pair
@@ -40,7 +42,10 @@ def findTree (config, svgFile, autoencoder) :
     def toLeaves (pathObj) :
         idx, path = pathObj
         desc = [f(path.path, vb) for f in descFunctions] 
-        flattened = torch.tensor(list(more_itertools.collapse(desc))).cuda()
+        if cuda : 
+            flattened = torch.tensor(list(more_itertools.collapse(desc))).cuda()
+        else : 
+            flattened = torch.tensor(list(more_itertools.collapse(desc)))
         feature = autoencoder.pathEncoder(flattened)
         leaf = makeLeaf(paths, idx, feature)
         return leaf
@@ -61,8 +66,6 @@ def findTree (config, svgFile, autoencoder) :
 
         if tl not in trees or tr not in trees : 
             continue
-
-        print(tl.nPaths, tr.nPaths)
 
         trees.remove(tl)
         trees.remove(tr)
