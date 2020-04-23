@@ -1,6 +1,8 @@
 # Avoid repetition at all costs.
+import pickle
 import os
 import os.path as osp
+import time
 import json
 import string
 import subprocess
@@ -25,6 +27,177 @@ from matplotlib.offsetbox import AnnotationBbox
 from imageio import imwrite
 import math
 from skimage import transform
+import Data
+
+def removeOneOutDegreeNodesFromTree (tree) : 
+    """
+    In many SVGs, it is the case that 
+    there are unecessary groups which contain
+    one a single group.
+
+    In general these don't capture the hierarchy
+    because the one out-degree nodes can be 
+    removed without altering the grouping.
+
+    Hence we have this function which removes
+    one out-degree nodes from a networkx tree.
+
+    Example
+    -------
+    >>> tree = nx.DiGraph()
+    >>> tree.add_edges_from([(0, 1), (1, 2), (1, 3), (2, 4), (4, 5), (4, 6)])
+    >>> tree = removeOneOutDegreeNodesFromTree(tree)
+    >>> print(tree.number_of_nodes())
+
+    Since the nodes 0 and 2 have out-degree 1,
+    they'll be deleted and we'll be left
+    with 5 nodes.
+   
+    Parameters
+    ----------
+    tree : nx.DiGraph
+    """
+    def remove (n) : 
+        children = list(tree.neighbors(n))
+        if tree.out_degree(n) == 1 : 
+            child = children[0]
+            tree.remove_node(n)
+            return remove(child)
+        else : 
+            newEdges = list(itertools.product([n], map(remove, children)))
+            tree.add_edges_from(newEdges)
+            return n
+
+    remove(findRoot(tree))
+    topOrder = list(nx.topological_sort(tree))
+    relabelDict = dict(zip(topOrder, range(tree.number_of_nodes())))
+    tree = nx.relabel_nodes(tree, relabelDict)
+    return tree
+
+def levenshteinDistance (a, b, matchFn, costFn) : 
+    """
+    Calculate the optimal tree edit distance
+    between two lists, given the costs of
+    matching two items on the list and 
+    the costs of deleting an item in the
+    optimal match.
+
+    Example
+    -------
+    >>> skipSpace = lambda x : 0 if x == ' ' else 1
+    >>> match = lambda a, b : 0 if a == b else 1
+    >>> print(levenshteinDistance('sumitchaturvedi', 'sumi t ch at urvedi', match, skipSpace))
+
+    In the above example, since we don't penalize for 
+    deleting spaces, the levenshtein distance is 
+    going to be 0.
+
+    Parameters
+    ----------
+    a : list
+        First string.
+    b : list
+        Second string.
+    matchFn : lambda
+        The cost of matching the
+        ith character in a with the 
+        jth character in b.
+    costFn : lambda 
+        The penalty of skipping over
+        one character from one of the
+        strings.
+    """
+    n = len(a)
+    m = len(b)
+    row = list(range(n + 1))
+
+    for j in range(1, m + 1) : 
+        newRow = [0 for _ in range(n + 1)]
+        for i in range(n + 1): 
+            if i == 0 : 
+                newRow[i] = j
+            else : 
+                match = matchFn(a[i-1], b[j-1])
+                cost1 = costFn(a[i-1])
+                cost2 = costFn(b[j-1])
+                newRow[i] = min(row[i-1] + match, newRow[i-1] + cost1, row[i] + cost2)
+        row = newRow
+    return row[n]
+
+def svgTreeEditDistance (t1, t2, paths) :
+    """
+    Compute two Tree objects (which capture)
+    SVG document structure. Each node in the 
+    tree is a group of paths. We have a 
+    similarity function between these nodes 
+    based on the levenshtein distance between the 
+    path strings.
+    
+    Parameters
+    ----------
+    t1 : Data.Tree
+        Tree one.
+    t2 : Data.Tree
+        Tree two.
+    paths : list
+        List of paths.
+    """
+
+    def pathMatchFn (a, b) : 
+
+        def strMatchFn (a, b) :
+            return 0 if a == b else 1
+
+        def strDelFn (a) : 
+            return 1
+    
+        if (a, b) not in cachedMatchVals : 
+            pathAStr = paths[a].path.d()
+            pathBStr = paths[b].path.d()
+            maxLen = max(len(pathAStr), len(pathBStr))
+
+            pathMatch = levenshteinDistance(pathAStr, pathBStr, strMatchFn, strDelFn)
+            normalized = pathMatch / maxLen
+
+            cachedMatchVals[(a, b)] = normalized
+            cachedMatchVals[(b, a)] = normalized
+        
+        return cachedMatchVals[(a, b)]
+
+    def pathDelFn (a) : 
+        return 1
+
+    def cost (u1, u2) :
+        
+        def pathSetDist (x, y) : 
+            ps1 = t1.tree.nodes[x]['pathSet']
+            ps2 = t2.tree.nodes[y]['pathSet']
+            lev = levenshteinDistance(ps1, ps2, pathMatchFn, pathDelFn)
+            maxLen = max(len(ps1), len(ps2))
+            return lev / maxLen
+
+        nbrs1 = list(t1.tree.neighbors(u1))
+        nbrs2 = list(t2.tree.neighbors(u2))
+        degree1 = t1.tree.out_degree(u1)
+        degree2 = t2.tree.out_degree(u2)
+        if degree1 == 0 and degree2 == 0 :
+            return pathSetDist(u1, u2)
+        elif degree1 == 0 : 
+            return sub2[u2] - sub1[u1];
+        elif degree2 == 0 :
+            return sub1[u1] - sub2[u2]
+        else :
+            prod = list(itertools.product(nbrs1, nbrs2))
+            costs = list(map(lambda x : cost(*x) + pathSetDist(*x), prod))
+            nbrs2 = [str(_) for _ in nbrs2]
+            costdict = dict(zip(prod, costs))
+            return bestAssignmentCost(costdict)
+
+    cachedMatchVals = dict() 
+    sub1, sub2 = dict(), dict()
+    subtreeSize(t1.root, t1.tree, sub1)
+    subtreeSize(t2.root, t2.tree, sub2)
+    return cost(t1.root, t2.root)
 
 def leaves (tree) :
     """
@@ -250,7 +423,7 @@ def bestAssignmentCost (costTable) :
     cost = sum([G.edges[e]['weight'] for e in matching.items()]) / 2
     return cost
 
-def subsetSize(s, t, subSize) :
+def subtreeSize(s, t, subSize) :
     """
     Calculate the size of each
     subtree in the rooted tree t.
@@ -267,9 +440,9 @@ def subsetSize(s, t, subSize) :
     """
     subSize[s] = 1
     nbrs = list(t.neighbors(s))
-    if len(nbrs) != 0 :
+    if t.out_degree(s) != 0 : 
         for u in nbrs :
-            subsetSize(u, t, subSize)
+            subtreeSize(u, t, subSize)
             subSize[s] += subSize[u]
 
 def match (rt1, rt2) :
@@ -297,8 +470,8 @@ def match (rt1, rt2) :
     r2, t2 = rt2
     sub1 = dict()
     sub2 = dict()
-    subsetSize(r1, t1, sub1)
-    subsetSize(r2, t2, sub2)
+    subsetsize(r1, t1, sub1)
+    subsetsize(r2, t2, sub2)
 
     def cost (u1, u2) :
         nbrs1 = list(t1.neighbors(u1))
@@ -315,8 +488,8 @@ def match (rt1, rt2) :
             prod = list(itertools.product(nbrs1, nbrs2))
             costs = list(map(lambda x : cost(*x), prod))
             nbrs2 = [str(_) for _ in nbrs2]
-            costDict = dict(zip(prod, costs))
-            return bestAssignmentCost(costDict)
+            costdict = dict(zip(prod, costs))
+            return bestassignmentcost(costdict)
 
     return cost(r1, r2)
 
@@ -1389,53 +1562,35 @@ def getTreeStructureFromSVG (svgFile) :
         Path to the svgFile.
     """
 
-    def skeletonTree(tree) :
-        """
-        Remove all elements which were 
-        going to be rendered. These are 
-        paths, lines, circles etc. 
-
-        Parameters 
-        ----------
-        tree : ElementTree
-            The parsed XML tree.
-        """
-        skeleton = copy.deepcopy(tree)
-        root = skeleton.getroot()
-        for tag in relevantTags : 
-            allTags = root.findall(tag)
-            for instance in allTags :
-                root.remove(instance)
-        return skeleton
-
-    def buildTreeGraph (element, svgString) :
+    def buildTreeGraph (element) :
         """
         Recursively create networkx tree and 
-        add svg strings to the tree 
-        corresponding to the SVG document.
+        add path indices to the tree.
 
         Parameters
         ----------
         element : Element
             Element at this level of the
             tree.
-        svgString : str
-            String representation of this
-            element.
         """
-        curId = r['idx']
-        T.add_node(curId, svg=svgString)
-        for child in element : 
-            if child.tag in relevantTags : 
-                r['idx'] += 1
-                childId = r['idx']
-                skeletonCopy = copy.deepcopy(skeleton)
-                skeletonCopy.getroot().append(child)
-                elementStr = str(ET.tostring(skeletonCopy.getroot()), 'utf-8')
-                buildTreeGraph(child, elementStr)
-                T.add_edge(curId, childId)
+        nonlocal r
+        curId = r
+        r += 1
+        T.add_node(curId)
+        if element.tag in childTags : 
+            zIdx = allNodes.index(element)
+            pathIdx = zIndexMap[zIdx]
+            T.nodes[curId]['pathSet'] = [pathIdx]
+        else : 
+            childIdx = []
+            validTags = lambda x : x.tag in childTags or x.tag == groupTag
+            children = list(map(buildTreeGraph, filter(validTags, element)))
+            T.add_edges_from(list(itertools.product([curId], children)))
+            pathSet = list(more_itertools.collapse([T.nodes[c]['pathSet'] for c in children]))
+            T.nodes[curId]['pathSet'] = pathSet
+        return curId
 
-    relevantTags = [
+    childTags = [
         '{http://www.w3.org/2000/svg}rect',
         '{http://www.w3.org/2000/svg}circle',
         '{http://www.w3.org/2000/svg}ellipse',
@@ -1443,19 +1598,20 @@ def getTreeStructureFromSVG (svgFile) :
         '{http://www.w3.org/2000/svg}polyline',
         '{http://www.w3.org/2000/svg}polygon',
         '{http://www.w3.org/2000/svg}path',
-        '{http://www.w3.org/2000/svg}g'
     ]
+    groupTag = '{http://www.w3.org/2000/svg}g'
 
-    tree = ET.parse(svgFile)
+    doc = svg.Document(svgFile)
+    paths = doc.flatten_all_paths()
+    zIndexMap = dict([(p.zIndex, i) for i, p in enumerate(paths)])
+    tree = doc.tree
     root = tree.getroot()
-    skeleton = skeletonTree(tree)
-
+    allNodes = list(root.iter())
     T = nx.DiGraph()
-    r = {'idx' : 0} 
-
-    rootString = str(ET.tostring(root), 'utf-8')
-    buildTreeGraph (root, rootString)
-    return T
+    r = 0
+    buildTreeGraph (root)
+    T = removeOneOutDegreeNodesFromTree(T)
+    return Data.Tree(T)
 
 def listdir (path) :
     """
@@ -1474,9 +1630,14 @@ def comp (fileTuple) :
     return treeImageFromGraph(svgToTree(fileName))
 
 if __name__ == "__main__" : 
-    # parallelize(['./Avatar/Train/'], './Avatar/Hierarchies/Train/', comp, matplotlibFigureSaver)
-    tree1 = nx.DiGraph()
-    tree2 = nx.DiGraph()
-    tree1.add_edges_from([(3, 1), (3, 2)])
-    tree2.add_edges_from([(4, 3), (5, 4)])
-    print(mergeTrees([tree1, tree2]).edges)
+    with open('./Configs/batch10.json') as f : 
+        config = json.load(f)
+    functionGetter = lambda x : globals()[x]
+    descFunctions = list(map(functionGetter, config['desc_functions']))
+    relationFunctions = list(map(functionGetter, config['relation_functions']))
+    graphClusterAlgos = list(map(functionGetter, config['graph_cluster_algo']))
+    data = Data.GRASSDataset('./TestSVGs/', makeTrees=True, graphClusterAlgos=graphClusterAlgos, relationFunctions=relationFunctions, descFunctions=descFunctions)
+    for pt in list(data) : 
+        doc = svg.Document(pt[0])
+        paths = doc.flatten_all_paths()
+        print(pt[0], svgTreeEditDistance(pt[1], pt[2][0][0], paths))
