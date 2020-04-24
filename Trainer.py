@@ -1,4 +1,5 @@
 from Data import GRASSDataset
+import resource
 import sys
 import pickle
 import Data
@@ -473,6 +474,9 @@ class Trainer () :
     
 def main () :
     torch.multiprocessing.set_start_method('spawn')
+    rlimit = resource.getrlimit(resource.RLIMIT_NOFILE)
+    resource.setrlimit(resource.RLIMIT_NOFILE, (1000000, rlimit[1]))
+
     with open('commonConfig.json') as fd :
         commonConfig = json.load(fd)
 
