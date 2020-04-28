@@ -249,7 +249,7 @@ def treeLoss (tree, autoencoder) :
         neighbors.sort()
         isLeaf = len(neighbors) == 0
         if isLeaf : 
-            path = tree.tree.nodes[node]['desc']
+            path = tree.path(node)
             feature = autoencoder.pathEncoder(path)
             stack.append(path)
             stack.append(feature)

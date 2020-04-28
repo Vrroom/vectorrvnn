@@ -119,19 +119,19 @@ class Trainer () :
         """
         self.configs = configs
 
-        self.gpu = commonConfig['gpu'] 
+        self.gpu  = commonConfig['gpu'] 
         self.cuda = commonConfig['cuda']
 
-        self.exptDir = osp.join(commonConfig['expt_path'], 'Expt_' + str(datetime.date.today()))
+        self.exptDir  = osp.join(commonConfig['expt_path'], 'Expt_' + str(datetime.date.today()))
         self.modelDir = osp.join(self.exptDir, 'Models')
 
         self.trainDir = commonConfig['train_directory']
-        self.cvDir = commonConfig['cv_directory']
-        self.testDir = commonConfig['test_directory']
+        self.cvDir    = commonConfig['cv_directory']
+        self.testDir  = commonConfig['test_directory']
 
-        self.trainData = None
-        self.cvData = None
-        self.testData = None
+        self.trainDataHandler = DataHandler(self.trainDir)
+        self.cvDataHandler    = DataHandler(self.cvDir)
+        self.testHandler      = DataHandler(self.testDir)
 
         self.logFrequency  = commonConfig['show_log_every']
         self.saveFrequency = commonConfig['save_snapshot_every']
@@ -151,9 +151,6 @@ class Trainer () :
 
         self.makeDir(self.exptDir)
         self.makeDir(self.modelDir)
-
-        self.logger.info('Loading Cross-validation Data')
-        self.cvData = GRASSDataset(self.cvDir)
 
         for i, config in enumerate(self.configs) :
             self.runExpt(i + 1, config)
@@ -215,21 +212,8 @@ class Trainer () :
         config : dict
             Configuration for this sub-experiment.
         """
-        functionGetter = lambda x : getattr(Utilities, x) 
-
-        descFunctions = list(map(functionGetter, config['desc_functions']))
-        relationFunctions = list(map(functionGetter, config['relation_functions']))
-        graphClusterAlgos = list(map(functionGetter, config['graph_cluster_algo']))
-
         self.logger.info('Loading Training Data')
-        self.trainData = GRASSDataset(
-            self.trainDir, 
-            makeTrees=True, 
-            graphClusterAlgos=graphClusterAlgos,
-            relationFunctions=relationFunctions,
-            descFunctions=descFunctions
-        )
-
+        self.trainData = self.trainDataHandler.getDataset(config)
         self.trainDataLoader = torch.utils.data.DataLoader(
             self.trainData, 
             batch_size=config['batch_size'], 
@@ -321,8 +305,7 @@ class Trainer () :
 
                 fold = Fold(cuda=self.cuda)
 
-                trees = unzip(collapse(unzip(batch)[2], base_type=tuple))[0]
-                nodes = [Model.lossFold(fold, tree) for tree in trees]
+                nodes = [Model.lossFold(fold, tree) for tree in batch]
                 
                 opt.zero_grad()
                 totalLoss, *_ = fold.apply(autoencoder, [nodes])
@@ -418,7 +401,7 @@ class Trainer () :
                     partial(compareNetTreeWithGroundTruth, 
                         autoencoder=autoencoder, config=config,
                         cuda=self.cuda), 
-                    self.cvData)
+                    self.cvDataHandler.groundTruth)
 
         self.treeDistHistogram(treeDist, osp.join(configPath, 'CVHistogram'))
         
@@ -451,7 +434,7 @@ class Trainer () :
                     partial(compareNetTreeWithGroundTruth, 
                         autoencoder=bestAutoEncoder, config=config, 
                         cuda=self.cuda, path=finalTreesDir), 
-                    self.testData)
+                    self.testDataHandler.groundTruth)
  
         self.treeDistHistogram(treeDist, osp.join(testDir, 'Histogram'))
  

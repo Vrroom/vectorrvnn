@@ -1382,7 +1382,7 @@ def putOnCanvas (pts, images, outFile) :
     
     imwrite(outFile, canvas)
 
-def graphCluster (G, algo, doc, descFunctions) :
+def graphCluster (G, algo, doc) :
     """
     Hierarchical clustering of a graph into
     a dendogram. Given an algorithm to 
@@ -1401,9 +1401,6 @@ def graphCluster (G, algo, doc, descFunctions) :
         to be used
     doc : svg.Document
         Used to set node attributes.
-    descFunctions : list
-        List of descriptor functions
-        to compute for each leaf node.
     """
 
     def cluster (lst) :
@@ -1417,9 +1414,10 @@ def graphCluster (G, algo, doc, descFunctions) :
             List of vertices to
             be considered.
         """
-        tree.add_node(idxDct['idx'])
-        curId = idxDct['idx']
-        idxDct['idx'] += 1
+        nonlocal idx
+        tree.add_node(idx)
+        curId = idx
+        idx += 1
         if len(lst) != 1 :
             subgraph = G.subgraph(lst)
             l, r = algo(subgraph)
@@ -1432,17 +1430,13 @@ def graphCluster (G, algo, doc, descFunctions) :
         else :
             pathId = lst.pop()
             tree.nodes[curId]['pathSet'] = [pathId]
-            # Add descriptors
-            tree.nodes[curId]['desc'] = list(more_itertools.collapse(
-                [f(paths[pathId].path, vbox) for f in descFunctions]
-            ))
 
         return curId
 
     paths = doc.flatten_all_paths()
     vbox = doc.get_viewbox()
     tree = nx.DiGraph()
-    idxDct = {'idx' : 0}
+    idx = 0
     root = 0
     cluster(list(G.nodes))
     return tree, root
@@ -1616,6 +1610,47 @@ def listdir (path) :
         Path to be listed.
     """
     return [osp.join(path, f) for f in os.listdir(path)]
+
+class Saveable () : 
+
+    def save (self, savePath) : 
+        with open(savePath, 'wb') as fd :
+            pickle.dump(self, fd)
+
+class Descriptor (Saveable) : 
+    """
+    Pre-processed descriptors.
+    """
+    def __init__ (self, svgDir, descFunction) : 
+        self.svgDir = svgDir
+        self.svgFiles = listdir(svgDir) 
+
+        paths = map (
+                lambda x : [p.path for p in svg.Document(x).flatten_all_paths()],
+                self.svgFiles
+        )
+        vboxes = map(lambda x : svg.Document(x).get_viewbox(), self.svgFiles)
+
+        allPathsDescFn = AllPathDescriptorFunction(descFunction)
+        with mp.Pool() as p :
+            self.descriptors = p.starmap(allPathsDescFn, zip(paths, vboxes))
+    def __getitem__ (self, i) : 
+        return self.descriptors[i]
+
+    def __len__ (self) : 
+        return len(self.svgFiles)
+
+    def __or__ (self, that) :
+        """
+        Concatenation of descriptors 
+        """
+        assert self.svgDir == that.svgDir 
+        assert len(self) == len(that) 
+        newDesc = deepcopy(self)
+        for i in range(len(newDesc)) : 
+            thatDesc = that.descriptors[i] 
+            newDesc.descriptors[i] = np.hstack([newDesc.descriptors[i], thatDesc])
+        return newDesc
 
 def comp (fileTuple) : 
     fileName, = fileTuple

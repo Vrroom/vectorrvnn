@@ -1,4 +1,5 @@
 import sys
+from copy import deepcopy
 import pickle
 from concurrent.futures import ProcessPoolExecutor
 import multiprocessing as mp
@@ -25,57 +26,20 @@ def str2list (s) :
     l = [int(i) for i in l]
     return l
 
-class TreeCreator () :
+class AllPathDescriptorFunction () : 
+    """ 
+    Given a descriptor function, convert it into
+    one that acts on all paths
     """
-    Create trees by using the clustering algos 
-    present in graphClusterAlgos on the graph created
-    from the SVG using relationFunctions. 
 
-    mp.Pool can't handle lambda functions. 
-    Something about them being unpickleable. 
+    def __init__ (self, descFunction) : 
+        self.descFunction = descFunction
 
-    As a result, I have to provide context using
-    this class. Although now I realized that I 
-    could use partial!
-    """
-    def __init__ (self, graphClusterAlgos, relationFunctions, descFunctions) :
-        """
-        Constructor. 
-
-        Parameters
-        ----------
-        graphClusterAlgos : list
-            Collection of graph clustering algorithms
-            to build dendograms.
-        relationFunctions : list
-            They detect whether an edge exists between
-            a pair of paths.
-        descFunctions : list
-            Function used to compute the path 
-            descriptors.
-        """
-        self.graphClusterAlgos = graphClusterAlgos
-        self.relationFunctions = relationFunctions
-        self.descFunctions = descFunctions
-
-    def __call__ (self, fileName) : 
-        """
-        Make this class callable.
-
-        Parameters
-        ----------
-        fileName : str
-            Path to the input SVG file.
-        """
-        G = relationshipGraph(fileName, self.relationFunctions)
-        treesAndPrefixes = []
-        for algo in self.graphClusterAlgos:
-            dendogram, _ = graphCluster(G, algo, 
-                    svg.Document(fileName), self.descFunctions)
-            tree = Tree(dendogram)
-            tree.tensorify()
-            treesAndPrefixes.append((tree, algo.__name__))
-        return treesAndPrefixes
+    def __call__ (self, paths, vbox) : 
+        descs = []
+        for path in paths : 
+            descs.append(self.descFunction(path, vbox))
+        return np.vstack(descs)
 
 def treeWriter(treesAndPrefixes, path) :
     """
@@ -139,32 +103,32 @@ class Tree(object):
         self.restoreFile = None
         self.rootCode = None
         self.loss = None
+        self.descriptors = None
 
     def __lt__ (self, other) : 
         return id(self) < id(other)
     
-    def addDescriptor (self, descFunctions, paths, vbox) : 
+    def addDescriptors (self, descriptors) : 
         """
         Put descriptors at the leaf nodes.
         """
-        for n in self.tree.nodes : 
-            if len(self.tree.nodes[n]['pathSet']) == 1: 
-                i = self.tree.nodes[n]['pathSet'][0]
-                self.tree.nodes[n]['desc'] = list(more_itertools.collapse(
-                    [f(paths[i].path, vbox) for f in descFunctions]
-                ))
+        self.descriptors = descriptors
 
+    def toTensor (self, cuda=False) : 
+        if isinstance(self.descriptors, np.ndarray) : 
+            if cuda : 
+                self.descriptors = torch.from_numpy(self.descriptors).cuda()
+            else : 
+                self.descriptors = torch.from_numpy(self.descriptors)
 
-    def tensorify (self) : 
-        for n in self.tree.nodes :
-            if 'desc' in self.tree.nodes[n] : 
-                tensorified = torch.tensor(self.tree.nodes[n]['desc']).reshape((1, -1))
-                self.tree.nodes[n]['desc'] = tensorified
+    def toNumpy (self) :
+        if torch.is_tensor(self.descriptors) : 
+            self.descriptors = self.descriptors.numpy()
 
-    def untensorify (self) :
-        for n in self.tree.nodes :
-            if 'desc' in self.tree.nodes[n] : 
-                self.tree.nodes[n]['desc'] = self.tree.nodes[n]['desc'].tolist()
+    def path (self, node) : 
+        assert len(self.nodes[node]['pathSet']) == 1
+        pathId = self.nodes[node]['pathSet'][0]
+        return self.descriptors[pathId]
 
     def setSVGAttributes (self, paths, vb) :
         def getter (n, *args) :
@@ -175,75 +139,118 @@ class Tree(object):
     def save (self, out) :
         GraphReadWrite('tree').write((self.tree, self.root), out) 
 
-class GRASSDataset(data.Dataset):
+class TreeCreator () :
     """
-    How things are done in pytorch 
-    to handle data.
+    Create trees by using the clustering algos 
+    present in graphClusterAlgos on the graph created
+    from the SVG using relationFunctions. 
+
+    mp.Pool can't handle lambda functions. 
+    Something about them being unpickleable. 
+
+    As a result, I have to provide context using
+    this class. Although now I realized that I 
+    could use partial!
     """
-
-    def __init__(self, svgDir, makeTrees=False, transform=None, **kwargs):
-        """ 
-        Constructor.
-
-        If you need to make dendograms 
-        from scratch, do that.
-        Also, compute ground truth.
+    def __init__ (self, graphClusterAlgo, relationFunctions) :
+        """
+        Constructor. 
 
         Parameters
         ----------
-        svgDir : str
-            Path to SVGs.
-        makeTrees : bool
-            Whether to make trees or not.
-        transform : 
-            Some function to apply a transformation
-            on the dataset.
+        graphClusterAlgo : function
+            One graphClusteringAlgorithm
+        relationFunctions : list
+            They detect whether an edge exists between
+            a pair of paths.
         """
+        self.graphClusterAlgo = graphClusterAlgo
+        self.relationFunctions = relationFunctions
+
+    def __call__ (self, fileName) : 
+        """
+        Make this class callable.
+
+        Parameters
+        ----------
+        fileName : str
+            Path to the input SVG file.
+        """
+        G = relationshipGraph(fileName, self.relationFunctions)
+        dendogram, _ = graphCluster(G, self.graphClusterAlgo, svg.Document(fileName))
+        tree = Tree(dendogram)
+        return tree, self.graphClusterAlgo.__name__
+
+class TreesData (data.Dataset, Saveable) : 
+    """
+    Pre-processed trees from clustering 
+    algorithm.
+    """
+    def __init__ (self, svgDir, graphClusteringAlgo, relationFunctions) : 
         self.svgDir = svgDir
-        self.makeTrees = makeTrees
         self.transform = transform
+        self.svgFiles = listdir(svgDir) 
+        creator = TreeCreator(graphClusterAlgo, relationFunctions)
+        with ProcessPoolExecutor() as executor : 
+            self.trees = executor.map(creator, self.svgFiles, chunksize=10)
 
-        self.svgFiles = listdir(svgDir)
+    def __getitem__ (self, index) : 
+        return self.trees[index]
 
-        with ProcessPoolExecutor() as executor :
-            self.groundTruth = executor.map(getTreeStructureFromSVG, self.svgFiles, chunksize=10)
-        
-        if makeTrees : 
-            with ProcessPoolExecutor() as executor : 
-                creator = TreeCreator(**kwargs)
-                self.trees = executor.map(creator, self.svgFiles, chunksize=10)
-
-    def __getitem__(self, index):
-        """
-        The same class can be used depending on
-        whether the data is for Training, Validation
-        or testing. The datapoint is different 
-        depending on what the usage is. 
-
-        For Training, you need to also compute the
-        training trees using our heuristic algorithm.
-
-        For Validation and Testing, only the SVG file
-        and the ground truth tree constitute the 
-        datapoint.
-        """
-        if not self.makeTrees: 
-            return self.svgFiles[index], self.groundTruth[index]
-        else :
-            return self.svgFiles[index], self.groundTruth[index], self.trees[index]
-
-    def __len__(self):
+    def __len__ (self) : 
         return len(self.svgFiles)
 
-    def save (self, savePath) : 
+    def toTensor (self, cuda) : 
         """
-        Save all the training trees in this
-        directory.
+        Whether to use CUDA.
+        """
+        for tree in self.trees : 
+            tree.toTensor(cuda)
 
-        Parameters
-        ----------
-        savePath : str
-            Path to be saved to.
-        """
-        with open(savePath, 'wb') as fd :
-            pickle.dump(self, fd)
+class DataHandler () : 
+    """
+    There will be configurations that 
+    will be common across experiments. So we need 
+    to cache whatever was common across them. 
+    """
+
+    def __init__ (self, svgDir) : 
+        self.svgDir = svgDir
+        self.svgFiles = listdir(svgDir)
+        self.treeCache = dict() 
+        self.descCache = dict() 
+        with ProcessPoolExecutor() as executor : 
+            self.groundTruth = executor.map(getTreeStructureFromSVG, self.svgFiles)
+
+    def getDescriptors (self, descFunctions) : 
+        descList = []
+        for fn in descFunctions : 
+            if fn not in self.descCache : 
+                self.descCache[fn] = Descriptor(self.svgDir, fn)
+            descList.append(self.descCache[fn])
+        return reduce(lambda x, y : x | y, descList)
+
+    def getTrees (self, graphClusteringAlgos, relationFunctions) :
+        treeList = []
+        for algo in graphClusterAlgos : 
+            if (algo, relationFunctions) not in self.treeCache :
+                self.treeCache[(algo, relationFunctions)] = TreesData(svgDir, algo, relationFunctions)
+            treeList.append(self.treeCache[(algo, relationFunctions)])
+        return reduce(lambda x, y : x + y, treeList)
+
+    def getDataset (self, config) : 
+        functionGetter = lambda x : getattr(Utilities, x) 
+
+        descFunctions = list(map(functionGetter, config['desc_functions']))
+        relationFunctions = list(map(functionGetter, config['relation_functions']))
+        graphClusterAlgos = list(map(functionGetter, config['graph_cluster_algo']))
+
+        trees = self.getTrees(graphClusterAlgos, relationFunctions)
+        descs = self.getDescriptors(descFunctions)
+        
+        for t, d in zip(trees, descs) : 
+            t.addDescriptors(d)
+
+        return trees
+            
+
