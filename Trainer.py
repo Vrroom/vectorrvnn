@@ -230,8 +230,6 @@ class Trainer () :
             descFunctions=descFunctions
         )
 
-        self.trainData.save('trainData.pkl')
-
         self.trainDataLoader = torch.utils.data.DataLoader(
             self.trainData, 
             batch_size=config['batch_size'], 

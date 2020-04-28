@@ -1,9 +1,11 @@
 import sys
 import pickle
+from concurrent.futures import ProcessPoolExecutor
 import multiprocessing as mp
 import numpy as np
 import torch
 import string
+import more_itertools
 from torch.utils import data
 from scipy.io import loadmat
 from enum import Enum
@@ -141,6 +143,18 @@ class Tree(object):
     def __lt__ (self, other) : 
         return id(self) < id(other)
     
+    def addDescriptor (self, descFunctions, paths, vbox) : 
+        """
+        Put descriptors at the leaf nodes.
+        """
+        for n in self.tree.nodes : 
+            if len(self.tree.nodes[n]['pathSet']) == 1: 
+                i = self.tree.nodes[n]['pathSet'][0]
+                self.tree.nodes[n]['desc'] = list(more_itertools.collapse(
+                    [f(paths[i].path, vbox) for f in descFunctions]
+                ))
+
+
     def tensorify (self) : 
         for n in self.tree.nodes :
             if 'desc' in self.tree.nodes[n] : 
@@ -191,13 +205,13 @@ class GRASSDataset(data.Dataset):
 
         self.svgFiles = listdir(svgDir)
 
-        with mp.Pool(mp.cpu_count()) as p : 
-            self.groundTruth = p.map(getTreeStructureFromSVG, self.svgFiles)
-
+        with ProcessPoolExecutor() as executor :
+            self.groundTruth = executor.map(getTreeStructureFromSVG, self.svgFiles, chunksize=10)
+        
         if makeTrees : 
-            creator = TreeCreator(**kwargs)
-            with mp.Pool(mp.cpu_count()) as p : 
-                self.trees = p.map(creator, self.svgFiles)
+            with ProcessPoolExecutor() as executor : 
+                creator = TreeCreator(**kwargs)
+                self.trees = executor.map(creator, self.svgFiles, chunksize=10)
 
     def __getitem__(self, index):
         """
