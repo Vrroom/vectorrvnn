@@ -191,7 +191,7 @@ def lossFold (fold, tree) :
         neighbors.sort()
         isLeaf = len(neighbors) == 0
         if isLeaf:
-            path = tree.tree.nodes[node]['desc']
+            path = tree.path(node)
             feature = fold.add('pathEncoder', path)
             rootCodes[node] = feature
             return feature
@@ -208,7 +208,7 @@ def lossFold (fold, tree) :
         neighbors.sort()
         isLeaf = len(neighbors) == 0
         if isLeaf:
-            path = tree.tree.nodes[node]['desc']
+            path = tree.path(node)
             reconPath = fold.add('pathDecoder', feature)
             loss1 = fold.add('mseLossEstimator_', path, reconPath) 
             loss2 = fold.add('mseLossEstimator', rootCodes[node], feature)

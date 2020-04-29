@@ -1611,6 +1611,21 @@ def listdir (path) :
     """
     return [osp.join(path, f) for f in os.listdir(path)]
 
+class AllPathDescriptorFunction () : 
+    """ 
+    Given a descriptor function, convert it into
+    one that acts on all paths
+    """
+
+    def __init__ (self, descFunction) : 
+        self.descFunction = descFunction
+
+    def __call__ (self, paths, vbox) : 
+        descs = []
+        for path in paths : 
+            descs.append(self.descFunction(path, vbox))
+        return np.vstack(descs)
+
 class Saveable () : 
 
     def save (self, savePath) : 
@@ -1646,7 +1661,7 @@ class Descriptor (Saveable) :
         """
         assert self.svgDir == that.svgDir 
         assert len(self) == len(that) 
-        newDesc = deepcopy(self)
+        newDesc = copy.deepcopy(self)
         for i in range(len(newDesc)) : 
             thatDesc = that.descriptors[i] 
             newDesc.descriptors[i] = np.hstack([newDesc.descriptors[i], thatDesc])

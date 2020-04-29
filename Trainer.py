@@ -1,4 +1,4 @@
-from Data import GRASSDataset
+from Data import *
 import resource
 import sys
 import pickle
@@ -53,7 +53,7 @@ def compareNetTreeWithGroundTruth (sample, autoencoder, config, cuda, path=None)
     netTree = findTree(config, svgFile, autoencoder, cuda)
 
     if path is not None: 
-        netTree.untensorify()
+        netTree.toNumpy()
         _, end = osp.split(svgFile)
         svgName, ext = osp.splitext(end)
         savePath = osp.join(path, svgName) + '.json'
@@ -131,7 +131,7 @@ class Trainer () :
 
         self.trainDataHandler = DataHandler(self.trainDir)
         self.cvDataHandler    = DataHandler(self.cvDir)
-        self.testHandler      = DataHandler(self.testDir)
+        self.testDataHandler  = DataHandler(self.testDir)
 
         self.logFrequency  = commonConfig['show_log_every']
         self.saveFrequency = commonConfig['save_snapshot_every']
@@ -214,6 +214,7 @@ class Trainer () :
         """
         self.logger.info('Loading Training Data')
         self.trainData = self.trainDataHandler.getDataset(config)
+        self.trainData.toTensor(self.cuda)
         self.trainDataLoader = torch.utils.data.DataLoader(
             self.trainData, 
             batch_size=config['batch_size'], 
@@ -396,12 +397,13 @@ class Trainer () :
             Path to where we are storing this
             experiment's results.
         """
+        samples = zip(self.cvDataHandler.svgFiles, self.cvDataHandler.groundTruth)
         with torch.multiprocessing.Pool(mp.cpu_count()) as p : 
             treeDist = p.map(
                     partial(compareNetTreeWithGroundTruth, 
                         autoencoder=autoencoder, config=config,
                         cuda=self.cuda), 
-                    self.cvDataHandler.groundTruth)
+                    samples)
 
         self.treeDistHistogram(treeDist, osp.join(configPath, 'CVHistogram'))
         
@@ -417,7 +419,6 @@ class Trainer () :
         the inferred trees in the directory.
         """
         self.logger.info('Loading Test Data')
-        self.testData = GRASSDataset(self.testDir)
         testDir = osp.join(self.exptDir, 'Test')
         self.makeDir(testDir)
  
@@ -429,12 +430,13 @@ class Trainer () :
  
         self.saveSnapshots(testDir, bestAutoEncoder, 'bestAutoEncoder.pkl')
          
+        samples = zip(self.testDataHandler.svgFiles, self.testDataHandler.groundTruth)
         with torch.multiprocessing.Pool(mp.cpu_count()) as p : 
             treeDist = p.map(
                     partial(compareNetTreeWithGroundTruth, 
                         autoencoder=bestAutoEncoder, config=config, 
                         cuda=self.cuda, path=finalTreesDir), 
-                    self.testDataHandler.groundTruth)
+                    samples)
  
         self.treeDistHistogram(treeDist, osp.join(testDir, 'Histogram'))
  
@@ -452,11 +454,22 @@ class Trainer () :
         """
         os.mkdir(path)
         self.logger.info(f'Made directory: {path}')
+
+    def __enter__ (self) : 
+        return self
+
+    def __exit__ (self, *args) : 
+        saveTrainPath = osp.join(self.exptDir, 'trainDataHandler.pkl')
+        saveCvPath    = osp.join(self.exptDir, 'cvDataHandler.pkl')
+        saveTestPath  = osp.join(self.exptDir, 'testDataHandler.pkl')
+        self.trainDataHandler.save(saveTrainPath)
+        self.cvDataHandler.save(saveCvPath)
+        self.testDataHandler.save(saveTestPath)
     
 def main () :
     torch.multiprocessing.set_start_method('spawn')
-    rlimit = resource.getrlimit(resource.RLIMIT_NOFILE)
-    resource.setrlimit(resource.RLIMIT_NOFILE, (1000000, rlimit[1]))
+#    rlimit = resource.getrlimit(resource.RLIMIT_NOFILE)
+#    resource.setrlimit(resource.RLIMIT_NOFILE, (100000, rlimit[1]))
 
     with open('commonConfig.json') as fd :
         commonConfig = json.load(fd)
@@ -468,9 +481,9 @@ def main () :
         with open(configFilePath) as fd : 
             configs.append(json.load(fd))
 
-    trainer = Trainer(commonConfig, configs)
-    trainer.run()
-    trainer.test()
+    with Trainer(commonConfig, configs) as trainer : 
+        trainer.run()
+        # trainer.test()
 
 if __name__ == "__main__" :
     main()

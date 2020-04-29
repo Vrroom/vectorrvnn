@@ -3,6 +3,7 @@ from copy import deepcopy
 import pickle
 from concurrent.futures import ProcessPoolExecutor
 import multiprocessing as mp
+from functools import reduce
 import numpy as np
 import torch
 import string
@@ -16,6 +17,7 @@ import json
 import networkx as nx
 import svgpathtools as svg
 from Utilities import *
+import Utilities
 import re
 import logging
 from functools import partial
@@ -25,21 +27,6 @@ def str2list (s) :
     l = l[1:-1]
     l = [int(i) for i in l]
     return l
-
-class AllPathDescriptorFunction () : 
-    """ 
-    Given a descriptor function, convert it into
-    one that acts on all paths
-    """
-
-    def __init__ (self, descFunction) : 
-        self.descFunction = descFunction
-
-    def __call__ (self, paths, vbox) : 
-        descs = []
-        for path in paths : 
-            descs.append(self.descFunction(path, vbox))
-        return np.vstack(descs)
 
 def treeWriter(treesAndPrefixes, path) :
     """
@@ -117,18 +104,18 @@ class Tree(object):
     def toTensor (self, cuda=False) : 
         if isinstance(self.descriptors, np.ndarray) : 
             if cuda : 
-                self.descriptors = torch.from_numpy(self.descriptors).cuda()
+                self.descriptors = torch.from_numpy(self.descriptors).float().cuda()
             else : 
-                self.descriptors = torch.from_numpy(self.descriptors)
+                self.descriptors = torch.from_numpy(self.descriptors).float()
 
     def toNumpy (self) :
         if torch.is_tensor(self.descriptors) : 
             self.descriptors = self.descriptors.numpy()
 
     def path (self, node) : 
-        assert len(self.nodes[node]['pathSet']) == 1
-        pathId = self.nodes[node]['pathSet'][0]
-        return self.descriptors[pathId]
+        assert len(self.tree.nodes[node]['pathSet']) == 1
+        pathId = self.tree.nodes[node]['pathSet'][0]
+        return self.descriptors[pathId].reshape((1, -1))
 
     def setSVGAttributes (self, paths, vb) :
         def getter (n, *args) :
@@ -186,16 +173,16 @@ class TreesData (data.Dataset, Saveable) :
     Pre-processed trees from clustering 
     algorithm.
     """
-    def __init__ (self, svgDir, graphClusteringAlgo, relationFunctions) : 
+    def __init__ (self, svgDir, graphClusterAlgo, relationFunctions) : 
         self.svgDir = svgDir
-        self.transform = transform
         self.svgFiles = listdir(svgDir) 
         creator = TreeCreator(graphClusterAlgo, relationFunctions)
         with ProcessPoolExecutor() as executor : 
-            self.trees = executor.map(creator, self.svgFiles, chunksize=10)
+            self.trees = list(executor.map(creator, self.svgFiles, chunksize=10))
 
-    def __getitem__ (self, index) : 
-        return self.trees[index]
+    def __getitem__ (self, index) :
+        tree, _ = self.trees[index]
+        return tree
 
     def __len__ (self) : 
         return len(self.svgFiles)
@@ -204,10 +191,10 @@ class TreesData (data.Dataset, Saveable) :
         """
         Whether to use CUDA.
         """
-        for tree in self.trees : 
+        for tree, _ in self.trees : 
             tree.toTensor(cuda)
 
-class DataHandler () : 
+class DataHandler (Saveable) :
     """
     There will be configurations that 
     will be common across experiments. So we need 
@@ -220,7 +207,7 @@ class DataHandler () :
         self.treeCache = dict() 
         self.descCache = dict() 
         with ProcessPoolExecutor() as executor : 
-            self.groundTruth = executor.map(getTreeStructureFromSVG, self.svgFiles)
+            self.groundTruth = list(executor.map(getTreeStructureFromSVG, self.svgFiles))
 
     def getDescriptors (self, descFunctions) : 
         descList = []
@@ -230,19 +217,21 @@ class DataHandler () :
             descList.append(self.descCache[fn])
         return reduce(lambda x, y : x | y, descList)
 
-    def getTrees (self, graphClusteringAlgos, relationFunctions) :
+    def getTrees (self, graphClusterAlgos, relationFunctions) :
         treeList = []
         for algo in graphClusterAlgos : 
-            if (algo, relationFunctions) not in self.treeCache :
-                self.treeCache[(algo, relationFunctions)] = TreesData(svgDir, algo, relationFunctions)
-            treeList.append(self.treeCache[(algo, relationFunctions)])
+            key = (algo, relationFunctions)
+            if key not in self.treeCache :
+                self.treeCache[key] = TreesData(self.svgDir, algo, relationFunctions)
+            treeList.append(self.treeCache[key])
         return reduce(lambda x, y : x + y, treeList)
 
     def getDataset (self, config) : 
+
         functionGetter = lambda x : getattr(Utilities, x) 
 
         descFunctions = list(map(functionGetter, config['desc_functions']))
-        relationFunctions = list(map(functionGetter, config['relation_functions']))
+        relationFunctions = tuple(map(functionGetter, config['relation_functions']))
         graphClusterAlgos = list(map(functionGetter, config['graph_cluster_algo']))
 
         trees = self.getTrees(graphClusterAlgos, relationFunctions)
