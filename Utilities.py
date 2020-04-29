@@ -27,7 +27,7 @@ from matplotlib.offsetbox import AnnotationBbox
 from imageio import imwrite
 import math
 from skimage import transform
-import Data
+from Data import *
 
 def removeOneOutDegreeNodesFromTree (tree) : 
     """
@@ -135,9 +135,9 @@ def svgTreeEditDistance (t1, t2, paths) :
     
     Parameters
     ----------
-    t1 : Data.Tree
+    t1 : Tree
         Tree one.
-    t2 : Data.Tree
+    t2 : Tree
         Tree two.
     paths : list
         List of paths.
@@ -149,7 +149,7 @@ def svgTreeEditDistance (t1, t2, paths) :
             return 0 if a == b else 1
 
         def strDelFn (a) : 
-            return 1
+            return 1 if a != ' ' else 0
     
         if (a, b) not in cachedMatchVals : 
             pathAStr = paths[a].path.d()
@@ -1597,7 +1597,7 @@ def getTreeStructureFromSVG (svgFile) :
     r = 0
     buildTreeGraph (root)
     T = removeOneOutDegreeNodesFromTree(T)
-    return Data.Tree(T)
+    return Tree(T)
 
 def listdir (path) :
     """
@@ -1625,47 +1625,6 @@ class AllPathDescriptorFunction () :
         for path in paths : 
             descs.append(self.descFunction(path, vbox))
         return np.vstack(descs)
-
-class Saveable () : 
-
-    def save (self, savePath) : 
-        with open(savePath, 'wb') as fd :
-            pickle.dump(self, fd)
-
-class Descriptor (Saveable) : 
-    """
-    Pre-processed descriptors.
-    """
-    def __init__ (self, svgDir, descFunction) : 
-        self.svgDir = svgDir
-        self.svgFiles = listdir(svgDir) 
-
-        paths = map (
-                lambda x : [p.path for p in svg.Document(x).flatten_all_paths()],
-                self.svgFiles
-        )
-        vboxes = map(lambda x : svg.Document(x).get_viewbox(), self.svgFiles)
-
-        allPathsDescFn = AllPathDescriptorFunction(descFunction)
-        with mp.Pool() as p :
-            self.descriptors = p.starmap(allPathsDescFn, zip(paths, vboxes))
-    def __getitem__ (self, i) : 
-        return self.descriptors[i]
-
-    def __len__ (self) : 
-        return len(self.svgFiles)
-
-    def __or__ (self, that) :
-        """
-        Concatenation of descriptors 
-        """
-        assert self.svgDir == that.svgDir 
-        assert len(self) == len(that) 
-        newDesc = copy.deepcopy(self)
-        for i in range(len(newDesc)) : 
-            thatDesc = that.descriptors[i] 
-            newDesc.descriptors[i] = np.hstack([newDesc.descriptors[i], thatDesc])
-        return newDesc
 
 def comp (fileTuple) : 
     fileName, = fileTuple

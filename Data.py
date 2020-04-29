@@ -22,6 +22,47 @@ import re
 import logging
 from functools import partial
 
+class Saveable () : 
+
+    def save (self, savePath) : 
+        with open(savePath, 'wb') as fd :
+            pickle.dump(self, fd)
+
+class Descriptor (Saveable) : 
+    """
+    Pre-processed descriptors.
+    """
+    def __init__ (self, svgDir, descFunction) : 
+        self.svgDir = svgDir
+        self.svgFiles = listdir(svgDir) 
+
+        paths = map (
+                lambda x : [p.path for p in svg.Document(x).flatten_all_paths()],
+                self.svgFiles
+        )
+        vboxes = map(lambda x : svg.Document(x).get_viewbox(), self.svgFiles)
+
+        allPathsDescFn = AllPathDescriptorFunction(descFunction)
+        with mp.Pool() as p :
+            self.descriptors = p.starmap(allPathsDescFn, zip(paths, vboxes))
+    def __getitem__ (self, i) : 
+        return self.descriptors[i]
+
+    def __len__ (self) : 
+        return len(self.svgFiles)
+
+    def __or__ (self, that) :
+        """
+        Concatenation of descriptors 
+        """
+        assert self.svgDir == that.svgDir 
+        assert len(self) == len(that) 
+        newDesc = copy.deepcopy(self)
+        for i in range(len(newDesc)) : 
+            thatDesc = that.descriptors[i] 
+            newDesc.descriptors[i] = np.hstack([newDesc.descriptors[i], thatDesc])
+        return newDesc
+
 def str2list (s) :
     l = re.split('\[|\]|, ', s)
     l = l[1:-1]
