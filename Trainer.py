@@ -468,8 +468,8 @@ class Trainer () :
     
 def main () :
     torch.multiprocessing.set_start_method('spawn')
-#    rlimit = resource.getrlimit(resource.RLIMIT_NOFILE)
-#    resource.setrlimit(resource.RLIMIT_NOFILE, (100000, rlimit[1]))
+    rlimit = resource.getrlimit(resource.RLIMIT_NOFILE)
+    resource.setrlimit(resource.RLIMIT_NOFILE, (1000000, rlimit[1]))
 
     with open('commonConfig.json') as fd :
         commonConfig = json.load(fd)
@@ -483,7 +483,7 @@ def main () :
 
     with Trainer(commonConfig, configs) as trainer : 
         trainer.run()
-        # trainer.test()
+        trainer.test()
 
 if __name__ == "__main__" :
     main()
