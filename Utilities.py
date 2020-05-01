@@ -124,7 +124,7 @@ def levenshteinDistance (a, b, matchFn, costFn) :
         row = newRow
     return row[n]
 
-def svgTreeEditDistance (t1, t2, paths) :
+def svgTreeEditDistance (t1, t2, paths, vbox) :
     """
     Compute two Tree objects (which capture)
     SVG document structure. Each node in the 
@@ -145,18 +145,47 @@ def svgTreeEditDistance (t1, t2, paths) :
 
     def pathMatchFn (a, b) : 
 
-        def strMatchFn (a, b) :
-            return 0 if a == b else 1
+        def curveMatchFn (a, b) :
+            """
+            If the curve parameters match
+            within a distance threshold, then
+            we let them be.
+            """
+            if isinstance(a, type(b)) : 
+                if isinstance(a, svg.Line) :
+                    cond1 = abs(a.start - b.start) < thresh
+                    cond2 = abs(a.end   - b.end  ) < thresh
+                    return 0 if cond1 and cond2 else 1
+                elif isinstance(a, svg.QuadraticBezier) : 
+                    cond1 = abs(a.start   - b.start  ) < thresh
+                    cond2 = abs(a.end     - b.end    ) < thresh
+                    cond3 = abs(a.control - b.control) < thresh
+                    return 0 if cond1 and cond2 and cond3 else 1
+                elif isinstance(a, svg.CubicBezier) : 
+                    cond1 = abs(a.start    - b.start   ) < thresh
+                    cond2 = abs(a.end      - b.end     ) < thresh
+                    cond3 = abs(a.control1 - b.control1) < thresh
+                    cond4 = abs(a.control2 - b.control2) < thresh
+                    return 0 if cond1 and cond2 and cond3 and cond4 else 1
+                elif isinstance(a, svg.Arc) : 
+                    cond1 = abs(a.start  - b.start ) < thresh
+                    cond2 = abs(a.end    - b.end   ) < thresh
+                    cond3 = abs(a.radius - b.radius) < thresh
+                    return 0 if cond1 and cond2 and cond3 else 1
+                else :
+                    raise TypeError
+            else :
+                return 1
 
-        def strDelFn (a) : 
-            return 1 if a != ' ' else 0
+        def curveDelFn (a) : 
+            return 1 
     
         if (a, b) not in cachedMatchVals : 
-            pathAStr = paths[a].path.d()
-            pathBStr = paths[b].path.d()
-            maxLen = max(len(pathAStr), len(pathBStr))
+            pathA = paths[a].path
+            pathB = paths[b].path
+            maxLen = max(len(pathA), len(pathB))
 
-            pathMatch = levenshteinDistance(pathAStr, pathBStr, strMatchFn, strDelFn)
+            pathMatch = levenshteinDistance(pathA, pathB, curveMatchFn, curveDelFn)
             normalized = pathMatch / maxLen
 
             cachedMatchVals[(a, b)] = normalized
@@ -193,11 +222,17 @@ def svgTreeEditDistance (t1, t2, paths) :
             costdict = dict(zip(prod, costs))
             return bestAssignmentCost(costdict)
 
+    
+    xmin, ymin, xmax, ymax = vbox
+    diagonal = math.sqrt((xmax - xmin)**2 + (ymax - ymin)**2)
+    thresh = diagonal / 10
+
     cachedMatchVals = dict() 
     sub1, sub2 = dict(), dict()
     subtreeSize(t1.root, t1.tree, sub1)
     subtreeSize(t2.root, t2.tree, sub2)
-    return cost(t1.root, t2.root)
+    c = cost(t1.root, t2.root)
+    return c
 
 def leaves (tree) :
     """
