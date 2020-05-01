@@ -310,7 +310,7 @@ class Trainer () :
                 
                 opt.zero_grad()
                 totalLoss, *_ = fold.apply(autoencoder, [nodes])
-                totalLoss = sum(totalLoss)
+                totalLoss = sum(totalLoss) / len(batch)
                 totalLoss.backward()
                 opt.step()
 
@@ -468,8 +468,8 @@ class Trainer () :
     
 def main () :
     torch.multiprocessing.set_start_method('spawn')
-    rlimit = resource.getrlimit(resource.RLIMIT_NOFILE)
-    resource.setrlimit(resource.RLIMIT_NOFILE, (1000000, rlimit[1]))
+    #rlimit = resource.getrlimit(resource.RLIMIT_NOFILE)
+    #resource.setrlimit(resource.RLIMIT_NOFILE, (1000000, rlimit[1]))
 
     with open('commonConfig.json') as fd :
         commonConfig = json.load(fd)

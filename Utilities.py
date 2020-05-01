@@ -27,7 +27,7 @@ from matplotlib.offsetbox import AnnotationBbox
 from imageio import imwrite
 import math
 from skimage import transform
-from Data import *
+import Data
 
 def removeOneOutDegreeNodesFromTree (tree) : 
     """
@@ -135,9 +135,9 @@ def svgTreeEditDistance (t1, t2, paths) :
     
     Parameters
     ----------
-    t1 : Tree
+    t1 : Data.Tree
         Tree one.
-    t2 : Tree
+    t2 : Data.Tree
         Tree two.
     paths : list
         List of paths.
@@ -1597,7 +1597,7 @@ def getTreeStructureFromSVG (svgFile) :
     r = 0
     buildTreeGraph (root)
     T = removeOneOutDegreeNodesFromTree(T)
-    return Tree(T)
+    return Data.Tree(T)
 
 def listdir (path) :
     """

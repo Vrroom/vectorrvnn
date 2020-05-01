@@ -126,7 +126,7 @@ class Tree(object):
             RvNN's topology.
         """
         self.tree = tree
-        self.root = findRoot(self.tree)
+        self.root = Utilities.findRoot(self.tree)
         self.nPaths = len(tree.nodes[self.root]['pathSet'])
         self.restoreFile = None
         self.rootCode = None
