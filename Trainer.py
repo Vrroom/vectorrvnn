@@ -59,10 +59,11 @@ def compareNetTreeWithGroundTruth (sample, autoencoder, config, cuda, path=None)
         savePath = osp.join(path, svgName) + '.json'
         GraphReadWrite('tree').write((netTree.tree, netTree.root), savePath)
 
-    paths = svg.Document(svgFile).flatten_all_paths()
-    distance = svgTreeEditDistance(netTree, gt, paths)
+    doc = svg.Document(svgFile)
+    paths = doc.flatten_all_paths()
+    vbox = doc.get_viewbox()
 
-    return distance
+    return svgTreeEditDistance(netTree, gt, paths, vbox)
 
 class Trainer () :
     """
@@ -400,18 +401,13 @@ class Trainer () :
             experiment's results.
         """
         samples = zip(self.cvDataHandler.svgFiles, self.cvDataHandler.groundTruth)
-#         with torch.multiprocessing.Pool(mp.cpu_count()) as p : 
-#             treeDist = p.map(
-#                     partial(compareNetTreeWithGroundTruth, 
-#                         autoencoder=autoencoder, config=config,
-#                         cuda=self.cuda), 
-#                     samples,
-#                     chunksize=1)
-        treeDist = list(map(
-                partial(compareNetTreeWithGroundTruth, 
-                    autoencoder=autoencoder, config=config,
-                    cuda=self.cuda), 
-                samples))
+        with torch.multiprocessing.Pool(maxtasksperchild=30) as p : 
+            treeDist = p.map(
+                    partial(compareNetTreeWithGroundTruth, 
+                        autoencoder=autoencoder, config=config,
+                        cuda=self.cuda), 
+                    samples,
+                    chunksize=10)
 
         self.treeDistHistogram(treeDist, osp.join(configPath, 'CVHistogram'))
         
@@ -439,13 +435,13 @@ class Trainer () :
         self.saveSnapshots(testDir, bestAutoEncoder, 'bestAutoEncoder.pkl')
          
         samples = zip(self.testDataHandler.svgFiles, self.testDataHandler.groundTruth)
-        with torch.multiprocessing.Pool(mp.cpu_count()) as p : 
+        with torch.multiprocessing.Pool(maxtasksperchild=30) as p : 
             treeDist = p.map(
                     partial(compareNetTreeWithGroundTruth, 
                         autoencoder=bestAutoEncoder, config=config, 
                         cuda=self.cuda, path=finalTreesDir), 
                     samples,
-                    chunksize=1)
+                    chunksize=10)
  
         self.treeDistHistogram(treeDist, osp.join(testDir, 'Histogram'))
  
@@ -477,8 +473,6 @@ class Trainer () :
     
 def main () :
     torch.multiprocessing.set_start_method('spawn')
-    #rlimit = resource.getrlimit(resource.RLIMIT_NOFILE)
-    #resource.setrlimit(resource.RLIMIT_NOFILE, (1000000, rlimit[1]))
 
     with open('commonConfig.json') as fd :
         commonConfig = json.load(fd)
