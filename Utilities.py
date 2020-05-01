@@ -151,6 +151,7 @@ def svgTreeEditDistance (t1, t2, paths) :
         def strDelFn (a) : 
             return 1 if a != ' ' else 0
     
+        print(len(cachedMatchVals))
         if (a, b) not in cachedMatchVals : 
             pathAStr = paths[a].path.d()
             pathBStr = paths[b].path.d()

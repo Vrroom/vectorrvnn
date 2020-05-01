@@ -33,6 +33,9 @@ class Descriptor (Saveable) :
     Pre-processed descriptors.
     """
     def __init__ (self, svgDir, descFunction) : 
+
+        logging.info(f'Computing {descFunction.__name__}')
+
         self.svgDir = svgDir
         self.svgFiles = listdir(svgDir) 
 
@@ -45,6 +48,7 @@ class Descriptor (Saveable) :
         allPathsDescFn = AllPathDescriptorFunction(descFunction)
         with mp.Pool() as p :
             self.descriptors = p.starmap(allPathsDescFn, zip(paths, vboxes))
+
     def __getitem__ (self, i) : 
         return self.descriptors[i]
 
@@ -215,11 +219,17 @@ class TreesData (data.Dataset, Saveable) :
     algorithm.
     """
     def __init__ (self, svgDir, graphClusterAlgo, relationFunctions) : 
+
+        # For logging what is happening
+        relFunctionsNames = map(lambda x : x.__name__, relationFunctions)
+        relFunctionsNames = ' '.join(relFunctionsNames)
+        logging.info(f'Computing {graphClusterAlgo.__name__} and {relFunctionsNames}')
+
         self.svgDir = svgDir
         self.svgFiles = listdir(svgDir) 
         creator = TreeCreator(graphClusterAlgo, relationFunctions)
         with ProcessPoolExecutor() as executor : 
-            self.trees = list(executor.map(creator, self.svgFiles, chunksize=10))
+            self.trees = list(executor.map(creator, self.svgFiles, chunksize=1))
 
     def __getitem__ (self, index) :
         tree, _ = self.trees[index]

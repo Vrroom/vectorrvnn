@@ -60,7 +60,9 @@ def compareNetTreeWithGroundTruth (sample, autoencoder, config, cuda, path=None)
         GraphReadWrite('tree').write((netTree.tree, netTree.root), savePath)
 
     paths = svg.Document(svgFile).flatten_all_paths()
-    return svgTreeEditDistance(netTree, gt, paths)
+    distance = svgTreeEditDistance(netTree, gt, paths)
+
+    return distance
 
 class Trainer () :
     """
@@ -398,12 +400,18 @@ class Trainer () :
             experiment's results.
         """
         samples = zip(self.cvDataHandler.svgFiles, self.cvDataHandler.groundTruth)
-        with torch.multiprocessing.Pool(mp.cpu_count()) as p : 
-            treeDist = p.map(
-                    partial(compareNetTreeWithGroundTruth, 
-                        autoencoder=autoencoder, config=config,
-                        cuda=self.cuda), 
-                    samples)
+#         with torch.multiprocessing.Pool(mp.cpu_count()) as p : 
+#             treeDist = p.map(
+#                     partial(compareNetTreeWithGroundTruth, 
+#                         autoencoder=autoencoder, config=config,
+#                         cuda=self.cuda), 
+#                     samples,
+#                     chunksize=1)
+        treeDist = list(map(
+                partial(compareNetTreeWithGroundTruth, 
+                    autoencoder=autoencoder, config=config,
+                    cuda=self.cuda), 
+                samples))
 
         self.treeDistHistogram(treeDist, osp.join(configPath, 'CVHistogram'))
         
@@ -436,7 +444,8 @@ class Trainer () :
                     partial(compareNetTreeWithGroundTruth, 
                         autoencoder=bestAutoEncoder, config=config, 
                         cuda=self.cuda, path=finalTreesDir), 
-                    samples)
+                    samples,
+                    chunksize=1)
  
         self.treeDistHistogram(treeDist, osp.join(testDir, 'Histogram'))
  
