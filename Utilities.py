@@ -583,7 +583,7 @@ def parallelize(indirList, outdir, function, writer, **kwargs) :
     for p in processList :
         p.join()
 
-def rasterize(svgFile, outFile) :
+def rasterize(svgFile, outFile, makeSquare=True) :
     """
     Utility function to convert svg to
     raster using inkscape
@@ -595,7 +595,10 @@ def rasterize(svgFile, outFile) :
     outFile : str
         Path to where to store output
     """
-    subprocess.call(['inkscape', '-h 72', '-w 72', '-z', '-f', svgFile, '-j', '-e', outFile])
+    if makeSquare : 
+        subprocess.call(['inkscape', '-h 72', '-w 72', '-z', '-f', svgFile, '-j', '-e', outFile])
+    else : 
+        subprocess.call(['inkscape', '-z', '-f', svgFile, '-j', '-e', outFile])
 
 def singlePathSvg(path, vb, out) :
     """
@@ -611,7 +614,7 @@ def singlePathSvg(path, vb, out) :
         Path to the output file.
     """
     vbox = ' '.join([str(_) for _ in vb])
-    wsvg([path[0]], attributes=[path[1].attrib], viewbox=vbox, filename=out)
+    svg.wsvg([path[0]], attributes=[path[1].attrib], viewbox=vbox, filename=out)
 
 def getSubsetSvg(paths, lst, vb) :
     """
@@ -1160,7 +1163,7 @@ def relbb (path, docbb) :
 
     return [x1, x2, y1, y2]
 
-def symGraph (paths) : 
+def symGraph (paths, **kwargs) : 
     """
     Return a complete graph over the 
     paths. The edge attributes between 
@@ -1195,10 +1198,10 @@ def symGraph (paths) :
 
     return subgraph(G, lambda x : x['error'] < 1)
 
-def adjGraph (paths) :
+def adjGraph (paths, **kwargs) :
     """
-    Return a complete graph over the 
-    paths. We have course estimates
+    Return a graph over the 
+    paths. We have coarse estimates
     of adjacency between two paths.
     
     We simply check whether their 
@@ -1226,6 +1229,76 @@ def adjGraph (paths) :
 
     return G
 
+def areaGraph (paths, **kwargs) : 
+    """
+    Return a complete graph over the 
+    paths. Where the edge weights are the 
+    areas of intersection between pairs
+    of paths.
+    
+    Parameters
+    ----------
+    paths : list
+        List of paths over which 
+        adjacency has to be checked.
+    """
+    paths = list(enumerate(paths))
+    G = nx.Graph()
+    
+    for i in range(len(paths)) :
+        G.add_node(i)
+
+    for p1, p2 in itertools.product(paths, paths) : 
+        i, j = p1[0], p2[0]
+        pi, pj = p1[1][0], p2[1][0]
+
+        if i != j and pi != pj :
+            weight = pathIntersectionArea(pi, pj, kwargs['vbox'])
+            G.add_edge(i, j, etype='area', weight=weight)
+
+    return G
+
+def pathIntersectionArea (path1, path2, vbox) : 
+    """
+    Calculate the area of intersection of two
+    paths normalized by the document view box.
+
+    This is done by first rasterizing and then
+    taking the intersection of the bitmaps. 
+
+    Parameters
+    ----------
+    path1 : svg.FlattenedPath
+        Path 1
+    path2 : svg.FlattenedPath
+        Path 2
+    vbox : list
+        Viewbox of the document
+    """
+    # Fills with black hopefully
+    fillDict = {'fill' : [0, 0, 0]}
+    path1_ = copy.deepcopy(path1)
+    path2_ = copy.deepcopy(path2)
+
+    path1_[1].attrib = fillDict
+    path2_[1].attrib = fillDict
+
+    singlePathSvg(path1_, vbox, '/tmp/o1.svg')
+    singlePathSvg(path2_, vbox, '/tmp/o2.svg')
+
+    rasterize('/tmp/o1.svg', '/tmp/o1.png', makeSquare=False)
+    rasterize('/tmp/o2.svg', '/tmp/o2.png', makeSquare=False)
+
+    img1 = image.imread('/tmp/o1.png')
+    img2 = image.imread('/tmp/o2.png')
+
+    img1 = img1[:, :, 3]
+    img2 = img2[:, :, 3]
+
+    intersect = img1 * img2
+    n, m = intersect.shape
+    return intersect.sum() / (n * m)
+
 def graphFromSvg (svgFile, graphFunction) : 
     """
     Produce a relationship graph for 
@@ -1240,7 +1313,7 @@ def graphFromSvg (svgFile, graphFunction) :
     """
     doc = svg.Document(svgFile)
     paths = doc.flatten_all_paths()
-    G = graphFunction(paths)
+    G = graphFunction(paths, vbox=doc.get_viewbox())
     return G
 
 def relationshipGraph (svgFile, relFunctions) :
@@ -1661,19 +1734,7 @@ class AllPathDescriptorFunction () :
             descs.append(self.descFunction(path, vbox))
         return np.vstack(descs)
 
-def comp (fileTuple) : 
-    fileName, = fileTuple
-    return treeImageFromGraph(svgToTree(fileName))
-
 if __name__ == "__main__" : 
-    with open('./Configs/batch10.json') as f : 
-        config = json.load(f)
-    functionGetter = lambda x : globals()[x]
-    descFunctions = list(map(functionGetter, config['desc_functions']))
-    relationFunctions = list(map(functionGetter, config['relation_functions']))
-    graphClusterAlgos = list(map(functionGetter, config['graph_cluster_algo']))
-    data = Data.GRASSDataset('./TestSVGs/', makeTrees=True, graphClusterAlgos=graphClusterAlgos, relationFunctions=relationFunctions, descFunctions=descFunctions)
-    for pt in list(data) : 
-        doc = svg.Document(pt[0])
-        paths = doc.flatten_all_paths()
-        print(pt[0], svgTreeEditDistance(pt[1], pt[2][0][0], paths))
+    doc = svg.Document('intersection.svg')
+    paths = doc.flatten_all_paths()
+    print(pathIntersectionArea(paths[0], paths[1], doc.get_viewbox()))
