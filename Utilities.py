@@ -180,6 +180,7 @@ def svgTreeEditDistance (t1, t2, paths, vbox) :
         def curveDelFn (a) : 
             return 1 
     
+        print(len(cachedMatchVals))
         if (a, b) not in cachedMatchVals : 
             pathA = paths[a].path
             pathB = paths[b].path

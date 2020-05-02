@@ -1,7 +1,7 @@
 {
-	"train_directory"     : "./Avatar/Train",
-	"test_directory"      : "./Avatar/Test",
-	"cv_directory"        : "./Avatar/Validate",
+	"train_directory"     : "./SmallAvatar/",
+	"test_directory"      : "./SmallAvatar/",
+	"cv_directory"        : "./SmallAvatar/",
 	"log_file"            : "test.log",
 	"show_log_every"      : 1,
 	"save_snapshot_every" : 5,
