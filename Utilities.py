@@ -29,6 +29,190 @@ import math
 from skimage import transform
 import Data
 
+def treeKCut (tree, k) :
+    """
+    Given a tree, make k cuts. Ideally the k cuts 
+    should give evenly sized sets.
+
+    Parameters
+    ----------
+    tree : Tree
+        Hierachical clustering from which
+        k evenly sized sets.
+    """
+    coveredNodes = {}
+    avgSize = tree.nPaths // k
+    pathSetGetter = lambda t, r, _ : t.nodes[r]['pathSet']
+    allPathSets = treeMap(tree.tree, tree.root, pathSetGetter)
+    allPathSets.sort(key=lambda x : abs(len(x) - avgSize))
+    parts = []
+    for ps in allPathSets : 
+        noIntersect = len(coveredNodes & set(ps)) == 0 
+        lessThanK = len(parts) < k
+        allCovered = len(coveredNodes | set(ps)) == tree.nPaths
+        if noIntersect and (not lessThanK and allCovered) : 
+            parts.append(ps)
+
+    parts[k-1] = sum(parts[k-1:], [])
+    return parts[:k]
+
+def hierarchicalClusterCompareFM (t1, t2) : 
+    """
+    Implementation of: 
+
+        A Method for Comparing Two Hierarchical Clusterings
+
+    This method gives statistics using which it can be
+    decided whether two hierarchical clusterings are 
+    similar.
+
+    FM stands for Fowlkes and Mallows.
+
+    Parameters
+    ----------
+    t1 : Tree
+        Tree one.
+    t2 : Tree
+        Tree two.
+    """
+    assert t1.nPaths == t2.nPaths
+    n = t1.nPaths
+    bs = []
+    es = [] 
+    for k in range(2, n): 
+        cuts1 = treeKCut(t1, k)
+        cuts2 = treeKCut(t2, k)
+        M = np.zeros((k, k))
+        for i, ci in enumerate(cuts1) : 
+            for j, cj in enumerate(cuts2) :
+                M[i, j] = len(set(ci) & set(cj))
+        tk = (M * M).sum() - n
+        pk = (M.sum(axis=0) ** 2).sum() - n
+        qk = (M.sum(axis=1) ** 2).sum() - n
+        bk = tk / np.sqrt(pk * qk)
+        bs.append(bk)
+        es.append(np.sqrt(pk * qk) / (n * n - 1))
+    return bk, es
+
+def getCubicMatrix () : 
+    """
+    Helper method to get matrix 
+    for parametric representation
+    of cubic beziers.
+    """
+    M = np.array([[1 , 0 , 0 , 0], 
+                  [-3, 3 , 0 , 0], 
+                  [3 , -6, 3 , 0], 
+                  [-1, 3 , -3, 1]])
+    t = np.linspace(0, 1, 4)
+    T = np.vstack((t**0, t**1, t**2, t**3)).T
+    return T @ M
+
+def getQuadraticMatrix () : 
+    """
+    Helper method to get matrix 
+    for parametric representation
+    of quadratic beziers.
+    """
+    M = np.array([[1 , 0 , 0 ], 
+                  [-2, 2 , 0 ], 
+                  [1 , -2, 1 ]])
+    t = np.linspace(0, 1, 3)
+    T = np.vstack((t**0, t**1, t**2)).T
+    return T @ M
+
+def fitCubicBezierTo4Points (P) :
+    """
+    Fit a cubic bezier to 4 points,
+    the minimum required for a 
+    non-degenerate cubic bezier to exist.
+
+    The 4 points' parameter t is assumed
+    to be equispaced in the interval [0, 1].
+
+    Parameters
+    ----------
+    P : np.ndarray
+        4 points as complex numbers 
+        with the real part denoting the 
+        x-coordinate and imaginary part 
+        denoting the y-coordinate.
+
+    Returns
+    -------
+    svg.CubicBezier
+    """
+    C = np.linalg.pinv(getCubicMatrix()) @ P
+    return svg.CubicBezier(*C)
+
+def fitQuadraticBezierTo3Points (P) : 
+    """
+    Fit a quadratic bezier to 3 points,
+    the minimum required for a 
+    non-degenerate quadratic bezier to exist.
+
+    The 3 points' parameter t is assumed
+    to be equispaced in the interval [0, 1].
+
+    Parameters
+    ----------
+    P : np.ndarray
+        3 points as complex numbers 
+        with the real part denoting the 
+        x-coordinate and imaginary part 
+        denoting the y-coordinate.
+
+    Returns
+    -------
+    svg.QuadraticBezier
+    """
+    C = np.linalg.pinv(getQuadraticMatrix()) @ P
+    return svg.QuadraticBezier(*C)
+
+def fitPathToPoints (P) : 
+    """
+    Fit a series of splines (cubic beziers
+    or quadratic beziers or simply lines)
+    to a set of points.
+
+    Also, in case the curve is closed, 
+    the first point in P should be the 
+    same as the last point.
+
+    Parameters
+    ----------
+    P : np.ndarray
+        A list of points
+    """
+    n = P.size
+    if n == 2 : 
+        return svg.Path([Line(*P)])
+    elif n == 3 : 
+        return svg.Path([fitQuadraticBezierTo3Points(P)])
+    else : 
+        segments = [fitCubicBezierTo4Points(P[:4])]
+        for seg in more_itertools.chunked(P[4:], 3) : 
+            prevSeg = segments[-1]
+            s = prevSeg.end
+            control = 2 * s - prevSeg.control2
+
+            if len(seg) == 3 : 
+                P_ = np.array([[s, *seg]]).T
+                A = getCubicMatrix()
+                C = np.array([0, 1, 0, 0])
+                A_ = np.hstack((np.vstack((2 * A.T @ A, C)), np.vstack((C.reshape((-1, 1)), 0))))
+                b = np.vstack([2 * A.T @ P_, control])
+                controls = np.linalg.pinv(A_) @ b
+                controls = np.ravel(controls.T)[:-1]
+                segments.append(svg.CubicBezier(*controls))
+            elif len(seg) == 2 : 
+                _, e = seg
+                segments.append(svg.QuadraticBezier(s, control, e))
+            else :
+                segments.append(svg.Line(s, seg[0]))
+
+    return svg.Path(*segments)
+
 def removeOneOutDegreeNodesFromTree (tree) : 
     """
     In many SVGs, it is the case that 
@@ -1117,7 +1301,7 @@ def d3 (path, docbb, bins=10, nSamples=100) :
 
     return hist 
 
-def fd (path, docbb, nSamples=100) :
+def fd (path, docbb, nSamples=100, freqs=40) :
     """
     Compute the fourier descriptors of the
     path with respect to its centroid.
@@ -1136,12 +1320,14 @@ def fd (path, docbb, nSamples=100) :
     if L == 0 :
         return np.ones(min(nSamples, 20))
     pts = np.array([path.point(path.ilength(t * L, s_tol=1e-5)) for t in ts])
-    centroid = np.mean(pts)
-    rt = np.abs(pts - centroid)    
-    an = np.fft.fft(rt) / nSamples
-    bn = np.abs(an / an[0])
-    return bn[:min(nSamples,20)].tolist()
-    
+    an = np.fft.fft(pts)
+    pos = an[1:nSamples//2]
+    neg = an[nSamples//2 + 1:]
+    pos = pos[:freqs]
+    neg = neg[-freqs:]
+    newAn = np.hstack([an[0], pos, neg])
+    return newAn
+
 def relbb (path, docbb) :
     """ 
     Compute the relative bounding box
@@ -1570,6 +1756,28 @@ def treeApply (T, r, function) :
         treeApply(T, child, function)
     function(T, r, T.neighbors(r))
 
+def treeMap (T, r, function) : 
+    """
+    Apply a function on each node and accumulate
+    results in a list.
+
+    Parameters
+    ----------
+    T : nx.DiGraph
+        The tree.
+    r : object
+        Root of the tree.
+    function : lambda
+        A function which takes as
+        input the tree, current node 
+        and performs some operation.
+    """
+    results = []
+    for child in T.neighbors(r) :
+        results.extend(treeMap(T, child, function))
+    results.append(function(T, r, T.neighbors(r)))
+    return results
+
 def randomString(k) : 
     """
     Return a random string of lower case
@@ -1736,6 +1944,4 @@ class AllPathDescriptorFunction () :
         return np.vstack(descs)
 
 if __name__ == "__main__" : 
-    doc = svg.Document('intersection.svg')
-    paths = doc.flatten_all_paths()
-    print(pathIntersectionArea(paths[0], paths[1], doc.get_viewbox()))
+
