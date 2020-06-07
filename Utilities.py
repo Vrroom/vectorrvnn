@@ -29,6 +29,42 @@ import math
 from skimage import transform
 import Data
 
+def isBBoxDegenerate(bbox) :
+    """
+    Check if the bounding box has
+    zero area.
+
+    Parameters
+    ----------
+    bbox : tuple
+        The top left and bottom right
+        corners of the box.
+    """
+    xmin, xmax, ymin, ymax = bbox
+    return xmin == xmax and ymin == ymax
+
+def cluster2DiGraph (jsonFile, svgFile) :
+    """
+    Convert the output of the svg-app 
+    clustering app into a digraph.
+    """
+    with open(jsonFile, 'r') as fd :
+        data = json.load(fd)
+
+    doc = svg.Document(svgFile)
+    paths = doc.flatten_all_paths()
+    paths = list(filter(lambda p : not isBBoxDegenerate(p.path.bbox()), paths))
+
+    tree = nx.DiGraph()
+    tree.add_nodes_from(range(len(data["nodes"])))
+
+    for node in data["nodes"] : 
+        tree.nodes[node["id"]]["pathSet"] = node["paths"]
+        for child in node["children"] :
+            tree.add_edge(node["id"], child)
+
+    return Data.Tree(tree)
+
 def treeKCut (tree, k) :
     """
     Given a tree, make k cuts. Ideally the k cuts 
@@ -40,7 +76,7 @@ def treeKCut (tree, k) :
         Hierachical clustering from which
         k evenly sized sets.
     """
-    coveredNodes = {}
+    coveredNodes = set()
     avgSize = tree.nPaths // k
     pathSetGetter = lambda t, r, _ : t.nodes[r]['pathSet']
     allPathSets = treeMap(tree.tree, tree.root, pathSetGetter)
@@ -48,10 +84,9 @@ def treeKCut (tree, k) :
     parts = []
     for ps in allPathSets : 
         noIntersect = len(coveredNodes & set(ps)) == 0 
-        lessThanK = len(parts) < k
-        allCovered = len(coveredNodes | set(ps)) == tree.nPaths
-        if noIntersect and (not lessThanK and allCovered) : 
+        if noIntersect : 
             parts.append(ps)
+            coveredNodes = coveredNodes | set(ps)
 
     parts[k-1] = sum(parts[k-1:], [])
     return parts[:k]
@@ -92,7 +127,7 @@ def hierarchicalClusterCompareFM (t1, t2) :
         bk = tk / np.sqrt(pk * qk)
         bs.append(bk)
         es.append(np.sqrt(pk * qk) / (n * n - 1))
-    return bk, es
+    return bs, es
 
 def getCubicMatrix () : 
     """
@@ -1944,4 +1979,11 @@ class AllPathDescriptorFunction () :
         return np.vstack(descs)
 
 if __name__ == "__main__" : 
+    t1 = cluster2DiGraph("./Clusters/cluster2.json", "./Clusters/382.svg")
+    t2 = cluster2DiGraph("./Clusters/cluster3.json", "./Clusters/382.svg")
+    bs, es = hierarchicalClusterCompareFM(t1, t2)
+    plt.plot(range(len(bs)), bs)
+    plt.plot(range(len(es)), es)
+    plt.show()
 
+    
