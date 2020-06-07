@@ -114,6 +114,7 @@ def hierarchicalClusterCompareFM (t1, t2) :
     n = t1.nPaths
     bs = []
     es = [] 
+    vs = []
     for k in range(2, n): 
         cuts1 = treeKCut(t1, k)
         cuts2 = treeKCut(t2, k)
@@ -122,12 +123,22 @@ def hierarchicalClusterCompareFM (t1, t2) :
             for j, cj in enumerate(cuts2) :
                 M[i, j] = len(set(ci) & set(cj))
         tk = (M * M).sum() - n
-        pk = (M.sum(axis=0) ** 2).sum() - n
-        qk = (M.sum(axis=1) ** 2).sum() - n
+        mi, mj = M.sum(axis=0), M.sum(axis=1)
+        pk = (mi ** 2).sum() - n
+        qk = (mj ** 2).sum() - n
         bk = tk / np.sqrt(pk * qk)
+        pk_ = (mi * (mi - 1) * (mi - 2)).sum()
+        qk_ = (mj * (mj - 1) * (mj - 2)).sum()
+        ek = np.sqrt(pk * qk) / (n * (n - 1))
+        vk=(2/(n*(n-1)))\
+            +((4*pk_*qk_)/(n*(n-1)*(n-2)*pk*qk))\
+            +(((pk-2-(4*pk_/pk))*(qk-2-(4*qk_/qk)))\
+                /(n*(n-1)*(n-2)*(n-3)))\
+            -((pk*qk)/(n*n*(n-1)*(n-1)))
         bs.append(bk)
-        es.append(np.sqrt(pk * qk) / (n * n - 1))
-    return bs, es
+        es.append(ek)
+        vs.append(vk);
+    return np.array(bs), np.array(es), np.array(vs)
 
 def getCubicMatrix () : 
     """
@@ -1979,11 +1990,15 @@ class AllPathDescriptorFunction () :
         return np.vstack(descs)
 
 if __name__ == "__main__" : 
-    t1 = cluster2DiGraph("./Clusters/cluster2.json", "./Clusters/382.svg")
-    t2 = cluster2DiGraph("./Clusters/cluster3.json", "./Clusters/382.svg")
-    bs, es = hierarchicalClusterCompareFM(t1, t2)
-    plt.plot(range(len(bs)), bs)
-    plt.plot(range(len(es)), es)
+    t1 = cluster2DiGraph("./Clusters/579/cluster1.json", "./Clusters/579/579.svg")
+    t2 = cluster2DiGraph("./Clusters/579/cluster3.json", "./Clusters/579/579.svg")
+    bs, es, vs = hierarchicalClusterCompareFM(t1, t2)
+    k = np.arange(2, 2 + len(bs))
+    plt.xlabel("k (clusters)")
+    plt.ylabel("b_k")
+    plt.title("cluster1 vs cluster3")
+    plt.ylim(0, 1)
+    plt.plot(k, bs)
+    plt.plot(k, es, color="red")
+    plt.fill_between(k, es - 2 * vs, es + 2 * vs, alpha=0.2, color="red")
     plt.show()
-
-    
