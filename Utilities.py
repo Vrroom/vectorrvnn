@@ -8,6 +8,7 @@ import string
 import subprocess
 import more_itertools
 import itertools
+from functools import reduce
 import networkx as nx
 import xml.etree.ElementTree as ET
 from networkx.drawing.nx_agraph import graphviz_layout
@@ -28,6 +29,261 @@ from imageio import imwrite
 import math
 from skimage import transform
 import Data
+
+def isBBoxDegenerate(bbox) :
+    """
+    Check if the bounding box has
+    zero area.
+
+    Parameters
+    ----------
+    bbox : tuple
+        The top left and bottom right
+        corners of the box.
+    """
+    xmin, xmax, ymin, ymax = bbox
+    return xmin == xmax and ymin == ymax
+
+def cluster2DiGraph (jsonFile, svgFile) :
+    """
+    Convert the output of the svg-app 
+    clustering app into a digraph.
+    """
+    with open(jsonFile, 'r') as fd :
+        data = json.load(fd)
+
+    doc = svg.Document(svgFile)
+    paths = doc.flatten_all_paths()
+    paths = list(filter(lambda p : not isBBoxDegenerate(p.path.bbox()), paths))
+
+    tree = nx.DiGraph()
+    tree.add_nodes_from(range(len(data["nodes"])))
+
+    for node in data["nodes"] : 
+        tree.nodes[node["id"]]["pathSet"] = node["paths"]
+        for child in node["children"] :
+            tree.add_edge(node["id"], child)
+
+    return Data.Tree(tree)
+
+def treeKCut (tree, k) :
+    """
+    Given a tree, make k cuts. Ideally the k cuts 
+    should give evenly sized sets.
+
+    Parameters
+    ----------
+    tree : Tree
+        Hierachical clustering from which
+        k evenly sized sets.
+    """
+    def selector (a, b) : 
+        if a['level'] < b['level'] : 
+            return a
+        elif a['level'] > b['level'] :
+            return b
+        elif len(a['ids']) > len(b['ids']) :
+            return a
+        else :
+            return b
+
+    def split (T, best) :
+        level, arr = None, None
+        if len(best['ids']) > 1 :
+            arr = copy.deepcopy(best['ids'])
+            level = best['level']
+        else :
+            i = best['ids'][0]
+            arr = list(T.neighbors(i))
+            level = best['level'] + 1
+        index = random.randint(0, len(arr) - 1)
+        left = { 'level':level, 'ids':arr[:index] + arr[index+1:]}
+        right = { 'level': level, 'ids':[arr[index]] }
+        return left, right
+
+    T = tree.tree
+    r = findRoot(T)
+    candidates = [{'level': 0, 'ids': [r]}]
+    leaves = [];
+    while len(candidates) + len(leaves) < k :
+        best = reduce(selector, candidates)
+        candidates.remove(best)
+        left, right = split (T, best)
+        if len(left['ids']) > 1 or T.out_degree(left['ids'][0]) > 0 :
+            candidates.append(left)
+        else :
+            leaves.append(left)
+
+        if len(right['ids']) > 1 or T.out_degree(right['ids'][0]) > 0 :
+            candidates.append(right)
+        else :
+            leaves.append(right)
+
+    candidates.extend(leaves)
+    cuts = list(map(lambda c : list(
+            more_itertools.flatten(
+                map(lambda i : T.nodes[i]['pathSet'], c['ids'])))
+            , candidates))
+    return cuts
+
+def hierarchicalClusterCompareFM (t1, t2) : 
+    """
+    Implementation of: 
+
+        A Method for Comparing Two Hierarchical Clusterings
+
+    This method gives statistics using which it can be
+    decided whether two hierarchical clusterings are 
+    similar.
+
+    FM stands for Fowlkes and Mallows.
+
+    Parameters
+    ----------
+    t1 : Tree
+        Tree one.
+    t2 : Tree
+        Tree two.
+    """
+    assert t1.nPaths == t2.nPaths
+    n = t1.nPaths
+    bs = []
+    es = [] 
+    for k in range(2, 20): 
+        cuts1 = treeKCut(t1, k)
+        cuts2 = treeKCut(t2, k)
+        M = np.zeros((k, k))
+        for i, ci in enumerate(cuts1) : 
+            for j, cj in enumerate(cuts2) :
+                M[i, j] = len(set(ci) & set(cj))
+        tk = (M * M).sum() - n
+        mi, mj = M.sum(axis=0), M.sum(axis=1)
+        pk = (mi ** 2).sum() - n
+        qk = (mj ** 2).sum() - n
+        bk = tk / np.sqrt(pk * qk)
+        ek = np.sqrt(pk * qk) / (n * (n - 1))
+        bs.append(bk)
+        es.append(ek)
+    return np.array(bs)
+
+def getCubicMatrix () : 
+    """
+    Helper method to get matrix 
+    for parametric representation
+    of cubic beziers.
+    """
+    M = np.array([[1 , 0 , 0 , 0], 
+                  [-3, 3 , 0 , 0], 
+                  [3 , -6, 3 , 0], 
+                  [-1, 3 , -3, 1]])
+    t = np.linspace(0, 1, 4)
+    T = np.vstack((t**0, t**1, t**2, t**3)).T
+    return T @ M
+
+def getQuadraticMatrix () : 
+    """
+    Helper method to get matrix 
+    for parametric representation
+    of quadratic beziers.
+    """
+    M = np.array([[1 , 0 , 0 ], 
+                  [-2, 2 , 0 ], 
+                  [1 , -2, 1 ]])
+    t = np.linspace(0, 1, 3)
+    T = np.vstack((t**0, t**1, t**2)).T
+    return T @ M
+
+def fitCubicBezierTo4Points (P) :
+    """
+    Fit a cubic bezier to 4 points,
+    the minimum required for a 
+    non-degenerate cubic bezier to exist.
+
+    The 4 points' parameter t is assumed
+    to be equispaced in the interval [0, 1].
+
+    Parameters
+    ----------
+    P : np.ndarray
+        4 points as complex numbers 
+        with the real part denoting the 
+        x-coordinate and imaginary part 
+        denoting the y-coordinate.
+
+    Returns
+    -------
+    svg.CubicBezier
+    """
+    C = np.linalg.pinv(getCubicMatrix()) @ P
+    return svg.CubicBezier(*C)
+
+def fitQuadraticBezierTo3Points (P) : 
+    """
+    Fit a quadratic bezier to 3 points,
+    the minimum required for a 
+    non-degenerate quadratic bezier to exist.
+
+    The 3 points' parameter t is assumed
+    to be equispaced in the interval [0, 1].
+
+    Parameters
+    ----------
+    P : np.ndarray
+        3 points as complex numbers 
+        with the real part denoting the 
+        x-coordinate and imaginary part 
+        denoting the y-coordinate.
+
+    Returns
+    -------
+    svg.QuadraticBezier
+    """
+    C = np.linalg.pinv(getQuadraticMatrix()) @ P
+    return svg.QuadraticBezier(*C)
+
+def fitPathToPoints (P) : 
+    """
+    Fit a series of splines (cubic beziers
+    or quadratic beziers or simply lines)
+    to a set of points.
+
+    Also, in case the curve is closed, 
+    the first point in P should be the 
+    same as the last point.
+
+    Parameters
+    ----------
+    P : np.ndarray
+        A list of points
+    """
+    n = P.size
+    if n == 2 : 
+        return svg.Path([Line(*P)])
+    elif n == 3 : 
+        return svg.Path([fitQuadraticBezierTo3Points(P)])
+    else : 
+        segments = [fitCubicBezierTo4Points(P[:4])]
+        for seg in more_itertools.chunked(P[4:], 3) : 
+            prevSeg = segments[-1]
+            s = prevSeg.end
+            control = 2 * s - prevSeg.control2
+
+            if len(seg) == 3 : 
+                P_ = np.array([[s, *seg]]).T
+                A = getCubicMatrix()
+                C = np.array([0, 1, 0, 0])
+                A_ = np.hstack((np.vstack((2 * A.T @ A, C)), np.vstack((C.reshape((-1, 1)), 0))))
+                b = np.vstack([2 * A.T @ P_, control])
+                controls = np.linalg.pinv(A_) @ b
+                controls = np.ravel(controls.T)[:-1]
+                segments.append(svg.CubicBezier(*controls))
+            elif len(seg) == 2 : 
+                _, e = seg
+                segments.append(svg.QuadraticBezier(s, control, e))
+            else :
+                segments.append(svg.Line(s, seg[0]))
+
+    return svg.Path(*segments)
 
 def removeOneOutDegreeNodesFromTree (tree) : 
     """
@@ -1117,7 +1373,7 @@ def d3 (path, docbb, bins=10, nSamples=100) :
 
     return hist 
 
-def fd (path, docbb, nSamples=100) :
+def fd (path, docbb, nSamples=100, freqs=40) :
     """
     Compute the fourier descriptors of the
     path with respect to its centroid.
@@ -1136,12 +1392,14 @@ def fd (path, docbb, nSamples=100) :
     if L == 0 :
         return np.ones(min(nSamples, 20))
     pts = np.array([path.point(path.ilength(t * L, s_tol=1e-5)) for t in ts])
-    centroid = np.mean(pts)
-    rt = np.abs(pts - centroid)    
-    an = np.fft.fft(rt) / nSamples
-    bn = np.abs(an / an[0])
-    return bn[:min(nSamples,20)].tolist()
-    
+    an = np.fft.fft(pts)
+    pos = an[1:nSamples//2]
+    neg = an[nSamples//2 + 1:]
+    pos = pos[:freqs]
+    neg = neg[-freqs:]
+    newAn = np.hstack([an[0], pos, neg])
+    return newAn
+
 def relbb (path, docbb) :
     """ 
     Compute the relative bounding box
@@ -1570,6 +1828,28 @@ def treeApply (T, r, function) :
         treeApply(T, child, function)
     function(T, r, T.neighbors(r))
 
+def treeMap (T, r, function) : 
+    """
+    Apply a function on each node and accumulate
+    results in a list.
+
+    Parameters
+    ----------
+    T : nx.DiGraph
+        The tree.
+    r : object
+        Root of the tree.
+    function : lambda
+        A function which takes as
+        input the tree, current node 
+        and performs some operation.
+    """
+    results = []
+    for child in T.neighbors(r) :
+        results.extend(treeMap(T, child, function))
+    results.append(function(T, r, T.neighbors(r)))
+    return results
+
 def randomString(k) : 
     """
     Return a random string of lower case
@@ -1736,6 +2016,31 @@ class AllPathDescriptorFunction () :
         return np.vstack(descs)
 
 if __name__ == "__main__" : 
-    doc = svg.Document('intersection.svg')
-    paths = doc.flatten_all_paths()
-    print(pathIntersectionArea(paths[0], paths[1], doc.get_viewbox()))
+    with open('./Expts/Expt_2020-05-01/testDataHandler.pkl', 'rb') as fd :
+        tdh = pickle.load(fd)
+    with open('./data.pkl', 'rb') as fd :
+        data = pickle.load(fd)
+    files = listdir('./Expts/Expt_2020-05-01/Test/FinalTrees/')
+    filesEnd = [osp.splitext(osp.split(f)[-1])[0] for f in files]
+    testTrees = [Data.Tree(GraphReadWrite('tree').read(f)) for f in files]
+    testTreeDict = dict(zip(filesEnd, testTrees))
+    treeData = list(data.treeCache.values())[0]
+    filesEnd2 = [osp.splitext(osp.split(f)[-1])[0] for f in treeData.svgFiles]
+    trainTrees = treeData.trees
+    trainTreesDict = dict(zip(filesEnd2, trainTrees))
+    filesEnd3 = [osp.splitext(osp.split(f)[-1])[0] for f in tdh.svgFiles]
+    gt = tdh.groundTruth
+    gtDict = dict(zip(filesEnd3, gt))
+    scores = []
+    for key in trainTreesDict.keys() : 
+        print(key)
+        hcc = hierarchicalClusterCompareFM(gtDict[key], trainTreesDict[key][0]) 
+        score = (hcc > 0.8).sum()
+        print(score)
+        scores.append(score)
+    fig, axes = plt.subplots()
+    axes.hist(scores, bins=list(range(11)))
+    axes.set_xlabel('Number of bk\'s > 0.8')
+    axes.set_ylabel('Samples in Bucket')
+    fig.savefig('Cluster Histogram')
+    plt.close(fig)
