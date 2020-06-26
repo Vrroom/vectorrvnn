@@ -223,7 +223,7 @@ class TreesData (data.Dataset, Saveable) :
         # For logging what is happening
         relFunctionsNames = map(lambda x : x.__name__, relationFunctions)
         relFunctionsNames = ' '.join(relFunctionsNames)
-        logging.info(f'Computing {graphClusterAlgo.__name__} and {relFunctionsNames}')
+        # logging.info(f'Computing {graphClusterAlgo.__name__} and {relFunctionsNames}')
 
         self.svgDir = svgDir
         self.svgFiles = listdir(svgDir) 

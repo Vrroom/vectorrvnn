@@ -8,6 +8,7 @@ import string
 import subprocess
 import more_itertools
 import itertools
+from functools import reduce
 import networkx as nx
 import xml.etree.ElementTree as ET
 from networkx.drawing.nx_agraph import graphviz_layout
@@ -76,20 +77,54 @@ def treeKCut (tree, k) :
         Hierachical clustering from which
         k evenly sized sets.
     """
-    coveredNodes = set()
-    avgSize = tree.nPaths // k
-    pathSetGetter = lambda t, r, _ : t.nodes[r]['pathSet']
-    allPathSets = treeMap(tree.tree, tree.root, pathSetGetter)
-    allPathSets.sort(key=lambda x : abs(len(x) - avgSize))
-    parts = []
-    for ps in allPathSets : 
-        noIntersect = len(coveredNodes & set(ps)) == 0 
-        if noIntersect : 
-            parts.append(ps)
-            coveredNodes = coveredNodes | set(ps)
+    def selector (a, b) : 
+        if a['level'] < b['level'] : 
+            return a
+        elif a['level'] > b['level'] :
+            return b
+        elif len(a['ids']) > len(b['ids']) :
+            return a
+        else :
+            return b
 
-    parts[k-1] = sum(parts[k-1:], [])
-    return parts[:k]
+    def split (T, best) :
+        level, arr = None, None
+        if len(best['ids']) > 1 :
+            arr = copy.deepcopy(best['ids'])
+            level = best['level']
+        else :
+            i = best['ids'][0]
+            arr = list(T.neighbors(i))
+            level = best['level'] + 1
+        index = random.randint(0, len(arr) - 1)
+        left = { 'level':level, 'ids':arr[:index] + arr[index+1:]}
+        right = { 'level': level, 'ids':[arr[index]] }
+        return left, right
+
+    T = tree.tree
+    r = findRoot(T)
+    candidates = [{'level': 0, 'ids': [r]}]
+    leaves = [];
+    while len(candidates) + len(leaves) < k :
+        best = reduce(selector, candidates)
+        candidates.remove(best)
+        left, right = split (T, best)
+        if len(left['ids']) > 1 or T.out_degree(left['ids'][0]) > 0 :
+            candidates.append(left)
+        else :
+            leaves.append(left)
+
+        if len(right['ids']) > 1 or T.out_degree(right['ids'][0]) > 0 :
+            candidates.append(right)
+        else :
+            leaves.append(right)
+
+    candidates.extend(leaves)
+    cuts = list(map(lambda c : list(
+            more_itertools.flatten(
+                map(lambda i : T.nodes[i]['pathSet'], c['ids'])))
+            , candidates))
+    return cuts
 
 def hierarchicalClusterCompareFM (t1, t2) : 
     """
@@ -114,8 +149,7 @@ def hierarchicalClusterCompareFM (t1, t2) :
     n = t1.nPaths
     bs = []
     es = [] 
-    vs = []
-    for k in range(2, n): 
+    for k in range(2, 20): 
         cuts1 = treeKCut(t1, k)
         cuts2 = treeKCut(t2, k)
         M = np.zeros((k, k))
@@ -127,18 +161,10 @@ def hierarchicalClusterCompareFM (t1, t2) :
         pk = (mi ** 2).sum() - n
         qk = (mj ** 2).sum() - n
         bk = tk / np.sqrt(pk * qk)
-        pk_ = (mi * (mi - 1) * (mi - 2)).sum()
-        qk_ = (mj * (mj - 1) * (mj - 2)).sum()
         ek = np.sqrt(pk * qk) / (n * (n - 1))
-        vk=(2/(n*(n-1)))\
-            +((4*pk_*qk_)/(n*(n-1)*(n-2)*pk*qk))\
-            +(((pk-2-(4*pk_/pk))*(qk-2-(4*qk_/qk)))\
-                /(n*(n-1)*(n-2)*(n-3)))\
-            -((pk*qk)/(n*n*(n-1)*(n-1)))
         bs.append(bk)
         es.append(ek)
-        vs.append(vk);
-    return np.array(bs), np.array(es), np.array(vs)
+    return np.array(bs)
 
 def getCubicMatrix () : 
     """
@@ -1990,15 +2016,31 @@ class AllPathDescriptorFunction () :
         return np.vstack(descs)
 
 if __name__ == "__main__" : 
-    t1 = cluster2DiGraph("./Clusters/579/cluster1.json", "./Clusters/579/579.svg")
-    t2 = cluster2DiGraph("./Clusters/579/cluster3.json", "./Clusters/579/579.svg")
-    bs, es, vs = hierarchicalClusterCompareFM(t1, t2)
-    k = np.arange(2, 2 + len(bs))
-    plt.xlabel("k (clusters)")
-    plt.ylabel("b_k")
-    plt.title("cluster1 vs cluster3")
-    plt.ylim(0, 1)
-    plt.plot(k, bs)
-    plt.plot(k, es, color="red")
-    plt.fill_between(k, es - 2 * vs, es + 2 * vs, alpha=0.2, color="red")
-    plt.show()
+    with open('./Expts/Expt_2020-05-01/testDataHandler.pkl', 'rb') as fd :
+        tdh = pickle.load(fd)
+    with open('./data.pkl', 'rb') as fd :
+        data = pickle.load(fd)
+    files = listdir('./Expts/Expt_2020-05-01/Test/FinalTrees/')
+    filesEnd = [osp.splitext(osp.split(f)[-1])[0] for f in files]
+    testTrees = [Data.Tree(GraphReadWrite('tree').read(f)) for f in files]
+    testTreeDict = dict(zip(filesEnd, testTrees))
+    treeData = list(data.treeCache.values())[0]
+    filesEnd2 = [osp.splitext(osp.split(f)[-1])[0] for f in treeData.svgFiles]
+    trainTrees = treeData.trees
+    trainTreesDict = dict(zip(filesEnd2, trainTrees))
+    filesEnd3 = [osp.splitext(osp.split(f)[-1])[0] for f in tdh.svgFiles]
+    gt = tdh.groundTruth
+    gtDict = dict(zip(filesEnd3, gt))
+    scores = []
+    for key in trainTreesDict.keys() : 
+        print(key)
+        hcc = hierarchicalClusterCompareFM(gtDict[key], trainTreesDict[key][0]) 
+        score = (hcc > 0.8).sum()
+        print(score)
+        scores.append(score)
+    fig, axes = plt.subplots()
+    axes.hist(scores, bins=list(range(11)))
+    axes.set_xlabel('Number of bk\'s > 0.8')
+    axes.set_ylabel('Samples in Bucket')
+    fig.savefig('Cluster Histogram')
+    plt.close(fig)
