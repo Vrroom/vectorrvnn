@@ -147,6 +147,15 @@ class Trainer () :
     def drawTrees (self, treeList, fileList, path) :
         """
         Convenience function to visualize hierarchies.
+
+        Parameters
+        ----------
+        treeList : list
+            Trees to be drawn.
+        fileList : list
+            Their corresponding graphics.
+        path : str
+            Where to save tree plots.
         """
         for tree, file in zip(treeList, fileList) : 
             fname = osp.join(path, osp.splitext(osp.split(file)[1])[0])
@@ -154,7 +163,7 @@ class Trainer () :
             paths = doc.flatten_all_paths()
             vb = doc.get_viewbox()
             tree.setSVGAttributes(paths, vb)
-            matplotlibFigureSaver(treeImageFromGraph(tree, fname))
+            matplotlibFigureSaver(treeImageFromGraph(tree), fname)
 
     def runExpt (self, i, config) :
         """
