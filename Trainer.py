@@ -49,6 +49,7 @@ def compareNetTreeWithGroundTruth (sample, autoencoder, config, cuda) :
     netTree = findTree(config, svgFile, autoencoder, cuda)
     bk = hierarchicalClusterCompareFM(gt, netTree)
     netTree.toNumpy()
+    netTree.rootCode = None
     return (bk > 0.5).sum(), netTree
 
 class Trainer () :
@@ -163,7 +164,7 @@ class Trainer () :
             paths = doc.flatten_all_paths()
             vb = doc.get_viewbox()
             tree.setSVGAttributes(paths, vb)
-            matplotlibFigureSaver(treeImageFromGraph(tree), fname)
+            matplotlibFigureSaver(treeImageFromGraph(tree.tree), fname)
 
     def runExpt (self, i, config) :
         """
@@ -452,7 +453,7 @@ class Trainer () :
             compare = p.map(
                     partial(compareNetTreeWithGroundTruth, 
                         autoencoder=bestAutoEncoder, config=config, 
-                        cuda=self.cuda, path=finalTreesDir), 
+                        cuda=self.cuda), 
                     samples,
                     chunksize=10)
 

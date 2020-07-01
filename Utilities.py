@@ -1228,6 +1228,7 @@ def d2 (path, docbb, bins=10, nSamples=100) :
 
         hist[bIdx] += 1
 
+    hist = hist / hist.sum()
     return hist.tolist()
 
 def shell(path, docbb, bins=10) :
