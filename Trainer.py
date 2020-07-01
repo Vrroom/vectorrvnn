@@ -27,12 +27,12 @@ import math
 from Test import findTree
 from torchfold import Fold
 
-def compareNetTreeWithGroundTruth (sample, autoencoder, config, cuda, path=None) :
+def compareNetTreeWithGroundTruth (sample, autoencoder, config, cuda) :
     """
     Use the encoder and decoder to find
     the optimal tree and compare it
-    with the ground truth using tree edit
-    distance
+    with the ground truth using 
+    hierarchical cluster comparison method.
 
     Parameters
     ----------
@@ -44,26 +44,12 @@ def compareNetTreeWithGroundTruth (sample, autoencoder, config, cuda, path=None)
         Configuration dictionary.
     cuda : bool
         Whether to use CUDA.
-    path : None or str
-        If path is None, don't save the inferred
-        tree. Else do save it at the specified
-        location.
     """
     svgFile, gt = sample
     netTree = findTree(config, svgFile, autoencoder, cuda)
-
-    if path is not None: 
-        netTree.toNumpy()
-        _, end = osp.split(svgFile)
-        svgName, ext = osp.splitext(end)
-        savePath = osp.join(path, svgName) + '.json'
-        GraphReadWrite('tree').write((netTree.tree, netTree.root), savePath)
-
-    doc = svg.Document(svgFile)
-    paths = doc.flatten_all_paths()
-    vbox = doc.get_viewbox()
-
-    return svgTreeEditDistance(netTree, gt, paths, vbox)
+    bk = hierarchicalClusterCompareFM(gt, netTree)
+    netTree.toNumpy()
+    return (bk > 0.5).sum(), netTree
 
 class Trainer () :
     """
@@ -158,6 +144,18 @@ class Trainer () :
         for i, config in enumerate(self.configs) :
             self.runExpt(i + 1, config)
 
+    def drawTrees (self, treeList, fileList, path) :
+        """
+        Convenience function to visualize hierarchies.
+        """
+        for tree, file in zip(treeList, fileList) : 
+            fname = osp.join(path, osp.splitext(osp.split(file)[1])[0])
+            doc = svg.Document(file)
+            paths = doc.flatten_all_paths()
+            vb = doc.get_viewbox()
+            tree.setSVGAttributes(paths, vb)
+            matplotlibFigureSaver(treeImageFromGraph(tree, fname))
+
     def runExpt (self, i, config) :
         """
         Run the i-th experiment using the
@@ -173,6 +171,10 @@ class Trainer () :
         configPath, trainingTreesPath, modelPath = self.createDirectories(i, config)
         self.logger.info(f'Starting Expt {i}')
         self.setTrainDataLoader(config)
+
+        trees = list(unzip(self.trainData.trees)[0])
+        self.drawTrees(trees, self.trainData.svgFiles, trainingTreesPath)
+
         self.setModel(config)
         autoencoder = self.models[-1]
         self.startTrainingLoop(autoencoder, config, modelPath, configPath)
@@ -235,9 +237,8 @@ class Trainer () :
         config : dict
             Configuration for this sub-experiment.
         """
-        torch.cuda.set_device(self.gpu)
-
         if self.cuda and torch.cuda.is_available() : 
+            torch.cuda.set_device(self.gpu)
             self.logger.info(f'Using CUDA on GPU {self.gpu}')
         else :
             self.logger.info('Not using CUDA')
@@ -365,28 +366,28 @@ class Trainer () :
         self.saveSnapshots(modelPath, autoencoder, 'autoencoder.pkl')
         createAndSaveTrainingPlot()
 
-    def treeDistHistogram(self, treeDist, path) :
+    def bkFrequencyHistogram(self, bkFrequency, path) :
         """
         Plot and save a histogram of tree edit 
         distances. 
 
         Parameters
         ----------
-        treeDist : list
-            List of distances.
+        bkFrequency : list
+            List of bk values greater than 0.5.
         path : str
             Where to save the plot.
         """
         fig, axes = plt.subplots()
-        axes.hist(treeDist)
-        axes.set_xlabel('Tree Edit Distance')
+        axes.hist(bkFrequency, bins=range(11))
+        axes.set_xlabel('bk > 0.5')
         axes.set_ylabel('Frequency')
         fig.savefig(path)
         plt.close(fig)
 
     def crossValidate(self, config, autoencoder, configPath) :
         """
-        Compute the tree edit distances to the
+        Compute the bk frequency to the
         ground truth and average them. This is the 
         score of this model.
 
@@ -400,18 +401,20 @@ class Trainer () :
             Path to where we are storing this
             experiment's results.
         """
-        samples = zip(self.cvDataHandler.svgFiles, self.cvDataHandler.groundTruth)
+        trees = unzip(self.cvDataHandler.getDataset(config).trees)[0]
+        samples = zip(self.cvDataHandler.svgFiles, trees)
         with torch.multiprocessing.Pool(maxtasksperchild=30) as p : 
-            treeDist = p.map(
-                    partial(compareNetTreeWithGroundTruth, 
-                        autoencoder=autoencoder, config=config,
-                        cuda=self.cuda), 
-                    samples,
-                    chunksize=10)
+            compare = p.map(
+                   partial(compareNetTreeWithGroundTruth, 
+                       autoencoder=autoencoder, config=config,
+                       cuda=self.cuda), 
+                   samples,
+                   chunksize=10)
 
-        self.treeDistHistogram(treeDist, osp.join(configPath, 'CVHistogram'))
+        bkFrequency = list(unzip(compare)[0])
+        self.bkFrequencyHistogram(bkFrequency, osp.join(configPath, 'CVHistogram'))
         
-        score = sum(treeDist) / (len(treeDist) + 1)
+        score = sum(bkFrequency) / len(bkFrequency)
         self.logger.info(f'Cross Validation Score : {score}')
         self.modelScores.append(score)
 
@@ -434,18 +437,23 @@ class Trainer () :
  
         self.saveSnapshots(testDir, bestAutoEncoder, 'bestAutoEncoder.pkl')
          
-        samples = zip(self.testDataHandler.svgFiles, self.testDataHandler.groundTruth)
+        trees = unzip(self.testDataHandler.getDataset(config).trees)[0]
+        samples = zip(self.testDataHandler.svgFiles, trees)
         with torch.multiprocessing.Pool(maxtasksperchild=30) as p : 
-            treeDist = p.map(
+            compare = p.map(
                     partial(compareNetTreeWithGroundTruth, 
                         autoencoder=bestAutoEncoder, config=config, 
                         cuda=self.cuda, path=finalTreesDir), 
                     samples,
                     chunksize=10)
+
+        netTrees = list(unzip(compare)[1])
+        self.drawTrees(netTrees, self.testDataHandler.svgFiles, finalTreesDir)
+
+        bkFrequency = list(unzip(compare)[0])
+        self.bkFrequencyHistogram(bkFrequency, osp.join(testDir, 'Histogram'))
  
-        self.treeDistHistogram(treeDist, osp.join(testDir, 'Histogram'))
- 
-        score = sum(treeDist) / len(treeDist)
+        score = sum(bkFrequency) / len(bkFrequency)
         self.logger.info(f'Test Score : {score}')
  
     def makeDir (self, path) :

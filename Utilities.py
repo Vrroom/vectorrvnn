@@ -149,7 +149,7 @@ def hierarchicalClusterCompareFM (t1, t2) :
     n = t1.nPaths
     bs = []
     es = [] 
-    for k in range(2, 20): 
+    for k in range(2, 10): 
         cuts1 = treeKCut(t1, k)
         cuts2 = treeKCut(t2, k)
         M = np.zeros((k, k))
@@ -397,6 +397,8 @@ def svgTreeEditDistance (t1, t2, paths, vbox) :
         Tree two.
     paths : list
         List of paths.
+    vbox : list
+        Bounding Box.
     """
 
     def pathMatchFn (a, b) : 
@@ -1373,7 +1375,7 @@ def d3 (path, docbb, bins=10, nSamples=100) :
 
     return hist 
 
-def fd (path, docbb, nSamples=100, freqs=40) :
+def fd (path, docbb, nSamples=100, freqs=10) :
     """
     Compute the fourier descriptors of the
     path with respect to its centroid.
@@ -1392,12 +1394,16 @@ def fd (path, docbb, nSamples=100, freqs=40) :
     if L == 0 :
         return np.ones(min(nSamples, 20))
     pts = np.array([path.point(path.ilength(t * L, s_tol=1e-5)) for t in ts])
+    pts = pts - pts.mean()
     an = np.fft.fft(pts)
     pos = an[1:nSamples//2]
     neg = an[nSamples//2 + 1:]
     pos = pos[:freqs]
     neg = neg[-freqs:]
     newAn = np.hstack([an[0], pos, neg])
+    reals = np.array(list(map(lambda x : x.real, newAn)))
+    imags = np.array(list(map(lambda x : x.imag, newAn)))
+    newAn = np.hstack([reals, imags])
     return newAn
 
 def relbb (path, docbb) :

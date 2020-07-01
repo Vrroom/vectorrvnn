@@ -163,9 +163,9 @@ class Tree(object):
         return self.descriptors[pathId].reshape((1, -1))
 
     def setSVGAttributes (self, paths, vb) :
-        def getter (n, *args) :
+        def getter (T, n, _) :
             lst = self.tree.nodes[n]['pathSet']
-            return getSubsetSvg(paths, lst, vb)
+            self.tree.nodes[n]['svg'] = getSubsetSvg(paths, lst, vb)
         treeApply(self.tree, self.root, getter)
 
     def save (self, out) :
@@ -223,7 +223,7 @@ class TreesData (data.Dataset, Saveable) :
         # For logging what is happening
         relFunctionsNames = map(lambda x : x.__name__, relationFunctions)
         relFunctionsNames = ' '.join(relFunctionsNames)
-        # logging.info(f'Computing {graphClusterAlgo.__name__} and {relFunctionsNames}')
+        logging.info(f'Computing {graphClusterAlgo.__name__} and {relFunctionsNames}')
 
         self.svgDir = svgDir
         self.svgFiles = listdir(svgDir) 

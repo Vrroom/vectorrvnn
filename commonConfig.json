@@ -1,11 +1,11 @@
 {
-	"train_directory"     : "./SmallAvatar/",
-	"test_directory"      : "./SmallAvatar/",
-	"cv_directory"        : "./SmallAvatar/",
+	"train_directory"     : "./SmallEmojis/Train",
+	"test_directory"      : "./SmallEmojis/Train",
+	"cv_directory"        : "./SmallEmojis/Train",
 	"log_file"            : "test.log",
 	"show_log_every"      : 1,
 	"save_snapshot_every" : 5,
-	"cuda"                : true,
+	"cuda"                : false,
 	"gpu"                 : 0,
 	"expt_path"           : "./Expts/"
 }
