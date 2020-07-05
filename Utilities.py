@@ -164,6 +164,7 @@ def hierarchicalClusterCompareFM (t1, t2) :
         ek = np.sqrt(pk * qk) / (n * (n - 1))
         bs.append(bk)
         es.append(ek)
+    print(es)
     return np.array(bs)
 
 def getCubicMatrix () : 
@@ -1983,6 +1984,7 @@ def getTreeStructureFromSVG (svgFile) :
     ]
     groupTag = '{http://www.w3.org/2000/svg}g'
 
+    print(svgFile)
     doc = svg.Document(svgFile)
     paths = doc.flatten_all_paths()
     zIndexMap = dict([(p.zIndex, i) for i, p in enumerate(paths)])
