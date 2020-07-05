@@ -1,9 +1,10 @@
 import sys
+from torchvision import transforms as T
 from copy import deepcopy
 import pickle
 from concurrent.futures import ProcessPoolExecutor
 import multiprocessing as mp
-from functools import reduce
+from functools import reduce, partial
 import numpy as np
 import torch
 import string
@@ -20,7 +21,6 @@ from Utilities import *
 import Utilities
 import re
 import logging
-from functools import partial
 
 class Saveable () : 
 
@@ -228,20 +228,31 @@ class TreesData (data.Dataset, Saveable) :
         self.svgDir = svgDir
         self.svgFiles = listdir(svgDir) 
         creator = TreeCreator(graphClusterAlgo, relationFunctions)
+        self.tensor = False
         with ProcessPoolExecutor() as executor : 
             self.trees = list(executor.map(creator, self.svgFiles, chunksize=1))
+            self.rasterImages = list(executor.map(partial(SVGtoNumpyImage, H=224, W=224), self.svgFiles))
+
+
+    def imagesToTensor (self, cuda) :
+        self.rasterImages = list(map(torch.from_numpy, self.rasterImages))
+        self.rasterImages = [img.permute(2, 0, 1) for img in self.rasterImages]
+        normalizer = T.Normalize(mean=[0.485, 0.456, 0.406],
+                                 std=[0.229, 0.224, 0.225])
+        self.rasterImages = list(map(normalizer, self.rasterImages))
+        self.rasterImages = [img.unsqueeze(0) for img in self.rasterImages]
+        if cuda :
+            self.rasterImages = [img.cuda() for img in self.rasterImages]
 
     def __getitem__ (self, index) :
         tree, _ = self.trees[index]
-        return tree
+        image = self.rasterImages[index]
+        return tree, image
 
     def __len__ (self) : 
         return len(self.svgFiles)
 
-    def toTensor (self, cuda) : 
-        """
-        Whether to use CUDA.
-        """
+    def treesToTensor (self, cuda) : 
         for tree, _ in self.trees : 
             tree.toTensor(cuda)
 
@@ -268,29 +279,29 @@ class DataHandler (Saveable) :
             descList.append(self.descCache[fn])
         return reduce(lambda x, y : x | y, descList)
 
-    def getTrees (self, graphClusterAlgos, relationFunctions) :
+    def getTrees (self, graphClusterAlgos, relationFunctions, cuda) :
         treeList = []
         for algo in graphClusterAlgos : 
             key = (algo, relationFunctions)
             if key not in self.treeCache :
                 self.treeCache[key] = TreesData(self.svgDir, algo, relationFunctions)
+                self.treeCache[key].imagesToTensor(cuda)
             treeList.append(self.treeCache[key])
         return reduce(lambda x, y : x + y, treeList)
 
-    def getDataset (self, config) : 
-
+    def getDataset (self, config, cuda) : 
         functionGetter = lambda x : getattr(Utilities, x) 
 
         descFunctions = list(map(functionGetter, config['desc_functions']))
         relationFunctions = tuple(map(functionGetter, config['relation_functions']))
         graphClusterAlgos = list(map(functionGetter, config['graph_cluster_algo']))
 
-        trees = self.getTrees(graphClusterAlgos, relationFunctions)
+        trees = self.getTrees(graphClusterAlgos, relationFunctions, cuda)
         descs = self.getDescriptors(descFunctions)
         
         for t, d in zip(trees, descs) : 
-            t.addDescriptors(d)
+            t[0].addDescriptors(d)
+
+        trees.treesToTensor(cuda)
 
         return trees
-            
-

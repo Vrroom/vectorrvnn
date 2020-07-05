@@ -228,8 +228,7 @@ class Trainer () :
             Configuration for this sub-experiment.
         """
         self.logger.info('Loading Training Data')
-        self.trainData = self.trainDataHandler.getDataset(config)
-        self.trainData.toTensor(self.cuda)
+        self.trainData = self.trainDataHandler.getDataset(config, self.cuda)
         self.trainDataLoader = torch.utils.data.DataLoader(
             self.trainData, 
             batch_size=config['batch_size'], 
@@ -319,8 +318,7 @@ class Trainer () :
             for batchIdx, batch in enumerate(self.trainDataLoader):
 
                 fold = Fold(cuda=self.cuda)
-
-                nodes = [Model.lossFold(fold, tree) for tree in batch]
+                nodes = [Model.lossFold(fold, tree, img) for tree, img in batch]
                 
                 opt.zero_grad()
                 totalLoss, *_ = fold.apply(autoencoder, [nodes])
@@ -411,7 +409,7 @@ class Trainer () :
             Path to where we are storing this
             experiment's results.
         """
-        trees = unzip(self.cvDataHandler.getDataset(config).trees)[0]
+        trees = unzip(self.cvDataHandler.getDataset(config, self.cuda).trees)[0]
         samples = zip(self.cvDataHandler.svgFiles, trees)
         with torch.multiprocessing.Pool(maxtasksperchild=30) as p : 
             compare = p.map(

@@ -154,14 +154,16 @@ class RasterEncoder (nn.Module) :
     Take the vector-graphic to the same
     latent space as the GRASS Encoder.
     """
-    def __init__ (self) :
+    def __init__ (self, featureSize) :
         super(RasterEncoder, self).__init__()
         self.resnet18 = models.resnet18(pretrained=True)
-        self.resnet18.eval()
-        self.mlp = nn.Linear(1000, 80)
+        for param in self.resnet18.parameters():
+            param.requires_grad = False
+        self.mlp = nn.Linear(1000, featureSize)
 
     def forward (self, image) :
-        return self.mlp(self.resnet18(image))
+        features = self.resnet18(image)
+        return self.mlp(features)
 
 class GRASSAutoEncoder(nn.Module):
     """ 
@@ -184,8 +186,13 @@ class GRASSAutoEncoder(nn.Module):
         self.mse_loss = nn.MSELoss()
         self.cre_loss = nn.CrossEntropyLoss()
 
+        self.raster_encoder = RasterEncoder(featureSize)
+
     def pathDecoder(self, feature):
         return self.path_decoder(feature)
+
+    def rasterEncoder(self, image) : 
+        return self.raster_encoder(image)
 
     def mergeDecoder(self, feature):
         return self.merge_decoder(feature)
@@ -215,7 +222,7 @@ class GRASSAutoEncoder(nn.Module):
     def vectorAdder(self, v1, v2):
         return v1.add_(v2)
 
-def lossFold (fold, tree) :
+def lossFold (fold, tree, image) :
 
     def encodeNode(node):
         neighbors = list(tree.tree.neighbors(node))
@@ -224,14 +231,14 @@ def lossFold (fold, tree) :
         if isLeaf:
             path = tree.path(node)
             feature = fold.add('pathEncoder', path)
-            rootCodes[node] = feature
+            features[node] = feature
             return feature
         else : 
             lNode, rNode = neighbors
             left = encodeNode(lNode)
             right = encodeNode(rNode)
             feature = fold.add('mergeEncoder', left, right)
-            rootCodes[node] = feature
+            features[node] = feature
             return feature
 
     def decodeNode(node, feature):
@@ -242,7 +249,7 @@ def lossFold (fold, tree) :
             path = tree.path(node)
             reconPath = fold.add('pathDecoder', feature)
             loss1 = fold.add('pathLoss', path, reconPath) 
-            loss2 = fold.add('nodeLoss', rootCodes[node], feature)
+            loss2 = fold.add('nodeLoss', features[node], feature)
             classLoss = fold.add('nodeClassifier', feature, torch.zeros((1,1), dtype=torch.long))
             return fold.add('vectorAdder', fold.add('vectorAdder', loss1, loss2), classLoss)
         else :
@@ -250,12 +257,15 @@ def lossFold (fold, tree) :
             left, right = fold.add('mergeDecoder', feature).split(2)
             leftLoss = decodeNode(lNode, left)
             rightLoss = decodeNode(rNode, right)
-            loss = fold.add('nodeLoss', rootCodes[node], feature)
+            loss = fold.add('nodeLoss', features[node], feature)
             childLoss = fold.add('vectorAdder', leftLoss, rightLoss)
             classLoss = fold.add('nodeClassifier', feature, torch.ones((1, 1), dtype=torch.long))
             return fold.add('vectorAdder', fold.add('vectorAdder', loss, childLoss), classLoss)
 
-    rootCodes = dict()
-    loss = decodeNode(tree.root, encodeNode(tree.root))
-    return loss
+    features = dict()
+    root = encodeNode(tree.root)
+    target = fold.add('rasterEncoder', image)
+    targetLoss = fold.add('nodeLoss', target, root)
+    loss = decodeNode(tree.root, root)
+    return fold.add('vectorAdder', loss, targetLoss)
 

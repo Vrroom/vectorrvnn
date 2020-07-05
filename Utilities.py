@@ -1537,8 +1537,9 @@ def SVGtoNumpyImage (svgFilePath, H, W) :
     W : float 
         Desired width of output.
     """
-    rasterize(svgFilePath, '/tmp/o.png', H=H, W=W)
-    img = image.imread('/tmp/o.png')
+    rs = randomString(10)
+    rasterize(svgFilePath, f'/tmp/{rs}.png', H=H, W=W)
+    img = image.imread(f'/tmp/{rs}.png')
     return img[:, :, :3]
 
 def pathIntersectionArea (path1, path2, vbox) : 
@@ -2022,7 +2023,9 @@ def listdir (path) :
     path : str
         Path to be listed.
     """
-    return [osp.join(path, f) for f in os.listdir(path)]
+    paths = [osp.join(path, f) for f in os.listdir(path)]
+    paths.sort()
+    return paths
 
 class AllPathDescriptorFunction () : 
     """ 
