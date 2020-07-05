@@ -183,7 +183,7 @@ class Trainer () :
         self.setTrainDataLoader(config)
 
         trees = list(unzip(self.trainData.trees)[0])
-        self.drawTrees(trees, self.trainData.svgFiles, trainingTreesPath)
+        # self.drawTrees(trees, self.trainData.svgFiles, trainingTreesPath)
 
         self.setModel(config)
         autoencoder = self.models[-1]
@@ -458,7 +458,7 @@ class Trainer () :
                     chunksize=10)
 
         netTrees = list(unzip(compare)[1])
-        self.drawTrees(netTrees, self.testDataHandler.svgFiles, finalTreesDir)
+        # self.drawTrees(netTrees, self.testDataHandler.svgFiles, finalTreesDir)
 
         bkFrequency = list(unzip(compare)[0])
         self.bkFrequencyHistogram(bkFrequency, osp.join(testDir, 'Histogram'))

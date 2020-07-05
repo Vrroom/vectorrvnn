@@ -164,7 +164,6 @@ def hierarchicalClusterCompareFM (t1, t2) :
         ek = np.sqrt(pk * qk) / (n * (n - 1))
         bs.append(bk)
         es.append(ek)
-    print(es)
     return np.array(bs)
 
 def getCubicMatrix () : 
@@ -439,7 +438,6 @@ def svgTreeEditDistance (t1, t2, paths, vbox) :
         def curveDelFn (a) : 
             return 1 
     
-        print(len(cachedMatchVals))
         if (a, b) not in cachedMatchVals : 
             pathA = paths[a].path
             pathB = paths[b].path
@@ -843,7 +841,7 @@ def parallelize(indirList, outdir, function, writer, **kwargs) :
     for p in processList :
         p.join()
 
-def rasterize(svgFile, outFile, makeSquare=True) :
+def rasterize(svgFile, outFile, H=72, W=72, makeSquare=True) :
     """
     Utility function to convert svg to
     raster using inkscape
@@ -856,7 +854,7 @@ def rasterize(svgFile, outFile, makeSquare=True) :
         Path to where to store output
     """
     if makeSquare : 
-        subprocess.call(['inkscape', '-h 72', '-w 72', '-z', '-f', svgFile, '-j', '-e', outFile])
+        subprocess.call(['inkscape', f'-h {H}', f'-w {W}', '-z', '-f', svgFile, '-j', '-e', outFile])
     else : 
         subprocess.call(['inkscape', '-z', '-f', svgFile, '-j', '-e', outFile])
 
@@ -1525,6 +1523,24 @@ def areaGraph (paths, **kwargs) :
 
     return G
 
+def SVGtoNumpyImage (svgFilePath, H, W) :
+    """
+    Take an SVG file and rasterize it to 
+    obtain a numpy array of given height and
+    width. 
+
+    Parameters
+    ----------
+    svgFilePath : str
+    H : float
+        Desired height of output.
+    W : float 
+        Desired width of output.
+    """
+    rasterize(svgFilePath, '/tmp/o.png', H=H, W=W)
+    img = image.imread('/tmp/o.png')
+    return img[:, :, :3]
+
 def pathIntersectionArea (path1, path2, vbox) : 
     """
     Calculate the area of intersection of two
@@ -1984,7 +2000,6 @@ def getTreeStructureFromSVG (svgFile) :
     ]
     groupTag = '{http://www.w3.org/2000/svg}g'
 
-    print(svgFile)
     doc = svg.Document(svgFile)
     paths = doc.flatten_all_paths()
     zIndexMap = dict([(p.zIndex, i) for i, p in enumerate(paths)])

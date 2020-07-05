@@ -150,7 +150,18 @@ class NodeClassifier(nn.Module):
         return output
 
 class RasterEncoder (nn.Module) :
-    pass
+    """
+    Take the vector-graphic to the same
+    latent space as the GRASS Encoder.
+    """
+    def __init__ (self) :
+        super(RasterEncoder, self).__init__()
+        self.resnet18 = models.resnet18(pretrained=True)
+        self.resnet18.eval()
+        self.mlp = nn.Linear(1000, 80)
+
+    def forward (self, image) :
+        return self.mlp(self.resnet18(image))
 
 class GRASSAutoEncoder(nn.Module):
     """ 
@@ -182,8 +193,10 @@ class GRASSAutoEncoder(nn.Module):
     def mseLoss(self, a, b) : 
         return self.mse_loss(a, b)
     
-    def nodeClassifier (self, feature, nodeClass) : 
-        return self.cre_loss(self.node_classifier(feature), nodeClass)
+    def nodeClassifier (self, features, nodeClasses) : 
+        labelVectors = self.node_classifier(features)
+        a = [self.cre_loss(b.unsqueeze(0), gt).unsqueeze(0) for b, gt in zip(labelVectors, nodeClasses)]
+        return torch.cat(a, 0)
 
     def pathLoss(self, path_feature, gt_path_feature):
         a = [self.mse_loss(b, gt).unsqueeze(0) for b, gt in zip(path_feature, gt_path_feature)]
@@ -230,7 +243,7 @@ def lossFold (fold, tree) :
             reconPath = fold.add('pathDecoder', feature)
             loss1 = fold.add('pathLoss', path, reconPath) 
             loss2 = fold.add('nodeLoss', rootCodes[node], feature)
-            classLoss = fold.add('nodeClassifier', feature, torch.zeros(1))
+            classLoss = fold.add('nodeClassifier', feature, torch.zeros((1,1), dtype=torch.long))
             return fold.add('vectorAdder', fold.add('vectorAdder', loss1, loss2), classLoss)
         else :
             lNode, rNode = neighbors
@@ -239,7 +252,7 @@ def lossFold (fold, tree) :
             rightLoss = decodeNode(rNode, right)
             loss = fold.add('nodeLoss', rootCodes[node], feature)
             childLoss = fold.add('vectorAdder', leftLoss, rightLoss)
-            classLoss = fold.add('nodeClassifier', feature, torch.zeros(1))
+            classLoss = fold.add('nodeClassifier', feature, torch.ones((1, 1), dtype=torch.long))
             return fold.add('vectorAdder', fold.add('vectorAdder', loss, childLoss), classLoss)
 
     rootCodes = dict()
