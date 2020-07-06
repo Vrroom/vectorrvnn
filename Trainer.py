@@ -46,7 +46,7 @@ def compareNetTreeWithGroundTruth (sample, autoencoder, config, cuda) :
         Whether to use CUDA.
     """
     svgFile, gt = sample
-    netTree = findTree(config, svgFile, autoencoder, cuda)
+    netTree = findTree(config, svgFile, autoencoder, cuda, gt)
     bk = hierarchicalClusterCompareFM(gt, netTree)
     netTree.toNumpy()
     netTree.rootCode = None
@@ -183,7 +183,7 @@ class Trainer () :
         self.setTrainDataLoader(config)
 
         trees = list(unzip(self.trainData.trees)[0])
-        # self.drawTrees(trees, self.trainData.svgFiles, trainingTreesPath)
+        self.drawTrees(trees, self.trainData.svgFiles, trainingTreesPath)
 
         self.setModel(config)
         autoencoder = self.models[-1]
@@ -411,13 +411,14 @@ class Trainer () :
         """
         trees = unzip(self.cvDataHandler.getDataset(config, self.cuda).trees)[0]
         samples = zip(self.cvDataHandler.svgFiles, trees)
-        with torch.multiprocessing.Pool(maxtasksperchild=30) as p : 
-            compare = p.map(
-                   partial(compareNetTreeWithGroundTruth, 
-                       autoencoder=autoencoder, config=config,
-                       cuda=self.cuda), 
-                   samples,
-                   chunksize=10)
+        # with torch.multiprocessing.Pool(maxtasksperchild=30) as p : 
+        #     compare = p.map(
+        #            partial(compareNetTreeWithGroundTruth, 
+        #                autoencoder=autoencoder, config=config,
+        #                cuda=self.cuda), 
+        #            samples,
+        #            chunksize=10)
+        compare = list(map(partial(compareNetTreeWithGroundTruth, autoencoder=autoencoder, config=config, cuda=self.cuda), samples))
 
         bkFrequency = list(unzip(compare)[0])
         self.bkFrequencyHistogram(bkFrequency, osp.join(configPath, 'CVHistogram'))
@@ -445,7 +446,7 @@ class Trainer () :
  
         self.saveSnapshots(testDir, bestAutoEncoder, 'bestAutoEncoder.pkl')
          
-        trees = unzip(self.testDataHandler.getDataset(config).trees)[0]
+        trees = unzip(self.testDataHandler.getDataset(config, self.cuda).trees)[0]
         samples = zip(self.testDataHandler.svgFiles, trees)
         with torch.multiprocessing.Pool(maxtasksperchild=30) as p : 
             compare = p.map(
@@ -456,7 +457,7 @@ class Trainer () :
                     chunksize=10)
 
         netTrees = list(unzip(compare)[1])
-        # self.drawTrees(netTrees, self.testDataHandler.svgFiles, finalTreesDir)
+        self.drawTrees(netTrees, self.testDataHandler.svgFiles, finalTreesDir)
 
         bkFrequency = list(unzip(compare)[0])
         self.bkFrequencyHistogram(bkFrequency, osp.join(testDir, 'Histogram'))

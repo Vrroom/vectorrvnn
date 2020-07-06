@@ -8,80 +8,64 @@ import itertools
 import more_itertools
 import networkx as nx
 import cProfile
+from torchvision import transforms as T
 import Utilities
 from Utilities import *
 
-def findTree (config, svgFile, autoencoder, cuda) :
-    """
-    Find the best tree by local greedy search. 
+def findTree (gt, svgFile, autoencoder, cuda) :
 
-    Parameters
-    ----------
-    config : dict
-    svgFile : str
-    autoencoder : GRASSAutoEncoder
-    cuda : bool
-        Whether to use CUDA.
-    """
-    def computeMerges(pair) :
-        tl, tr = pair
-        root = autoencoder.mergeEncoder(tl.rootCode, tr.rootCode)
-        l, r = autoencoder.mergeDecoder(root) 
-        loss = (torch.norm(l - tl.rootCode) + torch.norm(r - tr.rootCode)).item()
-        loss += (tl.loss + tr.loss)
-        return (loss, tl, tr, root)
-
-    def makeLeaf (paths, idx, feature) : 
-        leaf = nx.DiGraph()
-        leaf.add_node(idx, pathSet=[idx])
-        tree = Tree(leaf)
-        tree.rootCode = feature
-        tree.loss = 0
-        return tree
-
-    def toLeaves (pathObj) :
-        idx, path = pathObj
-        desc = [f(path.path, vb) for f in descFunctions] 
-        if cuda : 
-            flattened = torch.tensor(list(more_itertools.collapse(desc))).cuda()
-        else : 
-            flattened = torch.tensor(list(more_itertools.collapse(desc)))
-        feature = autoencoder.pathEncoder(flattened)
-        leaf = makeLeaf(paths, idx, feature)
-        return leaf
-
-    descFunctions = list(map(partial(getattr, Utilities), config['desc_functions']))
-    doc = svg.Document(svgFile)
-    paths = doc.flatten_all_paths()
-    vb = doc.get_viewbox()
-    totalPaths = len(paths)
-
-    trees = list(map(toLeaves, enumerate(paths)))
-    
-    candidates = list(map(computeMerges, itertools.combinations(trees, 2)))
-    heapq.heapify(candidates)
-
-    while len(candidates) > 0 :
-        loss, tl, tr, root = heapq.heappop(candidates)
-
-        if tl not in trees or tr not in trees : 
-            continue
-
-        trees.remove(tl)
-        trees.remove(tr)
-
-        newTree = Tree(mergeTrees([tl.tree, tr.tree]))
-
-        newTree.rootCode = root
-        newTree.loss = loss
-
-        trees.append(newTree)
-
-        if newTree.nPaths == totalPaths : 
-            return newTree
+    def unfurl (feature) :
+        nonlocal nodeIdx
+        cId = nodeIdx
+        tree.add_node(cId)
+        nodeIdx += 1
+        ps = autoencoder.node_classifier(feature)
+        if ps[0, 0] > ps[0, 1] : 
+            pathFeature = autoencoder.pathDecoder(feature)
+            pathFeature = pathFeature.detach().numpy()
+            tree.nodes[cId]['desc'] = pathFeature
         else :
-            newCombinations = itertools.product(trees[:-1], [newTree])
-            newCandidates = map(computeMerges, newCombinations)
-            for candidate in newCandidates : 
-                heapq.heappush(candidates, candidate)
+            l, r  = autoencoder.mergeDecoder(feature)
+            lId = unfurl(l)
+            rId = unfurl(r)
+            tree.add_edge(cId, lId)
+            tree.add_edge(cId, rId)
+        return cId
 
+    def aggregatePathSets (T, r, neighbors) :
+        if T.out_degree(r) > 0 : 
+            childrenSets = map(lambda x : T.nodes[x]['pathSet'], neighbors)
+            T.nodes[r]['pathSet'] = list(more_itertools.flatten(childrenSets))
+
+    normalizer = T.Normalize(mean=[0.485, 0.456, 0.406],
+                             std=[0.229, 0.224, 0.225])
+    image = SVGtoNumpyImage(svgFile, H=224, W=224)
+    image = torch.from_numpy(image).permute(2, 0, 1)
+    image = normalizer(image).unsqueeze(0)
+    feature = autoencoder.rasterEncoder(image)
+
+    tree = nx.DiGraph()
+    tree.add_node(0)
+    nodeIdx = 0
+
+
+    costTable = dict()
+    gtLeaves = leaves(gt.tree)
+    ntLeaves = leaves(tree)
+    unfurl(feature)
+
+    for i, j in itertools.product(gtLeaves, ntLeaves) : 
+        pathIdx = gt.tree.nodes[i]['pathSet'][0]
+        vec1 = tree.nodes[j]['desc']
+        vec2 = gt.descriptors[pathIdx].numpy()
+        dist = np.linalg.norm(vec1 - vec2)
+        costTable[(j, pathIdx)] = dist
+
+    matching = optimalBipartiteMatching(costTable)
+    for k, v in matching.items() : 
+        if isinstance(k, int) : 
+            tree.nodes[k]['pathSet'] = [int(v)]
+
+    treeApply(tree, 0, aggregatePathSets)
+
+    return Tree(tree)

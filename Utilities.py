@@ -691,6 +691,29 @@ def subgraph (G, predicate=lambda x : x['weight'] < 1e-3) :
     G_.remove_edges_from(badEdges)
     return G_
 
+def optimalBipartiteMatching (costTable) :
+    """
+    Return the minimum cost bipartite 
+    matching.
+
+    Parameters
+    ----------
+    costTable : dict()
+        For each pair, what is the 
+        cost of matching that pair
+        together.
+    """
+    G = nx.Graph()
+
+    for key, val in costTable.items() :
+        i, j = key
+        G.add_node(i, bipartite=0)
+        G.add_node(str(j), bipartite=1)
+        G.add_edge(i, str(j), weight=val)
+
+    matching = bipartite.minimum_weight_full_matching(G)
+    return matching
+
 def bestAssignmentCost (costTable) :
     """
     Compute the minimum total
