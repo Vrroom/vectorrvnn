@@ -1,3 +1,5 @@
+# TODO : Tree Structure is somehow maintained very well!
+# The nodes are different somehow...
 from Data import Tree
 import torch
 import heapq
@@ -11,6 +13,7 @@ import cProfile
 from torchvision import transforms as T
 import Utilities
 from Utilities import *
+import torch.nn.functional as F
 
 def findTree (gt, svgFile, autoencoder, cuda) :
     """
@@ -42,13 +45,10 @@ def findTree (gt, svgFile, autoencoder, cuda) :
         of MERGE or PATH) for the feature at nodeId
         in the tree.
         """
-        targetTensor = None
-        if targetClass == 0 : 
-            targetTensor = torch.zeros((1, 1))
-        else : 
-            targetTensor = torch.ones((1, 1))
         feature = tree.nodes[nodeId]['feature']
-        return autoencoder.nodeClassifier(feature, targetTensor)
+        vec = autoencoder.node_classifier(feature)
+        probs = F.softmax(vec)
+        return probs[0, targetClass]
 
     def unroll (feature) :
         """
@@ -62,8 +62,7 @@ def findTree (gt, svgFile, autoencoder, cuda) :
         tree.add_node(cId)
         tree.nodes[cId]['feature'] = feature
         nodeIdx += 1
-        ps = autoencoder.node_classifier(feature)
-        if prob(cID, 1) > 0.5 : 
+        if probability(cId, 1) > 0.5 : 
             childFeatures  = autoencoder.mergeDecoder(feature)
             ids = [unroll(f) for f in childFeatures]
             for i in ids :
@@ -80,14 +79,13 @@ def findTree (gt, svgFile, autoencoder, cuda) :
         in the tree by 1.
         """
         nonlocal nodeIdx
-        leaves = leaves(tree)
-        probs = [probability(l, 0) for l in leaves]
+        probs = [probability(l, 0) for l in leaves(tree)]
         leafId = argmin(probs)
         childFeatures = autoencoder.mergeDecoder(feature)
         for i in range(nodeIdx, nodeIdx + len(childFeatures)) : 
             tree.add_node(i)
             tree.nodes[i]['feature'] = childFeatures[i]
-            tree.add_edge((leafId, i))
+            tree.add_edge(leafId, i)
         nodeIdx += len(childFeatures)
         
     def prune () :
@@ -100,8 +98,7 @@ def findTree (gt, svgFile, autoencoder, cuda) :
         This operation decreases the number of leaves by 1
         for binary trees.
         """
-        leaves = leaves(tree)
-        bothLeaves = lambda p : len(set(tree.neighbors(p)) & set(leaves)) == 2 
+        bothLeaves = lambda p : len(set(tree.neighbors(p)) & set(leaves(tree))) == 2 
         parents = list(filter(bothLeaves, tree.nodes))
         probs = [probability(p, 1) for p in parents]
         children = list(tree.neighbors(parents[argmin(probs)]))
@@ -111,6 +108,9 @@ def findTree (gt, svgFile, autoencoder, cuda) :
         if T.out_degree(r) > 0 : 
             childrenSets = map(lambda x : T.nodes[x]['pathSet'], neighbors)
             T.nodes[r]['pathSet'] = list(more_itertools.flatten(childrenSets))
+
+    def delFeatures (T, r, neighbors) : 
+        del T.nodes[r]['feature']
 
     # Get root code from SVG using the rasterEncoder.
     normalizer = T.Normalize(mean=[0.485, 0.456, 0.406],
@@ -157,4 +157,5 @@ def findTree (gt, svgFile, autoencoder, cuda) :
 
     # Fill in the tree with pathSet information.
     treeApply(tree, 0, aggregatePathSets)
+    treeApply(tree, 0, delFeatures)
     return Tree(tree)

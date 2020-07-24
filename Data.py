@@ -229,8 +229,9 @@ class TreesData (data.Dataset, Saveable) :
         self.svgFiles = listdir(svgDir) 
         creator = TreeCreator(graphClusterAlgo, relationFunctions)
         self.tensor = False
+        self.trees = list(map(creator, self.svgFiles))
         with ProcessPoolExecutor() as executor : 
-            self.trees = list(executor.map(creator, self.svgFiles, chunksize=1))
+        #    self.trees = list(executor.map(creator, self.svgFiles, chunksize=1))
             self.rasterImages = list(executor.map(partial(SVGtoNumpyImage, H=224, W=224), self.svgFiles))
 
 

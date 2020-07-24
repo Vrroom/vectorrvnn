@@ -1541,7 +1541,7 @@ def areaGraph (paths, **kwargs) :
         pi, pj = p1[1][0], p2[1][0]
 
         if i != j and pi != pj :
-            weight = pathIntersectionArea(pi, pj, kwargs['vbox'])
+            weight = pathIntersectionArea(p1[1], p2[1], kwargs['vbox'])
             G.add_edge(i, j, etype='area', weight=weight)
 
     return G
@@ -1586,7 +1586,6 @@ def pathIntersectionArea (path1, path2, vbox) :
     fillDict = {'fill' : [0, 0, 0]}
     path1_ = copy.deepcopy(path1)
     path2_ = copy.deepcopy(path2)
-
     path1_[1].attrib = fillDict
     path2_[1].attrib = fillDict
 
@@ -1604,7 +1603,9 @@ def pathIntersectionArea (path1, path2, vbox) :
 
     intersect = img1 * img2
     n, m = intersect.shape
-    return intersect.sum() / (n * m)
+    fraction = intersect.sum() / (n * m)
+    print(fraction)
+    return fraction
 
 def graphFromSvg (svgFile, graphFunction) : 
     """

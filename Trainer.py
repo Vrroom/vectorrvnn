@@ -46,7 +46,7 @@ def compareNetTreeWithGroundTruth (sample, autoencoder, config, cuda) :
         Whether to use CUDA.
     """
     svgFile, gt = sample
-    netTree = findTree(config, svgFile, autoencoder, cuda, gt)
+    netTree = findTree(gt, svgFile, autoencoder, cuda)
     bk = hierarchicalClusterCompareFM(gt, netTree)
     netTree.toNumpy()
     netTree.rootCode = None
@@ -503,7 +503,7 @@ def main () :
 
     with Trainer(commonConfig, configs) as trainer : 
         trainer.run()
-        trainer.test()
+        # trainer.test()
 
 if __name__ == "__main__" :
     main()
