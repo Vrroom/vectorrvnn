@@ -182,7 +182,7 @@ class Trainer () :
         self.logger.info(f'Starting Expt {i}')
         self.setTrainDataLoader(config)
 
-        trees = list(unzip(self.trainData.trees)[0])
+        trees = self.trainData.trees
         self.drawTrees(trees, self.trainData.svgFiles, trainingTreesPath)
 
         self.setModel(config)
@@ -409,7 +409,7 @@ class Trainer () :
             Path to where we are storing this
             experiment's results.
         """
-        trees = unzip(self.cvDataHandler.getDataset(config, self.cuda).trees)[0]
+        trees = self.cvDataHandler.getDataset(config, self.cuda).trees
         samples = zip(self.cvDataHandler.svgFiles, trees)
         # with torch.multiprocessing.Pool(maxtasksperchild=30) as p : 
         #     compare = p.map(
@@ -446,7 +446,7 @@ class Trainer () :
  
         self.saveSnapshots(testDir, bestAutoEncoder, 'bestAutoEncoder.pkl')
          
-        trees = unzip(self.testDataHandler.getDataset(config, self.cuda).trees)[0]
+        trees = self.testDataHandler.getDataset(config, self.cuda).trees
         samples = zip(self.testDataHandler.svgFiles, trees)
         with torch.multiprocessing.Pool(maxtasksperchild=30) as p : 
             compare = p.map(
@@ -503,7 +503,7 @@ def main () :
 
     with Trainer(commonConfig, configs) as trainer : 
         trainer.run()
-        # trainer.test()
+        trainer.test()
 
 if __name__ == "__main__" :
     main()

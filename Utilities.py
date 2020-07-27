@@ -30,6 +30,70 @@ import math
 from skimage import transform
 import Data
 
+class PerlinNoise () :
+    """ 
+    Implementation of the Perlin Method mentioned at:
+
+        http://staffwww.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf
+
+    to generate well behaved noise in 2D plane
+    """
+
+    nGrads = 16
+
+    def __init__ (self, seed=0) :
+        """
+        Constructor.
+
+        Fix the gradients for the lattice points.
+        """
+        rng = np.random.RandomSeed(seed)
+        self.xGrads = [self._angleToGrad(rng.uniform(high=2*np.pi)) for _ in range(self.nGrads)]
+        self.yGrads = [self._angleToGrad(rng.uniform(high=2*np.pi)) for _ in range(self.nGrads)]
+
+    def _gradIdx (self, a, b) :
+        n = ((2 ** a) * (2 * b - 1)) % self.nGrads
+        return n
+    
+    def _angleToGrad (self, angle) :
+        return complex(np.cos(angle), np.sin(angle))
+
+    def _lattice (self) :
+        points = product(range(2), range(2))
+        return points
+
+    def _f (self, t) : 
+        return 6 * t ** 5 - 15 * t ** 4 + 10 * t ** 3
+
+    def _noise (self, p, grads) :
+        x, y = real(p), imag(p)
+        if (x.is_integer() and y.is_integer()) :
+            return 0
+        else : 
+            px = int(np.floor(x))
+            py = int(np.floor(y))
+
+            relCoord = complex(x - px, y - py)
+            u, v = real(relCoord), imag(relCoord)
+
+            grads = map(lambda p: grads[self._gradIdx(px + p[0], py + p[1])], self._lattice())
+            noises = list(map(lambda g, p: complexDot(g, relCoord - complex(p)), grads, self._lattice()))
+
+            nx0 = noises[0] * self._f(u) + noises[2] * (1 - self._f(u))
+            nx1 = noises[1] * self._f(u) + noises[3] * (1 - self._f(u))
+
+            nxy = nx0 * self._f(v) + nx1 * (1 - self._f(v))
+            return nxy
+
+    def __call__(self, point: complex) -> complex :
+        """
+        Given a point somewhere in the 2D plane, 
+        find out how much noise is to be added to that point.
+        """
+        nx = self._noise(point, self.xGrads)
+        ny = self._noise(point, self.yGrads)
+        return complex(nx, ny)
+
 def isBBoxDegenerate(bbox) :
     """
     Check if the bounding box has
@@ -149,7 +213,7 @@ def hierarchicalClusterCompareFM (t1, t2) :
     n = t1.nPaths
     bs = []
     es = [] 
-    for k in range(2, 10): 
+    for k in range(2, 5): 
         cuts1 = treeKCut(t1, k)
         cuts2 = treeKCut(t2, k)
         M = np.zeros((k, k))
@@ -2067,31 +2131,4 @@ class AllPathDescriptorFunction () :
         return np.vstack(descs)
 
 if __name__ == "__main__" : 
-    with open('./Expts/Expt_2020-05-01/testDataHandler.pkl', 'rb') as fd :
-        tdh = pickle.load(fd)
-    with open('./data.pkl', 'rb') as fd :
-        data = pickle.load(fd)
-    files = listdir('./Expts/Expt_2020-05-01/Test/FinalTrees/')
-    filesEnd = [osp.splitext(osp.split(f)[-1])[0] for f in files]
-    testTrees = [Data.Tree(GraphReadWrite('tree').read(f)) for f in files]
-    testTreeDict = dict(zip(filesEnd, testTrees))
-    treeData = list(data.treeCache.values())[0]
-    filesEnd2 = [osp.splitext(osp.split(f)[-1])[0] for f in treeData.svgFiles]
-    trainTrees = treeData.trees
-    trainTreesDict = dict(zip(filesEnd2, trainTrees))
-    filesEnd3 = [osp.splitext(osp.split(f)[-1])[0] for f in tdh.svgFiles]
-    gt = tdh.groundTruth
-    gtDict = dict(zip(filesEnd3, gt))
-    scores = []
-    for key in trainTreesDict.keys() : 
-        print(key)
-        hcc = hierarchicalClusterCompareFM(gtDict[key], trainTreesDict[key][0]) 
-        score = (hcc > 0.8).sum()
-        print(score)
-        scores.append(score)
-    fig, axes = plt.subplots()
-    axes.hist(scores, bins=list(range(11)))
-    axes.set_xlabel('Number of bk\'s > 0.8')
-    axes.set_ylabel('Samples in Bucket')
-    fig.savefig('Cluster Histogram')
-    plt.close(fig)
+    pass
