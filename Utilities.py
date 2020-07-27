@@ -47,7 +47,7 @@ class PerlinNoise () :
 
         Fix the gradients for the lattice points.
         """
-        rng = np.random.RandomSeed(seed)
+        rng = np.random.RandomState(seed)
         self.xGrads = [self._angleToGrad(rng.uniform(high=2*np.pi)) for _ in range(self.nGrads)]
         self.yGrads = [self._angleToGrad(rng.uniform(high=2*np.pi)) for _ in range(self.nGrads)]
 
@@ -59,14 +59,14 @@ class PerlinNoise () :
         return complex(np.cos(angle), np.sin(angle))
 
     def _lattice (self) :
-        points = product(range(2), range(2))
+        points = itertools.product(range(2), range(2))
         return points
 
     def _f (self, t) : 
-        return 6 * t ** 5 - 15 * t ** 4 + 10 * t ** 3
+        return (6 * (t ** 5)) - (15 * (t ** 4)) + (10 * (t ** 3))
 
     def _noise (self, p, grads) :
-        x, y = real(p), imag(p)
+        x, y = p.real, p.imag
         if (x.is_integer() and y.is_integer()) :
             return 0
         else : 
@@ -74,10 +74,10 @@ class PerlinNoise () :
             py = int(np.floor(y))
 
             relCoord = complex(x - px, y - py)
-            u, v = real(relCoord), imag(relCoord)
+            u, v = relCoord.real, relCoord.imag
 
-            grads = map(lambda p: grads[self._gradIdx(px + p[0], py + p[1])], self._lattice())
-            noises = list(map(lambda g, p: complexDot(g, relCoord - complex(p)), grads, self._lattice()))
+            grads = [grads[self._gradIdx(px + p[0], py + p[1])] for p in self._lattice()]
+            noises = [complexDot(g, relCoord - complex(*p)) for g, p in zip(grads, self._lattice())]
 
             nx0 = noises[0] * self._f(u) + noises[2] * (1 - self._f(u))
             nx1 = noises[1] * self._f(u) + noises[3] * (1 - self._f(u))
@@ -2131,4 +2131,11 @@ class AllPathDescriptorFunction () :
         return np.vstack(descs)
 
 if __name__ == "__main__" : 
-    pass
+    noise = PerlinNoise()
+    x = np.arange(0, 10, 0.01)
+    y = np.sin(x)
+    for i in range(len(x)): 
+        newPoint = noise(complex(x[i], y[i]))
+        y[i] += newPoint.imag
+    plt.plot(x, y)
+    plt.show()
