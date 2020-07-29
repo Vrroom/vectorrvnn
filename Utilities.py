@@ -48,11 +48,10 @@ class PerlinNoise () :
         Fix the gradients for the lattice points.
         """
         rng = np.random.RandomState(seed)
-        self.xGrads = [self._angleToGrad(rng.uniform(high=2*np.pi)) for _ in range(self.nGrads)]
-        self.yGrads = [self._angleToGrad(rng.uniform(high=2*np.pi)) for _ in range(self.nGrads)]
+        self.grads = [self._angleToGrad(rng.uniform(high=2*np.pi)) for _ in range(self.nGrads)]
 
     def _gradIdx (self, a, b) :
-        n = ((2 ** a) * (2 * b - 1)) % self.nGrads
+        n = (a * b) % self.nGrads
         return n
     
     def _angleToGrad (self, angle) :
@@ -65,7 +64,11 @@ class PerlinNoise () :
     def _f (self, t) : 
         return (6 * (t ** 5)) - (15 * (t ** 4)) + (10 * (t ** 3))
 
-    def _noise (self, p, grads) :
+    def __call__ (self, p) :
+        """
+        Given a point somewhere in the 2D plane, 
+        find out how much noise is to be added to that point.
+        """
         x, y = p.real, p.imag
         if (x.is_integer() and y.is_integer()) :
             return 0
@@ -76,23 +79,14 @@ class PerlinNoise () :
             relCoord = complex(x - px, y - py)
             u, v = relCoord.real, relCoord.imag
 
-            grads = [grads[self._gradIdx(px + p[0], py + p[1])] for p in self._lattice()]
+            grads = [self.grads[self._gradIdx(px + p[0], py + p[1])] for p in self._lattice()]
             noises = [complexDot(g, relCoord - complex(*p)) for g, p in zip(grads, self._lattice())]
 
-            nx0 = noises[0] * self._f(u) + noises[2] * (1 - self._f(u))
-            nx1 = noises[1] * self._f(u) + noises[3] * (1 - self._f(u))
+            nx0 = noises[0] * (1 - self._f(u)) + noises[2] * self._f(u)
+            nx1 = noises[1] * (1 - self._f(u)) + noises[3] * self._f(u)
 
-            nxy = nx0 * self._f(v) + nx1 * (1 - self._f(v))
+            nxy = nx0 * (1 - self._f(v)) + nx1 * self._f(v)
             return nxy
-
-    def __call__(self, point: complex) -> complex :
-        """
-        Given a point somewhere in the 2D plane, 
-        find out how much noise is to be added to that point.
-        """
-        nx = self._noise(point, self.xGrads)
-        ny = self._noise(point, self.yGrads)
-        return complex(nx, ny)
 
 def isBBoxDegenerate(bbox) :
     """
@@ -2131,11 +2125,10 @@ class AllPathDescriptorFunction () :
         return np.vstack(descs)
 
 if __name__ == "__main__" : 
-    noise = PerlinNoise()
-    x = np.arange(0, 10, 0.01)
-    y = np.sin(x)
-    for i in range(len(x)): 
-        newPoint = noise(complex(x[i], y[i]))
-        y[i] += newPoint.imag
-    plt.plot(x, y)
+    noise = PerlinNoise(seed=10)
+    image = np.zeros((100, 100))
+    for i in range(100) :
+        for j in range(100) :
+            image[i, j] = noise(complex(i / 10, j / 10))
+    plt.imshow(image)
     plt.show()
