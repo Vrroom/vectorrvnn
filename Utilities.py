@@ -37,6 +37,16 @@ class PerlinNoise () :
         http://staffwww.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf
 
     to generate well behaved noise in 2D plane
+
+    Examples
+    --------
+    >>> noise = PerlinNoise(seed=10)
+    >>> image = np.zeros((100, 100))
+    >>> for i in range(100) :
+    >>>     for j in range(100) :
+    >>>         image[i, j] = noise(complex(i / 10, j / 10))
+    >>> plt.imshow(image)
+    >>> plt.show()
     """
 
     nGrads = 16
@@ -2125,10 +2135,3 @@ class AllPathDescriptorFunction () :
         return np.vstack(descs)
 
 if __name__ == "__main__" : 
-    noise = PerlinNoise(seed=10)
-    image = np.zeros((100, 100))
-    for i in range(100) :
-        for j in range(100) :
-            image[i, j] = noise(complex(i / 10, j / 10))
-    plt.imshow(image)
-    plt.show()
