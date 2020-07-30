@@ -27,6 +27,9 @@ from collections.abc import Iterable
 from collections import OrderedDict
 import re
 from scipy.sparse import csc_matrix
+
+maketrans = str.maketrans
+
 class Element(object):
     """Base class for Variable and ConstraintVar
     """
@@ -532,13 +535,13 @@ class AffineExpression(OrderedDict):
         return e
 
     def __le__(self, other):
-        return Constraint(self - other, const.ConstraintLE)
+        return Constraint(self - other)
 
     def __ge__(self, other):
-        return Constraint(self - other, const.ConstraintGE)
+        return Constraint(self - other)
 
     def __eq__(self, other):
-        return Constraint(self - other, const.ConstraintEQ)
+        return Constraint(self - other)
 
     def to_dict(self):
         """

@@ -8,7 +8,6 @@ import string
 import subprocess
 import more_itertools
 import itertools
-maketrans = str.maketrans
 from functools import reduce
 import networkx as nx
 import xml.etree.ElementTree as ET
@@ -36,13 +35,16 @@ from LinearSystem import *
 
 def smoothSpline(points) :
     """
-    Create a smooth spline over a set of points.
+    Create a smooth spline over a set of points. Method
+    obtained from:
+
+        https://www.particleincell.com/2012/bezier-splines/
 
     Examples
     --------
     >>> points = [complex(0, 0), complex(10, 20), complex(20, 20)]
     >>> path = smoothSpline(points)
-    >>> points = [path.point(t) for t in np.arange(0, 1, 0.1)
+    >>> points = [path.point(t) for t in np.arange(0, 1, 0.1)]
     >>> x = [p.real for p in points]
     >>> y = [p.imag for p in points]
     >>> plt.plot(x, y)
@@ -58,7 +60,7 @@ def smoothSpline(points) :
     def linearSystem() : 
         # Prepare linear system of equations.
         eqns = []
-        for i in range(nSegs - 1) :
+        for i in range(n - 1) :
             # First Constraint: P_(i + 1)_1 + P_i_2 = 2K_(i + 1)
             v1x, v2x = f'P_{i + 1}_1_x', f'P_{i}_2_x'
             v1y, v2y = f'P_{i + 1}_1_y', f'P_{i}_2_y'
@@ -74,17 +76,17 @@ def smoothSpline(points) :
             eqns.append(-2*V[v1y] + V[v3y] - V[v4y] + 2*V[v2y] == 0)
 
         # 4 Boundary Condition constraints for open paths
-        # 2P_0_1 + P_1_1 = K_0 + 2 * K_1
-        k0, k1 = points[0:2]
-        eqns.append(2*V['P_0_1_x'] + V['P_1_1_x'] == k0.real + 2*k1.real)
-        eqns.append(2*V['P_0_1_y'] + V['P_1_1_y'] == k0.imag + 2*k1.imag)
+        # 2P_0_1 - P_0_2 = K_0
+        k0 = points[0]
+        eqns.append(2*V['P_0_1_x'] - V['P_0_2_x'] == k0.real)
+        eqns.append(2*V['P_0_1_y'] - V['P_0_2_y'] == k0.imag)
 
-        # 2P_(n - 2)_1 + 7P_(n - 1)_1 = 8*K_(n - 1) + K_n
-        kn_1, kn = points[-2:]
-        eqns.append(2*V[v4x] + 7*V[v1x] == 8*kn_1.real + kn.real)
-        eqns.append(2*V[v4y] + 7*V[v1x] == 8*kn_1.imag + kn.imag)
+        # 2P_(n - 1)_2 - P_(n - 1)_1 = K_n
+        kn = points[-1]
+        eqns.append(2*V[f'P_{n-1}_2_x'] - V[f'P_{n-1}_1_x'] == kn.real)
+        eqns.append(2*V[f'P_{n-1}_2_y'] - V[f'P_{n-1}_1_y'] == kn.imag)
         
-        return constructLinearSystem(eqns, V.items(), np.array, csc_matrix)
+        return constructLinearSystem(eqns, V.values(), csc_matrix, np.array)
 
     def makePathFromSolutionVector (x) :
         beziers = []
@@ -107,7 +109,7 @@ def smoothSpline(points) :
     n = len(points) - 1
     V = dict()
     initVariables()
-    VIdx = dict(V.items(), range(len(V)))
+    VIdx = dict(zip(V.values(), range(len(V))))
     A, b = linearSystem()
     x = spsolve(A, b)
     return makePathFromSolutionVector(x)
@@ -2216,20 +2218,13 @@ class AllPathDescriptorFunction () :
         return np.vstack(descs)
 
 if __name__ == "__main__" : 
-    points = [complex(0, 0), complex(10, 20), complex(20, 20)]
-    path = smoothSpline(points)
-    points = [path.point(t) for t in np.arange(0, 1, 0.1)
-    x = [p.real for p in points]
-    y = [p.imag for p in points]
-    plt.plot(x, y)
-    plt.show()
-    # xNoise = PerlinNoise(seed=0)
-    # yNoise = PerlinNoise(seed=1)
-    # doc = svg.Document('./drawing.svg')
-    # paths = doc.flatten_all_paths()
-    # vb = doc.get_viewbox()
-    # path = paths[0].path
-    # points = [path.point(t) for t in np.arange(0, 1, 0.55)]
-    # points = [p + complex(xNoise(p), yNoise(p)) for p in points]
-    # newPath = smoothSpline(points)
-    # singlePathSvg((newPath, paths[0].attrib), vb, 'output.svg')
+    xNoise = PerlinNoise(seed=0)
+    yNoise = PerlinNoise(seed=1)
+    doc = svg.Document('./drawing.svg')
+    paths = doc.flatten_all_paths()
+    vb = doc.get_viewbox()
+    path = paths[0].path
+    points = [path.point(t) for t in np.arange(0, 1, 0.01)]
+    points = [p + complex(xNoise(p), yNoise(p)) for p in points]
+    newPath = smoothSpline(points)
+    singlePathSvg((newPath, paths[0].element), vb, 'output.svg')
