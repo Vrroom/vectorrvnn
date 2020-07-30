@@ -2,6 +2,7 @@
 import pickle
 import os
 import os.path as osp
+from pulp import LpVariable
 import time
 import json
 import string
@@ -31,7 +32,25 @@ from skimage import transform
 import Data
 from scipy.sparse import csc_matrix
 from scipy.sparse.linalg import spsolve
-from LinearSystem import *
+
+def constructLinearSystem (constraints, variables,
+    matrixConstructor, vectorConstructor) :
+
+    def insert (d, r, c) : 
+        data.append(d)
+        rows.append(r)
+        cols.append(c)
+
+    data, rows, cols = [], [], []
+    varIdx = dict(zip(variables, range(len(variables))))
+    b = []
+    for i, constraint in enumerate(constraints) :
+        for v in constraint.keys() :
+            insert(constraint[v], i, varIdx[v])
+        b.append(-constraint.constant)
+    A = matrixConstructor((data, (rows, cols)))
+    b = vectorConstructor(b)
+    return A, b
 
 def smoothSpline(points) :
     """
@@ -75,16 +94,31 @@ def smoothSpline(points) :
             eqns.append(-2*V[v1x] + V[v3x] - V[v4x] + 2*V[v2x] == 0)
             eqns.append(-2*V[v1y] + V[v3y] - V[v4y] + 2*V[v2y] == 0)
 
-        # 4 Boundary Condition constraints for open paths
-        # 2P_0_1 - P_0_2 = K_0
-        k0 = points[0]
-        eqns.append(2*V['P_0_1_x'] - V['P_0_2_x'] == k0.real)
-        eqns.append(2*V['P_0_1_y'] - V['P_0_2_y'] == k0.imag)
+        if abs(points[0] - points[-1]) < 1e-3 : 
+            # First Constraint: P_(n - 1)_1 + P_0_2 = 2K_(0)
+            v1x, v2x = f'P_0_1_x', f'P_{n-1}_2_x'
+            v1y, v2y = f'P_0_1_y', f'P_{n-1}_2_y'
+            k0 = points[0]
+            eqns.append(V[v1x] + V[v2x] == 2 * k0.real)
+            eqns.append(V[v1y] + V[v2y] == 2 * k0.imag)
 
-        # 2P_(n - 1)_2 - P_(n - 1)_1 = K_n
-        kn = points[-1]
-        eqns.append(2*V[f'P_{n-1}_2_x'] - V[f'P_{n-1}_1_x'] == kn.real)
-        eqns.append(2*V[f'P_{n-1}_2_y'] - V[f'P_{n-1}_1_y'] == kn.imag)
+            # Second Constraint:
+            # -2P_0_1 + P_0_2 - P_(n - 1)_1 + 2P_(n - 1)_2 = 0
+            v3x, v4x = f'P_0_2_x', f'P_{n-1}_1_x'
+            v3y, v4y = f'P_0_2_y', f'P_{n-1}_1_y'
+            eqns.append(-2*V[v1x] + V[v3x] - V[v4x] + 2*V[v2x] == 0)
+            eqns.append(-2*V[v1y] + V[v3y] - V[v4y] + 2*V[v2y] == 0)
+        else : 
+            # 4 Boundary Condition constraints for open paths
+            # 2P_0_1 - P_0_2 = K_0
+            k0 = points[0]
+            eqns.append(2*V['P_0_1_x'] - V['P_0_2_x'] == k0.real)
+            eqns.append(2*V['P_0_1_y'] - V['P_0_2_y'] == k0.imag)
+
+            # 2P_(n - 1)_2 - P_(n - 1)_1 = K_n
+            kn = points[-1]
+            eqns.append(2*V[f'P_{n-1}_2_x'] - V[f'P_{n-1}_1_x'] == kn.real)
+            eqns.append(2*V[f'P_{n-1}_2_y'] - V[f'P_{n-1}_1_y'] == kn.imag)
         
         return constructLinearSystem(eqns, V.values(), csc_matrix, np.array)
 
@@ -103,8 +137,8 @@ def smoothSpline(points) :
         for i in range(n) : 
             for j in range(1, 3) : 
                 xName, yName = f'P_{i}_{j}_x', f'P_{i}_{j}_y'
-                V[xName] = Variable(xName)
-                V[yName] = Variable(yName)
+                V[xName] = LpVariable(xName)
+                V[yName] = LpVariable(yName)
 
     n = len(points) - 1
     V = dict()
@@ -2224,7 +2258,9 @@ if __name__ == "__main__" :
     paths = doc.flatten_all_paths()
     vb = doc.get_viewbox()
     path = paths[0].path
-    points = [path.point(t) for t in np.arange(0, 1, 0.01)]
-    points = [p + complex(xNoise(p), yNoise(p)) for p in points]
+    points = [path.point(t) for t in np.arange(0, 1.01, 0.2)]
+    for i in range(1, len(points) - 1) :
+        p = points[i]
+        points[i] += 10 * complex(xNoise(p), yNoise(p))
     newPath = smoothSpline(points)
     singlePathSvg((newPath, paths[0].element), vb, 'output.svg')
