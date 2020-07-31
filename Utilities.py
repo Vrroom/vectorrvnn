@@ -53,23 +53,59 @@ class Pose () :
         'l_upper_arm': (13, 14),
         'r_lower_arm': (11, 10),
         'l_lower_arm': (14, 15),
-        'torso': (7, 6),
+        'torso': (13, 3, 6, 2, 12, 7),
         'neck': (7, 8),
         'head': (8, 9)
     }
     
     def __init__ (self, pose) :
-        self.xNoise, self.yNoise = PerlinNoise(seed=0), Perlin(seed=1)
+        self.xNoise, self.yNoise = PerlinNoise(seed=0), PerlinNoise(seed=1)
         self.pose = pose
-        self.jointPositions = np.array(pose['joints']) / (2 * pose['scale'])
-        self.jointPositions = 100 - self.jointPositions
         revMap = dict(zip(self.joints.values(), self.joints.keys()))
         self.joints.update(revMap)
-        self.createConnectivityGraph()
-        self.createPathHierarchy()
-        self.createBonePaths()
+        self._normalize()
+        self._createConnectivityGraph()
+        self._createPathHierarchy()
+        self._createBonePaths()
 
-    def createConnectivityGraph (self) :
+    def _np2Complex(self, p) :
+        return complex(p[0], p[1])
+
+    def _complex2np(self, p) :
+        return np.array([p.real, p.imag])
+
+    def _headPath (self) :
+        p1, p2 = [self.jointPositions[i] for i in bones['head']]
+        r = np.linalg.norm(p2 - p1)
+        center = self._npToComplex((p1 + p2)/2)
+        return circle(r).translated(center)
+
+    def _torsoPath (self) :
+        points = [self.jointPositions[i] for i in bones['torso']]
+        points = [self._np2Complex(p) for p in points]
+        points = [p + self._noise(p) for p in points]
+        return smoothSpline(points)
+
+    def _rectPath (self, p1, p2) :
+        delta = np.flip(p2 - p1)
+        delta[0] = -delta[0]
+        d = np.linalg.norm(delta)
+        delta /= 3
+        c1, c2 = p1 + delta, p1 - delta
+        c3, c4 = p2 + delta, p2 - delta
+        l1, l2 = svg.Line(c1, c2), svg.Line(c2, c4)
+        l3, l4 = svg.Line(c4, c3), svg.Line(c3, c1)
+        path = svg.Path(l1, l2, l3, l4)
+        return noisyPath(path)
+
+    def _normalize (self) : 
+        self.jointPositions = np.array(self.pose['joints'])
+        center = np.array(self.pose['center'])
+        self.jointPositions -= center
+        self.jointPositions /= (2 * self.pose['scale'])
+        self.jointPositions += np.array([50, 50])
+
+    def _createConnectivityGraph (self) :
         self.G = nx.Graph() 
         self.G.add_edges_from([
             (0, 1), (1, 2), (3, 4),
@@ -79,7 +115,7 @@ class Pose () :
             (14, 15), (12, 11), (11, 10)
         ])
 
-    def createPathHierarchy (self) :
+    def _createPathHierarchy (self) :
         self.T = nx.DiGraph()
         self.T.add_edges_from([
             ('person', 'upper_body'), ('person', 'limbs'),
@@ -102,31 +138,32 @@ class Pose () :
     def _noise (self, p) :
         return complex(self.xNoise(p), self.yNoise(p))
 
+    def _npToComplex (self, listOfVectors) :
+        return [complex(p[0], p[1]) for p in listOfVectors]
+
     def _fourPoints (self, p1, p2) :
-        # TODO: Test this!!
-        d = abs(p2 - p1)
-        h = d / 4
-        delta = (h / d) * (p2 - p1)
+        d = np.linalg.norm(p2 - p1)
+        fraction = 0.25 if d < 30 else 0.1
+        delta = np.flip(0.25 * (p2 - p1))
+        delta[0] = -delta[0]
         p3 = (p1 + p2) / 2 + delta
         p4 = (p1 + p2) / 2 - delta
-        return [p1, p3, p2, p4]
+        return self._npToComplex([p1, p3, p2, p4])
 
-    def createBonePaths (self) : 
-        self.paths = dict()
+    def _createBonePaths (self) : 
+        self.paths = {'head': self._headPath(), 'torso': self._torsoPath()}
         for k, v in self.bones.items() :
-            p1, p2 = [self.jointPositions(i) for i in v]
-            fourPoints = self._fourPoints(p1, p2)
-            pointsWithNoise = [p + self._noise(p) for p in fourPoints]
-            pointsWithNoise.append(pointsWithNoise[0]) # Wrap Around
-            self.paths[k] = smoothSpline(pointsWithNoise)
+            if k != 'head' and k != 'torso': 
+                p1, p2 = [self.jointPositions[i] for i in v]
+                self.paths[k] = self._rectPath(p1, p2)
 
     def getDocument (self) :
 
         def addToDocument (T, r, children) :
-            if len(neighbors) == 0 : 
+            if T.out_degree(r) == 0 : 
                 doc.add_path(self.paths[r], group=parentGroup[r])
             else :
-                newGroup = doc.add_group(parent=parentGroup[r], group_attribs={"fill":"black"})
+                newGroup = doc.add_group(parent=parentGroup[r], group_attribs={"fill":"black", "fill-opacity":"0.5"})
                 for child in children: 
                     parentGroup[child] = newGroup
 
@@ -2322,7 +2359,7 @@ def treeApplyRootFirst (T, r, function) :
     """
     function(T, r, T.neighbors(r))
     for child in T.neighbors(r) :
-        treeApplyChildrenFirst(T, child, function)
+        treeApplyRootFirst(T, child, function)
 
 def treeApplyChildrenFirst (T, r, function) : 
     """
@@ -2539,4 +2576,4 @@ if __name__ == "__main__" :
     for i in range(30) :
         idx = random.randint(0, len(data) - 1)
         p = Pose(data[idx])
-        p.getDocument().save()
+        p.getDocument().save('body.svg')
