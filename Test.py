@@ -156,6 +156,6 @@ def findTree (gt, svgFile, autoencoder, cuda) :
             tree.nodes[k]['pathSet'] = [int(v)]
 
     # Fill in the tree with pathSet information.
-    treeApply(tree, 0, aggregatePathSets)
-    treeApply(tree, 0, delFeatures)
+    treeApplyChildrenFirst(tree, 0, aggregatePathSets)
+    treeApplyChildrenFirst(tree, 0, delFeatures)
     return Tree(tree)

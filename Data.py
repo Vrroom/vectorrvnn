@@ -166,7 +166,7 @@ class Tree(object):
         def getter (T, n, _) :
             lst = self.tree.nodes[n]['pathSet']
             self.tree.nodes[n]['svg'] = getSubsetSvg(paths, lst, vb)
-        treeApply(self.tree, self.root, getter)
+        treeApplyChildrenFirst(self.tree, self.root, getter)
 
     def save (self, out) :
         GraphReadWrite('tree').write((self.tree, self.root), out) 

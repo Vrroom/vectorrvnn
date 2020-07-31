@@ -33,6 +33,267 @@ import Data
 from scipy.sparse import csc_matrix
 from scipy.sparse.linalg import spsolve
 
+class Pose () :
+
+    joints = {
+        0: 'r_ankle', 1: 'r_knee', 2: 'r_hip',
+        3: 'l_hip', 4: 'l_knee', 5: 'l_ankle',
+        6: 'pelvis', 7: 'thorax', 8: 'upper_neck',
+        9: 'head_top', 10: 'r_wrist', 11: 'r_elbow',
+        12: 'r_shoulder', 13: 'l_shoulder', 14: 'l_elbow',
+        15: 'l_wrist'
+    }
+
+    bones = {
+        'r_thigh': (1, 2),
+        'r_calf': (0, 1),
+        'l_thigh': (3, 4),
+        'l_calf': (4, 5),
+        'r_upper_arm': (12, 11),
+        'l_upper_arm': (13, 14),
+        'r_lower_arm': (11, 10),
+        'l_lower_arm': (14, 15),
+        'torso': (7, 6),
+        'neck': (7, 8),
+        'head': (8, 9)
+    }
+    
+    def __init__ (self, pose) :
+        self.xNoise, self.yNoise = PerlinNoise(seed=0), Perlin(seed=1)
+        self.pose = pose
+        self.jointPositions = np.array(pose['joints']) / (2 * pose['scale'])
+        self.jointPositions = 100 - self.jointPositions
+        revMap = dict(zip(self.joints.values(), self.joints.keys()))
+        self.joints.update(revMap)
+        self.createConnectivityGraph()
+        self.createPathHierarchy()
+        self.createBonePaths()
+
+    def createConnectivityGraph (self) :
+        self.G = nx.Graph() 
+        self.G.add_edges_from([
+            (0, 1), (1, 2), (3, 4),
+            (4, 5), (2, 6), (3, 6),
+            (6, 7), (7, 8), (8, 9),
+            (7, 12), (7, 13), (13, 14),
+            (14, 15), (12, 11), (11, 10)
+        ])
+
+    def createPathHierarchy (self) :
+        self.T = nx.DiGraph()
+        self.T.add_edges_from([
+            ('person', 'upper_body'), ('person', 'limbs'),
+            ('upper_body', 'torso'), ('upper_body', 'neck&Head'),
+            ('neck&Head', 'head'), ('neck&Head', 'neck'),
+            ('limbs', 'legs'), ('limbs', 'arms'),
+            ('legs', 'l_leg'), ('legs', 'r_leg'),
+            ('arms', 'l_arm'), ('arms', 'r_arm'),
+            ('l_arm', 'l_upper_arm'), ('l_arm', 'l_lower_arm'),
+            ('r_arm', 'r_upper_arm'), ('r_arm', 'r_lower_arm'),
+            ('l_leg', 'l_thigh'), ('l_leg', 'l_calf'),
+            ('r_leg', 'r_thigh'), ('r_leg', 'r_calf'),
+        ])
+
+    def visualizePose (self) : 
+        plt.gca().set_aspect('equal')
+        nx.draw(self.G, self.jointPositions)
+        plt.show()
+
+    def _noise (self, p) :
+        return complex(self.xNoise(p), self.yNoise(p))
+
+    def _fourPoints (self, p1, p2) :
+        # TODO: Test this!!
+        d = abs(p2 - p1)
+        h = d / 4
+        delta = (h / d) * (p2 - p1)
+        p3 = (p1 + p2) / 2 + delta
+        p4 = (p1 + p2) / 2 - delta
+        return [p1, p3, p2, p4]
+
+    def createBonePaths (self) : 
+        self.paths = dict()
+        for k, v in self.bones.items() :
+            p1, p2 = [self.jointPositions(i) for i in v]
+            fourPoints = self._fourPoints(p1, p2)
+            pointsWithNoise = [p + self._noise(p) for p in fourPoints]
+            pointsWithNoise.append(pointsWithNoise[0]) # Wrap Around
+            self.paths[k] = smoothSpline(pointsWithNoise)
+
+    def getDocument (self) :
+
+        def addToDocument (T, r, children) :
+            if len(neighbors) == 0 : 
+                doc.add_path(self.paths[r], group=parentGroup[r])
+            else :
+                newGroup = doc.add_group(parent=parentGroup[r], group_attribs={"fill":"black"})
+                for child in children: 
+                    parentGroup[child] = newGroup
+
+        doc = svg.Document(None)
+        doc.set_viewbox('0 0 100 100')
+        parentGroup = {'person': None}
+        treeApplyRootFirst(self.T, 'person', addToDocument)
+
+def noisyPath (path) : 
+    """
+    Add Perlin Noise to path.
+
+    Right now, I've done something which works well. 
+    I perturb the path at 10 evenly spaced points. Then,
+    I interpolate a smooth spline over them.
+
+    Parameters
+    ----------
+    path: svg.Path
+        Path to which noise has to be added.
+    """
+    xNoise, yNoise = PerlinNoise(seed=0), PerlinNoise(seed=1)
+    points = [path.point(t) for t in np.arange(0, 1.01, 0.1)]
+    points = [p + complex(xNoise(p), yNoise(p)) for p in points]
+    return smoothSpline(points)
+
+def rectangle(h, w) :
+    rect = []
+    rect.append(svg.Line(0 + 0j, w + 0j))
+    rect.append(svg.Line(w + 0j, w + h * 1j))
+    rect.append(svg.Line(w + h * 1j, 0 + h * 1j))
+    rect.append(svg.Line(0 + h * 1j, 0 + 0j))
+    return svg.Path(*rect)
+
+def circle (r) :
+    arcs = []
+    arcs.append(svg.Arc(-r + 0j, r + r * 1j, 0, False, False, r + 0j))
+    arcs.append(svg.Arc(r + 0j, r + r * 1j, 0, False, False, -r + 0j))
+    path = svg.Path(*arcs)
+    return path
+
+class Person () :
+
+    def __init__ (self) :
+        self.center = 50 + 50j
+        headRotation = random.randint(-30, 30)
+        torsoRotation = random.randint(-15, 15)
+        h, w = random.randint(20, 35), random.randint(15, 25)
+        diff = self.center - (w + (h * 1j))/2
+        self.torso = Torso(h, w).translated(diff).rotated(torsoRotation)
+        self.head = Head(random.randint(5, 10)).rotated(headRotation)
+        self.arms = [Limb(*self.limbDimensions()).rotated(random.randint(135, 225)).bottomRotated(random.randint(-30, 30)),
+                     Limb(*self.limbDimensions()).rotated(random.randint(-45, 45)).bottomRotated(random.randint(-30, 30))]
+        self.legs = [Limb(*self.limbDimensions()).rotated(random.randint(70, 110)).bottomRotated(random.randint(-30, 30)),
+                     Limb(*self.limbDimensions()).rotated(random.randint(70, 110)).bottomRotated(random.randint(-30, 30))]
+        self.attach()
+
+    def limbDimensions (self) :
+        h1 = random.randint(5, 10)
+        h2 = random.randint(5, 10)
+        w1 = random.randint(15, 20)
+        w2 = random.randint(15, 20)
+        return h1, w1, h2, w2
+
+    def attach (self) :
+        self.head = self.head.translated(self.torso.joints[-1] - self.head.joint)
+        self.arms = [a.translated(self.torso.joints[i] - a.joint) for i, a in enumerate(self.arms)]
+        self.legs = [l.translated(self.torso.joints[2 + i] - l.joint) for i, l in enumerate(self.legs)]
+
+    def addToDocument (self, doc) :
+        top = doc.add_group(group_attribs={"fill":"black"})
+        body = doc.add_group(parent=top)
+        limbs = doc.add_group(parent=top)
+        legsGroup = doc.add_group(parent=limbs)
+        armsGroup = doc.add_group(parent=limbs)
+        bothLegGroups = [doc.add_group(parent=legsGroup) for _ in range(2)]
+        bothArmGroups = [doc.add_group(parent=armsGroup) for _ in range(2)]
+        doc.add_path(noisyPath(self.head.circle), group=body)
+        doc.add_path(noisyPath(self.torso.body), group=body)
+
+        for element, group in zip(self.legs, bothLegGroups) :
+            doc.add_path(noisyPath(element.top), group=group)
+            doc.add_path(noisyPath(element.bottom), group=group)
+
+        for element, group in zip(self.arms, bothArmGroups) :
+            doc.add_path(noisyPath(element.top), group=group)
+            doc.add_path(noisyPath(element.bottom), group=group)
+
+        return doc
+
+class Torso () :
+    
+    def __init__ (self, h, w) :
+        self.body = rectangle(h, w)
+        self.joints = [
+            (h/4) * 1j,
+            w + (h/4) * 1j,
+            (w/4) + h * 1j,
+            (3*w/4) + h * 1j,
+            w/2
+        ]
+        self.center = (w + h*1j) / 2
+        self.pseudoLines = [svg.Line(start=self.center, end=p) for p in self.joints]
+
+    def translated(self, t) :
+        newTorso = copy.deepcopy(self)
+        newTorso.body = newTorso.body.translated(t)
+        newTorso.joints = [j + t for j in newTorso.joints]
+        newTorso.center += t
+        newTorso.pseudoLines = [l.translated(t) for l in newTorso.pseudoLines]
+        return newTorso
+
+    def rotated(self, angle) :
+        newTorso = copy.deepcopy(self)
+        newTorso.body = newTorso.body.rotated(angle, newTorso.center)
+        newTorso.pseudoLines = [l.rotated(angle, self.center) for l in newTorso.pseudoLines]
+        newTorso.joints = [l.end for l in newTorso.pseudoLines]
+        return newTorso
+
+class Limb () : 
+
+    def __init__ (self, h1, w1, h2, w2) :
+        self.top = rectangle(h1, w1)
+        self.joint = (h1/2) * 1j
+        self.joint2 = w1 + (h1/2) * 1j
+        self.bottom = rectangle(h2, w2).translated(self.joint2 - (h2/2) * 1j)
+        self.pseudoLine = svg.Line(start=self.joint, end=self.joint2)
+
+    def translated(self, t) : 
+        newLimb = copy.deepcopy(self)
+        newLimb.top = newLimb.top.translated(t)
+        newLimb.bottom = newLimb.bottom.translated(t)
+        newLimb.joint += t
+        newLimb.joint2 += t
+        return newLimb
+
+    def rotated (self, angle) :
+        newLimb = copy.deepcopy(self)
+        newLimb.top = newLimb.top.rotated(angle, newLimb.joint)
+        newLimb.bottom = newLimb.bottom.rotated(angle, newLimb.joint)
+        newLimb.pseudoLine = newLimb.pseudoLine.rotated(angle, newLimb.joint)
+        newLimb.joint2 = newLimb.pseudoLine.end
+        return newLimb
+
+    def bottomRotated (self, angle) :
+        newLimb = copy.deepcopy(self)
+        newLimb.bottom = newLimb.bottom.rotated(angle, newLimb.joint2)
+        return newLimb
+
+class Head () :
+
+    def __init__ (self, r) :
+        self.circle = circle(r)
+        self.joint = r * 1j
+
+    def translated (self, t) :
+        newHead = copy.deepcopy(self)
+        newHead.circle = newHead.circle.translated(t)
+        newHead.joint += t
+        return newHead
+
+    def rotated (self, angle) :
+        newHead = copy.deepcopy(self)
+        newHead.circle = newHead.circle.rotated(angle, newHead.joint)
+        return newHead
+
+
 def constructLinearSystem (constraints, variables,
     matrixConstructor, vectorConstructor) :
 
@@ -2042,7 +2303,27 @@ def graphCluster (G, algo, doc) :
     cluster(list(G.nodes))
     return tree, root
 
-def treeApply (T, r, function) : 
+def treeApplyRootFirst (T, r, function) :
+    """
+    Apply function to all nodes in the
+    tree.
+
+    Parameters
+    ----------
+    T : nx.DiGraph
+        The tree.
+    r : object
+        Root of the tree.
+    function : lambda
+        A function which takes as
+        input the tree, current node 
+        and performs some operation.
+    """
+    function(T, r, T.neighbors(r))
+    for child in T.neighbors(r) :
+        treeApplyChildrenFirst(T, child, function)
+
+def treeApplyChildrenFirst (T, r, function) : 
     """
     Apply function to all nodes in the
     tree.
@@ -2059,7 +2340,7 @@ def treeApply (T, r, function) :
         and performs some operation.
     """
     for child in T.neighbors(r) :
-        treeApply(T, child, function)
+        treeApplyChildrenFirst(T, child, function)
     function(T, r, T.neighbors(r))
 
 def treeMap (T, r, function) : 
@@ -2252,15 +2533,9 @@ class AllPathDescriptorFunction () :
         return np.vstack(descs)
 
 if __name__ == "__main__" : 
-    xNoise = PerlinNoise(seed=0)
-    yNoise = PerlinNoise(seed=1)
-    doc = svg.Document('./drawing.svg')
-    paths = doc.flatten_all_paths()
-    vb = doc.get_viewbox()
-    path = paths[0].path
-    points = [path.point(t) for t in np.arange(0, 1.01, 0.2)]
-    for i in range(1, len(points) - 1) :
-        p = points[i]
-        points[i] += 10 * complex(xNoise(p), yNoise(p))
-    newPath = smoothSpline(points)
-    singlePathSvg((newPath, paths[0].element), vb, 'output.svg')
+    with open('./annot/train.json') as fd :
+        data = json.load(fd)
+    for i in range(30) :
+        idx = random.randint(0, len(data) - 1)
+        p = Pose(data[idx])
+        p.visualizePose()
