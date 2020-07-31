@@ -134,6 +134,7 @@ class Pose () :
         doc.set_viewbox('0 0 100 100')
         parentGroup = {'person': None}
         treeApplyRootFirst(self.T, 'person', addToDocument)
+        return doc
 
 def noisyPath (path) : 
     """
@@ -2538,4 +2539,4 @@ if __name__ == "__main__" :
     for i in range(30) :
         idx = random.randint(0, len(data) - 1)
         p = Pose(data[idx])
-        p.visualizePose()
+        p.getDocument().save()
