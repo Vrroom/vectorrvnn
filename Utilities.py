@@ -21,7 +21,6 @@ import svgpathtools as svg
 import numpy as np
 import random
 import matplotlib.pyplot as plt
-import matplotlib.image as image
 from matplotlib.offsetbox import TextArea
 from matplotlib.offsetbox import DrawingArea
 from matplotlib.offsetbox import OffsetImage
@@ -32,6 +31,7 @@ from skimage import transform
 import Data
 from scipy.sparse import csc_matrix
 from scipy.sparse.linalg import spsolve
+import scipy.io as sio
 
 class Pose () :
 
@@ -60,7 +60,7 @@ class Pose () :
     
     def __init__ (self, pose) :
         self.xNoise, self.yNoise = PerlinNoise(seed=0), PerlinNoise(seed=1)
-        self.pose = pose
+        self.pose = np.array(pose)
         revMap = dict(zip(self.joints.values(), self.joints.keys()))
         self.joints.update(revMap)
         self._normalize()
@@ -75,13 +75,13 @@ class Pose () :
         return np.array([p.real, p.imag])
 
     def _headPath (self) :
-        p1, p2 = [self.jointPositions[i] for i in bones['head']]
-        r = np.linalg.norm(p2 - p1)
-        center = self._npToComplex((p1 + p2)/2)
-        return circle(r).translated(center)
+        p1, p2 = [self.pose[i] for i in self.bones['head']]
+        r = np.linalg.norm(p2 - p1) / 2
+        center = self._np2Complex((p1 + p2)/2)
+        return noisyPath(circle(r).translated(center))
 
     def _torsoPath (self) :
-        points = [self.jointPositions[i] for i in bones['torso']]
+        points = [self.pose[i] for i in self.bones['torso']]
         points = [self._np2Complex(p) for p in points]
         points = [p + self._noise(p) for p in points]
         return smoothSpline(points)
@@ -90,20 +90,26 @@ class Pose () :
         delta = np.flip(p2 - p1)
         delta[0] = -delta[0]
         d = np.linalg.norm(delta)
-        delta /= 3
-        c1, c2 = p1 + delta, p1 - delta
-        c3, c4 = p2 + delta, p2 - delta
+        delta /= 4
+        c1, c2 = self._np2Complex(p1 + delta), self._np2Complex(p1 - delta)
+        c3, c4 = self._np2Complex(p2 + delta), self._np2Complex(p2 - delta)
         l1, l2 = svg.Line(c1, c2), svg.Line(c2, c4)
         l3, l4 = svg.Line(c4, c3), svg.Line(c3, c1)
         path = svg.Path(l1, l2, l3, l4)
         return noisyPath(path)
 
     def _normalize (self) : 
-        self.jointPositions = np.array(self.pose['joints'])
-        center = np.array(self.pose['center'])
-        self.jointPositions -= center
-        self.jointPositions /= (2 * self.pose['scale'])
-        self.jointPositions += np.array([50, 50])
+        xMax = self.pose[:, 0].max()
+        xMin = self.pose[:, 0].min()
+        yMax = self.pose[:, 1].max()
+        yMin = self.pose[:, 1].min()
+
+        scale = 80 / max(xMax - xMin, yMax - yMin)
+        center = np.array([(xMax + xMin) / 2, (yMax + yMin) / 2])
+
+        self.pose -= center
+        self.pose *= scale
+        self.pose += np.array([50, 50])
 
     def _createConnectivityGraph (self) :
         self.G = nx.Graph() 
@@ -132,7 +138,7 @@ class Pose () :
 
     def visualizePose (self) : 
         plt.gca().set_aspect('equal')
-        nx.draw(self.G, self.jointPositions)
+        nx.draw(self.G, self.pose)
         plt.show()
 
     def _noise (self, p) :
@@ -141,20 +147,11 @@ class Pose () :
     def _npToComplex (self, listOfVectors) :
         return [complex(p[0], p[1]) for p in listOfVectors]
 
-    def _fourPoints (self, p1, p2) :
-        d = np.linalg.norm(p2 - p1)
-        fraction = 0.25 if d < 30 else 0.1
-        delta = np.flip(0.25 * (p2 - p1))
-        delta[0] = -delta[0]
-        p3 = (p1 + p2) / 2 + delta
-        p4 = (p1 + p2) / 2 - delta
-        return self._npToComplex([p1, p3, p2, p4])
-
     def _createBonePaths (self) : 
         self.paths = {'head': self._headPath(), 'torso': self._torsoPath()}
         for k, v in self.bones.items() :
             if k != 'head' and k != 'torso': 
-                p1, p2 = [self.jointPositions[i] for i in v]
+                p1, p2 = [self.pose[i] for i in v]
                 self.paths[k] = self._rectPath(p1, p2)
 
     def getDocument (self) :
@@ -2570,10 +2567,43 @@ class AllPathDescriptorFunction () :
             descs.append(self.descFunction(path, vbox))
         return np.vstack(descs)
 
+def mpiiPoseDataSet () :
+    """
+    Extract pose annotations from the dataset
+    Based on: 
+
+        1) https://tensorlayercn.readthedocs.io/zh/latest/_modules/tensorlayer/files/dataset_loaders/mpii_dataset.html
+        2) http://human-pose.mpi-inf.mpg.de/#download
+    """
+    annotations = []
+    mat = sio.loadmat("./mpii_human_pose_v1_u12_1.mat")
+    for anno in mat['RELEASE']['annolist'][0, 0][0] : 
+        annotations.append([])
+        if 'annopoints' in str(anno['annorect'].dtype):
+            annopoints = anno['annorect']['annopoints'][0]
+            head_x1s = anno['annorect']['x1'][0]
+            head_y1s = anno['annorect']['y1'][0]
+            head_x2s = anno['annorect']['x2'][0]
+            head_y2s = anno['annorect']['y2'][0]
+            for annopoint, head_x1, head_y1, head_x2, head_y2 in zip(annopoints, head_x1s, head_y1s, head_x2s,
+                                                                     head_y2s):
+                if annopoint.size:
+                    annopoint = annopoint['point'][0, 0]
+                    j_id = [str(j_i[0, 0]) for j_i in annopoint['id'][0]]
+                    x = [x[0, 0] for x in annopoint['x'][0]]
+                    y = [y[0, 0] for y in annopoint['y'][0]]
+                    joint_pos = {}
+                    for _j_id, (_x, _y) in zip(j_id, zip(x, y)):
+                        joint_pos[int(_j_id)] = [float(_x), float(_y)]
+                    if len(joint_pos) == 16 : 
+                        joint_pos = list(joint_pos.items())
+                        joint_pos.sort()
+                        joint_pos = [p for _, p in joint_pos]
+                        annotations[-1].append(joint_pos)
+    return annotations
+
 if __name__ == "__main__" : 
-    with open('./annot/train.json') as fd :
-        data = json.load(fd)
-    for i in range(30) :
-        idx = random.randint(0, len(data) - 1)
-        p = Pose(data[idx])
-        p.getDocument().save('body.svg')
+    poses = list(more_itertools.flatten(mpiiPoseDataSet()))
+    for i, sample in enumerate(pose): 
+        p = Pose(sample)
+        p.getDocument().save(f'./Examples/body{i}.svg')
