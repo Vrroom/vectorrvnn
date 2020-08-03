@@ -10,6 +10,7 @@ import subprocess
 import more_itertools
 import itertools
 from functools import reduce
+from tqdm import tqdm
 import networkx as nx
 import xml.etree.ElementTree as ET
 from networkx.drawing.nx_agraph import graphviz_layout
@@ -2604,6 +2605,6 @@ def mpiiPoseDataSet () :
 
 if __name__ == "__main__" : 
     poses = list(more_itertools.flatten(mpiiPoseDataSet()))
-    for i, sample in enumerate(pose): 
+    for i, sample in enumerate(tqdm(poses)): 
         p = Pose(sample)
         p.getDocument().save(f'./Examples/body{i}.svg')
