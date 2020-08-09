@@ -633,7 +633,7 @@ def hierarchicalClusterCompareFM (t1, t2) :
     n = t1.nPaths
     bs = []
     es = [] 
-    for k in range(2, 5): 
+    for k in range(2, 10): 
         cuts1 = treeKCut(t1, k)
         cuts2 = treeKCut(t2, k)
         M = np.zeros((k, k))

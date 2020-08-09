@@ -53,7 +53,7 @@ def compareNetTreeWithGroundTruth (sample, autoencoder, config, cuda) :
     bk /= 4
     netTree.toNumpy()
     netTree.rootCode = None
-    return (bk > 0.5).sum(), netTree
+    return (bk > 0.7).sum(), netTree
 
 class Trainer () :
     """
@@ -146,6 +146,7 @@ class Trainer () :
         self.makeDir(self.modelDir)
 
         for i, config in enumerate(self.configs) :
+            self.logger.info(str(config))
             self.runExpt(i + 1, config)
 
     def drawTrees (self, treeList, fileList, path) :
@@ -448,8 +449,8 @@ class Trainer () :
         finalTreesDir = osp.join(testDir, 'FinalTrees')
         self.makeDir(finalTreesDir)
  
-        bestAutoEncoder = self.models[argmin(self.modelScores)]
-        config = self.configs[argmin(self.modelScores)]
+        bestAutoEncoder = self.models[argmax(self.modelScores)]
+        config = self.configs[argmax(self.modelScores)]
  
         self.saveSnapshots(testDir, bestAutoEncoder, 'bestAutoEncoder.pkl')
          
