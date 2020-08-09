@@ -267,5 +267,5 @@ def lossFold (fold, tree, image) :
     target = fold.add('rasterEncoder', image)
     targetLoss = fold.add('nodeLoss', target, root)
     loss = decodeNode(tree.root, root)
-    return fold.add('vectorAdder', loss, targetLoss)
+    return loss, targetLoss
 

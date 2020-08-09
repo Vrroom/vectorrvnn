@@ -271,8 +271,9 @@ class DataHandler (Saveable) :
         self.svgFiles = listdir(svgDir)
         self.treeCache = dict() 
         self.descCache = dict() 
-        with ProcessPoolExecutor() as executor : 
-            self.groundTruth = list(executor.map(getTreeStructureFromSVG, self.svgFiles))
+        self.groundTruth = list(map(getTreeStructureFromSVG, self.svgFiles))
+        # with ProcessPoolExecutor() as executor : 
+            # self.groundTruth = list(executor.map(getTreeStructureFromSVG, self.svgFiles))
 
     def getDescriptors (self, descFunctions) : 
         descList = []

@@ -48,6 +48,9 @@ def compareNetTreeWithGroundTruth (sample, autoencoder, config, cuda) :
     svgFile, gt = sample
     netTree = findTree(gt, svgFile, autoencoder, cuda)
     bk = hierarchicalClusterCompareFM(gt, netTree)
+    for i in range(4) : 
+        bk += hierarchicalClusterCompareFM(gt, netTree)
+    bk /= 4
     netTree.toNumpy()
     netTree.rootCode = None
     return (bk > 0.5).sum(), netTree
@@ -312,17 +315,21 @@ class Trainer () :
                     1+batchIdx, 
                     nBatches, 
                     donePercent, 
-                    totalLoss.data.item()
+                    rvnnLoss.data.item(),
+                    reLoss.data.item()
                 ))
 
             for batchIdx, batch in enumerate(self.trainDataLoader):
 
                 fold = Fold(cuda=self.cuda)
                 nodes = [Model.lossFold(fold, tree, img) for tree, img in batch]
-                
+                rvnn, re = unzip(nodes) 
                 opt.zero_grad()
-                totalLoss, *_ = fold.apply(autoencoder, [nodes])
-                totalLoss = sum(totalLoss) / len(batch)
+                rvnnLoss, *_ = fold.apply(autoencoder, [list(rvnn)])
+                reLoss, *_ = fold.apply(autoencoder, [list(re)])
+                rvnnLoss = sum(rvnnLoss) / len(batch)
+                reLoss = sum(reLoss) / len(batch)
+                totalLoss = rvnnLoss + reLoss
                 totalLoss.backward()
                 opt.step()
 
@@ -355,8 +362,8 @@ class Trainer () :
 
         totalIter = epochs * nBatches
 
-        header = '     Time    Epoch     Iteration    Progress(%)  TotalLoss'
-        logTemplate = '{:>9s} {:>5.0f}/{:<5.0f} {:>5.0f}/{:<5.0f} {:>9.1f}% {:>10.2f}'
+        header = '     Time    Epoch     Iteration    Progress(%)  RvNNLoss     RasterEncoderLoss'
+        logTemplate = '{:>9s} {:>5.0f}/{:<5.0f} {:>5.0f}/{:<5.0f} {:>9.1f}% {:>10.2f} {:>10.2f}'
 
         losses = []
 

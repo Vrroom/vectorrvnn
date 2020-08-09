@@ -22,6 +22,7 @@ import svgpathtools as svg
 import numpy as np
 import random
 import matplotlib.pyplot as plt
+import matplotlib.image as image
 from matplotlib.offsetbox import TextArea
 from matplotlib.offsetbox import DrawingArea
 from matplotlib.offsetbox import OffsetImage
@@ -1687,7 +1688,7 @@ def complexCross (x, y) :
     return np.linalg.norm(np.cross(v1,v2))
 
     
-def d2 (path, docbb, bins=10, nSamples=100) :
+def d2 (path, docbb, bins=10, nSamples=100, **kwargs) :
     """
     Compute the d2 descriptors of the path.
     Take two random points on the curve
@@ -1736,7 +1737,7 @@ def d2 (path, docbb, bins=10, nSamples=100) :
     hist = hist / hist.sum()
     return hist.tolist()
 
-def shell(path, docbb, bins=10) :
+def shell(path, docbb, bins=10, **kwargs) :
     """
     Like d2 but instead of random points,
     we use points at fixed intervals on
@@ -1779,7 +1780,7 @@ def shell(path, docbb, bins=10) :
         hist[b] += 1
     return hist
 
-def a3 (path, docbb, bins=10, nSamples=100) :
+def a3 (path, docbb, bins=10, nSamples=100, **kwargs) :
     """
     Compute the a3 descriptors of the path.
     Take three random points on the curve
@@ -1831,7 +1832,7 @@ def a3 (path, docbb, bins=10, nSamples=100) :
 
     return hist
 
-def d3 (path, docbb, bins=10, nSamples=100) :
+def d3 (path, docbb, bins=10, nSamples=100, **kwargs) :
     """
     Compute the d3 descriptors of the path.
     Take three random points on the curve
@@ -1881,7 +1882,7 @@ def d3 (path, docbb, bins=10, nSamples=100) :
 
     return hist 
 
-def fd (path, docbb, nSamples=100, freqs=10) :
+def fd (path, docbb, nSamples=100, freqs=10, **kwargs) :
     """
     Compute the fourier descriptors of the
     path with respect to its centroid.
@@ -1912,7 +1913,7 @@ def fd (path, docbb, nSamples=100, freqs=10) :
     newAn = np.hstack([reals, imags])
     return newAn
 
-def relbb (path, docbb) :
+def relbb (path, docbb, **kwargs) :
     """ 
     Compute the relative bounding box
     of the path with respect to the 
@@ -1933,6 +1934,13 @@ def relbb (path, docbb) :
     y2 = (ymax - docbb[1]) / (docbb[3] - docbb[1])
 
     return [x1, x2, y1, y2]
+
+def oneHot (path, docbb, **kwargs) :
+    index = kwargs['index']
+    nPaths = kwargs['nPaths']
+    desc = [0] * nPaths
+    desc[index] = 1
+    return desc
 
 def symGraph (paths, **kwargs) : 
     """
@@ -2564,8 +2572,8 @@ class AllPathDescriptorFunction () :
 
     def __call__ (self, paths, vbox) : 
         descs = []
-        for path in paths : 
-            descs.append(self.descFunction(path, vbox))
+        for i, path in enumerate(paths) : 
+            descs.append(self.descFunction(path, vbox, index=i, nPaths=len(paths)))
         return np.vstack(descs)
 
 def mpiiPoseDataSet () :

@@ -1,5 +1,3 @@
-# TODO : Tree Structure is somehow maintained very well!
-# The nodes are different somehow...
 from Data import Tree
 import torch
 import heapq
@@ -84,7 +82,7 @@ def findTree (gt, svgFile, autoencoder, cuda) :
         childFeatures = autoencoder.mergeDecoder(feature)
         for i in range(nodeIdx, nodeIdx + len(childFeatures)) : 
             tree.add_node(i)
-            tree.nodes[i]['feature'] = childFeatures[i]
+            tree.nodes[i]['feature'] = childFeatures[i - nodeIdx]
             tree.add_edge(leafId, i)
         nodeIdx += len(childFeatures)
         
