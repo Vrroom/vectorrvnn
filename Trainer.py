@@ -187,7 +187,7 @@ class Trainer () :
         self.setTrainDataLoader(config)
 
         trees = self.trainData.trees
-        self.drawTrees(trees, self.trainData.svgFiles, trainingTreesPath)
+        # self.drawTrees(trees, self.trainData.svgFiles, trainingTreesPath)
 
         self.setModel(config)
         autoencoder = self.models[-1]
@@ -419,14 +419,13 @@ class Trainer () :
         """
         trees = self.cvDataHandler.getDataset(config, self.cuda).trees
         samples = zip(self.cvDataHandler.svgFiles, trees)
-        # with torch.multiprocessing.Pool(maxtasksperchild=30) as p : 
-        #     compare = p.map(
-        #            partial(compareNetTreeWithGroundTruth, 
-        #                autoencoder=autoencoder, config=config,
-        #                cuda=self.cuda), 
-        #            samples,
-        #            chunksize=10)
-        compare = list(map(partial(compareNetTreeWithGroundTruth, autoencoder=autoencoder, config=config, cuda=self.cuda), samples))
+        with torch.multiprocessing.Pool(maxtasksperchild=30) as p : 
+            compare = p.map(
+                   partial(compareNetTreeWithGroundTruth, 
+                       autoencoder=autoencoder, config=config,
+                       cuda=self.cuda), 
+                   samples,
+                   chunksize=10)
 
         bkFrequency = list(unzip(compare)[0])
         self.bkFrequencyHistogram(bkFrequency, osp.join(configPath, 'CVHistogram'))

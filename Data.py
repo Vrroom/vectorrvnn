@@ -229,10 +229,8 @@ class TreesData (data.Dataset, Saveable) :
         self.svgFiles = listdir(svgDir) 
         creator = TreeCreator(graphClusterAlgo, relationFunctions)
         self.tensor = False
-        # self.trees = list(map(creator, self.svgFiles))
-        self.trees = list(map(getTreeStructureFromSVG, self.svgFiles))
         with ProcessPoolExecutor() as executor : 
-        #    self.trees = list(executor.map(creator, self.svgFiles, chunksize=1))
+            self.trees = list(executor.map(getTreeStructureFromSVG, self.svgFiles, chunksize=4))
             self.rasterImages = list(executor.map(partial(SVGtoNumpyImage, H=224, W=224), self.svgFiles))
 
 
@@ -247,7 +245,6 @@ class TreesData (data.Dataset, Saveable) :
             self.rasterImages = [img.cuda() for img in self.rasterImages]
 
     def __getitem__ (self, index) :
-        # tree, _ = self.trees[index]
         tree = self.trees[index]
         image = self.rasterImages[index]
         return tree, image
@@ -271,9 +268,8 @@ class DataHandler (Saveable) :
         self.svgFiles = listdir(svgDir)
         self.treeCache = dict() 
         self.descCache = dict() 
-        self.groundTruth = list(map(getTreeStructureFromSVG, self.svgFiles))
-        # with ProcessPoolExecutor() as executor : 
-            # self.groundTruth = list(executor.map(getTreeStructureFromSVG, self.svgFiles))
+        with ProcessPoolExecutor() as executor : 
+            self.groundTruth = list(executor.map(getTreeStructureFromSVG, self.svgFiles, chunksize=4))
 
     def getDescriptors (self, descFunctions) : 
         descList = []
