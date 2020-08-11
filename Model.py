@@ -6,6 +6,48 @@ from torch.autograd import Variable
 from functools import reduce
 from time import time
 
+class CyclicConvolution (nn.Module) :
+    """
+    Encoder Module for closed, normalized paths.
+
+    Examples
+    --------
+    >>> cc = CyclicConvolution(10, 3, 30)
+    >>> x = torch.randn(20, 10)
+    >>> print(cc(x))
+    """
+    def __init__ (self, in_size, kernel_size, out_size) :
+        """
+        Constructor.
+
+        Parameters
+        ----------
+        in_size : int
+            Length of the initial descriptor.
+        kernel_size : int 
+            Length of sliding window which we convolve over the 
+            descriptor.
+        out_size : int
+            Length of the feature vector.
+        """
+        super(CyclicConvolution, self).__init__()
+        self.in_size = in_size
+        self.kernel_size = kernel_size
+        self.out_size = out_size
+        self.weights = Variable(torch.zeros(out_size, kernel_size), requires_grad=True)
+        self.biases = Variable(torch.zeros(out_size), requires_grad=True)
+
+    def forward (self, x) :
+        x = torch.cat((x, x), dim=1)
+        x = torch.stack([x for _ in range(self.out_size)], dim=1)
+        x = [torch.sum(x[:,:,i:i+self.kernel_size] * self.weights, axis=2) for i in range(self.in_size)]
+        x = sum(x)
+        return x
+
+class PathAutoencoder (nn.Module) :
+    def __init__ (self, samples) :
+        self.samples = samples
+
 class PathEncoder(nn.Module):
     """
     Single Layer NN.
