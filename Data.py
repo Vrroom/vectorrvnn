@@ -21,6 +21,7 @@ from Utilities import *
 import Utilities
 import re
 import logging
+import torch_geometric.data as tgd
 
 class Saveable () : 
 
@@ -39,10 +40,7 @@ class Descriptor (Saveable) :
         self.svgDir = svgDir
         self.svgFiles = listdir(svgDir) 
 
-        paths = map (
-                lambda x : [p.path for p in svg.Document(x).flatten_all_paths()],
-                self.svgFiles
-        )
+        paths = map (lambda x : svg.Document(x).flatten_all_paths(), self.svgFiles)
         vboxes = map(lambda x : svg.Document(x).get_viewbox(), self.svgFiles)
 
         allPathsDescFn = AllPathDescriptorFunction(descFunction)
@@ -218,21 +216,30 @@ class TreesData (data.Dataset, Saveable) :
     Pre-processed trees from clustering 
     algorithm.
     """
-    def __init__ (self, svgDir, graphClusterAlgo, relationFunctions) : 
-
-        # For logging what is happening
-        relFunctionsNames = map(lambda x : x.__name__, relationFunctions)
-        relFunctionsNames = ' '.join(relFunctionsNames)
-        logging.info(f'Computing {graphClusterAlgo.__name__} and {relFunctionsNames}')
-
+    def __init__ (self, svgDir, descFunction) : 
         self.svgDir = svgDir
+        self.descFunction = descFunction
         self.svgFiles = listdir(svgDir) 
-        creator = TreeCreator(graphClusterAlgo, relationFunctions)
         self.tensor = False
         with ProcessPoolExecutor() as executor : 
             self.trees = list(executor.map(getTreeStructureFromSVG, self.svgFiles, chunksize=4))
-            self.rasterImages = list(executor.map(partial(SVGtoNumpyImage, H=224, W=224), self.svgFiles))
+            self.rasterImages = list(executor.map(partial(SVGtoNumpyImage, H=224, W=224), self.svgFiles, chunksize=4))
+            self.graphs = list(executor.map(self.dataFromDocument, self.svgFiles, chunksize=4))
+        for t, g in zip(self.trees, self.graphs) :
+            t.addDescriptors(g.x)
 
+    def dataFromDocument (self, filename) : 
+        doc = svg.Document(filename)
+        vb = doc.get_viewbox()
+        paths = doc.flatten_all_paths()
+        edges = Pose.boneConnectivity
+        descriptors = [self.descFunction(p.path, vb) for p in paths]
+        descriptors = torch.tensor(descriptors)
+        pathTypes = [p.element.attrib['id'] for p in paths]
+        pathTypeIdx = dict(map(reversed, enumerate(pathTypes)))
+        edges = [(pathTypeIdx[a], pathTypeIdx[b]) for a, b in edges]
+        edges = torch.t(torch.tensor(edges).long())
+        return tgd.Data(x=descriptors, edge_index=edges)
 
     def imagesToTensor (self, cuda) :
         self.rasterImages = list(map(torch.from_numpy, self.rasterImages))
@@ -247,7 +254,8 @@ class TreesData (data.Dataset, Saveable) :
     def __getitem__ (self, index) :
         tree = self.trees[index]
         image = self.rasterImages[index]
-        return tree, image
+        graph = self.graphs[index]
+        return tree, image, graph
 
     def __len__ (self) : 
         return len(self.svgFiles)
@@ -271,37 +279,18 @@ class DataHandler (Saveable) :
         with ProcessPoolExecutor() as executor : 
             self.groundTruth = list(executor.map(getTreeStructureFromSVG, self.svgFiles, chunksize=4))
 
-    def getDescriptors (self, descFunctions) : 
-        descList = []
-        for fn in descFunctions : 
-            if fn not in self.descCache : 
-                self.descCache[fn] = Descriptor(self.svgDir, fn)
-            descList.append(self.descCache[fn])
-        return reduce(lambda x, y : x | y, descList)
-
-    def getTrees (self, graphClusterAlgos, relationFunctions, cuda) :
+    def getTrees (self, descFunctions, cuda) :
         treeList = []
-        for algo in graphClusterAlgos : 
-            key = (algo, relationFunctions)
-            if key not in self.treeCache :
-                self.treeCache[key] = TreesData(self.svgDir, algo, relationFunctions)
-                self.treeCache[key].imagesToTensor(cuda)
-            treeList.append(self.treeCache[key])
+        key = str(descFunctions)
+        if key not in self.treeCache :
+            self.treeCache[key] = TreesData(self.svgDir, ComposeAdd(descFunctions))
+            self.treeCache[key].imagesToTensor(cuda)
+        treeList.append(self.treeCache[key])
         return reduce(lambda x, y : x + y, treeList)
 
     def getDataset (self, config, cuda) : 
         functionGetter = lambda x : getattr(Utilities, x) 
-
         descFunctions = list(map(functionGetter, config['desc_functions']))
-        relationFunctions = tuple(map(functionGetter, config['relation_functions']))
-        graphClusterAlgos = list(map(functionGetter, config['graph_cluster_algo']))
-
-        trees = self.getTrees(graphClusterAlgos, relationFunctions, cuda)
-        descs = self.getDescriptors(descFunctions)
-        
-        for t, d in zip(trees, descs) : 
-            t[0].addDescriptors(d)
-
+        trees = self.getTrees(descFunctions, cuda)
         trees.treesToTensor(cuda)
-
         return trees

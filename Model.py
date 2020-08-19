@@ -2,51 +2,41 @@ import math
 import torch
 from torch import nn
 import torchvision.models as models
+import torch.nn.functional as F
 from torch.autograd import Variable
 from functools import reduce
 from time import time
+from torch_geometric.nn.conv import GINConv
 
-class CyclicConvolution (nn.Module) :
+class GraphNet (nn.Module) :
     """
-    Encoder Module for closed, normalized paths.
-
-    Examples
-    --------
-    >>> cc = CyclicConvolution(10, 3, 30)
-    >>> x = torch.randn(20, 10)
-    >>> print(cc(x))
+    Two layers of GIN Convolution.
     """
-    def __init__ (self, in_size, kernel_size, out_size) :
-        """
-        Constructor.
+    def __init__ (self, config) :
+        super(GraphNet, self).__init__()
+        self.input_size = config['path_code_size']
+        dim = 32
+        nn1 = nn.Sequential(
+            nn.Linear(self.input_size, dim),
+            nn.ReLU(),
+            nn.Linear(dim, dim)
+        )
+        self.conv1 = GINConv(nn1)
+        self.bn1 = nn.BatchNorm1d(dim)
+        nn2 = nn.Sequential(
+            nn.Linear(dim, dim), 
+            nn.ReLU(), 
+            nn.Linear(dim, self.input_size)
+        )
+        self.conv2 = GINConv(nn2)
+        self.bn2 = torch.nn.BatchNorm1d(self.input_size)
 
-        Parameters
-        ----------
-        in_size : int
-            Length of the initial descriptor.
-        kernel_size : int 
-            Length of sliding window which we convolve over the 
-            descriptor.
-        out_size : int
-            Length of the feature vector.
-        """
-        super(CyclicConvolution, self).__init__()
-        self.in_size = in_size
-        self.kernel_size = kernel_size
-        self.out_size = out_size
-        self.weights = Variable(torch.zeros(out_size, kernel_size), requires_grad=True)
-        self.biases = Variable(torch.zeros(out_size), requires_grad=True)
-
-    def forward (self, x) :
-        x = torch.cat((x, x), dim=1)
-        x = torch.stack([x for _ in range(self.out_size)], dim=1)
-        x = [torch.sum(x[:,:,i:i+self.kernel_size] * self.weights, axis=2) for i in range(self.in_size)]
-        x = sum(x)
+    def forward(self, x, edge_index) : 
+        x = F.relu(self.conv1(x, edge_index))
+        x = self.bn1(x)
+        x = F.relu(self.conv2(x, edge_index))
+        x = self.bn2(x)
         return x
-
-class PathAutoencoder (nn.Module) :
-    def __init__ (self, samples) :
-        self.samples = samples
 
 class PathEncoder(nn.Module):
     """
@@ -218,6 +208,8 @@ class GRASSAutoEncoder(nn.Module):
         featureSize  = config['feature_size']
         hiddenSize   = config['hidden_size']
 
+        self.graphNet = GraphNet(config)
+
         self.path_encoder = PathEncoder(pathCodeSize, featureSize)
         self.path_decoder = PathDecoder(featureSize, pathCodeSize)
 
@@ -229,6 +221,9 @@ class GRASSAutoEncoder(nn.Module):
         self.cre_loss = nn.CrossEntropyLoss()
 
         self.raster_encoder = RasterEncoder(featureSize)
+
+    def graphEncoder (self, batch) :
+        return self.graphNet(batch.x, batch.edge_index)
 
     def pathDecoder(self, feature):
         return self.path_decoder(feature)
@@ -264,14 +259,15 @@ class GRASSAutoEncoder(nn.Module):
     def vectorAdder(self, v1, v2):
         return v1.add_(v2)
 
-def lossFold (fold, tree, image) :
+def lossFold (fold, tree, image, codes) :
 
     def encodeNode(node):
         neighbors = list(tree.tree.neighbors(node))
         neighbors.sort()
         isLeaf = len(neighbors) == 0
         if isLeaf:
-            path = tree.path(node)
+            pathId = tree.tree.nodes[node]['pathSet'][0]
+            path = codes[pathId].reshape((1, -1))
             feature = fold.add('pathEncoder', path)
             features[node] = feature
             return feature

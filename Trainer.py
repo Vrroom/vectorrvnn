@@ -26,6 +26,7 @@ from copy import deepcopy
 import math
 from Test import findTree
 from torchfold import Fold
+from torch_geometric.data import Batch
 
 def compareNetTreeWithGroundTruth (sample, autoencoder, config, cuda) :
     """
@@ -186,9 +187,6 @@ class Trainer () :
         self.logger.info(f'Starting Expt {i}')
         self.setTrainDataLoader(config)
 
-        trees = self.trainData.trees
-        # self.drawTrees(trees, self.trainData.svgFiles, trainingTreesPath)
-
         self.setModel(config)
         autoencoder = self.models[-1]
         self.startTrainingLoop(autoencoder, config, modelPath, configPath)
@@ -321,9 +319,11 @@ class Trainer () :
                 ))
 
             for batchIdx, batch in enumerate(self.trainDataLoader):
-
+                graphs = [g for _, _, g in batch]
+                graphBatch = Batch.from_data_list(graphs)
+                graphOut = torch.chunk(autoencoder.graphEncoder(graphBatch), len(batch))
                 fold = Fold(cuda=self.cuda)
-                nodes = [Model.lossFold(fold, tree, img) for tree, img in batch]
+                nodes = [Model.lossFold(fold, tree, img, codes) for (tree, img, _), codes in zip(batch, graphOut)]
                 rvnn, re = unzip(nodes) 
                 opt.zero_grad()
                 rvnnLoss, *_ = fold.apply(autoencoder, [list(rvnn)])
@@ -419,13 +419,13 @@ class Trainer () :
         """
         trees = self.cvDataHandler.getDataset(config, self.cuda).trees
         samples = zip(self.cvDataHandler.svgFiles, trees)
-        with torch.multiprocessing.Pool(maxtasksperchild=30) as p : 
-            compare = p.map(
-                   partial(compareNetTreeWithGroundTruth, 
-                       autoencoder=autoencoder, config=config,
-                       cuda=self.cuda), 
-                   samples,
-                   chunksize=10)
+        # with torch.multiprocessing.Pool(maxtasksperchild=30) as p : 
+        compare = list(map(
+               partial(compareNetTreeWithGroundTruth, 
+                   autoencoder=autoencoder, config=config,
+                   cuda=self.cuda), 
+               samples))
+               
 
         bkFrequency = list(unzip(compare)[0])
         self.bkFrequencyHistogram(bkFrequency, osp.join(configPath, 'CVHistogram'))
@@ -496,7 +496,7 @@ class Trainer () :
         self.testDataHandler.save(saveTestPath)
     
 def main () :
-    torch.multiprocessing.set_start_method('spawn')
+    torch.multiprocessing.set_start_method('spawn', force=True)
 
     with open('commonConfig.json') as fd :
         commonConfig = json.load(fd)

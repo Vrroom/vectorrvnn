@@ -59,6 +59,19 @@ class Pose () :
         'neck': (7, 8),
         'head': (8, 9)
     }
+
+    boneConnectivity = [
+        ('neck', 'head'),
+        ('torso', 'neck'),
+        ('torso', 'r_thigh'),
+        ('torso', 'l_thigh'),
+        ('torso', 'r_upper_arm'),
+        ('torso', 'l_upper_arm'),
+        ('r_upper_arm', 'r_lower_arm'),
+        ('l_upper_arm', 'l_lower_arm'),
+        ('r_thigh', 'r_calf'),
+        ('l_thigh', 'l_calf'),
+    ]
     
     def __init__ (self, pose) :
         self.xNoise, self.yNoise = PerlinNoise(seed=0), PerlinNoise(seed=1)
@@ -330,6 +343,13 @@ class Head () :
         newHead.circle = newHead.circle.rotated(angle, newHead.joint)
         return newHead
 
+class ComposeAdd () : 
+
+    def __init__ (self, descFunctions) :
+        self.descFunctions = descFunctions
+    
+    def __call__ (self,  p, b, **kwargs) : 
+        return reduce(lambda x, y : x + y(p, b, **kwargs), self.descFunctions, []) 
 
 def constructLinearSystem (constraints, variables,
     matrixConstructor, vectorConstructor) :
@@ -1954,7 +1974,7 @@ def equiDistantSamples (path, docbb, nSamples=5, **kwargs) :
     dx, dy = docbb[2] - docbb[0], docbb[3] - docbb[1]
     x = [p.real / dx for p in pts]
     y = [p.imag / dy for p in pts]
-    return [x, y]
+    return x + y
 
 def oneHot (path, docbb, **kwargs) :
     index = kwargs['index']
@@ -2632,8 +2652,8 @@ def mpiiPoseDataSet () :
                         annotations[-1].append(joint_pos)
     return annotations
 
-if __name__ == "__main__" : 
-    poses = list(more_itertools.flatten(mpiiPoseDataSet()))
-    for i, sample in enumerate(tqdm(poses)): 
-        p = Pose(sample)
-        p.getDocument().save(f'./Examples/body{i}.svg')
+# if __name__ == "__main__" : 
+#     poses = list(more_itertools.flatten(mpiiPoseDataSet()))
+#     for i, sample in enumerate(tqdm(poses)): 
+#         p = Pose(sample)
+#         p.getDocument().save(f'./Examples/body{i}.svg')
