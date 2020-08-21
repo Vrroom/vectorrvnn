@@ -237,9 +237,10 @@ class TreesData (data.Dataset, Saveable) :
         descriptors = torch.tensor(descriptors)
         pathTypes = [p.element.attrib['id'] for p in paths]
         pathTypeIdx = dict(map(reversed, enumerate(pathTypes)))
+        targets = torch.tensor([pathTypeIdx[t] for t in pathTypes]).long().reshape((-1, 1))
         edges = [(pathTypeIdx[a], pathTypeIdx[b]) for a, b in edges]
         edges = torch.t(torch.tensor(edges).long())
-        return tgd.Data(x=descriptors, edge_index=edges)
+        return tgd.Data(x=descriptors, edge_index=edges, y=targets)
 
     def imagesToTensor (self, cuda) :
         self.rasterImages = list(map(torch.from_numpy, self.rasterImages))

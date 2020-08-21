@@ -6,7 +6,7 @@ import Data
 from functools import reduce, partial
 import torch.multiprocessing
 import Model
-from Model import GRASSAutoEncoder
+from Model import GRASSAutoEncoder, GraphAutoEncoder
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -189,8 +189,8 @@ class Trainer () :
 
         self.setModel(config)
         autoencoder = self.models[-1]
-        self.startTrainingLoop(autoencoder, config, modelPath, configPath)
-        self.crossValidate(config, autoencoder, configPath)
+        self.trainGraphAutoEncoder(autoencoder, config, modelPath, configPath)
+        self.crossValidateGraphAutoEncoder(config, autoencoder, configPath)
 
     def createDirectories (self, i, config) : 
         """
@@ -253,12 +253,9 @@ class Trainer () :
             self.logger.info(f'Using CUDA on GPU {self.gpu}')
         else :
             self.logger.info('Not using CUDA')
-
-        autoencoder = GRASSAutoEncoder(config)
-
+        autoencoder = GraphAutoEncoder(config)
         if self.cuda :
             autoencoder = autoencoder.cuda()
-
         self.models.append(autoencoder)
 
     def saveSnapshots (self, path, autoencoder, name) : 
@@ -276,8 +273,79 @@ class Trainer () :
         name : str
             File name for output.
         """
+        autoencoder.train()
         self.logger.info(f'Saving Model {name}') 
         torch.save(autoencoder, osp.join(path, name))
+
+    def trainGraphAutoEncoder(self, autoencoder, config, modelPath, configPath) : 
+
+        def trainOneEpoch () :
+
+            def reportStatistics () : 
+                elapsedTime = time.strftime("%H:%M:%S",time.gmtime(time.time()-start))
+                donePercent = 100. * (1 + batchIdx + nBatches * epoch) / totalIter
+                self.logger.info(logTemplate.format(
+                    elapsedTime, 
+                    epoch, 
+                    epochs, 
+                    1+batchIdx, 
+                    nBatches, 
+                    donePercent, 
+                    classLoss.data.item(),
+                    reconstructionLoss.data.item()
+                ))
+
+            for batchIdx, batch in enumerate(self.trainDataLoader):
+                graphs = [g for _, _, g in batch]
+                graphBatch = Batch.from_data_list(graphs)
+                scores, x_ = autoencoder(graphBatch)
+                opt.zero_grad()
+                classLoss = creLoss(scores, graphBatch.y)
+                reconstructionLoss = mseLoss(x_, graphBatch.x)
+                totalLoss = classLoss + reconstructionLoss
+                totalLoss.backward()
+                opt.step()
+
+                if batchIdx % self.logFrequency == 0:
+                    reportStatistics()
+
+            return totalLoss.data.item()
+
+        def createAndSaveTrainingPlot () :
+            fig, axes = plt.subplots()
+            axes.plot(range(epochs), losses) 
+            axes.set_xlabel('Epochs')
+            axes.set_ylabel('Training Loss')
+            fig.savefig(osp.join(configPath, 'TrainingPlot'))
+            plt.close(fig)
+
+        creLoss = nn.CrossEntropyLoss()
+        mseLoss = nn.MSELoss()
+        nBatches = len(self.trainDataLoader)
+        epochs = config['epochs']
+        opt = optim.Adam(autoencoder.parameters(), lr=config['lr'])
+        gamma = 1 / config['lr_decay_by']
+        decayEvery = config['lr_decay_every']
+        sched = optim.lr_scheduler.StepLR(opt, decayEvery, gamma=gamma)
+        self.logger.info('Starting Training')
+        start = time.time()
+        totalIter = epochs * nBatches
+        header = '     Time    Epoch     Iteration    Progress(%)  ClassifierLoss     ReconstructionLoss'
+        logTemplate = '{:>9s} {:>5.0f}/{:<5.0f} {:>5.0f}/{:<5.0f} {:>9.1f}% {:>10.2f} {:>10.2f}'
+        losses = []
+        for epoch in range(epochs):
+            self.logger.info(header)
+            loss = trainOneEpoch()
+            sched.step()
+
+            if (epoch + 1) % self.saveFrequency == 0 :
+                name = 'autoencoder_epoch{}_loss_{:.2f}.pkl'.format(epoch+1, loss)
+                self.saveSnapshots(modelPath, autoencoder, name)
+
+            losses.append(loss)
+        
+        self.saveSnapshots(modelPath, autoencoder, 'autoencoder.pkl')
+        createAndSaveTrainingPlot()
 
     def startTrainingLoop(self, autoencoder, config, modelPath, configPath) :
         """
@@ -401,6 +469,19 @@ class Trainer () :
         fig.savefig(path)
         plt.close(fig)
 
+    def crossValidateGraphAutoEncoder(self, config, autoencoder, configPath):
+        autoencoder.eval()
+        graphs = self.cvDataHandler.getDataset(config, self.cuda).graphs
+        batch = Batch.from_data_list(graphs)
+        creLoss = nn.CrossEntropyLoss()
+        mseLoss = nn.MSELoss()
+        scores, x_ = autoencoder(batch.x, batch.edge_index)
+        loss1 = creLoss(scores, batch.y)
+        loss2 = mseLoss(x_, batch.x)
+        score = (loss1 + loss2).data.item()
+        self.logger.info(f'Cross Validation Score : {score}')
+        self.modelScores.append(score)
+
     def crossValidate(self, config, autoencoder, configPath) :
         """
         Compute the bk frequency to the
@@ -510,7 +591,7 @@ def main () :
 
     with Trainer(commonConfig, configs) as trainer : 
         trainer.run()
-        trainer.test()
+        # trainer.test()
 
 if __name__ == "__main__" :
     main()

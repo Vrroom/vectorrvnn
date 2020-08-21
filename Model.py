@@ -38,6 +38,39 @@ class GraphNet (nn.Module) :
         x = self.bn2(x)
         return x
 
+class GraphAutoEncoder (nn.Module) :
+
+    def __init__ (self, config) :
+        super(GraphAutoEncoder, self).__init__()
+        self.encoder = GraphNet(config)
+        self.decoder = GraphNet(config)
+        dim = 32
+        self.classifier = nn.Sequential(
+            nn.Linear(dim, dim),
+            nn.ReLU(),
+            nn.Dropout(),
+            nn.Linear(dim, 11)
+        )
+
+    def forward (self, x, edge_index) :
+        f = self.encoder(x, edge_index)
+        classScores = self.classifier(f)
+        x_ = self.decoder(f, edge_index)
+        return classScores, x_
+
+if __name__ == "__main__" :
+    config = {'input_size': 10}
+    model = GraphAutoEncoder(config)
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+    creLoss = nn.CrossEntropyLoss()
+    mseLoss = nn.MSELoss()
+    for data in loader : 
+        optimizer.zero_grad()
+        classScores, x_ = model(data.x, data.edge_index)
+        loss = creLoss(classScores, data.y) + mseLoss(x_, data.x)
+        loss.backward()
+        optimizer.step()
+
 class PathEncoder(nn.Module):
     """
     Single Layer NN.
