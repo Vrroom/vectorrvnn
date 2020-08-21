@@ -116,7 +116,7 @@ class Trainer () :
         self.gpu  = commonConfig['gpu'] 
         self.cuda = commonConfig['cuda']
 
-        self.exptDir  = osp.join(commonConfig['expt_path'], 'Expt_' + str(datetime.date.today()))
+        self.exptDir  = osp.join(commonConfig['expt_path'], '_Expt_' + str(datetime.date.today()))
         self.modelDir = osp.join(self.exptDir, 'Models')
 
         self.trainDir = commonConfig['train_directory']
@@ -298,7 +298,7 @@ class Trainer () :
             for batchIdx, batch in enumerate(self.trainDataLoader):
                 graphs = [g for _, _, g in batch]
                 graphBatch = Batch.from_data_list(graphs)
-                scores, x_ = autoencoder(graphBatch)
+                scores, x_ = autoencoder(graphBatch.x, graphBatch.edge_index)
                 opt.zero_grad()
                 classLoss = creLoss(scores, graphBatch.y)
                 reconstructionLoss = mseLoss(x_, graphBatch.x)

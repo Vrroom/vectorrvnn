@@ -42,11 +42,12 @@ class GraphAutoEncoder (nn.Module) :
 
     def __init__ (self, config) :
         super(GraphAutoEncoder, self).__init__()
+        self.input_size = config['path_code_size']
         self.encoder = GraphNet(config)
         self.decoder = GraphNet(config)
         dim = 32
         self.classifier = nn.Sequential(
-            nn.Linear(dim, dim),
+            nn.Linear(self.input_size, dim),
             nn.ReLU(),
             nn.Dropout(),
             nn.Linear(dim, 11)
