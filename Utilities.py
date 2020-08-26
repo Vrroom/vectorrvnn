@@ -1,5 +1,8 @@
 # Avoid repetition at all costs.
+import torch_geometric.data as tgd
+import torch
 import pickle
+from shapely.geometry import Polygon
 import os
 import os.path as osp
 from pulp import LpVariable
@@ -33,7 +36,65 @@ from skimage import transform
 import Data
 from scipy.sparse import csc_matrix
 from scipy.sparse.linalg import spsolve
+from scipy.spatial import ConvexHull
 import scipy.io as sio
+import pymesh
+
+def normalizePointCloud (ptCloud, height, width) :
+    """
+    Normalize a point cloud to fit into a box with 
+    the top right corner at (width, height) and 
+    bottom left corner at (0, 0).
+
+    Parameters
+    ----------
+    ptCloud : numpy.ndarray
+        N by 2 array of points.
+    height : float
+        Height of the viewbox.
+    width : float
+        Width of the viewbox.
+    """
+    xMax = ptCloud[:, 0].max()
+    xMin = ptCloud[:, 0].min()
+    yMax = ptCloud[:, 1].max()
+    yMin = ptCloud[:, 1].min()
+
+    scale = (0.8 * min(width, height)) / max(xMax - xMin, yMax - yMin)
+    center = np.array([(xMax + xMin) / 2, (yMax + yMin) / 2])
+
+    ptCloud -= center
+    ptCloud *= scale
+    ptCloud += np.array([width / 2, height / 2])
+    return ptCloud
+
+def normalizeTransform (ptCloud, width, height) :
+    """
+    Return a transform function to normalize some 
+    subset of the point cloud.
+
+    Parameters
+    ----------
+    ptCloud : numpy.ndarray
+        N by 2 array of points. This is the
+        original point cloud on the basis
+        of which the transformation is calculated.
+    height : float
+        Height of the viewbox.
+    width : float
+        Width of the viewbox.
+
+    """
+    xMax = ptCloud[:, 0].max()
+    xMin = ptCloud[:, 0].min()
+    yMax = ptCloud[:, 1].max()
+    yMin = ptCloud[:, 1].min()
+
+    scale = (0.8 * min(width, height)) / max(xMax - xMin, yMax - yMin)
+    center = np.array([(xMax + xMin) / 2, (yMax + yMin) / 2])
+    newCenter = np.array([width / 2, height / 2])
+
+    return lambda pt : scale * (pt - center) + newCenter
 
 class Pose () :
 
@@ -78,7 +139,7 @@ class Pose () :
         self.pose = np.array(pose)
         revMap = dict(zip(self.joints.values(), self.joints.keys()))
         self.joints.update(revMap)
-        self._normalize()
+        self.pose = normalizePointCloud(self.pose, 100, 100)
         self._createConnectivityGraph()
         self._createPathHierarchy()
         self._createBonePaths()
@@ -112,19 +173,6 @@ class Pose () :
         l3, l4 = svg.Line(c4, c3), svg.Line(c3, c1)
         path = svg.Path(l1, l2, l3, l4)
         return noisyPath(path)
-
-    def _normalize (self) : 
-        xMax = self.pose[:, 0].max()
-        xMin = self.pose[:, 0].min()
-        yMax = self.pose[:, 1].max()
-        yMin = self.pose[:, 1].min()
-
-        scale = 80 / max(xMax - xMin, yMax - yMin)
-        center = np.array([(xMax + xMin) / 2, (yMax + yMin) / 2])
-
-        self.pose -= center
-        self.pose *= scale
-        self.pose += np.array([50, 50])
 
     def _createConnectivityGraph (self) :
         self.G = nx.Graph() 
@@ -170,20 +218,37 @@ class Pose () :
                 self.paths[k] = self._rectPath(p1, p2)
 
     def getDocument (self) :
-
-        def addToDocument (T, r, children) :
-            if T.out_degree(r) == 0 : 
-                doc.add_path(self.paths[r], group=parentGroup[r])
-            else :
-                newGroup = doc.add_group(parent=parentGroup[r], group_attribs={"fill":"black", "fill-opacity":"0.5"})
-                for child in children: 
-                    parentGroup[child] = newGroup
-
         doc = svg.Document(None)
         doc.set_viewbox('0 0 100 100')
-        parentGroup = {'person': None}
-        treeApplyRootFirst(self.T, 'person', addToDocument)
-        return doc
+        return tree2Document(doc, self.T, {"fill":"black", "fill-opacity":0.5})
+
+def tree2Document (document, tree, attribs) :
+    """
+    Add a tree of parents to svg document.
+
+    Parameters
+    ----------
+    document : svg.Document
+        SVG document to which the tree of paths 
+        has to be added.
+    tree : nx.DiGraph
+        Path hierarchy.
+    attribs : dict
+        Dictionary of path attributes. Same attributes
+        are applied to all paths.
+    """
+    def addToDocument (T, r, children) :
+        if T.out_degree(r) == 0 : 
+            document.add_path(T.nodes[r]['path'], attribs=attribs, group=parentGroup[r])
+        else :
+            newGroup = document.add_group(parent=parentGroup[r])
+            for child in children: 
+                parentGroup[child] = newGroup
+
+    root = findRoot(tree)
+    parentGroup = {root: None}
+    treeApplyRootFirst(tree, root, addToDocument)
+    return document
 
 def noisyPath (path) : 
     """
@@ -217,131 +282,6 @@ def circle (r) :
     arcs.append(svg.Arc(r + 0j, r + r * 1j, 0, False, False, -r + 0j))
     path = svg.Path(*arcs)
     return path
-
-class Person () :
-
-    def __init__ (self) :
-        self.center = 50 + 50j
-        headRotation = random.randint(-30, 30)
-        torsoRotation = random.randint(-15, 15)
-        h, w = random.randint(20, 35), random.randint(15, 25)
-        diff = self.center - (w + (h * 1j))/2
-        self.torso = Torso(h, w).translated(diff).rotated(torsoRotation)
-        self.head = Head(random.randint(5, 10)).rotated(headRotation)
-        self.arms = [Limb(*self.limbDimensions()).rotated(random.randint(135, 225)).bottomRotated(random.randint(-30, 30)),
-                     Limb(*self.limbDimensions()).rotated(random.randint(-45, 45)).bottomRotated(random.randint(-30, 30))]
-        self.legs = [Limb(*self.limbDimensions()).rotated(random.randint(70, 110)).bottomRotated(random.randint(-30, 30)),
-                     Limb(*self.limbDimensions()).rotated(random.randint(70, 110)).bottomRotated(random.randint(-30, 30))]
-        self.attach()
-
-    def limbDimensions (self) :
-        h1 = random.randint(5, 10)
-        h2 = random.randint(5, 10)
-        w1 = random.randint(15, 20)
-        w2 = random.randint(15, 20)
-        return h1, w1, h2, w2
-
-    def attach (self) :
-        self.head = self.head.translated(self.torso.joints[-1] - self.head.joint)
-        self.arms = [a.translated(self.torso.joints[i] - a.joint) for i, a in enumerate(self.arms)]
-        self.legs = [l.translated(self.torso.joints[2 + i] - l.joint) for i, l in enumerate(self.legs)]
-
-    def addToDocument (self, doc) :
-        top = doc.add_group(group_attribs={"fill":"black"})
-        body = doc.add_group(parent=top)
-        limbs = doc.add_group(parent=top)
-        legsGroup = doc.add_group(parent=limbs)
-        armsGroup = doc.add_group(parent=limbs)
-        bothLegGroups = [doc.add_group(parent=legsGroup) for _ in range(2)]
-        bothArmGroups = [doc.add_group(parent=armsGroup) for _ in range(2)]
-        doc.add_path(noisyPath(self.head.circle), group=body)
-        doc.add_path(noisyPath(self.torso.body), group=body)
-
-        for element, group in zip(self.legs, bothLegGroups) :
-            doc.add_path(noisyPath(element.top), group=group)
-            doc.add_path(noisyPath(element.bottom), group=group)
-
-        for element, group in zip(self.arms, bothArmGroups) :
-            doc.add_path(noisyPath(element.top), group=group)
-            doc.add_path(noisyPath(element.bottom), group=group)
-
-        return doc
-
-class Torso () :
-    
-    def __init__ (self, h, w) :
-        self.body = rectangle(h, w)
-        self.joints = [
-            (h/4) * 1j,
-            w + (h/4) * 1j,
-            (w/4) + h * 1j,
-            (3*w/4) + h * 1j,
-            w/2
-        ]
-        self.center = (w + h*1j) / 2
-        self.pseudoLines = [svg.Line(start=self.center, end=p) for p in self.joints]
-
-    def translated(self, t) :
-        newTorso = copy.deepcopy(self)
-        newTorso.body = newTorso.body.translated(t)
-        newTorso.joints = [j + t for j in newTorso.joints]
-        newTorso.center += t
-        newTorso.pseudoLines = [l.translated(t) for l in newTorso.pseudoLines]
-        return newTorso
-
-    def rotated(self, angle) :
-        newTorso = copy.deepcopy(self)
-        newTorso.body = newTorso.body.rotated(angle, newTorso.center)
-        newTorso.pseudoLines = [l.rotated(angle, self.center) for l in newTorso.pseudoLines]
-        newTorso.joints = [l.end for l in newTorso.pseudoLines]
-        return newTorso
-
-class Limb () : 
-
-    def __init__ (self, h1, w1, h2, w2) :
-        self.top = rectangle(h1, w1)
-        self.joint = (h1/2) * 1j
-        self.joint2 = w1 + (h1/2) * 1j
-        self.bottom = rectangle(h2, w2).translated(self.joint2 - (h2/2) * 1j)
-        self.pseudoLine = svg.Line(start=self.joint, end=self.joint2)
-
-    def translated(self, t) : 
-        newLimb = copy.deepcopy(self)
-        newLimb.top = newLimb.top.translated(t)
-        newLimb.bottom = newLimb.bottom.translated(t)
-        newLimb.joint += t
-        newLimb.joint2 += t
-        return newLimb
-
-    def rotated (self, angle) :
-        newLimb = copy.deepcopy(self)
-        newLimb.top = newLimb.top.rotated(angle, newLimb.joint)
-        newLimb.bottom = newLimb.bottom.rotated(angle, newLimb.joint)
-        newLimb.pseudoLine = newLimb.pseudoLine.rotated(angle, newLimb.joint)
-        newLimb.joint2 = newLimb.pseudoLine.end
-        return newLimb
-
-    def bottomRotated (self, angle) :
-        newLimb = copy.deepcopy(self)
-        newLimb.bottom = newLimb.bottom.rotated(angle, newLimb.joint2)
-        return newLimb
-
-class Head () :
-
-    def __init__ (self, r) :
-        self.circle = circle(r)
-        self.joint = r * 1j
-
-    def translated (self, t) :
-        newHead = copy.deepcopy(self)
-        newHead.circle = newHead.circle.translated(t)
-        newHead.joint += t
-        return newHead
-
-    def rotated (self, angle) :
-        newHead = copy.deepcopy(self)
-        newHead.circle = newHead.circle.rotated(angle, newHead.joint)
-        return newHead
 
 class ComposeAdd () : 
 
@@ -2608,14 +2548,21 @@ class AllPathDescriptorFunction () :
     one that acts on all paths
     """
 
-    def __init__ (self, descFunction) : 
+    def __init__ (self, descFunction, model) : 
         self.descFunction = descFunction
+        self.model = model
 
-    def __call__ (self, paths, vbox) : 
-        descs = []
-        for i, path in enumerate(paths) : 
-            descs.append(self.descFunction(path, vbox, index=i, nPaths=len(paths)))
-        return np.vstack(descs)
+    def __call__ (self, paths, vb) : 
+        edges = Pose.boneConnectivity
+        descriptors = [self.descFunction(p.path, vb) for p in paths]
+        descriptors = torch.tensor(descriptors)
+        pathTypes = [p.element.attrib['id'] for p in paths]
+        pathTypeIdx = dict(map(reversed, enumerate(pathTypes)))
+        targets = torch.tensor([pathTypeIdx[t] for t in pathTypes]).long()
+        edges = [(pathTypeIdx[a], pathTypeIdx[b]) for a, b in edges]
+        edges = torch.t(torch.tensor(edges).long())
+        data = tgd.Data(x=descriptors, edge_index=edges, y=targets)
+        return self.model.encoder(data.x, data.edge_index).detach().numpy()
 
 def mpiiPoseDataSet () :
     """
@@ -2652,8 +2599,94 @@ def mpiiPoseDataSet () :
                         annotations[-1].append(joint_pos)
     return annotations
 
-# if __name__ == "__main__" : 
-#     poses = list(more_itertools.flatten(mpiiPoseDataSet()))
-#     for i, sample in enumerate(tqdm(poses)): 
-#         p = Pose(sample)
-#         p.getDocument().save(f'./Examples/body{i}.svg')
+def Ry (theta) :
+    """
+    Return the 3D transformation matrix 
+    for rotation around y-axis.
+
+    Parameters
+    ----------
+    theta : float
+        Angle of rotation in radians
+    """
+    return np.array([[np.cos(theta) , 0, np.sin(theta)], 
+                     [0             , 1,             0],
+                     [-np.sin(theta), 0, np.cos(theta)]])
+
+def Rx (theta) :
+    """
+    Return the 3D transformation matrix 
+    for rotation around x-axis.
+
+    Parameters
+    ----------
+    theta : float
+        Angle of rotation in radians
+    """
+    return np.array([[1,             0,              0], 
+                     [0, np.cos(theta), -np.sin(theta)],
+                     [0, np.sin(theta),  np.cos(theta)]])
+
+def Rz (theta) :
+    """
+    Return the 3D transformation matrix 
+    for rotation around z-axis.
+
+    Parameters
+    ----------
+    theta : float
+        Angle of rotation in radians
+    """
+    return np.array([[np.cos(theta), -np.sin(theta), 0], 
+                     [np.sin(theta),  np.cos(theta), 0],
+                     [0            ,              0, 1]])
+
+# TODO: Documentation and better name
+def partNetVector(dirname) :
+    with open(osp.join(dirname, 'result_after_merging.json')) as fd: 
+        data = json.load(fd)
+    hierarchy = nx.readwrite.json_graph.tree_graph(data[0])
+    hierarchy = removeOneOutDegreeNodesFromTree(hierarchy)
+    pointCloud = []
+    for leaf in leaves(hierarchy) : 
+        obj = hierarchy.nodes[leaf]['objs'][0] + '.obj'
+        objpath = reduce(osp.join, (dirname, 'objs', obj))
+        mesh = pymesh.load_mesh(objpath)
+        pointCloud.append(-mesh.vertices)
+    pointCloud = np.vstack(pointCloud)
+    pointCloud = (Rx(np.pi / 9) @ Ry(np.pi / 6) @ pointCloud.T).T
+    pointCloud = pointCloud[:,:2]
+    transform = normalizeTransform(pointCloud, 100, 100)
+    for leaf in leaves(hierarchy) : 
+        obj = hierarchy.nodes[leaf]['objs'][0] + '.obj'
+        objpath = reduce(osp.join, (dirname, 'objs', obj))
+        mesh = pymesh.load_mesh(objpath)
+        indices = mesh.faces.flatten()
+        pts = -mesh.vertices[indices]
+        pts = (Rx(np.pi / 9) @ Ry(np.pi / 6) @ pts.T).T
+        pts = pts[:, :2]
+        hull = ConvexHull(pts)
+        pts = pts[hull.vertices]
+        pts = np.vstack((pts, pts[0]))
+        pts = transform(pts)
+        polygon = Polygon(pts).simplify(1, preserve_topology=False)
+        pts = polygon.exterior.coords
+        pts = [complex(*pt) for pt in pts]
+        hierarchy.nodes[leaf]['path'] = svg.Path(*[svg.Line(a, b) for a, b in zip(pts, pts[1:])])
+        pts = [hierarchy.nodes[leaf]['path'].point(t) for t in np.arange(0, 1, 0.001)]
+    document = svg.Document(None)
+    document.set_viewbox('0 0 100 100')
+    document = tree2Document(document, hierarchy, {"stroke":"black", "fill":"none"})
+    document.save('table1.svg')
+
+if __name__ == "__main__" : 
+    import sys
+    dirname = sys.argv[1]
+    partNetVector(dirname)
+    # pts = [0+0j, 0.99+0.99j, 1+1j, 1.1+1.01j, 1+0j, 0+0j]
+    # path = smoothSpline(pts)
+    # pts_ = [path.point(t) for t in np.arange(0, 1, 0.01)]
+    # x = [p.real for p in pts_]
+    # y = [p.imag for p in pts_]
+    # plt.plot(x, y)
+    # plt.show()
