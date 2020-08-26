@@ -293,15 +293,14 @@ class GRASSAutoEncoder(nn.Module):
     def vectorAdder(self, v1, v2):
         return v1.add_(v2)
 
-def lossFold (fold, tree, image, codes) :
+def lossFold (fold, tree, image) :
 
     def encodeNode(node):
         neighbors = list(tree.tree.neighbors(node))
         neighbors.sort()
         isLeaf = len(neighbors) == 0
         if isLeaf:
-            pathId = tree.tree.nodes[node]['pathSet'][0]
-            path = codes[pathId].reshape((1, -1))
+            path = tree.path(node)
             feature = fold.add('pathEncoder', path)
             features[node] = feature
             return feature

@@ -33,19 +33,13 @@ class Descriptor (Saveable) :
     """
     Pre-processed descriptors.
     """
-    def __init__ (self, svgDir, descFunction) : 
-
-        logging.info(f'Computing {descFunction.__name__}')
-
+    def __init__ (self, svgDir, descFunction, model) : 
         self.svgDir = svgDir
         self.svgFiles = listdir(svgDir) 
-
         paths = map (lambda x : svg.Document(x).flatten_all_paths(), self.svgFiles)
         vboxes = map(lambda x : svg.Document(x).get_viewbox(), self.svgFiles)
-
-        allPathsDescFn = AllPathDescriptorFunction(descFunction)
-        with mp.Pool() as p :
-            self.descriptors = p.starmap(allPathsDescFn, zip(paths, vboxes))
+        allPathsDescFn = AllPathDescriptorFunction(descFunction, model)
+        self.descriptors = [allPathsDescFn(p, b) for p, b in zip(paths, vboxes)]
 
     def __getitem__ (self, i) : 
         return self.descriptors[i]
@@ -216,17 +210,18 @@ class TreesData (data.Dataset, Saveable) :
     Pre-processed trees from clustering 
     algorithm.
     """
-    def __init__ (self, svgDir, descFunction) : 
+    def __init__ (self, svgDir, descFunction, model) : 
         self.svgDir = svgDir
         self.descFunction = descFunction
         self.svgFiles = listdir(svgDir) 
         self.tensor = False
+        self.model = model
         with ProcessPoolExecutor() as executor : 
             self.trees = list(executor.map(getTreeStructureFromSVG, self.svgFiles, chunksize=4))
             self.rasterImages = list(executor.map(partial(SVGtoNumpyImage, H=224, W=224), self.svgFiles, chunksize=4))
-            self.graphs = list(executor.map(self.dataFromDocument, self.svgFiles, chunksize=4))
-        for t, g in zip(self.trees, self.graphs) :
-            t.addDescriptors(g.x)
+        self.descriptors = Descriptor(svgDir, descFunction, model)
+        for t, d in zip(self.trees, self.descriptors) :
+            t.addDescriptors(d)
 
     def dataFromDocument (self, filename) : 
         doc = svg.Document(filename)
@@ -255,8 +250,7 @@ class TreesData (data.Dataset, Saveable) :
     def __getitem__ (self, index) :
         tree = self.trees[index]
         image = self.rasterImages[index]
-        graph = self.graphs[index]
-        return tree, image, graph
+        return tree, image
 
     def __len__ (self) : 
         return len(self.svgFiles)
@@ -280,11 +274,11 @@ class DataHandler (Saveable) :
         with ProcessPoolExecutor() as executor : 
             self.groundTruth = list(executor.map(getTreeStructureFromSVG, self.svgFiles, chunksize=4))
 
-    def getTrees (self, descFunctions, cuda) :
+    def getTrees (self, descFunctions, cuda, model) :
         treeList = []
         key = str(descFunctions)
         if key not in self.treeCache :
-            self.treeCache[key] = TreesData(self.svgDir, ComposeAdd(descFunctions))
+            self.treeCache[key] = TreesData(self.svgDir, ComposeAdd(descFunctions), model)
             self.treeCache[key].imagesToTensor(cuda)
         treeList.append(self.treeCache[key])
         return reduce(lambda x, y : x + y, treeList)
@@ -292,6 +286,8 @@ class DataHandler (Saveable) :
     def getDataset (self, config, cuda) : 
         functionGetter = lambda x : getattr(Utilities, x) 
         descFunctions = list(map(functionGetter, config['desc_functions']))
-        trees = self.getTrees(descFunctions, cuda)
+        model = torch.load(config['model_path'])
+        model.eval()
+        trees = self.getTrees(descFunctions, cuda, model)
         trees.treesToTensor(cuda)
         return trees

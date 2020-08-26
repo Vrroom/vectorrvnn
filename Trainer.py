@@ -116,7 +116,7 @@ class Trainer () :
         self.gpu  = commonConfig['gpu'] 
         self.cuda = commonConfig['cuda']
 
-        self.exptDir  = osp.join(commonConfig['expt_path'], '_Expt_' + str(datetime.date.today()))
+        self.exptDir  = osp.join(commonConfig['expt_path'], 'Expt_' + str(datetime.date.today()))
         self.modelDir = osp.join(self.exptDir, 'Models')
 
         self.trainDir = commonConfig['train_directory']
@@ -186,11 +186,10 @@ class Trainer () :
         configPath, trainingTreesPath, modelPath = self.createDirectories(i, config)
         self.logger.info(f'Starting Expt {i}')
         self.setTrainDataLoader(config)
-
         self.setModel(config)
         autoencoder = self.models[-1]
-        self.trainGraphAutoEncoder(autoencoder, config, modelPath, configPath)
-        self.crossValidateGraphAutoEncoder(config, autoencoder, configPath)
+        self.startTrainingLoop(autoencoder, config, modelPath, configPath)
+        self.crossValidate(config, autoencoder, configPath)
 
     def createDirectories (self, i, config) : 
         """
@@ -211,13 +210,10 @@ class Trainer () :
         """
         configPath = osp.join(self.modelDir, f'config{i}')
         self.makeDir(configPath)
-
         trainingTreesPath = osp.join(configPath, 'TrainingTrees')
         self.makeDir(trainingTreesPath)
-
         modelPath = osp.join(configPath, 'Models')
         self.makeDir(modelPath)
-
         return configPath, trainingTreesPath, modelPath
 
     def setTrainDataLoader (self, config) : 
@@ -253,7 +249,7 @@ class Trainer () :
             self.logger.info(f'Using CUDA on GPU {self.gpu}')
         else :
             self.logger.info('Not using CUDA')
-        autoencoder = GraphAutoEncoder(config)
+        autoencoder = GRASSAutoEncoder(config)
         if self.cuda :
             autoencoder = autoencoder.cuda()
         self.models.append(autoencoder)
@@ -291,7 +287,6 @@ class Trainer () :
                     1+batchIdx, 
                     nBatches, 
                     donePercent, 
-                    classLoss.data.item(),
                     reconstructionLoss.data.item()
                 ))
 
@@ -300,9 +295,8 @@ class Trainer () :
                 graphBatch = Batch.from_data_list(graphs)
                 scores, x_ = autoencoder(graphBatch.x, graphBatch.edge_index)
                 opt.zero_grad()
-                classLoss = creLoss(scores, graphBatch.y)
                 reconstructionLoss = mseLoss(x_, graphBatch.x)
-                totalLoss = classLoss + reconstructionLoss
+                totalLoss = reconstructionLoss
                 totalLoss.backward()
                 opt.step()
 
@@ -319,7 +313,6 @@ class Trainer () :
             fig.savefig(osp.join(configPath, 'TrainingPlot'))
             plt.close(fig)
 
-        creLoss = nn.CrossEntropyLoss()
         mseLoss = nn.MSELoss()
         nBatches = len(self.trainDataLoader)
         epochs = config['epochs']
@@ -330,8 +323,8 @@ class Trainer () :
         self.logger.info('Starting Training')
         start = time.time()
         totalIter = epochs * nBatches
-        header = '     Time    Epoch     Iteration    Progress(%)  ClassifierLoss     ReconstructionLoss'
-        logTemplate = '{:>9s} {:>5.0f}/{:<5.0f} {:>5.0f}/{:<5.0f} {:>9.1f}% {:>10.2f} {:>10.2f}'
+        header = '     Time    Epoch     Iteration    Progress(%)   ReconstructionLoss'
+        logTemplate = '{:>9s} {:>5.0f}/{:<5.0f} {:>5.0f}/{:<5.0f} {:>9.1f}% {:>10.2f}'
         losses = []
         for epoch in range(epochs):
             self.logger.info(header)
@@ -387,11 +380,8 @@ class Trainer () :
                 ))
 
             for batchIdx, batch in enumerate(self.trainDataLoader):
-                graphs = [g for _, _, g in batch]
-                graphBatch = Batch.from_data_list(graphs)
-                graphOut = torch.chunk(autoencoder.graphEncoder(graphBatch), len(batch))
                 fold = Fold(cuda=self.cuda)
-                nodes = [Model.lossFold(fold, tree, img, codes) for (tree, img, _), codes in zip(batch, graphOut)]
+                nodes = [Model.lossFold(fold, tree, img) for tree, img in batch]
                 rvnn, re = unzip(nodes) 
                 opt.zero_grad()
                 rvnnLoss, *_ = fold.apply(autoencoder, [list(rvnn)])
@@ -473,12 +463,10 @@ class Trainer () :
         autoencoder.eval()
         graphs = self.cvDataHandler.getDataset(config, self.cuda).graphs
         batch = Batch.from_data_list(graphs)
-        creLoss = nn.CrossEntropyLoss()
         mseLoss = nn.MSELoss()
         scores, x_ = autoencoder(batch.x, batch.edge_index)
-        loss1 = creLoss(scores, batch.y)
         loss2 = mseLoss(x_, batch.x)
-        score = (loss1 + loss2).data.item()
+        score = (loss2).data.item()
         self.logger.info(f'Cross Validation Score : {score}')
         self.modelScores.append(score)
 
@@ -578,20 +566,16 @@ class Trainer () :
     
 def main () :
     torch.multiprocessing.set_start_method('spawn', force=True)
-
     with open('commonConfig.json') as fd :
         commonConfig = json.load(fd)
-
     configs = []
-
     for configFile in os.listdir('./Configs/'):
         configFilePath = osp.join('./Configs/', configFile)
         with open(configFilePath) as fd : 
             configs.append(json.load(fd))
-
     with Trainer(commonConfig, configs) as trainer : 
         trainer.run()
-        # trainer.test()
+        trainer.test()
 
 if __name__ == "__main__" :
     main()
