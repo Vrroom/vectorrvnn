@@ -1,4 +1,5 @@
 # Avoid repetition at all costs.
+import alphashape
 import torch_geometric.data as tgd
 import torch
 import pickle
@@ -2641,52 +2642,105 @@ def Rz (theta) :
                      [np.sin(theta),  np.cos(theta), 0],
                      [0            ,              0, 1]])
 
-# TODO: Documentation and better name
-def partNetVector(dirname) :
-    with open(osp.join(dirname, 'result_after_merging.json')) as fd: 
+def mesh2SVG(meshDir, xTheta, yTheta) :
+    """
+    Convert the mesh that is part of the PartNet
+    dataset into a vector graphic document.
+
+    The angles specify the camera position.
+
+    Parameters
+    ----------
+    meshDir : str
+        Directory path which contains the partnet 
+        data sample.
+    xTheta : float
+        Angle by which to rotate the x-axis.
+    yTheta : float
+        Angle by which to rotate the y-axis.
+    """
+    def sortedChildren(tree1, node, tree2) :
+        if tree1.out_degree(node) != 0: 
+            children = list(tree1.neighbors(node))
+            for c in children : 
+                sortedChildren(tree1, c, tree2)
+            children.sort(key=lambda x: tree1.nodes[x]['key'])
+            tree2.add_edges_from(list(itertools.product([node], children)))
+            tree1.nodes[node]['key'] = tree1.nodes[children[-1]]['key'] 
+        else : 
+            tree2.add_node(node)
+            tree2.nodes[node]['path'] = tree1.nodes[node]['path']
+
+    # This file contains the part hierarchy. The leaves contain the 
+    # part objs that make up the 3D model.
+    with open(osp.join(meshDir, 'result_after_merging.json')) as fd: 
         data = json.load(fd)
     hierarchy = nx.readwrite.json_graph.tree_graph(data[0])
     hierarchy = removeOneOutDegreeNodesFromTree(hierarchy)
+
+    # Rotate around the y-axis by yTheta and then x-axis by xTheta.
+    geomTransform = Rx(xTheta) @ Ry(yTheta)
+
+    # We need to calculate how to make the projection of the
+    # point cloud fit inside a viewbox. Here, we collect 
+    # all the points and compute the transformation function
+    # which normalizes the points so that they fit.
     pointCloud = []
+    meshes = []
     for leaf in leaves(hierarchy) : 
         obj = hierarchy.nodes[leaf]['objs'][0] + '.obj'
-        objpath = reduce(osp.join, (dirname, 'objs', obj))
+        objpath = reduce(osp.join, (meshDir, 'objs', obj))
         mesh = pymesh.load_mesh(objpath)
+        meshes.append(mesh)
         pointCloud.append(-mesh.vertices)
-    pointCloud = np.vstack(pointCloud)
-    pointCloud = (Rx(np.pi / 9) @ Ry(np.pi / 6) @ pointCloud.T).T
-    pointCloud = pointCloud[:,:2]
+    pointCloud = ((geomTransform @ np.vstack(pointCloud).T).T)[:,:2]
     transform = normalizeTransform(pointCloud, 100, 100)
-    for leaf in leaves(hierarchy) : 
-        obj = hierarchy.nodes[leaf]['objs'][0] + '.obj'
-        objpath = reduce(osp.join, (dirname, 'objs', obj))
-        mesh = pymesh.load_mesh(objpath)
+
+    # Now, we calculate the vector paths for each 
+    # part in the 3D model.
+    for leaf, mesh in zip(leaves(hierarchy), meshes) : 
         indices = mesh.faces.flatten()
         pts = -mesh.vertices[indices]
-        pts = (Rx(np.pi / 9) @ Ry(np.pi / 6) @ pts.T).T
+        pts = (geomTransform @ pts.T).T
+        # Calculate the front most point of the projection for 
+        # this part. Used to calculate the zIndex of the 
+        # corresponding path. 
+        hierarchy.nodes[leaf]['key'] = pts[:, 2].max()
+        # Project the transformed points on the new X-Y axis.
         pts = pts[:, :2]
-        hull = ConvexHull(pts)
-        pts = pts[hull.vertices]
-        pts = np.vstack((pts, pts[0]))
-        pts = transform(pts)
-        polygon = Polygon(pts).simplify(1, preserve_topology=False)
+        # Compute the concave hull for the set of points.
+        # Also, simplify the polygon using Douglas-Peucker.
+        pts = alphashape.alphashape(pts, 0.2).exterior.coords
+        polygon = Polygon(pts).simplify(0.01, preserve_topology=False)
         pts = polygon.exterior.coords
+        # Wrap around points for closed polygon.
+        pts = np.vstack((pts, pts[0]))
+        # Perform the final transform to fit viewbox.
+        pts = transform(pts)
         pts = [complex(*pt) for pt in pts]
         hierarchy.nodes[leaf]['path'] = svg.Path(*[svg.Line(a, b) for a, b in zip(pts, pts[1:])])
-        pts = [hierarchy.nodes[leaf]['path'].point(t) for t in np.arange(0, 1, 0.001)]
+
     document = svg.Document(None)
     document.set_viewbox('0 0 100 100')
-    document = tree2Document(document, hierarchy, {"stroke":"black", "fill":"none"})
-    document.save('table1.svg')
+    # Use the key property in the hierarchy to arrange the
+    # children in the correct order.
+    hierarchyWithCorrectOrder = nx.DiGraph()
+    sortedChildren(hierarchy, findRoot(hierarchy), hierarchyWithCorrectOrder)
+    # Add all the paths in the hierarchy into the document.
+    document = tree2Document(document, hierarchyWithCorrectOrder, {"stroke": "black", "fill": "none"})
+    return document
 
 if __name__ == "__main__" : 
     import sys
     dirname = sys.argv[1]
-    partNetVector(dirname)
-    # pts = [0+0j, 0.99+0.99j, 1+1j, 1.1+1.01j, 1+0j, 0+0j]
-    # path = smoothSpline(pts)
-    # pts_ = [path.point(t) for t in np.arange(0, 1, 0.01)]
-    # x = [p.real for p in pts_]
-    # y = [p.imag for p in pts_]
-    # plt.plot(x, y)
-    # plt.show()
+    yThetas = np.linspace(0, 2 * np.pi, 6)
+    xThetas = [-np.pi/6, np.pi/6]
+    for name in tqdm(listdir(dirname)) : 
+        _, number = osp.split(name)
+        for xTheta, yTheta in itertools.product(xThetas, yThetas) :
+            try : 
+                doc = mesh2SVG(name, xTheta, yTheta)
+                filename = f'./PartNetVectorized/{number}-{xTheta}-{yTheta}.svg' 
+                doc.save(filename)
+            except Exception :
+                print(number)
