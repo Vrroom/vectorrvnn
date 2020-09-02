@@ -2671,6 +2671,15 @@ def mesh2SVG(meshDir, xTheta, yTheta) :
             tree2.add_node(node)
             tree2.nodes[node]['path'] = tree1.nodes[node]['path']
 
+    def simplifyPolygon (pts, alpha) : 
+        polygon = Polygon(pts).simplify(alpha, preserve_topology=False)
+        pts_ = polygon.exterior.coords
+        while len(pts_) == 0 : 
+            polygon = Polygon(pts).simplify(alpha / 2, preserve_topology=False)
+            pts_ = polygon.exterior.coords
+            alpha = alpha / 2
+        return pts_
+
     # This file contains the part hierarchy. The leaves contain the 
     # part objs that make up the 3D model.
     with open(osp.join(meshDir, 'result_after_merging.json')) as fd: 
@@ -2708,15 +2717,14 @@ def mesh2SVG(meshDir, xTheta, yTheta) :
         hierarchy.nodes[leaf]['key'] = pts[:, 2].max()
         # Project the transformed points on the new X-Y axis.
         pts = pts[:, :2]
-        # Compute the concave hull for the set of points.
+        # Perform the transform to fit viewbox.
+        pts = transform(pts)
+        # Compute the convex hull for the set of points.
         # Also, simplify the polygon using Douglas-Peucker.
-        pts = alphashape.alphashape(pts, 0.2).exterior.coords
-        polygon = Polygon(pts).simplify(0.01, preserve_topology=False)
-        pts = polygon.exterior.coords
+        hull = ConvexHull(pts)
+        pts = simplifyPolygon(pts[hull.vertices], 1)
         # Wrap around points for closed polygon.
         pts = np.vstack((pts, pts[0]))
-        # Perform the final transform to fit viewbox.
-        pts = transform(pts)
         pts = [complex(*pt) for pt in pts]
         hierarchy.nodes[leaf]['path'] = svg.Path(*[svg.Line(a, b) for a, b in zip(pts, pts[1:])])
 
@@ -2733,14 +2741,11 @@ def mesh2SVG(meshDir, xTheta, yTheta) :
 if __name__ == "__main__" : 
     import sys
     dirname = sys.argv[1]
-    yThetas = np.linspace(0, 2 * np.pi, 6)
+    yThetas = np.linspace(np.pi/4, 2 * np.pi, 4)
     xThetas = [-np.pi/6, np.pi/6]
     for name in tqdm(listdir(dirname)) : 
         _, number = osp.split(name)
         for xTheta, yTheta in itertools.product(xThetas, yThetas) :
-            try : 
-                doc = mesh2SVG(name, xTheta, yTheta)
-                filename = f'./PartNetVectorized/{number}-{xTheta}-{yTheta}.svg' 
-                doc.save(filename)
-            except Exception :
-                print(number)
+            doc = mesh2SVG(name, xTheta, yTheta)
+            filename = f'./PartNetVectorized/{number}-{xTheta}-{yTheta}.svg' 
+            doc.save(filename)
