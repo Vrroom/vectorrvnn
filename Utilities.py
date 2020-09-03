@@ -2549,21 +2549,26 @@ class AllPathDescriptorFunction () :
     one that acts on all paths
     """
 
-    def __init__ (self, descFunction, model) : 
+    def __init__ (self, descFunction, **kwargs) : 
         self.descFunction = descFunction
-        self.model = model
+        self.model = None
+        if 'model' in kwargs : 
+            self.model = kwargs['model']
 
     def __call__ (self, paths, vb) : 
-        edges = Pose.boneConnectivity
         descriptors = [self.descFunction(p.path, vb) for p in paths]
-        descriptors = torch.tensor(descriptors)
-        pathTypes = [p.element.attrib['id'] for p in paths]
-        pathTypeIdx = dict(map(reversed, enumerate(pathTypes)))
-        targets = torch.tensor([pathTypeIdx[t] for t in pathTypes]).long()
-        edges = [(pathTypeIdx[a], pathTypeIdx[b]) for a, b in edges]
-        edges = torch.t(torch.tensor(edges).long())
-        data = tgd.Data(x=descriptors, edge_index=edges, y=targets)
-        return self.model.encoder(data.x, data.edge_index).detach().numpy()
+        if self.model : 
+            descriptors = torch.tensor(descriptors)
+            edges = Pose.boneConnectivity
+            pathTypes = [p.element.attrib['id'] for p in paths]
+            pathTypeIdx = dict(map(reversed, enumerate(pathTypes)))
+            targets = torch.tensor([pathTypeIdx[t] for t in pathTypes]).long()
+            edges = [(pathTypeIdx[a], pathTypeIdx[b]) for a, b in edges]
+            edges = torch.t(torch.tensor(edges).long())
+            data = tgd.Data(x=descriptors, edge_index=edges, y=targets)
+            return self.model.encoder(data.x, data.edge_index).detach().numpy()
+        else :
+            return np.array(descriptors)
 
 def mpiiPoseDataSet () :
     """

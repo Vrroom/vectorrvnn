@@ -8,6 +8,15 @@ from torch.autograd import Variable
 from functools import reduce
 from time import time
 from torch_geometric.nn.conv import GINConv
+from Utilities import leaves, nonLeaves, optimalBipartiteMatching
+
+def completeGraph (N) :
+    """
+    Return the edges for a complete graph on N nodes.
+    """
+    edge_index = torch.tensor(list(product(range(N), range(1, N))))
+    edge_index = torch.t(edge_index).long()
+    return edge_index
 
 class GraphNet (nn.Module) :
     """
@@ -126,8 +135,8 @@ class MergeEncoder(nn.Module):
         self.bn2 = nn.BatchNorm1d(feature_size)
 
     def forward(self, x) : 
-        N, _ = x.shape
-        edge_index = torch.tensor(list(product(range(N), range(1, N)))).long()
+        N, *_ = x.shape
+        edge_index = completeGraph(N)
         x = F.relu(self.conv1(x, edge_index))
         x = self.bn1(x)
         x = F.relu(self.conv2(x, edge_index))
@@ -182,13 +191,13 @@ class MergeDecoder(nn.Module):
         )
         self.conv2 = GINConv(nn2)
         self.bn2 = nn.BatchNorm1d(feature_size)
-        self.edge_index = torch.tensor(list(product(range(max_children), range(1, max_children)))).long()
+        self.edge_index = completeGraph(max_children)
 
     def forward(self, parent_feature):
         children_features = torch.stack([m(parent_feature) for m in self.childrenMLPs])
-        x = F.relu(self.conv1(children_features, edge_index))
+        x = F.relu(self.conv1(children_features.squeeze(), self.edge_index))
         x = self.bn1(x)
-        x = F.relu(self.conv2(x, edge_index))
+        x = F.relu(self.conv2(x, self.edge_index))
         x = self.bn2(x)
         return x
 
@@ -240,7 +249,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
 
     def __init__ (self, config) :
         super(VectorRvNNAutoEncoder, self).__init__()
-        input_size = config['input_size']
+        input_size = config['path_code_size']
         hidden_size = config['hidden_size']
         feature_size = config['feature_size']
         max_children = config['max_children']
@@ -267,50 +276,50 @@ class VectorRvNNAutoEncoder (nn.Module) :
     def forward (self, tree, image) : 
 
         def encodeNode (node) : 
-            for child in tree.tree.neighbors(node) : 
-                encodeNode(child)
-            childFeatures = torch.stack([encodedFeatures[_] for _ in tree.tree.neighbors(node)])
-            feature = self.mergeEncoder(childFeatures)
-            encodedFeatures[node] = feature 
+            if tree.tree.out_degree(node) > 0 : 
+                for child in tree.tree.neighbors(node) : 
+                    encodeNode(child)
+                childFeatures = torch.stack([encodedFeatures[_] for _ in tree.tree.neighbors(node)])
+                feature = self.mergeEncoder(childFeatures.squeeze())
+                encodedFeatures[node] = feature.unsqueeze(0)
         
         def decodeNode (node) : 
-            feature  = decodedFeatures[node]
-            childFeatures = self.mergeDecoder(feature)
-            neighbors = list(tree.tree.neighbors(node))
-            encodedChildFeatures = [encodedFeatures[_] for _ in neighbors]
-            costs = [mseLoss(*cf) for cf in product(encodedChildFeatures, childFeatures)]
-            allPairs = product(range(len(encodedChildFeatures)), range(len(childFeatures)))
-            costTable = zip(allPairs, costs)
-            matching = optimalBipartiteMatching(costTable)
-            for i in range(len(encodedChildFeatures)) : 
-                decodedFeatures[neighbors[i]] = childFeatures[matching[i]]
-            notExistingNodes.extend([cf for i, cf in enumerate(childFeatures) if i not in matching.values()])
-            for child in neighbors:  
-                decodeNode(child)
+            if tree.tree.out_degree(node) > 0 :
+                feature  = decodedFeatures[node]
+                childFeatures = self.mergeDecoder(feature)
+                neighbors = list(tree.tree.neighbors(node))
+                encodedChildFeatures = [encodedFeatures[_] for _ in neighbors]
+                costs = [float(mseLoss(c1.squeeze(), c2)) for c1, c2 in product(encodedChildFeatures, childFeatures)]
+                allPairs = product(range(len(encodedChildFeatures)), range(len(childFeatures)))
+                costTable = dict(zip(allPairs, costs))
+                matching = optimalBipartiteMatching(costTable)
+                for i in range(len(encodedChildFeatures)) : 
+                    decodedFeatures[neighbors[i]] = childFeatures[int(matching[i])].reshape((1, -1))
+                notExistingNodes.extend([cf.reshape((1, -1)) for i, cf in enumerate(childFeatures) if i not in matching.values()])
+                for child in neighbors:  
+                    decodeNode(child)
             
         mseLoss = nn.MSELoss()
         creLoss = nn.CrossEntropyLoss()
-        pathEncodings = self.pathEncoder(tree.descriptors)
-        encodedFeatures = dict(enumerate(pathEncodings))
-        decodedFeatures = {tree.root: encodedFeatures[tree.root]}
+        descriptors = torch.stack([tree.path(l) for l in leaves(tree.tree)])
+        pathEncodings = [self.pathEncoder(tree.path(l)) for l in leaves(tree.tree)]
+        encodedFeatures = dict(zip(leaves(tree.tree), pathEncodings))
         notExistingNodes = []
         encodeNode(tree.root)
+        decodedFeatures = {tree.root: encodedFeatures[tree.root]}
         decodeNode(tree.root)
         leafNodes = torch.stack([decodedFeatures[_] for _ in leaves(tree.tree)])
         nonLeafNodes = torch.stack([decodedFeatures[_] for _ in nonLeaves(tree.tree)])
-        zIndices = [tree.tree['pathSet'][l][0] for l in leaves(tree.tree)]
-        pathDecodings = [self.pathDecoder(leafNodes[l]) for l in leaves(tree.tree)]
-        pathDecodingsInCorrectOrder = list(zip(zIndices, pathDecodings)).sort()
-        pathDecodings = torch.stack(list(unzip(pathDecodingsInCorrectOrder)[1]))
+        pathDecodings = self.pathDecoder(leafNodes)
         rasterEncoding = self.rasterEncoder(image)
 
-        exist = torch.stack([*decodedFeatures.keys(), *notExistingNodes])
-        existTarget = torch.stack((torch.ones(len(decodedFeatures)), torch.zeros(len(notExistingNodes)))).long()
+        exist = torch.cat([*decodedFeatures.values(), *notExistingNodes])
+        existTarget = torch.cat((torch.ones(len(decodedFeatures)), torch.zeros(len(notExistingNodes)))).long()
 
-        nodeType = torch.stack((leafNodes, nonLeafNodes))
-        nodeTypeTarget = torch.stack((torch.ones(len(leafNodes)), torch.zeros(len(nonLeafNodes)))).long()
+        nodeType = torch.cat([*leafNodes, *nonLeafNodes])
+        nodeTypeTarget = torch.cat((torch.ones(len(leafNodes)), torch.zeros(len(nonLeafNodes)))).long()
 
-        descReconLoss = mseLoss(pathEncodings, pathDecodings)
+        descReconLoss = mseLoss(descriptors, pathDecodings)
         subtreeReconLoss = sum([mseLoss(encodedFeatures[n], decodedFeatures[n]) for n in tree.tree.nodes])
         rasterEncoderLoss = mseLoss(rasterEncoding, encodedFeatures[tree.root])
         nodeExistLoss = creLoss(exist, existTarget)

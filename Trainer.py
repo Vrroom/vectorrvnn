@@ -6,7 +6,7 @@ import Data
 from functools import reduce, partial
 import torch.multiprocessing
 import Model
-# from Model import GRASSAutoEncoder, GraphAutoEncoder
+from Model import VectorRvNNAutoEncoder, GraphAutoEncoder
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -189,7 +189,7 @@ class Trainer () :
         self.setModel(config)
         autoencoder = self.models[-1]
         self.startTrainingLoop(autoencoder, config, modelPath, configPath)
-        self.crossValidate(config, autoencoder, configPath)
+        # self.crossValidate(config, autoencoder, configPath)
 
     def createDirectories (self, i, config) : 
         """
@@ -249,7 +249,7 @@ class Trainer () :
             self.logger.info(f'Using CUDA on GPU {self.gpu}')
         else :
             self.logger.info('Not using CUDA')
-        autoencoder = GRASSAutoEncoder(config)
+        autoencoder = VectorRvNNAutoEncoder(config)
         if self.cuda :
             autoencoder = autoencoder.cuda()
         self.models.append(autoencoder)
@@ -272,73 +272,6 @@ class Trainer () :
         autoencoder.train()
         self.logger.info(f'Saving Model {name}') 
         torch.save(autoencoder, osp.join(path, name))
-
-    def trainGraphAutoEncoder(self, autoencoder, config, modelPath, configPath) : 
-
-        def trainOneEpoch () :
-
-            def reportStatistics () : 
-                elapsedTime = time.strftime("%H:%M:%S",time.gmtime(time.time()-start))
-                donePercent = 100. * (1 + batchIdx + nBatches * epoch) / totalIter
-                self.logger.info(logTemplate.format(
-                    elapsedTime, 
-                    epoch, 
-                    epochs, 
-                    1+batchIdx, 
-                    nBatches, 
-                    donePercent, 
-                    reconstructionLoss.data.item()
-                ))
-
-            for batchIdx, batch in enumerate(self.trainDataLoader):
-                graphs = [g for _, _, g in batch]
-                graphBatch = Batch.from_data_list(graphs)
-                scores, x_ = autoencoder(graphBatch.x, graphBatch.edge_index)
-                opt.zero_grad()
-                reconstructionLoss = mseLoss(x_, graphBatch.x)
-                totalLoss = reconstructionLoss
-                totalLoss.backward()
-                opt.step()
-
-                if batchIdx % self.logFrequency == 0:
-                    reportStatistics()
-
-            return totalLoss.data.item()
-
-        def createAndSaveTrainingPlot () :
-            fig, axes = plt.subplots()
-            axes.plot(range(epochs), losses) 
-            axes.set_xlabel('Epochs')
-            axes.set_ylabel('Training Loss')
-            fig.savefig(osp.join(configPath, 'TrainingPlot'))
-            plt.close(fig)
-
-        mseLoss = nn.MSELoss()
-        nBatches = len(self.trainDataLoader)
-        epochs = config['epochs']
-        opt = optim.Adam(autoencoder.parameters(), lr=config['lr'])
-        gamma = 1 / config['lr_decay_by']
-        decayEvery = config['lr_decay_every']
-        sched = optim.lr_scheduler.StepLR(opt, decayEvery, gamma=gamma)
-        self.logger.info('Starting Training')
-        start = time.time()
-        totalIter = epochs * nBatches
-        header = '     Time    Epoch     Iteration    Progress(%)   ReconstructionLoss'
-        logTemplate = '{:>9s} {:>5.0f}/{:<5.0f} {:>5.0f}/{:<5.0f} {:>9.1f}% {:>10.2f}'
-        losses = []
-        for epoch in range(epochs):
-            self.logger.info(header)
-            loss = trainOneEpoch()
-            sched.step()
-
-            if (epoch + 1) % self.saveFrequency == 0 :
-                name = 'autoencoder_epoch{}_loss_{:.2f}.pkl'.format(epoch+1, loss)
-                self.saveSnapshots(modelPath, autoencoder, name)
-
-            losses.append(loss)
-        
-        self.saveSnapshots(modelPath, autoencoder, 'autoencoder.pkl')
-        createAndSaveTrainingPlot()
 
     def startTrainingLoop(self, autoencoder, config, modelPath, configPath) :
         """
@@ -375,20 +308,13 @@ class Trainer () :
                     1+batchIdx, 
                     nBatches, 
                     donePercent, 
-                    rvnnLoss.data.item(),
-                    reLoss.data.item()
+                    totalLoss.data.item()
                 ))
 
             for batchIdx, batch in enumerate(self.trainDataLoader):
-                fold = Fold(cuda=self.cuda)
-                nodes = [Model.lossFold(fold, tree, img) for tree, img in batch]
-                rvnn, re = unzip(nodes) 
                 opt.zero_grad()
-                rvnnLoss, *_ = fold.apply(autoencoder, [list(rvnn)])
-                reLoss, *_ = fold.apply(autoencoder, [list(re)])
-                rvnnLoss = sum(rvnnLoss) / len(batch)
-                reLoss = sum(reLoss) / len(batch)
-                totalLoss = rvnnLoss + reLoss
+                losses = [autoencoder(*item) for item in batch]
+                totalLoss = sum([sum(l.values()) for l in losses])
                 totalLoss.backward()
                 opt.step()
 
@@ -407,23 +333,15 @@ class Trainer () :
 
         nBatches = len(self.trainDataLoader)
         epochs = config['epochs']
-
-        opt = optim.Adam(autoencoder.parameters(), lr=config['lr'])
-
+        opt = optim.Adam(autoencoder.parameters(), lr=config['lr'], weight_decay=config['weight_decay'])
         gamma = 1 / config['lr_decay_by']
         decayEvery = config['lr_decay_every']
-
         sched = optim.lr_scheduler.StepLR(opt, decayEvery, gamma=gamma)
-
         self.logger.info('Starting Training')
-
         start = time.time()
-
         totalIter = epochs * nBatches
-
-        header = '     Time    Epoch     Iteration    Progress(%)  RvNNLoss     RasterEncoderLoss'
-        logTemplate = '{:>9s} {:>5.0f}/{:<5.0f} {:>5.0f}/{:<5.0f} {:>9.1f}% {:>10.2f} {:>10.2f}'
-
+        header = '     Time    Epoch     Iteration    Progress(%)  TotalLoss'
+        logTemplate = '{:>9s} {:>5.0f}/{:<5.0f} {:>5.0f}/{:<5.0f} {:>9.1f}% {:>10.2f}'
         losses = []
 
         for epoch in range(epochs):
@@ -488,13 +406,12 @@ class Trainer () :
         """
         trees = self.cvDataHandler.getDataset(config, self.cuda).trees
         samples = zip(self.cvDataHandler.svgFiles, trees)
-        # with torch.multiprocessing.Pool(maxtasksperchild=30) as p : 
-        compare = list(map(
-               partial(compareNetTreeWithGroundTruth, 
-                   autoencoder=autoencoder, config=config,
-                   cuda=self.cuda), 
-               samples))
-               
+        with torch.multiprocessing.Pool(maxtasksperchild=30) as p : 
+            compare = p.map(
+                   partial(compareNetTreeWithGroundTruth, 
+                       autoencoder=autoencoder, config=config,
+                       cuda=self.cuda), 
+                   samples)
 
         bkFrequency = list(unzip(compare)[0])
         self.bkFrequencyHistogram(bkFrequency, osp.join(configPath, 'CVHistogram'))
@@ -575,7 +492,7 @@ def main () :
             configs.append(json.load(fd))
     with Trainer(commonConfig, configs) as trainer : 
         trainer.run()
-        trainer.test()
+        # trainer.test()
 
 if __name__ == "__main__" :
     main()

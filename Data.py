@@ -33,12 +33,12 @@ class Descriptor (Saveable) :
     """
     Pre-processed descriptors.
     """
-    def __init__ (self, svgDir, descFunction, model) : 
+    def __init__ (self, svgDir, descFunction, **kwargs) : 
         self.svgDir = svgDir
         self.svgFiles = listdir(svgDir) 
         paths = map (lambda x : svg.Document(x).flatten_all_paths(), self.svgFiles)
         vboxes = map(lambda x : svg.Document(x).get_viewbox(), self.svgFiles)
-        allPathsDescFn = AllPathDescriptorFunction(descFunction, model)
+        allPathsDescFn = AllPathDescriptorFunction(descFunction, **kwargs)
         self.descriptors = [allPathsDescFn(p, b) for p, b in zip(paths, vboxes)]
 
     def __getitem__ (self, i) : 
@@ -210,18 +210,17 @@ class TreesData (data.Dataset, Saveable) :
     Pre-processed trees from clustering 
     algorithm.
     """
-    def __init__ (self, svgDir, descFunction, model) : 
+    def __init__ (self, svgDir, descFunction, **kwargs) : 
         self.svgDir = svgDir
         self.descFunction = descFunction
         self.svgFiles = listdir(svgDir) 
         self.tensor = False
-        self.model = model
         with ProcessPoolExecutor() as executor : 
             self.trees = list(executor.map(getTreeStructureFromSVG, self.svgFiles, chunksize=4))
             self.rasterImages = list(executor.map(partial(SVGtoNumpyImage, H=224, W=224), self.svgFiles, chunksize=4))
-        # self.descriptors = Descriptor(svgDir, descFunction, model)
-        # for t, d in zip(self.trees, self.descriptors) :
-        #     t.addDescriptors(d)
+        self.descriptors = Descriptor(svgDir, descFunction, **kwargs)
+        for t, d in zip(self.trees, self.descriptors) :
+            t.addDescriptors(d)
 
     def dataFromDocument (self, filename) : 
         doc = svg.Document(filename)
@@ -278,7 +277,7 @@ class DataHandler (Saveable) :
         treeList = []
         key = str(descFunctions)
         if key not in self.treeCache :
-            self.treeCache[key] = TreesData(self.svgDir, ComposeAdd(descFunctions), model)
+            self.treeCache[key] = TreesData(self.svgDir, ComposeAdd(descFunctions))
             self.treeCache[key].imagesToTensor(cuda)
         treeList.append(self.treeCache[key])
         return reduce(lambda x, y : x + y, treeList)
