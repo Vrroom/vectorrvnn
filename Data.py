@@ -219,9 +219,9 @@ class TreesData (data.Dataset, Saveable) :
         with ProcessPoolExecutor() as executor : 
             self.trees = list(executor.map(getTreeStructureFromSVG, self.svgFiles, chunksize=4))
             self.rasterImages = list(executor.map(partial(SVGtoNumpyImage, H=224, W=224), self.svgFiles, chunksize=4))
-        self.descriptors = Descriptor(svgDir, descFunction, model)
-        for t, d in zip(self.trees, self.descriptors) :
-            t.addDescriptors(d)
+        # self.descriptors = Descriptor(svgDir, descFunction, model)
+        # for t, d in zip(self.trees, self.descriptors) :
+        #     t.addDescriptors(d)
 
     def dataFromDocument (self, filename) : 
         doc = svg.Document(filename)
@@ -286,8 +286,9 @@ class DataHandler (Saveable) :
     def getDataset (self, config, cuda) : 
         functionGetter = lambda x : getattr(Utilities, x) 
         descFunctions = list(map(functionGetter, config['desc_functions']))
-        model = torch.load(config['model_path'])
-        model.eval()
+        # model = torch.load(config['model_path'])
+        # model.eval()
+        model = 10
         trees = self.getTrees(descFunctions, cuda, model)
         trees.treesToTensor(cuda)
         return trees

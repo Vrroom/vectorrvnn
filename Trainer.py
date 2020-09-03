@@ -6,7 +6,7 @@ import Data
 from functools import reduce, partial
 import torch.multiprocessing
 import Model
-from Model import GRASSAutoEncoder, GraphAutoEncoder
+# from Model import GRASSAutoEncoder, GraphAutoEncoder
 import torch
 import torch.nn as nn
 import torch.optim as optim

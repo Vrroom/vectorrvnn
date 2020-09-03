@@ -1250,7 +1250,7 @@ def match (rt1, rt2) :
             costs = list(map(lambda x : cost(*x), prod))
             nbrs2 = [str(_) for _ in nbrs2]
             costdict = dict(zip(prod, costs))
-            return bestassignmentcost(costdict)
+            return bestAssignmentCost(costdict)
 
     return cost(r1, r2)
 
@@ -2141,7 +2141,7 @@ def treeImageFromGraph (G) :
     for n in G :
         img = svgStringToBitmap(G.nodes[n]['svg'])
 #        imagebox = OffsetImage(img, zoom=0.2)
-        imagebox = OffsetImage(img, zoom=0.08)
+        imagebox = OffsetImage(img, zoom=0.2)
         imagebox.image.axes = ax
         ab = AnnotationBbox(imagebox, pos[n], pad=0)
         ax.add_artist(ab)
@@ -2649,6 +2649,22 @@ def mesh2SVG(meshDir, xTheta, yTheta) :
 
     The angles specify the camera position.
 
+    Examples
+    --------
+    This code was used to generate the synthetic 
+    dataset.
+
+    >>> import sys
+    >>> dirname = sys.argv[1]
+    >>> yThetas = np.linspace(np.pi/4, 2 * np.pi, 4)
+    >>> xThetas = [-np.pi/6, np.pi/6]
+    >>> for name in tqdm(listdir(dirname)) : 
+    >>>     _, number = osp.split(name)
+    >>>     for xTheta, yTheta in itertools.product(xThetas, yThetas) :
+    >>>         doc = mesh2SVG(name, xTheta, yTheta)
+    >>>         filename = f'./PartNetVectorized/{number}-{xTheta}-{yTheta}.svg' 
+    >>>         doc.save(filename)
+
     Parameters
     ----------
     meshDir : str
@@ -2741,11 +2757,13 @@ def mesh2SVG(meshDir, xTheta, yTheta) :
 if __name__ == "__main__" : 
     import sys
     dirname = sys.argv[1]
-    yThetas = np.linspace(np.pi/4, 2 * np.pi, 4)
-    xThetas = [-np.pi/6, np.pi/6]
     for name in tqdm(listdir(dirname)) : 
         _, number = osp.split(name)
-        for xTheta, yTheta in itertools.product(xThetas, yThetas) :
-            doc = mesh2SVG(name, xTheta, yTheta)
-            filename = f'./PartNetVectorized/{number}-{xTheta}-{yTheta}.svg' 
-            doc.save(filename)
+        with open(osp.join(name, 'meta.json')) as fd :
+            category = json.load(fd)['model_cat']
+        if not osp.exists(f'./PartNetVectorized/{category}') :
+            os.mkdir(f'./PartNetVectorized/{category}')
+        doc = mesh2SVG(name, np.pi/6, np.pi/4)
+        filename = f'./PartNetVectorized/{category}/{number}.svg' 
+        doc.save(filename)
+
