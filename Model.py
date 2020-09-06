@@ -1,4 +1,6 @@
 import math
+from Data import Tree
+import more_itertools
 from torch.distributions import Categorical
 from itertools import product
 import torch
@@ -9,7 +11,10 @@ from torch.autograd import Variable
 from functools import reduce
 from time import time
 from torch_geometric.nn.conv import GINConv
-from Utilities import leaves, nonLeaves, descendants, optimalBipartiteMatching, treeApplyChildrenFirst
+from Utilities import leaves, nonLeaves, descendants, findRoot
+from Utilities import optimalBipartiteMatching, treeApplyChildrenFirst
+from Utilities import removeOneOutDegreeNodesFromTree, hierarchicalClusterCompareFM
+import networkx as nx
 
 def completeGraph (N) :
     """
@@ -312,7 +317,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
         self.mseLoss = nn.MSELoss()
         self.creLoss = nn.CrossEntropyLoss()
 
-    def matchDescriptors (a, b) : 
+    def matchDescriptors (self, a, b) : 
         """
         Match two sets of descriptors on the
         basis of mean squared error between them.
@@ -327,7 +332,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
         a : torch.tensor
         b : torch.tensor
         """
-        costs = [float(self.mseLoss(c1.squeeze(), c2)) for c1, c2 in product(a, b)]
+        costs = [float(self.mseLoss(c1.squeeze(), c2.squeeze())) for c1, c2 in product(a, b)]
         allPairs = product(range(len(a)), range(len(b)))
         costTable = dict(zip(allPairs, costs))
         matching = optimalBipartiteMatching(costTable)
@@ -389,17 +394,6 @@ class VectorRvNNAutoEncoder (nn.Module) :
                 childrenSets = map(lambda x : T.nodes[x]['pathSet'], neighbors)
                 T.nodes[r]['pathSet'] = list(more_itertools.flatten(childrenSets))
 
-        def delFeatures (T, r, neighbors) : 
-            """
-            Helper function to delete all the features
-            that were temporarily stored in tree nodes. 
-            
-            Since, these features were tensors, we need
-            to remove them if we have to later serialize
-            the tree. 
-            """
-            del T.nodes[r]['feature']
-
         def buildTree (T, feature, parentId, maxDepth) : 
             """
             Recursively build the tree starting from 
@@ -416,12 +410,12 @@ class VectorRvNNAutoEncoder (nn.Module) :
                 T.add_edge(parentId, nodeId)
                 T.nodes[nodeId]['feature'] = feature
                 if not self.isLeaf(feature):  
-                    for childFeature in self.mergeDecoder(x) : 
+                    for childFeature in self.mergeDecoder(feature) : 
                         buildTree(T, childFeature, parentId, maxDepth-1)
 
         leavesOfTree = leaves(tree.tree)
 
-        rootFeature = self.rasterEncoder(image)
+        rootFeature = self.rasterEncoder(image).squeeze()
         targetLeaves = len(leavesOfTree)
 
         # Keep sampling trees till a tree has 
@@ -435,7 +429,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
         leavesOfT = leaves(T)
 
         originalDescriptors = [tree.path(l) for l in leavesOfTree]
-        reconstructedDescriptors = self.pathDecoder(torch.cat([T.nodes[l]['feature'] for l in leavesOfT]))
+        reconstructedDescriptors = self.pathDecoder(torch.stack([T.nodes[l]['feature'] for l in leavesOfT]))
 
         # Match the leaves with the original descriptors of the graphic. 
         matching = self.matchDescriptors(originalDescriptors, reconstructedDescriptors)
@@ -456,14 +450,18 @@ class VectorRvNNAutoEncoder (nn.Module) :
         # as they are meaningless to the hierarchy.
         T = removeOneOutDegreeNodesFromTree(T)
 
-        treeApplyChildrenFirst(T, 0, aggregatePathSets)
-        treeApplyChildrenFirst(T, 0, delFeatures)
+        def delFeatures (T, r, neighbors) : 
+            if 'feature' in T.nodes[r]:
+                del T.nodes[r]['feature']
+
+        treeApplyChildrenFirst(T, findRoot(T), aggregatePathSets)
+        treeApplyChildrenFirst(T, findRoot(T), delFeatures)
         return Tree(T)
 
     def score (self, tree, image) :
         tree_ = self.sample(tree, image)
         bk = [hierarchicalClusterCompareFM(tree, tree_) for _ in range(4)]
-        bk = bk.sum() / 4
+        bk = sum(bk) / 4
         return (bk > 0.7).sum()
 
     def forward (self, tree, image) : 
@@ -504,7 +502,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
                 childFeatures = self.mergeDecoder(feature)
                 neighbors = list(tree.tree.neighbors(node))
                 encodedChildFeatures = [encodedFeatures[_] for _ in neighbors]
-                matching = self.matchDescriptors(encodedChildFeatures, decodedFeatures)
+                matching = self.matchDescriptors(encodedChildFeatures, childFeatures)
                 for i in range(len(encodedChildFeatures)) : 
                     decodedFeatures[neighbors[i]] = childFeatures[int(matching[i])].reshape((1, -1))
                 notExistingNodes.extend([cf.reshape((1, -1)) for i, cf in enumerate(childFeatures) if i not in matching.values()])
@@ -547,15 +545,15 @@ class VectorRvNNAutoEncoder (nn.Module) :
         descReconLoss = self.mseLoss(descriptors, pathDecodings)
         subtreeReconLoss = sum([self.mseLoss(encodedFeatures[n], decodedFeatures[n]) for n in tree.tree.nodes])
         rasterEncoderLoss = self.mseLoss(rasterEncoding, encodedFeatures[tree.root])
-        nodeExistLoss = self.creLoss(exist, existTarget)
-        nodeTypeLoss = self.creLoss(nodeType, nodeTypeTarget)
+        nodeExistLoss = self.creLoss(exist, existTarget) / len(tree.tree.nodes)
+        nodeTypeLoss = self.creLoss(nodeType, nodeTypeTarget) / len(tree.tree.nodes)
 
         losses = {
-            'Descriptor Reconstruction Loss': descReconLoss, 
-            'Subtree Reconstruction Loss': subtreeReconLoss,
-            'Raster Encoding Loss': rasterEncoderLoss,
-            'Node Existance Prediction Loss': nodeExistLoss,
-            'Node Type Prediction Loss': nodeTypeLoss
+            'Descriptor RL': descReconLoss, 
+            'Subtree RL': subtreeReconLoss,
+            'Raster Loss': rasterEncoderLoss,
+            'Existance PL': nodeExistLoss,
+            'Type PL': nodeTypeLoss
         }
 
         return losses

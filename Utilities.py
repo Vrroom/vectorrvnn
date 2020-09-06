@@ -40,7 +40,12 @@ from scipy.sparse import csc_matrix
 from scipy.sparse.linalg import spsolve
 from scipy.spatial import ConvexHull
 import scipy.io as sio
-import pymesh
+# import pymesh
+
+def aggregateDict (listOfDicts, reducer) : 
+    keys = set(more_itertools.flatten(map(lambda x : x.keys(), listOfDicts)))
+    aggregator = lambda key : reducer(map(lambda x : x[key], listOfDicts))
+    return dict(zip(keys, map(aggregator, keys)))
 
 def normalizePointCloud (ptCloud, height, width) :
     """
@@ -595,7 +600,7 @@ def hierarchicalClusterCompareFM (t1, t2) :
     n = t1.nPaths
     bs = []
     es = [] 
-    for k in range(2, 10): 
+    for k in range(2, 3): 
         cuts1 = treeKCut(t1, k)
         cuts2 = treeKCut(t2, k)
         M = np.zeros((k, k))
@@ -939,9 +944,10 @@ def svgTreeEditDistance (t1, t2, paths, vbox) :
     return c
 
 def descendants (tree, node) : 
-    neighbors = set(tree.neighbors(node))
-    descOfDesc = reduce(lambda a, b : a + b, map(partial(descendants, tree), neighbors))
-    return {node} + neighbors + descOfDesc
+    neighbors = set(list(tree.neighbors(node)))
+    descOfDesc = map(partial(descendants, tree), neighbors)
+    descOfDesc = reduce(lambda a, b : a | b, descOfDesc, set())
+    return {node} | neighbors | descOfDesc
 
 def leaves (tree) :
     """

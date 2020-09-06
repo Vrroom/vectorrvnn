@@ -1,4 +1,5 @@
 from Data import *
+import shutil
 import resource
 import sys
 import pickle
@@ -24,7 +25,6 @@ from more_itertools import collapse, unzip
 import svgpathtools as svg
 from copy import deepcopy
 import math
-from Test import findTree
 from torchfold import Fold
 from torch_geometric.data import Batch
 
@@ -85,19 +85,17 @@ class Trainer () :
         """
         self.configs = configs
 
+        self.commonConfig = commonConfig
         self.gpu  = commonConfig['gpu'] 
         self.cuda = commonConfig['cuda']
 
-        self.exptDir  = osp.join(commonConfig['expt_path'], 'Expt_' + str(datetime.date.today()))
-        self.modelDir = osp.join(self.exptDir, 'Models')
+        trainDir = commonConfig['train_directory']
+        cvDir    = commonConfig['cv_directory']
+        testDir  = commonConfig['test_directory']
 
-        self.trainDir = commonConfig['train_directory']
-        self.cvDir    = commonConfig['cv_directory']
-        self.testDir  = commonConfig['test_directory']
-
-        self.trainDataHandler = DataHandler(self.trainDir)
-        self.cvDataHandler    = DataHandler(self.cvDir)
-        self.testDataHandler  = DataHandler(self.testDir)
+        self.trainDataHandler = DataHandler(trainDir)
+        self.cvDataHandler    = DataHandler(cvDir)
+        self.testDataHandler  = DataHandler(testDir)
 
         self.logFrequency  = commonConfig['show_log_every']
         self.saveFrequency = commonConfig['save_snapshot_every']
@@ -108,85 +106,69 @@ class Trainer () :
         logging.basicConfig(filename=commonConfig['log_file'], level=logging.INFO)
         self.logger = logging.getLogger('Trainer')
 
+        self._makeAllDirs()
+
+    def _makeDir (self, path) :
+        """
+        Make directory and log this information.
+
+        Parameters
+        ----------
+        path : str
+            New directories path.
+        """
+        os.mkdir(path)
+        self.logger.info(f'Made directory: {path}')
+
+    def _makeAllDirs(self) :
+        """
+        Helper function to make all directories for
+        current experiment.
+        """
+        self.exptDir  = osp.join(self.commonConfig['expt_path'], 'Expt_' + str(datetime.date.today()))
+        if osp.exists(self.exptDir): 
+            ans = "y" # input("Directory already exists. Do you want to delete it? [y/n]")
+            if ans == "y" : 
+                shutil.rmtree(self.exptDir)
+
+        self.modelDir = osp.join(self.exptDir, 'Models')
+        self.testDir = osp.join(self.exptDir, 'Test')
+        self.finalTreesDir = osp.join(self.testDir, 'FinalTrees')
+
+        self._makeDir(self.exptDir)
+        self._makeDir(self.modelDir)
+        self._makeDir(self.testDir)
+        self._makeDir(self.finalTreesDir)
+
+        self.configPaths = []
+        self.trainingTreesPaths = []
+        self.modelPaths = [] 
+
+        for i, config in enumerate(self.configs): 
+            configPath = osp.join(self.modelDir, f'config{i}')
+            self._makeDir(configPath)
+            trainingTreesPath = osp.join(configPath, 'TrainingTrees')
+            self._makeDir(trainingTreesPath)
+            modelPath = osp.join(configPath, 'Models')
+            self._makeDir(modelPath)
+            self.configPaths.append(configPath)
+            self.trainingTreesPaths.append(trainingTreesPath)
+            self.modelPaths.append(modelPath)
+
+
     def run (self) :
         """
         Run experiments for all 
         configuration files.
         """
         self.logger.info('Starting Expt')
-
-        self.makeDir(self.exptDir)
-        self.makeDir(self.modelDir)
-
         for i, config in enumerate(self.configs) :
-            self.logger.info(str(config))
-            self.runExpt(i + 1, config)
-
-    def drawTrees (self, treeList, fileList, path) :
-        """
-        Convenience function to visualize hierarchies.
-
-        Parameters
-        ----------
-        treeList : list
-            Trees to be drawn.
-        fileList : list
-            Their corresponding graphics.
-        path : str
-            Where to save tree plots.
-        """
-        for tree, file in zip(treeList, fileList) : 
-            fname = osp.join(path, osp.splitext(osp.split(file)[1])[0])
-            doc = svg.Document(file)
-            paths = doc.flatten_all_paths()
-            vb = doc.get_viewbox()
-            tree.setSVGAttributes(paths, vb)
-            matplotlibFigureSaver(treeImageFromGraph(tree.tree), fname)
-
-    def runExpt (self, i, config) :
-        """
-        Run the i-th experiment using the
-        configurations present in config.
-
-        Parameters
-        ----------
-        i : int
-            Index of the experiment.
-        config : dict
-            Dictionary containing parameters.
-        """
-        configPath, trainingTreesPath, modelPath = self.createDirectories(i, config)
-        self.logger.info(f'Starting Expt {i}')
-        self.setTrainDataLoader(config)
-        self.setModel(config)
-        autoencoder = self.models[-1]
-        self.startTrainingLoop(autoencoder, config, modelPath, configPath)
-        # self.crossValidate(config, autoencoder, configPath)
-
-    def createDirectories (self, i, config) : 
-        """
-        Create a set of directories for each 
-        sub-experiment. The structure is mentioned
-        in the docstring for this class: 
-
-        |--confign
-           |--TrainingTrees
-           |--Models
-
-        Parameters
-        ----------
-        i : int
-            Index of config dictionary in self.configs.
-        config : dict
-            Configuration for the current sub-experiment.
-        """
-        configPath = osp.join(self.modelDir, f'config{i}')
-        self.makeDir(configPath)
-        trainingTreesPath = osp.join(configPath, 'TrainingTrees')
-        self.makeDir(trainingTreesPath)
-        modelPath = osp.join(configPath, 'Models')
-        self.makeDir(modelPath)
-        return configPath, trainingTreesPath, modelPath
+            self.logger.info(f'Starting Expt {config}')
+            self.setTrainDataLoader(config)
+            self.setModel(config)
+            autoencoder = self.models[-1]
+            self.startTrainingLoop(autoencoder, config, self.modelPaths[i], self.configPaths[i])
+            self.crossValidate(config, autoencoder, self.configPaths[i])
 
     def setTrainDataLoader (self, config) : 
         """
@@ -271,8 +253,14 @@ class Trainer () :
         def trainOneEpoch () :
 
             def reportStatistics () : 
+                nLosses = len(combinedLosses)
+                lossTemplate = '{:>10.2f} ' * nLosses
+                logTemplate = '{:>9s} {:>5.0f}/{:<5.0f} {:>5.0f}/{:<5.0f} {:>9.1f}% ' + lossTemplate
+                lossHeaders = '\t'.join(combinedLosses.keys())
+                header = '     Time    Epoch     Iteration    Progress(%)   ' + lossHeaders
                 elapsedTime = time.strftime("%H:%M:%S",time.gmtime(time.time()-start))
                 donePercent = 100. * (1 + batchIdx + nBatches * epoch) / totalIter
+                self.logger.info(header)
                 self.logger.info(logTemplate.format(
                     elapsedTime, 
                     epoch, 
@@ -280,16 +268,16 @@ class Trainer () :
                     1+batchIdx, 
                     nBatches, 
                     donePercent, 
-                    totalLoss.data.item()
+                    *map(lambda x : x.data.item(), combinedLosses.values())
                 ))
 
             for batchIdx, batch in enumerate(self.trainDataLoader):
                 opt.zero_grad()
                 losses = [autoencoder(*item) for item in batch]
-                totalLoss = sum([sum(l.values()) for l in losses])
+                combinedLosses = aggregateDict(losses, sum)
+                totalLoss = sum(combinedLosses.values()) / len(batch)
                 totalLoss.backward()
                 opt.step()
-
                 if batchIdx % self.logFrequency == 0:
                     reportStatistics()
 
@@ -312,12 +300,9 @@ class Trainer () :
         self.logger.info('Starting Training')
         start = time.time()
         totalIter = epochs * nBatches
-        header = '     Time    Epoch     Iteration    Progress(%)  TotalLoss'
-        logTemplate = '{:>9s} {:>5.0f}/{:<5.0f} {:>5.0f}/{:<5.0f} {:>9.1f}% {:>10.2f}'
         losses = []
 
         for epoch in range(epochs):
-            self.logger.info(header)
             loss = trainOneEpoch()
             sched.step()
 
@@ -338,27 +323,23 @@ class Trainer () :
         Parameters
         ----------
         bkFrequency : list
-            List of bk values greater than 0.5.
+            List of bk values greater than 0.7.
         path : str
             Where to save the plot.
         """
         fig, axes = plt.subplots()
         axes.hist(bkFrequency, bins=range(11))
-        axes.set_xlabel('bk > 0.5')
+        axes.set_xlabel('bk > 0.7')
         axes.set_ylabel('Frequency')
         fig.savefig(path)
         plt.close(fig)
 
-    def crossValidateGraphAutoEncoder(self, config, autoencoder, configPath):
-        autoencoder.eval()
-        graphs = self.cvDataHandler.getDataset(config, self.cuda).graphs
-        batch = Batch.from_data_list(graphs)
-        mseLoss = nn.MSELoss()
-        scores, x_ = autoencoder(batch.x, batch.edge_index)
-        loss2 = mseLoss(x_, batch.x)
-        score = (loss2).data.item()
-        self.logger.info(f'Cross Validation Score : {score}')
-        self.modelScores.append(score)
+    def _score (self, config, autoencoder, dataHandler) : 
+        data = dataHandler.getDataset(config, self.cuda)
+        with torch.multiprocessing.Pool(maxtasksperchild=30) as p: 
+            trees = p.starmap(autoencoder.sample, data)
+            scores = p.starmap(autoencoder.score, data)
+        return scores, trees
 
     def crossValidate(self, config, autoencoder, configPath) :
         """
@@ -376,19 +357,9 @@ class Trainer () :
             Path to where we are storing this
             experiment's results.
         """
-        trees = self.cvDataHandler.getDataset(config, self.cuda).trees
-        samples = zip(self.cvDataHandler.svgFiles, trees)
-        with torch.multiprocessing.Pool(maxtasksperchild=30) as p : 
-            compare = p.map(
-                   partial(compareNetTreeWithGroundTruth, 
-                       autoencoder=autoencoder, config=config,
-                       cuda=self.cuda), 
-                   samples)
-
-        bkFrequency = list(unzip(compare)[0])
-        self.bkFrequencyHistogram(bkFrequency, osp.join(configPath, 'CVHistogram'))
-        
-        score = sum(bkFrequency) / len(bkFrequency)
+        scores, _ = self._score(config, autoencoder, self.cvDataHandler)
+        self.bkFrequencyHistogram(scores, osp.join(configPath, 'CVHistogram'))
+        score = sum(scores) / len(scores)
         self.logger.info(f'Cross Validation Score : {score}')
         self.modelScores.append(score)
 
@@ -400,47 +371,36 @@ class Trainer () :
         the inferred trees in the directory.
         """
         self.logger.info('Loading Test Data')
-        testDir = osp.join(self.exptDir, 'Test')
-        self.makeDir(testDir)
- 
-        finalTreesDir = osp.join(testDir, 'FinalTrees')
-        self.makeDir(finalTreesDir)
- 
         bestAutoEncoder = self.models[argmax(self.modelScores)]
         config = self.configs[argmax(self.modelScores)]
- 
-        self.saveSnapshots(testDir, bestAutoEncoder, 'bestAutoEncoder.pkl')
-         
-        trees = self.testDataHandler.getDataset(config, self.cuda).trees
-        samples = zip(self.testDataHandler.svgFiles, trees)
-        with torch.multiprocessing.Pool(maxtasksperchild=30) as p : 
-            compare = p.map(
-                    partial(compareNetTreeWithGroundTruth, 
-                        autoencoder=bestAutoEncoder, config=config, 
-                        cuda=self.cuda), 
-                    samples,
-                    chunksize=10)
-
-        netTrees = list(unzip(compare)[1])
-        self.drawTrees(netTrees, self.testDataHandler.svgFiles, finalTreesDir)
-
-        bkFrequency = list(unzip(compare)[0])
-        self.bkFrequencyHistogram(bkFrequency, osp.join(testDir, 'Histogram'))
- 
-        score = sum(bkFrequency) / len(bkFrequency)
+        self.saveSnapshots(self.testDir, bestAutoEncoder, 'bestAutoEncoder.pkl')
+        scores, trees = self._score(config, bestAutoEncoder, self.testDataHandler) 
+        self.drawTrees(trees, self.testDataHandler.svgFiles, self.finalTreesDir)
+        self.bkFrequencyHistogram(scores, osp.join(self.testDir, 'Histogram'))
+        score = sum(scores) / len(scores)
         self.logger.info(f'Test Score : {score}')
- 
-    def makeDir (self, path) :
+
+    def drawTrees (self, treeList, fileList, path) :
         """
-        Make directory and log this information.
+        Convenience function to visualize hierarchies.
 
         Parameters
         ----------
+        treeList : list
+            Trees to be drawn.
+        fileList : list
+            Their corresponding graphics.
         path : str
-            New directories path.
+            Where to save tree plots.
         """
-        os.mkdir(path)
-        self.logger.info(f'Made directory: {path}')
+        for tree, file in zip(treeList, fileList) : 
+            fname = osp.join(path, osp.splitext(osp.split(file)[1])[0])
+            doc = svg.Document(file)
+            paths = doc.flatten_all_paths()
+            vb = doc.get_viewbox()
+            tree.setSVGAttributes(paths, vb)
+            matplotlibFigureSaver(treeImageFromGraph(tree.tree), fname)
+
 
     def __enter__ (self) : 
         return self
@@ -464,7 +424,7 @@ def main () :
             configs.append(json.load(fd))
     with Trainer(commonConfig, configs) as trainer : 
         trainer.run()
-        # trainer.test()
+        trainer.test()
 
 if __name__ == "__main__" :
     main()
