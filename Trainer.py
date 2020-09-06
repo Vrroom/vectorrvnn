@@ -28,34 +28,6 @@ from Test import findTree
 from torchfold import Fold
 from torch_geometric.data import Batch
 
-def compareNetTreeWithGroundTruth (sample, autoencoder, config, cuda) :
-    """
-    Use the encoder and decoder to find
-    the optimal tree and compare it
-    with the ground truth using 
-    hierarchical cluster comparison method.
-
-    Parameters
-    ----------
-    sample : tuple
-        (svgFile, groundTruthTree)
-    autoencoder : GRASSAutoEncoder
-        AutoEncoder network.
-    config : dict
-        Configuration dictionary.
-    cuda : bool
-        Whether to use CUDA.
-    """
-    svgFile, gt = sample
-    netTree = findTree(gt, svgFile, autoencoder, cuda)
-    bk = hierarchicalClusterCompareFM(gt, netTree)
-    for i in range(4) : 
-        bk += hierarchicalClusterCompareFM(gt, netTree)
-    bk /= 4
-    netTree.toNumpy()
-    netTree.rootCode = None
-    return (bk > 0.7).sum(), netTree
-
 class Trainer () :
     """
     Conduct a bunch of experiments using

@@ -13,6 +13,7 @@ import string
 import subprocess
 import more_itertools
 import itertools
+from functools import partial
 from functools import reduce
 from tqdm import tqdm
 import networkx as nx
@@ -936,6 +937,11 @@ def svgTreeEditDistance (t1, t2, paths, vbox) :
     subtreeSize(t2.root, t2.tree, sub2)
     c = cost(t1.root, t2.root)
     return c
+
+def descendants (tree, node) : 
+    neighbors = set(tree.neighbors(node))
+    descOfDesc = reduce(lambda a, b : a + b, map(partial(descendants, tree), neighbors))
+    return {node} + neighbors + descOfDesc
 
 def leaves (tree) :
     """
