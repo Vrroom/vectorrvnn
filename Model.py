@@ -149,10 +149,6 @@ class MergeEncoder(nn.Module):
         x = self.bn2(x)
         return torch.sum(x, axis=0)
 
-if __name__ == "__main__" : 
-    net = MergeEncoder(5, 5)
-    print(net(torch.ones(2, 5)))
-
 class MergeDecoder(nn.Module):
     """
     Complement of the MergeEncoder
@@ -176,13 +172,13 @@ class MergeDecoder(nn.Module):
             per node.
         """
         super(MergeDecoder, self).__init__()
-        self.childrenMLPs = [
+        self.childrenMLPs = nn.ModuleList([
             nn.Sequential(
                 nn.Linear(feature_size, feature_size),
                 nn.ReLU(),
             )
             for _ in range(max_children)
-        ]
+        ])
         nn1 = nn.Sequential(
             nn.Linear(feature_size, hidden_size),
             nn.ReLU(),
@@ -381,6 +377,8 @@ class VectorRvNNAutoEncoder (nn.Module) :
         image : torch.tensor
             Rasterized Vector Graphic.
         """
+        import pdb
+        pdb.set_trace()
         def aggregatePathSets (T, r, neighbors) :
             """
             Aggregate the path indices for each subtree
@@ -411,7 +409,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
                 T.nodes[nodeId]['feature'] = feature
                 if not self.isLeaf(feature):  
                     for childFeature in self.mergeDecoder(feature) : 
-                        buildTree(T, childFeature, parentId, maxDepth-1)
+                        buildTree(T, childFeature, nodeId, maxDepth-1)
 
         leavesOfTree = leaves(tree.tree)
 
@@ -437,7 +435,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
         
         # Prune all the un-matched leaves in the sampled tree.
         for i in range(len(originalDescriptors)) : 
-            l = leavesOfT[int(matching[i])]
+            l = leavesOfT[matching[i]]
             leavesToBeKept.add(l)
             T.nodes[l]['pathSet'] = tree.tree.nodes[leavesOfTree[i]]['pathSet']
 
@@ -504,8 +502,10 @@ class VectorRvNNAutoEncoder (nn.Module) :
                 encodedChildFeatures = [encodedFeatures[_] for _ in neighbors]
                 matching = self.matchDescriptors(encodedChildFeatures, childFeatures)
                 for i in range(len(encodedChildFeatures)) : 
-                    decodedFeatures[neighbors[i]] = childFeatures[int(matching[i])].reshape((1, -1))
-                notExistingNodes.extend([cf.reshape((1, -1)) for i, cf in enumerate(childFeatures) if i not in matching.values()])
+                    decodedFeatures[neighbors[i]] = childFeatures[matching[i]].reshape((1, -1))
+                for i, cf in enumerate(childFeatures) : 
+                    if i not in matching.values() : 
+                        notExistingNodes.append(cf.reshape((1, -1)))
                 for child in neighbors:  
                     decodeNode(child)
             
@@ -535,25 +535,26 @@ class VectorRvNNAutoEncoder (nn.Module) :
         pathDecodings = self.pathDecoder(leafNodes)
         rasterEncoding = self.rasterEncoder(image)
 
-        exist = torch.cat([*decodedFeatures.values(), *notExistingNodes])
+        features = torch.cat([*decodedFeatures.values(), *notExistingNodes])
+        exist = self.existClassifier(torch.cat([*decodedFeatures.values(), *notExistingNodes]))
         existTarget = torch.cat((torch.ones(len(decodedFeatures)), torch.zeros(len(notExistingNodes)))).long()
-
-        nodeType = torch.cat([*leafNodes, *nonLeafNodes])
+        
+        nodeType = self.nodeClassifier(torch.cat([*leafNodes, *nonLeafNodes]))
         nodeTypeTarget = torch.cat((torch.ones(len(leafNodes)), torch.zeros(len(nonLeafNodes)))).long()
 
         # Compute various losses and store in dictionary
         descReconLoss = self.mseLoss(descriptors, pathDecodings)
         subtreeReconLoss = sum([self.mseLoss(encodedFeatures[n], decodedFeatures[n]) for n in tree.tree.nodes])
         rasterEncoderLoss = self.mseLoss(rasterEncoding, encodedFeatures[tree.root])
-        nodeExistLoss = self.creLoss(exist, existTarget) / len(tree.tree.nodes)
-        nodeTypeLoss = self.creLoss(nodeType, nodeTypeTarget) / len(tree.tree.nodes)
+        nodeExistLoss = self.creLoss(exist, existTarget) 
+        nodeTypeLoss = self.creLoss(nodeType, nodeTypeTarget) 
 
         losses = {
-            'Descriptor RL': descReconLoss, 
-            'Subtree RL': subtreeReconLoss,
-            'Raster Loss': rasterEncoderLoss,
-            'Existance PL': nodeExistLoss,
-            'Type PL': nodeTypeLoss
+            'Descriptor': descReconLoss, 
+            'Subtree': subtreeReconLoss,
+            'Raster': rasterEncoderLoss,
+            'Existance': nodeExistLoss,
+            'Type': nodeTypeLoss
         }
 
         return losses

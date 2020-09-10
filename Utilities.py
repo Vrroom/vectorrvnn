@@ -1168,7 +1168,11 @@ def optimalBipartiteMatching (costTable) :
         G.add_node(str(j), bipartite=1)
         G.add_edge(i, str(j), weight=val)
 
-    matching = bipartite.minimum_weight_full_matching(G)
+    matchingWithDups = bipartite.minimum_weight_full_matching(G)
+    matching = dict()
+    for key, val in matchingWithDups.items() : 
+        if not isinstance(key, str):
+            matching[key] = int(val)
     return matching
 
 def bestAssignmentCost (costTable) :

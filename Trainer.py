@@ -127,9 +127,7 @@ class Trainer () :
         """
         self.exptDir  = osp.join(self.commonConfig['expt_path'], 'Expt_' + str(datetime.date.today()))
         if osp.exists(self.exptDir): 
-            ans = "y" # input("Directory already exists. Do you want to delete it? [y/n]")
-            if ans == "y" : 
-                shutil.rmtree(self.exptDir)
+            shutil.rmtree(self.exptDir, ignore_errors=True)
 
         self.modelDir = osp.join(self.exptDir, 'Models')
         self.testDir = osp.join(self.exptDir, 'Test')
@@ -256,7 +254,7 @@ class Trainer () :
                 nLosses = len(combinedLosses)
                 lossTemplate = '{:>10.2f} ' * nLosses
                 logTemplate = '{:>9s} {:>5.0f}/{:<5.0f} {:>5.0f}/{:<5.0f} {:>9.1f}% ' + lossTemplate
-                lossHeaders = '\t'.join(combinedLosses.keys())
+                lossHeaders = '    '.join(combinedLosses.keys())
                 header = '     Time    Epoch     Iteration    Progress(%)   ' + lossHeaders
                 elapsedTime = time.strftime("%H:%M:%S",time.gmtime(time.time()-start))
                 donePercent = 100. * (1 + batchIdx + nBatches * epoch) / totalIter
@@ -336,9 +334,11 @@ class Trainer () :
 
     def _score (self, config, autoencoder, dataHandler) : 
         data = dataHandler.getDataset(config, self.cuda)
-        with torch.multiprocessing.Pool(maxtasksperchild=30) as p: 
-            trees = p.starmap(autoencoder.sample, data)
-            scores = p.starmap(autoencoder.score, data)
+        # with torch.multiprocessing.Pool(maxtasksperchild=30) as p: 
+        #     trees = p.starmap(autoencoder.sample, data)
+        #     scores = p.starmap(autoencoder.score, data)
+        trees = [autoencoder.sample(a, b) for (a, b) in data]
+        scores = [autoencoder.score(a, b) for (a, b) in data]
         return scores, trees
 
     def crossValidate(self, config, autoencoder, configPath) :
