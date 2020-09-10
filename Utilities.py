@@ -42,6 +42,20 @@ from scipy.spatial import ConvexHull
 import scipy.io as sio
 # import pymesh
 
+def plotDistanceMatrix (f) : 
+    dists = distance_matrix(f, f)
+    plt.imshow(dists)
+    plt.show()
+
+def plotPCA (x, y, k) : 
+    pca = PCA(n_components=2)
+    out = pca.fit_transform(x)
+    for i in range(k) : 
+        pts = out[y == i]
+        color = (np.random.rand(), np.random.rand(), np.random.rand(), 0.2)
+        plt.scatter(pts[:, 0], pts[:, 1], color=color)
+    plt.show()
+
 def aggregateDict (listOfDicts, reducer) : 
     keys = set(more_itertools.flatten(map(lambda x : x.keys(), listOfDicts)))
     aggregator = lambda key : reducer(map(lambda x : x[key], listOfDicts))

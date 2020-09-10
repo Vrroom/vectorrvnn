@@ -13,3 +13,7 @@ Usage instructions
 7. Checkout avatar
 8. `$ mkdir Expts`
 9. `$ python3 Trainer.py`
+
+Diagnosing tool
+---------------
+Distance Matrix of the features
