@@ -334,11 +334,9 @@ class Trainer () :
 
     def _score (self, config, autoencoder, dataHandler) : 
         data = dataHandler.getDataset(config, self.cuda)
-        # with torch.multiprocessing.Pool(maxtasksperchild=30) as p: 
-        #     trees = p.starmap(autoencoder.sample, data)
-        #     scores = p.starmap(autoencoder.score, data)
-        trees = [autoencoder.sample(a, b) for (a, b) in data]
-        scores = [autoencoder.score(a, b) for (a, b) in data]
+        with torch.multiprocessing.Pool(maxtasksperchild=30) as p: 
+            trees = p.starmap(autoencoder.sample, data)
+            scores = p.starmap(autoencoder.score, data)
         return scores, trees
 
     def crossValidate(self, config, autoencoder, configPath) :

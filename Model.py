@@ -377,8 +377,6 @@ class VectorRvNNAutoEncoder (nn.Module) :
         image : torch.tensor
             Rasterized Vector Graphic.
         """
-        import pdb
-        pdb.set_trace()
         def aggregatePathSets (T, r, neighbors) :
             """
             Aggregate the path indices for each subtree
