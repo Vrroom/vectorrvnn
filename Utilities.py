@@ -38,7 +38,9 @@ from skimage import transform
 import Data
 from scipy.sparse import csc_matrix
 from scipy.sparse.linalg import spsolve
-from scipy.spatial import ConvexHull
+from scipy.spatial import ConvexHull, distance_matrix
+from sklearn.decomposition import PCA
+from sklearn.manifold import TSNE
 import scipy.io as sio
 # import pymesh
 
@@ -47,13 +49,23 @@ def plotDistanceMatrix (f) :
     plt.imshow(dists)
     plt.show()
 
+def plotTSNE (x, y, k, perp) : 
+    pca = TSNE(n_components=2, perplexity=perp)
+    out = pca.fit_transform(x)
+    colors = [(1,0,0,0.5), (0, 0, 1, 0.5)]
+    for i in range(k) : 
+        pts = out[y == i]
+        plt.scatter(pts[:, 0], pts[:, 1], color=colors[i])
+    plt.show()
+
 def plotPCA (x, y, k) : 
     pca = PCA(n_components=2)
     out = pca.fit_transform(x)
+    colors = ['red', 'blue']
     for i in range(k) : 
         pts = out[y == i]
-        color = (np.random.rand(), np.random.rand(), np.random.rand(), 0.2)
-        plt.scatter(pts[:, 0], pts[:, 1], color=color)
+        # color = (np.random.rand(), np.random.rand(), np.random.rand(), 0.2)
+        plt.scatter(pts[:, 0], pts[:, 1], color=colors[i])
     plt.show()
 
 def aggregateDict (listOfDicts, reducer) : 

@@ -125,29 +125,30 @@ class MergeEncoder(nn.Module):
             multiple layers, we have a list.
         """
         super(MergeEncoder, self).__init__()
-        nn1 = nn.Sequential(
+        self.nn1 = nn.Sequential(
             nn.Linear(feature_size, hidden_size),
             nn.ReLU(),
-            nn.Linear(hidden_size, hidden_size)
-        )
-        self.conv1 = GINConv(nn1)
-        self.bn1 = nn.BatchNorm1d(hidden_size)
-        nn2 = nn.Sequential(
-            nn.Linear(hidden_size, hidden_size), 
-            nn.ReLU(), 
             nn.Linear(hidden_size, feature_size)
         )
-        self.conv2 = GINConv(nn2)
-        self.bn2 = nn.BatchNorm1d(feature_size)
+        # self.conv1 = GINConv(nn1)
+        # self.bn1 = nn.BatchNorm1d(hidden_size)
+        # nn2 = nn.Sequential(
+        #     nn.Linear(hidden_size, hidden_size), 
+        #     nn.ReLU(), 
+        #     nn.Linear(hidden_size, feature_size)
+        # )
+        # self.conv2 = GINConv(nn2)
+        # self.bn2 = nn.BatchNorm1d(feature_size)
 
     def forward(self, x) : 
-        N, *_ = x.shape
-        edge_index = completeGraph(N)
-        x = F.relu(self.conv1(x, edge_index))
-        x = self.bn1(x)
-        x = F.relu(self.conv2(x, edge_index))
-        x = self.bn2(x)
-        return torch.sum(x, axis=0)
+        # N, *_ = x.shape
+        # edge_index = completeGraph(N)
+        # x = F.relu(self.conv1(x, edge_index))
+        # x = self.bn1(x)
+        # x = F.relu(self.conv2(x, edge_index))
+        # x = self.bn2(x)
+        # return torch.sum(x, axis=0)
+        return torch.sum(self.nn1(x), axis=0)
 
 class MergeDecoder(nn.Module):
     """
@@ -197,11 +198,12 @@ class MergeDecoder(nn.Module):
 
     def forward(self, parent_feature):
         children_features = torch.stack([m(parent_feature) for m in self.childrenMLPs])
-        x = F.relu(self.conv1(children_features.squeeze(), self.edge_index))
-        x = self.bn1(x)
-        x = F.relu(self.conv2(x, self.edge_index))
-        x = self.bn2(x)
-        return x
+        # x = F.relu(self.conv1(children_features.squeeze(), self.edge_index))
+        # x = self.bn1(x)
+        # x = F.relu(self.conv2(x, self.edge_index))
+        # x = self.bn2(x)
+        # return x
+        return children_features.squeeze()
 
 class PathDecoder(nn.Module):
     """
@@ -290,6 +292,8 @@ class VectorRvNNAutoEncoder (nn.Module) :
         feature_size = config['feature_size']
         # The upper bound on the arity of the nodes.
         max_children = config['max_children'] 
+        # Weight for the classifier MLP loss
+        predict_loss_weight = config['predict_loss_weight']
 
         self.rasterEncoder = RasterEncoder(feature_size)
 
@@ -551,8 +555,8 @@ class VectorRvNNAutoEncoder (nn.Module) :
             'Descriptor': descReconLoss, 
             'Subtree': subtreeReconLoss,
             'Raster': rasterEncoderLoss,
-            'Existance': nodeExistLoss,
-            'Type': nodeTypeLoss
+            # 'Existance': nodeExistLoss,
+            # 'Type': nodeTypeLoss
         }
 
-        return losses
+        return losses , torch.cat([*leafNodes, *nonLeafNodes]), nodeTypeTarget
