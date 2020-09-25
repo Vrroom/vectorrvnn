@@ -1,4 +1,5 @@
 from Data import *
+from tqdm import tqdm
 import shutil
 import resource
 import sys
@@ -160,13 +161,13 @@ class Trainer () :
         configuration files.
         """
         self.logger.info('Starting Expt')
-        for i, config in enumerate(self.configs) :
+        for i, config in tqdm(list(enumerate(self.configs))) :
             self.logger.info(f'Starting Expt {config}')
             self.setTrainDataLoader(config)
             self.setModel(config)
             autoencoder = self.models[-1]
             self.startTrainingLoop(autoencoder, config, self.modelPaths[i], self.configPaths[i])
-            self.crossValidate(config, autoencoder, self.configPaths[i])
+            # self.crossValidate(config, autoencoder, self.configPaths[i])
 
     def setTrainDataLoader (self, config) : 
         """
@@ -422,7 +423,7 @@ def main () :
             configs.append(json.load(fd))
     with Trainer(commonConfig, configs) as trainer : 
         trainer.run()
-        trainer.test()
+        # trainer.test()
 
 if __name__ == "__main__" :
     main()

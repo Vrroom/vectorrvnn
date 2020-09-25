@@ -3,8 +3,8 @@
 	"test_directory"      : "/Users/amaltaas/BTP/vectorrvnn/PartNetSubset/Test",
 	"cv_directory"        : "/Users/amaltaas/BTP/vectorrvnn/PartNetSubset/CV",
 	"log_file"            : "test.log",
-	"show_log_every"      : 1,
-	"save_snapshot_every" : 50,
+	"show_log_every"      : 10,
+	"save_snapshot_every" : 301,
 	"cuda"                : false,
 	"gpu"                 : 0,
 	"expt_path"           : "./Expts/"

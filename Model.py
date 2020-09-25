@@ -173,37 +173,47 @@ class MergeDecoder(nn.Module):
             per node.
         """
         super(MergeDecoder, self).__init__()
-        self.childrenMLPs = nn.ModuleList([
-            nn.Sequential(
-                nn.Linear(feature_size, feature_size),
-                nn.ReLU(),
-            )
-            for _ in range(max_children)
-        ])
-        nn1 = nn.Sequential(
-            nn.Linear(feature_size, hidden_size),
-            nn.ReLU(),
-            nn.Linear(hidden_size, hidden_size)
+        self.hidden_size = hidden_size
+        self.mlp1 = nn.Sequential(
+            nn.Linear(feature_size, max_children * hidden_size),
+            nn.ReLU()
         )
-        self.conv1 = GINConv(nn1)
-        self.bn1 = nn.BatchNorm1d(hidden_size)
-        nn2 = nn.Sequential(
-            nn.Linear(hidden_size, hidden_size), 
-            nn.ReLU(), 
-            nn.Linear(hidden_size, feature_size)
-        )
-        self.conv2 = GINConv(nn2)
-        self.bn2 = nn.BatchNorm1d(feature_size)
-        self.edge_index = completeGraph(max_children)
+        self.mlp2 = nn.Linear(hidden_size, feature_size)
+        # self.childrenMLPs = nn.ModuleList([
+        #     nn.Sequential(
+        #         nn.Linear(feature_size, hidden_size),
+        #         nn.ReLU(),
+        #         nn.Linear(hidden_size, feature_size)
+        #     )
+        #     for _ in range(max_children)
+        # ])
+        # nn1 = nn.Sequential(
+        #     nn.Linear(feature_size, hidden_size),
+        #     nn.ReLU(),
+        #     nn.Linear(hidden_size, hidden_size)
+        # )
+        # self.conv1 = GINConv(nn1)
+        # self.bn1 = nn.BatchNorm1d(hidden_size)
+        # nn2 = nn.Sequential(
+        #     nn.Linear(hidden_size, hidden_size), 
+        #     nn.ReLU(), 
+        #     nn.Linear(hidden_size, feature_size)
+        # )
+        # self.conv2 = GINConv(nn2)
+        # self.bn2 = nn.BatchNorm1d(feature_size)
+        # self.edge_index = completeGraph(max_children)
 
     def forward(self, parent_feature):
-        children_features = torch.stack([m(parent_feature) for m in self.childrenMLPs])
-        # x = F.relu(self.conv1(children_features.squeeze(), self.edge_index))
-        # x = self.bn1(x)
-        # x = F.relu(self.conv2(x, self.edge_index))
-        # x = self.bn2(x)
-        # return x
-        return children_features.squeeze()
+        x = self.mlp1(parent_feature)
+        x = self.mlp2(x.view((-1, self.hidden_size)))
+        return x
+        # children_features = torch.stack([m(parent_feature) for m in self.childrenMLPs])
+        # # x = F.relu(self.conv1(children_features.squeeze(), self.edge_index))
+        # # x = self.bn1(x)
+        # # x = F.relu(self.conv2(x, self.edge_index))
+        # # x = self.bn2(x)
+        # # return x
+        # return children_features.squeeze()
 
 class PathDecoder(nn.Module):
     """
@@ -289,26 +299,31 @@ class VectorRvNNAutoEncoder (nn.Module) :
         super(VectorRvNNAutoEncoder, self).__init__()
         input_size = config['path_code_size']
         hidden_size = config['hidden_size']
+        classifier_hidden_size = config['classifier_hidden_size']
         feature_size = config['feature_size']
         # The upper bound on the arity of the nodes.
         max_children = config['max_children'] 
         # Weight for the classifier MLP loss
-        predict_loss_weight = config['predict_loss_weight']
+        self.predict_loss_weight = config['predict_loss_weight']
 
-        self.rasterEncoder = RasterEncoder(feature_size)
+        # self.rasterEncoder = RasterEncoder(feature_size)
 
         self.pathEncoder = PathEncoder(input_size, feature_size)
         self.mergeEncoder = MergeEncoder(feature_size, hidden_size)
 
         self.existClassifier = nn.Sequential(
-            nn.Linear(feature_size, hidden_size),
+            nn.Linear(feature_size, classifier_hidden_size),
             nn.ReLU(),
-            nn.Linear(hidden_size, 2),
+            nn.Linear(classifier_hidden_size, classifier_hidden_size),
+            nn.ReLU(),
+            nn.Linear(classifier_hidden_size, 2)
         )
         self.nodeClassifier = nn.Sequential(
-            nn.Linear(feature_size, hidden_size),
+            nn.Linear(feature_size, classifier_hidden_size),
             nn.ReLU(),
-            nn.Linear(hidden_size, 2),
+            nn.Linear(classifier_hidden_size, classifier_hidden_size),
+            nn.ReLU(),
+            nn.Linear(classifier_hidden_size, 2)
         )
 
         self.pathDecoder = PathDecoder(feature_size, input_size)
@@ -508,6 +523,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
                 for i, cf in enumerate(childFeatures) : 
                     if i not in matching.values() : 
                         notExistingNodes.append(cf.reshape((1, -1)))
+                        withSibs.append((cf.reshape((1, -1)), neighbors))
                 for child in neighbors:  
                     decodeNode(child)
             
@@ -523,7 +539,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
         # exist and use them for training the existence 
         # predictor.
         notExistingNodes = []
-
+        withSibs = []
         # Perform encoding followed by decoding.
         encodeNode(tree.root)
         decodedFeatures = {tree.root: encodedFeatures[tree.root]}
@@ -535,28 +551,32 @@ class VectorRvNNAutoEncoder (nn.Module) :
         nonLeafNodes = torch.stack([decodedFeatures[_] for _ in nonLeaves(tree.tree)])
 
         pathDecodings = self.pathDecoder(leafNodes)
-        rasterEncoding = self.rasterEncoder(image)
+        # rasterEncoding = self.rasterEncoder(image)
 
         features = torch.cat([*decodedFeatures.values(), *notExistingNodes])
         exist = self.existClassifier(torch.cat([*decodedFeatures.values(), *notExistingNodes]))
         existTarget = torch.cat((torch.ones(len(decodedFeatures)), torch.zeros(len(notExistingNodes)))).long()
-        
+         
         nodeType = self.nodeClassifier(torch.cat([*leafNodes, *nonLeafNodes]))
         nodeTypeTarget = torch.cat((torch.ones(len(leafNodes)), torch.zeros(len(nonLeafNodes)))).long()
 
         # Compute various losses and store in dictionary
+        # TODO: May want to use chamfer loss over here.
         descReconLoss = self.mseLoss(descriptors, pathDecodings)
         subtreeReconLoss = sum([self.mseLoss(encodedFeatures[n], decodedFeatures[n]) for n in tree.tree.nodes])
-        rasterEncoderLoss = self.mseLoss(rasterEncoding, encodedFeatures[tree.root])
-        nodeExistLoss = self.creLoss(exist, existTarget) 
-        nodeTypeLoss = self.creLoss(nodeType, nodeTypeTarget) 
+        # rasterEncoderLoss = self.mseLoss(rasterEncoding, encodedFeatures[tree.root])
+        nodeExistLoss = self.predict_loss_weight * self.creLoss(exist, existTarget) 
+        nodeTypeLoss = self.predict_loss_weight * self.creLoss(nodeType, nodeTypeTarget) 
+
+        diffLoss = 1 / (sum([self.mseLoss(cf, sum([decodedFeatures[n] for n in neighbors]) / len(neighbors)) for cf, neighbors in withSibs]) / len(withSibs))
 
         losses = {
             'Descriptor': descReconLoss, 
             'Subtree': subtreeReconLoss,
-            'Raster': rasterEncoderLoss,
-            # 'Existance': nodeExistLoss,
-            # 'Type': nodeTypeLoss
+            # 'Raster': rasterEncoderLoss,
+            'Existance': nodeExistLoss,
+            'Type': nodeTypeLoss,
+            'Diff': diffLoss
         }
 
-        return losses , torch.cat([*leafNodes, *nonLeafNodes]), nodeTypeTarget
+        return losses# , features, existTarget
