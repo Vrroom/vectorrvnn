@@ -1,5 +1,23 @@
 import subprocess
+import random
+import os
+import os.path as osp
 import svgpathtools as svg
+import matplotlib.image as image
+import string
+
+def randomString(k) : 
+    """
+    Return a random string of lower case
+    alphabets.
+
+    Parameters
+    ----------
+    k : int
+        Length of the random string.
+    """
+    alphabets = string.ascii_lowercase
+    return ''.join(random.choices(alphabets, k=k))
 
 def rasterize(svgFile, outFile, H=72, W=72, makeSquare=True) :
     """
@@ -82,3 +100,34 @@ def getSubsetSvg(paths, lst, vb) :
                         openinbrowser=False)
     return drawing.tostring()
 
+def svgStringToBitmap (svgString) :
+    svgName = randomString(10) + '.svg'
+    svgName = osp.join('/tmp', svgName)
+    pngName = randomString(10) + '.png'
+    pngName = osp.join('/tmp', pngName)
+    with open(svgName, 'w+') as fd :
+        fd.write(svgString)
+    rasterize(svgName, pngName)
+    img = image.imread(pngName)
+    os.remove(svgName)
+    os.remove(pngName)
+    return img.tolist()
+
+def SVGtoNumpyImage (svgFilePath, H, W) :
+    """
+    Take an SVG file and rasterize it to 
+    obtain a numpy array of given height and
+    width. 
+
+    Parameters
+    ----------
+    svgFilePath : str
+    H : float
+        Desired height of output.
+    W : float 
+        Desired width of output.
+    """
+    rs = randomString(10)
+    rasterize(svgFilePath, f'/tmp/{rs}.png', H=H, W=W)
+    img = image.imread(f'/tmp/{rs}.png')
+    return img[:, :, :3]

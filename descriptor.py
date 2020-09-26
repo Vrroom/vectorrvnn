@@ -223,7 +223,6 @@ def relbb (path, docbb, **kwargs) :
     return [x1, x2, y1, y2]
 
 def equiDistantSamples (path, docbb, nSamples=5, **kwargs) :
-    # TODO: Check the shape of this shit.
     """
     Sample points and concatenate to form a descriptor.
 
@@ -242,7 +241,7 @@ def equiDistantSamples (path, docbb, nSamples=5, **kwargs) :
     dx, dy = docbb[2] - docbb[0], docbb[3] - docbb[1]
     x = [p.real / dx for p in pts]
     y = [p.imag / dy for p in pts]
-    return x + y
+    return [x,y]
 
 def oneHot (path, docbb, **kwargs) :
     index = kwargs['index']

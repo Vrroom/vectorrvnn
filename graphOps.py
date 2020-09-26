@@ -21,8 +21,8 @@ def contractGraph (G, nodeSet) :
     assert len(nodeSet) > 0, "Node set is empty"
     H = G
     for u, v in zip(nodeSet, nodeSet[1:]) : 
-        H = nx.contracted_nodes(H, v, u)
-    mapping = {nodeSet[-1]: list(more_itertools.flatten(nodeSet))}
+        H = nx.contracted_nodes(H, v, u, self_loops=False)
+    mapping = {nodeSet[-1]: tuple(more_itertools.collapse(nodeSet))}
     H = nx.relabel_nodes(H, mapping)
     return H
 
