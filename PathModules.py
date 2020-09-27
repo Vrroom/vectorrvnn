@@ -5,6 +5,8 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 from torch_geometric.nn.conv import GINConv
+from functools import reduce
+import math
 
 class CyclicPathEncoder (nn.Module): 
 
@@ -33,21 +35,22 @@ class CyclicPathEncoder (nn.Module):
 
 class CyclicPathDecoder (nn.Module) :
 
-    def __init__ (self, config) : 
+    def __init__ (self, feature_size, hidden_size, samples) : 
         super(CyclicPathDecoder, self).__init__()
-        angles = torch.linspace(0, 2 * math.pi, config['samples']).reshape((-1, 1))
+        angles = torch.linspace(0, 2 * math.pi, samples).reshape((-1, 1))
         self.points = torch.cat((torch.cos(angles), torch.sin(angles)), dim=1)
         # Decoder is an MLP which takes the feature extracted
         # by the encoder and a point on a circle and predicts the 
         # ground truth point on the path.
         self.decoder = nn.Sequential(
-            nn.Linear(self.feature_size + 2, self.hidden_size),
+            nn.Linear(feature_size + 2, hidden_size),
             nn.ReLU(),
-            nn.Linear(self.hidden_size, 2),
+            nn.Linear(hidden_size, 2),
             nn.Sigmoid()
         )
 
-    def forward (self, pts) : 
+    def forward (self, encoding) : 
+        N, *_ = encoding.shape
         newPts = []
         for pt in self.points :
             reshapedPt = pt.reshape((1, -1))
@@ -71,17 +74,20 @@ class MLPPathEncoder(nn.Module):
 
         Parameters
         ----------
-        input_size : int
+        input_size : int/tuple
             The dimension of the path descriptor 
         feature_size : int
             The dimension of the feature
         """
         super(MLPPathEncoder, self).__init__()
+        if isinstance(input_size, tuple) :
+            input_size = reduce(lambda a, b : a * b, input_size)
         self.encoder = nn.Linear(input_size, feature_size)
         self.tanh = nn.Tanh()
 
     def forward(self, path_input):
-        path_vector = self.encoder(path_input)
+        N, *_ = path_input.shape
+        path_vector = self.encoder(path_input.view((N, -1)))
         path_vector = self.tanh(path_vector)
         return path_vector
 
@@ -91,13 +97,16 @@ class MLPPathDecoder(nn.Module):
     """
     def __init__(self, feature_size, output_size):
         super(MLPPathDecoder, self).__init__()
+        self.output_size = output_size
+        if isinstance(output_size, tuple) :
+            output_size = reduce(lambda a, b : a * b, output_size)
         self.mlp = nn.Linear(feature_size, output_size)
         self.tanh = nn.Tanh()
 
     def forward(self, parent_feature):
         x = self.mlp(parent_feature)
         x = self.tanh(x)
-        return x
+        return x.view((-1, *self.output_size))
 
 class GraphNet (nn.Module) :
     """
@@ -105,6 +114,12 @@ class GraphNet (nn.Module) :
     """
     def __init__ (self, input_size, hidden_size, output_size) :
         super(GraphNet, self).__init__()
+        self.input_size = input_size
+        self.output_size = output_size
+        if isinstance(input_size, tuple) :
+            input_size = reduce(lambda a, b : a * b, input_size)
+        if isinstance(output_size, tuple) :
+            output_size = reduce(lambda a, b : a * b, output_size)
         nn1 = nn.Sequential(
             nn.Linear(input_size, hidden_size),
             nn.ReLU(),
@@ -119,6 +134,42 @@ class GraphNet (nn.Module) :
         self.conv2 = GINConv(nn2)
 
     def forward(self, x, edge_index) : 
+        N, *_ = x.shape
+        if isinstance(self.input_size, tuple) :
+            x = x.view((N, -1))
         x = F.relu(self.conv1(x, edge_index))
         x = F.relu(self.conv2(x, edge_index))
-        return x
+        if isinstance(self.output_size, tuple) :
+            return x.view((-1, *self.output_size))
+        else :
+            return x
+
+if __name__ == "__main__" :
+    from descriptor import equiDistantSamples
+    import svgpathtools as svg
+    from relationshipGraph import *
+    doc = svg.Document('/Users/amaltaas/BTP/vectorrvnn/PartNetSubset/Train/10007.svg')
+    paths = doc.flatten_all_paths()
+    vbox = doc.get_viewbox()
+    graph = adjGraph(paths)
+    x = torch.tensor([equiDistantSamples(p.path, vbox) for p in paths])
+    ######################################################################################
+    ## Test Cyclic Convolution.
+    ######################################################################################
+    model = nn.Sequential(CyclicPathEncoder(3, 10), CyclicPathDecoder(10, 50, 5))
+    print(x.shape, model(x).shape)
+    ######################################################################################
+    ## Test MLP. 
+    ######################################################################################
+    model = nn.Sequential(MLPPathEncoder((2, 5), 10), MLPPathDecoder(10, (2, 5)))
+    print(x.shape, model(x).shape)
+    ######################################################################################
+    ## Test GraphNet.
+    ######################################################################################
+    enc = GraphNet((2, 5), 10, 20)
+    dec = GraphNet(20, 10, (2, 5))
+    edge_indices = torch.tensor(np.array(graph.edges).T)
+    h = enc(x, edge_indices)
+    o = dec(h, edge_indices)
+    print(x.shape, o.shape)
+
