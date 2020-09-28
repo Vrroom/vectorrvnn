@@ -28,6 +28,7 @@ class SVGData (nx.DiGraph) :
         # are the same as how the svgpathtools library
         # orders the paths.
         super(SVGData, self).__init__(getTreeStructureFromSVG(svgFile))
+        self.root = findRoot(self)
         self.svgFile = svgFile
         self.image = SVGtoNumpyImage(svgFile, H=224, W=224)
         graphFn = getattr(relationshipGraph, graph)
@@ -40,6 +41,19 @@ class SVGData (nx.DiGraph) :
         self.graph = graphFn(paths, vbox=docViewBox)
         nSamples = samples
         self.descriptors = [equiDistantSamples(p.path, docViewBox, nSamples=nSamples) for p in paths]
+        self._computeBBoxes(self.root)
+
+    def _computeBBoxes (self, node) : 
+        if self.out_degree(node) == 0 : 
+            pId = self.nodes[node]['pathSet'][0]
+            nx.set_node_attributes(self, {node: self.pathViewBoxes[pId]}, 'bbox')
+        else : 
+            for n in self.neighbors(node) : 
+                self._computeBBoxes(n)
+            boxes = np.array([self.nodes[n]['bbox'] for n in self.neighbors(node)])
+            xm, ym = boxes[:, 0].min(), boxes[:, 2].min()
+            xM, yM = (xm + boxes[:, 2]).max(), (ym + boxes[:, 3]).max()
+            nx.set_node_attributes(self, {node: [xm, ym, xM - xm, yM - ym]}, 'bbox')
 
     def edgeIndicesAtLevel (self, node) : 
         """
@@ -56,8 +70,8 @@ class SVGData (nx.DiGraph) :
         h = reduce(lambda g, ps: contractGraph(g, ps), childPathSets, subgraph)
         mapping = dict(map(reversed, enumerate(childPathSets)))
         h = nx.relabel_nodes(h, mapping)
-        edges = np.array(h.edges).T
-        return torch.from_numpy(edges)
+        edges = np.array(h.edges).T.reshape((2, -1))
+        return torch.from_numpy(edges).long()
 
     def image2tensor (self, cuda=False) :
         """
@@ -81,8 +95,12 @@ class SVGData (nx.DiGraph) :
 
     def bbox2tensor (self, cuda=False) :  
         self.pathViewBoxes = torch.tensor(self.pathViewBoxes)
+        for n in self.nodes : 
+            self.nodes[n]['bbox'] = torch.tensor(self.nodes[n]['bbox'])
         if cuda : 
             self.pathViewBoxes = self.pathViewBoxes.cuda()
+            for n in self.nodes : 
+                self.nodes[n]['bbox'] = self.nodes[n]['bbox'].cuda()
 
     def toTensor(self, cuda=False) : 
         self.image2tensor(cuda)

@@ -74,13 +74,13 @@ def getTreeStructureFromSVG (svgFile) :
         if element.tag in childTags : 
             zIdx = allNodes.index(element)
             pathIdx = zIndexMap[zIdx]
-            T.nodes[curId]['pathSet'] = [pathIdx]
+            T.nodes[curId]['pathSet'] = (pathIdx,)
         else : 
             childIdx = []
             validTags = lambda x : x.tag in childTags or x.tag == groupTag
             children = list(map(buildTreeGraph, filter(validTags, element)))
             T.add_edges_from(list(itertools.product([curId], children)))
-            pathSet = list(more_itertools.collapse([T.nodes[c]['pathSet'] for c in children]))
+            pathSet = tuple(more_itertools.collapse([T.nodes[c]['pathSet'] for c in children]))
             T.nodes[curId]['pathSet'] = pathSet
         return curId
 
@@ -94,7 +94,6 @@ def getTreeStructureFromSVG (svgFile) :
         '{http://www.w3.org/2000/svg}path',
     ]
     groupTag = '{http://www.w3.org/2000/svg}g'
-
     doc = svg.Document(svgFile)
     paths = doc.flatten_all_paths()
     zIndexMap = dict([(p.zIndex, i) for i, p in enumerate(paths)])

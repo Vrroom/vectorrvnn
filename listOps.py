@@ -1,5 +1,9 @@
 import itertools
 
+def avg (lst) : 
+    assert len(lst) != 0, "No average for empty list"
+    return float(sum(lst)) / len(lst)
+
 def hasDuplicates (lst) :
     """
     Check whether a list has duplicates.

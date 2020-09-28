@@ -220,7 +220,7 @@ def relbb (path, docbb, **kwargs) :
     x2 = (xmax - docbb[0]) / (docbb[2] - docbb[0])
     y1 = (ymin - docbb[1]) / (docbb[3] - docbb[1])
     y2 = (ymax - docbb[1]) / (docbb[3] - docbb[1])
-    return [x1, x2, y1, y2]
+    return [x1, y1, x2 - x1, y2 - y1]
 
 def equiDistantSamples (path, docbb, nSamples=5, **kwargs) :
     """
