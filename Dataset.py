@@ -36,7 +36,7 @@ class DatasetCache (Saveable) :
         self.svgDir = svgDir 
         self.cache = dict()
 
-    def dataset (config) : 
+    def dataset (self, config) : 
         graph = config['graph'] 
         samples = config['samples']
         key = str((graph, samples))

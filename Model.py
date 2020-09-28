@@ -358,6 +358,8 @@ class VectorRvNNAutoEncoder (nn.Module) :
             'nodeExistLoss': nodeExistLoss,
             'nodeTypeLoss': nodeTypeLoss
         }
+        for k in losses.keys() : 
+            losses[k] *= self.config['lossWeights'][k]
         return losses, exist, existTarget, nodeType, nodeTypeTarget, boxAndTargets
 
     def forward (self, tree): 

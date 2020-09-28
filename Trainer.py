@@ -1,14 +1,12 @@
-from Data import *
+from Dataset import *
 from tqdm import tqdm
 import shutil
 import resource
 import sys
 import pickle
-import Data
 from functools import reduce, partial
 import torch.multiprocessing
-import Model
-from Model import VectorRvNNAutoEncoder, GraphAutoEncoder
+from Model import VectorRvNNAutoEncoder
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -18,8 +16,6 @@ import os
 import os.path as osp
 import datetime
 import logging
-import Utilities
-from Utilities import * 
 import matplotlib.pyplot as plt
 import multiprocessing as mp
 from more_itertools import collapse, unzip
@@ -94,9 +90,9 @@ class Trainer () :
         cvDir    = commonConfig['cv_directory']
         testDir  = commonConfig['test_directory']
 
-        self.trainDataHandler = DataHandler(trainDir)
-        self.cvDataHandler    = DataHandler(cvDir)
-        self.testDataHandler  = DataHandler(testDir)
+        self.trainCache = DatasetCache(trainDir)
+        self.cvCache    = DatasetCache(cvDir)
+        self.testCache  = DatasetCache(testDir)
 
         self.logFrequency  = commonConfig['show_log_every']
         self.saveFrequency = commonConfig['save_snapshot_every']
@@ -154,7 +150,6 @@ class Trainer () :
             self.trainingTreesPaths.append(trainingTreesPath)
             self.modelPaths.append(modelPath)
 
-
     def run (self) :
         """
         Run experiments for all 
@@ -167,7 +162,7 @@ class Trainer () :
             self.setModel(config)
             autoencoder = self.models[-1]
             self.startTrainingLoop(autoencoder, config, self.modelPaths[i], self.configPaths[i])
-            # self.crossValidate(config, autoencoder, self.configPaths[i])
+            self.crossValidate(config, autoencoder, self.configPaths[i])
 
     def setTrainDataLoader (self, config) : 
         """
@@ -179,7 +174,8 @@ class Trainer () :
             Configuration for this sub-experiment.
         """
         self.logger.info('Loading Training Data')
-        self.trainData = self.trainDataHandler.getDataset(config, self.cuda)
+        self.trainData = self.trainCache.dataset(config)
+        self.trainData.toTensor()
         self.trainDataLoader = torch.utils.data.DataLoader(
             self.trainData, 
             batch_size=config['batch_size'], 
@@ -272,7 +268,7 @@ class Trainer () :
 
             for batchIdx, batch in enumerate(self.trainDataLoader):
                 opt.zero_grad()
-                losses = [autoencoder(*item) for item in batch]
+                losses = [autoencoder(item) for item in batch]
                 combinedLosses = aggregateDict(losses, sum)
                 totalLoss = sum(combinedLosses.values()) / len(batch)
                 totalLoss.backward()
@@ -300,17 +296,13 @@ class Trainer () :
         start = time.time()
         totalIter = epochs * nBatches
         losses = []
-
         for epoch in range(epochs):
             loss = trainOneEpoch()
             sched.step()
-
             if (epoch + 1) % self.saveFrequency == 0 :
                 name = 'autoencoder_epoch{}_loss_{:.2f}.pkl'.format(epoch+1, loss)
                 self.saveSnapshots(modelPath, autoencoder, name)
-
             losses.append(loss)
-        
         self.saveSnapshots(modelPath, autoencoder, 'autoencoder.pkl')
         createAndSaveTrainingPlot()
 
@@ -334,7 +326,8 @@ class Trainer () :
         plt.close(fig)
 
     def _score (self, config, autoencoder, dataHandler) : 
-        data = dataHandler.getDataset(config, self.cuda)
+        data = dataHandler.dataset(config)
+        data.toTensor()
         with torch.multiprocessing.Pool(maxtasksperchild=30) as p: 
             trees = p.starmap(autoencoder.sample, data)
             scores = p.starmap(autoencoder.score, data)
@@ -356,7 +349,7 @@ class Trainer () :
             Path to where we are storing this
             experiment's results.
         """
-        scores, _ = self._score(config, autoencoder, self.cvDataHandler)
+        scores, _ = self._score(config, autoencoder, self.cvCache)
         self.bkFrequencyHistogram(scores, osp.join(configPath, 'CVHistogram'))
         score = sum(scores) / len(scores)
         self.logger.info(f'Cross Validation Score : {score}')
@@ -373,8 +366,8 @@ class Trainer () :
         bestAutoEncoder = self.models[argmax(self.modelScores)]
         config = self.configs[argmax(self.modelScores)]
         self.saveSnapshots(self.testDir, bestAutoEncoder, 'bestAutoEncoder.pkl')
-        scores, trees = self._score(config, bestAutoEncoder, self.testDataHandler) 
-        self.drawTrees(trees, self.testDataHandler.svgFiles, self.finalTreesDir)
+        scores, trees = self._score(config, bestAutoEncoder, self.testCache) 
+        self.drawTrees(trees, self.testCache.svgFiles, self.finalTreesDir)
         self.bkFrequencyHistogram(scores, osp.join(self.testDir, 'Histogram'))
         score = sum(scores) / len(scores)
         self.logger.info(f'Test Score : {score}')
@@ -400,17 +393,16 @@ class Trainer () :
             tree.setSVGAttributes(paths, vb)
             matplotlibFigureSaver(treeImageFromGraph(tree.tree), fname)
 
-
     def __enter__ (self) : 
         return self
 
     def __exit__ (self, *args) : 
-        saveTrainPath = osp.join(self.exptDir, 'trainDataHandler.pkl')
-        saveCvPath    = osp.join(self.exptDir, 'cvDataHandler.pkl')
-        saveTestPath  = osp.join(self.exptDir, 'testDataHandler.pkl')
-        self.trainDataHandler.save(saveTrainPath)
-        self.cvDataHandler.save(saveCvPath)
-        self.testDataHandler.save(saveTestPath)
+        saveTrainPath = osp.join(self.exptDir, 'trainCache.pkl')
+        saveCvPath    = osp.join(self.exptDir, 'cvCache.pkl')
+        saveTestPath  = osp.join(self.exptDir, 'testCache.pkl')
+        self.trainCache.save(saveTrainPath)
+        self.cvCache.save(saveCvPath)
+        self.testCache.save(saveTestPath)
     
 def main () :
     torch.multiprocessing.set_start_method('spawn', force=True)
@@ -423,7 +415,7 @@ def main () :
             configs.append(json.load(fd))
     with Trainer(commonConfig, configs) as trainer : 
         trainer.run()
-        # trainer.test()
+        trainer.test()
 
 if __name__ == "__main__" :
     main()
