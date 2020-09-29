@@ -25,6 +25,7 @@ import math
 from torchfold import Fold
 from torch_geometric.data import Batch
 from dictOps import aggregateDict
+from listOps import avg, argmin
 
 class Trainer () :
     """
@@ -271,17 +272,19 @@ class Trainer () :
                 opt.zero_grad()
                 losses = [autoencoder(item) for item in batch]
                 combinedLosses = aggregateDict(losses, sum)
-                totalLoss = sum(combinedLosses.values()) / len(batch)
+                totalLoss = avg(combinedLosses.values())
                 totalLoss.backward()
                 opt.step()
                 if batchIdx % self.logFrequency == 0:
                     reportStatistics()
-
-            return totalLoss.data.item()
+            return combinedLosses
 
         def createAndSaveTrainingPlot () :
             fig, axes = plt.subplots()
-            axes.plot(range(epochs), losses) 
+            lossDict = aggregateDict(losses, list)
+            for k, v in lossDict.items():
+                axes.plot(range(epochs), v, label=k) 
+            axes.legend()
             axes.set_xlabel('Epochs')
             axes.set_ylabel('Training Loss')
             fig.savefig(osp.join(configPath, 'TrainingPlot'))
@@ -301,30 +304,11 @@ class Trainer () :
             loss = trainOneEpoch()
             sched.step()
             if (epoch + 1) % self.saveFrequency == 0 :
-                name = 'autoencoder_epoch{}_loss_{:.2f}.pkl'.format(epoch+1, loss)
+                name = f'autoencoder_epoch_{epoch + 1}.pkl'
                 self.saveSnapshots(modelPath, autoencoder, name)
             losses.append(loss)
         self.saveSnapshots(modelPath, autoencoder, 'autoencoder.pkl')
         createAndSaveTrainingPlot()
-
-    def bkFrequencyHistogram(self, bkFrequency, path) :
-        """
-        Plot and save a histogram of tree edit 
-        distances. 
-
-        Parameters
-        ----------
-        bkFrequency : list
-            List of bk values greater than 0.7.
-        path : str
-            Where to save the plot.
-        """
-        fig, axes = plt.subplots()
-        axes.hist(bkFrequency, bins=range(11))
-        axes.set_xlabel('bk > 0.7')
-        axes.set_ylabel('Frequency')
-        fig.savefig(path)
-        plt.close(fig)
 
     def _score (self, config, autoencoder, dataHandler) : 
         data = dataHandler.dataset(config)
@@ -332,9 +316,9 @@ class Trainer () :
         self.logger.info(f'Classification : {autoencoder.classificationAccuracy(data)}')
         self.logger.info(f'iouAvg : {autoencoder.iouAvg(data)}')
         self.logger.info(f'iouConsistency : {autoencoder.iouConsistency(data)}')
-        with torch.multiprocessing.Pool(maxtasksperchild=30) as p: 
-            trees = p.map(autoencoder.sample, data)
-            scores = p.map(autoencoder.score, data)
+        #with torch.multiprocessing.Pool(maxtasksperchild=30) as p: 
+        trees = list(map(autoencoder.sample, data))
+        scores = list(map(autoencoder.score, data))
         return scores, trees
 
     def crossValidate(self, config, autoencoder, configPath) :
@@ -354,8 +338,7 @@ class Trainer () :
             experiment's results.
         """
         scores, _ = self._score(config, autoencoder, self.cvCache)
-        self.bkFrequencyHistogram(scores, osp.join(configPath, 'CVHistogram'))
-        score = sum(scores) / len(scores)
+        score = avg(scores)
         self.logger.info(f'Cross Validation Score : {score}')
         self.modelScores.append(score)
 
@@ -367,13 +350,12 @@ class Trainer () :
         the inferred trees in the directory.
         """
         self.logger.info('Loading Test Data')
-        bestAutoEncoder = self.models[argmax(self.modelScores)]
-        config = self.configs[argmax(self.modelScores)]
+        bestAutoEncoder = self.models[argmin(self.modelScores)]
+        config = self.configs[argmin(self.modelScores)]
         self.saveSnapshots(self.testDir, bestAutoEncoder, 'bestAutoEncoder.pkl')
         scores, trees = self._score(config, bestAutoEncoder, self.testCache) 
         self.drawTrees(trees, self.testCache.svgFiles, self.finalTreesDir)
-        self.bkFrequencyHistogram(scores, osp.join(self.testDir, 'Histogram'))
-        score = sum(scores) / len(scores)
+        score = avg(scores)
         self.logger.info(f'Test Score : {score}')
 
     def drawTrees (self, treeList, fileList, path) :

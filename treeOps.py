@@ -3,6 +3,28 @@ import itertools
 import more_itertools
 import networkx as nx
 
+def subtreeSize(s, t, subSize) :
+    """
+    Calculate the size of each
+    subtree in the rooted tree t.
+
+    Parameters
+    ----------
+    s : int
+        The current vertex
+    t : nx.DiGraph()
+        The tree
+    subSize : dict
+        Store the size of the subtree
+        rooted at each vertex.
+    """
+    subSize[s] = 1
+    nbrs = list(t.neighbors(s))
+    if t.out_degree(s) != 0 : 
+        for u in nbrs :
+            subtreeSize(u, t, subSize)
+            subSize[s] += subSize[u]
+
 def descendants (tree, node) : 
     """
     Find the set of descendants of this node 

@@ -34,6 +34,7 @@ class SVGData (nx.DiGraph) :
         graphFn = getattr(relationshipGraph, graph)
         doc = svg.Document(svgFile)
         paths = doc.flatten_all_paths()
+        self.nPaths = len(paths)
         docViewBox = doc.get_viewbox()
         self.pathViewBoxes = [relbb(p.path, docViewBox) for p in paths]
         # The nodes in the graph are indexed according

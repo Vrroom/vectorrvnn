@@ -34,6 +34,7 @@ class DatasetCache (Saveable) :
 
     def __init__ (self, svgDir) :
         self.svgDir = svgDir 
+        self.svgFiles = listdir(svgDir)
         self.cache = dict()
 
     def dataset (self, config) : 
