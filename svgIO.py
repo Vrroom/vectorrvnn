@@ -3,7 +3,8 @@ import itertools
 import more_itertools
 import networkx as nx
 import xml.etree.ElementTree as ET
-from treeOps import removeOneOutDegreeNodesFromTree
+from treeOps import removeOneOutDegreeNodesFromTree, treeApplyChildrenFirst, findRoot
+from raster import getSubsetSvg
 
 def graphFromSvg (svgFile, graphFunction) : 
     """
@@ -133,3 +134,10 @@ def tree2Document (document, tree, attribs) :
     parentGroup = {root: None}
     treeApplyRootFirst(tree, root, addToDocument)
     return document
+
+def setSVGAttributes (tree, paths, vb) :
+    def getter (T, n, _) :
+        lst = tree.nodes[n]['pathSet']
+        tree.nodes[n]['svg'] = getSubsetSvg(paths, lst, vb)
+    treeApplyChildrenFirst(tree, findRoot(tree), getter)
+

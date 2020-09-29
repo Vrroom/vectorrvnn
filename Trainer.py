@@ -26,6 +26,8 @@ from torchfold import Fold
 from torch_geometric.data import Batch
 from dictOps import aggregateDict
 from listOps import avg, argmin
+from svgIO import setSVGAttributes
+from vis import matplotlibFigureSaver, treeImageFromGraph
 
 class Trainer () :
     """
@@ -376,8 +378,8 @@ class Trainer () :
             doc = svg.Document(file)
             paths = doc.flatten_all_paths()
             vb = doc.get_viewbox()
-            tree.setSVGAttributes(paths, vb)
-            matplotlibFigureSaver(treeImageFromGraph(tree.tree), fname)
+            setSVGAttributes(tree, paths, vb)
+            matplotlibFigureSaver(treeImageFromGraph(tree), fname)
 
     def __enter__ (self) : 
         return self

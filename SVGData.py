@@ -1,6 +1,5 @@
 import svgpathtools as svg
 import networkx as nx
-from svgIO import getTreeStructureFromSVG
 from raster import SVGtoNumpyImage
 import relationshipGraph
 from relationshipGraph import *
@@ -8,9 +7,10 @@ from descriptor import relbb, equiDistantSamples
 from functools import reduce
 import numpy as np
 from graphOps import contractGraph
-from treeOps import findRoot
+from treeOps import findRoot, treeApplyChildrenFirst
 from torchvision import transforms as T
 import torch
+from svgIO import getTreeStructureFromSVG
 
 class SVGData (nx.DiGraph) : 
 
