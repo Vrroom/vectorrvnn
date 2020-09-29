@@ -1,4 +1,5 @@
 import numpy as np
+import networkx as nx
 from treeOps import leaves, nonLeaves
 import PathModules 
 from PathModules import *
@@ -203,8 +204,8 @@ class VectorRvNNAutoEncoder (nn.Module) :
         treeApplyChildrenFirst(T, findRoot(T), aggregatePathSets)
         return Tree(T)
 
-    def score (self, tree, image) :
-        tree_ = self.sample(tree, image)
+    def score (self, tree) :
+        tree_ = self.sample(tree)
         bk = [hierarchicalClusterCompareFM(tree, tree_) for _ in range(4)]
         bk = sum(bk) / 4
         return (bk > 0.7).sum()

@@ -1,12 +1,48 @@
 import numpy as np
 import svgpathtools as svg
 import random
-import itertools
+from itertools import product
+import networkx as nx
 import more_itertools
 import copy
 from functools import reduce
-from treeOps import findRoot, subtreeSize
+from treeOps import findRoot, subtreeSize, descendants
 from matching import bestAssignmentCost
+from pulp import *
+
+def ted (t1, t2) : 
+    """
+    Compute tree edit distance between two unordered 
+    trees using Integer Programming. The cost of 
+    insertion and deletion is 1. The cost of relabeling
+    is 1 unless the pathSet's match exactly.
+
+    Examples
+    --------
+    >>> from SVGData import SVGData
+    >>> tree1 = SVGData('/Users/amaltaas/BTP/vectorrvnn/PartNetSubset/Train/10007.svg', "adjGraph", 10)
+    >>> tree2 = SVGData('/Users/amaltaas/BTP/vectorrvnn/PartNetSubset/Train/1003.svg', "adjGraph", 10)
+    >>> print(ted(tree1, tree2))
+    """
+    d = lambda x, y : 0 if t1.nodes[x]['pathSet'] == t2.nodes[y]['pathSet'] else 1
+    n, m = t1.number_of_nodes(), t2.number_of_nodes()
+    allPairs = list(product(range(n), range(m)))
+    nodes1, nodes2 = list(t1.nodes), list(t2.nodes)
+    v = np.array([[LpVariable(f'm_{x}_{y}', cat='Binary') for y in range(m)] for x in range(n)])
+    distanceMatrix = np.array([[d(x, y) for y in nodes2] for x in nodes1])
+    prob = LpProblem("TreeEditDistance", LpMinimize)
+    prob += (v * (distanceMatrix - 2)).sum()
+    for x in range(n) :
+        prob += v[x,:].sum() <= 1
+    for y in range(m) : 
+        prob += v[:,y].sum() <= 1
+    for (x, y), (x_, y_) in product(allPairs, allPairs) : 
+        if x_ in descendants(t1, x) and y_ not in descendants(t2, y) : 
+            prob += v[x, y] + v[x_, y_] <= 1
+        if x_ not in descendants(t1, x) and y_ in descendants(t2, y) : 
+            prob += v[x, y] + v[x_, y_] <= 1
+    prob.solve()
+    return value(prob.objective) + n + m
 
 def treeKCut (tree, k) :
     """
@@ -252,7 +288,7 @@ def svgTreeEditDistance (t1, t2, paths, vbox) :
         elif degree2 == 0 :
             return sub1[u1] - sub2[u2]
         else :
-            prod = list(itertools.product(nbrs1, nbrs2))
+            prod = list(product(nbrs1, nbrs2))
             costs = list(map(lambda x : cost(*x) + pathSetDist(*x), prod))
             nbrs2 = [str(_) for _ in nbrs2]
             costdict = dict(zip(prod, costs))
@@ -310,7 +346,7 @@ def match (rt1, rt2) :
         elif degree2 == 0 :
             return sub1[u1] - sub2[u2]
         else :
-            prod = list(itertools.product(nbrs1, nbrs2))
+            prod = list(product(nbrs1, nbrs2))
             costs = list(map(lambda x : cost(*x), prod))
             nbrs2 = [str(_) for _ in nbrs2]
             costdict = dict(zip(prod, costs))

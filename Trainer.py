@@ -24,6 +24,7 @@ from copy import deepcopy
 import math
 from torchfold import Fold
 from torch_geometric.data import Batch
+from dictOps import aggregateDict
 
 class Trainer () :
     """
@@ -328,9 +329,12 @@ class Trainer () :
     def _score (self, config, autoencoder, dataHandler) : 
         data = dataHandler.dataset(config)
         data.toTensor()
+        self.logger.info(f'Classification : {autoencoder.classificationAccuracy(data)}')
+        self.logger.info(f'iouAvg : {autoencoder.iouAvg(data)}')
+        self.logger.info(f'iouConsistency : {autoencoder.iouConsistency(data)}')
         with torch.multiprocessing.Pool(maxtasksperchild=30) as p: 
-            trees = p.starmap(autoencoder.sample, data)
-            scores = p.starmap(autoencoder.score, data)
+            trees = p.map(autoencoder.sample, data)
+            scores = p.map(autoencoder.score, data)
         return scores, trees
 
     def crossValidate(self, config, autoencoder, configPath) :
