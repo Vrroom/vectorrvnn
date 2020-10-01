@@ -10,6 +10,18 @@ from raster import svgStringToBitmap
 from graphIO import GraphReadWrite
 from imageio import imwrite
 
+def treeAxisFromGraph(G, ax) : 
+    pos = graphviz_layout(G, prog='dot')
+    ax.set_aspect('equal')
+    nx.draw(G, pos, ax=ax, node_size=0.5, arrowsize=1)
+    for n in G :
+        img = svgStringToBitmap(G.nodes[n]['svg'])
+        imagebox = OffsetImage(img, zoom=0.2)
+        imagebox.image.axes = ax
+        ab = AnnotationBbox(imagebox, pos[n], pad=0)
+        ax.add_artist(ab)
+    ax.axis('off')
+
 def treeImageFromGraph (G) :
     """
     Visualize the paths as depicted
@@ -121,3 +133,23 @@ def matplotlibFigureSaver (obj, fname) :
     fig.savefig(fname + '.png')
     plt.close(fig)
 
+if __name__ == "__main__" :
+    import svgpathtools as svg
+    from svgIO import setSVGAttributes
+    from Dataset import SVGDataSet
+    dataset = SVGDataSet('/Users/amaltaas/BTP/vectorrvnn/PartNetSubset/CV', 'adjGraph', 10)
+    doc = svg.Document(dataset[0].svgFile)
+    paths = doc.flatten_all_paths()
+    vb = doc.get_viewbox()
+    setSVGAttributes(dataset[0], paths, vb)
+    doc = svg.Document(dataset[1].svgFile)
+    paths = doc.flatten_all_paths()
+    vb = doc.get_viewbox()
+    setSVGAttributes(dataset[1], paths, vb)
+    fig, (ax1, ax2) = plt.subplots(1, 2, dpi=1500)
+    treeAxisFromGraph(dataset[0], ax1)
+    treeAxisFromGraph(dataset[1], ax2)
+    ax1.set_title("og")
+    ax2.set_title("inf")
+    fig.savefig('asfa.png')
+    plt.close(fig)

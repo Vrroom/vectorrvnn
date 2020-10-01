@@ -27,7 +27,7 @@ from torch_geometric.data import Batch
 from dictOps import aggregateDict
 from listOps import avg, argmin
 from svgIO import setSVGAttributes
-from vis import matplotlibFigureSaver, treeImageFromGraph
+from vis import matplotlibFigureSaver, treeAxisFromGraph
 
 class Trainer () :
     """
@@ -85,28 +85,21 @@ class Trainer () :
             List of configuration dictionaries.
         """
         self.configs = configs
-
         self.commonConfig = commonConfig
         self.gpu  = commonConfig['gpu'] 
         self.cuda = commonConfig['cuda']
-
         trainDir = commonConfig['train_directory']
         cvDir    = commonConfig['cv_directory']
         testDir  = commonConfig['test_directory']
-
         self.trainCache = DatasetCache(trainDir)
         self.cvCache    = DatasetCache(cvDir)
         self.testCache  = DatasetCache(testDir)
-
         self.logFrequency  = commonConfig['show_log_every']
         self.saveFrequency = commonConfig['save_snapshot_every']
-
         self.models = []
         self.modelScores = []
-
         logging.basicConfig(filename=commonConfig['log_file'], level=logging.INFO)
         self.logger = logging.getLogger('Trainer')
-
         self._makeAllDirs()
 
     def _makeDir (self, path) :
@@ -129,20 +122,16 @@ class Trainer () :
         self.exptDir  = osp.join(self.commonConfig['expt_path'], 'Expt_' + str(datetime.date.today()))
         if osp.exists(self.exptDir): 
             shutil.rmtree(self.exptDir, ignore_errors=True)
-
         self.modelDir = osp.join(self.exptDir, 'Models')
         self.testDir = osp.join(self.exptDir, 'Test')
         self.finalTreesDir = osp.join(self.testDir, 'FinalTrees')
-
         self._makeDir(self.exptDir)
         self._makeDir(self.modelDir)
         self._makeDir(self.testDir)
         self._makeDir(self.finalTreesDir)
-
         self.configPaths = []
         self.trainingTreesPaths = []
         self.modelPaths = [] 
-
         for i, config in enumerate(self.configs): 
             configPath = osp.join(self.modelDir, f'config{i}')
             self._makeDir(configPath)
@@ -318,10 +307,10 @@ class Trainer () :
         self.logger.info(f'Classification : {autoencoder.classificationAccuracy(data)}')
         self.logger.info(f'iouAvg : {autoencoder.iouAvg(data)}')
         self.logger.info(f'iouConsistency : {autoencoder.iouConsistency(data)}')
-        #with torch.multiprocessing.Pool(maxtasksperchild=30) as p: 
-        trees = list(map(autoencoder.sample, data))
-        scores = list(map(autoencoder.score, data))
-        return scores, trees
+        with torch.multiprocessing.Pool(maxtasksperchild=30) as p: 
+            trees = list(map(autoencoder.sample, data))
+            scores = list(map(autoencoder.score, data))
+        return scores, trees, data
 
     def crossValidate(self, config, autoencoder, configPath) :
         """
@@ -339,7 +328,7 @@ class Trainer () :
             Path to where we are storing this
             experiment's results.
         """
-        scores, _ = self._score(config, autoencoder, self.cvCache)
+        scores, *_ = self._score(config, autoencoder, self.cvCache)
         score = avg(scores)
         self.logger.info(f'Cross Validation Score : {score}')
         self.modelScores.append(score)
@@ -355,12 +344,12 @@ class Trainer () :
         bestAutoEncoder = self.models[argmin(self.modelScores)]
         config = self.configs[argmin(self.modelScores)]
         self.saveSnapshots(self.testDir, bestAutoEncoder, 'bestAutoEncoder.pkl')
-        scores, trees = self._score(config, bestAutoEncoder, self.testCache) 
-        self.drawTrees(trees, self.testCache.svgFiles, self.finalTreesDir)
+        scores, trees, ogTrees = self._score(config, bestAutoEncoder, self.testCache) 
+        self.drawTrees(trees, ogTrees, self.testCache.svgFiles, self.finalTreesDir)
         score = avg(scores)
         self.logger.info(f'Test Score : {score}')
 
-    def drawTrees (self, treeList, fileList, path) :
+    def drawTrees (self, treeList, ogTreeList, fileList, path) :
         """
         Convenience function to visualize hierarchies.
 
@@ -373,13 +362,20 @@ class Trainer () :
         path : str
             Where to save tree plots.
         """
-        for tree, file in zip(treeList, fileList) : 
+        for tree, ogTree, file in zip(treeList, ogTreeList, fileList) : 
             fname = osp.join(path, osp.splitext(osp.split(file)[1])[0])
             doc = svg.Document(file)
             paths = doc.flatten_all_paths()
             vb = doc.get_viewbox()
             setSVGAttributes(tree, paths, vb)
-            matplotlibFigureSaver(treeImageFromGraph(tree), fname)
+            setSVGAttributes(ogTree, paths, vb)
+            fig, (ax1, ax2) = plt.subplots(1, 2, dpi=1500)
+            treeAxisFromGraph(tree, ax1)
+            treeAxisFromGraph(ogTree, ax2)
+            ax1.set_title("Inferred")
+            ax2.set_title("Ground Truth")
+            fig.savefig(f'{fname}.png')
+            plt.close(fig)
 
     def __enter__ (self) : 
         return self

@@ -39,7 +39,7 @@ class SVGData (nx.DiGraph) :
         self.pathViewBoxes = [relbb(p.path, docViewBox) for p in paths]
         # The nodes in the graph are indexed according
         # to the order they come up in the list.
-        self.graph = graphFn(paths, vbox=docViewBox)
+        self.adjgraph = graphFn(paths, vbox=docViewBox)
         nSamples = samples
         self.descriptors = [equiDistantSamples(p.path, docViewBox, nSamples=nSamples) for p in paths]
         self._computeBBoxes(self.root)
@@ -67,7 +67,7 @@ class SVGData (nx.DiGraph) :
         """
         pathSet = self.nodes[node]['pathSet']
         childPathSets = [tuple(self.nodes[n]['pathSet']) for n in self.neighbors(node)]
-        subgraph = self.graph.subgraph(pathSet).copy()
+        subgraph = self.adjgraph.subgraph(pathSet).copy()
         h = reduce(lambda g, ps: contractGraph(g, ps), childPathSets, subgraph)
         mapping = dict(map(reversed, enumerate(childPathSets)))
         h = nx.relabel_nodes(h, mapping)

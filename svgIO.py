@@ -141,3 +141,9 @@ def setSVGAttributes (tree, paths, vb) :
         tree.nodes[n]['svg'] = getSubsetSvg(paths, lst, vb)
     treeApplyChildrenFirst(tree, findRoot(tree), getter)
 
+if __name__ == "__main__" : 
+    from osTools import listdir
+    from listOps import avg
+    dirname = '/Users/amaltaas/BTP/vectorrvnn/PartNetSubset/Test'
+    files = listdir(dirname)
+    print(avg(list(map(lambda x : x.number_of_nodes(), map(getTreeStructureFromSVG, files)))))

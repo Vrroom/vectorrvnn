@@ -226,8 +226,8 @@ class VectorRvNNAutoEncoder (nn.Module) :
             info = self._forward(tree)
             eProbs, eTarget = info[1], info[2]
             tProbs, tTarget = info[3], info[4]
-            existAcc.append(avg(torch.argmax(eProbs, axis=1) == eTarget))
-            typeAcc.append(avg(torch.argmax(tProbs, axis=1) == tTarget))
+            existAcc.append(avg((torch.argmax(eProbs, axis=1) == eTarget).float()))
+            typeAcc.append(avg((torch.argmax(tProbs, axis=1) == tTarget).float()))
         existAvg = avg(existAcc)
         typeAvg = avg(typeAcc)
         return {'existAccurarcy': existAvg, 'typeAccuracy': typeAvg}
@@ -348,7 +348,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
                     decodeNode(child)
             
         descriptors = tree.descriptors
-        edge_index = torch.from_numpy(np.array(tree.graph.edges).T).long()
+        edge_index = torch.from_numpy(np.array(tree.adjgraph.edges).T).long()
         pathEncodings = self.pathEncoder(descriptors, edge_index=edge_index)
         encodedFeatures = dict(map(lambda a : ((a[0],), a[1]), enumerate(pathEncodings)))
         # Store the features which are known not to
