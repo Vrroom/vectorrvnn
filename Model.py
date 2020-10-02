@@ -56,8 +56,12 @@ class VectorRvNNAutoEncoder (nn.Module) :
         """
         # TODO: Deal with test time graph inferrence.
         super(VectorRvNNAutoEncoder, self).__init__()
-        self.pathEncoder  = getModel(PathModules, config['path']['pathEncoder'])
-        self.pathDecoder  = getModel(PathModules, config['path']['pathDecoder'])
+        self.pathEncodeModules = nn.ModuleList(
+            [getModel(PathModules, cfg) for cfg in config['path']['pathEncoder']]
+        )
+        self.pathDecodeModules = nn.ModuleList(
+            [getModel(PathModules, cfg) for cfg in config['path']['pathDecoder']]
+        )
         self.mergeEncoder = getModel(RvNNModules, config['rvnn']['rvnnEncoder'])
         self.mergeDecoder = getModel(RvNNModules, config['rvnn']['rvnnDecoder'])
         self.splitter = getModel(RvNNModules, config['rvnn']['splitter'])
@@ -68,6 +72,16 @@ class VectorRvNNAutoEncoder (nn.Module) :
         self.config = config
         self.mseLoss = nn.MSELoss()
         self.creLoss = nn.CrossEntropyLoss()
+
+    def pathEncodingForward (self, x, edge_index) : 
+        for module in self.pathEncodeModules :
+            x = module(x, edge_index=edge_index)
+        return x
+
+    def pathDecodingForward (self, x, edge_index) : 
+        for module in self.pathDecodeModules : 
+            x = module(x, edge_index=edge_index)
+        return x
 
     def matchDescriptors (self, a, b) : 
         """
@@ -185,7 +199,8 @@ class VectorRvNNAutoEncoder (nn.Module) :
                 break
         leavesOfT = leaves(T)
         originalDescriptors = tree.descriptors
-        reconstructedDescriptors = self.pathDecoder(torch.stack([T.nodes[l]['feature'] for l in leavesOfT]))
+        leafFeatures = torch.stack([T.nodes[l]['feature'] for l in leavesOfT])
+        reconstructedDescriptors = self.pathDecodingForward(leafFeatures, edge_index=tree.edge_index())
         # Match the leaves with the original descriptors of the graphic. 
         matching = self.matchDescriptors(originalDescriptors, reconstructedDescriptors)
         leavesToBeKept = set()
@@ -348,8 +363,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
                     decodeNode(child)
             
         descriptors = tree.descriptors
-        edge_index = torch.from_numpy(np.array(tree.adjgraph.edges).T).long()
-        pathEncodings = self.pathEncoder(descriptors, edge_index=edge_index)
+        pathEncodings = self.pathEncodingForward(descriptors, edge_index=tree.edge_index())
         encodedFeatures = dict(map(lambda a : ((a[0],), a[1]), enumerate(pathEncodings)))
         # Store the features which are known not to
         # exist and use them for training the existence 
@@ -364,7 +378,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
         # Use the leaf node features and apply the pathDecoder to 
         # reconstruct the descriptors with which we started this process
         leafNodes = torch.stack([decodedFeatures[(i,)] for i in range(tree.nPaths)])
-        pathDecodings = self.pathDecoder(leafNodes, edge_index=edge_index)
+        pathDecodings = self.pathDecodingForward(leafNodes, edge_index=tree.edge_index())
         # Now, having completed the forward pass, its time for loss
         # computation.
         # Compute the mean squared loss between the root code

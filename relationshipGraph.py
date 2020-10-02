@@ -4,7 +4,7 @@ import itertools
 import networkx as nx
 from graphOps import subgraph
 import matplotlib.image as image
-from raster import rasterize, singlePathSvg
+from raster import rasterize, singlePathSvg, randomString
 
 def optimalRotationAndTranslation (pts1, pts2) : 
     """
@@ -209,13 +209,24 @@ def areaGraph (paths, **kwargs) :
     """
     paths = list(enumerate(paths))
     G = nx.Graph()
-    for i in range(len(paths)) :
+    imageDict = dict() 
+    for i, p in paths : 
         G.add_node(i)
+        p_ = copy.deepcopy(p)
+        p_[1].attrib = {'fill' : [0, 0, 0]}
+        rs = randomString(10)
+        singlePathSvg(p_, kwargs['vbox'], f'/tmp/{rs}.svg')
+        rasterize(f'/tmp/{rs}.svg', f'/tmp/{rs}.png', makeSquare=False)
+        img1 = image.imread(f'/tmp/{rs}.png')
+        img1 = img1[:, :, 3]
+        imageDict[i] = img1
     for p1, p2 in itertools.product(paths, paths) : 
         i, j = p1[0], p2[0]
         pi, pj = p1[1][0], p2[1][0]
         if i != j and pi != pj :
-            weight = pathIntersectionArea(p1[1], p2[1], kwargs['vbox'])
+            intersect = imageDict[i] * imageDict[j]
+            n, m = intersect.shape
+            weight = intersect.sum() / (n * m) 
             G.add_edge(i, j, etype='area', weight=weight)
     return G
 

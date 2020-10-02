@@ -74,6 +74,11 @@ class SVGData (nx.DiGraph) :
         edges = np.array(h.edges).T.reshape((2, -1))
         return torch.from_numpy(edges).long()
 
+    def edge_index (self, cuda=False) :
+        edges = torch.from_numpy(np.array(self.adjgraph.edges).T).long()
+        edges = edges.view((2, -1))
+        return edges
+
     def image2tensor (self, cuda=False) :
         """
         Since the first pass of the rasterized 
