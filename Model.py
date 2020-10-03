@@ -180,7 +180,9 @@ class VectorRvNNAutoEncoder (nn.Module) :
                     childStubs.append(stub)
             if len(childStubs) == 0 : 
                 return
-            childFeatures = self.mergeDecoder(torch.stack(childStubs))
+            childStubs = torch.stack(childStubs)
+            edge_index = self.mergeDecoder.classifierLoss(childStubs)
+            childFeatures = self.mergeDecoder(childStubs, edge_index)
             for cs, cf, nodeId in zip(childStubs, childFeatures, nodeIds) : 
                 T.nodes[nodeId]['feature'] = cf
                 if not self.isLeaf(cs):  
@@ -321,6 +323,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
             of them exist in the tree. 
             """
             if tree.out_degree(node) > 0 :
+                nonlocal totalEdgeLoss
                 feature  = decodedFeatures[tree.nodes[node]['pathSet']]
                 # The splitter module gives us a vector
                 # for each child of this node. We have 
@@ -357,6 +360,8 @@ class VectorRvNNAutoEncoder (nn.Module) :
                 childStubs = torch.stack(childStubs)
                 edge_index = tree.edgeIndicesAtLevel(node)
                 childFeatures = self.mergeDecoder(childStubs, edge_index=edge_index)
+                edgeLoss = self.mergeDecoder.classifierLoss(childStubs, edge_index)
+                totalEdgeLoss += edgeLoss
                 # Update the dictionary of decoded features.
                 decodedFeatures.update(zip(neighborPathSets, childFeatures))
                 for child in tree.neighbors(node):  
@@ -374,6 +379,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
         encodeNode(tree.root)
         rootPathSet = tree.nodes[tree.root]['pathSet']
         decodedFeatures = {rootPathSet : encodedFeatures[rootPathSet]}
+        totalEdgeLoss = 0
         decodeNode(tree.root)
         # Use the leaf node features and apply the pathDecoder to 
         # reconstruct the descriptors with which we started this process
@@ -402,6 +408,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
         # Reconstruction loss for the inferred bounding boxes.
         bboxLoss = sum([self.mseLoss(b, t) for (b, t, _) in boxAndTargets])
         losses = {
+            'edgeLoss' : totalEdgeLoss,
             'descReconLoss': descReconLoss, 
             'bboxLoss': bboxLoss,
             'rasterEncoderLoss': rasterEncoderLoss,
