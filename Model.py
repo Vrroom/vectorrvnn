@@ -181,7 +181,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
             if len(childStubs) == 0 : 
                 return
             childStubs = torch.stack(childStubs)
-            edge_index = self.mergeDecoder.classifierLoss(childStubs)
+            edge_index = self.mergeDecoder.edgeInference(childStubs)
             childFeatures = self.mergeDecoder(childStubs, edge_index)
             for cs, cf, nodeId in zip(childStubs, childFeatures, nodeIds) : 
                 T.nodes[nodeId]['feature'] = cf

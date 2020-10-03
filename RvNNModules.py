@@ -99,8 +99,7 @@ class EdgeClassifier (nn.Module) :
         )
         self.nn2 = nn.Linear(hidden_size, 2)
 
-    def forward (self, x) :
-        x1, x2 = torch.split(x, 1)
+    def forward (self, x1, x2) :
         f1 = self.nn1(x1)
         f2 = self.nn1(x2)
         return self.nn2(f1 + f2)
@@ -115,11 +114,11 @@ class GraphMergeDecoder (nn.Module) :
         nn1 = nn.Sequential(
             nn.Linear(input_size, hidden_size),
             nn.ReLU(),
-            nn.Linear(hidden_size, hidden_size)
+            nn.Linear(hidden_size, input_size)
         )
         self.conv1 = GINConv(nn1)
         nn2 = nn.Sequential(
-            nn.Linear(hidden_size, hidden_size), 
+            nn.Linear(input_size, hidden_size), 
             nn.ReLU(), 
             nn.Linear(hidden_size, input_size)
         )
@@ -127,30 +126,34 @@ class GraphMergeDecoder (nn.Module) :
         self.creLoss = nn.CrossEntropyLoss()
 
     def edgeInference (self, x) : 
-        x_ = enumerate(x)
+        x_ = list(enumerate(x))
         edge_list = []
         for (i, f1), (j, f2) in product(x_, x_[1:]) : 
-            ef = torch.cat((f1, f2))
-            scores = self.edgeExistClassifier(ef)
+            scores = self.edgeExistClassifier(f1, f2)
             probs = torch.softmax(scores, dim=-1)
             if int(Categorical(probs).sample()) == 1 :
                 edge_list.append((i, j))
-        edge_index = torch.tensor(edge_list).t()
+        edge_index = torch.tensor(edge_list).t().long().view((2, -1))
         return edge_index
 
     def classifierLoss (self, x, presentEdges) :
         n, *_ = x.shape
-        presentEdges = set(presentEdges.t().tolist())
-        edgeX, y = [], []
+        presentEdges = presentEdges.t().tolist()
+        presentEdges = [tuple(e) for e in presentEdges]
+        presentEdges = set(presentEdges)
+        node1, node2 = [], []
+        y = []
         for i, j in product(range(n), range(1, n)) :
-            edgeX.append(torch.stack((x[i], x[j])))
+            node1.append(x[i])
+            node2.append(x[j])
             if (i, j) in presentEdges or (j, i) in presentEdges : 
                 y.append(1)       
             else : 
                 y.append(0)
-        edgeX = torch.cat(edgeX)
-        y = torch.cat(y)
-        return self.creLoss(edgeX, y)
+        y = torch.tensor(y)
+        node1 = torch.stack(node1)
+        node2 = torch.stack(node2)
+        return self.creLoss(self.edgeExistClassifier(node1, node2), y)
 
     def forward(self, x, edge_index) : 
         x1 = F.relu(self.conv1(x, edge_index))
