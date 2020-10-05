@@ -85,6 +85,8 @@ class SVGData (nx.DiGraph) :
         graphic is through the resnet, we 
         need to normalize it.
         """
+        if isinstance(self.image, torch.Tensor) : 
+            return
         self.image = torch.from_numpy(self.image)
         self.image = self.image.permute(2, 0, 1)
         normalizer = T.Normalize(mean=[0.485, 0.456, 0.406],
@@ -95,11 +97,15 @@ class SVGData (nx.DiGraph) :
             self.image = self.image.cuda()
     
     def descriptor2tensor (self, cuda=False) :
+        if isinstance(self.descriptors, torch.Tensor) : 
+            return
         self.descriptors = torch.tensor(self.descriptors)
         if cuda : 
             self.descriptors = self.descriptors.cuda()
 
     def bbox2tensor (self, cuda=False) :  
+        if isinstance(self.pathViewBoxes, torch.Tensor) : 
+            return
         self.pathViewBoxes = torch.tensor(self.pathViewBoxes)
         for n in self.nodes : 
             self.nodes[n]['bbox'] = torch.tensor(self.nodes[n]['bbox'])

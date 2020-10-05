@@ -83,7 +83,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
             x = module(x, edge_index=edge_index)
         return x
 
-    def matchDescriptors (self, a, b) : 
+    def matchDescriptors (self, a, b, c) : 
         """
         Match two sets of descriptors on the
         basis of mean squared error between them.
@@ -97,8 +97,10 @@ class VectorRvNNAutoEncoder (nn.Module) :
         ----------
         a : torch.tensor
         b : torch.tensor
+        c : function
+            Cost function.
         """
-        costs = [float(self.mseLoss(c1.squeeze(), c2.squeeze())) for c1, c2 in product(a, b)]
+        costs = [float(c(c1.squeeze(), c2.squeeze())) for c1, c2 in product(a, b)]
         allPairs = product(range(len(a)), range(len(b)))
         costTable = dict(zip(allPairs, costs))
         matching = optimalBipartiteMatching(costTable)
@@ -204,7 +206,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
         leafFeatures = torch.stack([T.nodes[l]['feature'] for l in leavesOfT])
         reconstructedDescriptors = self.pathDecodingForward(leafFeatures, edge_index=tree.edge_index())
         # Match the leaves with the original descriptors of the graphic. 
-        matching = self.matchDescriptors(originalDescriptors, reconstructedDescriptors)
+        matching = self.matchDescriptors(originalDescriptors, reconstructedDescriptors, self.mseLoss)
         leavesToBeKept = set()
         # Prune all the un-matched leaves in the sampled tree.
         for i in range(len(originalDescriptors)) : 
@@ -332,7 +334,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
                 candidates = self.splitter(feature)
                 boxEstimates = [self.bbox(candidate) for candidate in candidates]
                 boxOriginals = [tree.nodes[n]['bbox'] for n in tree.neighbors(node)]
-                matching = self.matchDescriptors(boxOriginals, boxEstimates)
+                matching = self.matchDescriptors(boxOriginals, boxEstimates, lambda a, b : -iou(a, b))
                 # Now based on the matching, we have to decide
                 # which stubs correspond to existing nodes, non-existing
                 # nodes, leaf nodes and internal nodes.
@@ -406,7 +408,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
         # Measured as a mean squared loss.
         descReconLoss = self.mseLoss(descriptors, pathDecodings)
         # Reconstruction loss for the inferred bounding boxes.
-        bboxLoss = sum([self.mseLoss(b, t) for (b, t, _) in boxAndTargets])
+        bboxLoss = sum([-iou(b, t) for (b, t, _) in boxAndTargets])
         losses = {
             'edgeLoss' : totalEdgeLoss,
             'descReconLoss': descReconLoss, 
