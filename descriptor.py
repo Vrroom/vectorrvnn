@@ -237,7 +237,7 @@ def equiDistantSamples (path, docbb, nSamples=5, **kwargs) :
     """
     ts = np.linspace(0, 1, nSamples)
     L = path.length()
-    pts = [path.point(path.ilength(t * L)) for t in ts]
+    pts = [path.point(path.ilength(t * L, 1e-4)) for t in ts]
     dx, dy = docbb[2] - docbb[0], docbb[3] - docbb[1]
     x = [p.real / dx for p in pts]
     y = [p.imag / dy for p in pts]

@@ -14,11 +14,12 @@ class SVGDataSet (data.Dataset, Saveable) :
     """
     Pre-processed trees from clustering algorithm.
     """
-    def __init__ (self, svgDir, graph, samples, **kwargs) : 
-        self.svgDir = svgDir
-        self.svgFiles = listdir(svgDir) 
+    def __init__ (self, dataDir, graph, samples, **kwargs) : 
+        self.dataDir = dataDir
+        dataPts = map(listdir, listdir(dataDir))
+        self.dataPts = list(map(lambda x : list(reversed(x)), dataPts))
         with mp.Pool(maxtasksperchild=30) as p : 
-            self.svgDatas = p.map(partial(SVGData, graph=graph, samples=samples), self.svgFiles)
+            self.svgDatas = p.starmap(partial(SVGData, graph=graph, samples=samples), self.dataPts)
 
     def __getitem__ (self, index) :
         return self.svgDatas[index]
@@ -28,7 +29,7 @@ class SVGDataSet (data.Dataset, Saveable) :
             self.svgDatas[i].toTensor()
 
     def __len__ (self) : 
-        return len(self.svgFiles)
+        return len(self.dataPts)
 
 class DatasetCache (Saveable) :
 

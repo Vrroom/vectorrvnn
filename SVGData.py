@@ -11,10 +11,15 @@ from treeOps import findRoot, treeApplyChildrenFirst
 from torchvision import transforms as T
 import torch
 from svgIO import getTreeStructureFromSVG
+from graphIO import GraphReadWrite
+
+def isDegenerateBBox (box) : 
+    _, _, h, w = box
+    return h == 0 and w == 0 
 
 class SVGData (nx.DiGraph) : 
 
-    def __init__ (self, svgFile, graph, samples) : 
+    def __init__ (self, svgFile, treeJson, graph, samples) : 
         """
         Constructor.
 
@@ -27,15 +32,17 @@ class SVGData (nx.DiGraph) :
         # The pathSet attribute also has indices which 
         # are the same as how the svgpathtools library
         # orders the paths.
-        super(SVGData, self).__init__(getTreeStructureFromSVG(svgFile))
+        super(SVGData, self).__init__(GraphReadWrite('tree').read(treeJson))
         self.root = findRoot(self)
         self.svgFile = svgFile
-        self.image = SVGtoNumpyImage(svgFile, H=224, W=224)
+        # self.image = SVGtoNumpyImage(svgFile, H=224, W=224)
+        self.image = np.zeros((224, 224, 3))
         graphFn = getattr(relationshipGraph, graph)
         doc = svg.Document(svgFile)
-        paths = doc.flatten_all_paths()
-        self.nPaths = len(paths)
         docViewBox = doc.get_viewbox()
+        paths = doc.flatten_all_paths()
+        paths = [p for p in paths if not isDegenerateBBox(relbb(p.path, docViewBox))]
+        self.nPaths = len(paths)
         self.pathViewBoxes = [relbb(p.path, docViewBox) for p in paths]
         # The nodes in the graph are indexed according
         # to the order they come up in the list.
@@ -43,6 +50,11 @@ class SVGData (nx.DiGraph) :
         nSamples = samples
         self.descriptors = [equiDistantSamples(p.path, docViewBox, nSamples=nSamples) for p in paths]
         self._computeBBoxes(self.root)
+        self._pathSet2Tuple()
+
+    def _pathSet2Tuple (self) : 
+        for n in self.nodes :
+            self.nodes[n]['pathSet'] = tuple(self.nodes[n]['pathSet'])
 
     def _computeBBoxes (self, node) : 
         if self.out_degree(node) == 0 : 
@@ -87,7 +99,7 @@ class SVGData (nx.DiGraph) :
         """
         if isinstance(self.image, torch.Tensor) : 
             return
-        self.image = torch.from_numpy(self.image)
+        self.image = torch.from_numpy(self.image).float()
         self.image = self.image.permute(2, 0, 1)
         normalizer = T.Normalize(mean=[0.485, 0.456, 0.406],
                                  std=[0.229, 0.224, 0.225])

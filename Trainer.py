@@ -309,7 +309,8 @@ class Trainer () :
         self.logger.info(f'iouConsistency : {autoencoder.iouConsistency(data)}')
         with torch.multiprocessing.Pool(maxtasksperchild=30) as p: 
             trees = list(map(autoencoder.sample, data))
-            scores = list(map(autoencoder.score, data))
+            # scores = list(map(autoencoder.score, data))
+        scores = [1]
         return scores, trees, data
 
     def crossValidate(self, config, autoencoder, configPath) :
@@ -345,11 +346,11 @@ class Trainer () :
         config = self.configs[argmin(self.modelScores)]
         self.saveSnapshots(self.testDir, bestAutoEncoder, 'bestAutoEncoder.pkl')
         scores, trees, ogTrees = self._score(config, bestAutoEncoder, self.testCache) 
-        self.drawTrees(trees, ogTrees, self.testCache.svgFiles, self.finalTreesDir)
+        self.drawTrees(trees, ogTrees, self.finalTreesDir)
         score = avg(scores)
         self.logger.info(f'Test Score : {score}')
 
-    def drawTrees (self, treeList, ogTreeList, fileList, path) :
+    def drawTrees (self, treeList, ogTreeList, path) :
         """
         Convenience function to visualize hierarchies.
 
@@ -357,12 +358,11 @@ class Trainer () :
         ----------
         treeList : list
             Trees to be drawn.
-        fileList : list
-            Their corresponding graphics.
         path : str
             Where to save tree plots.
         """
-        for tree, ogTree, file in zip(treeList, ogTreeList, fileList) : 
+        for tree, ogTree in zip(treeList, ogTreeList) : 
+            file = ogTree.svgFile
             fname = osp.join(path, osp.splitext(osp.split(file)[1])[0])
             doc = svg.Document(file)
             paths = doc.flatten_all_paths()
