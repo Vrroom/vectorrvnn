@@ -8,6 +8,7 @@ import RvNNModules
 from RvNNModules import *
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from RasterEncoderModule import RasterEncoder
 import more_itertools
 from itertools import product
@@ -20,22 +21,39 @@ def getModel (module, config) :
     className = config['type']
     return getattr(module, className)(config)
 
+class SkipLayer (nn.Module) :
+
+    def __init__ (self, input_size, hidden_size, dropout=0.5) : 
+        super(SkipLayer, self).__init__()
+        self.nn1 = nn.Linear(input_size, hidden_size) 
+        self.nn2 = nn.Linear(hidden_size, input_size)
+        self.dropout = nn.Dropout(dropout)
+
+    def forward (self, x) : 
+        h = F.relu(self.nn1(x))
+        o = self.dropout(self.nn2(h))
+        return x + o
+
 def classifier (config) : 
-    feature_size = config['input_size']
+    input_size = config['input_size']
     hidden_size = config['hidden_size']
     return nn.Sequential(
-        nn.Linear(feature_size, hidden_size),
+        SkipLayer(input_size, hidden_size),
         nn.ReLU(),
-        nn.Linear(hidden_size, 2),
+        SkipLayer(input_size, hidden_size),
+        nn.ReLU(),
+        nn.Linear(input_size, 2),
     )
 
 def bboxModel (config) : 
-    feature_size = config['input_size']
+    input_size = config['input_size']
     hidden_size = config['hidden_size']
     return nn.Sequential(
-        nn.Linear(feature_size, hidden_size),
+        SkipLayer(input_size, hidden_size),
         nn.ReLU(),
-        nn.Linear(hidden_size, 4),
+        SkipLayer(input_size, hidden_size),
+        nn.ReLU(),
+        nn.Linear(input_size, 4),
         nn.Sigmoid()
     )
 
@@ -184,7 +202,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
                 return
             childStubs = torch.stack(childStubs)
             edge_index = self.mergeDecoder.edgeInference(childStubs)
-            childFeatures = self.mergeDecoder(childStubs, edge_index)
+            childFeatures = self.mergeDecoder(childStubs, edge_index=edge_index)
             for cs, cf, nodeId in zip(childStubs, childFeatures, nodeIds) : 
                 T.nodes[nodeId]['feature'] = cf
                 if not self.isLeaf(cs):  

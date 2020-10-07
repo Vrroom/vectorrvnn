@@ -48,6 +48,12 @@ class MLPMergeDecoder (nn.Module):
             nn.Linear(hidden_size, input_size)
         )
 
+    def classifierLoss (self, x, presentEdges) : 
+        return torch.tensor(0.)
+
+    def edgeInference (self, x) :
+        pass
+
     def forward(self, x, **kwargs) : 
         return self.mlp(x)
 
