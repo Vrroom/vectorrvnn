@@ -1,4 +1,5 @@
 import numpy as np
+import heapq
 from torch.distributions import Categorical
 import networkx as nx
 from treeOps import *
@@ -12,8 +13,9 @@ import torch.nn.functional as F
 from RasterEncoderModule import RasterEncoder
 import more_itertools
 from itertools import product
-from matching import optimalBipartiteMatching
-from listOps import avg
+from functools import partial
+from matching import optimalBipartiteMatching, bestAssignmentCost
+from listOps import avg, subsets, isDisjoint, argmin
 from losses import iou
 from treeCompare import ted
 
@@ -82,6 +84,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
         )
         self.mergeEncoder = getModel(RvNNModules, config['rvnn']['rvnnEncoder'])
         self.mergeDecoder = getModel(RvNNModules, config['rvnn']['rvnnDecoder'])
+        self.maxChildren = config['rvnn']['splitter']['max_children']
         self.splitter = getModel(RvNNModules, config['rvnn']['splitter'])
         self.rasterEncoder = RasterEncoder(config['raster']['feature_size'])
         self.existClassifier = classifier(config['classifier'])
@@ -100,6 +103,12 @@ class VectorRvNNAutoEncoder (nn.Module) :
         for module in self.pathDecodeModules : 
             x = module(x, edge_index=edge_index)
         return x
+
+    def _oneStepReconError (self, childFeatures) : 
+        root = self.mergeEncoder(childFeatures)
+        childStubs = self.splitter(root) 
+        reconstructed = self.mergeDecoder(childStubs)
+        return self.matchingCost(childFeatures, reconstructed, self.mseLoss)
 
     def matchDescriptors (self, a, b, c) : 
         """
@@ -123,6 +132,12 @@ class VectorRvNNAutoEncoder (nn.Module) :
         costTable = dict(zip(allPairs, costs))
         matching = optimalBipartiteMatching(costTable)
         return matching
+
+    def matchingCost (self, a, b, c) : 
+        costs = [float(c(c1.squeeze(), c2.squeeze())) for c1, c2 in product(a, b)]
+        allPairs = product(range(len(a)), range(len(b)))
+        costTable = dict(zip(allPairs, costs))
+        return bestAssignmentCost(costTable)
 
     def exists (self, x) : 
         """
@@ -187,8 +202,6 @@ class VectorRvNNAutoEncoder (nn.Module) :
             end up with stack overflow. Hence, we only 
             allow trees to have a fixed depth.
             """
-            if maxDepth == 0: 
-                return 
             candidateStubs = self.splitter(feature)
             childStubs = []
             nodeIds = []
@@ -248,6 +261,43 @@ class VectorRvNNAutoEncoder (nn.Module) :
     def score (self, tree) :
         tree_ = self.sample(tree)
         return ted(tree, tree_)
+
+    def lowReconstructionErrorTree (self, tree) : 
+        descriptors = tree.descriptors
+        pathIndices = list(range(tree.nPaths))
+        pathEncodings = self.pathEncodingForward(descriptors, edge_index=tree.edge_index())
+        error = dict(product(pathIndices, [0]))
+        features = dict(zip(pathIndices, pathEncodings))
+        # K = self.max_children
+        K = 2
+        candidates = list(subsets(pathIndices, K))
+        stackFeatures = lambda candidate : torch.stack([features[c] for c in candidate])
+        while len(candidates) > 0 : 
+            oldErrors = [sum([error[c] for c in candidate]) for candidate in candidates]
+            newErrors = [self._oneStepReconError(stackFeatures(_)) for _ in candidates]
+            totalErrors = [o + n for o, n in zip(oldErrors, newErrors)]
+            minErrorIndex = argmin(totalErrors)
+            bestCandidate = candidates[minErrorIndex]
+            bases = list(filter(lambda k : k not in bestCandidate, error.keys()))
+            bases.append(bestCandidate)
+            error[bestCandidate] = totalErrors[minErrorIndex]
+            features[bestCandidate] = self.mergeEncoder(stackFeatures(bestCandidate))
+            for key in bestCandidate : 
+                del error[key]
+                del features[key]
+            candidates = list(subsets(bases, K))
+        T = nx.DiGraph()
+        while len(bases) > 0 : 
+            parent = bases.pop()
+            if isinstance(parent, int) :
+                pathSet = [parent]
+            else : 
+                pathSet = list(more_itertools.collapse(parent))
+                for child in parent : 
+                    T.add_edge(parent, child)
+                bases.extend(parent)
+            T.nodes[parent]['pathSet'] = pathSet 
+        return T
 
     def classificationAccuracy (self, trees) : 
         """

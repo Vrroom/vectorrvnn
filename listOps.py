@@ -1,4 +1,9 @@
 import itertools
+from itertools import combinations, chain
+
+def subsets (lst, k) : 
+    combs = map(lambda i: combinations(lst, i), range(2, k + 1))
+    return itertools.chain(*combs)
 
 def avg (lst) : 
     assert len(lst) != 0, "No average for empty list"
@@ -53,6 +58,13 @@ def argmin(lst) :
     lst : list
     """
     return next(filter(lambda x : min(lst) == lst[x], range(len(lst))))
+
+def isDisjoint(a, b) : 
+    if isinstance(a, int) : 
+        a = [a]
+    if isinstance(b, int) : 
+        b = [b]
+    return len(set(a).intersection(set(b))) == 0
 
 def pairwiseDisjoint (setList) :
     """
