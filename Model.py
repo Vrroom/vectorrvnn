@@ -74,7 +74,6 @@ class VectorRvNNAutoEncoder (nn.Module) :
             Contains information regarding which modules
             to use for current experiment.
         """
-        # TODO: Deal with test time graph inferrence.
         super(VectorRvNNAutoEncoder, self).__init__()
         self.pathEncodeModules = nn.ModuleList(
             [getModel(PathModules, cfg) for cfg in config['path']['pathEncoder']]
@@ -84,7 +83,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
         )
         self.mergeEncoder = getModel(RvNNModules, config['rvnn']['rvnnEncoder'])
         self.mergeDecoder = getModel(RvNNModules, config['rvnn']['rvnnDecoder'])
-        self.maxChildren = config['rvnn']['splitter']['max_children']
+        self.K = config['bottom_up_K']
         self.splitter = getModel(RvNNModules, config['rvnn']['splitter'])
         self.rasterEncoder = RasterEncoder(config['raster']['feature_size'])
         self.existClassifier = classifier(config['classifier'])
@@ -258,6 +257,10 @@ class VectorRvNNAutoEncoder (nn.Module) :
         treeApplyChildrenFirst(T, findRoot(T), aggregatePathSets)
         return T
 
+    def bottomUpScore (self, tree) : 
+        tree_ = self.lowReconstructionErrorTree(tree)
+        return ted(tree, tree_)
+
     def score (self, tree) :
         tree_ = self.sample(tree)
         return ted(tree, tree_)
@@ -268,8 +271,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
         pathEncodings = self.pathEncodingForward(descriptors, edge_index=tree.edge_index())
         error = dict(product(pathIndices, [0]))
         features = dict(zip(pathIndices, pathEncodings))
-        # K = self.max_children
-        K = 2
+        K = self.K
         candidates = list(subsets(pathIndices, K))
         stackFeatures = lambda candidate : torch.stack([features[c] for c in candidate])
         while len(candidates) > 0 : 

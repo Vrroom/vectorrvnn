@@ -100,7 +100,7 @@ class Trainer () :
         self.modelScores = []
         logging.basicConfig(filename=commonConfig['log_file'], level=logging.INFO)
         self.logger = logging.getLogger('Trainer')
-        # self._makeAllDirs()
+        self._makeAllDirs()
 
     def _makeDir (self, path) :
         """
@@ -307,10 +307,9 @@ class Trainer () :
         self.logger.info(f'Classification : {autoencoder.classificationAccuracy(data)}')
         self.logger.info(f'iouAvg : {autoencoder.iouAvg(data)}')
         self.logger.info(f'iouConsistency : {autoencoder.iouConsistency(data)}')
-        # with torch.multiprocessing.Pool(maxtasksperchild=30) as p: 
-        trees = list(map(autoencoder.lowReconstructionErrorTree, data))
-            # scores = list(map(autoencoder.score, data))
-        scores = [1]
+        with torch.multiprocessing.Pool(maxtasksperchild=30) as p: 
+            trees = p.map(autoencoder.lowReconstructionErrorTree, data)
+            scores = p.map(autoencoder.bottomUpScore, data)
         return scores, trees, data
 
     def crossValidate(self, config, autoencoder, configPath) :
@@ -342,13 +341,11 @@ class Trainer () :
         the inferred trees in the directory.
         """
         self.logger.info('Loading Test Data')
-        bestAutoEncoder = torch.load('/Users/amaltaas/BTP/vectorrvnn/Expts/Expt_2020-10-07/Models/config0/Models/autoencoder.pkl')
-        # bestAutoEncoder = self.models[argmin(self.modelScores)]
-        # config = self.configs[argmin(self.modelScores)]
-        config = self.configs[0]
-        # self.saveSnapshots(self.testDir, bestAutoEncoder, 'bestAutoEncoder.pkl')
+        bestAutoEncoder = self.models[argmin(self.modelScores)]
+        config = self.configs[argmin(self.modelScores)]
+        self.saveSnapshots(self.testDir, bestAutoEncoder, 'bestAutoEncoder.pkl')
         scores, trees, ogTrees = self._score(config, bestAutoEncoder, self.testCache) 
-        self.drawTrees(trees, ogTrees, '/Users/amaltaas/BTP/vectorrvnn/Expts/Expt_2020-10-07/Test/FinalTrees')
+        self.drawTrees(trees, ogTrees, self.finalTreesDir)
         score = avg(scores)
         self.logger.info(f'Test Score : {score}')
 
@@ -400,7 +397,7 @@ def main () :
         with open(configFilePath) as fd : 
             configs.append(json.load(fd))
     with Trainer(commonConfig, configs) as trainer : 
-        # trainer.run()
+        trainer.run()
         trainer.test()
 
 if __name__ == "__main__" :

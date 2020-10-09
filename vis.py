@@ -16,7 +16,7 @@ def treeAxisFromGraph(G, ax) :
     nx.draw(G, pos, ax=ax, node_size=0.5, arrowsize=1)
     for n in G :
         img = svgStringToBitmap(G.nodes[n]['svg'])
-        imagebox = OffsetImage(img, zoom=0.2)
+        imagebox = OffsetImage(img, zoom=0.1)
         imagebox.image.axes = ax
         ab = AnnotationBbox(imagebox, pos[n], pad=0)
         ax.add_artist(ab)
@@ -137,7 +137,7 @@ if __name__ == "__main__" :
     import svgpathtools as svg
     from svgIO import setSVGAttributes
     from Dataset import SVGDataSet
-    dataset = SVGDataSet('/Users/amaltaas/BTP/vectorrvnn/PartNetSubset/CV', 'adjGraph', 10)
+    dataset = SVGDataSet('/Users/amaltaas/BTP/vectorrvnn/ManuallyAnnotatedDataset/CV', 'adjGraph', 10)
     doc = svg.Document(dataset[0].svgFile)
     paths = doc.flatten_all_paths()
     vb = doc.get_viewbox()
@@ -151,5 +151,5 @@ if __name__ == "__main__" :
     treeAxisFromGraph(dataset[1], ax2)
     ax1.set_title("og")
     ax2.set_title("inf")
-    fig.savefig('asfa.png')
+    fig.savefig('out.png')
     plt.close(fig)

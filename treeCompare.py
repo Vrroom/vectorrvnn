@@ -28,7 +28,7 @@ def ted (t1, t2) :
     n, m = t1.number_of_nodes(), t2.number_of_nodes()
     allPairs = list(product(range(n), range(m)))
     nodes1, nodes2 = list(t1.nodes), list(t2.nodes)
-    v = np.array([[LpVariable(f'm_{x}_{y}', cat='Binary') for y in range(m)] for x in range(n)])
+    v = np.array([[LpVariable(f'm_{x}_{y}', lowBound=0, upBound=1) for y in range(m)] for x in range(n)])
     distanceMatrix = np.array([[d(x, y) for y in nodes2] for x in nodes1])
     prob = LpProblem("TreeEditDistance", LpMinimize)
     prob += (v * (distanceMatrix - 2)).sum()
@@ -37,12 +37,14 @@ def ted (t1, t2) :
     for y in range(m) : 
         prob += v[:,y].sum() <= 1
     for (x, y), (x_, y_) in product(allPairs, allPairs) : 
-        if x_ in descendants(t1, x) and y_ not in descendants(t2, y) : 
+        node_x, node_x_ = nodes1[x], nodes1[x_]
+        node_y, node_y_ = nodes2[y], nodes2[y_]
+        if node_x_ in descendants(t1, node_x) and node_y_ not in descendants(t2, node_y) : 
             prob += v[x, y] + v[x_, y_] <= 1
-        if x_ not in descendants(t1, x) and y_ in descendants(t2, y) : 
+        if node_x_ not in descendants(t1, node_x) and node_y_ in descendants(t2, node_y) : 
             prob += v[x, y] + v[x_, y_] <= 1
     prob.solve()
-    return value(prob.objective) + n + m
+    return int(value(prob.objective) + n + m)
 
 def treeKCut (tree, k) :
     """
