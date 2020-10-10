@@ -9,6 +9,27 @@ from functools import reduce
 import math
 from collections.abc import Iterable
 
+class Sampler (nn.Module) : 
+    """
+    Taken from structurenet.
+    """
+    def __init__ (self, config) : 
+        super(Sampler, self).__init__() 
+        self.input_size = config['input_size']
+        self.hidden_size = config['hidden_size']
+        self.nn1 = nn.Linear(self.input_size, self.hidden_size)
+        self.nnMu = nn.Linear(self.hidden_size, self.input_size)
+        self.nnVar = nn.Linear(self.hidden_size, self.input_size)
+
+    def forward (self, x) : 
+        encode = F.relu(self.nn1(x))
+        mu = self.nnMu(encode)
+        logVar = self.nnVar(encode)
+        std = logVar.mul(0.5).exp()
+        eps = torch.randn_like(std)
+        kld = mu.pow(2).add_(logVar.exp()).mul_(-1).add_(1).add_(logVar)
+        return torch.cat((eps.mul(std).add_(mu), kld), 1)
+
 class CyclicPathEncoder (nn.Module): 
 
     def __init__ (self, config) : 

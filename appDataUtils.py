@@ -9,6 +9,7 @@ import more_itertools
 from svgIO import setSVGAttributes
 from treeOps import findRoot, treeApplyChildrenFirst
 from vis import matplotlibFigureSaver, treeImageFromGraph
+from raster import singlePathSvg, rasterize
 
 def nodeLinks2tree (nodeLinks) : 
     def aggregatePathSets (T, r, neighbors) :
@@ -33,7 +34,7 @@ if __name__ == "__main__" :
     db = DB('localVectors')
     query = 'select vectorgraphs.id, vectorgraphs.graph, vectorimages.svg from vectorimages inner join vectorgraphs on vectorimages.id = vectorgraphs.id;'
     items = db.query(query).dictresult()
-    dataDir = './ManuallyAnnotatedDataset'
+    dataDir = '/Users/amaltaas/BTP/vectorrvnn/ManuallyAnnotatedDataset'
     for i, item in enumerate(items) : 
         try : 
             graph = item['graph']
@@ -50,6 +51,12 @@ if __name__ == "__main__" :
             datumPath = osp.join(dataDir, str(i))
             os.mkdir(datumPath)
             doc.save(osp.join(datumPath, f'{i}.svg'))
+
+            for j, path in enumerate(paths): 
+                rasterFilePath = osp.join(datumPath, f'path_{j+1}.png')
+                singlePathSvg(path, vb, '/tmp/o.svg')
+                rasterize('/tmp/o.svg', rasterFilePath, H=28, W=28)
+
             GraphReadWrite('tree').write((tree, findRoot(tree)), osp.join(datumPath, f'{i}.json'))
         except Exception as e:
             print(f'{e} happened')
