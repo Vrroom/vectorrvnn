@@ -129,12 +129,13 @@ class MLPPathDecoder(nn.Module):
         self.output_size = output_size
         if isinstance(output_size, Iterable) :
             output_size = reduce(lambda a, b : a * b, output_size)
-        self.mlp = nn.Linear(feature_size, output_size)
-        self.tanh = nn.Tanh()
+        self.mlp = nn.Sequential(
+            nn.Linear(feature_size, output_size),
+            nn.Sigmoid()
+        )
 
     def forward(self, parent_feature, **kwargs):
         x = self.mlp(parent_feature)
-        x = self.tanh(x)
         return x.view((-1, *self.output_size))
 
 class GraphNet (nn.Module) :

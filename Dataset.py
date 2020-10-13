@@ -17,6 +17,7 @@ class SVGDataSet (data.Dataset, Saveable) :
     def __init__ (self, dataDir, graph, samples, **kwargs) : 
         self.dataDir = dataDir
         dataPts = map(listdir, listdir(dataDir))
+        dataPts = map(lambda l : [_ for _ in l if not _.endswith('png')], dataPts)
         self.dataPts = list(map(lambda x : list(reversed(x)), dataPts))
         with mp.Pool(maxtasksperchild=30) as p : 
             self.svgDatas = p.starmap(partial(SVGData, graph=graph, samples=samples), self.dataPts)
