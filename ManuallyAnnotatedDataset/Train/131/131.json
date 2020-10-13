@@ -1,0 +1,157 @@
+{
+    "pathSet": [
+        3,
+        7,
+        2,
+        8,
+        9,
+        1,
+        4,
+        0,
+        5,
+        6
+    ],
+    "id": 18,
+    "children": [
+        {
+            "pathSet": [
+                3,
+                7,
+                2,
+                8,
+                9
+            ],
+            "id": 16,
+            "children": [
+                {
+                    "pathSet": [
+                        3,
+                        7
+                    ],
+                    "id": 13,
+                    "children": [
+                        {
+                            "pathSet": [
+                                3
+                            ],
+                            "id": 3
+                        },
+                        {
+                            "pathSet": [
+                                7
+                            ],
+                            "id": 7
+                        }
+                    ]
+                },
+                {
+                    "pathSet": [
+                        2,
+                        8,
+                        9
+                    ],
+                    "id": 15,
+                    "children": [
+                        {
+                            "pathSet": [
+                                2
+                            ],
+                            "id": 2
+                        },
+                        {
+                            "pathSet": [
+                                8,
+                                9
+                            ],
+                            "id": 11,
+                            "children": [
+                                {
+                                    "pathSet": [
+                                        8
+                                    ],
+                                    "id": 8
+                                },
+                                {
+                                    "pathSet": [
+                                        9
+                                    ],
+                                    "id": 9
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "pathSet": [
+                1,
+                4,
+                0,
+                5,
+                6
+            ],
+            "id": 17,
+            "children": [
+                {
+                    "pathSet": [
+                        1,
+                        4
+                    ],
+                    "id": 12,
+                    "children": [
+                        {
+                            "pathSet": [
+                                1
+                            ],
+                            "id": 1
+                        },
+                        {
+                            "pathSet": [
+                                4
+                            ],
+                            "id": 4
+                        }
+                    ]
+                },
+                {
+                    "pathSet": [
+                        0,
+                        5,
+                        6
+                    ],
+                    "id": 14,
+                    "children": [
+                        {
+                            "pathSet": [
+                                0
+                            ],
+                            "id": 0
+                        },
+                        {
+                            "pathSet": [
+                                5,
+                                6
+                            ],
+                            "id": 10,
+                            "children": [
+                                {
+                                    "pathSet": [
+                                        5
+                                    ],
+                                    "id": 5
+                                },
+                                {
+                                    "pathSet": [
+                                        6
+                                    ],
+                                    "id": 6
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

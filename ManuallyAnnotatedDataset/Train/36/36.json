@@ -1,0 +1,78 @@
+{
+    "pathSet": [
+        0,
+        2,
+        3,
+        4,
+        1,
+        5
+    ],
+    "id": 9,
+    "children": [
+        {
+            "pathSet": [
+                0,
+                2
+            ],
+            "id": 6,
+            "children": [
+                {
+                    "pathSet": [
+                        0
+                    ],
+                    "id": 0
+                },
+                {
+                    "pathSet": [
+                        2
+                    ],
+                    "id": 2
+                }
+            ]
+        },
+        {
+            "pathSet": [
+                3,
+                4,
+                1,
+                5
+            ],
+            "id": 8,
+            "children": [
+                {
+                    "pathSet": [
+                        3
+                    ],
+                    "id": 3
+                },
+                {
+                    "pathSet": [
+                        4
+                    ],
+                    "id": 4
+                },
+                {
+                    "pathSet": [
+                        1,
+                        5
+                    ],
+                    "id": 7,
+                    "children": [
+                        {
+                            "pathSet": [
+                                1
+                            ],
+                            "id": 1
+                        },
+                        {
+                            "pathSet": [
+                                5
+                            ],
+                            "id": 5
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

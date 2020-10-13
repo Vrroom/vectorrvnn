@@ -1,10 +1,12 @@
-from Data import GRASSDataset
-import cProfile
-import Data
+from Dataset import *
+from tqdm import tqdm
+import shutil
+import resource
+import sys
+import pickle
 from functools import reduce, partial
 import torch.multiprocessing
-import Model
-from Model import GRASSEncoder, GRASSDecoder
+from Model import VectorRvNNAutoEncoder
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -14,52 +16,18 @@ import os
 import os.path as osp
 import datetime
 import logging
-import Utilities
-from Utilities import * 
 import matplotlib.pyplot as plt
 import multiprocessing as mp
-from more_itertools import collapse
+from more_itertools import collapse, unzip
 import svgpathtools as svg
 from copy import deepcopy
 import math
-from Test import findTree
-
-def compareNetTreeWithGroundTruth (sample, encoder, decoder, config, path=None) :
-    """
-    Use the encoder and decoder to find
-    the optimal tree and compare it
-    with the ground truth using tree edit
-    distance
-
-    Parameters
-    ----------
-    sample : tuple
-        (svgFile, groundTruthTree)
-    encoder : GRASSEncoder
-        Encoder network.
-    decoder : GRASSDecoder
-        Decoder network.
-    config : dict
-        Configuration dictionary.
-    path : None or str
-        If path is None, don't save the inferred
-        tree. Else do save it at the specified
-        location.
-    """
-    svgFile, gt = sample
-
-    netTree = findTree(config, svgFile, encoder, decoder)
-    netRoot = netTree.root
-    gtRoot = findRoot(gt)
-
-    if path is not None: 
-        netTree.untensorify()
-        _, svgFile = osp.split(svgFile)
-        svgName, ext = osp.splitext(svgFile)
-        savePath = osp.join(path, svgName) + '.json'
-        GraphReadWrite('tree').write((netTree.tree, netRoot), savePath)
-
-    return match((netRoot, netTree.tree), (gtRoot, gt))
+from torchfold import Fold
+from torch_geometric.data import Batch
+from dictOps import aggregateDict
+from listOps import avg, argmin
+from svgIO import setSVGAttributes
+from vis import matplotlibFigureSaver, treeAxisFromGraph
 
 class Trainer () :
     """
@@ -117,101 +85,77 @@ class Trainer () :
             List of configuration dictionaries.
         """
         self.configs = configs
-
-        self.gpu = commonConfig['gpu'] 
+        self.commonConfig = commonConfig
+        self.gpu  = commonConfig['gpu'] 
         self.cuda = commonConfig['cuda']
-
-        self.exptDir = osp.join(commonConfig['expt_path'], 'Expt_' + str(datetime.date.today()))
-        self.modelDir = osp.join(self.exptDir, 'Models')
-
-        self.trainDir = commonConfig['train_directory']
-        self.cvDir = commonConfig['cv_directory']
-        self.testDir = commonConfig['test_directory']
-
-        self.trainData = None
-        self.cvData = None
-        self.testData = None
-
+        trainDir = commonConfig['train_directory']
+        cvDir    = commonConfig['cv_directory']
+        testDir  = commonConfig['test_directory']
+        self.trainCache = DatasetCache(trainDir)
+        self.cvCache    = DatasetCache(cvDir)
+        self.testCache  = DatasetCache(testDir)
         self.logFrequency  = commonConfig['show_log_every']
         self.saveFrequency = commonConfig['save_snapshot_every']
-
         self.models = []
         self.modelScores = []
+        logging.basicConfig(filename=commonConfig['log_file'], level=logging.INFO)
+        self.logger = logging.getLogger('Trainer')
+        self._makeAllDirs()
 
-        logging.basicConfig(filename=commonConfig['log_file'], level=logging.DEBUG)
+    def _makeDir (self, path) :
+        """
+        Make directory and log this information.
+
+        Parameters
+        ----------
+        path : str
+            New directories path.
+        """
+        os.mkdir(path)
+        self.logger.info(f'Made directory: {path}')
+
+    def _makeAllDirs(self) :
+        """
+        Helper function to make all directories for
+        current experiment.
+        """
+        self.exptDir  = osp.join(self.commonConfig['expt_path'], 'Expt_' + str(datetime.date.today()))
+        if osp.exists(self.exptDir): 
+            shutil.rmtree(self.exptDir, ignore_errors=True)
+        self.modelDir = osp.join(self.exptDir, 'Models')
+        self.testDir = osp.join(self.exptDir, 'Test')
+        self.finalTreesDir = osp.join(self.testDir, 'FinalTrees')
+        self._makeDir(self.exptDir)
+        self._makeDir(self.modelDir)
+        self._makeDir(self.testDir)
+        self._makeDir(self.finalTreesDir)
+        self.configPaths = []
+        self.trainingTreesPaths = []
+        self.modelPaths = [] 
+        for i, config in enumerate(self.configs): 
+            configPath = osp.join(self.modelDir, f'config{i}')
+            self._makeDir(configPath)
+            trainingTreesPath = osp.join(configPath, 'TrainingTrees')
+            self._makeDir(trainingTreesPath)
+            modelPath = osp.join(configPath, 'Models')
+            self._makeDir(modelPath)
+            self.configPaths.append(configPath)
+            self.trainingTreesPaths.append(trainingTreesPath)
+            self.modelPaths.append(modelPath)
 
     def run (self) :
         """
         Run experiments for all 
         configuration files.
         """
-        logging.info('Starting Expt')
-
-        self.makeDir(self.exptDir)
-        self.makeDir(self.modelDir)
-
-        logging.info('Loading Cross-validation Data')
-        self.cvData = GRASSDataset(self.cvDir)
-        logging.info('Loading Test Data')
-        self.testData = GRASSDataset(self.testDir)
-
-        for i, config in enumerate(self.configs) :
-            self.runExpt(i + 1, config)
-
-    def runExpt (self, i, config) :
-        """
-        Run the i-th experiment using the
-        configurations present in config.
-
-        Parameters
-        ----------
-        i : int
-            Index of the experiment.
-        config : dict
-            Dictionary containing parameters.
-        """
-        try :
-            configPath, trainingTreesPath, modelPath = self.createDirectories(i, config)
-
-            logging.info(f'Starting Expt {i}')
-
+        self.logger.info('Starting Expt')
+        for i, config in tqdm(list(enumerate(self.configs))) :
+            self.logger.info(f'Starting Expt {config}')
             self.setTrainDataLoader(config)
             self.setModel(config)
-
-            encoder, decoder = self.models[-1]
-
-            self.startTrainingLoop(encoder, decoder, config, modelPath, configPath)
-            self.crossValidate(config, encoder, decoder, configPath)
-        except Exception as e:
-            logging.error(f'Failed at config {i} : {str(e)}')
-
-    def createDirectories (self, i, config) : 
-        """
-        Create a set of directories for each 
-        sub-experiment. The structure is mentioned
-        in the docstring for this class: 
-
-        |--confign
-           |--TrainingTrees
-           |--Models
-
-        Parameters
-        ----------
-        i : int
-            Index of config dictionary in self.configs.
-        config : dict
-            Configuration for the current sub-experiment.
-        """
-        configPath = osp.join(self.modelDir, f'config{i}')
-        self.makeDir(configPath)
-
-        trainingTreesPath = osp.join(configPath, 'TrainingTrees')
-        self.makeDir(trainingTreesPath)
-
-        modelPath = osp.join(configPath, 'Models')
-        self.makeDir(modelPath)
-
-        return configPath, trainingTreesPath, modelPath
+            autoencoder = self.models[-1]
+            self.startTrainingLoop(autoencoder, config, self.modelPaths[i], self.configPaths[i])
+            self.crossValidate(config, autoencoder, self.configPaths[i])
 
     def setTrainDataLoader (self, config) : 
         """
@@ -222,20 +166,9 @@ class Trainer () :
         config : dict
             Configuration for this sub-experiment.
         """
-        functionGetter = lambda x : getattr(Utilities, x) 
-
-        descFunctions = list(map(functionGetter, config['desc_functions']))
-        relationFunctions = list(map(functionGetter, config['relation_functions']))
-        graphClusterAlgos = list(map(functionGetter, config['graph_cluster_algo']))
-
-        logging.info('Loading Training Data')
-        self.trainData = GRASSDataset(
-            self.trainDir, 
-            makeTrees=True, 
-            graphClusterAlgos=graphClusterAlgos,
-            relationFunctions=relationFunctions,
-            descFunctions=descFunctions
-        )
+        self.logger.info('Loading Training Data')
+        self.trainData = self.trainCache.dataset(config)
+        self.trainData.toTensor()
         self.trainDataLoader = torch.utils.data.DataLoader(
             self.trainData, 
             batch_size=config['batch_size'], 
@@ -253,23 +186,17 @@ class Trainer () :
         config : dict
             Configuration for this sub-experiment.
         """
-        torch.cuda.set_device(self.gpu)
-
         if self.cuda and torch.cuda.is_available() : 
-            logging.info(f'Using CUDA on GPU {self.gpu}')
+            torch.cuda.set_device(self.gpu)
+            self.logger.info(f'Using CUDA on GPU {self.gpu}')
         else :
-            logging.info('Not using CUDA')
-
-        encoder = GRASSEncoder(config)
-        decoder = GRASSDecoder(config)
-
+            self.logger.info('Not using CUDA')
+        autoencoder = VectorRvNNAutoEncoder(config)
         if self.cuda :
-            encoder = encoder.cuda()
-            decoder = decoder.cuda()
+            autoencoder = autoencoder.cuda()
+        self.models.append(autoencoder)
 
-        self.models.append((encoder, decoder))
-
-    def saveSnapshots (self, path, encoder, decoder, encName, decName) : 
+    def saveSnapshots (self, path, autoencoder, name) : 
         """
         Convenience function to save model snapshots
         at any moment.
@@ -279,20 +206,16 @@ class Trainer () :
         path : str
             Path in which the two networks
             have to be saved.
-        encoder : GRASSEncoder
-            Encoder network.
-        decoder : GRASSDecoder
-            Decoder network.
-        encName : str
-            File name for output.
-        decName : str
+        autoencoder : GRASSAutoEncoder
+            AutoEncoder Network.
+        name : str
             File name for output.
         """
-        logging.info(f'Saving Models {encName}, {decName}') 
-        torch.save(encoder, osp.join(path, encName))
-        torch.save(decoder, osp.join(path, decName))
+        autoencoder.train()
+        self.logger.info(f'Saving Model {name}') 
+        torch.save(autoencoder, osp.join(path, name))
 
-    def startTrainingLoop(self, encoder, decoder, config, modelPath, configPath) :
+    def startTrainingLoop(self, autoencoder, config, modelPath, configPath) :
         """
         Training Loop. Probably hotspot for bugs.
         Uses the specs given in the config dictionary
@@ -304,10 +227,8 @@ class Trainer () :
 
         Parameters
         ----------
-        encoder : GRASSEncoder
-            Encoder Network.
-        decoder : GRASSDecoder
-            Decoder Network.
+        autoencoder : GRASSAutoEncoder
+            AutoEncoder network.
         config : dict
             Configuration for this sub-experiment.
         modelPath : str
@@ -320,39 +241,41 @@ class Trainer () :
         def trainOneEpoch () :
 
             def reportStatistics () : 
+                nLosses = len(combinedLosses)
+                lossTemplate = '{:>10.2f} ' * nLosses
+                logTemplate = '{:>9s} {:>5.0f}/{:<5.0f} {:>5.0f}/{:<5.0f} {:>9.1f}% ' + lossTemplate
+                lossHeaders = '    '.join(combinedLosses.keys())
+                header = '     Time    Epoch     Iteration    Progress(%)   ' + lossHeaders
                 elapsedTime = time.strftime("%H:%M:%S",time.gmtime(time.time()-start))
                 donePercent = 100. * (1 + batchIdx + nBatches * epoch) / totalIter
-                logging.info(logTemplate.format(
+                self.logger.info(header)
+                self.logger.info(logTemplate.format(
                     elapsedTime, 
                     epoch, 
                     epochs, 
                     1+batchIdx, 
                     nBatches, 
                     donePercent, 
-                    totalLoss.data.item()
+                    *map(lambda x : x.data.item(), combinedLosses.values())
                 ))
 
             for batchIdx, batch in enumerate(self.trainDataLoader):
-                trees = filter(lambda x : type(x) is Data.Tree, collapse(batch))
-                losses = map(lambda x : Model.treeLoss(x, encoder, decoder), trees)
-                totalLoss = reduce(lambda x, y : x + y, losses)
-
-                encoderOpt.zero_grad()
-                decoderOpt.zero_grad()
-
+                opt.zero_grad()
+                losses = [autoencoder(item) for item in batch]
+                combinedLosses = aggregateDict(losses, sum)
+                totalLoss = avg(combinedLosses.values())
                 totalLoss.backward()
-
-                encoderOpt.step()
-                decoderOpt.step()
-
+                opt.step()
                 if batchIdx % self.logFrequency == 0:
                     reportStatistics()
-
-            return totalLoss.data.item()
+            return combinedLosses
 
         def createAndSaveTrainingPlot () :
             fig, axes = plt.subplots()
-            axes.plot(range(epochs), losses) 
+            lossDict = aggregateDict(losses, list)
+            for k, v in lossDict.items():
+                axes.plot(range(epochs), v, label=k) 
+            axes.legend()
             axes.set_xlabel('Epochs')
             axes.set_ylabel('Training Loss')
             fig.savefig(osp.join(configPath, 'TrainingPlot'))
@@ -360,65 +283,38 @@ class Trainer () :
 
         nBatches = len(self.trainDataLoader)
         epochs = config['epochs']
-
-        encoderOpt = optim.Adam(encoder.parameters(), lr=config['lr'])
-        decoderOpt = optim.Adam(decoder.parameters(), lr=config['lr'])
-
+        opt = optim.Adam(autoencoder.parameters(), lr=config['lr'], weight_decay=config['weight_decay'])
         gamma = 1 / config['lr_decay_by']
         decayEvery = config['lr_decay_every']
-
-        encoderSched = optim.lr_scheduler.StepLR(encoderOpt, decayEvery, gamma=gamma)
-        decoderSched = optim.lr_scheduler.StepLR(decoderOpt, decayEvery, gamma=gamma)
-
-        logging.info('Starting Training')
-
+        sched = optim.lr_scheduler.StepLR(opt, decayEvery, gamma=gamma)
+        self.logger.info('Starting Training')
         start = time.time()
-
         totalIter = epochs * nBatches
-
-        header = '     Time    Epoch     Iteration    Progress(%)  TotalLoss'
-        logTemplate = '{:>9s} {:>5.0f}/{:<5.0f} {:>5.0f}/{:<5.0f} {:>9.1f}% {:>10.2f}'
-
         losses = []
-
         for epoch in range(epochs):
-            logging.info(header)
             loss = trainOneEpoch()
-            encoderSched.step()
-            decoderSched.step()
-
+            sched.step()
             if (epoch + 1) % self.saveFrequency == 0 :
-                encName = 'encoder_epoch{}_loss_{:.2f}.pkl'.format(epoch+1, loss)
-                decName = 'decoder_epoch{}_loss_{:.2f}.pkl'.format(epoch+1, loss)
-                self.saveSnapshots(modelPath, encoder, decoder, encName, decName)
-
+                name = f'autoencoder_epoch_{epoch + 1}.pkl'
+                self.saveSnapshots(modelPath, autoencoder, name)
             losses.append(loss)
-        
-        self.saveSnapshots(modelPath, encoder, decoder, 'encoder.pkl', 'decoder.pkl')
+        self.saveSnapshots(modelPath, autoencoder, 'autoencoder.pkl')
         createAndSaveTrainingPlot()
 
-    def treeDistHistogram(self, treeDist, path) :
-        """
-        Plot and save a histogram of tree edit 
-        distances. 
+    def _score (self, config, autoencoder, dataHandler) : 
+        data = dataHandler.dataset(config)
+        data.toTensor()
+        self.logger.info(f'Classification : {autoencoder.classificationAccuracy(data)}')
+        self.logger.info(f'iouAvg : {autoencoder.iouAvg(data)}')
+        self.logger.info(f'iouConsistency : {autoencoder.iouConsistency(data)}')
+        with torch.multiprocessing.Pool(maxtasksperchild=30) as p: 
+            trees = p.map(autoencoder.lowReconstructionErrorTree, data)
+            scores = p.map(autoencoder.bottomUpScore, data)
+        return scores, trees, data
 
-        Parameters
-        ----------
-        treeDist : list
-            List of distances.
-        path : str
-            Where to save the plot.
+    def crossValidate(self, config, autoencoder, configPath) :
         """
-        fig, axes = plt.subplots()
-        axes.hist(treeDist)
-        axes.set_xlabel('Tree Edit Distance')
-        axes.set_ylabel('Frequency')
-        fig.savefig(path)
-        plt.close(fig)
-
-    def crossValidate(self, config, encoder, decoder, configPath) :
-        """
-        Compute the tree edit distances to the
+        Compute the bk frequency to the
         ground truth and average them. This is the 
         score of this model.
 
@@ -426,24 +322,15 @@ class Trainer () :
         ----------
         config : dict
             Configuration for this sub-experiment.
-        encoder : GRASSEncoder
+        autoencoder : GRASSAutoEncoder
             Encoder Network.
-        decoder : GRASSDecoder
-            Decoder Network.
         configPath : str
             Path to where we are storing this
             experiment's results.
         """
-        with torch.multiprocessing.Pool(mp.cpu_count()) as p : 
-            treeDist = p.map(
-                    partial(compareNetTreeWithGroundTruth, 
-                        encoder=encoder, decoder=decoder, config=config), 
-                    self.cvData)
-
-        self.treeDistHistogram(treeDist, osp.join(configPath, 'CVHistogram'))
-        
-        score = sum(treeDist) / (len(treeDist) + 1)
-        logging.info(f'Cross Validation Score : {score}')
+        scores, *_ = self._score(config, autoencoder, self.cvCache)
+        score = avg(scores)
+        self.logger.info(f'Cross Validation Score : {score}')
         self.modelScores.append(score)
 
     def test(self) : 
@@ -453,57 +340,65 @@ class Trainer () :
         tree edit distances for it. Also store
         the inferred trees in the directory.
         """
-        testDir = osp.join(self.exptDir, 'Test')
-        self.makeDir(testDir)
-
-        finalTreesDir = osp.join(testDir, 'FinalTrees')
-        self.makeDir(finalTreesDir)
-
-        bestEncoder, bestDecoder = self.models[argmin(self.modelScores)]
+        self.logger.info('Loading Test Data')
+        bestAutoEncoder = self.models[argmin(self.modelScores)]
         config = self.configs[argmin(self.modelScores)]
+        self.saveSnapshots(self.testDir, bestAutoEncoder, 'bestAutoEncoder.pkl')
+        scores, trees, ogTrees = self._score(config, bestAutoEncoder, self.testCache) 
+        self.drawTrees(trees, ogTrees, self.finalTreesDir)
+        score = avg(scores)
+        self.logger.info(f'Test Score : {score}')
 
-        self.saveSnapshots(testDir, bestEncoder, bestDecoder, 'bestEnc.pkl', 'bestDec.pkl')
-         
-        # with torch.multiprocessing.Pool(mp.cpu_count()) as p : 
-        #     treeDist = p.map(
-        #             partial(compareNetTreeWithGroundTruth, 
-        #                 encoder=bestEncoder, decoder=bestDecoder, config=config, path=finalTreesDir), 
-        #             self.testData)
-        treeDist = list(map(partial(compareNetTreeWithGroundTruth, 
-            encoder=bestEncoder, decoder=bestDecoder, config=config, path=finalTreesDir), self.testData))
-
-        self.treeDistHistogram(treeDist, osp.join(testDir, 'Histogram'))
-
-        score = sum(treeDist) / len(treeDist)
-        logging.info(f'Test Score : {score}')
-
-    def makeDir (self, path) :
+    def drawTrees (self, treeList, ogTreeList, path) :
         """
-        Make directory and log this information.
+        Convenience function to visualize hierarchies.
 
         Parameters
         ----------
+        treeList : list
+            Trees to be drawn.
         path : str
-            New directories path.
+            Where to save tree plots.
         """
-        os.mkdir(path)
-        logging.info(f'Made directory: {path}')
+        for tree, ogTree in zip(treeList, ogTreeList) : 
+            file = ogTree.svgFile
+            fname = osp.join(path, osp.splitext(osp.split(file)[1])[0])
+            doc = svg.Document(file)
+            paths = doc.flatten_all_paths()
+            vb = doc.get_viewbox()
+            setSVGAttributes(tree, paths, vb)
+            setSVGAttributes(ogTree, paths, vb)
+            fig, (ax1, ax2) = plt.subplots(1, 2, dpi=1500)
+            treeAxisFromGraph(tree, ax1)
+            treeAxisFromGraph(ogTree, ax2)
+            ax1.set_title("Inferred")
+            ax2.set_title("Ground Truth")
+            fig.savefig(f'{fname}.png')
+            plt.close(fig)
+
+    def __enter__ (self) : 
+        return self
+
+    def __exit__ (self, *args) : 
+        saveTrainPath = osp.join(self.exptDir, 'trainCache.pkl')
+        saveCvPath    = osp.join(self.exptDir, 'cvCache.pkl')
+        saveTestPath  = osp.join(self.exptDir, 'testCache.pkl')
+        self.trainCache.save(saveTrainPath)
+        self.cvCache.save(saveCvPath)
+        self.testCache.save(saveTestPath)
     
 def main () :
-    # torch.multiprocessing.set_start_method('spawn')
+    torch.multiprocessing.set_start_method('spawn', force=True)
     with open('commonConfig.json') as fd :
         commonConfig = json.load(fd)
-
     configs = []
-
     for configFile in os.listdir('./Configs/'):
         configFilePath = osp.join('./Configs/', configFile)
         with open(configFilePath) as fd : 
             configs.append(json.load(fd))
-
-    trainer = Trainer(commonConfig, configs)
-    trainer.run()
-    trainer.test()
+    with Trainer(commonConfig, configs) as trainer : 
+        trainer.run()
+        trainer.test()
 
 if __name__ == "__main__" :
     main()
