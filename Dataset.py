@@ -19,8 +19,9 @@ class SVGDataSet (data.Dataset, Saveable) :
         dataPts = map(listdir, listdir(dataDir))
         dataPts = map(lambda l : [_ for _ in l if not _.endswith('png')], dataPts)
         self.dataPts = list(map(lambda x : list(reversed(x)), dataPts))
-        with mp.Pool(maxtasksperchild=30) as p : 
-            self.svgDatas = p.starmap(partial(SVGData, graph=graph, samples=samples), self.dataPts)
+        # with mp.Pool(maxtasksperchild=30) as p : 
+        #     self.svgDatas = p.starmap(partial(SVGData, graph=graph, samples=samples), self.dataPts)
+        a = [SVGData(a, b, graph=graph, samples=samples) for a, b in self.dataPts]
 
     def __getitem__ (self, index) :
         return self.svgDatas[index]
@@ -48,6 +49,6 @@ class DatasetCache (Saveable) :
         return self.cache[key]
 
 if __name__ == "__main__" : 
-    dataset = SVGDataSet('/Users/amaltaas/BTP/vectorrvnn/PartNetSubset/CV', 'adjGraph', 10)
+    dataset = SVGDataSet('/net/voxel07/misc/me/sumitc/vectorrvnn/ManuallyAnnotatedDataset/CV', 'adjGraph', 10)
     dataset.toTensor() 
     print(dataset[0].descriptors.shape)

@@ -1,6 +1,7 @@
 import numpy as np
 import random
 from complexOps import *
+import matplotlib.colors as colors
 
 def d2 (path, docbb, bins=10, nSamples=100, **kwargs) :
     """
@@ -250,3 +251,20 @@ def oneHot (path, docbb, **kwargs) :
     desc[index] = 1
     return desc
 
+def pathAttr (path, docbb) : 
+    """
+    Extract a 10 dimensional descriptor from path attributes. 
+    The first 4 dimensions are for the color of the stroke
+    and the next are for the fill. The next two are boolean
+    indicating whether the path is closed or not repeated twice.
+    """
+    def getAttr (attr) : 
+        try : 
+            attr = colors.to_rgba(path.element.attrib[attr])
+        except Exception :
+            attr = [1, 1, 1, 0]
+        return attr
+    stroke = getAttr('stroke')
+    fill = getAttr('fill')
+    closed = float(path.path.isclosed())
+    return [*stroke, *fill, closed, closed]
