@@ -3,7 +3,7 @@ from itertools import product
 from torch import nn
 import torchvision.models as models
 import torch.nn.functional as F
-from torch_geometric.nn.conv import GINConv
+# from torch_geometric.nn.conv import GINConv
 from torch.distributions import Categorical
 
 class Splitter (nn.Module) : 
@@ -29,33 +29,31 @@ class MLPMergeEncoder (nn.Module):
         hidden_size = config['hidden_size']
         self.nn1 = nn.Sequential(
             nn.Linear(input_size, hidden_size),
-            nn.ReLU(),
+            nn.SELU(),
             nn.Linear(hidden_size, input_size)
         )
 
-    def forward(self, x, **kwargs) : 
-        return torch.sum(self.nn1(x), axis=0)
+    def forward(self, x, numNeighbors, **kwargs) : 
+        x = self.nn1(x)
+        x = torch.stack([torch.sum(thing[:i], axis=0) for thing, i in zip(x, numNeighbors)])
+        return x
 
 class MLPMergeDecoder (nn.Module): 
 
     def __init__(self, config):
         super(MLPMergeDecoder, self).__init__()
-        input_size = config['input_size']
+        self.input_size = config['input_size']
         hidden_size = config['hidden_size']
-        self.mlp = nn.Sequential(
-            nn.Linear(input_size, hidden_size),
-            nn.ReLU(),
-            nn.Linear(hidden_size, input_size)
+        self.nn = nn.Sequential(
+            nn.Linear(self.input_size, hidden_size),
+            nn.SELU(),
+            nn.Linear(hidden_size, 5 * self.input_size)
         )
 
-    def classifierLoss (self, x, presentEdges) : 
-        return torch.tensor(0.)
-
-    def edgeInference (self, x) :
-        pass
-
     def forward(self, x, **kwargs) : 
-        return self.mlp(x)
+        B, *_ = x.shape
+        x = self.nn(x)
+        return x.view((B, -1, self.input_size))
 
 # TODO: StructureNet had skip modules.
 class GraphMergeEncoder(nn.Module):

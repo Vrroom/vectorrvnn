@@ -133,23 +133,87 @@ def matplotlibFigureSaver (obj, fname) :
     fig.savefig(fname + '.png')
     plt.close(fig)
 
-if __name__ == "__main__" :
-    import svgpathtools as svg
-    from svgIO import setSVGAttributes
+def violinPlot () :
+    import os
+    import json
     from Dataset import SVGDataSet
-    dataset = SVGDataSet('/Users/amaltaas/BTP/vectorrvnn/ManuallyAnnotatedDataset/CV', 'adjGraph', 10)
-    doc = svg.Document(dataset[0].svgFile)
-    paths = doc.flatten_all_paths()
-    vb = doc.get_viewbox()
-    setSVGAttributes(dataset[0], paths, vb)
-    doc = svg.Document(dataset[1].svgFile)
-    paths = doc.flatten_all_paths()
-    vb = doc.get_viewbox()
-    setSVGAttributes(dataset[1], paths, vb)
-    fig, (ax1, ax2) = plt.subplots(1, 2, dpi=1500)
-    treeAxisFromGraph(dataset[0], ax1)
-    treeAxisFromGraph(dataset[1], ax2)
-    ax1.set_title("og")
-    ax2.set_title("inf")
-    fig.savefig('out.png')
-    plt.close(fig)
+    from OneMergeAutoEncoder import OneMergeAutoEncoder
+    from PathVAE import PathVAE
+    from MergeInterface import MergeInterface
+    import torch
+    from torch import nn
+    from treeOps import nonLeaves, leaves
+    import random
+    def collate_fn (batch) : 
+        allLeaf = lambda n, t : set(leaves(t)).issuperset(set(t.neighbors(n)))
+        paths = []
+        numNeighbors = []
+        for t in batch : 
+            for n in nonLeaves(t) : 
+                if allLeaf(n, t) : 
+                    paths.append(torch.stack([t._path(_) for _ in t.neighbors(n)]))
+                    numNeighbors.append(t.out_degree(n))
+        paths = nn.utils.rnn.pad_sequence(paths, batch_first=True)
+        ret = dict(paths=paths, numNeighbors=numNeighbors)
+        return ret
+    with open('Configs/config.json') as fd : 
+        config = json.load(fd)
+    with open('commonConfig.json') as fd : 
+        commonConfig = json.load(fd)
+    # Load test data
+    testDir = commonConfig['test_directory']
+    testData = SVGDataSet(testDir, 'adjGraph', 10)
+    testData.toTensor()
+    # Load model
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    VAE_OUTPUT = os.path.join(BASE_DIR, "results", "path_vae")
+    MERGE_OUTPUT = os.path.join(BASE_DIR, "results", "merge")
+    model = OneMergeAutoEncoder(PathVAE(config), config['sampler'])
+    interface = MergeInterface(model)
+    state_dict = torch.load(os.path.join(MERGE_OUTPUT, 'training_end.pth'))
+    model.load_state_dict(state_dict['model'])
+    batch = collate_fn(testData)
+    fwd_data = interface.forward(batch)
+    reconLosses = interface._individualLosses(batch, fwd_data)
+    randomLosses = []
+    for i in range(len(reconLosses)) : 
+        example = random.choice(testData)
+        n = random.randint(2, 5)
+        perm = torch.randperm(example.descriptors.size(0))
+        idx = perm[:n]
+        randomMerge = example.descriptors[idx]
+        randomMerge = randomMerge.unsqueeze(0) 
+        batch = dict(paths=randomMerge, numNeighbors=[n])
+        fwd_data = interface.forward(batch)
+        losses = interface._individualLosses(batch, fwd_data)
+        randomLosses.extend(losses)
+    fig, ax = plt.subplots()
+    data = [reconLosses, randomLosses]
+    ax.set_title('Comparison of recon loss on ground truth vs random merges')
+    ax.set_ylabel('recon error')
+    ax.set_xticks([1,2])
+    ax.set_xticklabels(['ground truth', 'random'])
+    ax.violinplot(data, showmeans=True)
+    fig.savefig('ViolinPlot')
+
+if __name__ == "__main__" :
+    violinPlot() 
+    # import svgpathtools as svg
+    # from svgIO import setSVGAttributes
+    # from Dataset import SVGDataSet
+    # dataset = SVGDataSet('/Users/amaltaas/BTP/vectorrvnn/ManuallyAnnotatedDataset/CV', 'adjGraph', 10)
+    # doc = svg.Document(dataset[0].svgFile)
+    # paths = doc.flatten_all_paths()
+    # vb = doc.get_viewbox()
+    # setSVGAttributes(dataset[0], paths, vb)
+    # doc = svg.Document(dataset[1].svgFile)
+    # paths = doc.flatten_all_paths()
+    # vb = doc.get_viewbox()
+    # setSVGAttributes(dataset[1], paths, vb)
+    # fig, (ax1, ax2) = plt.subplots(1, 2, dpi=1500)
+    # treeAxisFromGraph(dataset[0], ax1)
+    # treeAxisFromGraph(dataset[1], ax2)
+    # ax1.set_title("og")
+    # ax2.set_title("inf")
+    # fig.savefig('out.png')
+    # plt.close(fig)

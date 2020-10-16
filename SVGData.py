@@ -42,6 +42,7 @@ class SVGData (nx.DiGraph) :
         docViewBox = doc.get_viewbox()
         paths = doc.flatten_all_paths()
         paths = [p for p in paths if not isDegenerateBBox(relbb(p.path, docViewBox))]
+        #TODO : Do something about color as well.
         self.nPaths = len(paths)
         self.pathViewBoxes = [relbb(p.path, docViewBox) for p in paths]
         # The nodes in the graph are indexed according
@@ -51,6 +52,19 @@ class SVGData (nx.DiGraph) :
         self.descriptors = [equiDistantSamples(p.path, docViewBox, nSamples=nSamples) for p in paths]
         self._computeBBoxes(self.root)
         self._pathSet2Tuple()
+
+    def _nodeId2PathId (self, n) : 
+        assert self.out_degree(n) == 0, "Function called with internal node"
+        return self.nodes[n]['pathSet'][0]
+    
+    def _path (self, n) : 
+        return self.descriptors[self._nodeId2PathId(n)]
+
+    def _color (self, n) : 
+        return self.color[self._nodeId2PathId(n)]
+
+    def _bbox (self, n) : 
+        return self.pathViewBoxes[self._nodeId2PathId(n)]
 
     def _pathSet2Tuple (self) : 
         for n in self.nodes :
@@ -118,9 +132,9 @@ class SVGData (nx.DiGraph) :
     def bbox2tensor (self, cuda=False) :  
         if isinstance(self.pathViewBoxes, torch.Tensor) : 
             return
-        self.pathViewBoxes = torch.tensor(self.pathViewBoxes)
+        self.pathViewBoxes = torch.tensor(self.pathViewBoxes).float()
         for n in self.nodes : 
-            self.nodes[n]['bbox'] = torch.tensor(self.nodes[n]['bbox'])
+            self.nodes[n]['bbox'] = torch.tensor(self.nodes[n]['bbox']).float()
         if cuda : 
             self.pathViewBoxes = self.pathViewBoxes.cuda()
             for n in self.nodes : 

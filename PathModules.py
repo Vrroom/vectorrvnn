@@ -4,7 +4,7 @@ Set of classes for encoding paths.
 import torch
 from torch import nn
 import torch.nn.functional as F
-from torch_geometric.nn.conv import GINConv
+# from torch_geometric.nn.conv import GINConv
 from functools import reduce
 import math
 from collections.abc import Iterable
@@ -109,13 +109,16 @@ class MLPPathEncoder(nn.Module):
         feature_size = config['feature_size']
         if isinstance(input_size, Iterable) :
             input_size = reduce(lambda a, b : a * b, input_size)
-        self.encoder = nn.Linear(input_size, feature_size)
-        self.tanh = nn.Tanh()
+        self.encoder = nn.Sequential(
+            nn.Linear(input_size, feature_size), 
+            nn.SELU(), 
+            nn.Linear(feature_size, feature_size),
+            nn.SELU()
+        )
 
     def forward(self, path_input, **kwargs):
-        N, *_ = path_input.shape
-        path_vector = self.encoder(path_input.view((N, -1)))
-        path_vector = self.tanh(path_vector)
+        *_, a, b = path_input.shape
+        path_vector = self.encoder(path_input.view((*_, a * b)))
         return path_vector
 
 class MLPPathDecoder(nn.Module):
@@ -130,13 +133,15 @@ class MLPPathDecoder(nn.Module):
         if isinstance(output_size, Iterable) :
             output_size = reduce(lambda a, b : a * b, output_size)
         self.mlp = nn.Sequential(
+            nn.Linear(feature_size, feature_size),
+            nn.SELU(),
             nn.Linear(feature_size, output_size),
-            nn.Sigmoid()
+            nn.Hardsigmoid()
         )
 
     def forward(self, parent_feature, **kwargs):
         x = self.mlp(parent_feature)
-        return x.view((-1, *self.output_size))
+        return x.view((*x.shape[:-1], *self.output_size))
 
 class GraphNet (nn.Module) :
     """

@@ -51,12 +51,12 @@ def bboxModel (config) :
     input_size = config['input_size']
     hidden_size = config['hidden_size']
     return nn.Sequential(
-        SkipLayer(input_size, hidden_size),
-        nn.ReLU(),
-        SkipLayer(input_size, hidden_size),
-        nn.ReLU(),
-        nn.Linear(input_size, 4),
-        nn.Sigmoid()
+        nn.Linear(input_size, hidden_size),
+        nn.SELU(),
+        nn.Linear(hidden_size, hidden_size),
+        nn.SELU(),
+        nn.Linear(hidden_size, 4),
+        nn.Hardsigmoid()
     )
 
 class VectorRvNNAutoEncoder (nn.Module) : 

@@ -561,7 +561,7 @@ def train(args):
     trainer.add_callback(MNISTCallback(
         env=name, win="samples", port=port, frequency=args.freq))
     trainer.add_callback(ttools.callbacks.CheckpointingCallback(
-        checkpointer, max_files=2, interval=600, max_epochs=50))
+        checkpointer, max_files=2, max_epochs=50))
     if args.generator not in ["ae", "vae"]:
         trainer.add_callback(ttools.callbacks.CheckpointingCallback(
             checkpointer_d, max_files=2, interval=600, max_epochs=50))
