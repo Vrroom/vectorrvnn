@@ -119,7 +119,7 @@ class MergeInterface (ttools.ModelInterface) :
         }
 
 
-def train () : 
+def train (path_vae_name, name) : 
     def collate_fn (batch) : 
         allLeaf = lambda n, t : set(leaves(t)).issuperset(set(t.neighbors(n)))
         paths = []
@@ -149,8 +149,8 @@ def train () :
     )
     # Load pretrained path module
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    VAE_OUTPUT = os.path.join(BASE_DIR, "results", "path_vae")
-    MERGE_OUTPUT = os.path.join(BASE_DIR, "results", "merge")
+    VAE_OUTPUT = os.path.join(BASE_DIR, "results", path_vae_name)
+    MERGE_OUTPUT = os.path.join(BASE_DIR, "results", name)
     pathVAE = PathVAE(config)
     state_dict = torch.load(os.path.join(VAE_OUTPUT, 'training_end.pth'))
     pathVAE.load_state_dict(state_dict['model'])
@@ -161,7 +161,6 @@ def train () :
     trainer = ttools.Trainer(interface)
     port = 8097
     keys = ["loss", "wd"]
-    name = "path_vae"
     trainer.add_callback(ttools.callbacks.CheckpointingCallback(checkpointer))
     trainer.add_callback(PathVisCallback(
         env=name, win="samples", port=port, frequency=200))
@@ -173,4 +172,5 @@ def train () :
     trainer.train(dataLoader, num_epochs=1000)
 
 if __name__ == "__main__" : 
-    train()
+    import sys
+    train(sys.argv[1], sys.argv[2])

@@ -220,7 +220,7 @@ class PathVAE (nn.Module) :
         aux["mu"] = mu
         return x_, aux
 
-def vaeTrain() :
+def vaeTrain(name) :
     with open('commonConfig.json') as fd : 
         commonConfig = json.load(fd)
     with open('./Configs/config.json') as fd: 
@@ -238,7 +238,7 @@ def vaeTrain() :
         shuffle=True,
     )
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    VAE_OUTPUT = os.path.join(BASE_DIR, "results", "path_vae")
+    VAE_OUTPUT = os.path.join(BASE_DIR, "results", name)
     model = PathVAE(config)
     checkpointer = ttools.Checkpointer(VAE_OUTPUT, model)
     extras, meta = checkpointer.load_latest()
@@ -246,7 +246,6 @@ def vaeTrain() :
     trainer = ttools.Trainer(interface)
     port = 8097
     keys = ["kld", "data_loss", "loss", "wd"]
-    name = "path_vae"
     trainer.add_callback(EpochUpdateCallback(interface))
     trainer.add_callback(ttools.callbacks.ProgressBarCallback(
         keys=keys, val_keys=keys))
@@ -299,4 +298,5 @@ def bboxTrain () :
     trainer.train(dataLoader, num_epochs=num_epochs)
     
 if __name__ == "__main__" :
-    bboxTrain()
+    import sys
+    vaeTrain(sys.argv[1])

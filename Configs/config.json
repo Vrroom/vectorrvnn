@@ -2,14 +2,14 @@
 	"pathEncoder": {
 		"type": "CyclicPathEncoder",
 		"kernel_size": 3,
-		"input_size": [2, 10],
+		"input_size": [3, 10],
 		"feature_size": 40
 	},
 	"pathDecoder": {
 		"samples": 10,
 		"feature_size": 40,
 		"hidden_size": 200,
-		"output_size": [2, 10]
+		"output_size": [3, 10]
 	},
 	"sampler": {
 		"input_size": 40,
@@ -24,7 +24,7 @@
 	"lr_decay_by": 1,
 	"weight_decay": 0.0001,
 	"epochs": 1000,
-	"batch_size": 2,
+	"batch_size": 16,
 	"graph": "adjGraph",
 	"samples": 10,
 	"bottom_up_K": 3

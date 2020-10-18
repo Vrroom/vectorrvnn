@@ -133,17 +133,7 @@ def matplotlibFigureSaver (obj, fname) :
     fig.savefig(fname + '.png')
     plt.close(fig)
 
-def violinPlot () :
-    import os
-    import json
-    from Dataset import SVGDataSet
-    from OneMergeAutoEncoder import OneMergeAutoEncoder
-    from PathVAE import PathVAE
-    from MergeInterface import MergeInterface
-    import torch
-    from torch import nn
-    from treeOps import nonLeaves, leaves
-    import random
+def violinPlot (path_vae_name, name, config, useColor, nMerge) :
     def collate_fn (batch) : 
         allLeaf = lambda n, t : set(leaves(t)).issuperset(set(t.neighbors(n)))
         paths = []
@@ -151,23 +141,22 @@ def violinPlot () :
         for t in batch : 
             for n in nonLeaves(t) : 
                 if allLeaf(n, t) : 
-                    paths.append(torch.stack([t._path(_) for _ in t.neighbors(n)]))
-                    numNeighbors.append(t.out_degree(n))
+                    if t.out_degree(n) == nMerge : 
+                        paths.append(torch.stack([t._path(_) for _ in t.neighbors(n)]))
+                        numNeighbors.append(t.out_degree(n))
         paths = nn.utils.rnn.pad_sequence(paths, batch_first=True)
         ret = dict(paths=paths, numNeighbors=numNeighbors)
         return ret
-    with open('Configs/config.json') as fd : 
-        config = json.load(fd)
     with open('commonConfig.json') as fd : 
         commonConfig = json.load(fd)
     # Load test data
     testDir = commonConfig['test_directory']
-    testData = SVGDataSet(testDir, 'adjGraph', 10)
+    testData = SVGDataSet(testDir, 'adjGraph', 10, useColor=useColor)
     testData.toTensor()
     # Load model
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    VAE_OUTPUT = os.path.join(BASE_DIR, "results", "path_vae")
-    MERGE_OUTPUT = os.path.join(BASE_DIR, "results", "merge")
+    VAE_OUTPUT = os.path.join(BASE_DIR, "results", path_vae_name)
+    MERGE_OUTPUT = os.path.join(BASE_DIR, "results", name)
     model = OneMergeAutoEncoder(PathVAE(config), config['sampler'])
     interface = MergeInterface(model)
     state_dict = torch.load(os.path.join(MERGE_OUTPUT, 'training_end.pth'))
@@ -178,7 +167,7 @@ def violinPlot () :
     randomLosses = []
     for i in range(len(reconLosses)) : 
         example = random.choice(testData)
-        n = random.randint(2, 5)
+        n = nMerge
         perm = torch.randperm(example.descriptors.size(0))
         idx = perm[:n]
         randomMerge = example.descriptors[idx]
@@ -187,17 +176,36 @@ def violinPlot () :
         fwd_data = interface.forward(batch)
         losses = interface._individualLosses(batch, fwd_data)
         randomLosses.extend(losses)
-    fig, ax = plt.subplots()
     data = [reconLosses, randomLosses]
-    ax.set_title('Comparison of recon loss on ground truth vs random merges')
-    ax.set_ylabel('recon error')
-    ax.set_xticks([1,2])
-    ax.set_xticklabels(['ground truth', 'random'])
-    ax.violinplot(data, showmeans=True)
-    fig.savefig('ViolinPlot')
+    return data
 
 if __name__ == "__main__" :
-    violinPlot() 
+    import os
+    import json
+    from Dataset import SVGDataSet
+    from OneMergeAutoEncoder import OneMergeAutoEncoder
+    from PathVAE import PathVAE
+    from MergeInterface import MergeInterface
+    import torch
+    from torch import nn
+    from treeOps import nonLeaves, leaves
+    import random
+    with open('Configs/config.json') as fd : 
+        config = json.load(fd)
+    with open('Configs/config1.json') as fd : 
+        config1 = json.load(fd)
+    for nMerge in range(2, 6) : 
+        data1 = violinPlot('path_vae', 'merge', config1, False, nMerge)
+        data2 = violinPlot('path_color_vae', 'merge_color', config, True, nMerge)
+        data = [*data1, *data2]
+        fig, ax = plt.subplots()
+        ax.set_title(f'Comparison of recon loss on ground truth vs random merges (nMerge={nMerge})')
+        ax.set_ylabel('recon error')
+        ax.set_xticks([1,2,3,4])
+        ax.set_xticklabels(['gt', 'random', 'gt_color', 'random_color'])
+        ax.violinplot(data, showmeans=True)
+        fig.savefig(f'ViolinPlot_(nMerge={nMerge})')
+
     # import svgpathtools as svg
     # from svgIO import setSVGAttributes
     # from Dataset import SVGDataSet

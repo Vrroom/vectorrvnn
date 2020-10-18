@@ -18,10 +18,10 @@ class SVGDataSet (data.Dataset, Saveable) :
         self.dataDir = dataDir
         dataPts = map(listdir, listdir(dataDir))
         dataPts = map(lambda l : [_ for _ in l if not _.endswith('png')], dataPts)
+        useColor = kwargs['useColor']
         self.dataPts = list(map(lambda x : list(reversed(x)), dataPts))
-        # with mp.Pool(maxtasksperchild=30) as p : 
-        #     self.svgDatas = p.starmap(partial(SVGData, graph=graph, samples=samples), self.dataPts)
-        a = [SVGData(a, b, graph=graph, samples=samples) for a, b in self.dataPts]
+        with mp.Pool(maxtasksperchild=30) as p : 
+            self.svgDatas = p.starmap(partial(SVGData, graph=graph, samples=samples, useColor=useColor), self.dataPts)
 
     def __getitem__ (self, index) :
         return self.svgDatas[index]

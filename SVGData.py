@@ -19,7 +19,7 @@ def isDegenerateBBox (box) :
 
 class SVGData (nx.DiGraph) : 
 
-    def __init__ (self, svgFile, treeJson, graph, samples) : 
+    def __init__ (self, svgFile, treeJson, graph, samples, useColor=True) : 
         """
         Constructor.
 
@@ -33,8 +33,6 @@ class SVGData (nx.DiGraph) :
         # are the same as how the svgpathtools library
         # orders the paths.
         super(SVGData, self).__init__(GraphReadWrite('tree').read(treeJson))
-        import pdb
-        pdb.set_trace()
         self.root = findRoot(self)
         self.svgFile = svgFile
         # self.image = SVGtoNumpyImage(svgFile, H=224, W=224)
@@ -51,7 +49,10 @@ class SVGData (nx.DiGraph) :
         # to the order they come up in the list.
         self.adjgraph = graphFn(paths, vbox=docViewBox)
         nSamples = samples
-        self.descriptors = [[*equiDistantSamples(p.path, docViewBox, nSamples=nSamples), pathAttr(p, docViewBox)] for p in paths]
+        if useColor : 
+            self.descriptors = [[*equiDistantSamples(p.path, docViewBox, nSamples=nSamples), pathAttr(p, docViewBox)] for p in paths]
+        else : 
+            self.descriptors = [equiDistantSamples(p.path, docViewBox, nSamples=nSamples) for p in paths]
         self._computeBBoxes(self.root)
         self._pathSet2Tuple()
 
