@@ -4,6 +4,7 @@ from functools import partial
 from torch.utils import data
 from osTools import listdir
 from SVGData import SVGData
+from treeOps import maxOutDegree
 
 class Saveable () :
     def save (self, savePath) : 
@@ -22,6 +23,7 @@ class SVGDataSet (data.Dataset, Saveable) :
         self.dataPts = list(map(lambda x : list(reversed(x)), dataPts))
         with mp.Pool(maxtasksperchild=30) as p : 
             self.svgDatas = p.starmap(partial(SVGData, graph=graph, samples=samples, useColor=useColor), self.dataPts)
+        self.svgDatas = list(filter(lambda x : maxOutDegree(x) <= 5, self.svgDatas))
 
     def __getitem__ (self, index) :
         return self.svgDatas[index]
@@ -31,7 +33,7 @@ class SVGDataSet (data.Dataset, Saveable) :
             self.svgDatas[i].toTensor()
 
     def __len__ (self) : 
-        return len(self.dataPts)
+        return len(self.svgDatas)
 
 class DatasetCache (Saveable) :
 

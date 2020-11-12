@@ -2,22 +2,27 @@
 	"pathEncoder": {
 		"type": "CyclicPathEncoder",
 		"kernel_size": 3,
-		"input_size": [3, 10],
+		"input_size": [2, 10],
 		"feature_size": 40
 	},
 	"pathDecoder": {
 		"samples": 10,
 		"feature_size": 40,
 		"hidden_size": 200,
-		"output_size": [3, 10]
+		"output_size": [2, 10]
 	},
 	"sampler": {
 		"input_size": 40,
 		"hidden_size": 200
 	},
+	"splitter": {
+		"input_size": 40,
+		"max_children": 5,
+		"output_size": 40
+	},
 	"lossWeights": {
-		"kldLoss": 1,
-		"reconLoss": 1
+		"bboxLoss": 1,
+		"descReconLoss": 1
 	},
 	"lr": 0.01,
 	"lr_decay_every": 10,

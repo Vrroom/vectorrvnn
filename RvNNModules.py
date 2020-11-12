@@ -33,9 +33,9 @@ class MLPMergeEncoder (nn.Module):
             nn.Linear(hidden_size, input_size)
         )
 
-    def forward(self, x, numNeighbors, **kwargs) : 
+    def forward(self, x, **kwargs) : 
         x = self.nn1(x)
-        x = torch.stack([torch.sum(thing[:i], axis=0) for thing, i in zip(x, numNeighbors)])
+        x = torch.sum(x, axis=0)
         return x
 
 class MLPMergeDecoder (nn.Module): 
@@ -47,13 +47,12 @@ class MLPMergeDecoder (nn.Module):
         self.nn = nn.Sequential(
             nn.Linear(self.input_size, hidden_size),
             nn.SELU(),
-            nn.Linear(hidden_size, 5 * self.input_size)
+            nn.Linear(hidden_size, self.input_size)
         )
 
     def forward(self, x, **kwargs) : 
-        B, *_ = x.shape
         x = self.nn(x)
-        return x.view((B, -1, self.input_size))
+        return x
 
 # TODO: StructureNet had skip modules.
 class GraphMergeEncoder(nn.Module):

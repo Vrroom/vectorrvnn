@@ -152,9 +152,10 @@ class PathVisCallback(ttools.callbacks.Callback):
             return
         self._step = 0
 
-        paths = batch_data['paths'].cpu()
-        path = paths[0][0]
-        reconPath = train_step_data[0][0].cpu().detach()
+        paths = batch_data[0].descriptors
+        path = paths[0]
+        reconPaths = train_step_data[0]
+        reconPath = reconPaths[0][0][0].cpu().detach()
         opts_ = {'linecolor':np.array([[255, 0, 0]]), **self.opts}
         self._api.line(path[0], path[1], win=self.win, update="replace", name="path", opts=self.opts)
         self._api.line(reconPath[0], reconPath[1], win=self.win, update="replace", name="reconPath", opts=opts_)

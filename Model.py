@@ -64,7 +64,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
     Architecture inspired by GRASS and StructureNet 
     to auto-encode bounded branching trees.
     """
-    def __init__ (self, config) :
+    def __init__ (self, pathVAE, config) :
         """
         Constructor. 
 
@@ -75,33 +75,21 @@ class VectorRvNNAutoEncoder (nn.Module) :
             to use for current experiment.
         """
         super(VectorRvNNAutoEncoder, self).__init__()
-        self.pathEncodeModules = nn.ModuleList(
-            [getModel(PathModules, cfg) for cfg in config['path']['pathEncoder']]
-        )
-        self.pathDecodeModules = nn.ModuleList(
-            [getModel(PathModules, cfg) for cfg in config['path']['pathDecoder']]
-        )
-        self.mergeEncoder = getModel(RvNNModules, config['rvnn']['rvnnEncoder'])
-        self.mergeDecoder = getModel(RvNNModules, config['rvnn']['rvnnDecoder'])
+        self.pathVAE = pathVAE
+        self.mergeEncoder = MLPMergeEncoder(config['sampler'])
+        self.mergeDecoder = MLPMergeDecoder(config['sampler'])
         self.K = config['bottom_up_K']
-        self.splitter = getModel(RvNNModules, config['rvnn']['splitter'])
-        self.rasterEncoder = RasterEncoder(config['raster']['feature_size'])
-        self.existClassifier = classifier(config['classifier'])
-        self.nodeClassifier = classifier(config['classifier'])
-        self.bbox = bboxModel(config['bbox'])
+        self.splitter = Splitter(config['splitter'])
+        self.bbox = bboxModel(config['sampler'])
         self.config = config
         self.mseLoss = nn.MSELoss()
         self.creLoss = nn.CrossEntropyLoss()
 
-    def pathEncodingForward (self, x, edge_index) : 
-        for module in self.pathEncodeModules :
-            x = module(x, edge_index=edge_index)
-        return x
+    def pathEncodingForward (self, x) : 
+        return self.pathVAE.encode(x)[0]
 
-    def pathDecodingForward (self, x, edge_index) : 
-        for module in self.pathDecodeModules : 
-            x = module(x, edge_index=edge_index)
-        return x
+    def pathDecodingForward (self, x) : 
+        return self.pathVAE.decode(x)
 
     def _oneStepReconError (self, childFeatures) : 
         root = self.mergeEncoder(childFeatures)
@@ -137,34 +125,6 @@ class VectorRvNNAutoEncoder (nn.Module) :
         allPairs = product(range(len(a)), range(len(b)))
         costTable = dict(zip(allPairs, costs))
         return bestAssignmentCost(costTable)
-
-    def exists (self, x) : 
-        """
-        Use the existClassifier to find out whether the 
-        node exists or not.
-
-        Parameters
-        ----------
-        x : torch.tensor
-            The feature vector corresponding to the
-            node.
-        """
-        probs = torch.softmax(self.existClassifier(x), dim=-1)
-        return int(Categorical(probs).sample()) == 1
-
-    def isLeaf (self, x) : 
-        """
-        Use the nodeClassifier to find out whether the 
-        node is a leaf or not.
-
-        Parameters
-        ----------
-        x : torch.tensor
-            The feature vector corresponding to the
-            node.
-        """
-        probs = torch.softmax(self.nodeClassifier(x), dim=-1)
-        return int(Categorical(probs).sample()) == 1
 
     def sample (self, tree) : 
         """
@@ -213,15 +173,13 @@ class VectorRvNNAutoEncoder (nn.Module) :
             if len(childStubs) == 0 : 
                 return
             childStubs = torch.stack(childStubs)
-            edge_index = self.mergeDecoder.edgeInference(childStubs)
-            childFeatures = self.mergeDecoder(childStubs, edge_index=edge_index)
+            childFeatures = self.mergeDecoder(childStubs)
             for cs, cf, nodeId in zip(childStubs, childFeatures, nodeIds) : 
                 T.nodes[nodeId]['feature'] = cf
                 if not self.isLeaf(cs):  
                     buildTree(T, cf, nodeId, maxDepth - 1)
 
         leavesOfTree = leaves(tree)
-        rootFeature = self.rasterEncoder(tree.image)
         targetLeaves = len(leavesOfTree)
         # Keep sampling trees till a tree has 
         # more than requisite number of leaves.
@@ -234,7 +192,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
         leavesOfT = leaves(T)
         originalDescriptors = tree.descriptors
         leafFeatures = torch.stack([T.nodes[l]['feature'] for l in leavesOfT])
-        reconstructedDescriptors = self.pathDecodingForward(leafFeatures, edge_index=tree.edge_index())
+        reconstructedDescriptors = self.pathDecodingForward(leafFeatures)
         # Match the leaves with the original descriptors of the graphic. 
         matching = self.matchDescriptors(originalDescriptors, reconstructedDescriptors, self.mseLoss)
         leavesToBeKept = set()
@@ -268,7 +226,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
     def lowReconstructionErrorTree (self, tree) : 
         descriptors = tree.descriptors
         pathIndices = list(range(tree.nPaths))
-        pathEncodings = self.pathEncodingForward(descriptors, edge_index=tree.edge_index())
+        pathEncodings = self.pathEncodingForward(descriptors)
         error = dict(product(pathIndices, [0]))
         features = dict(zip(pathIndices, pathEncodings))
         K = self.K
@@ -300,26 +258,6 @@ class VectorRvNNAutoEncoder (nn.Module) :
                 bases.extend(parent)
             T.nodes[parent]['pathSet'] = pathSet 
         return T
-
-    def classificationAccuracy (self, trees) : 
-        """
-        There are two classifiers in this model, 
-        the node existance classifier and the node
-        type classifier. 
-
-        For both, report the avg classification 
-        accuracy over all the trees.
-        """
-        existAcc, typeAcc = [], []
-        for tree in trees : 
-            info = self._forward(tree)
-            eProbs, eTarget = info[1], info[2]
-            tProbs, tTarget = info[3], info[4]
-            existAcc.append(avg((torch.argmax(eProbs, axis=1) == eTarget).float()))
-            typeAcc.append(avg((torch.argmax(tProbs, axis=1) == tTarget).float()))
-        existAvg = avg(existAcc)
-        typeAvg = avg(typeAcc)
-        return {'existAccurarcy': existAvg, 'typeAccuracy': typeAvg}
 
     def iouAvg (self, trees) : 
         """
@@ -382,8 +320,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
                     encodeNode(child)
                 childFeatures = [encodedFeatures[_] for _ in mapPathSet(tree.neighbors(node))]
                 childFeatures = torch.stack(childFeatures)
-                edge_index = tree.edgeIndicesAtLevel(node)
-                feature = self.mergeEncoder(childFeatures, edge_index=edge_index)
+                feature = self.mergeEncoder(childFeatures)
                 encodedFeatures[tree.nodes[node]['pathSet']] = feature
         
         def decodeNode (node) : 
@@ -394,60 +331,45 @@ class VectorRvNNAutoEncoder (nn.Module) :
             fixed number of child features.  But not all
             of them exist in the tree. 
             """
-            if tree.out_degree(node) > 0 :
-                nonlocal totalEdgeLoss
-                feature  = decodedFeatures[tree.nodes[node]['pathSet']]
-                # The splitter module gives us a vector
-                # for each child of this node. We have 
-                # to figure out which are legitimate children
-                # by matching the bounding boxes. 
-                candidates = self.splitter(feature)
-                boxEstimates = [self.bbox(candidate) for candidate in candidates]
-                boxOriginals = [tree.nodes[n]['bbox'] for n in tree.neighbors(node)]
-                matching = self.matchDescriptors(boxOriginals, boxEstimates, lambda a, b : -iou(a, b))
-                # Now based on the matching, we have to decide
-                # which stubs correspond to existing nodes, non-existing
-                # nodes, leaf nodes and internal nodes.
-                for i, candidate in enumerate(candidates):  
-                    if i in matching.values() : 
-                        existingStubs.append(candidate)
-                    else : 
-                        nonExistingStubs.append(candidate)
-                # Now, we find the childStubs and pass them through
-                # the merge decoder.
-                childStubs = [] 
-                neighborPathSets = list(mapPathSet(tree.neighbors(node)))
-                for i, ps in enumerate(neighborPathSets) : 
-                    candidate = candidates[matching[i]]
-                    bAndt = (boxOriginals[i], boxEstimates[matching[i]], ps)
-                    boxAndTargets.append(bAndt)
-                    childStubs.append(candidate)
-                    # Using the length of the pathSet, we can
-                    # determine whether the stub belongs to a 
-                    # leaf node or an internal node.
-                    if len(ps) == 1 : 
-                        leafStubs.append(candidate)
-                    else : 
-                        nonLeafStubs.append(candidate)
-                childStubs = torch.stack(childStubs)
-                edge_index = tree.edgeIndicesAtLevel(node)
-                childFeatures = self.mergeDecoder(childStubs, edge_index=edge_index)
-                edgeLoss = self.mergeDecoder.classifierLoss(childStubs, edge_index)
-                totalEdgeLoss += edgeLoss
-                # Update the dictionary of decoded features.
-                decodedFeatures.update(zip(neighborPathSets, childFeatures))
-                for child in tree.neighbors(node):  
-                    decodeNode(child)
+            try : 
+                if tree.out_degree(node) > 0 :
+                    feature  = decodedFeatures[tree.nodes[node]['pathSet']]
+                    # The splitter module gives us a vector
+                    # for each child of this node. We have 
+                    # to figure out which are legitimate children
+                    # by matching the bounding boxes. 
+                    candidates = self.splitter(feature)
+                    boxEstimates = [self.bbox(candidate) for candidate in candidates]
+                    boxOriginals = [tree.nodes[n]['bbox'] for n in tree.neighbors(node)]
+                    matching = self.matchDescriptors(boxOriginals, boxEstimates, lambda a, b : -iou(a, b))
+                    # Now, we find the childStubs and pass them through
+                    # the merge decoder.
+                    childStubs = [] 
+                    neighborPathSets = list(mapPathSet(tree.neighbors(node)))
+                    for i, ps in enumerate(neighborPathSets) : 
+                        candidate = candidates[matching[i]]
+                        bAndt = (boxOriginals[i], boxEstimates[matching[i]], ps)
+                        boxAndTargets.append(bAndt)
+                        childStubs.append(candidate)
+                    childStubs = torch.stack(childStubs)
+                    childFeatures = self.mergeDecoder(childStubs)
+                    # Update the dictionary of decoded features.
+                    decodedFeatures.update(zip(neighborPathSets, childFeatures))
+                    for child in tree.neighbors(node):  
+                        decodeNode(child)
+            except Exception as e: 
+                print(e)
+                import pdb
+                pdb.set_trace()
+                pass
             
         descriptors = tree.descriptors
-        pathEncodings = self.pathEncodingForward(descriptors, edge_index=tree.edge_index())
+        pathEncodings = self.pathEncodingForward(descriptors)
         encodedFeatures = dict(map(lambda a : ((a[0],), a[1]), enumerate(pathEncodings)))
         # Store the features which are known not to
         # exist and use them for training the existence 
         # predictor.
         boxAndTargets = []
-        existingStubs, nonExistingStubs = [], []
-        leafStubs, nonLeafStubs = [], []
         encodeNode(tree.root)
         rootPathSet = tree.nodes[tree.root]['pathSet']
         decodedFeatures = {rootPathSet : encodedFeatures[rootPathSet]}
@@ -456,41 +378,23 @@ class VectorRvNNAutoEncoder (nn.Module) :
         # Use the leaf node features and apply the pathDecoder to 
         # reconstruct the descriptors with which we started this process
         leafNodes = torch.stack([decodedFeatures[(i,)] for i in range(tree.nPaths)])
-        pathDecodings = self.pathDecodingForward(leafNodes, edge_index=tree.edge_index())
-        # Now, having completed the forward pass, its time for loss
-        # computation.
-        # Compute the mean squared loss between the root code
-        # and the output of the raster encoder.
-        rasterEncoding = self.rasterEncoder(tree.image)
-        rasterEncoderLoss = self.mseLoss(rasterEncoding, encodedFeatures[rootPathSet].unsqueeze(0))
-        # Use the existingStubs and nonExistingStubs for
-        # cross entropy loss for the existClassifier.
-        existFeatures = torch.stack([*existingStubs, *nonExistingStubs])
-        exist = self.existClassifier(existFeatures)
-        existTarget = torch.cat((torch.ones(len(existingStubs)), torch.zeros(len(nonExistingStubs)))).long()
-        nodeExistLoss = self.creLoss(exist, existTarget) 
-        # Similarly, do the same for nodeClassifier.
-        nodeFeatures = torch.stack([*leafStubs, *nonLeafStubs])
-        nodeType = self.nodeClassifier(nodeFeatures)
-        nodeTypeTarget = torch.cat((torch.ones(len(leafStubs)), torch.zeros(len(nonLeafStubs)))).long()
-        nodeTypeLoss = self.creLoss(nodeType, nodeTypeTarget) 
-        # Check whether the pathDecoding was accurate.
-        # Measured as a mean squared loss.
+        pathDecodings = self.pathDecodingForward(leafNodes)
+        return pathDecodings, boxAndTargets
+
+    def _backward(self, tree, p, boxAndTargets) :
+        descriptors = tree.descriptors
+        pathDecodings = p[0]
         descReconLoss = self.mseLoss(descriptors, pathDecodings)
         # Reconstruction loss for the inferred bounding boxes.
-        bboxLoss = sum([-iou(b, t) for (b, t, _) in boxAndTargets])
+        bboxLoss = avg([-iou(b, t) for (b, t, _) in boxAndTargets])
         losses = {
-            'edgeLoss' : totalEdgeLoss,
             'descReconLoss': descReconLoss, 
             'bboxLoss': bboxLoss,
-            'rasterEncoderLoss': rasterEncoderLoss,
-            'nodeExistLoss': nodeExistLoss,
-            'nodeTypeLoss': nodeTypeLoss
         }
         # Weight the losses as specified in the config file.
         for k in losses.keys() : 
             losses[k] *= self.config['lossWeights'][k]
-        return losses, exist, existTarget, nodeType, nodeTypeTarget, boxAndTargets
+        return losses
 
     def forward (self, tree): 
         return self._forward(tree)[0]

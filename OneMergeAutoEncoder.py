@@ -32,5 +32,3 @@ class OneMergeAutoEncoder (nn.Module) :
         x, _ = self.pathVAE.decode(x)
         return x
         
-
-

@@ -3,6 +3,9 @@ import itertools
 import more_itertools
 import networkx as nx
 
+def maxOutDegree (t) : 
+    return max(t.out_degree(n) for n in t.nodes)
+
 def subtreeSize(s, t, subSize) :
     """
     Calculate the size of each
