@@ -2,7 +2,7 @@ import torch
 from itertools import product
 from matching import bestAssignmentCost
 import os
-from Model import VectorRvNNAutoEncoder
+from LCAMatrixModel import LCAMatrixModel
 from PathVAE import PathVAE, PathVisCallback
 from Dataset import SVGDataSet
 import json
@@ -32,27 +32,18 @@ class MergeInterface (ttools.ModelInterface) :
         if cuda:
             self.device = "cuda"
         self.model.to(self.device)
+        self.mseLoss = nn.MSELoss()
         self.opt = optim.Adam([
             {'params': self.model.pathVAE.parameters(), 'lr': 1e-7},
-            {'params': self.model.mergeEncoder.parameters(), 'lr': lr},
-            {'params': self.model.mergeDecoder.parameters(), 'lr': lr},
-            {'params': self.model.splitter.parameters(), 'lr': lr}, 
-            {'params': self.model.bbox.parameters(), 'lr': lr}
+            {'params': self.model.nn.parameters(), 'lr': lr}
         ])
 
     def forward(self, batch):
-        for t in batch: 
-            t.descriptors.to(self.device)
-        return [self.model._forward(b) for b in batch]
+        return [self.model(b.descriptors) for b in batch]
 
     def backward(self, batch, fwd_data):
-        for t in batch: 
-            t.descriptors.to(self.device)
-        losses = [self.model._backward(t, p, b) for (t, (p, b)) in zip(batch, fwd_data)]
-        losses = aggregateDict(losses, sum)
-        descReconLoss = losses['descReconLoss']
-        bboxLoss = losses['bboxLoss']
-        loss  = descReconLoss + bboxLoss
+        losses = [self.mseLoss(b.lcaMatrix, o) for b, o in zip(batch, fwd_data)]
+        loss = sum(losses)
         bs = len(batch)
         loss = loss / bs
         ret = {}
@@ -69,8 +60,6 @@ class MergeInterface (ttools.ModelInterface) :
                 LOG.warning("Clipping generator gradients. norm = %.3f > %.3f", nrm, self.max_grad_norm)
         self.opt.step()
         ret["loss"] = loss.item()
-        ret["bboxLoss"] = bboxLoss.item()
-        ret["descReconLoss"] = descReconLoss.item()
         return ret
 
     def init_validation(self):
@@ -115,15 +104,13 @@ def train (path_vae_name, name) :
     state_dict = torch.load(os.path.join(VAE_OUTPUT, 'training_end.pth'), map_location=torch.device('cpu'))
     pathVAE.load_state_dict(state_dict['model'])
     # Initiate main model.
-    model = VectorRvNNAutoEncoder(pathVAE, config)
+    model = LCAMatrixModel(pathVAE, config['sampler'])
     checkpointer = ttools.Checkpointer(MERGE_OUTPUT, model)
     interface = MergeInterface(model)
     trainer = ttools.Trainer(interface)
     port = 8097
-    keys = ["loss", "wd", "bboxLoss", "descReconLoss"]
+    keys = ["loss", "wd"]
     trainer.add_callback(ttools.callbacks.CheckpointingCallback(checkpointer))
-    trainer.add_callback(PathVisCallback(
-        env=name, win="samples", port=port, frequency=200))
     trainer.add_callback(ttools.callbacks.ProgressBarCallback(
         keys=keys, val_keys=keys))
     trainer.add_callback(ttools.callbacks.VisdomLoggingCallback(

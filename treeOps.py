@@ -3,6 +3,33 @@ import itertools
 import more_itertools
 import networkx as nx
 
+def lca (t, a, b) : 
+    r = findRoot(t)
+    testNodes = set([a, b])
+    while True :
+        desc = map(partial(descendants, t), t.neighbors(r))
+        found = False
+        for n in t.neighbors(r) : 
+            desc = descendants(t, n)
+            if testNodes.issubset(desc) : 
+                r = n
+                found = True
+                break
+        if not found : 
+            break
+    return r
+
+def setNodeDepths (t) :
+    def dfs (n, p=None) : 
+        if p is None : 
+            t.nodes[n]['depth'] = 0
+        else : 
+            t.nodes[n]['depth'] = 1 + t.nodes[p]['depth']
+        for c in t.neighbors(n) : 
+            dfs(c, n)
+    r = findRoot(t)
+    dfs(r)
+    
 def maxOutDegree (t) : 
     return max(t.out_degree(n) for n in t.nodes)
 
@@ -252,6 +279,9 @@ if __name__ == "__main__" :
     trainDir = commonConfig['train_directory']
     trainData = SVGDataSet(trainDir, 'adjGraph', 10, useColor=False)
     things = list(map(maxDepth, trainData))
+    setNodeDepths(trainData[0])
+    import pdb
+    pdb.set_trace()
     import matplotlib.pyplot as plt
     plt.hist(things)
     plt.show()

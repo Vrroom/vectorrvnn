@@ -7,7 +7,7 @@ from descriptor import relbb, equiDistantSamples, pathAttr
 from functools import reduce
 import numpy as np
 from graphOps import contractGraph
-from treeOps import findRoot, treeApplyChildrenFirst
+from treeOps import findRoot, treeApplyChildrenFirst, lca, setNodeDepths, maxDepth
 from torchvision import transforms as T
 import torch
 from svgIO import getTreeStructureFromSVG
@@ -55,6 +55,15 @@ class SVGData (nx.DiGraph) :
             self.descriptors = [equiDistantSamples(p.path, docViewBox, nSamples=nSamples) for p in paths]
         self._computeBBoxes(self.root)
         self._pathSet2Tuple()
+        self._computeLCAMatrix()
+
+    def _computeLCAMatrix(self) : 
+        self.lcaMatrix = np.zeros((self.nPaths, self.nPaths))
+        self.maxDepth = maxDepth(self)
+        setNodeDepths(self)
+        for i in range(self.nPaths) : 
+            for j in range(self.nPaths) : 
+                self.lcaMatrix[i, j] = self.nodes[lca(self, i, j)]['depth'] / self.maxDepth
 
     def _nodeId2PathId (self, n) : 
         assert self.out_degree(n) == 0, "Function called with internal node"
@@ -108,6 +117,11 @@ class SVGData (nx.DiGraph) :
         edges = edges.view((2, -1))
         return edges
 
+    def lcaMatrix2tensor(self, cuda=False) : 
+        if isinstance(self.lcaMatrix, torch.Tensor) : 
+            return
+        self.lcaMatrix = torch.from_numpy(self.lcaMatrix).float()
+
     def image2tensor (self, cuda=False) :
         """
         Since the first pass of the rasterized 
@@ -147,6 +161,7 @@ class SVGData (nx.DiGraph) :
         self.image2tensor(cuda)
         self.descriptor2tensor(cuda)
         self.bbox2tensor(cuda)
+        self.lcaMatrix2tensor(cuda)
 
 if __name__ == '__main__' : 
     data = SVGData('/Users/amaltaas/BTP/vectorrvnn/PartNetSubset/Train/10007.svg', "adjGraph", 10)
