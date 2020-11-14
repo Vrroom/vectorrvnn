@@ -6,6 +6,14 @@ import networkx as nx
 def maxOutDegree (t) : 
     return max(t.out_degree(n) for n in t.nodes)
 
+def maxDepth (t) :
+    r = findRoot(t)
+    def helper (n) : 
+        if t.out_degree(n) == 0 : 
+            return 1
+        return 1 + max(map(helper, t.neighbors(n)))
+    return helper(r)
+    
 def subtreeSize(s, t, subSize) :
     """
     Calculate the size of each
@@ -234,3 +242,16 @@ def removeOneOutDegreeNodesFromTree (tree) :
     relabelDict = dict(zip(topOrder, range(tree.number_of_nodes())))
     tree = nx.relabel_nodes(tree, relabelDict)
     return tree
+
+if __name__ == "__main__" : 
+    import json
+    from Dataset import SVGDataSet 
+    with open('commonConfig.json') as fd : 
+        commonConfig = json.load(fd)
+    # Load all the data
+    trainDir = commonConfig['train_directory']
+    trainData = SVGDataSet(trainDir, 'adjGraph', 10, useColor=False)
+    things = list(map(maxDepth, trainData))
+    import matplotlib.pyplot as plt
+    plt.hist(things)
+    plt.show()
