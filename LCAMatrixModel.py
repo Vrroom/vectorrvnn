@@ -6,6 +6,13 @@ from Dataset import SVGDataSet
 from PathVAE import PathVAE
 import os
 
+def subMatrix(mat, rIndices, cIndices) : 
+    rIndices = torch.tensor(rIndices)
+    cIndices = torch.tensor(cIndices)
+    submat1 = torch.index_select(mat, 0, rIndices)
+    submat2 = torch.index_select(submat1, 1, cIndices)
+    return submat2
+
 class LCAMatrixModel (nn.Module) : 
 
     def __init__ (self, pathVAE, config): 
@@ -19,6 +26,12 @@ class LCAMatrixModel (nn.Module) :
             nn.Linear(hidden_size, 1), 
             nn.Hardsigmoid()
         )
+
+    def binaryMergeScore (self, graph, i, j, x) : 
+        o = self.forward(x)
+        pathSeti = graph['nodes'][i]['paths']
+        pathSetj = graph['nodes'][j]['paths']
+        return -subMatrix(o, pathSeti, pathSetj).mean()
 
     def forward (self, x) :
         x, _  = self.pathVAE.encode(x)

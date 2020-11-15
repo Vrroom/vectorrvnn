@@ -3,6 +3,8 @@ from treeOps import *
 import matplotlib.pyplot as plt
 import numpy as np
 import json
+from scipy.stats import skew
+from scipy import stats
 
 def areaStd (data) : 
     std = []
@@ -54,7 +56,16 @@ def main () :
     # Load all the data
     trainDir = commonConfig['train_directory']
     trainData = SVGDataSet(trainDir, 'adjGraph', 10, useColor=False)
-    areaStd(trainData)
+    thing = np.concatenate([t.lcaMatrix.flatten() for t in trainData])
+    print(skew(thing))
+    print(skew(np.log(1 + thing)))
+    print(skew(stats.boxcox(thing + 1e-3)[0]))
+    plt.hist(thing)
+    plt.show()
+    plt.hist(np.log(1 + thing))
+    plt.show()
+    plt.hist(stats.boxcox(thing + 1e-3)[0], bins=2)
+    plt.show()
 
 if __name__ == "__main__" : 
     main()
