@@ -28,9 +28,9 @@ class SVGDataSet (data.Dataset, Saveable) :
     def __getitem__ (self, index) :
         return self.svgDatas[index]
 
-    def toTensor (self) : 
+    def toTensor (self, cuda=False) : 
         for i in range(len(self)) : 
-            self.svgDatas[i].toTensor()
+            self.svgDatas[i].toTensor(cuda=cuda)
 
     def __len__ (self) : 
         return len(self.svgDatas)

@@ -22,7 +22,7 @@ LOG = ttools.get_logger(__name__)
 
 class MergeInterface (ttools.ModelInterface) : 
 
-    def __init__(self, model, lr=1e-4, cuda=False, max_grad_norm=10,
+    def __init__(self, model, lr=1e-3, cuda=True, max_grad_norm=10,
                  variational=True):
         super(MergeInterface, self).__init__()
         self.max_grad_norm = max_grad_norm
@@ -32,10 +32,11 @@ class MergeInterface (ttools.ModelInterface) :
         if cuda:
             self.device = "cuda"
         self.model.to(self.device)
-        self.mseLoss = nn.MSELoss()
+        self.mseLoss = nn.L1Loss()
         self.opt = optim.Adam([
             {'params': self.model.pathVAE.parameters(), 'lr': 1e-7},
-            {'params': self.model.nn.parameters(), 'lr': lr}
+            {'params': self.model.nn1.parameters(), 'lr': lr},
+            {'params': self.model.nn2.parameters(), 'lr': lr}
         ])
 
     def forward(self, batch):
@@ -89,7 +90,10 @@ def train (path_vae_name, name) :
     # Load all the data
     trainDir = commonConfig['train_directory']
     trainData = SVGDataSet(trainDir, 'adjGraph', 10, useColor=False)
-    trainData.toTensor()
+    trainData.toTensor(cuda=True)
+    testDir = commonConfig['test_directory']
+    testData = SVGDataSet(testDir, 'adjGraph', 10, useColor=False)
+    testData.toTensor(cuda=True)
     dataLoader = torch.utils.data.DataLoader(
         trainData, 
         batch_size=16, 
@@ -101,10 +105,11 @@ def train (path_vae_name, name) :
     VAE_OUTPUT = os.path.join(BASE_DIR, "results", path_vae_name)
     MERGE_OUTPUT = os.path.join(BASE_DIR, "results", name)
     pathVAE = PathVAE(config)
-    state_dict = torch.load(os.path.join(VAE_OUTPUT, 'training_end.pth'), map_location=torch.device('cpu'))
+    state_dict = torch.load(os.path.join(VAE_OUTPUT, 'training_end.pth'))
     pathVAE.load_state_dict(state_dict['model'])
+    pathVAE = pathVAE.float()
     # Initiate main model.
-    model = LCAMatrixModel(pathVAE, config['sampler'])
+    model = LCAMatrixModel(pathVAE, config['sampler']).float()
     checkpointer = ttools.Checkpointer(MERGE_OUTPUT, model)
     interface = MergeInterface(model)
     trainer = ttools.Trainer(interface)
@@ -116,7 +121,9 @@ def train (path_vae_name, name) :
     trainer.add_callback(ttools.callbacks.VisdomLoggingCallback(
         keys=keys, val_keys=keys, env=name, port=port))
     # Start training
-    trainer.train(dataLoader, num_epochs=1000)
+    trainer.train(dataLoader, num_epochs=4000)
+    # Calculate loss on test set.
+    print(interface.backward(trainData, interface.forward(trainData)))
 
 if __name__ == "__main__" : 
     import sys

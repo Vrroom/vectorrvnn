@@ -121,6 +121,8 @@ class SVGData (nx.DiGraph) :
         if isinstance(self.lcaMatrix, torch.Tensor) : 
             return
         self.lcaMatrix = torch.from_numpy(self.lcaMatrix).float()
+        if cuda :
+            self.lcaMatrix = self.lcaMatrix.cuda()
 
     def image2tensor (self, cuda=False) :
         """
@@ -158,10 +160,10 @@ class SVGData (nx.DiGraph) :
                 self.nodes[n]['bbox'] = self.nodes[n]['bbox'].cuda()
 
     def toTensor(self, cuda=False) : 
-        self.image2tensor(cuda)
-        self.descriptor2tensor(cuda)
-        self.bbox2tensor(cuda)
-        self.lcaMatrix2tensor(cuda)
+        self.image2tensor(cuda=cuda)
+        self.descriptor2tensor(cuda=cuda)
+        self.bbox2tensor(cuda=cuda)
+        self.lcaMatrix2tensor(cuda=cuda)
 
 if __name__ == '__main__' : 
     data = SVGData('/Users/amaltaas/BTP/vectorrvnn/PartNetSubset/Train/10007.svg', "adjGraph", 10)
