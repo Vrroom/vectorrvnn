@@ -9,6 +9,7 @@ from functools import reduce
 from treeOps import findRoot, subtreeSize, descendants
 from matching import bestAssignmentCost
 from pulp import *
+import time
 
 def ted (t1, t2) : 
     """
@@ -24,6 +25,7 @@ def ted (t1, t2) :
     >>> tree2 = SVGData('/Users/amaltaas/BTP/vectorrvnn/PartNetSubset/Train/1003.svg', "adjGraph", 10)
     >>> print(ted(tree1, tree2))
     """
+    startTime = time.time()
     d = lambda x, y : 0 if t1.nodes[x]['pathSet'] == t2.nodes[y]['pathSet'] else 1
     n, m = t1.number_of_nodes(), t2.number_of_nodes()
     allPairs = list(product(range(n), range(m)))
@@ -36,14 +38,16 @@ def ted (t1, t2) :
         prob += v[x,:].sum() <= 1
     for y in range(m) : 
         prob += v[:,y].sum() <= 1
-    for (x, y), (x_, y_) in product(allPairs, allPairs) : 
-        node_x, node_x_ = nodes1[x], nodes1[x_]
-        node_y, node_y_ = nodes2[y], nodes2[y_]
-        if node_x_ in descendants(t1, node_x) and node_y_ not in descendants(t2, node_y) : 
-            prob += v[x, y] + v[x_, y_] <= 1
-        if node_x_ not in descendants(t1, node_x) and node_y_ in descendants(t2, node_y) : 
-            prob += v[x, y] + v[x_, y_] <= 1
+    # for (x, y), (x_, y_) in product(allPairs, allPairs) : 
+    #     node_x, node_x_ = nodes1[x], nodes1[x_]
+    #     node_y, node_y_ = nodes2[y], nodes2[y_]
+    #     # if node_x_ in descendants(t1, node_x) and node_y_ not in descendants(t2, node_y) : 
+    #     prob += v[x, y] + v[x_, y_] <= 1
+    #     # if node_x_ not in descendants(t1, node_x) and node_y_ in descendants(t2, node_y) : 
+    #     prob += v[x, y] + v[x_, y_] <= 1
+    print(time.time() - startTime)
     prob.solve()
+    print(time.time() - startTime)
     return int(value(prob.objective) + n + m)
 
 def treeKCut (tree, k) :

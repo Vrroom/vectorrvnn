@@ -246,18 +246,7 @@ class VectorRvNNAutoEncoder (nn.Module) :
                 del error[key]
                 del features[key]
             candidates = list(subsets(bases, K))
-        T = nx.DiGraph()
-        while len(bases) > 0 : 
-            parent = bases.pop()
-            if isinstance(parent, int) :
-                pathSet = [parent]
-            else : 
-                pathSet = list(more_itertools.collapse(parent))
-                for child in parent : 
-                    T.add_edge(parent, child)
-                bases.extend(parent)
-            T.nodes[parent]['pathSet'] = pathSet 
-        return T
+        return treeFromNestedArray(bases)
 
     def iouAvg (self, trees) : 
         """

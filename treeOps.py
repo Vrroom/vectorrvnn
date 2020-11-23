@@ -270,6 +270,20 @@ def removeOneOutDegreeNodesFromTree (tree) :
     tree = nx.relabel_nodes(tree, relabelDict)
     return tree
 
+def treeFromNestedArray (nestedArray) :
+    T = nx.DiGraph()
+    while len(nestedArray) > 0 : 
+        parent = nestedArray.pop()
+        if isinstance(parent, int) :
+            pathSet = [parent]
+        else : 
+            pathSet = list(more_itertools.collapse(parent))
+            for child in parent : 
+                T.add_edge(parent, child)
+            nestedArray.extend(parent)
+        T.nodes[parent]['pathSet'] = pathSet 
+    return T
+
 if __name__ == "__main__" : 
     import json
     from Dataset import SVGDataSet 

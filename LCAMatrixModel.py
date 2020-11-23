@@ -1,3 +1,4 @@
+import numpy as np
 import torch
 from torch import nn
 import torch.nn.functional as F
@@ -5,6 +6,18 @@ import json
 from Dataset import SVGDataSet
 from PathVAE import PathVAE
 import os
+from more_itertools import collapse
+from listOps import removeIndices
+from treeOps import treeFromNestedArray
+from treeCompare import ted
+from tqdm import tqdm
+
+def subMatrix(mat, rIndices, cIndices) :
+    rIndices = torch.tensor(rIndices).cuda()
+    cIndices = torch.tensor(cIndices).cuda()
+    submat1 = torch.index_select(mat, 0, rIndices)
+    submat2 = torch.index_select(submat1, 1, cIndices)
+    return submat2
 
 class LCAMatrixModel (nn.Module) : 
 
@@ -26,6 +39,34 @@ class LCAMatrixModel (nn.Module) :
             nn.Hardsigmoid()
         )
 
+    def binaryMergeScore (self, graph, i, j, x) :
+        o = self.forward(x)
+        pathSeti = graph['nodes'][i]['paths']
+        pathSetj = graph['nodes'][j]['paths']
+        return subMatrix(o, pathSeti, pathSetj).mean()
+
+    def greedyTree (self, x): 
+        n, *_ = x.shape
+        o = self.forward(x)
+        subtrees = list(map(lambda x : (x,), range(n)))
+        while len(subtrees) > 1 : 
+            best, bestI, bestJ = 0, 0, 0
+            for i in range(len(subtrees)) :
+                for j in range(i + 1, len(subtrees)) :
+                    subtree1 = subtrees[i]
+                    subtree2 = subtrees[j]
+                    pathList1 = list(collapse(subtree1))
+                    pathList2 = list(collapse(subtree2))
+                    score = subMatrix(o, pathList1, pathList2).mean()
+                    if score > best : 
+                        best = score
+                        bestI = i
+                        bestJ = j
+            newSubtree = (subtrees[bestI], subtrees[bestJ])
+            removeIndices(subtrees, [bestI, bestJ])
+            subtrees.append(newSubtree)
+        return treeFromNestedArray(subtrees)
+
     def forward (self, x) :
         x, _  = self.pathVAE.encode(x)
         n, _ = x.shape
@@ -40,12 +81,17 @@ class LCAMatrixModel (nn.Module) :
         o = self.nn2(x).view(n, n)
         return o
 
+def distanceFromGroundTruth (model, t) : 
+    t_ = model.greedyTree(t.descriptors)
+    return ted(t, t_)
+
 def test (model, t) :
-    loss = nn.L1Loss()
-    desc = t.descriptors
-    o = model(desc)
-    print(o)
-    print(t.lcaMatrix)
+    t_ = (model.greedyTree(t.descriptors))
+    # loss = nn.L1Loss()
+    # desc = t.descriptors
+    # o = model(desc)
+    # print(o)
+    # print(t.lcaMatrix)
 
 if __name__ == "__main__" : 
     with open('Configs/config.json') as fd : 
@@ -63,4 +109,6 @@ if __name__ == "__main__" :
     state_dict = torch.load(os.path.join(MERGE_OUTPUT, 'training_end.pth'))
     model.load_state_dict(state_dict['model'])
     model.to("cuda")
-    test(model, testData[2])
+    scores = [distanceFromGroundTruth(model, t) for t in tqdm(testData)]
+    print(scores)
+    print(np.mean(scores), np.std(scores))
