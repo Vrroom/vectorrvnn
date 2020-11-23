@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import svgpathtools as svg
 import random
 from itertools import product
@@ -6,45 +7,84 @@ import networkx as nx
 import more_itertools
 import copy
 from functools import reduce
-from treeOps import findRoot, subtreeSize, descendants
+from treeOps import *
 from matching import bestAssignmentCost
 from pulp import *
 
 def ted (t1, t2) : 
     """
-    Compute tree edit distance between two unordered 
-    trees using Integer Programming. The cost of 
-    insertion and deletion is 1. The cost of relabeling
-    is 1 unless the pathSet's match exactly.
+    Faster unordered tree edit distance algorithm. 
 
-    Examples
-    --------
-    >>> from SVGData import SVGData
-    >>> tree1 = SVGData('/Users/amaltaas/BTP/vectorrvnn/PartNetSubset/Train/10007.svg', "adjGraph", 10)
-    >>> tree2 = SVGData('/Users/amaltaas/BTP/vectorrvnn/PartNetSubset/Train/1003.svg', "adjGraph", 10)
-    >>> print(ted(tree1, tree2))
+    Based on https://arxiv.org/pdf/1706.03473.pdf
     """
-    d = lambda x, y : 0 if t1.nodes[x]['pathSet'] == t2.nodes[y]['pathSet'] else 1
+    def d (x, y) : 
+        """ 
+        Cost of relabeling node x with node y is
+        the symmetric difference of the pathSets divided
+        by their union.
+        """
+        ps1 = set(t1.nodes[x]['pathSet'])
+        ps2 = set(t2.nodes[y]['pathSet'])
+        return len(ps1 ^ ps2) / len(ps1 | ps2)
+
+    def variableMatrix(row, col) : 
+        """
+        row and col are the names used to index 
+        the dataframe. 
+        """
+        var = [[LpVariable(f'm_{x}_{y}', cat='Binary') for y in col] for x in row]
+        return pd.DataFrame(data=var, columns=col, index=row)
+   
+    def computeW (x, y) : 
+        """
+        Compute W matrix recursively and 
+        memoize the results.
+        """
+        nonlocal W
+        if np.isinf(W.loc[x, y]) : 
+            if t1.out_degree(x) == 0 or t2.out_degree(y) == 0 : 
+                W.loc[x, y] = 2 - d(x, y)
+            else : 
+                set1 = list(descendants(t1, x) - {x})
+                set2 = list(descendants(t2, y) - {y})
+                v = variableMatrix(set1, set2)
+                W_ = np.array([[computeW(x_, y_) for y_ in set2] for x_ in set1])
+                prob = LpProblem(f'TreeEditDistance_Sub_Problem_{x}_{y}', LpMaximize)
+                # Subproblem objective
+                prob += (W_ * v).values.sum() + (2 - d(x, y))
+                # Subproblem constaints
+                for l in leavesInSubtree(t1, x) : 
+                    P = list(set(pathInTree(t1, x, l)) - {x})
+                    prob += v.loc[P, set2].values.sum() <= 1
+                for l in leavesInSubtree(t2, y) : 
+                    P = list(set(pathInTree(t2, y, l)) - {y})
+                    prob += v.loc[set1, P].values.sum() <= 1
+                prob.solve()
+                W.loc[x, y] = prob.objective.valueOrDefault()
+        return W.loc[x, y]
+    
     n, m = t1.number_of_nodes(), t2.number_of_nodes()
-    allPairs = list(product(range(n), range(m)))
-    nodes1, nodes2 = list(t1.nodes), list(t2.nodes)
-    v = np.array([[LpVariable(f'm_{x}_{y}', lowBound=0, upBound=1) for y in range(m)] for x in range(n)])
-    distanceMatrix = np.array([[d(x, y) for y in nodes2] for x in nodes1])
-    prob = LpProblem("TreeEditDistance", LpMinimize)
-    prob += (v * (distanceMatrix - 2)).sum()
-    for x in range(n) :
-        prob += v[x,:].sum() <= 1
-    for y in range(m) : 
-        prob += v[:,y].sum() <= 1
-    for (x, y), (x_, y_) in product(allPairs, allPairs) : 
-        node_x, node_x_ = nodes1[x], nodes1[x_]
-        node_y, node_y_ = nodes2[y], nodes2[y_]
-        if node_x_ in descendants(t1, node_x) and node_y_ not in descendants(t2, node_y) : 
-            prob += v[x, y] + v[x_, y_] <= 1
-        if node_x_ not in descendants(t1, node_x) and node_y_ in descendants(t2, node_y) : 
-            prob += v[x, y] + v[x_, y_] <= 1
+    leaves1, leaves2 = leaves(t1), leaves(t2)
+    r1, r2 = findRoot(t1), findRoot(t2)
+    W = pd.DataFrame(data=-np.inf * np.ones((n, m)), columns=t2.nodes, index=t1.nodes)
+    for x, y in itertools.product(t1.nodes, t2.nodes) :
+        computeW(x, y)
+    print(W)
+    # Use the W matrix to calculate the edit distance
+    v = variableMatrix(t1.nodes, t2.nodes)
+    prob = LpProblem("TreeEditDistance", LpMaximize)
+    # Add the objectives
+    prob += (W * v).values.sum()
+    # Add the constraints
+    for l in leaves1 : 
+        P = pathInTree(t1, r1, l)
+        prob += v.loc[P, list(t2.nodes)].values.sum() <= 1
+    for l in leaves2 : 
+        P = pathInTree(t2, r2, l)
+        prob += v.loc[list(t1.nodes), P].values.sum() <= 1
     prob.solve()
-    return int(value(prob.objective) + n + m)
+    opt = prob.objective.valueOrDefault()
+    return n + m - opt
 
 def treeKCut (tree, k) :
     """
@@ -355,3 +395,16 @@ def match (rt1, rt2) :
             return bestAssignmentCost(costdict)
 
     return cost(r1, r2)
+
+if __name__ == "__main__" : 
+    from Dataset import SVGDataSet
+    from tqdm import tqdm
+    with open('Configs/config.json') as fd : 
+        config = json.load(fd)
+    with open('commonConfig.json') as fd : 
+        commonConfig = json.load(fd)
+    # Load all the data
+    testDir = commonConfig['test_directory']
+    testData = SVGDataSet(testDir, 'adjGraph', 10, useColor=False)
+    dists = [ted_(t, t) for t in tqdm(testData)]
+    print(np.mean(dists))
