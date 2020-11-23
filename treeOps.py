@@ -284,6 +284,44 @@ def treeFromNestedArray (nestedArray) :
         T.nodes[parent]['pathSet'] = pathSet 
     return T
 
+def pathInTree (T, x1, x2) : 
+    """
+    Return path from x1 to x2 in T.
+
+    Assume that x1 is ancestor of x2.
+
+    Parameters
+    ----------
+    T : nx.DiGraph
+        Tree.
+    x1 : node 
+        Ancestor node in T.
+    x2 : node
+        Descendent node in T.
+
+    Returns
+    -------
+    list of all nodes on path from x1 to x2
+    including x1 and x2.
+    """
+    if x1 == x2 : 
+        return [x1]
+    c = next(filter(lambda x : x2 in descendants(T, x), T.neighbors(x1)))
+    return [x1] + pathInTree(T, c, x2)
+
+def leavesInSubtree (T, x) : 
+    """
+    Return leaves in subtree whose root is x.
+
+    Parameters
+    ----------
+    T : nx.DiGraph
+        Tree.
+    x : node 
+        Node in T.
+    """
+    return descendants(T, x) & set(leaves(T))
+
 if __name__ == "__main__" : 
     import json
     from Dataset import SVGDataSet 
