@@ -8,7 +8,7 @@ from PathVAE import PathVAE
 import os
 from more_itertools import collapse
 from listOps import removeIndices
-from treeOps import treeFromNestedArray
+from treeOps import treeFromNestedArray, computeLCAMatrix, numNodes2Binarize
 from treeCompare import ted
 from tqdm import tqdm
 
@@ -45,19 +45,19 @@ class LCAMatrixModel (nn.Module) :
         pathSetj = graph['nodes'][j]['paths']
         return subMatrix(o, pathSeti, pathSetj).mean()
 
-    def greedyTree (self, x): 
+    def greedyTree (self, x, aggregate=torch.mean): 
         n, *_ = x.shape
         o = self.forward(x)
-        subtrees = list(map(lambda x : (x,), range(n)))
+        subtrees = list(map(lambda x : x, range(n)))
         while len(subtrees) > 1 : 
-            best, bestI, bestJ = 0, 0, 0
+            best, bestI, bestJ = -np.inf, None, None
             for i in range(len(subtrees)) :
                 for j in range(i + 1, len(subtrees)) :
                     subtree1 = subtrees[i]
                     subtree2 = subtrees[j]
-                    pathList1 = list(collapse(subtree1))
-                    pathList2 = list(collapse(subtree2))
-                    score = subMatrix(o, pathList1, pathList2).mean()
+                    pathList1 = list(collapse([subtree1]))
+                    pathList2 = list(collapse([subtree2]))
+                    score = aggregate(subMatrix(o, pathList1, pathList2))
                     if score > best : 
                         best = score
                         bestI = i
@@ -81,9 +81,10 @@ class LCAMatrixModel (nn.Module) :
         o = self.nn2(x).view(n, n)
         return o
 
-def distanceFromGroundTruth (model, t) : 
-    t_ = model.greedyTree(t.descriptors)
-    return ted(t, t_)
+def distanceFromGroundTruth (model, t, aggregator) : 
+    t_ = model.greedyTree(t.descriptors, aggregator)
+    a = ted(t, t_)
+    return ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
 
 def test (model, t) :
     t_ = (model.greedyTree(t.descriptors))
@@ -101,14 +102,20 @@ if __name__ == "__main__" :
     # Load all the data
     testDir = commonConfig['test_directory']
     testData = SVGDataSet(testDir, 'adjGraph', 10, useColor=False)
-    testData.toTensor(cuda=True)
-    pathVAE = PathVAE(config)
-    model = LCAMatrixModel(pathVAE, config['sampler'])
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    MERGE_OUTPUT = os.path.join(BASE_DIR, "results", "lca_merge")
-    state_dict = torch.load(os.path.join(MERGE_OUTPUT, 'training_end.pth'))
-    model.load_state_dict(state_dict['model'])
-    model.to("cuda")
-    scores = [distanceFromGroundTruth(model, t) for t in tqdm(testData)]
-    print(scores)
-    print(np.mean(scores), np.std(scores))
+    delta = [numNodes2Binarize(t) for t in testData]
+    dist = [n / (2 * t.number_of_nodes() + n) for t, n in zip(testData, delta)]
+    print(np.mean(dist), np.std(dist))
+    # testData.toTensor(cuda=True)
+    # pathVAE = PathVAE(config)
+    # model = LCAMatrixModel(pathVAE, config['sampler'])
+    # BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    # MERGE_OUTPUT = os.path.join(BASE_DIR, "results", "lca_merge")
+    # state_dict = torch.load(os.path.join(MERGE_OUTPUT, 'training_end.pth'))
+    # model.load_state_dict(state_dict['model'])
+    # model.to("cuda")
+    # aggregators = [torch.min, torch.max, torch.mean]
+    # things = []
+    # for a in aggregators : 
+    #     scores = [distanceFromGroundTruth(model, t, a) for t in tqdm(testData)]
+    #     things.append((np.mean(scores), np.std(scores)))
+    # print(things)

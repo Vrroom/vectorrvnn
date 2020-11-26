@@ -2,6 +2,14 @@ from functools import partial, reduce
 import itertools
 import more_itertools
 import networkx as nx
+import numpy as np
+
+def numNodes2Binarize (t) :
+    """
+    How many nodes should be added to 
+    binarize a tree.
+    """
+    return sum([t.out_degree(n) - 2 for n in t.nodes if t.out_degree(n) > 2])
 
 def lca (t, a, b) : 
     r = findRoot(t)
@@ -282,6 +290,11 @@ def treeFromNestedArray (nestedArray) :
                 T.add_edge(parent, child)
             nestedArray.extend(parent)
         T.nodes[parent]['pathSet'] = pathSet 
+    # Relabel interior nodes.
+    internalNodes = [n for n in T.nodes if T.out_degree(n) > 0]
+    newLabels = range(len(leaves(T)), len(T.nodes))
+    newMapping = dict(zip(internalNodes, newLabels))
+    T = nx.relabel_nodes(T, newMapping)
     return T
 
 def pathInTree (T, x1, x2) : 
@@ -321,6 +334,15 @@ def leavesInSubtree (T, x) :
         Node in T.
     """
     return descendants(T, x) & set(leaves(T))
+
+def computeLCAMatrix(T) : 
+    n = len(leaves(T))
+    T.lcaMatrix = np.zeros((n, n))
+    T.maxDepth = maxDepth(T)
+    setNodeDepths(T)
+    for i in range(n) : 
+        for j in range(n) : 
+            T.lcaMatrix[i, j] = T.nodes[lca(T, i, j)]['depth'] / T.maxDepth
 
 if __name__ == "__main__" : 
     import json

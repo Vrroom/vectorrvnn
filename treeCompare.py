@@ -70,7 +70,6 @@ def ted (t1, t2) :
     W = pd.DataFrame(data=-np.inf * np.ones((n, m)), columns=t2.nodes, index=t1.nodes)
     for x, y in itertools.product(t1.nodes, t2.nodes) :
         computeW(x, y)
-    print(W)
     # Use the W matrix to calculate the edit distance
     v = variableMatrix(t1.nodes, t2.nodes)
     prob = LpProblem("TreeEditDistance", LpMaximize)
@@ -407,5 +406,5 @@ if __name__ == "__main__" :
     # Load all the data
     testDir = commonConfig['test_directory']
     testData = SVGDataSet(testDir, 'adjGraph', 10, useColor=False)
-    dists = [ted_(t, t) for t in tqdm(testData)]
+    dists = [ted(t, t) for t in tqdm(testData)]
     print(np.mean(dists))
