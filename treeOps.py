@@ -83,7 +83,7 @@ def descendants (tree, node) :
     tree : nx.DiGraph
         Rooted tree.
     node : any
-        Node whose descendents are to be computed.
+        Node whose descendents are to be cpomputed.
     """
     neighbors = set(list(tree.neighbors(node)))
     descOfDesc = map(partial(descendants, tree), neighbors)
@@ -336,13 +336,23 @@ def leavesInSubtree (T, x) :
     return descendants(T, x) & set(leaves(T))
 
 def computeLCAMatrix(T) : 
-    n = len(leaves(T))
+    """
+    Compute LCA matrix where entries are 
+    max-depth normalized LCA for each pair
+    of nodes.
+
+    Parameters
+    ----------
+    T : nx.DiGraph
+        Tree.
+    """
+    n = T.number_of_nodes()
     T.lcaMatrix = np.zeros((n, n))
     T.maxDepth = maxDepth(T)
     setNodeDepths(T)
-    for i in range(n) : 
-        for j in range(n) : 
-            T.lcaMatrix[i, j] = T.nodes[lca(T, i, j)]['depth'] / T.maxDepth
+    for i, a in enumerate(T.nodes) : 
+        for j, b in enumerate(T.nodes) : 
+            T.lcaMatrix[i, j] = T.nodes[lca(T, a, b)]['depth'] / T.maxDepth
 
 if __name__ == "__main__" : 
     import json
@@ -354,8 +364,6 @@ if __name__ == "__main__" :
     trainData = SVGDataSet(trainDir, 'adjGraph', 10, useColor=False)
     things = list(map(maxDepth, trainData))
     setNodeDepths(trainData[0])
-    import pdb
-    pdb.set_trace()
     import matplotlib.pyplot as plt
     plt.hist(things)
     plt.show()

@@ -3,22 +3,22 @@
 		"type": "CyclicPathEncoder",
 		"kernel_size": 3,
 		"input_size": [2, 10],
-		"feature_size": 40
+		"feature_size": 64
 	},
 	"pathDecoder": {
 		"samples": 10,
-		"feature_size": 40,
-		"hidden_size": 200,
+		"feature_size": 64,
+		"hidden_size": 128,
 		"output_size": [2, 10]
 	},
 	"sampler": {
-		"input_size": 40,
-		"hidden_size": 200
+		"input_size": 64,
+		"hidden_size": 128
 	},
 	"splitter": {
-		"input_size": 40,
+		"input_size": 64,
 		"max_children": 5,
-		"output_size": 40
+		"output_size": 64
 	},
 	"lossWeights": {
 		"bboxLoss": 1,

@@ -1,4 +1,5 @@
 import subprocess
+import numpy as np
 import random
 import os
 import os.path as osp
@@ -100,18 +101,29 @@ def getSubsetSvg(paths, lst, vb) :
                         openinbrowser=False)
     return drawing.tostring()
 
-def svgStringToBitmap (svgString) :
+def alphaCompositeOnWhite (source) : 
+    destination = np.ones_like(source)
+    alpha = source[:, :, 3:]
+    d_ = destination[:, :, :3]
+    s_ = source[:, :, :3]
+    return d_ * (1 - alpha) + s_ * alpha
+
+def svgStringToBitmap (svgString, H, W) :
     svgName = randomString(10) + '.svg'
     svgName = osp.join('/tmp', svgName)
     pngName = randomString(10) + '.png'
     pngName = osp.join('/tmp', pngName)
     with open(svgName, 'w+') as fd :
         fd.write(svgString)
-    rasterize(svgName, pngName)
+    rasterize(svgName, pngName, H, W)
     img = image.imread(pngName)
-    os.remove(svgName)
-    os.remove(pngName)
-    return img.tolist()
+    return alphaCompositeOnWhite(img)
+
+def SVGSubset2NumpyImage (doc, pathSet, H, W) :
+    paths = doc.flatten_all_paths()
+    vb = doc.get_viewbox()
+    svgString = getSubsetSvg(paths, pathSet, vb)
+    return svgStringToBitmap(svgString, H, W)
 
 def SVGtoNumpyImage (svgFilePath, H, W) :
     """

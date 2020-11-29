@@ -2,7 +2,7 @@ import torch
 from itertools import product
 from matching import bestAssignmentCost
 import os
-from LCAMatrixModel import LCAMatrixModel
+from RasterLCAModel import RasterLCAModel
 from PathVAE import PathVAE, PathVisCallback
 from Dataset import SVGDataSet
 import json
@@ -20,33 +20,46 @@ from dictOps import aggregateDict
 
 LOG = ttools.get_logger(__name__)
 
+class ImageCallback(ttools.callbacks.ImageDisplayCallback):
+    """Simple callback that visualize images."""
+    def visualized_image(self, batch, fwd_result):
+        ref1 = batch[0][0].cpu()
+        ref2 = batch[1][0].cpu()
+        viz = torch.clamp(torch.cat([ref1, ref2], 2), 0, 1)
+        return viz
+    
+    def caption(self, batch, fwd_result):
+        # write some informative caption into the visdom window
+        ref = float(batch[2][0][0])
+        pred = float(fwd_result[0][0])
+        s = 'REF: {:10.4f}, PRED: {:10.4f}'.format(ref, pred)
+        return s
+
 class MergeInterface (ttools.ModelInterface) : 
 
-    def __init__(self, model, lr=1e-3, cuda=True, max_grad_norm=10,
+    def __init__(self, model, lr=1e-4, cuda=True, max_grad_norm=10,
                  variational=True):
         super(MergeInterface, self).__init__()
         self.max_grad_norm = max_grad_norm
         self.model = model
         self.device = "cpu"
         self.epoch = 0
+        self.cuda = cuda
         if cuda:
             self.device = "cuda"
         self.model.to(self.device)
-        self.mseLoss = nn.L1Loss()
+        self.loss = nn.L1Loss()
         self.opt = optim.Adam([
-            {'params': self.model.pathVAE.parameters(), 'lr': 1e-7},
+            {'params': self.model.resnet18.parameters(), 'lr': 1e-7},
             {'params': self.model.nn1.parameters(), 'lr': lr},
             {'params': self.model.nn2.parameters(), 'lr': lr}
         ])
 
     def forward(self, batch):
-        return [self.model(b.descriptors) for b in batch]
+        return self.model(batch[0].cuda(), batch[1].cuda())
 
     def backward(self, batch, fwd_data):
-        losses = [self.mseLoss(b.lcaMatrix, o) for b, o in zip(batch, fwd_data)]
-        loss = sum(losses)
-        bs = len(batch)
-        loss = loss / bs
+        loss = self.loss(fwd_data, batch[2].cuda())
         ret = {}
         reg_loss = 0
         for p in self.model.parameters():
@@ -68,63 +81,68 @@ class MergeInterface (ttools.ModelInterface) :
 
     def update_validation(self, batch, fwd, running_data):
         with torch.no_grad():
-            ref = batch[1].to(self.device)
-            loss = F.mse_loss(fwd, ref)
-            n = ref.shape[0]
+            loss = self.loss(fwd, batch[2].cuda())
+            n = batch[2].numel()
         return {
             "loss": running_data["loss"] + loss.item()*n,
             "count": running_data["count"] + n
         }
 
     def finalize_validation(self, running_data):
+        reg_loss = 0
+        for p in self.model.parameters():
+            reg_loss += p.pow(2).sum()
+        reg_loss = reg_loss.item()
         return {
-            "loss": running_data["loss"] / running_data["count"]
+            "loss": running_data["loss"] / running_data["count"],
+            "wd": reg_loss
         }
 
 
-def train (path_vae_name, name) : 
+def train (name) : 
+    def collate_fn (batch) : 
+        im1 = torch.stack([b[0] for b in batch])
+        im2 = torch.stack([b[1] for b in batch])
+        y = torch.stack([b[2] for b in batch])
+        return im1, im2, y
+
     with open('Configs/config.json') as fd : 
         config = json.load(fd)
-    with open('commonConfig.json') as fd : 
-        commonConfig = json.load(fd)
     # Load all the data
-    trainDir = commonConfig['train_directory']
-    trainData = SVGDataSet(trainDir, 'adjGraph', 10, useColor=False)
-    trainData.toTensor(cuda=True)
-    testDir = commonConfig['test_directory']
-    testData = SVGDataSet(testDir, 'adjGraph', 10, useColor=False)
-    testData.toTensor(cuda=True)
+    trainData = SVGDataSet('train.h5')
     dataLoader = torch.utils.data.DataLoader(
         trainData, 
-        batch_size=16, 
+        batch_size=128, 
         shuffle=True,
-        collate_fn=lambda x : x
+        collate_fn=collate_fn
+    )
+    valData = SVGDataSet('cv.h5')
+    valDataLoader = torch.utils.data.DataLoader(
+        valData, 
+        batch_size=64,
+        shuffle=True,
+        collate_fn=collate_fn
     )
     # Load pretrained path module
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    VAE_OUTPUT = os.path.join(BASE_DIR, "results", path_vae_name)
     MERGE_OUTPUT = os.path.join(BASE_DIR, "results", name)
-    pathVAE = PathVAE(config)
-    state_dict = torch.load(os.path.join(VAE_OUTPUT, 'training_end.pth'))
-    pathVAE.load_state_dict(state_dict['model'])
-    pathVAE = pathVAE.float()
     # Initiate main model.
-    model = LCAMatrixModel(pathVAE, config['sampler']).float()
+    model = RasterLCAModel(config['sampler']).float()
     checkpointer = ttools.Checkpointer(MERGE_OUTPUT, model)
     interface = MergeInterface(model)
     trainer = ttools.Trainer(interface)
     port = 8097
     keys = ["loss", "wd"]
+    trainer.add_callback(ImageCallback(
+        env=name, win="samples", port=port, frequency=10))
     trainer.add_callback(ttools.callbacks.CheckpointingCallback(checkpointer))
     trainer.add_callback(ttools.callbacks.ProgressBarCallback(
         keys=keys, val_keys=keys))
     trainer.add_callback(ttools.callbacks.VisdomLoggingCallback(
-        keys=keys, val_keys=keys, env=name, port=port))
+        keys=keys, val_keys=keys, env=name, port=port, frequency=10))
     # Start training
-    trainer.train(dataLoader, num_epochs=4000)
-    # Calculate loss on test set.
-    print(interface.backward(trainData, interface.forward(trainData)))
+    trainer.train(dataLoader, num_epochs=1000, val_dataloader=valDataLoader)
 
 if __name__ == "__main__" : 
     import sys
-    train(sys.argv[1], sys.argv[2])
+    train(sys.argv[1])

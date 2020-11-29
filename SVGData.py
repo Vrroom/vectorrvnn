@@ -1,6 +1,6 @@
 import svgpathtools as svg
 import networkx as nx
-from raster import SVGtoNumpyImage
+from raster import SVGtoNumpyImage, SVGSubset2NumpyImage
 import relationshipGraph
 from relationshipGraph import *
 from descriptor import relbb, equiDistantSamples, pathAttr
@@ -12,6 +12,9 @@ from torchvision import transforms as T
 import torch
 from svgIO import getTreeStructureFromSVG
 from graphIO import GraphReadWrite
+from torchUtils import imageForResnet
+from itertools import product
+from more_itertools import unzip
 
 def isDegenerateBBox (box) : 
     _, _, h, w = box
@@ -35,27 +38,11 @@ class SVGData (nx.DiGraph) :
         super(SVGData, self).__init__(GraphReadWrite('tree').read(treeJson))
         self.root = findRoot(self)
         self.svgFile = svgFile
-        # self.image = SVGtoNumpyImage(svgFile, H=224, W=224)
-        self.image = np.zeros((224, 224, 3))
-        graphFn = getattr(relationshipGraph, graph)
-        doc = svg.Document(svgFile)
-        docViewBox = doc.get_viewbox()
-        paths = doc.flatten_all_paths()
-        paths = [p for p in paths if not isDegenerateBBox(relbb(p.path, docViewBox))]
-        #TODO : Do something about color as well.
-        self.nPaths = len(paths)
-        self.pathViewBoxes = [relbb(p.path, docViewBox) for p in paths]
+        self.doc = svg.Document(svgFile)
         # The nodes in the graph are indexed according
         # to the order they come up in the list.
-        self.adjgraph = graphFn(paths, vbox=docViewBox)
-        nSamples = samples
-        if useColor : 
-            self.descriptors = [[*equiDistantSamples(p.path, docViewBox, nSamples=nSamples), pathAttr(p, docViewBox)] for p in paths]
-        else : 
-            self.descriptors = [equiDistantSamples(p.path, docViewBox, nSamples=nSamples) for p in paths]
-        self._computeBBoxes(self.root)
         self._pathSet2Tuple()
-        computeLCAMatrix(self)
+        self._computeNodeImages()
 
     def _nodeId2PathId (self, n) : 
         assert self.out_degree(n) == 0, "Function called with internal node"
@@ -85,6 +72,17 @@ class SVGData (nx.DiGraph) :
             xm, ym = boxes[:, 0].min(), boxes[:, 2].min()
             xM, yM = (xm + boxes[:, 2]).max(), (ym + boxes[:, 3]).max()
             nx.set_node_attributes(self, {node: [xm, ym, xM - xm, yM - ym]}, 'bbox')
+    
+    def _computeNodeImages (self) : 
+        for n in self.nodes : 
+            ps  = self.nodes[n]['pathSet']
+            self.nodes[n]['image'] = np.ones(1) # SVGSubset2NumpyImage(self.doc, ps, 224, 224)
+
+    def _setImgMatrix (self, cuda=False) : 
+        combinations = list(product(self.nodes, self.nodes)) 
+        im1, im2 = unzip(combinations)
+        self.im1 = torch.stack([imageForResnet(self.nodes[n]['image'], cuda=cuda) for n in im1])
+        self.im2 = torch.stack([imageForResnet(self.nodes[n]['image'], cuda=cuda) for n in im2])
 
     def edgeIndicesAtLevel (self, node) : 
         """
@@ -152,9 +150,7 @@ class SVGData (nx.DiGraph) :
                 self.nodes[n]['bbox'] = self.nodes[n]['bbox'].cuda()
 
     def toTensor(self, cuda=False) : 
-        self.image2tensor(cuda=cuda)
-        self.descriptor2tensor(cuda=cuda)
-        self.bbox2tensor(cuda=cuda)
+        self._setImgMatrix(cuda=cuda)
         self.lcaMatrix2tensor(cuda=cuda)
 
 if __name__ == '__main__' : 
