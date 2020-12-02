@@ -76,7 +76,7 @@ class SVGData (nx.DiGraph) :
     def _computeNodeImages (self) : 
         for n in self.nodes : 
             ps  = self.nodes[n]['pathSet']
-            self.nodes[n]['image'] = np.ones(1) # SVGSubset2NumpyImage(self.doc, ps, 224, 224)
+            self.nodes[n]['image'] = SVGSubset2NumpyImage(self.doc, ps, 224, 224)
 
     def _setImgMatrix (self, cuda=False) : 
         combinations = list(product(self.nodes, self.nodes)) 
@@ -154,5 +154,12 @@ class SVGData (nx.DiGraph) :
         self.lcaMatrix2tensor(cuda=cuda)
 
 if __name__ == '__main__' : 
-    data = SVGData('/Users/amaltaas/BTP/vectorrvnn/PartNetSubset/Train/10007.svg', "adjGraph", 10)
-    print(data.edgeIndicesAtLevel(findRoot(data)))
+    from functools import partial
+    from itertools import starmap
+    from osTools import listdir
+    from tqdm import tqdm
+    dataDir = "/net/voxel07/misc/me/sumitc/vectorrvnn/ManuallyAnnotatedDataset/Train"
+    dataPts = map(listdir, listdir(dataDir))
+    dataPts = map(lambda l : [_ for _ in l if not _.endswith('png')], dataPts)
+    dataPts = list(map(lambda x : list(reversed(x)), dataPts))
+    svgDatas = list(tqdm(starmap(partial(SVGData, graph=None, samples=None), dataPts)))

@@ -17,7 +17,7 @@ class Saveable () :
             pickle.dump(self, fd)
 
 def generateData (dataDir, h5FileName) : 
-    dataDir = dataDir
+    # TODO : CHECK WHY RASTERIZATION PRODUCES SO MANY WHITES
     dataPts = map(listdir, listdir(dataDir))
     dataPts = map(lambda l : [_ for _ in l if not _.endswith('png')], dataPts)
     dataPts = list(map(lambda x : list(reversed(x)), dataPts))
@@ -36,7 +36,7 @@ def generateData (dataDir, h5FileName) :
                         im = np.vstack((im1, im2))
                         g  = hf.create_group(f'group_{k}_{i}_{j}')
                         d = max(t.nodes[a]['depth'], t.nodes[b]['depth'])
-                        y = (d - t.nodes[l]['depth']) / maxDepth(t)
+                        y = min(1, (d - t.nodes[l]['depth']) / 10)
                         g.create_dataset(
                             name=f'Im',
                             data=im,
@@ -75,6 +75,6 @@ if __name__ == "__main__" :
     import json
     with open('commonConfig.json') as fd : 
         commonConfig = json.load(fd)
-    generateData(commonConfig['train_directory'], 'train.h5')
-    generateData(commonConfig['test_directory'], 'test.h5')
-    generateData(commonConfig['cv_directory'], 'cv.h5')
+    generateData(commonConfig['train_directory'], '__train__.h5')
+    generateData(commonConfig['test_directory'], '__test__.h5')
+    generateData(commonConfig['cv_directory'], '__cv__.h5')

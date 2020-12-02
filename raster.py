@@ -88,6 +88,12 @@ def getSubsetSvg(paths, lst, vb) :
     """
     vbox = ' '.join([str(_) for _ in vb])
     ps = [paths[i][0] for i in lst]
+
+    # Add black stroke to paths not having stroke.
+    for i in lst : 
+        if 'stroke' not in paths[i][1].attrib : 
+            paths[i][1].attrib['stroke'] = '#000'
+
     attrs = [paths[i][1].attrib for i in lst]
     order = [paths[i][3] for i in lst]
     cmb = list(zip(order, ps, attrs))

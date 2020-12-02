@@ -37,7 +37,7 @@ class ImageCallback(ttools.callbacks.ImageDisplayCallback):
 
 class MergeInterface (ttools.ModelInterface) : 
 
-    def __init__(self, model, lr=1e-4, cuda=True, max_grad_norm=10,
+    def __init__(self, model, lr=5e-4, cuda=True, max_grad_norm=10,
                  variational=True):
         super(MergeInterface, self).__init__()
         self.max_grad_norm = max_grad_norm
@@ -109,14 +109,14 @@ def train (name) :
     with open('Configs/config.json') as fd : 
         config = json.load(fd)
     # Load all the data
-    trainData = SVGDataSet('train.h5')
+    trainData = SVGDataSet('__train__.h5')
     dataLoader = torch.utils.data.DataLoader(
         trainData, 
         batch_size=128, 
         shuffle=True,
         collate_fn=collate_fn
     )
-    valData = SVGDataSet('cv.h5')
+    valData = SVGDataSet('__cv__.h5')
     valDataLoader = torch.utils.data.DataLoader(
         valData, 
         batch_size=64,

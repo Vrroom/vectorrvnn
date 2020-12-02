@@ -104,7 +104,7 @@ if __name__ == "__main__" :
     testData = list(filter(lambda x : maxOutDegree(x) <= 5, testData))
     model = RasterLCAModel(config['sampler'])
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    MERGE_OUTPUT = os.path.join(BASE_DIR, "results", "rasterLCA")
+    MERGE_OUTPUT = os.path.join(BASE_DIR, "results", "expt_alexnet_const_norm_narrow")
     state_dict = torch.load(os.path.join(MERGE_OUTPUT, 'training_end.pth'))
     model.load_state_dict(state_dict['model'])
     model = model.float()
