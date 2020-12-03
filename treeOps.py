@@ -292,9 +292,11 @@ def treeFromNestedArray (nestedArray) :
         T.nodes[parent]['pathSet'] = pathSet 
     # Relabel interior nodes.
     internalNodes = [n for n in T.nodes if T.out_degree(n) > 0]
-    newLabels = range(len(leaves(T)), len(T.nodes))
+    m = max(leaves(T)) + 1
+    newLabels = range(m, m + len(internalNodes))
     newMapping = dict(zip(internalNodes, newLabels))
     T = nx.relabel_nodes(T, newMapping)
+    assert nx.is_tree(T), "Didn't produce tree"
     return T
 
 def pathInTree (T, x1, x2) : 

@@ -76,7 +76,7 @@ class SVGData (nx.DiGraph) :
     def _computeNodeImages (self) : 
         for n in self.nodes : 
             ps  = self.nodes[n]['pathSet']
-            self.nodes[n]['image'] = SVGSubset2NumpyImage(self.doc, ps, 224, 224)
+            self.nodes[n]['image'] = np.ones(1)# SVGSubset2NumpyImage(self.doc, ps, 224, 224)
 
     def _setImgMatrix (self, cuda=False) : 
         combinations = list(product(self.nodes, self.nodes)) 
