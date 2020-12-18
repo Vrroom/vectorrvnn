@@ -254,7 +254,7 @@ class MergeInterface (ttools.ModelInterface) :
             self.device = "cuda"
         self.model.to(self.device)
         self.loss = nn.L1Loss()
-        self.opt = optim.Adam(self.model.parameters(), lr=lr, weight_decay=5e-3)
+        self.opt = optim.Adam(self.model.parameters(), lr=lr, weight_decay=5e-4)
         # self.opt = optim.Adam([
         #     {'params': self.model.alexnet1.parameters(), 'lr': lr, 'weight_decay': weight_decay},
         #     {'params': self.model.alexnet2.parameters(), 'lr': lr, 'weight_decay': weight_decay},
@@ -318,7 +318,7 @@ class MergeInterface (ttools.ModelInterface) :
         ret["pred"] = fwd_data
         ret["last-layer-bias"] = self.model.nn2[-2].bias
         ret["alexnet1-first-layer-kernel"] = self.model.alexnet1.module[0].weight
-        ret["alexnet2-first-layer-kernel"] = self.model.alexnet2.module[0].weight
+        # ret["alexnet2-first-layer-kernel"] = self.model.alexnet2.module[0].weight
         self.logParameterNorms(ret)
         self.logGradients(ret)
         self.logActivations(ret)
@@ -401,7 +401,7 @@ def train (name) :
     trainer.add_callback(BBoxVisCallback(env=name + "_vis", port=port, frequency=100))
     trainer.add_callback(LastLayerBiasPlotCallback(env=name + "_bias", port=port, frequency=100))
     trainer.add_callback(KernelCallback(key="alexnet1-first-layer-kernel", env=name + "_kernel", win="alexnet1", port=port))
-    trainer.add_callback(KernelCallback(key="alexnet2-first-layer-kernel", env=name + "_kernel", win="alexnet2", port=port))
+    # trainer.add_callback(KernelCallback(key="alexnet2-first-layer-kernel", env=name + "_kernel", win="alexnet2", port=port))
     trainer.add_callback(ttools.callbacks.VisdomLoggingCallback(
         keys=keys, val_keys=val_keys, env=name + "_training_plots", port=port, frequency=100))
     # Start training

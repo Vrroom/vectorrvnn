@@ -89,7 +89,7 @@ class RasterLCAModel (nn.Module) :
         self.hidden_size = config['hidden_size']
         self.input_size = config['input_size']
         self.alexnet1 = RecordingModule(smallResnet(self.input_size))
-        self.alexnet2 = RecordingModule(smallResnet(self.input_size))
+        # self.alexnet2 = RecordingModule(smallResnet(self.input_size))
         self.boxEncoder = RecordingModule(nn.Sequential(
             nn.Linear(4, self.hidden_size, bias=False), 
             nn.BatchNorm1d(self.hidden_size),
@@ -137,8 +137,8 @@ class RasterLCAModel (nn.Module) :
         b1 = self.boxEncoder(box1)
         b2 = self.boxEncoder(box2)
         imEncoding = self.alexnet1(im)
-        im1Encoding = self.alexnet2(im1)
-        im2Encoding = self.alexnet2(im2)
+        im1Encoding = self.alexnet1(im1)
+        im2Encoding = self.alexnet1(im2)
         h1 = torch.cat((imEncoding, im1Encoding, b1), dim=1)
         h2 = torch.cat((imEncoding, im2Encoding, b2), dim=1) 
         bf1 = torch.cat((imEncoding, im1Encoding), dim=1)
