@@ -31,32 +31,26 @@ def nodeLinks2tree (nodeLinks) :
     return T
 
 if __name__ == "__main__" : 
-    db = DB('localVectors')
+    DATABASE_URL = 'postgres://plgakpajwcwmue:a47dcde86cd9e7cf6f88a818560a4e495e7a36a4afc7995d2ab97cc3e79ec0e7@ec2-34-198-243-120.compute-1.amazonaws.com:5432/dbemgkh7ofctf9'
+    db = DB(DATABASE_URL)
     query = 'select vectorgraphs.id, vectorgraphs.graph, vectorimages.svg from vectorimages inner join vectorgraphs on vectorimages.id = vectorgraphs.id;'
     items = db.query(query).dictresult()
-    dataDir = '/Users/amaltaas/BTP/vectorrvnn/ManuallyAnnotatedDataset'
+    dataDir = '/net/voxel07/misc/me/sumitc/vectorrvnn/ManuallyAnnotatedDataset'
+    import pdb
+    pdb.set_trace()
     for i, item in enumerate(items) : 
-        try : 
-            graph = item['graph']
-            svgString = item['svg']
-            tree = nodeLinks2tree(graph)
-            assert nx.is_tree(tree)
-            doc = svg.Document(None)
-            doc.fromString(svgString)
-            doc.normalize_viewbox()
-            paths = doc.flatten_all_paths()
-            vb = doc.get_viewbox()
-            # setSVGAttributes(tree, paths, vb)
-            # matplotlibFigureSaver(treeImageFromGraph(tree), f'./Viz/{i}')
-            datumPath = osp.join(dataDir, str(i))
-            os.mkdir(datumPath)
-            doc.save(osp.join(datumPath, f'{i}.svg'))
-
-            for j, path in enumerate(paths): 
-                rasterFilePath = osp.join(datumPath, f'path_{j+1}.png')
-                singlePathSvg(path, vb, '/tmp/o.svg')
-                rasterize('/tmp/o.svg', rasterFilePath, H=28, W=28)
-
-            GraphReadWrite('tree').write((tree, findRoot(tree)), osp.join(datumPath, f'{i}.json'))
-        except Exception as e:
-            print(f'{e} happened')
+        graph = item['graph']
+        svgString = item['svg']
+        tree = nodeLinks2tree(graph)
+        assert nx.is_tree(tree)
+        doc = svg.Document(None)
+        doc.fromString(svgString)
+        doc.normalize_viewbox()
+        paths = doc.flatten_all_paths()
+        vb = doc.get_viewbox()
+        # setSVGAttributes(tree, paths, vb)
+        # matplotlibFigureSaver(treeImageFromGraph(tree), f'./Viz/{i}')
+        datumPath = osp.join(dataDir, str(i))
+        os.mkdir(datumPath)
+        doc.save(osp.join(datumPath, f'{i}.svg'))
+        GraphReadWrite('tree').write((tree, findRoot(tree)), osp.join(datumPath, f'{i}.json'))

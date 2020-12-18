@@ -89,11 +89,6 @@ def getSubsetSvg(paths, lst, vb) :
     vbox = ' '.join([str(_) for _ in vb])
     ps = [paths[i][0] for i in lst]
 
-    # Add black stroke to paths not having stroke.
-    for i in lst : 
-        if 'stroke' not in paths[i][1].attrib : 
-            paths[i][1].attrib['stroke'] = '#000'
-
     attrs = [paths[i][1].attrib for i in lst]
     order = [paths[i][3] for i in lst]
     cmb = list(zip(order, ps, attrs))
@@ -123,12 +118,29 @@ def svgStringToBitmap (svgString, H, W) :
         fd.write(svgString)
     rasterize(svgName, pngName, H, W)
     img = image.imread(pngName)
+    os.remove(svgName)
+    os.remove(pngName)
     return alphaCompositeOnWhite(img)
 
 def SVGSubset2NumpyImage (doc, pathSet, H, W) :
     paths = doc.flatten_all_paths()
-    vb = doc.get_viewbox()
-    svgString = getSubsetSvg(paths, pathSet, vb)
+    boxes = np.array([paths[i].path.bbox() for i in pathSet])
+    docBox = doc.get_viewbox()
+    docDim = min(docBox[2], docBox[3])
+    eps = docDim / 20
+    xm, xM = boxes[:,0].min(), boxes[:,1].max()
+    ym, yM = boxes[:,2].min(), boxes[:,3].max()
+    h, w = xM - xm, yM - ym
+    d = max(h, w)
+    if h > w : 
+        box = [xm, ym+w/2-d/2, d, d]
+    else : 
+        box = [xm+h/2-d/2, ym, d, d]
+    box[0] -= eps
+    box[1] -= eps
+    box[2] += 2 * eps
+    box[3] += 2 * eps
+    svgString = getSubsetSvg(paths, list(range(len(paths))), box)
     return svgStringToBitmap(svgString, H, W)
 
 def SVGtoNumpyImage (svgFilePath, H, W) :
@@ -145,7 +157,6 @@ def SVGtoNumpyImage (svgFilePath, H, W) :
     W : float 
         Desired width of output.
     """
-    rs = randomString(10)
-    rasterize(svgFilePath, f'/tmp/{rs}.png', H=H, W=W)
-    img = image.imread(f'/tmp/{rs}.png')
-    return img[:, :, :3]
+    with open(svgFilePath) as fd : 
+        string = fd.read()
+    return svgStringToBitmap(string, H, W)

@@ -7,7 +7,7 @@ from descriptor import relbb, equiDistantSamples, pathAttr
 from functools import reduce
 import numpy as np
 from graphOps import contractGraph
-from treeOps import findRoot, treeApplyChildrenFirst, lca, setNodeDepths, maxDepth, computeLCAMatrix
+from treeOps import *
 from torchvision import transforms as T
 import torch
 from svgIO import getTreeStructureFromSVG
@@ -22,7 +22,7 @@ def isDegenerateBBox (box) :
 
 class SVGData (nx.DiGraph) : 
 
-    def __init__ (self, svgFile, treeJson, graph, samples, useColor=True) : 
+    def __init__ (self, svgFile, pickle, graph, samples, useColor=True) : 
         """
         Constructor.
 
@@ -35,12 +35,23 @@ class SVGData (nx.DiGraph) :
         # The pathSet attribute also has indices which 
         # are the same as how the svgpathtools library
         # orders the paths.
-        super(SVGData, self).__init__(GraphReadWrite('tree').read(treeJson))
-        self.root = findRoot(self)
+        super(SVGData, self).__init__(nx.read_gpickle(pickle))
+        setSubtreeSizes(self)
+        setNodeDepths(self)
+        setNodeBottomDepths(self)
         self.svgFile = svgFile
         self.doc = svg.Document(svgFile)
         # The nodes in the graph are indexed according
         # to the order they come up in the list.
+        doc = svg.Document(svgFile)
+        docViewBox = doc.get_viewbox()
+        paths = doc.flatten_all_paths()
+        paths = [p for p in paths if not isDegenerateBBox(relbb(p.path, docViewBox))]
+        self.nPaths = len(paths)
+        self.pathViewBoxes = [relbb(p.path, docViewBox) for p in paths]
+        for r in [r for r in self.nodes if self.in_degree(r) == 0] : 
+            self._computeBBoxes(r)
+        self.image = SVGtoNumpyImage(svgFile, 224, 224)
         self._pathSet2Tuple()
         self._computeNodeImages()
 
@@ -69,14 +80,14 @@ class SVGData (nx.DiGraph) :
             for n in self.neighbors(node) : 
                 self._computeBBoxes(n)
             boxes = np.array([self.nodes[n]['bbox'] for n in self.neighbors(node)])
-            xm, ym = boxes[:, 0].min(), boxes[:, 2].min()
-            xM, yM = (xm + boxes[:, 2]).max(), (ym + boxes[:, 3]).max()
+            xm, ym = boxes[:,0].min(), boxes[:,1].min()
+            xM, yM = (boxes[:,0] + boxes[:,2]).max(), (boxes[:,1] + boxes[:,3]).max()
             nx.set_node_attributes(self, {node: [xm, ym, xM - xm, yM - ym]}, 'bbox')
     
     def _computeNodeImages (self) : 
         for n in self.nodes : 
             ps  = self.nodes[n]['pathSet']
-            self.nodes[n]['image'] = np.ones(1)# SVGSubset2NumpyImage(self.doc, ps, 224, 224)
+            self.nodes[n]['image'] = SVGSubset2NumpyImage(self.doc, ps, 224, 224)
 
     def _setImgMatrix (self, cuda=False) : 
         combinations = list(product(self.nodes, self.nodes)) 
@@ -102,9 +113,8 @@ class SVGData (nx.DiGraph) :
         edges = np.array(h.edges).T.reshape((2, -1))
         return torch.from_numpy(edges).long()
 
-    def edge_index (self, cuda=False) :
-        edges = torch.from_numpy(np.array(self.adjgraph.edges).T).long()
-        edges = edges.view((2, -1))
+    def edge_index (self) :
+        edges = np.array(self.edges).T
         return edges
 
     def lcaMatrix2tensor(self, cuda=False) : 

@@ -8,15 +8,13 @@ def area (bbox) :
     return bbox[:, 2] * bbox[:, 3]
 
 def iou (bbox1, bbox2) : 
+    # TODO : WRONG INTERPRETATION
     """
     Compute the intersection over union for two bounding
     boxes.
 
     Assume that there are N querying boxes and N target
-    boxes. Hence the inputs have shape N x 4. The first
-    two columns contain the coordinate of the top-left 
-    corner and the last two contain the coordinates of
-    the bottom-right corner.
+    boxes. Hence the inputs have shape N x 4. 
 
     Parameters
     ----------

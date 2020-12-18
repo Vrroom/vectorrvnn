@@ -1,4 +1,5 @@
 import pickle
+from torchvision import transforms as T
 import multiprocessing as mp
 from functools import partial
 from torchUtils import imageForResnet
@@ -7,7 +8,7 @@ from osTools import listdir
 import torch
 from SVGData import SVGData
 from treeOps import *
-from itertools import starmap
+from itertools import starmap, product
 from tqdm import tqdm
 import h5py 
 
@@ -16,65 +17,62 @@ class Saveable () :
         with open(savePath, 'wb') as fd :
             pickle.dump(self, fd)
 
-def generateData (dataDir, h5FileName) : 
-    # TODO : CHECK WHY RASTERIZATION PRODUCES SO MANY WHITES
+def generateData (dataDir, pickleFileName) : 
     dataPts = map(listdir, listdir(dataDir))
-    dataPts = map(lambda l : [_ for _ in l if not _.endswith('png')], dataPts)
     dataPts = list(map(lambda x : list(reversed(x)), dataPts))
     with mp.Pool(maxtasksperchild=30) as p : 
-        svgDatas = p.starmap(partial(SVGData, graph=None, samples=None), dataPts)
-    svgDatas = list(filter(lambda x : maxOutDegree(x) <= 5, svgDatas))
-    with h5py.File(h5FileName, 'w') as hf: 
-        for k, t in enumerate(tqdm(svgDatas)) : 
-            setNodeDepths(t)
-            for i, a in enumerate(t.nodes): 
-                for j, b in enumerate(t.nodes): 
-                    l = lca(t, a, b)
-                    if l != a and l != b and i < j: 
-                        im1 = imageForResnet(t.nodes[a]['image']).numpy()
-                        im2 = imageForResnet(t.nodes[b]['image']).numpy()
-                        im = np.vstack((im1, im2))
-                        g  = hf.create_group(f'group_{k}_{i}_{j}')
-                        d = max(t.nodes[a]['depth'], t.nodes[b]['depth'])
-                        y = min(1, (d - t.nodes[l]['depth']) / 10)
-                        g.create_dataset(
-                            name=f'Im',
-                            data=im,
-                            shape=im.shape,
-                            maxshape=im.shape,
-                            compression="gzip",
-                            compression_opts=9
-                        )
-                        g.create_dataset(
-                            name=f'lca',
-                            data=y, 
-                            shape=(1,),
-                            compression="gzip",
-                            compression_opts=9)
+        svgDatas = list(p.starmap(partial(SVGData, graph=None, samples=None), dataPts))
+    with open(pickleFileName, 'wb') as fd : 
+        pickle.dump(svgDatas, fd)
 
 class SVGDataSet (data.Dataset, Saveable) : 
     """
     Pre-processed trees from clustering algorithm.
     """
-    def __init__ (self, h5FileName) : 
+    def __init__ (self, pickleFileName, transform=None) : 
         super(SVGDataSet, self).__init__() 
-        self.h5_file = h5py.File(h5FileName, 'r')
-        self.keys = list(self.h5_file.keys())
-
+        with open(pickleFileName, 'rb') as fd : 
+            self.svgDatas = pickle.load(fd) 
+        # For torchvision.models
+        mean = (0.485, 0.456, 0.406)
+        std = (0.229, 0.224, 0.225)
+        self.transform = T.Normalize(mean=mean, std=std)
+        if transform is not None : 
+            self.transform = T.Compose([transform, self.transform])
+        self.examples = []
+        for i, t in enumerate(self.svgDatas) :
+            nodesA = list(t.nodes)
+            roots = [r for r in t.nodes if t.in_degree(r) == 0]
+            forests = [descendants(t, r) for r in roots]
+            for a, b in product(nodesA, nodesA[1:]):
+                if any([{a, b}.issubset(f) for f in forests]) : 
+                    l = lca(t, a, b)
+                    if l != a and l != b : 
+                        self.examples.append((i, a, b))
+        
     def __getitem__ (self, index) :
-        group = self.h5_file.get(self.keys[index])
-        im = torch.from_numpy(group.get('Im')[()]).float()
-        im1, im2 = torch.chunk(im, 2)
-        lca = torch.from_numpy(group.get('lca')[()]).float()
-        return im1, im2, lca
+        tId, a, b = self.examples[index]
+        t = self.svgDatas[tId]
+        im    = torch.from_numpy(t.image).float().permute((2, 0, 1))
+        im1   = torch.from_numpy(t.nodes[a]['image'] ).float().permute((2, 0, 1))
+        im2   = torch.from_numpy(t.nodes[b]['image'] ).float().permute((2, 0, 1))
+        bbox1 = torch.tensor(t.nodes[a]['bbox']).float()
+        bbox2 = torch.tensor(t.nodes[b]['bbox']).float()
+        lca   = torch.tensor([lcaScore(t, a, b)]).float()
+        lof   = torch.tensor([lofScore(t, a, b)]).float()
+        if self.transform is not None : 
+            im = self.transform(im)
+            im1 = self.transform(im1)
+            im2 = self.transform(im2)
+        return dict(im=im, im1=im1, im2=im2, bbox1=bbox1, bbox2=bbox2, lca=lca, lof=lof)
 
     def __len__ (self) : 
-        return len(self.keys)
+        return len(self.examples)
 
 if __name__ == "__main__" : 
     import json
     with open('commonConfig.json') as fd : 
         commonConfig = json.load(fd)
-    generateData(commonConfig['train_directory'], '__train__.h5')
-    generateData(commonConfig['test_directory'], '__test__.h5')
-    generateData(commonConfig['cv_directory'], '__cv__.h5')
+    generateData(commonConfig['train_directory'], 'train.pkl')
+    generateData(commonConfig['test_directory'], 'test.pkl')
+    generateData(commonConfig['cv_directory'], 'cv.pkl')

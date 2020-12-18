@@ -1,7 +1,7 @@
 {
-	"train_directory"     : "/net/voxel07/misc/me/sumitc/vectorrvnn/ManuallyAnnotatedDataset/Train",
-	"test_directory"      : "/net/voxel07/misc/me/sumitc/vectorrvnn/ManuallyAnnotatedDataset/Test",
-	"cv_directory"        : "/net/voxel07/misc/me/sumitc/vectorrvnn/ManuallyAnnotatedDataset/CV",
+	"train_directory"     : "/net/voxel07/misc/me/sumitc/vectorrvnn/ManuallyAnnotatedDataset_v1/Train",
+	"test_directory"      : "/net/voxel07/misc/me/sumitc/vectorrvnn/ManuallyAnnotatedDataset_v1/Test",
+	"cv_directory"        : "/net/voxel07/misc/me/sumitc/vectorrvnn/ManuallyAnnotatedDataset_v1/Val",
 	"log_file"            : "test.log",
 	"show_log_every"      : 10,
 	"save_snapshot_every" : 301,

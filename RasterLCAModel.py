@@ -1,6 +1,7 @@
 import torch
 import os
 import json
+import numpy as np
 from osTools import listdir
 from itertools import product
 from more_itertools import collapse
@@ -27,51 +28,127 @@ def subMatrix(mat, rIndices, cIndices) :
     submat2 = torch.index_select(submat1, 1, cIndices)
     return submat2
 
+def convLayer (in_channel, out_channel, kernel_size, stride) :
+    return nn.Sequential(
+        nn.Conv2d(in_channel, out_channel, kernel_size, stride, bias=False),
+        nn.BatchNorm2d(out_channel),
+        RecordingReLU()
+    )
+
+def smallResnet (out_size) : 
+    resnet = models.resnet18(pretrained=True)
+    children = list(resnet.children())
+    model = nn.Sequential(*children[:6])
+    model.add_module("avgpool", nn.AdaptiveAvgPool2d((1, 1)))
+    model.add_module("flatten", nn.Flatten())
+    model.add_module("fc", nn.Linear(128, out_size, bias=True))
+    return model
+
+class RecordingReLU (nn.ReLU) : 
+
+    def __init__(self) : 
+        super(RecordingReLU, self).__init__()
+        self.activated = 0
+
+    def forward (self, input) :
+        x = super(RecordingReLU, self).forward(input)
+        self.activated = ((x > 0).sum() / x.numel()).item()
+        return x
+
+class RecordingModule (nn.Module) : 
+
+    def __init__ (self, module) : 
+        super(RecordingModule, self).__init__()
+        self.module = module
+        self.outNorm = 0
+
+    def __getitem__ (self, i) : 
+        return self.module[i]
+
+    def forward(self, x) : 
+        o = self.module(x)
+        self.outNorm = torch.linalg.norm(o).item()
+        return o
+
+def smallConvNet(output_size) : 
+    return nn.Sequential(
+        convLayer(3, 8, 5, 1),
+        convLayer(8, 8, 5, 1),
+        convLayer(8, 16, 5, 1),
+        convLayer(16, 16, 5, 2),
+        convLayer(16, 16, 3, 2),
+        convLayer(16, output_size, 3, 2),
+        nn.AdaptiveAvgPool2d((1,1)),
+        nn.Flatten()
+    )
+
 class RasterLCAModel (nn.Module) :
 
     def __init__ (self, config) :
         super(RasterLCAModel, self).__init__()
         self.hidden_size = config['hidden_size']
         self.input_size = config['input_size']
-        self.resnet18 = models.alexnet(pretrained=True)
-        self.nn1 = nn.Sequential(
-            nn.Linear(1000, self.hidden_size),
-            nn.SELU(), 
-            nn.Linear(self.hidden_size, self.input_size),
-            nn.SELU()
-        )
-        self.nn2 = nn.Sequential(
-            nn.Linear(self.input_size, self.hidden_size),
-            nn.SELU(), 
+        self.alexnet1 = RecordingModule(smallResnet(self.input_size))
+        self.alexnet2 = RecordingModule(smallResnet(self.input_size))
+        self.boxEncoder = RecordingModule(nn.Sequential(
+            nn.Linear(4, self.hidden_size, bias=False), 
+            nn.BatchNorm1d(self.hidden_size),
+            RecordingReLU(),
+            nn.Linear(self.hidden_size, self.input_size, bias=True),
+        ))
+        self.nn1 = RecordingModule(nn.Sequential(
+            nn.Linear(3 * self.input_size, self.hidden_size, bias=False),
+            nn.BatchNorm1d(self.hidden_size),
+            RecordingReLU(), 
+            nn.Linear(self.hidden_size, self.hidden_size, bias=False),
+            nn.BatchNorm1d(self.hidden_size),
+            RecordingReLU(), 
+            nn.Linear(self.hidden_size, self.input_size, bias=False),
+            nn.BatchNorm1d(self.input_size),
+            RecordingReLU()
+        ))
+        self.nn2 = RecordingModule(nn.Sequential(
+            nn.Linear(self.input_size, self.hidden_size, bias=False),
+            nn.BatchNorm1d(self.hidden_size),
+            RecordingReLU(), 
+            nn.Linear(self.hidden_size, self.hidden_size, bias=False),
+            nn.BatchNorm1d(self.hidden_size),
+            RecordingReLU(), 
             nn.Linear(self.hidden_size, 1),
-            nn.Hardsigmoid()
-        )
+            nn.Sigmoid()
+        ))
+        self.boxPredictor = RecordingModule(nn.Sequential(
+            nn.Linear(2 * self.input_size, self.hidden_size, bias=False),
+            nn.BatchNorm1d(self.hidden_size),
+            RecordingReLU(), 
+            nn.Linear(self.hidden_size, self.hidden_size, bias=False),
+            nn.BatchNorm1d(self.hidden_size),
+            RecordingReLU(), 
+            nn.Linear(self.hidden_size, 4),
+            nn.Sigmoid()
+        ))
+        # self.normalize = RecordingModule(nn.Sequential(
+        #     nn.BatchNorm1d(3 * self.input_size), 
+        #     RecordingReLU()
+        # ))
 
-
-    def greedyTree2 (self, t) : 
-        subtrees = leaves(t)
-        n = len(subtrees)
-        doc = svg.Document(t.svgFile)
-        imageCache = dict()
-        o = self.computeLCAMatrix(t)
-        aggregate = torch.min
-        while len(subtrees) > 1 : 
-            best, bestI, bestJ = np.inf, None, None
-            for i in range(len(subtrees)) :
-                for j in range(i + 1, len(subtrees)) :
-                    subtree1 = subtrees[i]
-                    subtree2 = subtrees[j]
-                    pathList1 = list(collapse([subtree1]))
-                    pathList2 = list(collapse([subtree2]))
-                    score = aggregate(subMatrix(o, pathList1, pathList2))
-                    if score < best : 
-                        best = score
-                        bestI = i
-                        bestJ = j
-            newSubtree = (subtrees[bestI], subtrees[bestJ])
-            removeIndices(subtrees, [bestI, bestJ])
-            subtrees.append(newSubtree)
-        return treeFromNestedArray(subtrees)
+    def forward (self, im, im1, im2, box1, box2) : 
+        N, *_ = im.shape
+        b1 = self.boxEncoder(box1)
+        b2 = self.boxEncoder(box2)
+        imEncoding = self.alexnet1(im)
+        im1Encoding = self.alexnet2(im1)
+        im2Encoding = self.alexnet2(im2)
+        h1 = torch.cat((imEncoding, im1Encoding, b1), dim=1)
+        h2 = torch.cat((imEncoding, im2Encoding, b2), dim=1) 
+        bf1 = torch.cat((imEncoding, im1Encoding), dim=1)
+        bf2 = torch.cat((imEncoding, im2Encoding), dim=1)
+        box1Pred = self.boxPredictor(bf1)
+        box2Pred = self.boxPredictor(bf2)
+        f1 = self.nn1(h1)
+        f2 = self.nn1(h2)
+        o = self.nn2(f1 + f2)
+        return dict(score=o, box1Pred=box1Pred, box2Pred=box2Pred)
 
     def computeLCAMatrix (self, t, doc) : 
 
@@ -157,11 +234,6 @@ class RasterLCAModel (nn.Module) :
                 subtrees.append(newSubtree)
         return treeFromNestedArray(subtrees)
 
-    def forward (self, im1, im2) : 
-        f1 = self.nn1(self.resnet18(im1))
-        f2 = self.nn1(self.resnet18(im2))
-        o = self.nn2(f1 + f2)
-        return o
 
 def distanceFromGroundTruth (model, t) : 
     t_ = model.greedyTree(t)

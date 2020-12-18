@@ -27,6 +27,30 @@ def lca (t, a, b) :
             break
     return r
 
+def lcaScore (t, a, b) : 
+    l = lca(t, a, b)
+    d = max(t.nodes[a]['depth'], t.nodes[b]['depth'])
+    l_ = (d - t.nodes[l]['depth']) / 10 # t.nodes[l]['bottom-depth']
+    return min(1, l_)
+
+def lofScore (t, a, b) :
+    l = lca(t, a, b)
+    sl = t.nodes[l]['subtree-size']
+    sa = t.nodes[a]['subtree-size']
+    sb = t.nodes[b]['subtree-size']
+    return (sl - sa - sb) / sl
+
+def setSubtreeSizes (t) : 
+    def dfs (n) : 
+        if t.out_degree(n) == 0 : 
+            t.nodes[n]['subtree-size'] = 1
+        else : 
+            t.nodes[n]['subtree-size'] = sum(dfs(c) for c in t.neighbors(n)) + 1
+        return t.nodes[n]['subtree-size']
+    roots = [n for n in t.nodes if t.in_degree(n) == 0]
+    for r in roots:
+        dfs(r)
+
 def setNodeDepths (t) :
     def dfs (n, p=None) : 
         if p is None : 
@@ -35,8 +59,20 @@ def setNodeDepths (t) :
             t.nodes[n]['depth'] = 1 + t.nodes[p]['depth']
         for c in t.neighbors(n) : 
             dfs(c, n)
-    r = findRoot(t)
-    dfs(r)
+    roots = [n for n in t.nodes if t.in_degree(n) == 0]
+    for r in roots:
+        dfs(r)
+
+def setNodeBottomDepths (t) : 
+    def dfs (n) : 
+        if t.out_degree(n) == 0 : 
+            t.nodes[n]['bottom-depth'] = 1
+        else  :
+            t.nodes[n]['bottom-depth'] = max(dfs(c) for c in t.neighbors(n)) + 1
+        return t.nodes[n]['bottom-depth']
+    roots = [n for n in t.nodes if t.in_degree(n) == 0]
+    for r in roots:
+        dfs(r)
     
 def maxOutDegree (t) : 
     return max(t.out_degree(n) for n in t.nodes)
@@ -85,10 +121,12 @@ def descendants (tree, node) :
     node : any
         Node whose descendents are to be cpomputed.
     """
-    neighbors = set(list(tree.neighbors(node)))
-    descOfDesc = map(partial(descendants, tree), neighbors)
-    descOfDesc = reduce(lambda a, b : a | b, descOfDesc, set())
-    return {node} | neighbors | descOfDesc
+    if 'descendants' not in tree.nodes[node] : 
+        neighbors = set(list(tree.neighbors(node)))
+        descOfDesc = map(partial(descendants, tree), neighbors)
+        descOfDesc = reduce(lambda a, b : a | b, descOfDesc, set())
+        tree.nodes[node]['descendants'] =  {node} | neighbors | descOfDesc
+    return tree.nodes[node]['descendants']
 
 def leaves (tree) :
     """

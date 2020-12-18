@@ -6,7 +6,8 @@ def subsets (lst, k) :
     return itertools.chain(*combs)
 
 def avg (lst) : 
-    assert len(lst) != 0, "No average for empty list"
+    if len(lst) == 0 : 
+        return 0
     return sum(lst) / len(lst)
 
 def hasDuplicates (lst) :
