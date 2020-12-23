@@ -6,10 +6,9 @@ import torch
 def imageForResnet (img, cuda=False) :
     img = torch.from_numpy(img).float()
     img = img.permute(2, 0, 1)
-    img = T.RandomResizedCrop(224)(img)
     normalizer = T.Normalize(mean=[0.485, 0.456, 0.406],
                              std=[0.229, 0.224, 0.225])
-    # img = normalizer(img)
+    img = normalizer(img)
     if cuda : 
         img = img.cuda()
     return img

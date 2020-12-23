@@ -1,4 +1,6 @@
 import torch
+from copy import deepcopy
+import pickle
 import os
 import json
 import numpy as np
@@ -151,22 +153,16 @@ class RasterLCAModel (nn.Module) :
         return dict(score=o, box1Pred=box1Pred, box2Pred=box2Pred)
 
     def computeLCAMatrix (self, t, doc) : 
-
-        def getImage (pl) : 
-            nonlocal imageCache
-            if pl not in imageCache : 
-                imageCache[pl] = SVGSubset2NumpyImage(doc, [pl], 224, 224)
-            return imageCache[pl]
-
         n = len(leaves(t)) 
-        imageCache = dict()
         o = torch.zeros((n, n)).cuda()
         for i, j in product(range(n), range(n)) :
-            img1 = getImage(i)
-            img2 = getImage(j)
-            img1 = imageForResnet(img1).unsqueeze(0).cuda()
-            img2 = imageForResnet(img2).unsqueeze(0).cuda()
-            o[i, j] = self.forward(img1, img2)[0, 0]
+            bbox1 = torch.tensor([t.nodes[i]['bbox']]).float().cuda()
+            bbox2 = torch.tensor([t.nodes[i]['bbox']]).float().cuda()
+            im = imageForResnet(t.image, True).unsqueeze(0)
+            img1 = imageForResnet(t.nodes[i]['image'], True).unsqueeze(0)
+            img2 = imageForResnet(t.nodes[j]['image'], True).unsqueeze(0)
+            result = self.forward(im, img1, img2, bbox1, bbox2)
+            o[i, j] = result['score'][0, 0]
         return o
 
     def greedyTree (self, t) : 
@@ -210,20 +206,31 @@ class RasterLCAModel (nn.Module) :
             else : 
                 img = SVGSubset2NumpyImage(doc, pathList, 224, 224)
                 imageCache[pathList] = img
-            return imageForResnet(img).unsqueeze(0).cuda()
+            return imageForResnet(img, True).unsqueeze(0)
+
+        def getBBox (subtree) : 
+            pathList = tuple(collapse([subtree]))
+            boxes = np.array([t.nodes[n]['bbox'] for n in pathList])
+            xm, ym = boxes[:,0].min(), boxes[:,1].min()
+            xM, yM = (boxes[:,0] + boxes[:,2]).max(), (boxes[:,1] + boxes[:,3]).max()
+            return torch.tensor([[xm, ym, xM - xm, yM - ym]]).float().cuda()
 
         with torch.no_grad() : 
             subtrees = leaves(t)
             doc = svg.Document(t.svgFile)
             imageCache = dict()
             o = self.computeLCAMatrix(t, doc)
+            im = imageForResnet(t.image, True).unsqueeze(0)
             while len(subtrees) > 1 : 
                 best, bestI, bestJ = 1, None, None
                 for i in range(len(subtrees)) :
                     for j in range(i + 1, len(subtrees)) :
                         img1 = getImage(subtrees[i])
                         img2 = getImage(subtrees[j])
-                        score = float(self.forward(img1, img2)[0, 0])
+                        bbox1 = getBBox(subtrees[i])
+                        bbox2 = getBBox(subtrees[j])
+                        result = self.forward(im, img1, img2, bbox1, bbox2)
+                        score = float(result['score'][0, 0])
                         if score < best : 
                             best = score
                             bestI = i
@@ -234,38 +241,38 @@ class RasterLCAModel (nn.Module) :
                 subtrees.append(newSubtree)
         return treeFromNestedArray(subtrees)
 
-
 def distanceFromGroundTruth (model, t) : 
     t_ = model.greedyTree(t)
     return ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
 
+def treeify (t) : 
+    n = t.number_of_nodes()
+    t_ = deepcopy(t)
+    edges = list(product([n], [r for r in t.nodes if t.in_degree(r) == 0]))
+    t_.add_edges_from(edges)
+    t_.nodes[n]['pathSet'] = leaves(t)
+    return t_
+
 if __name__ == "__main__" : 
-    def collate_fn (batch) : 
-        im1 = torch.stack([b[0] for b in batch])
-        im2 = torch.stack([b[1] for b in batch])
-        y = torch.stack([b[2] for b in batch])
-        return im1, im2, y
     with open('Configs/config.json') as fd : 
         config = json.load(fd)
-    with open('commonConfig.json') as fd : 
-        commonConfig = json.load(fd)
     # Load all the data
-    dataDir = commonConfig['test_directory']
-    dataPts = map(listdir, listdir(dataDir))
-    dataPts = map(lambda l : [_ for _ in l if not _.endswith('png')], dataPts)
-    dataPts = list(map(lambda x : list(reversed(x)), dataPts))
-    with mp.Pool(maxtasksperchild=30) as p : 
-        testData = p.starmap(partial(SVGData, graph=None, samples=None), dataPts)
-    testData = list(filter(lambda x : maxOutDegree(x) <= 5, testData))
+    testData = SVGDataSet('train.pkl').svgDatas[:100]
     model = RasterLCAModel(config['sampler'])
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    MERGE_OUTPUT = os.path.join(BASE_DIR, "results", "expt_alexnet_const_norm_narrow")
+    MERGE_OUTPUT = os.path.join(BASE_DIR, "results", "prev_expt_transparent_raster")
     state_dict = torch.load(os.path.join(MERGE_OUTPUT, 'training_end.pth'))
     model.load_state_dict(state_dict['model'])
     model = model.float()
     model.to("cuda")
     model.eval()
-    scores = [distanceFromGroundTruth(model, t) for t in tqdm(testData)]
+    inferredTrees = [model.greedyTree(t) for t in tqdm(testData)]
+    # with open('infer_val.pkl', 'rb') as fd : 
+    #     inferredTrees = pickle.load(fd)
+
+    testData = list(map(treeify, testData))
+    scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
+    scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
     with open('o.txt', 'a+') as fd : 
         res = f'{np.mean(scores)} {np.std(scores)}'
         fd.write(res + '\n')

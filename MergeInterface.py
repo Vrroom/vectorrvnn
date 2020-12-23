@@ -214,31 +214,23 @@ class BBoxVisCallback(ttools.callbacks.Callback):
 
 class ImageCallback(ttools.callbacks.ImageDisplayCallback):
     def visualized_image(self, batch, step_data, is_val):
-        if is_val : 
-            N = batch['im'].shape[0]
-            i = random.randint(0, N-1)
-            im = batch['im'][i:i+3].cpu()
-            im1 = batch['im1'][i:i+3].cpu()
-            im2 = batch['im2'][i:i+3].cpu()
-            viz = torch.cat([im, im1, im2], 2)
-            viz = (viz - viz.min()) / (viz.max() - viz.min())
-            return viz
-        else : 
-            im = batch['im'][0].cpu()
-            im1 = batch['im1'][0].cpu()
-            im2 = batch['im2'][0].cpu()
-            viz = torch.cat([im, im1, im2], 2)
-            viz = (viz - viz.min()) / (viz.max() - viz.min())
-            return viz
+        im = batch['im'][0].cpu()
+        im1 = batch['im1'][0].cpu()
+        im2 = batch['im2'][0].cpu()
+        viz = torch.cat([im, im1, im2], 2)
+        viz = (viz - viz.min()) / (viz.max() - viz.min())
+        return viz
         
     def caption(self, batch, step_data, is_val):
         # write some informative caption into the visdom window
-        if not is_val : 
+        if is_val : 
+            ref = float(step_data['lca'][0])
+            pred = float(step_data['predLca'][0])
+        else : 
             ref = float(batch['lca'][0])
             pred = float(step_data['pred']['score'][0])
-            s = 'REF: {:10.4f}, PRED: {:10.4f}'.format(ref, pred)
-            return s
-        return ''
+        s = 'REF: {:10.4f}, PRED: {:10.4f}'.format(ref, pred)
+        return s
 
 class MergeInterface (ttools.ModelInterface) : 
 
@@ -397,8 +389,8 @@ def train (name) :
     trainer.add_callback(ttools.callbacks.ProgressBarCallback(
         keys=val_keys, val_keys=val_keys))
     trainer.add_callback(ConfusionLineCallback(env=name + "_confusion", port=port, frequency=100))
-    trainer.add_callback(ImageCallback(env=name + "_vis", win="samples", port=port, frequency=100))
-    trainer.add_callback(BBoxVisCallback(env=name + "_vis", port=port, frequency=100))
+    trainer.add_callback(ImageCallback(env=name + "_vis", win="samples", port=port, frequency=50))
+    trainer.add_callback(BBoxVisCallback(env=name + "_vis", port=port, frequency=50))
     trainer.add_callback(LastLayerBiasPlotCallback(env=name + "_bias", port=port, frequency=100))
     trainer.add_callback(KernelCallback(key="alexnet1-first-layer-kernel", env=name + "_kernel", win="alexnet1", port=port))
     # trainer.add_callback(KernelCallback(key="alexnet2-first-layer-kernel", env=name + "_kernel", win="alexnet2", port=port))
