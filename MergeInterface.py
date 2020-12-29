@@ -1,4 +1,3 @@
-import torch
 import random
 from torchvision import transforms as T
 from listOps import avg
@@ -91,34 +90,12 @@ class ConfusionLineCallback(ttools.callbacks.Callback):
 
     def epoch_start (self, epoch) : 
         super(ConfusionLineCallback, self).epoch_start(epoch)
-        self.lca = None
-        self.predLca = None 
+        self.lof = None
+        self.predLof = None 
 
-    def plot_data (self, lca, predLca, win) : 
-        ps = np.arange(0.1, 1.01, 0.1)
-        xs = []
-        ys = []
-        ss = []
-        for p in ps : 
-            ind = np.abs(lca - p) < 1e-3
-            if ind.any(): 
-                arr = predLca[ind]
-                xs.append(p)
-                ys.append(arr.mean())
-                ss.append(arr.std())
-        xs = np.array(xs)
-        ys = np.array(ys)
-        ss = np.array(ss)
-        fig, ax = plt.subplots()
-        ax.plot(xs, ys) 
-        ax.fill_between(xs, ys - ss, ys + ss, alpha=0.1)
-        ax.set_xlabel("depth difference / 10")
-        ax.set_ylabel("prediction")
-        ax.set_xlim(0, 1)
-        ax.set_ylim(0, 1)
-        plt.suptitle(win)
-        self._api.matplot(plt, win=win)
-        plt.close(fig)
+    def plot_data (self, lof, predLof, win) : 
+        X = np.vstack((lof, predLof.squeeze())).T
+        self._api.scatter(X, win=win, opts=self.opts)
 
     def batch_end(self, batch, step_data) :
         super(ConfusionLineCallback, self).batch_end(batch, step_data)
@@ -126,18 +103,18 @@ class ConfusionLineCallback(ttools.callbacks.Callback):
             self._step += 1
             return
         self._step = 0
-        lca = batch['lca'].cpu().detach().numpy().flatten()
-        predLca = step_data['pred']['score'].cpu().detach().numpy()
-        self.lca = lca if self.lca is None else np.concatenate([lca, self.lca])
-        self.predLca = predLca if self.predLca is None else np.concatenate([predLca, self.predLca])
-        self.plot_data(self.lca, self.predLca, "confusion")
+        lof = batch['lof'].cpu().detach().numpy().flatten()
+        predLof = step_data['pred']['score'].cpu().detach().numpy()
+        self.lof = lof if self.lof is None else np.concatenate([lof, self.lof])
+        self.predLof = predLof if self.predLof is None else np.concatenate([predLof, self.predLof])
+        self.plot_data(self.lof, self.predLof, "confusion")
         self._step += 1
 
     def val_batch_end (self, batch_data, running_val_data) : 
         super(ConfusionLineCallback, self).val_batch_end(batch_data, running_val_data)
-        lca = running_val_data['lca'].cpu().detach().numpy().flatten()
-        predLca = running_val_data['predLca'].cpu().detach().numpy()
-        self.plot_data(lca, predLca, "val_confusion") 
+        lof = running_val_data['lof'].cpu().detach().numpy().flatten()
+        predLof = running_val_data['predLof'].cpu().detach().numpy()
+        self.plot_data(lof, predLof, "val_confusion") 
         self._step += 1
 
 
@@ -224,10 +201,10 @@ class ImageCallback(ttools.callbacks.ImageDisplayCallback):
     def caption(self, batch, step_data, is_val):
         # write some informative caption into the visdom window
         if is_val : 
-            ref = float(step_data['lca'][0])
-            pred = float(step_data['predLca'][0])
+            ref = float(step_data['lof'][0])
+            pred = float(step_data['predLof'][0])
         else : 
-            ref = float(batch['lca'][0])
+            ref = float(batch['lof'][0])
             pred = float(step_data['pred']['score'][0])
         s = 'REF: {:10.4f}, PRED: {:10.4f}'.format(ref, pred)
         return s
@@ -291,8 +268,8 @@ class MergeInterface (ttools.ModelInterface) :
         bbox1 = batch['bbox1'].cuda()
         bbox2 = batch['bbox2'].cuda()
         fwd_data = self.model(im, im1, im2, bbox1, bbox2)
-        lca = batch['lca'].cuda()
-        scoreLoss = self.loss(fwd_data['score'], lca)
+        lof = batch['lof'].cuda()
+        scoreLoss = self.loss(fwd_data['score'], lof)
         iouLoss = (-iou(bbox1, fwd_data['box1Pred']).mean() - iou(bbox2, fwd_data['box2Pred']).mean()) / 2
         totalLoss = scoreLoss + iouLoss
         ret = {}
@@ -318,23 +295,23 @@ class MergeInterface (ttools.ModelInterface) :
         return ret
 
     def init_validation(self):
-        return {"count": 0, "scoreLoss": 0, "iouLoss": 0, "totalLoss": 0, "lca": None, "predLca": None}
+        return {"count": 0, "scoreLoss": 0, "iouLoss": 0, "totalLoss": 0, "lof": None, "predLof": None}
 
     def validation_step(self, batch, running_data) : 
         with torch.no_grad():
-            lca = batch['lca'].cuda()
+            lof = batch['lof'].cuda()
             im = batch['im'].cuda()
             im1 = batch['im1'].cuda()
             im2 = batch['im2'].cuda()
             bbox1 = batch['bbox1'].cuda()
             bbox2 = batch['bbox2'].cuda()
             fwd = self.model(im, im1, im2, bbox1, bbox2)
-            scoreLoss = self.loss(fwd['score'], lca)
+            scoreLoss = self.loss(fwd['score'], lof)
             iouLoss = (-iou(bbox1, fwd['box1Pred']).mean() - iou(bbox2, fwd['box2Pred']).mean()) / 2
             totalLoss = scoreLoss + iouLoss
-            n = lca.numel()
-            lcaNew = batch['lca'] if running_data['lca'] is None else torch.cat([batch['lca'], running_data['lca']])
-            predLcaNew = fwd['score'] if running_data['predLca'] is None else torch.cat([fwd['score'], running_data['predLca']])
+            n = lof.numel()
+            lofNew = batch['lof'] if running_data['lof'] is None else torch.cat([batch['lof'], running_data['lof']])
+            predLofNew = fwd['score'] if running_data['predLof'] is None else torch.cat([fwd['score'], running_data['predLof']])
             cumScoreLoss = (running_data["scoreLoss"] * running_data["count"] + scoreLoss.item() * n) / (running_data["count"] + n)
             cumIouLoss = (running_data["iouLoss"] * running_data["count"] + iouLoss.item() * n) / (running_data["count"] + n)
             cumTotalLoss = (running_data["totalLoss"] * running_data["count"] + totalLoss.item() * n) / (running_data["count"] + n)
@@ -343,8 +320,8 @@ class MergeInterface (ttools.ModelInterface) :
             "iouLoss":  cumIouLoss,
             "totalLoss": cumTotalLoss,
             "count": running_data["count"] + n, 
-            "lca": lcaNew,
-            "predLca": predLcaNew
+            "lof": lofNew,
+            "predLof": predLofNew
         }
 
 
