@@ -18,10 +18,11 @@ import torchvision.models as models
 import torch.nn.functional as F
 from treeOps import *
 import svgpathtools as svg
-from raster import SVGSubset2NumpyImage
+from raster import SVGSubset2NumpyImage, getSubsetSvg
 from torchUtils import imageForResnet
 from tqdm import tqdm
 from treeCompare import ted
+from vis import treeImageFromGraph, matplotlibFigureSaver
 
 def subMatrix(mat, rIndices, cIndices) :
     rIndices = torch.tensor(rIndices).cuda()
@@ -181,22 +182,23 @@ class RasterLCAModel (nn.Module) :
             return F.l1_loss(A, M)
 
         def simplify (a, b) : 
-            n = 1 if isinstance(a, int) else len(a)
-            m = 1 if isinstance(b, int) else len(b)
-            if n + m > 5 or (isinstance(a, int) and isinstance(b, int)): 
-                return (a, b)
-            else :
-                c1 = (a, b) 
-                if isinstance(a, int) : 
-                    c2 = (a, *b)
-                elif isinstance(b, int) :
-                    c2 = (*a, b)
-                else: 
-                    c2 = (*a, *b) 
-                if lossHelper(c1) > lossHelper(c2) : 
-                    return c2 
-                else :
-                    return c1
+            return (a, b)
+            # n = 1 if isinstance(a, int) else len(a)
+            # m = 1 if isinstance(b, int) else len(b)
+            # if n + m > 5 or (isinstance(a, int) and isinstance(b, int)): 
+            #     return (a, b)
+            # else :
+            #     c1 = (a, b) 
+            #     if isinstance(a, int) : 
+            #         c2 = (a, *b)
+            #     elif isinstance(b, int) :
+            #         c2 = (*a, b)
+            #     else: 
+            #         c2 = (*a, *b) 
+            #     if lossHelper(c1) > lossHelper(c2) : 
+            #         return c2 
+            #     else :
+            #         return c1
     
         def getImage (subtree) :
             nonlocal imageCache
@@ -253,11 +255,21 @@ def treeify (t) :
     t_.nodes[n]['pathSet'] = leaves(t)
     return t_
 
+def fillSVG (gt, t) : 
+    doc = svg.Document(gt.svgFile)
+    paths = doc.flatten_all_paths()
+    vb = doc.get_viewbox()
+    for n in t.nodes : 
+        pathSet = t.nodes[n]['pathSet']
+        t.nodes[n]['svg'] = getSubsetSvg(paths, pathSet, vb)
+    thing = treeImageFromGraph(t)
+    matplotlibFigureSaver(thing, f'{gt.svgFile}')
+    
 if __name__ == "__main__" : 
     with open('Configs/config.json') as fd : 
         config = json.load(fd)
     # Load all the data
-    testData = SVGDataSet('train.pkl').svgDatas[:100]
+    testData = SVGDataSet('cv.pkl').svgDatas
     model = RasterLCAModel(config['sampler'])
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     MERGE_OUTPUT = os.path.join(BASE_DIR, "results", "prev_expt_transparent_raster")
@@ -271,6 +283,8 @@ if __name__ == "__main__" :
     #     inferredTrees = pickle.load(fd)
 
     testData = list(map(treeify, testData))
+    for gt, t in zip(testData, inferredTrees) : 
+        fillSVG(gt, t)
     scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
     scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
     with open('o.txt', 'a+') as fd : 

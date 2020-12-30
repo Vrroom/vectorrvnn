@@ -4,7 +4,6 @@ import os.path as osp
 import torch
 from Dataset import SVGDataSet
 from tqdm import tqdm
-from RasterLCAModel import RasterLCAModel
 import json
 from skimage import transform
 import math
@@ -23,7 +22,7 @@ def treeAxisFromGraph(G, ax) :
     nx.draw(G, pos, ax=ax, node_size=0.5, arrowsize=1)
     for n in G :
         img = svgStringToBitmap(G.nodes[n]['svg'])
-        imagebox = OffsetImage(img, zoom=0.1)
+        imagebox = OffsetImage(img, zoom=0.2)
         imagebox.image.axes = ax
         ab = AnnotationBbox(imagebox, pos[n], pad=0)
         ax.add_artist(ab)
@@ -49,8 +48,8 @@ def treeImageFromGraph (G) :
     ax.set_aspect('equal')
     nx.draw(G, pos, ax=ax, node_size=0.5, arrowsize=1)
     for n in G :
-        img = svgStringToBitmap(G.nodes[n]['svg'])
-        imagebox = OffsetImage(img, zoom=0.2)
+        img = svgStringToBitmap(G.nodes[n]['svg'], 32, 32)
+        imagebox = OffsetImage(img, zoom=0.4)
         imagebox.image.axes = ax
         ab = AnnotationBbox(imagebox, pos[n], pad=0)
         ax.add_artist(ab)
@@ -186,110 +185,3 @@ def violinPlot (path_vae_name, name, config, useColor, nMerge) :
     data = [reconLosses, randomLosses]
     return data
 
-def worstPerforming () : 
-    def collate_fn (batch) : 
-        im1 = torch.stack([b[0] for b in batch])
-        im2 = torch.stack([b[1] for b in batch])
-        y = torch.stack([b[2] for b in batch])
-        return im1, im2, y
-
-    with open('Configs/config.json') as fd : 
-        config = json.load(fd)
-    # Load all the data
-    cvData = SVGDataSet('cv.h5')
-    dataLoader = torch.utils.data.DataLoader(
-        cvData, 
-        batch_size=128, 
-        shuffle=True,
-        collate_fn=collate_fn
-    )
-    model = RasterLCAModel(config['sampler'])
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    MERGE_OUTPUT = os.path.join(BASE_DIR, "results", "nonResnet")
-    state_dict = torch.load(os.path.join(MERGE_OUTPUT, 'training_end.pth'))
-    model.load_state_dict(state_dict['model'])
-    model.to("cuda")
-    model.eval()
-    badExamples = []
-    for b in dataLoader:  
-        with torch.no_grad():
-            im1 = b[0].cuda()
-            im2 = b[1].cuda()
-            target = b[2].cuda()
-            fwd = model(im1, im2)
-            badOnes = torch.abs(fwd - target) > 0.25
-            badExamples.append((im1[badOnes.view(-1), :, :, :], im2[badOnes.view(-1), :, :, :], fwd[badOnes], target[badOnes]))
-    
-    # if not osp.exists('bad_examples') : 
-    #     os.mkdir('bad_examples')
-    count1 = 0
-    count2 = 0
-    for j, b in tqdm(enumerate(badExamples)) : 
-        im1, im2, fwd, t = b 
-        n = im1.shape[0]
-        im1 = torch.chunk(im1, n)
-        im2 = torch.chunk(im2, n)
-        fwd = torch.chunk(fwd, n)
-        t = torch.chunk(t, n)
-        for i in range(n) : 
-            # fileName = f'bad_examples/{j}_{i}'
-            # fig, ax = plt.subplots(2)
-            # ax[0].imshow(im1[i].squeeze().permute(1, 2, 0).cpu().numpy())
-            # ax[1].imshow(im2[i].squeeze().permute(1, 2, 0).cpu().numpy())
-            fwd_ = float(fwd[i])
-            t_ = float(t[i])
-            if t_ > fwd_ : 
-                count1+=t_-fwd_
-            else : 
-                count2+=fwd_-t_
-            # fig.suptitle(f'Pred: {fwd_}, True: {t_}')
-            # fig.savefig(fileName) 
-    print(count1, count2)
-
-if __name__ == "__main__" :
-    worstPerforming()    
-    # import os
-    # import json
-    # from Dataset import SVGDataSet
-    # from OneMergeAutoEncoder import OneMergeAutoEncoder
-    # from PathVAE import PathVAE
-    # from MergeInterface import MergeInterface
-    # import torch
-    # from torch import nn
-    # from treeOps import nonLeaves, leaves
-    # import random
-    # with open('Configs/config.json') as fd : 
-    #     config = json.load(fd)
-    # with open('Configs/config1.json') as fd : 
-    #     config1 = json.load(fd)
-    # for nMerge in range(2, 6) : 
-    #     data1 = violinPlot('path_vae', 'merge', config1, False, nMerge)
-    #     data2 = violinPlot('path_color_vae', 'merge_color', config, True, nMerge)
-    #     data = [*data1, *data2]
-    #     fig, ax = plt.subplots()
-    #     ax.set_title(f'Comparison of recon loss on ground truth vs random merges (nMerge={nMerge})')
-    #     ax.set_ylabel('recon error')
-    #     ax.set_xticks([1,2,3,4])
-    #     ax.set_xticklabels(['gt', 'random', 'gt_color', 'random_color'])
-    #     ax.violinplot(data, showmeans=True)
-    #     fig.savefig(f'ViolinPlot_(nMerge={nMerge})')
-
-    # # import svgpathtools as svg
-    # # from svgIO import setSVGAttributes
-    # # from Dataset import SVGDataSet
-    # # dataset = SVGDataSet('/Users/amaltaas/BTP/vectorrvnn/ManuallyAnnotatedDataset/CV', 'adjGraph', 10)
-    # # doc = svg.Document(dataset[0].svgFile)
-    # # paths = doc.flatten_all_paths()
-    # # vb = doc.get_viewbox()
-    # # setSVGAttributes(dataset[0], paths, vb)
-    # # doc = svg.Document(dataset[1].svgFile)
-    # # paths = doc.flatten_all_paths()
-    # # vb = doc.get_viewbox()
-    # # setSVGAttributes(dataset[1], paths, vb)
-    # # fig, (ax1, ax2) = plt.subplots(1, 2, dpi=1500)
-    # # treeAxisFromGraph(dataset[0], ax1)
-    # # treeAxisFromGraph(dataset[1], ax2)
-    # # ax1.set_title("og")
-    # # ax2.set_title("inf")
-    # # fig.savefig('out.png')
-    # # plt.close(fig)
