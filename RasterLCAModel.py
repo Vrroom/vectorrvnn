@@ -15,6 +15,7 @@ from torch import nn
 from Dataset import SVGDataSet
 from listOps import removeIndices
 import torchvision.models as models
+from dictOps import aggregateDict
 import torch.nn.functional as F
 from treeOps import *
 import svgpathtools as svg
@@ -92,7 +93,7 @@ class RasterLCAModel (nn.Module) :
         self.hidden_size = config['hidden_size']
         self.input_size = config['input_size']
         self.alexnet1 = RecordingModule(smallResnet(self.input_size))
-        # self.alexnet2 = RecordingModule(smallResnet(self.input_size))
+        self.alexnet2 = RecordingModule(smallResnet(self.input_size))
         self.boxEncoder = RecordingModule(nn.Sequential(
             nn.Linear(4, self.hidden_size, bias=False), 
             nn.BatchNorm1d(self.hidden_size),
@@ -140,8 +141,8 @@ class RasterLCAModel (nn.Module) :
         b1 = self.boxEncoder(box1)
         b2 = self.boxEncoder(box2)
         imEncoding = self.alexnet1(im)
-        im1Encoding = self.alexnet1(im1)
-        im2Encoding = self.alexnet1(im2)
+        im1Encoding = self.alexnet2(im1)
+        im2Encoding = self.alexnet2(im2)
         h1 = torch.cat((imEncoding, im1Encoding, b1), dim=1)
         h2 = torch.cat((imEncoding, im2Encoding, b2), dim=1) 
         bf1 = torch.cat((imEncoding, im1Encoding), dim=1)
@@ -158,7 +159,7 @@ class RasterLCAModel (nn.Module) :
         o = torch.zeros((n, n)).cuda()
         for i, j in product(range(n), range(n)) :
             bbox1 = torch.tensor([t.nodes[i]['bbox']]).float().cuda()
-            bbox2 = torch.tensor([t.nodes[i]['bbox']]).float().cuda()
+            bbox2 = torch.tensor([t.nodes[j]['bbox']]).float().cuda()
             im = imageForResnet(t.image, True).unsqueeze(0)
             img1 = imageForResnet(t.nodes[i]['image'], True).unsqueeze(0)
             img2 = imageForResnet(t.nodes[j]['image'], True).unsqueeze(0)
@@ -178,27 +179,27 @@ class RasterLCAModel (nn.Module) :
                 l_ = lca(t, ti, tj)
                 M[i, j] = min(1, (d - t.nodes[l_]['depth']) / 10)
             A = subMatrix(o, l, l) 
-            A = A * (1 - torch.eye(len(l), len(l)).cuda())
+            A = A * (1 - torch.eye(len(l), len(l))).cuda()
             return F.l1_loss(A, M)
 
         def simplify (a, b) : 
-            return (a, b)
-            # n = 1 if isinstance(a, int) else len(a)
-            # m = 1 if isinstance(b, int) else len(b)
-            # if n + m > 5 or (isinstance(a, int) and isinstance(b, int)): 
-            #     return (a, b)
-            # else :
-            #     c1 = (a, b) 
-            #     if isinstance(a, int) : 
-            #         c2 = (a, *b)
-            #     elif isinstance(b, int) :
-            #         c2 = (*a, b)
-            #     else: 
-            #         c2 = (*a, *b) 
-            #     if lossHelper(c1) > lossHelper(c2) : 
-            #         return c2 
-            #     else :
-            #         return c1
+            # return (a, b)
+            n = 1 if isinstance(a, int) else len(a)
+            m = 1 if isinstance(b, int) else len(b)
+            if n + m > 5 or (isinstance(a, int) and isinstance(b, int)): 
+                return (a, b)
+            else :
+                c1 = (a, b) 
+                if isinstance(a, int) : 
+                    c2 = (a, *b)
+                elif isinstance(b, int) :
+                    c2 = (*a, b)
+                else: 
+                    c2 = (*a, *b) 
+                if lossHelper(c1) > lossHelper(c2) : 
+                    return c2 
+                else :
+                    return c1
     
         def getImage (subtree) :
             nonlocal imageCache
@@ -272,7 +273,7 @@ if __name__ == "__main__" :
     testData = SVGDataSet('cv.pkl').svgDatas
     model = RasterLCAModel(config['sampler'])
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    MERGE_OUTPUT = os.path.join(BASE_DIR, "results", "prev_expt_transparent_raster")
+    MERGE_OUTPUT = os.path.join(BASE_DIR, "results", "rasterLCA_bboxPred")
     state_dict = torch.load(os.path.join(MERGE_OUTPUT, 'training_end.pth'))
     model.load_state_dict(state_dict['model'])
     model = model.float()
@@ -281,12 +282,11 @@ if __name__ == "__main__" :
     inferredTrees = [model.greedyTree(t) for t in tqdm(testData)]
     # with open('infer_val.pkl', 'rb') as fd : 
     #     inferredTrees = pickle.load(fd)
-
     testData = list(map(treeify, testData))
     for gt, t in zip(testData, inferredTrees) : 
         fillSVG(gt, t)
     scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
     scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
     with open('o.txt', 'a+') as fd : 
-        res = f'{np.mean(scores)} {np.std(scores)}'
+        res = f'vis - {np.mean(scores)} {np.std(scores)}'
         fd.write(res + '\n')

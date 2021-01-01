@@ -1,4 +1,5 @@
 import subprocess
+from copy import deepcopy
 import numpy as np
 import random
 import os
@@ -87,10 +88,13 @@ def getSubsetSvg(paths, lst, vb) :
         The viewbox of the original svg.
     """
     vbox = ' '.join([str(_) for _ in vb])
-    ps = [paths[i][0] for i in lst]
-
-    attrs = [paths[i][1].attrib for i in lst]
-    order = [paths[i][3] for i in lst]
+    ps = [p[0] for p in paths]
+    opacity = {"fill-opacity": 0.2, "stroke-opacity": 0.2}
+    attrs = [deepcopy(p[1].attrib) for p in paths]
+    for i in range(len(paths)) :
+        if i not in lst: 
+            attrs[i].update(opacity)
+    order = [p[3] for p in paths]
     cmb = list(zip(order, ps, attrs))
     cmb.sort()
     ps = [p for _, p, _ in cmb]
@@ -140,7 +144,7 @@ def SVGSubset2NumpyImage (doc, pathSet, H, W) :
     box[1] -= eps
     box[2] += 2 * eps
     box[3] += 2 * eps
-    svgString = getSubsetSvg(paths, list(range(len(paths))), box)
+    svgString = getSubsetSvg(paths, pathSet, box)
     return svgStringToBitmap(svgString, H, W)
 
 def SVGtoNumpyImage (svgFilePath, H, W) :

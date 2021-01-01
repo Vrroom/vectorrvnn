@@ -394,6 +394,16 @@ def computeLCAMatrix(T) :
         for j, b in enumerate(T.nodes) : 
             T.lcaMatrix[i, j] = T.nodes[lca(T, a, b)]['depth'] / T.maxDepth
 
+def parent(t, n) : 
+    if t.in_degree(n) == 0 : 
+        return None
+    else : 
+        return [p for p in t.nodes if n in t.neighbors(p)].pop()
+
+def siblings(t, n): 
+    p = parent(t, n)
+    return set(t.neighbors(p)) - {n}
+
 if __name__ == "__main__" : 
     import json
     from Dataset import SVGDataSet 
