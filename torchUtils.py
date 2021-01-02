@@ -2,6 +2,15 @@ from torchvision import transforms as T
 import numpy as np
 import torchvision.models as models
 import torch
+from torch import nn
+import torch.nn.functional as F
+
+def convLayer (in_channel, out_channel, kernel_size, stride) :
+    return nn.Sequential(
+        nn.Conv2d(in_channel, out_channel, kernel_size, stride, bias=False),
+        nn.BatchNorm2d(out_channel),
+        nn.ReLU()
+    )
 
 def imageForResnet (img, cuda=False) :
     img = torch.from_numpy(img).float()

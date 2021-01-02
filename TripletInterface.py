@@ -1,16 +1,17 @@
 import torch
+from tqdm import tqdm
 import torch.nn.functional as F
 from torch import nn
 import torch.optim as optim
 import random
-from torchvision import transforms as T
 from listOps import avg
 from sklearn.metrics import plot_confusion_matrix
 import matplotlib.pyplot as plt
 from itertools import product
 import os
-from TripletNet import *
-from Dataset import SVGDataSet
+from Triplet import *
+from TripletSVGData import *
+from TripletDataset import *
 import json
 import more_itertools
 import numpy as np
@@ -43,33 +44,17 @@ class KernelCallback (ttools.callbacks.ImageDisplayCallback) :
         if not is_val: 
             return self.key
 
-# TODO SHOW ALL 4 IMAGES
 class ImageCallback(ttools.callbacks.ImageDisplayCallback):
     def visualized_image(self, batch, step_data, is_val):
-        if is_val : 
-            N = batch['im'].shape[0]
-            i = random.randint(0, N-1)
-            im = batch['im'][i:i+3].cpu()
-            im1 = batch['im1'][i:i+3].cpu()
-            im2 = batch['im2'][i:i+3].cpu()
-            viz = torch.cat([im, im1, im2], 2)
-            viz = (viz - viz.min()) / (viz.max() - viz.min())
-            return viz
-        else : 
-            im = batch['im'][0].cpu()
-            im1 = batch['im1'][0].cpu()
-            im2 = batch['im2'][0].cpu()
-            viz = torch.cat([im, im1, im2], 2)
-            viz = (viz - viz.min()) / (viz.max() - viz.min())
-            return viz
+        im = batch['im'][0].cpu().unsqueeze(0)
+        ref = batch['ref'][0].cpu().unsqueeze(0)
+        plus = batch['plus'][0].cpu().unsqueeze(0)
+        minus = batch['minus'][0].cpu().unsqueeze(0)
+        viz = torch.cat([im, ref, plus, minus], 3)
+        return viz
         
     def caption(self, batch, step_data, is_val):
         # write some informative caption into the visdom window
-        if not is_val : 
-            ref = float(batch['lca'][0])
-            pred = float(step_data['pred']['score'][0])
-            s = 'REF: {:10.4f}, PRED: {:10.4f}'.format(ref, pred)
-            return s
         return ''
 
 class TripletInterface (ttools.ModelInterface) : 
@@ -86,16 +71,6 @@ class TripletInterface (ttools.ModelInterface) :
             self.device = "cuda"
         self.model.to(self.device)
         self.opt = optim.Adam(self.model.parameters(), lr=lr, weight_decay=1e-4)
-
-    def logActivations (self, ret) : 
-        for name, module in self.model.named_children() : 
-            relus = filter(lambda x : isinstance(x, RecordingReLU), module.modules())
-            activated = list(map(lambda x : x.activated, relus))
-            ret[f'{name}_activated'] = avg(activated)
-
-    def logOutNorms (self, ret) : 
-        for name, module in self.model.named_children() : 
-            ret[f'{name}_outnorm'] = module.outNorm
 
     def logGradients (self, ret) : 
         with torch.no_grad() : 
@@ -122,7 +97,7 @@ class TripletInterface (ttools.ModelInterface) :
         plus = batch['plus'].cuda()
         minus = batch['minus'].cuda()
         dplus2 = self.model(im, ref, plus, minus)
-        loss = dplus2.sum()
+        loss = dplus2.mean()
         ret = {}
         # optimize
         self.opt.zero_grad()
@@ -133,12 +108,9 @@ class TripletInterface (ttools.ModelInterface) :
                 LOG.warning("Clipping generator gradients. norm = %.3f > %.3f", nrm, self.max_grad_norm)
         self.opt.step()
         ret["loss"] = loss.item()
-        ret["last-layer-bias"] = self.model.nn2[-2].bias
-        ret["conv-first-layer-kernel"] = self.model.conv.module[0].weight
+        ret["conv-first-layer-kernel"] = self.model.conv[0][0].weight
         self.logParameterNorms(ret)
         self.logGradients(ret)
-        self.logActivations(ret)
-        self.logOutNorms(ret)
         return ret
 
     def init_validation(self):
@@ -151,8 +123,8 @@ class TripletInterface (ttools.ModelInterface) :
             plus = batch['plus'].cuda()
             minus = batch['minus'].cuda()
             dplus2 = self.model(im, ref, plus, minus)
-            loss = dplus2.sum().item()
-            n = lca.numel()
+            loss = dplus2.mean().item()
+            n = dplus2.numel()
             count = running_data['count']
             cumLoss = (running_data["loss"] * count + loss * n) / (count + n)
         return {
@@ -164,19 +136,19 @@ class TripletInterface (ttools.ModelInterface) :
 def train (name) : 
     with open('Configs/config.json') as fd : 
         config = json.load(fd)
-    trainData = SVGDataSet('train.pkl')
+    trainData = TripletSVGDataSet('train32.pkl')
     dataLoader = torch.utils.data.DataLoader(
         trainData, 
         batch_size=128, 
-        shuffle=True,
+        sampler=TripletSampler(trainData.svgDatas),
         pin_memory=True,
         collate_fn=lambda x : aggregateDict(x, torch.stack)
     )
-    valData = SVGDataSet('cv.pkl')
+    valData = TripletSVGDataSet('cv32.pkl')
     valDataLoader = torch.utils.data.DataLoader(
         valData, 
         batch_size=128,
-        shuffle=True,
+        sampler=TripletSampler(valData.svgDatas, val=True),
         pin_memory=True,
         collate_fn=lambda x : aggregateDict(x, torch.stack)
     )
@@ -184,7 +156,7 @@ def train (name) :
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     MERGE_OUTPUT = os.path.join(BASE_DIR, "results", name)
     # Initiate main model.
-    model = RasterLCAModel(config['sampler']).float()
+    model = TripletNet(dict(hidden_size=200)).float()
     checkpointer = ttools.Checkpointer(MERGE_OUTPUT, model)
     interface = TripletInterface(model)
     trainer = ttools.Trainer(interface)
@@ -192,9 +164,7 @@ def train (name) :
     named_children = [n for n, _ in model.named_children()]
     named_grad = [f'{n}_grad' for n in named_children]
     named_wd = [f'{n}_wd' for n in named_children]
-    named_activated = [f'{n}_activated' for n in named_children]
-    named_outnorms = [f'{n}_outnorm' for n in named_children]
-    keys = ["loss", *named_grad, *named_wd, *named_activated, *named_outnorms]
+    keys = ["loss", *named_grad, *named_wd]
     val_keys=keys[:1]
     trainer.add_callback(ttools.callbacks.CheckpointingCallback(checkpointer))
     trainer.add_callback(ttools.callbacks.ProgressBarCallback(

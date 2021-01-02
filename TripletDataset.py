@@ -7,7 +7,7 @@ from torchUtils import imageForResnet
 from torch.utils import data
 from osTools import listdir
 import torch
-from SVGData import SVGData
+from TripletSVGData import TripletSVGData
 from treeOps import *
 from itertools import starmap, product
 from tqdm import tqdm
@@ -22,7 +22,7 @@ def generateData (dataDir, pickleFileName) :
     dataPts = map(listdir, listdir(dataDir))
     dataPts = list(map(lambda x : list(reversed(x)), dataPts))
     with mp.Pool(maxtasksperchild=30) as p : 
-        svgDatas = list(p.starmap(partial(SVGData, graph=None, samples=None), dataPts))
+        svgDatas = list(p.starmap(partial(TripletSVGData, graph=None, samples=None), dataPts))
     with open(pickleFileName, 'wb') as fd : 
         pickle.dump(svgDatas, fd)
 
@@ -50,14 +50,19 @@ class TripletSampler () :
     def sampleTree (self) : 
         n = len(self.data)
         idx = self.rng.randint(0, n - 1)
-        while self.data[idx].number_of_nodes() < 3 : 
+        while True: 
+            t = self.data[idx]
+            roots = [r for r in t.nodes if t.in_degree(r) == 0]
+            desc = [descendants(t, r) for r in roots]
+            if any(map(lambda x : len(x) > 2, desc)) : 
+                break
             idx = self.rng.randint(0, n - 1)
         return idx
 
     def sampleRef (self, idx) : 
         t = self.data[idx]
         refId = self.rng.sample(list(t.nodes), k=1).pop()
-        while t.in_degree[refId] == 0 : 
+        while t.in_degree(refId) == 0 : 
             refId = self.rng.sample(list(t.nodes), k=1).pop()
         return refId
 
@@ -77,7 +82,6 @@ class TripletSampler () :
             ref = self.sampleRef(t)
             plus = self.samplePlus(t, ref)
             minus = self.sampleMinus(t, ref)
-            print(t, ref, plus, minus)
             return (t, ref, plus, minus)
         else :
             self.i = 0
@@ -87,20 +91,18 @@ class TripletSampler () :
 
     def __len__ (self) : 
         # Fixed number of samples for each epoch.
-        return 10
+        return 100000
 
-class SVGTripletDataSet (data.Dataset, Saveable) : 
+class TripletSVGDataSet (data.Dataset, Saveable) : 
     """
     Pre-processed trees from clustering algorithm.
     """
     def __init__ (self, pickleFileName, transform=None) : 
-        super(SVGTripletDataSet, self).__init__() 
+        super(TripletSVGDataSet, self).__init__() 
         with open(pickleFileName, 'rb') as fd : 
             self.svgDatas = pickle.load(fd) 
-        # For torchvision.models
-        # TODO : REPLACE THIS WITH DATA MEAN.
-        mean = (0.485, 0.456, 0.406)
-        std = (0.229, 0.224, 0.225)
+        mean = [0.83548355, 0.8292917 , 0.79279226] 
+        std = [0.25613376, 0.25492862, 0.28038055]
         self.transform = T.Compose([
             lambda t : torch.from_numpy(t),
             lambda t : t.float(),
@@ -109,16 +111,6 @@ class SVGTripletDataSet (data.Dataset, Saveable) :
         ])
         if transform is not None : 
             self.transform = T.Compose([transform, self.transform])
-        self.examples = []
-        for i, t in enumerate(self.svgDatas) :
-            nodesA = list(t.nodes)
-            roots = [r for r in t.nodes if t.in_degree(r) == 0]
-            forests = [descendants(t, r) for r in roots]
-            for a, b in product(nodesA, nodesA[1:]):
-                if any([{a, b}.issubset(f) for f in forests]) : 
-                    l = lca(t, a, b)
-                    if l != a and l != b : 
-                        self.examples.append((i, a, b))
         
     def __getitem__ (self, index) :
         tId, ref, plus, minus = index
@@ -127,17 +119,17 @@ class SVGTripletDataSet (data.Dataset, Saveable) :
         imRef   = self.transform(t.nodes[ref  ]['image'])
         imPlus  = self.transform(t.nodes[plus ]['image'])
         imMinus = self.transform(t.nodes[minus]['image'])
-        return dict(im=im, imRef=imRef, imPlus=imPlus, imMinus=imMinus)
+        return dict(im=im, ref=imRef, plus=imPlus, minus=imMinus)
 
 if __name__ == "__main__" : 
-    # import json
-    # with open('commonConfig.json') as fd : 
-    #     commonConfig = json.load(fd)
-    # generateData(commonConfig['train_directory'], 'train.pkl')
-    # generateData(commonConfig['test_directory'], 'test.pkl')
-    # generateData(commonConfig['cv_directory'], 'cv.pkl')
-    data_ = SVGTripletDataSet('cv.pkl')
-    dataloader = data.DataLoader(data_, sampler=TripletSampler(data_.svgDatas, val=True), batch_size=10)
-    for e in range(2) :
-        for batch in dataloader : 
-            print(e)
+    import json
+    with open('commonConfig.json') as fd : 
+        commonConfig = json.load(fd)
+    generateData(commonConfig['train_directory'], 'train32.pkl')
+    generateData(commonConfig['test_directory'], 'test32.pkl')
+    generateData(commonConfig['cv_directory'], 'cv32.pkl')
+    # data_ = TripletSVGDataSet('cv.pkl')
+    # dataloader = data.DataLoader(data_, sampler=TripletSampler(data_.svgDatas, val=True), batch_size=10)
+    # for e in range(2) :
+    #     for batch in dataloader : 
+    #         print(e)
