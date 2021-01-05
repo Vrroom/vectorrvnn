@@ -60,7 +60,7 @@ def ted (t1, t2) :
                 for l in leavesInSubtree(t2, y) : 
                     P = list(set(pathInTree(t2, y, l)) - {y})
                     prob += v.loc[set1, P].values.sum() <= 1
-                prob.solve()
+                prob.solve(PULP_CBC_CMD(msg=False))
                 W.loc[x, y] = prob.objective.valueOrDefault()
         return W.loc[x, y]
     
@@ -82,7 +82,7 @@ def ted (t1, t2) :
     for l in leaves2 : 
         P = pathInTree(t2, r2, l)
         prob += v.loc[list(t1.nodes), P].values.sum() <= 1
-    prob.solve()
+    prob.solve(PULP_CBC_CMD(msg=False))
     opt = prob.objective.valueOrDefault()
     return n + m - opt
 
@@ -399,12 +399,7 @@ def match (rt1, rt2) :
 if __name__ == "__main__" : 
     from Dataset import SVGDataSet
     from tqdm import tqdm
-    with open('Configs/config.json') as fd : 
-        config = json.load(fd)
-    with open('commonConfig.json') as fd : 
-        commonConfig = json.load(fd)
-    # Load all the data
-    testDir = commonConfig['test_directory']
-    testData = SVGDataSet(testDir, 'adjGraph', 10, useColor=False)
-    dists = [ted(t, t) for t in tqdm(testData)]
-    print(np.mean(dists))
+    testData = SVGDataSet('cv.pkl').svgDatas
+    print(ted(testData[0], testData[1]))
+    # dists = [ted(t, t) for t in tqdm(testData)]
+    # print(np.mean(dists))

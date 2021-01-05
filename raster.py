@@ -33,10 +33,11 @@ def rasterize(svgFile, outFile, H=72, W=72, makeSquare=True) :
     outFile : str
         Path to where to store output
     """
-    if makeSquare : 
-        subprocess.call(['inkscape', f'-h {H}', f'-w {W}', '-z', '-f', svgFile, '-j', '-e', outFile])
-    else : 
-        subprocess.call(['inkscape', '-z', '-f', svgFile, '-j', '-e', outFile])
+    with open(os.devnull, 'w') as fd : 
+        if makeSquare : 
+            subprocess.call(['inkscape', f'-h {H}', f'-w {W}', '-z', '-f', svgFile, '-j', '-e', outFile], stdout=fd)
+        else : 
+            subprocess.call(['inkscape', '-z', '-f', svgFile, '-j', '-e', outFile], stdout=fd)
 
 def singlePathSvg(path, vb, out) :
     """

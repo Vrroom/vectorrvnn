@@ -35,7 +35,6 @@ class KernelCallback (ttools.callbacks.ImageDisplayCallback) :
             N, *_ = kernels.shape
             chunks = torch.chunk(kernels, N)
             chunks = [c.squeeze() for c in chunks]
-            chunks = [(c - c.min()) / (c.max() - c.min()) for c in chunks]
             n = math.isqrt(N)
             viz =  torch.stack([torch.cat(chunks[i*n: (i+1)*n], 1) for i in range(n)])
             return viz
@@ -140,7 +139,7 @@ def train (name) :
     dataLoader = torch.utils.data.DataLoader(
         trainData, 
         batch_size=128, 
-        sampler=TripletSampler(trainData.svgDatas),
+        sampler=TripletSampler(trainData.svgDatas, 1000000),
         pin_memory=True,
         collate_fn=lambda x : aggregateDict(x, torch.stack)
     )
@@ -148,7 +147,7 @@ def train (name) :
     valDataLoader = torch.utils.data.DataLoader(
         valData, 
         batch_size=128,
-        sampler=TripletSampler(valData.svgDatas, val=True),
+        sampler=TripletSampler(valData.svgDatas, 100000, val=True),
         pin_memory=True,
         collate_fn=lambda x : aggregateDict(x, torch.stack)
     )

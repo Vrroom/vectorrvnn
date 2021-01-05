@@ -37,12 +37,13 @@ class TripletSampler () :
         4. A random node is chosen whose lca distance
            from the reference node is > 2.
     """
-    def __init__ (self, data, seed=0, val=False) :
+    def __init__ (self, data, length, seed=0, val=False) :
         self.data = data
         self.rng = random.Random(seed)
         self.seed = seed
         self.val = val
         self.i = 0
+        self.length = length
 
     def __iter__ (self): 
         return self
@@ -91,7 +92,7 @@ class TripletSampler () :
 
     def __len__ (self) : 
         # Fixed number of samples for each epoch.
-        return 100000
+        return self.length
 
 class TripletSVGDataSet (data.Dataset, Saveable) : 
     """
