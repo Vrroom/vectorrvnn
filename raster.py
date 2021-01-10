@@ -90,12 +90,28 @@ def getSubsetSvg(paths, lst, vb) :
     """
     vbox = ' '.join([str(_) for _ in vb])
     ps = [p[0] for p in paths]
-    opacity = {"fill-opacity": 0.2, "stroke-opacity": 0.2}
+    # opacity = {"fill-opacity": 0.2, "stroke-opacity": 0.2}
     attrs = [deepcopy(p[1].attrib) for p in paths]
-    for i in range(len(paths)) :
-        if i not in lst: 
-            attrs[i].update(opacity)
+    # for i in range(len(paths)) :
+    #     if i not in lst: 
+    #         attrs[i].update(opacity)
     order = [p[3] for p in paths]
+    cmb = list(zip(order, ps, attrs))
+    cmb.sort()
+    ps = [p for _, p, _ in cmb]
+    attrs = [a for _, _, a in cmb]
+    drawing = svg.disvg(ps, 
+                        attributes=attrs, 
+                        viewbox=vbox, 
+                        paths2Drawing=True, 
+                        openinbrowser=False)
+    return drawing.tostring()
+
+def getSubsetSvg2(paths, lst, vb) :
+    vbox = ' '.join([str(_) for _ in vb])
+    ps = [paths[i][0] for i in lst]
+    attrs = [deepcopy(paths[i][1].attrib) for i in lst]
+    order = [paths[i][3] for i in lst]
     cmb = list(zip(order, ps, attrs))
     cmb.sort()
     ps = [p for _, p, _ in cmb]
@@ -146,6 +162,13 @@ def SVGSubset2NumpyImage (doc, pathSet, H, W) :
     box[2] += 2 * eps
     box[3] += 2 * eps
     svgString = getSubsetSvg(paths, pathSet, box)
+    return svgStringToBitmap(svgString, H, W)
+
+def SVGSubset2NumpyImage2 (doc, pathSet, H, W) :
+    paths = doc.flatten_all_paths()
+    boxes = np.array([paths[i].path.bbox() for i in pathSet])
+    docBox = doc.get_viewbox()
+    svgString = getSubsetSvg2(paths, pathSet, docBox)
     return svgStringToBitmap(svgString, H, W)
 
 def SVGtoNumpyImage (svgFilePath, H, W) :

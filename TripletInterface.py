@@ -21,6 +21,7 @@ import ttools.interfaces
 from ttools.modules import networks
 from dictOps import aggregateDict
 import visdom
+from torchUtils import *
 
 LOG = ttools.get_logger(__name__)
 
@@ -46,10 +47,18 @@ class KernelCallback (ttools.callbacks.ImageDisplayCallback) :
 class ImageCallback(ttools.callbacks.ImageDisplayCallback):
     def visualized_image(self, batch, step_data, is_val):
         im = batch['im'][0].cpu().unsqueeze(0)
-        ref = batch['ref'][0].cpu().unsqueeze(0)
-        plus = batch['plus'][0].cpu().unsqueeze(0)
-        minus = batch['minus'][0].cpu().unsqueeze(0)
+        im = torch.cat((im, im), 2)
+        refCrop = batch['refCrop'][0].cpu().unsqueeze(0)
+        refWhole = batch['refWhole'][0].cpu().unsqueeze(0)
+        ref = torch.cat((refCrop, refWhole), 2)
+        plusCrop = batch['plusCrop'][0].cpu().unsqueeze(0)
+        plusWhole = batch['plusWhole'][0].cpu().unsqueeze(0)
+        plus = torch.cat((plusCrop, plusWhole), 2)
+        minusCrop = batch['minusCrop'][0].cpu().unsqueeze(0)
+        minusWhole = batch['minusWhole'][0].cpu().unsqueeze(0)
+        minus = torch.cat((minusCrop, minusWhole), 2)
         viz = torch.cat([im, ref, plus, minus], 3)
+        viz = (viz - viz.min()) / (viz.max() - viz.min())
         return viz
         
     def caption(self, batch, step_data, is_val):
@@ -69,7 +78,7 @@ class TripletInterface (ttools.ModelInterface) :
         if cuda:
             self.device = "cuda"
         self.model.to(self.device)
-        self.opt = optim.Adam(self.model.parameters(), lr=lr, weight_decay=1e-4)
+        self.opt = optim.Adam(self.model.parameters(), lr=lr, weight_decay=1e-3)
 
     def logGradients (self, ret) : 
         with torch.no_grad() : 
@@ -89,13 +98,25 @@ class TripletInterface (ttools.ModelInterface) :
                     wd += p.pow(2).mean()
                 wd /= len(list(module.parameters())) + 1
                 ret[f'{name}_wd'] = wd.item()
+        
+    def logBNDiff (self, ret) : 
+        with torch.no_grad() : 
+            bns = list(filter(lambda x : isinstance(x, MyBN), self.model.conv.modules()))
+            mean_diff = sum(map(lambda x: x.mean_diff, bns)).item()
+            var_diff = sum(map(lambda x: x.var_diff, bns)).item()
+            ret['mean_diff'] = mean_diff
+            ret['var_diff'] = var_diff
 
     def training_step(self, batch) :
+        self.model.train()
         im = batch['im'].cuda()
-        ref = batch['ref'].cuda()
-        plus = batch['plus'].cuda()
-        minus = batch['minus'].cuda()
-        dplus2 = self.model(im, ref, plus, minus)
+        refCrop = batch['refCrop'].cuda()
+        refWhole = batch['refWhole'].cuda()
+        plusCrop = batch['plusCrop'].cuda()
+        plusWhole = batch['plusWhole'].cuda()
+        minusCrop = batch['minusCrop'].cuda()
+        minusWhole = batch['minusWhole'].cuda()
+        dplus2 = self.model(im, refCrop, refWhole, plusCrop, plusWhole, minusCrop, minusWhole)
         loss = dplus2.mean()
         ret = {}
         # optimize
@@ -110,18 +131,23 @@ class TripletInterface (ttools.ModelInterface) :
         ret["conv-first-layer-kernel"] = self.model.conv[0][0].weight
         self.logParameterNorms(ret)
         self.logGradients(ret)
+        # self.logBNDiff(ret)
         return ret
 
     def init_validation(self):
         return {"count": 0, "loss": 0}
 
     def validation_step(self, batch, running_data) : 
+        self.model.eval()
         with torch.no_grad():
             im = batch['im'].cuda()
-            ref = batch['ref'].cuda()
-            plus = batch['plus'].cuda()
-            minus = batch['minus'].cuda()
-            dplus2 = self.model(im, ref, plus, minus)
+            refCrop = batch['refCrop'].cuda()
+            refWhole = batch['refWhole'].cuda()
+            plusCrop = batch['plusCrop'].cuda()
+            plusWhole = batch['plusWhole'].cuda()
+            minusCrop = batch['minusCrop'].cuda()
+            minusWhole = batch['minusWhole'].cuda()
+            dplus2 = self.model(im, refCrop, refWhole, plusCrop, plusWhole, minusCrop, minusWhole)
             loss = dplus2.mean().item()
             n = dplus2.numel()
             count = running_data['count']
@@ -135,19 +161,19 @@ class TripletInterface (ttools.ModelInterface) :
 def train (name) : 
     with open('Configs/config.json') as fd : 
         config = json.load(fd)
-    trainData = TripletSVGDataSet('train32.pkl')
+    trainData = TripletSVGDataSet('train64.pkl')
     dataLoader = torch.utils.data.DataLoader(
         trainData, 
-        batch_size=128, 
-        sampler=TripletSampler(trainData.svgDatas, 1000000),
+        batch_size=32, 
+        sampler=TripletSampler(trainData.svgDatas, 10000),
         pin_memory=True,
         collate_fn=lambda x : aggregateDict(x, torch.stack)
     )
-    valData = TripletSVGDataSet('cv32.pkl')
+    valData = TripletSVGDataSet('cv64.pkl')
     valDataLoader = torch.utils.data.DataLoader(
         valData, 
         batch_size=128,
-        sampler=TripletSampler(valData.svgDatas, 100000, val=True),
+        sampler=TripletSampler(valData.svgDatas, 1000, val=True),
         pin_memory=True,
         collate_fn=lambda x : aggregateDict(x, torch.stack)
     )
@@ -155,7 +181,7 @@ def train (name) :
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     MERGE_OUTPUT = os.path.join(BASE_DIR, "results", name)
     # Initiate main model.
-    model = TripletNet(dict(hidden_size=200)).float()
+    model = TripletNet(dict(hidden_size=100)).float()
     checkpointer = ttools.Checkpointer(MERGE_OUTPUT, model)
     interface = TripletInterface(model)
     trainer = ttools.Trainer(interface)
@@ -166,14 +192,13 @@ def train (name) :
     keys = ["loss", *named_grad, *named_wd]
     val_keys=keys[:1]
     trainer.add_callback(ttools.callbacks.CheckpointingCallback(checkpointer))
-    trainer.add_callback(ttools.callbacks.ProgressBarCallback(
-        keys=val_keys, val_keys=val_keys))
+    trainer.add_callback(ttools.callbacks.ProgressBarCallback(keys=val_keys, val_keys=val_keys))
     trainer.add_callback(ImageCallback(env=name + "_vis", win="samples", port=port, frequency=100))
     trainer.add_callback(KernelCallback(key="conv-first-layer-kernel", env=name + "_kernel", win="conv", port=port))
     trainer.add_callback(ttools.callbacks.VisdomLoggingCallback(
         keys=keys, val_keys=val_keys, env=name + "_training_plots", port=port, frequency=100))
     # Start training
-    trainer.train(dataLoader, num_epochs=4000, val_dataloader=valDataLoader)
+    trainer.train(dataLoader, num_epochs=1000, val_dataloader=valDataLoader)
 
 if __name__ == "__main__" : 
     import sys

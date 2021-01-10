@@ -1,4 +1,7 @@
 import torch
+from dictOps import *
+from functools import lru_cache
+from itertools import starmap, combinations
 from vis import *
 from copy import deepcopy
 from treeCompare import * 
@@ -12,7 +15,7 @@ import numpy as np
 from torch import nn
 import torch.nn.functional as F
 from torchUtils import * 
-from TripletDataset import TripletSVGDataSet
+from TripletDataset import *
 from torchvision import transforms as T
 from more_itertools import collapse
 from scipy.cluster.hierarchy import linkage
@@ -21,13 +24,32 @@ def smallConvNet () :
     return nn.Sequential(
         convLayer(3, 64, 5, 1),
         nn.MaxPool2d(2),
-        convLayer(64, 128, 3, 1), 
-        nn.MaxPool2d(2),
-        convLayer(128, 256, 3, 1), 
-        nn.MaxPool2d(2),
-        nn.Conv2d(256, 128, 2),
+        convLayer(64, 128, 3, 1),
+        # nn.MaxPool2d(2),
+        # convLayer(128, 256, 3, 1),
+        # nn.MaxPool2d(2),
+        # nn.Conv2d(256, 128, 2),
+        nn.AdaptiveAvgPool2d((1, 1)), 
         nn.Flatten()
     )
+
+mean = [0.8142370213634338, 0.8045503816356457, 0.7692904572415512]
+std = [0.33608244397687254, 0.3329310865392699, 0.3664362427205858]
+transform = T.Compose([
+    lambda t : torch.from_numpy(t),
+    lambda t : t.float(),
+    lambda t : t.permute((2, 0, 1)),
+    T.Normalize(mean=mean, std=std),
+    lambda t : t.cuda(),
+    lambda t : t.unsqueeze(0)
+])
+
+@lru_cache
+def getEmbedding (im, pathSet, doc, embeddingFn): 
+    pathSet = asTuple(pathSet)
+    crop  = transform(SVGSubset2NumpyImage (doc, pathSet, 64, 64)) 
+    whole = transform(SVGSubset2NumpyImage2(doc, pathSet, 64, 64)) 
+    return embeddingFn(im, crop, whole) 
 
 class TripletNet (nn.Module) :
 
@@ -36,59 +58,35 @@ class TripletNet (nn.Module) :
         self.hidden_size = config['hidden_size']
         self.conv = smallConvNet()
         self.nn = nn.Sequential(
-            nn.Linear(256, self.hidden_size),
+            nn.Linear(3 * 128, self.hidden_size),
             nn.ReLU(),
             nn.Linear(self.hidden_size, 128)
         )
 
-    def embedding (self, im, ref) : 
-        global_embed = self.conv(im)
-        ref_embed = self.conv(ref)
-        ref_embed = self.nn(torch.cat((global_embed, ref_embed), dim=1))
-        return ref_embed
+    def embedding (self, im, crop, whole) : 
+        globalEmbed = self.conv(im)
+        cropEmbed = self.conv(crop)
+        wholeEmbed = self.conv(whole)
+        embed = self.nn(torch.cat((globalEmbed, cropEmbed, wholeEmbed), dim=1))
+        # embed = (torch.cat((globalEmbed, cropEmbed, wholeEmbed), dim=1))
+        return embed
 
-    def forward (self, im, ref, plus, minus) : 
-        global_embed = self.conv(im)
-        ref_embed = self.conv(ref)
-        plus_embed = self.conv(plus)
-        minus_embed = self.conv(minus)
-        ref_embed = self.nn(torch.cat((global_embed, ref_embed), dim=1))
-        plus_embed = self.nn(torch.cat((global_embed, plus_embed), dim=1))
-        minus_embed = self.nn(torch.cat((global_embed, minus_embed), dim=1))
-        dplus  =  torch.sqrt(torch.sum((plus_embed  - ref_embed) ** 2, dim=1, keepdims=True))
-        dminus =  torch.sqrt(torch.sum((minus_embed - ref_embed) ** 2, dim=1, keepdims=True))
+    def forward (self, im, refCrop, refWhole, plusCrop, plusWhole, minusCrop, minusWhole) : 
+        refEmbed = self.embedding(im, refCrop, refWhole)
+        plusEmbed = self.embedding(im, plusCrop, plusWhole)
+        minusEmbed = self.embedding(im, minusCrop, minusWhole)
+        dplus  = torch.sqrt(1e-5 + torch.sum((plusEmbed  - refEmbed) ** 2, dim=1, keepdims=True))
+        dminus = torch.sqrt(1e-5 + torch.sum((minusEmbed - refEmbed) ** 2, dim=1, keepdims=True))
         o = F.softmax(torch.cat((dplus, dminus), dim=1), dim=1)
         dplus_ = o[:, 0] ** 2
         return dplus_
 
     def dendrogram (self, t) : 
-        def getImage (subtree) :
-            nonlocal imageCache
-            pathSet = tuple(collapse([subtree]))
-            if pathSet in imageCache: 
-                img = imageCache[pathSet]
-            else : 
-                img = SVGSubset2NumpyImage(doc, pathSet, 32, 32)
-                imageCache[pathSet] = img
-            return transform(img)
-
         with torch.no_grad(): 
             subtrees = leaves(t)
             doc = svg.Document(t.svgFile)
-            imageCache = dict()
-            mean = [0.83548355, 0.8292917 , 0.79279226] 
-            std = [0.25613376, 0.25492862, 0.28038055]
-            transform = T.Compose([
-                lambda t : torch.from_numpy(t),
-                lambda t : t.float(),
-                lambda t : t.permute((2, 0, 1)),
-                T.Normalize(mean=mean, std=std),
-                lambda t : t.cuda(),
-                lambda t : t.unsqueeze(0)
-            ])
             im = transform(t.image)
-            images = [getImage(s) for s in subtrees]
-            embeddings = torch.stack([self.embedding(im, im_).squeeze() for im_ in images])
+            embeddings = torch.stack([getEmbedding(im, tuple(collapse(s)), doc, self.embedding).squeeze() for s in subtrees])
             embeddings = embeddings.cpu().numpy()
             linkageMatrix = linkage(embeddings, method='centroid')
             for row in linkageMatrix : 
@@ -98,49 +96,43 @@ class TripletNet (nn.Module) :
             return treeFromNestedArray(subtrees[-1:])
 
     def greedyTree (self, t) : 
+        # TODO : What if we don't commit to one tree and keep growing multiple trees 
+        # parallely.
 
-        def getImage (subtree) :
-            nonlocal imageCache
-            pathSet = tuple(collapse([subtree]))
-            if pathSet in imageCache: 
-                img = imageCache[pathSet]
-            else : 
-                img = SVGSubset2NumpyImage(doc, pathSet, 32, 32)
-                imageCache[pathSet] = img
-            return transform(img)
+        def distance (ps1, ps2) : 
+            em1 = getEmbedding(im, ps1, doc, self.embedding) 
+            em2 = getEmbedding(im, ps2, doc, self.embedding) 
+            return torch.linalg.norm(em1 - em2)
+
+        def subtreeEval (candidate) : 
+            childPathSets = [tuple(collapse(c)) for c in candidate]
+            return max(starmap(distance, combinations(childPathSets, 2)))
+
+        def simplify (a, b) : 
+            candidates = []
+            candidatePatterns = ['(*a, *b)', '(a, b)', '(*a, b)', '(a, *b)']
+            for pattern in candidatePatterns :
+                try : 
+                    candidates.append(eval(pattern))
+                except Exception : 
+                    pass
+            scores = list(map(subtreeEval, candidates))
+            best = candidates[argmin(scores)]
+            return best
 
         with torch.no_grad() : 
             subtrees = leaves(t)
             doc = svg.Document(t.svgFile)
-            imageCache = dict()
-            mean = [0.83548355, 0.8292917 , 0.79279226] 
-            std = [0.25613376, 0.25492862, 0.28038055]
-            transform = T.Compose([
-                lambda t : torch.from_numpy(t),
-                lambda t : t.float(),
-                lambda t : t.permute((2, 0, 1)),
-                T.Normalize(mean=mean, std=std),
-                lambda t : t.cuda(),
-                lambda t : t.unsqueeze(0)
-            ])
             im = transform(t.image)
             while len(subtrees) > 1 : 
-                best, bestI, bestJ = np.inf, None, None
-                for i in range(len(subtrees)) :
-                    for j in range(i + 1, len(subtrees)) :
-                        img1 = getImage(subtrees[i])
-                        img2 = getImage(subtrees[j])
-                        e1 = self.embedding(im, img1)
-                        e2 = self.embedding(im, img2)
-                        score = float(torch.sqrt(torch.sum((e1 - e2) ** 2)))
-                        print(subtrees[i], subtrees[j], score)
-                        if score < best : 
-                            best = score
-                            bestI = i
-                            bestJ = j
-                # Try to simplify the best merge candidate
-                newSubtree = (subtrees[bestI], subtrees[bestJ])
-                removeIndices(subtrees, [bestI, bestJ])
+                treePairs = list(combinations(subtrees, 2))
+                pathSets  = [tuple(collapse(s)) for s in subtrees]
+                options   = list(combinations(pathSets, 2))
+                distances = list(starmap(distance, options))
+                left, right = treePairs[argmin(distances)]
+                newSubtree = simplify(left, right)
+                subtrees.remove(left)
+                subtrees.remove(right)
                 subtrees.append(newSubtree)
         return treeFromNestedArray(subtrees)
 
@@ -161,30 +153,31 @@ def fillSVG (gt, t) :
     for n in t.nodes : 
         t.nodes[n].pop('image', None)
         pathSet = t.nodes[n]['pathSet']
-        t.nodes[n]['svg'] = getSubsetSvg(paths, pathSet, vb)
+        t.nodes[n]['svg'] = getSubsetSvg2(paths, pathSet, vb)
     thing = treeImageFromGraph(t)
     matplotlibFigureSaver(thing, f'{gt.svgFile}')
 
 if __name__ == "__main__" : 
     # Load all the data
-    testData = TripletSVGDataSet('cv32.pkl').svgDatas
-    testData = [t for t in testData if len(leaves(t)) < 10]
+    testData = TripletSVGDataSet('cv64.pkl').svgDatas[:100]
+    testData = [t for t in testData if t.nPaths < 20]
     model = TripletNet(dict(hidden_size=200))
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    MERGE_OUTPUT = os.path.join(BASE_DIR, "results", "triplet")
+    MERGE_OUTPUT = os.path.join(BASE_DIR, "results", "no_bn")
     state_dict = torch.load(os.path.join(MERGE_OUTPUT, 'training_end.pth'))
     model.load_state_dict(state_dict['model'])
     model = model.float()
     model.to("cuda")
-    model.eval()
-    inferredTrees = [model.dendrogram(t) for t in tqdm(testData)]
+    # model.eval()
+    inferredTrees = [model.greedyTree(t) for t in tqdm(testData)]
     # with open('infer_val.pkl', 'rb') as fd : 
     #     inferredTrees = pickle.load(fd)
     testData = list(map(treeify, testData))
-    # for gt, gt in tqdm(list(zip(testData, testData))): 
-    #     fillSVG(gt, gt)
+    for gt, t in tqdm(list(zip(testData, inferredTrees))): 
+        fillSVG(gt, t)
     scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
     scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
+    # scores_ = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees_), total=len(testData))]
     print(np.mean(scores))
     # with open('o.txt', 'a+') as fd : 
     #     res = f'dendrogram val triplet - {np.mean(scores)} {np.std(scores)}'

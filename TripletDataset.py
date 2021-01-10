@@ -5,6 +5,7 @@ import multiprocessing as mp
 from functools import partial
 from torchUtils import imageForResnet
 from torch.utils import data
+import torch.nn.functional as F
 from osTools import listdir
 import torch
 from TripletSVGData import TripletSVGData
@@ -102,12 +103,13 @@ class TripletSVGDataSet (data.Dataset, Saveable) :
         super(TripletSVGDataSet, self).__init__() 
         with open(pickleFileName, 'rb') as fd : 
             self.svgDatas = pickle.load(fd) 
-        mean = [0.83548355, 0.8292917 , 0.79279226] 
-        std = [0.25613376, 0.25492862, 0.28038055]
+        mean = [0.8142370213634338, 0.8045503816356457, 0.7692904572415512]
+        std = [0.33608244397687254, 0.3329310865392699, 0.3664362427205858]
         self.transform = T.Compose([
-            lambda t : torch.from_numpy(t),
+            torch.from_numpy,
             lambda t : t.float(),
             lambda t : t.permute((2, 0, 1)),
+            lambda t : F.avg_pool2d (t, 2),
             T.Normalize(mean=mean, std=std)
         ])
         if transform is not None : 
@@ -116,19 +118,30 @@ class TripletSVGDataSet (data.Dataset, Saveable) :
     def __getitem__ (self, index) :
         tId, ref, plus, minus = index
         t = self.svgDatas[tId]
-        im      = self.transform(t.image)
-        imRef   = self.transform(t.nodes[ref  ]['image'])
-        imPlus  = self.transform(t.nodes[plus ]['image'])
-        imMinus = self.transform(t.nodes[minus]['image'])
-        return dict(im=im, ref=imRef, plus=imPlus, minus=imMinus)
+        im         = self.transform(t.image)
+        refCrop    = self.transform(t.nodes[ref  ]['crop' ])
+        refWhole   = self.transform(t.nodes[ref  ]['whole'])
+        plusCrop   = self.transform(t.nodes[plus ]['crop' ])
+        plusWhole  = self.transform(t.nodes[plus ]['whole'])
+        minusCrop  = self.transform(t.nodes[minus]['crop' ])
+        minusWhole = self.transform(t.nodes[minus]['whole'])
+        return dict(
+            im=im,
+            refCrop=refCrop,
+            refWhole=refWhole,
+            plusCrop=plusCrop,
+            plusWhole=plusWhole,
+            minusCrop=minusCrop,
+            minusWhole=minusWhole
+        )
 
 if __name__ == "__main__" : 
     import json
     with open('commonConfig.json') as fd : 
         commonConfig = json.load(fd)
-    generateData(commonConfig['train_directory'], 'train32.pkl')
-    generateData(commonConfig['test_directory'], 'test32.pkl')
-    generateData(commonConfig['cv_directory'], 'cv32.pkl')
+    generateData(commonConfig['train_directory'], 'train64.pkl')
+    generateData(commonConfig['test_directory'], 'test64.pkl')
+    generateData(commonConfig['cv_directory'], 'cv64.pkl')
     # data_ = TripletSVGDataSet('cv.pkl')
     # dataloader = data.DataLoader(data_, sampler=TripletSampler(data_.svgDatas, val=True), batch_size=10)
     # for e in range(2) :

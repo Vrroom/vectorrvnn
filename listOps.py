@@ -80,3 +80,6 @@ def pairwiseDisjoint (setList) :
         if not s1.isdisjoint(s2) : 
             return False
     return True
+
+def asTuple (a) :
+    return a if isinstance(a, tuple) else (a, )

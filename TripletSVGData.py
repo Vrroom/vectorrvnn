@@ -1,6 +1,6 @@
 import svgpathtools as svg
 import networkx as nx
-from raster import SVGtoNumpyImage, SVGSubset2NumpyImage
+from raster import *
 import relationshipGraph
 from relationshipGraph import *
 from descriptor import relbb, equiDistantSamples, pathAttr
@@ -51,7 +51,7 @@ class TripletSVGData (nx.DiGraph) :
         self.pathViewBoxes = [relbb(p.path, docViewBox) for p in paths]
         for r in [r for r in self.nodes if self.in_degree(r) == 0] : 
             self._computeBBoxes(r)
-        self.image = SVGtoNumpyImage(svgFile, 32, 32)
+        self.image = SVGtoNumpyImage(svgFile, 64, 64)
         self._pathSet2Tuple()
         self._computeNodeImages()
 
@@ -74,4 +74,5 @@ class TripletSVGData (nx.DiGraph) :
     def _computeNodeImages (self) : 
         for n in self.nodes : 
             ps  = self.nodes[n]['pathSet']
-            self.nodes[n]['image'] = SVGSubset2NumpyImage(self.doc, ps, 32, 32)
+            self.nodes[n]['crop'] = SVGSubset2NumpyImage(self.doc, ps, 64, 64)
+            self.nodes[n]['whole'] = SVGSubset2NumpyImage2(self.doc, ps, 64, 64)
