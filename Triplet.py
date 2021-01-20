@@ -39,6 +39,7 @@ transform = T.Compose([
     lambda t : torch.from_numpy(t),
     lambda t : t.float(),
     lambda t : t.permute((2, 0, 1)),
+    lambda t : F.avg_pool2d (t, 2),
     T.Normalize(mean=mean, std=std),
     lambda t : t.cuda(),
     lambda t : t.unsqueeze(0)
@@ -140,6 +141,28 @@ class TripletNet (nn.Module) :
                 subtrees.append(newSubtree)
         return treeFromNestedArray(subtrees)
 
+def testCorrect (model, dataset):  
+    dataLoader = torch.utils.data.DataLoader(
+        dataset, 
+        batch_size=32, 
+        sampler=TripletSampler(dataset.svgDatas, 10000),
+        pin_memory=True,
+        collate_fn=lambda x : aggregateDict(x, torch.stack)
+    )
+    for batch in dataLoader : 
+        break
+    im = batch['im'].cuda()
+    refCrop = batch['refCrop'].cuda()
+    refWhole = batch['refWhole'].cuda()
+    plusCrop = batch['plusCrop'].cuda()
+    plusWhole = batch['plusWhole'].cuda()
+    minusCrop = batch['minusCrop'].cuda()
+    minusWhole = batch['minusWhole'].cuda()
+    lcaScore = batch['lcaScore'].cuda()
+    dplus2 = model(im, refCrop, refWhole, plusCrop, plusWhole, minusCrop, minusWhole, lcaScore)
+    loss = dplus2.mean()
+    print(loss)
+
 def treeify (t) : 
     n = t.number_of_nodes()
     t_ = deepcopy(t)
@@ -161,28 +184,33 @@ def fillSVG (gt, t) :
     thing = treeImageFromGraph(t)
     matplotlibFigureSaver(thing, f'{gt.svgFile}')
 
-if __name__ == "__main__" : 
-    # Load all the data
-    testData = TripletSVGDataSet('cv64.pkl').svgDatas[:100]
-    testData = [t for t in testData if t.nPaths < 20]
-    model = TripletNet(dict(hidden_size=200))
+def getModel(name) : 
+    model = TripletNet(dict(hidden_size=100))
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    MERGE_OUTPUT = os.path.join(BASE_DIR, "results", "no_bn")
+    MERGE_OUTPUT = os.path.join(BASE_DIR, "results", name)
     state_dict = torch.load(os.path.join(MERGE_OUTPUT, 'training_end.pth'))
     model.load_state_dict(state_dict['model'])
     model = model.float()
     model.to("cuda")
-    # model.eval()
-    inferredTrees = [model.greedyTree(t) for t in tqdm(testData)]
-    # with open('infer_val.pkl', 'rb') as fd : 
-    #     inferredTrees = pickle.load(fd)
+    model.eval()
+    return model
+
+if __name__ == "__main__" : 
+    # Load all the data
+    testData = TripletSVGDataSet('cv64.pkl').svgDatas
+    print(len(testData))
+    model = getModel("tripletWeightedLCA")
+    testCorrect(model, TripletSVGDataSet('cv64.pkl'))
+    inferredTrees = [model.dendrogram(t) for t in tqdm(testData)]
+    # # with open('infer_val.pkl', 'rb') as fd : 
+    # #     inferredTrees = pickle.load(fd)
     testData = list(map(treeify, testData))
     for gt, t in tqdm(list(zip(testData, inferredTrees))): 
         fillSVG(gt, t)
     scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
     scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
-    # scores_ = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees_), total=len(testData))]
+    # # scores_ = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees_), total=len(testData))]
     print(np.mean(scores))
-    # with open('o.txt', 'a+') as fd : 
-    #     res = f'dendrogram val triplet - {np.mean(scores)} {np.std(scores)}'
+    # # with open('o.txt', 'a+') as fd : 
+    # #     res = f'dendrogram val triplet - {np.mean(scores)} {np.std(scores)}'
     #     fd.write(res + '\n')
