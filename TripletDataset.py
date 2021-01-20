@@ -85,7 +85,8 @@ class TripletSampler () :
             ref = self.sampleRef(t)
             plus = self.samplePlus(t, ref)
             minus = self.sampleMinus(t, ref)
-            return (t, ref, plus, minus)
+            score = lcaScore(self.data[t], ref, minus)
+            return (t, ref, plus, minus, score)
         else :
             self.i = 0
             if self.val : 
@@ -117,7 +118,7 @@ class TripletSVGDataSet (data.Dataset, Saveable) :
             self.transform = T.Compose([transform, self.transform])
         
     def __getitem__ (self, index) :
-        tId, ref, plus, minus = index
+        tId, ref, plus, minus, score = index
         t = self.svgDatas[tId]
         im         = self.transform(t.image)
         refCrop    = self.transform(t.nodes[ref  ]['crop' ])
@@ -133,7 +134,8 @@ class TripletSVGDataSet (data.Dataset, Saveable) :
             plusCrop=plusCrop,
             plusWhole=plusWhole,
             minusCrop=minusCrop,
-            minusWhole=minusWhole
+            minusWhole=minusWhole,
+            lcaScore=torch.tensor(score)
         )
 
 if __name__ == "__main__" : 

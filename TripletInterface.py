@@ -63,7 +63,7 @@ class ImageCallback(ttools.callbacks.ImageDisplayCallback):
         
     def caption(self, batch, step_data, is_val):
         # write some informative caption into the visdom window
-        return ''
+        return str(int(batch['lcaScore'][0].cpu()))
 
 class TripletInterface (ttools.ModelInterface) : 
 
@@ -116,7 +116,8 @@ class TripletInterface (ttools.ModelInterface) :
         plusWhole = batch['plusWhole'].cuda()
         minusCrop = batch['minusCrop'].cuda()
         minusWhole = batch['minusWhole'].cuda()
-        dplus2 = self.model(im, refCrop, refWhole, plusCrop, plusWhole, minusCrop, minusWhole)
+        lcaScore = batch['lcaScore'].cuda()
+        dplus2 = self.model(im, refCrop, refWhole, plusCrop, plusWhole, minusCrop, minusWhole, lcaScore)
         loss = dplus2.mean()
         ret = {}
         # optimize
@@ -147,7 +148,8 @@ class TripletInterface (ttools.ModelInterface) :
             plusWhole = batch['plusWhole'].cuda()
             minusCrop = batch['minusCrop'].cuda()
             minusWhole = batch['minusWhole'].cuda()
-            dplus2 = self.model(im, refCrop, refWhole, plusCrop, plusWhole, minusCrop, minusWhole)
+            lcaScore = batch['lcaScore'].cuda()
+            dplus2 = self.model(im, refCrop, refWhole, plusCrop, plusWhole, minusCrop, minusWhole, lcaScore)
             loss = dplus2.mean().item()
             n = dplus2.numel()
             count = running_data['count']

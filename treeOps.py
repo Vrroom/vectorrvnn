@@ -28,10 +28,14 @@ def lca (t, a, b) :
     return r
 
 def lcaScore (t, a, b) : 
-    l = lca(t, a, b)
-    d = max(t.nodes[a]['depth'], t.nodes[b]['depth'])
-    l_ = (d - t.nodes[l]['depth']) / 10 # t.nodes[l]['bottom-depth']
-    return min(1, l_)
+    roots = [_ for _ in t.nodes if t.in_degree(_) == 0]
+    subtrees = [descendants(t, _) for _ in roots]
+    if any(map(lambda s : len(s.intersection({a, b})) == 2, subtrees)) : 
+        l = lca(t, a, b)
+        d = max(t.nodes[a]['depth'], t.nodes[b]['depth'])
+        l_ = (d - t.nodes[l]['depth'])
+        return l_
+    return 5
 
 def lofScore (t, a, b) :
     l = lca(t, a, b)

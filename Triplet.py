@@ -70,14 +70,19 @@ class TripletNet (nn.Module) :
         embed = self.nn(torch.cat((globalEmbed, cropEmbed, wholeEmbed), dim=1))
         return embed
 
-    def forward (self, im, refCrop, refWhole, plusCrop, plusWhole, minusCrop, minusWhole) : 
+    def forward (self, 
+            im,
+            refCrop, refWhole, 
+            plusCrop, plusWhole, 
+            minusCrop, minusWhole,
+            lcaScore) : 
         refEmbed = self.embedding(im, refCrop, refWhole)
         plusEmbed = self.embedding(im, plusCrop, plusWhole)
         minusEmbed = self.embedding(im, minusCrop, minusWhole)
         dplus  = torch.sqrt(1e-5 + torch.sum((plusEmbed  - refEmbed) ** 2, dim=1, keepdims=True))
         dminus = torch.sqrt(1e-5 + torch.sum((minusEmbed - refEmbed) ** 2, dim=1, keepdims=True))
         o = F.softmax(torch.cat((dplus, dminus), dim=1), dim=1)
-        dplus_ = o[:, 0] ** 2
+        dplus_ = (o[:, 0] ** 2) * lcaScore
         return dplus_
 
     def dendrogram (self, t) : 
