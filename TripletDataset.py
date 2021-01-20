@@ -21,7 +21,8 @@ class Saveable () :
 
 def generateData (dataDir, pickleFileName) : 
     dataPts = map(listdir, listdir(dataDir))
-    dataPts = list(map(lambda x : list(reversed(x)), dataPts))
+    removeTxt = lambda x : filter(lambda y : not y.endswith('txt'), x)
+    dataPts = list(map(lambda x : list(removeTxt(reversed(x))), dataPts))
     with mp.Pool(maxtasksperchild=30) as p : 
         svgDatas = list(p.starmap(partial(TripletSVGData, graph=None, samples=None), dataPts))
     with open(pickleFileName, 'wb') as fd : 
@@ -103,8 +104,8 @@ class TripletSVGDataSet (data.Dataset, Saveable) :
         super(TripletSVGDataSet, self).__init__() 
         with open(pickleFileName, 'rb') as fd : 
             self.svgDatas = pickle.load(fd) 
-        mean = [0.8142370213634338, 0.8045503816356457, 0.7692904572415512]
-        std = [0.33608244397687254, 0.3329310865392699, 0.3664362427205858]
+        mean = [0.8142, 0.8045, 0.7693]
+        std = [0.3361, 0.3329, 0.3664]
         self.transform = T.Compose([
             torch.from_numpy,
             lambda t : t.float(),

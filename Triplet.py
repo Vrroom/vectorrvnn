@@ -33,8 +33,8 @@ def smallConvNet () :
         nn.Flatten()
     )
 
-mean = [0.8142370213634338, 0.8045503816356457, 0.7692904572415512]
-std = [0.33608244397687254, 0.3329310865392699, 0.3664362427205858]
+mean = [0.8142, 0.8045, 0.7693]
+std = [0.3361, 0.3329, 0.3664]
 transform = T.Compose([
     lambda t : torch.from_numpy(t),
     lambda t : t.float(),
@@ -68,7 +68,6 @@ class TripletNet (nn.Module) :
         cropEmbed = self.conv(crop)
         wholeEmbed = self.conv(whole)
         embed = self.nn(torch.cat((globalEmbed, cropEmbed, wholeEmbed), dim=1))
-        # embed = (torch.cat((globalEmbed, cropEmbed, wholeEmbed), dim=1))
         return embed
 
     def forward (self, im, refCrop, refWhole, plusCrop, plusWhole, minusCrop, minusWhole) : 
