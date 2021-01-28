@@ -27,12 +27,11 @@ def optimalRotationAndTranslation (pts1, pts2) :
     centroid2 = np.mean(pts2, axis=0)
     pts1_ = pts1 - centroid1
     pts2_ = pts2 - centroid2
+    pts1_ = pts1_ / np.std(pts1_, axis=0)
+    pts2_ = pts2_ / np.std(pts2_, axis=0)
     H = pts1_.T @ pts2_
     U, S, Vt = np.linalg.svd(H)
     R = Vt.T @ U.T
-    # special reflection case
-    if np.linalg.det(R) < 0:
-        R[:, 1] *= -1
     t = -(R @ centroid1.T) + centroid2.T
     return R, t, np.linalg.norm(pts2 - (pts1 @ R.T + t))
 

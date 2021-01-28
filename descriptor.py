@@ -190,6 +190,7 @@ def fd (path, nSamples=100, freqs=10, **kwargs) :
         return np.ones(min(nSamples, 20))
     pts = np.array([path.point(path.ilength(t * L, s_tol=1e-5)) for t in ts])
     pts = pts - pts.mean()
+    pts = np.abs(pts)
     an = np.fft.fft(pts)
     pos = an[1:nSamples//2]
     neg = an[nSamples//2 + 1:]
