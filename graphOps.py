@@ -1,4 +1,5 @@
 import networkx as nx
+from treeOps import leavesInSubtree, parent
 import copy
 import more_itertools
 
@@ -70,4 +71,30 @@ def subtreeSize(s, T, subSize) :
         for u in nbrs :
             subtreeSize(u, T, subSize)
             subSize[s] += subSize[u]
+
+def nxGraph2appGraph (forest) : 
+    appGraph = dict(nodes=[], links=[])
+    sortedNodes = sorted(list(forest.nodes))
+    for n in sortedNodes :
+        type = "path" if forest.out_degree(n) == 0 else "group"
+        paths = list(leavesInSubtree(forest, n))
+        children = list(forest.neighbors(n))
+        node = dict(
+            id=n, 
+            x=0, 
+            y=0, 
+            type=type, 
+            paths=paths, 
+            children=children
+        )
+        appGraph['nodes'].append(node)
+    for (u, v) in forest.edges : 
+        link = dict(source=u, target=v, type="group")
+        appGraph['links'].append(link)
+    for n in sortedNodes : 
+        nodeParent = parent(forest, n)
+        if nodeParent is not None : 
+            appGraph['nodes'][n]['parent'] = nodeParent
+    return appGraph
+
 

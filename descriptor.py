@@ -172,7 +172,7 @@ def d3 (path, docbb, bins=10, nSamples=100, **kwargs) :
         hist[bIdx] += 1
     return hist 
 
-def fd (path, docbb, nSamples=100, freqs=10, **kwargs) :
+def fd (path, nSamples=100, freqs=10, **kwargs) :
     """
     Compute the fourier descriptors of the
     path with respect to its centroid.
@@ -181,8 +181,6 @@ def fd (path, docbb, nSamples=100, freqs=10, **kwargs) :
     ----------
     path : svg.Path
         Input path. 
-    docbb : list
-        Bounding Box of the document.
     nSamples : int
         Sampling frequency for the path
     """
@@ -223,7 +221,7 @@ def relbb (path, docbb, **kwargs) :
     y2 = (ymax - docbb[1]) / (docbb[3] - docbb[1])
     return [x1, y1, x2 - x1, y2 - y1]
 
-def equiDistantSamples (path, docbb, nSamples=5, **kwargs) :
+def equiDistantSamples (path, nSamples=5, **kwargs) :
     """
     Sample points and concatenate to form a descriptor.
 
@@ -239,10 +237,16 @@ def equiDistantSamples (path, docbb, nSamples=5, **kwargs) :
     ts = np.linspace(0, 1, nSamples)
     L = path.length()
     pts = [path.point(path.ilength(t * L, 1e-4)) for t in ts]
-    dx, dy = docbb[2] - docbb[0], docbb[3] - docbb[1]
-    x = [p.real / dx for p in pts]
-    y = [p.imag / dy for p in pts]
-    return [x,y]
+    if kwargs['normalize'] : 
+        dx, dy = docbb[2] - docbb[0], docbb[3] - docbb[1]
+        x = [p.real / dx for p in pts]
+        y = [p.imag / dy for p in pts]
+        return [x,y]
+    else : 
+        x = [p.real for p in pts]
+        y = [p.imag for p in pts]
+        return [x,y]
+
 
 def oneHot (path, docbb, **kwargs) :
     index = kwargs['index']
