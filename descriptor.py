@@ -2,6 +2,7 @@ import numpy as np
 import random
 from complexOps import *
 import matplotlib.colors as colors
+from functools import lru_cache
 
 def d2 (path, docbb, bins=10, nSamples=100, **kwargs) :
     """

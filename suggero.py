@@ -1,4 +1,5 @@
 from complexOps import *
+import multiprocessing as mp
 from relationshipGraph import *
 from descriptor import *
 from TripletDataset import *
@@ -13,6 +14,10 @@ from sklearn.cluster import AgglomerativeClustering
 import svgpathtools as svg
 from copy import deepcopy
 from collections import namedtuple
+
+#####################################
+## UTILITY FUNCTIONS
+#####################################
 
 def distanceOfPointFromLine (p, line) : 
     p_, slope = line
@@ -52,8 +57,10 @@ def pathsWithTolerance (paths) :
 def affinityMatrix (paths, affinityFn) :
     n = len(paths)
     M = np.zeros((n, n))
-    for i, j in product(range(n), range(n)) :
-        M[i, j] = affinityFn(paths[i], paths[j])
+    for i in range(n) : 
+        for j in range(i + 1, n) : 
+            M[i, j] = affinityFn(paths[i], paths[j])
+    M = M + M.T
     M = M / (M.max() + 1e-3)
     return M 
 
@@ -145,11 +152,14 @@ def parallelismAffinity (path1, path2) :
     if m < n : 
         n, m = m, n
         samples1, samples2 = samples2, samples1
+    if n / m < 0.1 : 
+        return 10
     strokeLen = samplingDistance * n 
     E = []
-    for i in range(0, m - n + 1) :
-        seg1 = samples1
-        seg2 = samples2[i:i+n]
+    stride = max(1, (m - n + 1) // 10)
+    for i in range(0, m - n + 1, stride) :
+        seg1 = samples1 + (1e-3 * np.random.randn(n, 2))
+        seg2 = samples2[i:i+n] + (1e-3 * np.random.randn(n, 2))
         R, t, e = optimalRotationAndTranslation(seg1, seg2)
         theta = abs(np.arctan(R[1, 0] / (R[0, 0] + 1e-3)) * 2 / np.pi)
         B = 1
@@ -189,7 +199,7 @@ def combinedAffinityMatrix (paths, affinityFns, weights) :
     return combinedMatrix
 
 def suggero (t) : 
-    doc = svg.Document(t)
+    doc = svg.Document(t.svgFile)
     paths = doc.flatten_all_paths()
     paths = pathsWithTolerance(paths)
     fnKeys = filter(lambda x : x.endswith('Affinity'), globals().keys())
@@ -197,15 +207,45 @@ def suggero (t) :
     nfns = len(affinityFns)
     uniformWts = (1 / nfns) * np.ones(nfns)
     M = combinedAffinityMatrix(paths, affinityFns, uniformWts)
-    print(M)
     agg = AgglomerativeClustering(1, affinity='precomputed', linkage='single')
     agg.fit(M)
     return hac2nxDiGraph(list(range(len(paths))), agg.children_)
 
+def treeify (t) : 
+    n = t.number_of_nodes()
+    t_ = deepcopy(t)
+    roots = [r for r in t.nodes if t.in_degree(r) == 0]
+    if len(roots) > 1 : 
+        edges = list(product([n], roots))
+        t_.add_edges_from(edges)
+        t_.nodes[n]['pathSet'] = leaves(t)
+    return t_
+
+def calculateMatrices (svgFile, *args) : 
+    doc = svg.Document(svgFile)
+    paths = doc.flatten_all_paths()
+    paths = pathsWithTolerance(paths)
+    fnKeys = [x for x in globals().keys() if x.endswith('Affinity')]
+    affinityFns = [globals()[fnName] for fnName in fnKeys]
+    result = dict(svgFile=svgFile)
+    for key, fn in zip(fnKeys, affinityFns) : 
+        result[key] = affinityMatrix(paths, fn)
+    return result
+
+def generateData (dataDir, pickleFileName) : 
+    dataPts = map(listdir, listdir(dataDir))
+    removeTxt = lambda x : filter(lambda y : not y.endswith('txt'), x)
+    dataPts = list(map(lambda x : list(removeTxt(reversed(x))), dataPts))
+    with mp.Pool(maxtasksperchild=30) as p : 
+        svgDatas = list(p.starmap(calculateMatrices, dataPts))
+    with open(pickleFileName, 'wb') as fd : 
+        pickle.dump(svgDatas, fd)
+
 if __name__ == "__main__" : 
-    # testData = TripletSVGDataSet('cv64.pkl').svgDatas[:1]
-    testData = ['./drawing.svg']
-    inferredTrees = [suggero(t) for t in testData]
-    # scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
-    # scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
-    # print(scores)
+    testData = TripletSVGDataSet('cv64.pkl').svgDatas
+    testData = [t for t in testData if t.nPaths < 50]
+    testData = list(map(treeify, testData))
+    inferredTrees = [suggero(t) for t in tqdm(testData)]
+    scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
+    scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
+    print(np.mean(scores))
