@@ -35,9 +35,9 @@ class TripletSampler () :
         1. A random tree is chosen.
         2. A random node is chosen in the tree. This
            is the reference node.
-        3. A random sibling of the node is chosen. 
+        3. A random node is chosen as plus node.
         4. A random node is chosen whose lca distance
-           from the reference node is > 2.
+           is greater than between plus and ref is chosen as minus node.
     """
     def __init__ (self, data, length, seed=0, val=False) :
         self.data = data
