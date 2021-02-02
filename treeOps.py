@@ -11,8 +11,7 @@ def numNodes2Binarize (t) :
     """
     return sum([t.out_degree(n) - 2 for n in t.nodes if t.out_degree(n) > 2])
 
-def lca (t, a, b) : 
-    r = findRoot(t)
+def lca (t, a, b, r) : 
     testNodes = set([a, b])
     while True :
         desc = map(partial(descendants, t), t.neighbors(r))
@@ -30,8 +29,10 @@ def lca (t, a, b) :
 def lcaScore (t, a, b) : 
     roots = [_ for _ in t.nodes if t.in_degree(_) == 0]
     subtrees = [descendants(t, _) for _ in roots]
-    if any(map(lambda s : len(s.intersection({a, b})) == 2, subtrees)) : 
-        l = lca(t, a, b)
+    doesIntersect = list(map(lambda s : len(s.intersection({a, b})) == 2, subtrees))
+    if any(doesIntersect) : 
+        r = [r_ for r_, d in zip(roots, doesIntersect) if d].pop()
+        l = lca(t, a, b, r)
         d = max(t.nodes[a]['depth'], t.nodes[b]['depth'])
         l_ = (d - t.nodes[l]['depth'])
         return l_

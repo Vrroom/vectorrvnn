@@ -14,7 +14,6 @@ from TripletSVGData import *
 from TripletDataset import *
 import json
 import more_itertools
-import numpy as np
 import math
 import ttools 
 import ttools.interfaces
@@ -22,52 +21,13 @@ from ttools.modules import networks
 from dictOps import aggregateDict
 import visdom
 from torchUtils import *
+from Callbacks import *
 
 LOG = ttools.get_logger(__name__)
 
-class KernelCallback (ttools.callbacks.ImageDisplayCallback) : 
-    def __init__ (self, key, env, win, port, frequency=100) : 
-        super(KernelCallback, self).__init__(env=env, win=win, port=port, frequency=frequency)
-        self.key = key
-
-    def visualized_image(self, batch, step_data, is_val):
-        if not is_val : 
-            kernels = step_data[self.key].cpu()
-            N, *_ = kernels.shape
-            chunks = torch.chunk(kernels, N)
-            chunks = [c.squeeze() for c in chunks]
-            n = math.isqrt(N)
-            viz =  torch.stack([torch.cat(chunks[i*n: (i+1)*n], 1) for i in range(n)])
-            return viz
-
-    def caption(self, batch, step_data, is_val):
-        if not is_val: 
-            return self.key
-
-class ImageCallback(ttools.callbacks.ImageDisplayCallback):
-    def visualized_image(self, batch, step_data, is_val):
-        im = batch['im'][0].cpu().unsqueeze(0)
-        im = torch.cat((im, im), 2)
-        refCrop = batch['refCrop'][0].cpu().unsqueeze(0)
-        refWhole = batch['refWhole'][0].cpu().unsqueeze(0)
-        ref = torch.cat((refCrop, refWhole), 2)
-        plusCrop = batch['plusCrop'][0].cpu().unsqueeze(0)
-        plusWhole = batch['plusWhole'][0].cpu().unsqueeze(0)
-        plus = torch.cat((plusCrop, plusWhole), 2)
-        minusCrop = batch['minusCrop'][0].cpu().unsqueeze(0)
-        minusWhole = batch['minusWhole'][0].cpu().unsqueeze(0)
-        minus = torch.cat((minusCrop, minusWhole), 2)
-        viz = torch.cat([im, ref, plus, minus], 3)
-        viz = (viz - viz.min()) / (viz.max() - viz.min())
-        return viz
-        
-    def caption(self, batch, step_data, is_val):
-        # write some informative caption into the visdom window
-        return str(int(batch['lcaScore'][0].cpu()))
-
 class TripletInterface (ttools.ModelInterface) : 
 
-    def __init__(self, model, lr=3e-4, cuda=True, max_grad_norm=10,
+    def __init__(self, model, dataset, val_dataset, lr=3e-4, cuda=True, max_grad_norm=10,
                  variational=True):
         super(TripletInterface, self).__init__()
         self.max_grad_norm = max_grad_norm
@@ -75,6 +35,8 @@ class TripletInterface (ttools.ModelInterface) :
         self.device = "cpu"
         self.epoch = 0
         self.cuda = cuda
+        self.dataset = dataset
+        self.val_dataset = val_dataset
         if cuda:
             self.device = "cuda"
         self.model.to(self.device)
@@ -107,8 +69,65 @@ class TripletInterface (ttools.ModelInterface) :
             ret['mean_diff'] = mean_diff
             ret['var_diff'] = var_diff
 
-    def training_step(self, batch) :
-        self.model.train()
+    @lru_cache
+    def getNodeEmbedding (self, tId, node, dataset) : 
+        pt = dataset.getNodeInput(tId, node)
+        im    = pt['im'].cuda()
+        crop  = pt['crop'].cuda()
+        whole = pt['whole'].cuda()
+        return self.model.embedding(im, crop, whole)
+
+    def parentAndChildrenEmbeddings(self, tId, p, dataset) :
+        t = dataset.svgDatas[tId]
+        children = list(t.neighbors(p))
+        pEmbedding = self.getNodeEmbedding(tId, p, dataset)
+        childrenEmbedding = [self.getNodeEmbedding(tId, c, dataset) for c in children]
+        return (pEmbedding, childrenEmbedding)
+
+    def parent2ChildrenAvgDistance (self, tId, p, dataset) : 
+        pEmbedding, childrenEmbedding = self.parentAndChildrenEmbeddings(tId, p, dataset) 
+        val = avg([torch.linalg.norm(cEmbedding - pEmbedding) for cEmbedding in childrenEmbedding])
+        return val
+
+    def parent2ChildrenCentroidDistance (self, tId, p, dataset) : 
+        pEmbedding, childrenEmbedding = self.parentAndChildrenEmbeddings(tId, p, dataset) 
+        centroid = avg(childrenEmbedding)
+        return torch.linalg.norm(pEmbedding - centroid)
+
+    def parent2ChildrenSubspaceProjection (self, tId, p, dataset) : 
+        pEmbedding, childrenEmbedding = self.parentAndChildrenEmbeddings(tId, p, dataset) 
+        A = torch.stack(childrenEmbedding).squeeze()
+        print(A.shape)
+        x = A.t() @ torch.inverse(A @ A.t()) @ A @ pEmbedding.t()
+        x = x.t()
+        return torch.linalg.norm(pEmbedding - x)
+    
+    def sampleTP (self, dataset) : 
+        try :
+            tId = random.randint(0, len(dataset.svgDatas) - 1)
+            t = dataset.svgDatas[tId]
+            p   = random.sample([n for n in t.nodes if t.out_degree(n) > 0], k = 1).pop()
+        except Exception : 
+            return self.sampleTP(dataset)
+        return tId, p
+
+    def estimate (self, metric, dataset) : 
+        estimates = []
+        for i in range(10) : 
+            tId, p = self.sampleTP(dataset)
+            estimates.append(metric(tId, p, dataset))
+        return avg(estimates)
+
+    def fillEstimates (self, ret, dataset) : 
+        with torch.no_grad(): 
+            e1 = self.estimate(self.parent2ChildrenAvgDistance, dataset)
+            e2 = self.estimate(self.parent2ChildrenCentroidDistance, dataset)
+            # e3 = self.estimate(self.parent2ChildrenSubspaceProjection, dataset)
+            ret['avg-distance'] = e1.item()
+            ret['centroid-distance'] = e2.item()
+            # ret['subspace-projection'] = e3.item()
+
+    def forward (self, batch) : 
         im = batch['im'].cuda()
         refCrop = batch['refCrop'].cuda()
         refWhole = batch['refWhole'].cuda()
@@ -116,8 +135,21 @@ class TripletInterface (ttools.ModelInterface) :
         plusWhole = batch['plusWhole'].cuda()
         minusCrop = batch['minusCrop'].cuda()
         minusWhole = batch['minusWhole'].cuda()
-        lcaScore = batch['lcaScore'].cuda()
-        dplus2 = self.model(im, refCrop, refWhole, plusCrop, plusWhole, minusCrop, minusWhole, lcaScore)
+        refPlus = batch['refPlus'].cuda()
+        refMinus = batch['refMinus'].cuda()
+        return self.model(
+            im, 
+            refCrop, refWhole, 
+            plusCrop, plusWhole, 
+            minusCrop, minusWhole, 
+            refPlus, refMinus
+        )
+
+    def training_step(self, batch) :
+        self.model.train()
+        result = self.forward(batch)
+        dplus2 = result['dplus_']
+        dratio = result['dratio']
         loss = dplus2.mean()
         ret = {}
         # optimize
@@ -130,35 +162,36 @@ class TripletInterface (ttools.ModelInterface) :
         self.opt.step()
         ret["loss"] = loss.item()
         ret["conv-first-layer-kernel"] = self.model.conv[0][0].weight
+        ret['dratio'] = dratio
         self.logParameterNorms(ret)
         self.logGradients(ret)
-        # self.logBNDiff(ret)
+        self.fillEstimates(ret, self.dataset)
         return ret
 
     def init_validation(self):
-        return {"count": 0, "loss": 0}
+        return {"count": 0, "loss": 0, "dratio": None, "ratio": None}
 
     def validation_step(self, batch, running_data) : 
         self.model.eval()
         with torch.no_grad():
-            im = batch['im'].cuda()
-            refCrop = batch['refCrop'].cuda()
-            refWhole = batch['refWhole'].cuda()
-            plusCrop = batch['plusCrop'].cuda()
-            plusWhole = batch['plusWhole'].cuda()
-            minusCrop = batch['minusCrop'].cuda()
-            minusWhole = batch['minusWhole'].cuda()
-            lcaScore = batch['lcaScore'].cuda()
-            dplus2 = self.model(im, refCrop, refWhole, plusCrop, plusWhole, minusCrop, minusWhole, lcaScore)
+            ratio = batch['refMinus'] / batch['refPlus']
+            result = self.forward(batch)
+            dratio = result['dratio']
+            dplus2 = result['dplus_']
             loss = dplus2.mean().item()
             n = dplus2.numel()
             count = running_data['count']
             cumLoss = (running_data["loss"] * count + loss * n) / (count + n)
-        return {
+            dratio_ = dratio if running_data['dratio'] is None else torch.cat([running_data['dratio'], dratio])
+            ratio_ = ratio if running_data['ratio'] is None else torch.cat([running_data['ratio'], ratio])
+        ret = {
             "loss" : cumLoss,
             "count": running_data["count"] + n, 
+            "dratio": dratio_,
+            "ratio": ratio_
         }
-
+        self.fillEstimates(ret, self.val_dataset)
+        return ret
 
 def train (name) : 
     with open('Configs/config.json') as fd : 
@@ -185,16 +218,18 @@ def train (name) :
     # Initiate main model.
     model = TripletNet(dict(hidden_size=100)).float()
     checkpointer = ttools.Checkpointer(MERGE_OUTPUT, model)
-    interface = TripletInterface(model)
+    interface = TripletInterface(model, trainData, valData)
     trainer = ttools.Trainer(interface)
     port = 8097
     named_children = [n for n, _ in model.named_children()]
     named_grad = [f'{n}_grad' for n in named_children]
     named_wd = [f'{n}_wd' for n in named_children]
-    keys = ["loss", *named_grad, *named_wd]
-    val_keys=keys[:1]
+    keys = ["loss", "avg-distance", "centroid-distance", *named_grad, *named_wd]
+    val_keys=keys[:3]
     trainer.add_callback(ttools.callbacks.CheckpointingCallback(checkpointer))
     trainer.add_callback(ttools.callbacks.ProgressBarCallback(keys=val_keys, val_keys=val_keys))
+    trainer.add_callback(ConfusionLineCallback(env=name + "_confusion"))
+    trainer.add_callback(ConfusionDistanceCallback(model, trainData, valData, env=name + "_confusion_distance"))
     trainer.add_callback(ImageCallback(env=name + "_vis", win="samples", port=port, frequency=100))
     trainer.add_callback(KernelCallback(key="conv-first-layer-kernel", env=name + "_kernel", win="conv", port=port))
     trainer.add_callback(ttools.callbacks.VisdomLoggingCallback(

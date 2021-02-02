@@ -78,15 +78,16 @@ class TripletNet (nn.Module) :
             refCrop, refWhole, 
             plusCrop, plusWhole, 
             minusCrop, minusWhole,
-            lcaScore) : 
+            refPlus, refMinus) : 
         refEmbed = self.embedding(im, refCrop, refWhole)
         plusEmbed = self.embedding(im, plusCrop, plusWhole)
         minusEmbed = self.embedding(im, minusCrop, minusWhole)
         dplus  = torch.sqrt(1e-5 + torch.sum((plusEmbed  - refEmbed) ** 2, dim=1, keepdims=True))
         dminus = torch.sqrt(1e-5 + torch.sum((minusEmbed - refEmbed) ** 2, dim=1, keepdims=True))
         o = F.softmax(torch.cat((dplus, dminus), dim=1), dim=1)
-        dplus_ = (o[:, 0] ** 2) * lcaScore
-        return dplus_
+        dplus_ = (o[:, 0] ** 2) * (refMinus / refPlus)
+        dratio = (dminus / dplus)
+        return dict(dplus_=dplus_, dratio=dratio)
 
     def dendrogram (self, t) : 
         with torch.no_grad(): 
@@ -101,6 +102,36 @@ class TripletNet (nn.Module) :
                 i, j = int(i), int(j)
                 subtrees.append((subtrees[i], subtrees[j]))
             return nxGraph2appGraph(treeFromNestedArray(subtrees[-1:]))
+
+    def greedyBinaryTree (self, t) : 
+
+        def distance (ps1, ps2) : 
+            em1 = getEmbedding(im, ps1, doc, self.embedding) 
+            em2 = getEmbedding(im, ps2, doc, self.embedding) 
+            return torch.linalg.norm(em1 - em2)
+
+        def subtreeEval (candidate) : 
+            childPathSets = [tuple(collapse(c)) for c in candidate]
+            return max(starmap(distance, combinations(childPathSets, 2)))
+
+        def simplify (a, b) : 
+            return (a, b)
+
+        with torch.no_grad() : 
+            subtrees = leaves(t)
+            doc = svg.Document(t.svgFile)
+            im = transform(t.image)
+            while len(subtrees) > 1 : 
+                treePairs = list(combinations(subtrees, 2))
+                pathSets  = [tuple(collapse(s)) for s in subtrees]
+                options   = list(combinations(pathSets, 2))
+                distances = list(starmap(distance, options))
+                left, right = treePairs[argmin(distances)]
+                newSubtree = simplify(left, right)
+                subtrees.remove(left)
+                subtrees.remove(right)
+                subtrees.append(newSubtree)
+        return treeFromNestedArray(subtrees)
 
     def greedyTree (self, t) : 
         # TODO : What if we don't commit to one tree and keep growing multiple trees 

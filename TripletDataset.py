@@ -85,8 +85,12 @@ class TripletSampler () :
             ref = self.sampleRef(t)
             plus = self.samplePlus(t, ref)
             minus = self.sampleMinus(t, ref)
-            score = lcaScore(self.data[t], ref, minus)
-            return (t, ref, plus, minus, score)
+            refPlus = lcaScore(self.data[t], ref, plus)
+            refMinus = lcaScore(self.data[t], ref, minus)
+            if refPlus > 1 : 
+                import pdb
+                pdb.set_trace()
+            return (t, ref, plus, minus, refPlus, refMinus)
         else :
             self.i = 0
             if self.val : 
@@ -116,9 +120,17 @@ class TripletSVGDataSet (data.Dataset, Saveable) :
         ])
         if transform is not None : 
             self.transform = T.Compose([transform, self.transform])
+
+    def getNodeInput (self, tId, node) : 
+        t = self.svgDatas[tId]
+        im   = self.transform(t.image).unsqueeze(0)
+        crop = self.transform(t.nodes[node]['crop']).unsqueeze(0)
+        whole = self.transform(t.nodes[node]['whole']).unsqueeze(0)
+
+        return dict(im=im, crop=crop, whole=whole)
         
     def __getitem__ (self, index) :
-        tId, ref, plus, minus, score = index
+        tId, ref, plus, minus, refPlus, refMinus = index
         t = self.svgDatas[tId]
         im         = self.transform(t.image)
         refCrop    = self.transform(t.nodes[ref  ]['crop' ])
@@ -135,7 +147,8 @@ class TripletSVGDataSet (data.Dataset, Saveable) :
             plusWhole=plusWhole,
             minusCrop=minusCrop,
             minusWhole=minusWhole,
-            lcaScore=torch.tensor(score)
+            refPlus=torch.tensor(refPlus),
+            refMinus=torch.tensor(refMinus)
         )
 
 if __name__ == "__main__" : 
