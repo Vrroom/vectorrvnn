@@ -249,5 +249,7 @@ class ImageCallback(ttools.callbacks.ImageDisplayCallback):
         
     def caption(self, batch, step_data, is_val):
         # write some informative caption into the visdom window
-        return str(int(batch['refMinus'][0].cpu()))
+        refMinus = int(batch['refMinus'][0].cpu())
+        refPlus = int(batch['refPlus'][0].cpu())
+        return f'{refMinus} / {refPlus}'
 

@@ -38,6 +38,8 @@ def lca (t, a, b, r) :
     return r
 
 def lcaScore (t, a, b) : 
+    if a == b : 
+        return 0
     roots = [_ for _ in t.nodes if t.in_degree(_) == 0]
     subtrees = [descendants(t, _) for _ in roots]
     doesIntersect = list(map(lambda s : len(s.intersection({a, b})) == 2, subtrees))

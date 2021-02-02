@@ -40,7 +40,7 @@ class TripletInterface (ttools.ModelInterface) :
         if cuda:
             self.device = "cuda"
         self.model.to(self.device)
-        self.opt = optim.Adam(self.model.parameters(), lr=lr, weight_decay=1e-3)
+        self.opt = optim.Adam(self.model.parameters(), lr=lr) #, weight_decay=1e-3)
 
     def logGradients (self, ret) : 
         with torch.no_grad() : 
