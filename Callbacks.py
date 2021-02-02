@@ -27,12 +27,37 @@ class FMIndexCallback(ttools.callbacks.Callback):
         self.val_dataset = val_dataset
         self.frequency = frequency
 
+    def scoreTree (self, t, gt) : 
+        a = []
+        for i in range(100) : 
+            arrays = [hierarchicalClusterCompareFM(t1, t2, 6) for t1, t2 in zip(t, gt)]
+            arrays = np.stack(arrays)
+            a.append(np.mean(arrays, axis=0))
+        a = np.stack(a)
+        return torch.from_numpy(a.mean(axis=0))
+
     def validation_start(self, dataloader) : 
-        super(FMIndexCallback).validation_start(dataloader)
-        trees = random.sample(self.dataset.svgDatas, k=5)
+        super(FMIndexCallback, self).validation_start(dataloader)
+        trees = random.sample([t for t in self.val_dataset.svgDatas if 20 > t.nPaths > 5], k=5)
+        trees = [treeify(t) for t in trees]
         dendrograms = [self.model.dendrogram(t) for t in trees]
         greedyTrees = [self.model.greedyTree(t) for t in trees]
         greedyBinaryTrees = [self.model.greedyBinaryTree(t) for t in trees]
+        dscores = self.scoreTree(dendrograms, trees)
+        gtscores = self.scoreTree(greedyTrees, trees)
+        gbtscores = self.scoreTree(greedyBinaryTrees, trees)
+        x = torch.tensor(list(range(2, 6)))
+        legend = ["dendrogram", "greedyTree", "greedyBinaryTree"]
+        opts=dict(
+            legend=legend, 
+            title="FMIndexComparison", 
+            xlabel="k",
+            ylabel="FMIndex"
+        )
+        self._api.line(dscores, x, win="val_FM", name="dendrogram", opts=opts)
+        self._api.line(gtscores, x, win="val_FM", update="append", name="greedyTree", opts=opts)
+        self._api.line(gbtscores, x, win="val_FM", update="append", name="greedyBinaryTree", opts=opts)
+
 
 class ConfusionDistanceCallback(ttools.callbacks.Callback):
     def __init__(self, model, dataset, val_dataset, 

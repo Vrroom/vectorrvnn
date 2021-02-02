@@ -86,7 +86,7 @@ def ted (t1, t2) :
     opt = prob.objective.valueOrDefault()
     return n + m - opt
 
-def treeKCut (tree, k) :
+def treeKCut (T, k) :
     """
     Given a tree, make k cuts. Ideally the k cuts 
     should give evenly sized sets.
@@ -121,7 +121,6 @@ def treeKCut (tree, k) :
         right = { 'level': level, 'ids':[arr[index]] }
         return left, right
 
-    T = tree.tree
     r = findRoot(T)
     candidates = [{'level': 0, 'ids': [r]}]
     leaves = [];
@@ -166,8 +165,7 @@ def hierarchicalClusterCompareFM (t1, t2, K) :
         Tree two.
     K : Upper bound on cuts.
     """
-    assert t1.nPaths == t2.nPaths
-    n = t1.nPaths
+    n = len(leaves(t1))
     bs = []
     es = [] 
     for k in range(2, K): 

@@ -50,47 +50,25 @@ class TripletSampler () :
     def __iter__ (self): 
         return self
 
-    def sampleTree (self) : 
+    def getSample (self) : 
         n = len(self.data)
-        idx = self.rng.randint(0, n - 1)
-        while True: 
-            t = self.data[idx]
-            roots = [r for r in t.nodes if t.in_degree(r) == 0]
-            desc = [descendants(t, r) for r in roots]
-            if any(map(lambda x : len(x) > 2, desc)) : 
-                break
-            idx = self.rng.randint(0, n - 1)
-        return idx
+        try : 
+            tId = self.rng.randint(0, n - 1)
+            t = self.data[tId]
+            ref = self.rng.sample(t.nodes, k=1).pop()
+            plus = self.rng.sample(list(t.nodes - [ref]), k=1).pop()
+            refPlus = lcaScore(t, ref, plus) 
+            minusSet = [n for n in t.nodes if lcaScore(ref, n) > refPlus]
+            minus = self.rng.sample(minusSet, k=1).pop()
+            refMinus = lcaScore(t, ref, minus)
+        except Exception as e : 
+            return self.getSample()
+        return (tId, ref, plus, minus, refPlus, refMinus)
 
-    def sampleRef (self, idx) : 
-        t = self.data[idx]
-        refId = self.rng.sample(list(t.nodes), k=1).pop()
-        while t.in_degree(refId) == 0 : 
-            refId = self.rng.sample(list(t.nodes), k=1).pop()
-        return refId
-
-    def samplePlus (self, tId, refId) : 
-        plus = list(siblings(self.data[tId], refId))
-        return self.rng.sample(plus, k=1).pop()
-
-    def sampleMinus (self, tId, refId) : 
-        t = self.data[tId]
-        minus = list(set(t.nodes) - (siblings(t, refId).union({refId})))
-        return self.rng.sample(minus, k=1).pop()
-    
     def __next__ (self) : 
         if self.i < len(self) : 
             self.i += 1
-            t = self.sampleTree()
-            ref = self.sampleRef(t)
-            plus = self.samplePlus(t, ref)
-            minus = self.sampleMinus(t, ref)
-            refPlus = lcaScore(self.data[t], ref, plus)
-            refMinus = lcaScore(self.data[t], ref, minus)
-            if refPlus > 1 : 
-                import pdb
-                pdb.set_trace()
-            return (t, ref, plus, minus, refPlus, refMinus)
+            return self.getSample()
         else :
             self.i = 0
             if self.val : 

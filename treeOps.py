@@ -3,6 +3,17 @@ import itertools
 import more_itertools
 import networkx as nx
 import numpy as np
+from copy import deepcopy
+
+def treeify (t) : 
+    n = t.number_of_nodes()
+    t_ = deepcopy(t)
+    roots = [r for r in t.nodes if t.in_degree(r) == 0]
+    if len(roots) > 1 : 
+        edges = list(itertools.product([n], roots))
+        t_.add_edges_from(edges)
+        t_.nodes[n]['pathSet'] = leaves(t)
+    return t_
 
 def numNodes2Binarize (t) :
     """
@@ -12,7 +23,7 @@ def numNodes2Binarize (t) :
     return sum([t.out_degree(n) - 2 for n in t.nodes if t.out_degree(n) > 2])
 
 def lca (t, a, b, r) : 
-    testNodes = set([a, b])
+    testNodes = {a, b}
     while True :
         desc = map(partial(descendants, t), t.neighbors(r))
         found = False
