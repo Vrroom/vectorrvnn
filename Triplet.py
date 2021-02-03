@@ -235,7 +235,7 @@ if __name__ == "__main__" :
     DIR = 'cvForApp'
     testData = TripletSVGDataSet('cv64.pkl').svgDatas
     testData = [t for t in testData if t.nPaths < 50]
-    model = getModel("tripletWeightedLCA")
+    model = getModel("newTripletSamplingWithWD")
     # testCorrect(model, TripletSVGDataSet('cv64.pkl'))
     inferredTrees = [model.greedyTree(t) for t in tqdm(testData)]
     # idFiles = [osp.join(osp.split(t.svgFile)[0], 'id.txt') for t in testData]
@@ -246,7 +246,7 @@ if __name__ == "__main__" :
     #         json.dump(tree, fd)
     #     call(['cp', idFile, DATA_DIR])
 
-    with open('greedy_infer_val.pkl', 'wb') as fd : 
+    with open('triplet_new_sampling_infer_val.pkl', 'wb') as fd : 
         pickle.dump(inferredTrees, fd)
     testData = list(map(treeify, testData))
     # for gt, t in tqdm(list(zip(testData, inferredTrees))): 

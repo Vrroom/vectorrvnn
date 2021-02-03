@@ -1,3 +1,6 @@
+from raster import *
+from tqdm import tqdm
+from vis import *
 from complexOps import *
 import multiprocessing as mp
 from relationshipGraph import *
@@ -199,7 +202,7 @@ def combinedAffinityMatrix (paths, affinityFns, weights) :
     return combinedMatrix
 
 def suggero (t) : 
-    doc = svg.Document(t.svgFile)
+    doc = svg.Document(t) #.svgFile)
     paths = doc.flatten_all_paths()
     paths = pathsWithTolerance(paths)
     fnKeys = filter(lambda x : x.endswith('Affinity'), globals().keys())
@@ -241,11 +244,42 @@ def generateData (dataDir, pickleFileName) :
     with open(pickleFileName, 'wb') as fd : 
         pickle.dump(svgDatas, fd)
 
+def fillSVG (t, svgFile) : 
+    doc = svg.Document(svgFile)
+    paths = doc.flatten_all_paths()
+    vb = doc.get_viewbox()
+    for n in t.nodes : 
+        t.nodes[n].pop('image', None)
+        pathSet = t.nodes[n]['pathSet']
+        t.nodes[n]['svg'] = getSubsetSvg2(paths, pathSet, vb)
+    thing = treeImageFromGraph(t)
+    matplotlibFigureSaver(thing, 'tree')
+
+def processDir(DIR) : 
+    OUTDIR = 'unsupervised'
+    _, NAME = osp.split(DIR)
+    SVGFILE = osp.join(DIR, f'{NAME}.svg')
+    if len(svg.Document(SVGFILE).flatten_all_paths()) < 50 : 
+        datapt = osp.join(OUTDIR, str(NAME))
+        os.mkdir(datapt)
+        with open(osp.join(datapt, 'file.txt'), 'w+') as fp : 
+            fp.write(SVGFILE)
+        inferredTree = suggero(SVGFILE)
+        nx.write_gpickle(inferredTree, osp.join(datapt, 'tree.pkl'))
+
 if __name__ == "__main__" : 
-    testData = TripletSVGDataSet('cv64.pkl').svgDatas
-    testData = [t for t in testData if t.nPaths < 50]
-    testData = list(map(treeify, testData))
-    inferredTrees = [suggero(t) for t in tqdm(testData)]
-    scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
-    scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
-    print(np.mean(scores))
+    DATASET = '/misc/extra/data/sumitc/publicData/'
+    OUTDIR = 'unsupervised'
+    os.mkdir(OUTDIR)
+    with mp.Pool(mp.cpu_count()) as p : 
+        p.map(processDir, listdir(DATASET))
+    # svgFile = './21573-Vector-illustration-of-happy-girl-chasing-a-ball.svg'
+    # inferredTree = suggero(svgFile)
+    # fillSVG(inferredTree, svgFile)
+    # testData = TripletSVGDataSet('cv64.pkl').svgDatas
+    # testData = [t for t in testData if t.nPaths < 50]
+    # testData = list(map(treeify, testData))
+    # inferredTrees = [suggero(t) for t in tqdm(testData)]
+    # scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
+    # scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
+    # print(np.mean(scores))

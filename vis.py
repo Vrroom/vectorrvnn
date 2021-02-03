@@ -48,8 +48,8 @@ def treeImageFromGraph (G) :
     ax.set_aspect('equal')
     nx.draw(G, pos, ax=ax, node_size=0.5, arrowsize=1)
     for n in G :
-        img = svgStringToBitmap(G.nodes[n]['svg'], 32, 32)
-        imagebox = OffsetImage(img, zoom=0.4)
+        img = svgStringToBitmap(G.nodes[n]['svg'], 64, 64)
+        imagebox = OffsetImage(img, zoom=0.2)
         imagebox.image.axes = ax
         ab = AnnotationBbox(imagebox, pos[n], pad=0)
         ax.add_artist(ab)
