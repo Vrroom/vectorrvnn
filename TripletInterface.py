@@ -40,7 +40,7 @@ class TripletInterface (ttools.ModelInterface) :
         if cuda:
             self.device = "cuda"
         self.model.to(self.device)
-        self.opt = optim.Adam(self.model.parameters(), lr=lr, weight_decay=1e-3)
+        self.opt = optim.Adam(self.model.parameters(), lr=lr, weight_decay=1e-4)
 
     def logGradients (self, ret) : 
         with torch.no_grad() : 
@@ -200,7 +200,7 @@ def train (name) :
     dataLoader = torch.utils.data.DataLoader(
         trainData, 
         batch_size=32, 
-        sampler=TripletSampler(trainData.svgDatas, 100000),
+        sampler=TripletSampler(trainData.svgDatas, 10000),
         pin_memory=True,
         collate_fn=lambda x : aggregateDict(x, torch.stack)
     )
@@ -208,7 +208,7 @@ def train (name) :
     valDataLoader = torch.utils.data.DataLoader(
         valData, 
         batch_size=128,
-        sampler=TripletSampler(valData.svgDatas, 10000, val=True),
+        sampler=TripletSampler(valData.svgDatas, 1000, val=True),
         pin_memory=True,
         collate_fn=lambda x : aggregateDict(x, torch.stack)
     )
@@ -228,7 +228,7 @@ def train (name) :
     val_keys=keys[:3]
     trainer.add_callback(ttools.callbacks.CheckpointingCallback(checkpointer))
     trainer.add_callback(ttools.callbacks.ProgressBarCallback(keys=val_keys, val_keys=val_keys))
-    trainer.add_callback(FMIndexCallback(model, valData, env=name + "_fm"))
+    # trainer.add_callback(FMIndexCallback(model, valData, env=name + "_fm"))
     trainer.add_callback(ConfusionLineCallback(env=name + "_confusion"))
     trainer.add_callback(ConfusionDistanceCallback(model, trainData, valData, env=name + "_confusion_distance"))
     trainer.add_callback(ImageCallback(env=name + "_vis", win="samples", port=port, frequency=100))

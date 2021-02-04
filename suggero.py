@@ -256,23 +256,26 @@ def fillSVG (t, svgFile) :
     matplotlibFigureSaver(thing, 'tree')
 
 def processDir(DIR) : 
-    OUTDIR = 'unsupervised'
-    _, NAME = osp.split(DIR)
-    SVGFILE = osp.join(DIR, f'{NAME}.svg')
-    if len(svg.Document(SVGFILE).flatten_all_paths()) < 50 : 
-        datapt = osp.join(OUTDIR, str(NAME))
-        os.mkdir(datapt)
-        with open(osp.join(datapt, 'file.txt'), 'w+') as fp : 
-            fp.write(SVGFILE)
-        inferredTree = suggero(SVGFILE)
-        nx.write_gpickle(inferredTree, osp.join(datapt, 'tree.pkl'))
+    try : 
+        OUTDIR = 'unsupervised'
+        _, NAME = osp.split(DIR)
+        SVGFILE = osp.join(DIR, f'{NAME}.svg')
+        if 5 <= len(svg.Document(SVGFILE).flatten_all_paths()) <= 150 : 
+            datapt = osp.join(OUTDIR, str(NAME))
+            os.mkdir(datapt)
+            with open(osp.join(datapt, 'file.txt'), 'w+') as fp : 
+                fp.write(SVGFILE)
+            inferredTree = suggero(SVGFILE)
+            nx.write_gpickle(inferredTree, osp.join(datapt, 'tree.pkl'))
+    except Exception : 
+        pass
 
 if __name__ == "__main__" : 
-    DATASET = '/misc/extra/data/sumitc/publicData/'
+    DATASET = '/net/voxel07/misc/extra/data/sumitc/datasetv1'
     OUTDIR = 'unsupervised'
     os.mkdir(OUTDIR)
     with mp.Pool(mp.cpu_count()) as p : 
-        p.map(processDir, listdir(DATASET))
+        p.map(processDir, listdir(DATASET), chunksize=30)
     # svgFile = './21573-Vector-illustration-of-happy-girl-chasing-a-ball.svg'
     # inferredTree = suggero(svgFile)
     # fillSVG(inferredTree, svgFile)

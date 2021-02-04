@@ -60,6 +60,7 @@ class TripletNet (nn.Module) :
         super(TripletNet, self).__init__() 
         self.hidden_size = config['hidden_size']
         self.conv = smallConvNet()
+        self.ALPHA = 1
         self.nn = nn.Sequential(
             nn.Linear(3 * 128, self.hidden_size),
             nn.ReLU(),
@@ -84,9 +85,9 @@ class TripletNet (nn.Module) :
         minusEmbed = self.embedding(im, minusCrop, minusWhole)
         dplus  = torch.sqrt(1e-5 + torch.sum((plusEmbed  - refEmbed) ** 2, dim=1, keepdims=True))
         dminus = torch.sqrt(1e-5 + torch.sum((minusEmbed - refEmbed) ** 2, dim=1, keepdims=True))
-        o = F.softmax(torch.cat((dplus, dminus), dim=1), dim=1)
-        dplus_ = (o[:, 0] ** 2) * (refMinus / refPlus)
+        dplus_ = torch.maximum(dplus - dminus + self.ALPHA, torch.tensor(0).cuda()) 
         dratio = (dminus / dplus)
+        # dplus_ = dplus_ * dratio
         return dict(dplus_=dplus_, dratio=dratio)
 
     def dendrogram (self, t) : 
@@ -235,9 +236,19 @@ if __name__ == "__main__" :
     DIR = 'cvForApp'
     testData = TripletSVGDataSet('cv64.pkl').svgDatas
     testData = [t for t in testData if t.nPaths < 50]
-    model = getModel("newTripletSamplingWithWD")
+    model = getModel("siblingTripletsWithMarginLoss")
     # testCorrect(model, TripletSVGDataSet('cv64.pkl'))
+    scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
+    testData = list(map(treeify, testData))
     inferredTrees = [model.greedyTree(t) for t in tqdm(testData)]
+    scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
+    print(np.mean(scores))
+    # inferredTrees = [model.dendrogram(t) for t in tqdm(testData)]
+    # scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
+    # print(np.mean(scores))
+    # inferredTrees = [model.greedyBinaryTree(t) for t in tqdm(testData)]
+    # scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
+    # print(np.mean(scores))
     # idFiles = [osp.join(osp.split(t.svgFile)[0], 'id.txt') for t in testData]
     # for i, (tree, idFile) in enumerate(zip(inferredTrees, idFiles)) :
     #     DATA_DIR = osp.join(DIR, str(i))
@@ -246,15 +257,15 @@ if __name__ == "__main__" :
     #         json.dump(tree, fd)
     #     call(['cp', idFile, DATA_DIR])
 
-    with open('triplet_new_sampling_infer_val.pkl', 'wb') as fd : 
-        pickle.dump(inferredTrees, fd)
-    testData = list(map(treeify, testData))
+    # with open('triplet_new_sampling_infer_val.pkl', 'wb') as fd : 
+    #     pickle.dump(inferredTrees, fd)
+    # testData = list(map(treeify, testData))
     # for gt, t in tqdm(list(zip(testData, inferredTrees))): 
     #     fillSVG(gt, t)
-    scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
-    scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
-    # scores_ = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees_), total=len(testData))]
-    print(np.mean(scores))
+    # scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
+    # scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
+    # # scores_ = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees_), total=len(testData))]
+    # print(np.mean(scores))
     # # with open('o.txt', 'a+') as fd : 
     # #     res = f'dendrogram val triplet - {np.mean(scores)} {np.std(scores)}'
     #     fd.write(res + '\n')

@@ -1,4 +1,7 @@
 import numpy as np
+from copy import deepcopy
+from TripletDataset import *
+import pickle
 import pandas as pd
 import svgpathtools as svg
 import random
@@ -165,6 +168,7 @@ def hierarchicalClusterCompareFM (t1, t2, K) :
         Tree two.
     K : Upper bound on cuts.
     """
+    assert len(leaves(t1)) == len(leaves(t2))
     n = len(leaves(t1))
     bs = []
     es = [] 
@@ -394,10 +398,54 @@ def match (rt1, rt2) :
 
     return cost(r1, r2)
 
+def treeify (t) : 
+    n = t.number_of_nodes()
+    t_ = deepcopy(t)
+    roots = [r for r in t.nodes if t.in_degree(r) == 0]
+    if len(roots) > 1 : 
+        edges = list(product([n], roots))
+        t_.add_edges_from(edges)
+        t_.nodes[n]['pathSet'] = leaves(t)
+    return t_
+
+def compareMethod (pickleFile) : 
+    testData = TripletSVGDataSet('cv64.pkl').svgDatas
+    testData = [t for t in testData if len(leaves(t)) < 50]
+    testData = [t for t in testData if len(leaves(t)) > 5]
+    testData = list(map(treeify, testData))
+    with open(pickleFile, 'rb') as fd : 
+        inferredTrees = pickle.load(fd)
+    inferredTrees = [t for t in inferredTrees if len(leaves(t)) < 50]
+    inferredTrees = [t for t in inferredTrees if len(leaves(t)) > 5]
+    a = []
+    for i in range(100) : 
+        arrays = [hierarchicalClusterCompareFM(t1, t2, 6) for t1, t2 in zip(testData, inferredTrees)]
+        arrays = np.stack(arrays)
+        a.append(np.mean(arrays, axis=0))
+    a = np.stack(a)
+    return a.mean(axis=0)
+
 if __name__ == "__main__" : 
-    from Dataset import SVGDataSet
-    from tqdm import tqdm
-    testData = SVGDataSet('cv.pkl').svgDatas
-    print(ted(testData[0], testData[1]))
-    # dists = [ted(t, t) for t in tqdm(testData)]
-    # print(np.mean(dists))
+    import matplotlib.pyplot as plt
+    x = list(range(2, 6))
+    ycLuster = compareMethod('cLuster_infer_val.pkl')
+    ySuggero = compareMethod('suggero_infer_val.pkl')
+    yTriplet = compareMethod('greedy_infer_val.pkl')
+    yTripletNew = compareMethod('triplet_new_sampling_infer_val.pkl')
+    plt.plot(x, ycLuster, label="cLuster")
+    plt.plot(x, ySuggero, label="Suggero")
+    plt.plot(x, yTriplet, label="Triplet (Ours)")
+    plt.plot(x, yTripletNew, label="Triplet New (Ours)")
+    plt.xlabel('k')
+    plt.ylabel('FM Index')
+    plt.ylim(0, 1)
+    plt.xticks(range(2, 6), range(2, 6))
+    plt.legend()
+    plt.savefig('baseline')
+#     from Dataset import SVGDataSet
+#     from tqdm import tqdm
+#     testData = SVGDataSet('cv.pkl').svgDatas
+#     print(ted(testData[0], testData[1]))
+#     # dists = [ted(t, t) for t in tqdm(testData)]
+# 
+#     # print(np.mean(dists))

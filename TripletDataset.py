@@ -29,16 +29,6 @@ def generateData (dataDir, pickleFileName) :
         pickle.dump(svgDatas, fd)
 
 class TripletSampler () : 
-    """
-    Triplets are sampled as follows: 
-
-        1. A random tree is chosen.
-        2. A random node is chosen in the tree. This
-           is the reference node.
-        3. A random node is chosen as plus node.
-        4. A random node is chosen whose lca distance
-           is greater than between plus and ref is chosen as minus node.
-    """
     def __init__ (self, data, length, seed=0, val=False) :
         self.data = data
         self.rng = random.Random(seed)
@@ -56,10 +46,12 @@ class TripletSampler () :
             tId = self.rng.randint(0, n - 1)
             t = self.data[tId]
             ref = self.rng.sample(t.nodes, k=1).pop()
-            plus = self.rng.sample(list(t.nodes - [ref]), k=1).pop()
+            # plus = self.rng.sample(list(t.nodes - [ref]), k=1).pop()
+            plus = self.rng.sample(list(siblings(t, ref)), k=1).pop()
             refPlus = lcaScore(t, ref, plus) 
-            minusSet = [n for n in t.nodes if lcaScore(t, ref, n) > refPlus]
-            minus = self.rng.sample(minusSet, k=1).pop()
+            # minusSet = [n for n in t.nodes if lcaScore(t, ref, n) > refPlus]
+            # minus = self.rng.sample(minusSet, k=1).pop()
+            minus = self.rng.sample(list(t.nodes - [ref] - siblings(t, ref)), k=1).pop()
         except Exception as e : 
             return self.getSample()
         refMinus = lcaScore(t, ref, minus)
