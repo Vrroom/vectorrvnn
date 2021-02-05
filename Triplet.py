@@ -86,9 +86,12 @@ class TripletNet (nn.Module) :
         dplus  = torch.sqrt(1e-5 + torch.sum((plusEmbed  - refEmbed) ** 2, dim=1, keepdims=True))
         dminus = torch.sqrt(1e-5 + torch.sum((minusEmbed - refEmbed) ** 2, dim=1, keepdims=True))
         dplus_ = torch.maximum(dplus - dminus + self.ALPHA, torch.tensor(0).cuda()) 
-        dratio = (dminus / dplus)
+        mask = dplus_ > 0 
+        hardRatio = mask.sum() / dplus.shape[0]
+        dplus_ = dplus_[mask]
+        dratio = (dminus[mask] / dplus[mask])
         # dplus_ = dplus_ * dratio
-        return dict(dplus_=dplus_, dratio=dratio)
+        return dict(dplus_=dplus_, dratio=dratio, hardRatio=hardRatio)
 
     def dendrogram (self, t) : 
         with torch.no_grad(): 
@@ -236,7 +239,7 @@ if __name__ == "__main__" :
     DIR = 'cvForApp'
     testData = TripletSVGDataSet('cv64.pkl').svgDatas
     testData = [t for t in testData if t.nPaths < 50]
-    model = getModel("siblingTripletsWithMarginLoss")
+    model = getModel("hardNegativeMining")
     # testCorrect(model, TripletSVGDataSet('cv64.pkl'))
     scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
     testData = list(map(treeify, testData))

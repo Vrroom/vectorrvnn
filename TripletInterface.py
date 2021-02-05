@@ -97,7 +97,6 @@ class TripletInterface (ttools.ModelInterface) :
     def parent2ChildrenSubspaceProjection (self, tId, p, dataset) : 
         pEmbedding, childrenEmbedding = self.parentAndChildrenEmbeddings(tId, p, dataset) 
         A = torch.stack(childrenEmbedding).squeeze()
-        print(A.shape)
         x = A.t() @ torch.inverse(A @ A.t()) @ A @ pEmbedding.t()
         x = x.t()
         return torch.linalg.norm(pEmbedding - x)
@@ -150,7 +149,7 @@ class TripletInterface (ttools.ModelInterface) :
         result = self.forward(batch)
         dplus2 = result['dplus_']
         dratio = result['dratio']
-        loss = dplus2.mean()
+        loss = dplus2.sum() / (dplus2.shape[0] + 1e-6)
         ret = {}
         # optimize
         self.opt.zero_grad()
@@ -163,13 +162,14 @@ class TripletInterface (ttools.ModelInterface) :
         ret["loss"] = loss.item()
         ret["conv-first-layer-kernel"] = self.model.conv[0][0].weight
         ret['dratio'] = dratio
+        ret['hardRatio'] = result['hardRatio'].item()
         self.logParameterNorms(ret)
         self.logGradients(ret)
         self.fillEstimates(ret, self.dataset)
         return ret
 
     def init_validation(self):
-        return {"count": 0, "loss": 0, "dratio": None, "ratio": None}
+        return {"count1": 0, "count2": 0, "loss": 0, "dratio": None, "ratio": None, "hardRatio": 0}
 
     def validation_step(self, batch, running_data) : 
         self.model.eval()
@@ -178,17 +178,23 @@ class TripletInterface (ttools.ModelInterface) :
             result = self.forward(batch)
             dratio = result['dratio']
             dplus2 = result['dplus_']
+            hardRatio = result['hardRatio'].item()
             loss = dplus2.mean().item()
-            n = dplus2.numel()
-            count = running_data['count']
-            cumLoss = (running_data["loss"] * count + loss * n) / (count + n)
+            n = ratio.numel()
+            n_ = dplus2.numel()
+            count1 = running_data['count1']
+            count2 = running_data['count2']
+            cumLoss = (running_data["loss"] * count1 + loss * n_) / (count1 + n_)
+            hardRatio_ = (running_data["hardRatio"] * count2 + hardRatio * n) / (count2 + n)
             dratio_ = dratio if running_data['dratio'] is None else torch.cat([running_data['dratio'], dratio])
             ratio_ = ratio if running_data['ratio'] is None else torch.cat([running_data['ratio'], ratio])
         ret = {
             "loss" : cumLoss,
-            "count": running_data["count"] + n, 
+            "count1": count1 + n_, 
+            "count2": count2 + n, 
             "dratio": dratio_,
-            "ratio": ratio_
+            "ratio": ratio_,
+            "hardRatio": hardRatio_
         }
         self.fillEstimates(ret, self.val_dataset)
         return ret
@@ -224,19 +230,19 @@ def train (name) :
     named_children = [n for n, _ in model.named_children()]
     named_grad = [f'{n}_grad' for n in named_children]
     named_wd = [f'{n}_wd' for n in named_children]
-    keys = ["loss", "avg-distance", "centroid-distance", *named_grad, *named_wd]
+    keys = ["loss", "hardRatio", "avg-distance", "centroid-distance", *named_grad, *named_wd]
     val_keys=keys[:3]
     trainer.add_callback(ttools.callbacks.CheckpointingCallback(checkpointer))
     trainer.add_callback(ttools.callbacks.ProgressBarCallback(keys=val_keys, val_keys=val_keys))
     # trainer.add_callback(FMIndexCallback(model, valData, env=name + "_fm"))
-    trainer.add_callback(ConfusionLineCallback(env=name + "_confusion"))
-    trainer.add_callback(ConfusionDistanceCallback(model, trainData, valData, env=name + "_confusion_distance"))
+    # trainer.add_callback(ConfusionLineCallback(env=name + "_confusion"))
+    # trainer.add_callback(ConfusionDistanceCallback(model, trainData, valData, env=name + "_confusion_distance"))
     trainer.add_callback(ImageCallback(env=name + "_vis", win="samples", port=port, frequency=100))
     trainer.add_callback(KernelCallback(key="conv-first-layer-kernel", env=name + "_kernel", win="conv", port=port))
     trainer.add_callback(ttools.callbacks.VisdomLoggingCallback(
         keys=keys, val_keys=val_keys, env=name + "_training_plots", port=port, frequency=100))
     # Start training
-    trainer.train(dataLoader, num_epochs=1000, val_dataloader=valDataLoader)
+    trainer.train(dataLoader, num_epochs=400, val_dataloader=valDataLoader)
 
 if __name__ == "__main__" : 
     import sys
