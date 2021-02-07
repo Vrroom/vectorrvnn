@@ -130,7 +130,7 @@ def alphaCompositeOnWhite (source) :
     s_ = source[:, :, :3]
     return d_ * (1 - alpha) + s_ * alpha
 
-def svgStringToBitmap (svgString, H, W) :
+def svgStringToBitmap (svgString, H, W, alpha=False) :
     svgName = randomString(10) + '.svg'
     svgName = osp.join('/tmp', svgName)
     pngName = randomString(10) + '.png'
@@ -141,6 +141,8 @@ def svgStringToBitmap (svgString, H, W) :
     img = image.imread(pngName)
     os.remove(svgName)
     os.remove(pngName)
+    if alpha: 
+        return img
     return alphaCompositeOnWhite(img)
 
 def SVGSubset2NumpyImage (doc, pathSet, H, W) :

@@ -5,6 +5,7 @@ from itertools import starmap, combinations
 from vis import *
 from copy import deepcopy
 from treeCompare import * 
+from sklearn.manifold import TSNE
 from tqdm import tqdm
 import os
 import os.path as osp
@@ -142,6 +143,8 @@ class TripletNet (nn.Module) :
         # parallely.
 
         def distance (ps1, ps2) : 
+            seenPathSets.add(asTuple(ps1))
+            seenPathSets.add(asTuple(ps2))
             em1 = getEmbedding(im, ps1, doc, self.embedding) 
             em2 = getEmbedding(im, ps2, doc, self.embedding) 
             return torch.linalg.norm(em1 - em2)
@@ -162,9 +165,11 @@ class TripletNet (nn.Module) :
             best = candidates[argmin(scores)]
             return best
 
+        seenPathSets = set()
         with torch.no_grad() : 
             subtrees = leaves(t)
             doc = svg.Document(t.svgFile)
+            paths = doc.flatten_all_paths()
             im = transform(t.image)
             while len(subtrees) > 1 : 
                 treePairs = list(combinations(subtrees, 2))
@@ -176,6 +181,16 @@ class TripletNet (nn.Module) :
                 subtrees.remove(left)
                 subtrees.remove(right)
                 subtrees.append(newSubtree)
+
+        allEmbeddings = []
+        ims = []
+        for ps in seenPathSets : 
+            em = getEmbedding(im, ps, doc, self.embedding)
+            ims.append(svgStringToBitmap(getSubsetSvg2(paths, ps, doc.get_viewbox()), 32, 32, True))
+            allEmbeddings.append(em.cpu().numpy())
+        m = TSNE(n_components=2, perplexity=2)
+        x = m.fit_transform(np.concatenate(allEmbeddings, axis=0))
+        putOnCanvas(x, ims, t.svgFile + '_TSNE.png')
         return treeFromNestedArray(subtrees)
 
 def testCorrect (model, dataset):  
@@ -234,13 +249,13 @@ def getModel(name) :
 
 if __name__ == "__main__" : 
     # Load all the data
-    from subprocess import call
-    import json
-    DIR = 'cvForApp'
+    # from subprocess import call
+    # import json
+    # DIR = 'cvForApp'
     testData = TripletSVGDataSet('cv64.pkl').svgDatas
     testData = [t for t in testData if t.nPaths < 50]
-    model = getModel("crehardnegative")
-    # testCorrect(model, TripletSVGDataSet('cv64.pkl'))
+    model = getModel("cre_hn_noDesc")
+    # # testCorrect(model, TripletSVGDataSet('cv64.pkl'))
     scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
     testData = list(map(treeify, testData))
     inferredTrees = [model.greedyTree(t) for t in tqdm(testData)]
@@ -260,11 +275,13 @@ if __name__ == "__main__" :
     #         json.dump(tree, fd)
     #     call(['cp', idFile, DATA_DIR])
 
-    # with open('triplet_new_sampling_infer_val.pkl', 'wb') as fd : 
+    # with open('triplet_hn_sampling_infer_val.pkl', 'wb') as fd : 
     #     pickle.dump(inferredTrees, fd)
+    # with open('triplet_hn_sampling_infer_val.pkl', 'rb') as fd : 
+    #     inferredTrees = pickle.load(fd)
     # testData = list(map(treeify, testData))
-    # for gt, t in tqdm(list(zip(testData, inferredTrees))): 
-    #     fillSVG(gt, t)
+    for gt, t in tqdm(list(zip(testData, inferredTrees))): 
+        fillSVG(gt, t)
     # scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
     # scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
     # # scores_ = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees_), total=len(testData))]
