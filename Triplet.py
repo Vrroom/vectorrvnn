@@ -254,7 +254,7 @@ if __name__ == "__main__" :
     # DIR = 'cvForApp'
     testData = TripletSVGDataSet('cv64.pkl').svgDatas
     testData = [t for t in testData if t.nPaths < 50]
-    model = getModel("cre_hn_noDesc")
+    model = getModel("cre_hn_noDescForPlusAndRef")
     # # testCorrect(model, TripletSVGDataSet('cv64.pkl'))
     scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
     testData = list(map(treeify, testData))
@@ -275,8 +275,8 @@ if __name__ == "__main__" :
     #         json.dump(tree, fd)
     #     call(['cp', idFile, DATA_DIR])
 
-    # with open('triplet_hn_sampling_infer_val.pkl', 'wb') as fd : 
-    #     pickle.dump(inferredTrees, fd)
+    with open('triplet_no_desc_hn_sampling_infer_val.pkl', 'wb') as fd : 
+        pickle.dump(inferredTrees, fd)
     # with open('triplet_hn_sampling_infer_val.pkl', 'rb') as fd : 
     #     inferredTrees = pickle.load(fd)
     # testData = list(map(treeify, testData))
