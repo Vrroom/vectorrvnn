@@ -25,7 +25,7 @@ from scipy.cluster.hierarchy import linkage
 
 def smallConvNet () : 
     return nn.Sequential(
-        convLayer(4, 64, 5, 1),
+        convLayer(3, 64, 5, 1),
         nn.MaxPool2d(2),
         convLayer(64, 128, 3, 1),
         # nn.MaxPool2d(2),
@@ -36,13 +36,13 @@ def smallConvNet () :
         nn.Flatten()
     )
 
-mean = [0.17859975,0.16340605,0.12297418,0.35452954]
-std = [0.32942199,0.30115585,0.25773552,0.46831796]
+mean = [0.8142, 0.8045, 0.7693]
+std = [0.3361, 0.3329, 0.3664]
 transform = T.Compose([
+    whiteBackgroundTransform,
     lambda t : torch.from_numpy(t),
     lambda t : t.float(),
     lambda t : t.permute((2, 0, 1)),
-    # lambda t : F.avg_pool2d (t, 2),
     T.Normalize(mean=mean, std=std),
     lambda t : t.cuda(),
     lambda t : t.unsqueeze(0)
@@ -254,7 +254,7 @@ if __name__ == "__main__" :
     # DIR = 'cvForApp'
     testData = TripletSVGDataSet('cv4channel.pkl').svgDatas
     testData = [t for t in testData if t.nPaths < 50]
-    model = getModel("rgba")
+    model = getModel("randomComposite")
     # # testCorrect(model, TripletSVGDataSet('cv64.pkl'))
     scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
     testData = list(map(treeify, testData))

@@ -200,10 +200,9 @@ class TripletInterface (ttools.ModelInterface) :
         return ret
 
 def train (name) : 
-    from more_itertools import flatten
     with open('Configs/config.json') as fd : 
         config = json.load(fd)
-    trainData = TripletSVGDataSet('train4channel.pkl')
+    trainData = TripletSVGDataSet('train4channel.pkl', lightBackgroundTransform)
     dataLoader = torch.utils.data.DataLoader(
         trainData, 
         batch_size=32, 
@@ -211,7 +210,7 @@ def train (name) :
         pin_memory=True,
         collate_fn=lambda x : aggregateDict(x, torch.stack)
     )
-    valData = TripletSVGDataSet('cv4channel.pkl')
+    valData = TripletSVGDataSet('cv4channel.pkl', whiteBackgroundTransform)
     valDataLoader = torch.utils.data.DataLoader(
         valData, 
         batch_size=128,
