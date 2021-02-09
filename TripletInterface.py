@@ -200,9 +200,10 @@ class TripletInterface (ttools.ModelInterface) :
         return ret
 
 def train (name) : 
+    from more_itertools import flatten
     with open('Configs/config.json') as fd : 
         config = json.load(fd)
-    trainData = TripletSVGDataSet('train64.pkl')
+    trainData = TripletSVGDataSet('train4channel.pkl')
     dataLoader = torch.utils.data.DataLoader(
         trainData, 
         batch_size=32, 
@@ -210,7 +211,7 @@ def train (name) :
         pin_memory=True,
         collate_fn=lambda x : aggregateDict(x, torch.stack)
     )
-    valData = TripletSVGDataSet('cv64.pkl')
+    valData = TripletSVGDataSet('cv4channel.pkl')
     valDataLoader = torch.utils.data.DataLoader(
         valData, 
         batch_size=128,
@@ -238,7 +239,7 @@ def train (name) :
     # trainer.add_callback(ConfusionLineCallback(env=name + "_confusion"))
     # trainer.add_callback(ConfusionDistanceCallback(model, trainData, valData, env=name + "_confusion_distance"))
     trainer.add_callback(ImageCallback(env=name + "_vis", win="samples", port=port, frequency=100))
-    trainer.add_callback(KernelCallback(key="conv-first-layer-kernel", env=name + "_kernel", win="conv", port=port))
+    # trainer.add_callback(KernelCallback(key="conv-first-layer-kernel", env=name + "_kernel", win="conv", port=port))
     trainer.add_callback(ttools.callbacks.VisdomLoggingCallback(
         keys=keys, val_keys=val_keys, env=name + "_training_plots", port=port, frequency=100))
     # Start training

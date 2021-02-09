@@ -145,7 +145,7 @@ def svgStringToBitmap (svgString, H, W, alpha=False) :
         return img
     return alphaCompositeOnWhite(img)
 
-def SVGSubset2NumpyImage (doc, pathSet, H, W) :
+def SVGSubset2NumpyImage (doc, pathSet, H, W, alpha=False) :
     paths = doc.flatten_all_paths()
     boxes = np.array([paths[i].path.bbox() for i in pathSet])
     docBox = doc.get_viewbox()
@@ -164,16 +164,16 @@ def SVGSubset2NumpyImage (doc, pathSet, H, W) :
     box[2] += 2 * eps
     box[3] += 2 * eps
     svgString = getSubsetSvg(paths, pathSet, box)
-    return svgStringToBitmap(svgString, H, W)
+    return svgStringToBitmap(svgString, H, W, alpha)
 
-def SVGSubset2NumpyImage2 (doc, pathSet, H, W) :
+def SVGSubset2NumpyImage2 (doc, pathSet, H, W, alpha=False) :
     paths = doc.flatten_all_paths()
     boxes = np.array([paths[i].path.bbox() for i in pathSet])
     docBox = doc.get_viewbox()
     svgString = getSubsetSvg2(paths, pathSet, docBox)
-    return svgStringToBitmap(svgString, H, W)
+    return svgStringToBitmap(svgString, H, W, alpha)
 
-def SVGtoNumpyImage (svgFilePath, H, W) :
+def SVGtoNumpyImage (svgFilePath, H, W, alpha=False) :
     """
     Take an SVG file and rasterize it to 
     obtain a numpy array of given height and
@@ -189,4 +189,4 @@ def SVGtoNumpyImage (svgFilePath, H, W) :
     """
     with open(svgFilePath) as fd : 
         string = fd.read()
-    return svgStringToBitmap(string, H, W)
+    return svgStringToBitmap(string, H, W, alpha)

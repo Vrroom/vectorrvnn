@@ -23,7 +23,7 @@ def generateData (dataDir, pickleFileName) :
     dataPts = map(listdir, listdir(dataDir))
     removeTxt = lambda x : filter(lambda y : not y.endswith('txt'), x)
     dataPts = list(map(lambda x : list(removeTxt(reversed(x))), dataPts))
-    with mp.Pool(maxtasksperchild=30) as p : 
+    with mp.Pool(mp.cpu_count(), maxtasksperchild=30) as p : 
         svgDatas = list(p.starmap(partial(TripletSVGData, graph=None, samples=None), dataPts))
     with open(pickleFileName, 'wb') as fd : 
         pickle.dump(svgDatas, fd)
@@ -51,7 +51,7 @@ class TripletSampler () :
             refPlus = lcaScore(t, ref, plus) 
             # minusSet = [n for n in t.nodes if lcaScore(t, ref, n) > refPlus]
             # minus = self.rng.sample(minusSet, k=1).pop()
-            minus = self.rng.sample(list(t.nodes - [ref] - siblings(t, ref) - descendants(t, ref) - descendants(t, plus)), k=1).pop()
+            minus = self.rng.sample(list(t.nodes - [ref] - siblings(t, ref) - descendants(t, ref)), k=1).pop()
         except Exception as e : 
             return self.getSample()
         refMinus = lcaScore(t, ref, minus)
@@ -79,13 +79,13 @@ class TripletSVGDataSet (data.Dataset, Saveable) :
         super(TripletSVGDataSet, self).__init__() 
         with open(pickleFileName, 'rb') as fd : 
             self.svgDatas = pickle.load(fd) 
-        mean = [0.8142, 0.8045, 0.7693]
-        std = [0.3361, 0.3329, 0.3664]
+        mean = [0.17859975,0.16340605,0.12297418,0.35452954]
+        std = [0.32942199,0.30115585,0.25773552,0.46831796]
         self.transform = T.Compose([
             torch.from_numpy,
             lambda t : t.float(),
             lambda t : t.permute((2, 0, 1)),
-            lambda t : F.avg_pool2d (t, 2),
+            # lambda t : F.avg_pool2d (t, 2),
             T.Normalize(mean=mean, std=std)
         ])
         if transform is not None : 
@@ -125,9 +125,9 @@ if __name__ == "__main__" :
     import json
     with open('commonConfig.json') as fd : 
         commonConfig = json.load(fd)
-    generateData(commonConfig['train_directory'], 'train64.pkl')
-    generateData(commonConfig['test_directory'], 'test64.pkl')
-    generateData(commonConfig['cv_directory'], 'cv64.pkl')
+    # generateData(commonConfig['train_directory'], 'train4channel.pkl')
+    # generateData(commonConfig['test_directory'], 'test4channel.pkl')
+    generateData(commonConfig['cv_directory'], 'cv4channel.pkl')
     # data_ = TripletSVGDataSet('cv.pkl')
     # dataloader = data.DataLoader(data_, sampler=TripletSampler(data_.svgDatas, val=True), batch_size=10)
     # for e in range(2) :

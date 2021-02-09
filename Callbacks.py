@@ -245,6 +245,9 @@ class ImageCallback(ttools.callbacks.ImageDisplayCallback):
         minus = torch.cat((minusCrop, minusWhole), 2)
         viz = torch.cat([im, ref, plus, minus], 3)
         viz = (viz - viz.min()) / (viz.max() - viz.min())
+        ones_like = torch.ones_like(viz[:, :3, :, :])
+        alpha = viz[:, 3:, :, :]
+        viz = alpha * viz[:, :3, :, :] + (1 - alpha) * ones_like
         return viz
         
     def caption(self, batch, step_data, is_val):
