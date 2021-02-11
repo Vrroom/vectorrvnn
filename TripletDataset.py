@@ -75,15 +75,15 @@ def lightBackgroundTransform (im) :
     source = im[:, :, :3]
     alpha = im[:, :, 3:]
     destination = np.zeros_like(source)
-    destination[:, :, 0] = random.uniform(0.9, 1)
-    destination[:, :, 1] = random.uniform(0.9, 1)
-    destination[:, :, 2] = random.uniform(0.9, 1)
+    destination[:, :, 0] = random.uniform(0.5, 1)
+    destination[:, :, 1] = random.uniform(0.5, 1)
+    destination[:, :, 2] = random.uniform(0.5, 1)
     return alpha * source + (1 - alpha) * destination
 
 def whiteBackgroundTransform (im) : 
     source = im[:, :, :3]
     alpha = im[:, :, 3:]
-    destination = 0.95 * np.ones_like(source)
+    destination = 0.75 * np.ones_like(source)
     return alpha * source + (1 - alpha) * destination
 
 class TripletSVGDataSet (data.Dataset, Saveable) : 
