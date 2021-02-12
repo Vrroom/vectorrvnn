@@ -182,15 +182,6 @@ class TripletNet (nn.Module) :
                 subtrees.remove(right)
                 subtrees.append(newSubtree)
 
-        # allEmbeddings = []
-        # ims = []
-        # for ps in seenPathSets : 
-        #     em = getEmbedding(im, ps, doc, self.embedding)
-        #     ims.append(svgStringToBitmap(getSubsetSvg2(paths, ps, doc.get_viewbox()), 32, 32, True))
-        #     allEmbeddings.append(em.cpu().numpy())
-        # m = TSNE(n_components=2, perplexity=2)
-        # x = m.fit_transform(np.concatenate(allEmbeddings, axis=0))
-        # putOnCanvas(x, ims, t.svgFile + '_TSNE.png')
         return treeFromNestedArray(subtrees)
 
 def testCorrect (model, dataset):  
@@ -240,7 +231,7 @@ def getModel(name) :
     model = TripletNet(dict(hidden_size=100))
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     MERGE_OUTPUT = os.path.join(BASE_DIR, "results", name)
-    state_dict = torch.load(os.path.join(MERGE_OUTPUT, 'epoch_398.pth'))
+    state_dict = torch.load(os.path.join(MERGE_OUTPUT, 'training_end.pth'))
     model.load_state_dict(state_dict['model'])
     model = model.float()
     model.to("cuda")
@@ -254,7 +245,7 @@ if __name__ == "__main__" :
     # DIR = 'cvForApp'
     testData = TripletSVGDataSet('cv4channel.pkl').svgDatas
     testData = [t for t in testData if t.nPaths < 50]
-    model = getModel("moreColors")
+    model = getModel("reproduceCRE")
     # # testCorrect(model, TripletSVGDataSet('cv64.pkl'))
     scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
     testData = list(map(treeify, testData))

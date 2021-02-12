@@ -3,6 +3,7 @@ from tqdm import tqdm
 import torch.nn.functional as F
 from torch import nn
 import torch.optim as optim
+from torch.optim.lr_scheduler import MultiStepLR
 import random
 from listOps import avg
 from sklearn.metrics import plot_confusion_matrix
@@ -22,6 +23,7 @@ from dictOps import aggregateDict
 import visdom
 from torchUtils import *
 from Callbacks import *
+from Scheduler import *
 
 LOG = ttools.get_logger(__name__)
 
@@ -41,6 +43,8 @@ class TripletInterface (ttools.ModelInterface) :
             self.device = "cuda"
         self.model.to(self.device)
         self.opt = optim.Adam(self.model.parameters(), lr=lr, weight_decay=1e-4)
+        milestones = [100, *range(200, 400, 10)]
+        self.sched = MultiStepLR(self.opt, milestones, gamma=0.5, verbose=True)
 
     def logGradients (self, ret) : 
         with torch.no_grad() : 
@@ -202,7 +206,7 @@ class TripletInterface (ttools.ModelInterface) :
 def train (name) : 
     with open('Configs/config.json') as fd : 
         config = json.load(fd)
-    trainData = TripletSVGDataSet('train4channel.pkl', lightBackgroundTransform)
+    trainData = TripletSVGDataSet('train4channel.pkl', whiteBackgroundTransform)
     dataLoader = torch.utils.data.DataLoader(
         trainData, 
         batch_size=32, 
@@ -234,13 +238,10 @@ def train (name) :
     val_keys=keys[:3]
     trainer.add_callback(ttools.callbacks.CheckpointingCallback(checkpointer))
     trainer.add_callback(ttools.callbacks.ProgressBarCallback(keys=val_keys, val_keys=val_keys))
-    # trainer.add_callback(FMIndexCallback(model, valData, env=name + "_fm"))
-    # trainer.add_callback(ConfusionLineCallback(env=name + "_confusion"))
-    # trainer.add_callback(ConfusionDistanceCallback(model, trainData, valData, env=name + "_confusion_distance"))
     trainer.add_callback(ImageCallback(env=name + "_vis", win="samples", port=port, frequency=100))
-    # trainer.add_callback(KernelCallback(key="conv-first-layer-kernel", env=name + "_kernel", win="conv", port=port))
     trainer.add_callback(ttools.callbacks.VisdomLoggingCallback(
         keys=keys, val_keys=val_keys, env=name + "_training_plots", port=port, frequency=100))
+    trainer.add_callback(SchedulerCallback(interface.sched))
     # Start training
     trainer.train(dataLoader, num_epochs=400, val_dataloader=valDataLoader)
 

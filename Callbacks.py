@@ -145,6 +145,16 @@ class ConfusionDistanceCallback(ttools.callbacks.Callback):
         self.plot_data("val_confusion_distance", self.val_dataset) 
         self._step += 1
 
+class SchedulerCallback (ttools.callbacks.Callback) : 
+
+    def __init__ (self, sched) :
+        super(SchedulerCallback, self).__init__()
+        self.sched = sched
+
+    def epoch_end (self) :
+        super(SchedulerCallback, self).epoch_end()
+        self.sched.step()
+
 class ConfusionLineCallback(ttools.callbacks.Callback):
     def __init__(self, frequency=100, server=None, port=8097, base_url="/", env="main", log=False):
         super(ConfusionLineCallback, self).__init__()
