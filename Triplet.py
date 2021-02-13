@@ -245,7 +245,7 @@ if __name__ == "__main__" :
     # DIR = 'cvForApp'
     testData = TripletSVGDataSet('cv4channel.pkl').svgDatas
     testData = [t for t in testData if t.nPaths < 50]
-    model = getModel("reproduceCRE")
+    model = getModel("withoutAvgPool")
     # # testCorrect(model, TripletSVGDataSet('cv64.pkl'))
     scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
     testData = list(map(treeify, testData))

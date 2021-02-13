@@ -29,7 +29,7 @@ def generateData (dataDir, pickleFileName) :
         pickle.dump(svgDatas, fd)
 
 class TripletSampler () : 
-    def __init__ (self, data, length, seed=0, val=False) :
+    def __init__ (self, data, length, seed=1, val=False) :
         self.data = data
         self.rng = random.Random(seed)
         self.seed = seed
