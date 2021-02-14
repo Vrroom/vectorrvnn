@@ -63,7 +63,7 @@ class TripletNet (nn.Module) :
         self.conv = smallConvNet()
         self.ALPHA = 1
         self.nn = nn.Sequential(
-            nn.Linear(3 * 128, self.hidden_size),
+            nn.Linear(128, self.hidden_size),
             nn.ReLU(),
             nn.Linear(self.hidden_size, 128)
         )
@@ -72,7 +72,7 @@ class TripletNet (nn.Module) :
         globalEmbed = self.conv(im)
         cropEmbed = self.conv(crop)
         wholeEmbed = self.conv(whole)
-        embed = self.nn(torch.cat((globalEmbed, cropEmbed, wholeEmbed), dim=1))
+        embed = self.nn(globalEmbed + cropEmbed + wholeEmbed)
         return embed
 
     def forward (self, 

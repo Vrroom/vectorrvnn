@@ -202,6 +202,16 @@ class TripletInterface (ttools.ModelInterface) :
         self.fillEstimates(ret, self.val_dataset)
         return ret
 
+def evalVal(model) : 
+    model.eval()
+    testData = TripletSVGDataSet('cv64.pkl').svgDatas
+    testData = [t for t in testData if t.nPaths < 50]
+    scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
+    testData = list(map(treeify, testData))
+    inferredTrees = [model.greedyTree(t) for t in tqdm(testData)]
+    scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
+    print(np.mean(scores))
+
 def train (name) : 
     with open('Configs/config.json') as fd : 
         config = json.load(fd)
@@ -243,6 +253,7 @@ def train (name) :
     trainer.add_callback(SchedulerCallback(interface.sched))
     # Start training
     trainer.train(dataLoader, num_epochs=200, val_dataloader=valDataLoader)
+    evalVal(model)
 
 if __name__ == "__main__" : 
     import sys
