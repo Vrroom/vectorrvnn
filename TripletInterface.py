@@ -6,7 +6,6 @@ import torch.optim as optim
 from torch.optim.lr_scheduler import MultiStepLR
 import random
 from listOps import avg
-from sklearn.metrics import plot_confusion_matrix
 import matplotlib.pyplot as plt
 from itertools import product
 import os
@@ -243,7 +242,7 @@ def train (name) :
         keys=keys, val_keys=val_keys, env=name + "_training_plots", port=port, frequency=100))
     trainer.add_callback(SchedulerCallback(interface.sched))
     # Start training
-    trainer.train(dataLoader, num_epochs=400, val_dataloader=valDataLoader)
+    trainer.train(dataLoader, num_epochs=200, val_dataloader=valDataLoader)
 
 if __name__ == "__main__" : 
     import sys

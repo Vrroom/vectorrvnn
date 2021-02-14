@@ -25,7 +25,7 @@ from scipy.cluster.hierarchy import linkage
 
 def smallConvNet () : 
     return nn.Sequential(
-        convLayer(3, 64, 5, 1),
+        convLayer(3, 64, 10, 1),
         nn.MaxPool2d(2),
         convLayer(64, 128, 3, 1),
         # nn.MaxPool2d(2),
@@ -245,7 +245,7 @@ if __name__ == "__main__" :
     # DIR = 'cvForApp'
     testData = TripletSVGDataSet('cv4channel.pkl').svgDatas
     testData = [t for t in testData if t.nPaths < 50]
-    model = getModel("withoutAvgPool")
+    model = getModel("widerKernel")
     # # testCorrect(model, TripletSVGDataSet('cv64.pkl'))
     scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
     testData = list(map(treeify, testData))
