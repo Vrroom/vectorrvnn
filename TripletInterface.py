@@ -42,7 +42,7 @@ class TripletInterface (ttools.ModelInterface) :
             self.device = "cuda"
         self.model.to(self.device)
         self.opt = optim.Adam(self.model.parameters(), lr=lr, weight_decay=1e-4)
-        milestones = [100, *range(200, 400, 10)]
+        milestones = [100]
         self.sched = MultiStepLR(self.opt, milestones, gamma=0.5, verbose=True)
 
     def logGradients (self, ret) : 
@@ -215,7 +215,7 @@ def evalVal(model) :
 def train (name) : 
     with open('Configs/config.json') as fd : 
         config = json.load(fd)
-    trainData = TripletSVGDataSet('train4channel.pkl', whiteBackgroundTransform)
+    trainData = TripletSVGDataSet('train64.pkl')
     dataLoader = torch.utils.data.DataLoader(
         trainData, 
         batch_size=32, 
@@ -223,7 +223,7 @@ def train (name) :
         pin_memory=True,
         collate_fn=lambda x : aggregateDict(x, torch.stack)
     )
-    valData = TripletSVGDataSet('cv4channel.pkl', whiteBackgroundTransform)
+    valData = TripletSVGDataSet('cv64.pkl')
     valDataLoader = torch.utils.data.DataLoader(
         valData, 
         batch_size=128,

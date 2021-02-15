@@ -25,7 +25,9 @@ from scipy.cluster.hierarchy import linkage
 
 def smallConvNet () : 
     return nn.Sequential(
-        convLayer(3, 64, 10, 1),
+        convLayer(3, 64, 2, 1),
+        nn.MaxPool2d(2)
+        convLayer(64, 64, 5, 1),
         nn.MaxPool2d(2),
         convLayer(64, 128, 3, 1),
         # nn.MaxPool2d(2),
@@ -39,7 +41,6 @@ def smallConvNet () :
 mean = [0.8142, 0.8045, 0.7693]
 std = [0.3361, 0.3329, 0.3664]
 transform = T.Compose([
-    whiteBackgroundTransform,
     lambda t : torch.from_numpy(t),
     lambda t : t.float(),
     lambda t : t.permute((2, 0, 1)),
@@ -63,7 +64,7 @@ class TripletNet (nn.Module) :
         self.conv = smallConvNet()
         self.ALPHA = 1
         self.nn = nn.Sequential(
-            nn.Linear(128, self.hidden_size),
+            nn.Linear(3 * 128, self.hidden_size),
             nn.ReLU(),
             nn.Linear(self.hidden_size, 128)
         )
@@ -72,7 +73,8 @@ class TripletNet (nn.Module) :
         globalEmbed = self.conv(im)
         cropEmbed = self.conv(crop)
         wholeEmbed = self.conv(whole)
-        embed = self.nn(globalEmbed + cropEmbed + wholeEmbed)
+        cat = torch.cat((globalEmbed, cropEmbed, wholeEmbed), dim=1)
+        embed = self.nn(cat)
         return embed
 
     def forward (self, 
