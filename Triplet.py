@@ -26,7 +26,7 @@ from scipy.cluster.hierarchy import linkage
 def smallConvNet () : 
     return nn.Sequential(
         convLayer(3, 64, 2, 1),
-        nn.MaxPool2d(2)
+        nn.MaxPool2d(2),
         convLayer(64, 64, 5, 1),
         nn.MaxPool2d(2),
         convLayer(64, 128, 3, 1),
@@ -52,8 +52,8 @@ transform = T.Compose([
 @lru_cache
 def getEmbedding (im, pathSet, doc, embeddingFn): 
     pathSet = asTuple(pathSet)
-    crop  = transform(SVGSubset2NumpyImage (doc, pathSet, 64, 64, True)) 
-    whole = transform(SVGSubset2NumpyImage2(doc, pathSet, 64, 64, True)) 
+    crop  = transform(SVGSubset2NumpyImage (doc, pathSet, 64, 64)) 
+    whole = transform(SVGSubset2NumpyImage2(doc, pathSet, 64, 64)) 
     return embeddingFn(im, crop, whole) 
 
 class TripletNet (nn.Module) :
