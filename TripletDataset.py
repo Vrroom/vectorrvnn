@@ -100,6 +100,7 @@ class TripletSVGDataSet (data.Dataset, Saveable) :
             torch.from_numpy,
             lambda t : t.float(),
             lambda t : t.permute((2, 0, 1)),
+            lambda t : F.avg_pool2d(t, 2),
             T.Normalize(mean=mean, std=std)
         ])
         if transform is not None : 

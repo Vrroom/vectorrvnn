@@ -25,9 +25,7 @@ from scipy.cluster.hierarchy import linkage
 
 def smallConvNet () : 
     return nn.Sequential(
-        convLayer(3, 64, 2, 1),
-        nn.MaxPool2d(2),
-        convLayer(64, 64, 5, 1),
+        convLayer(3, 64, 5, 1),
         nn.MaxPool2d(2),
         convLayer(64, 128, 3, 1),
         # nn.MaxPool2d(2),
@@ -44,6 +42,7 @@ transform = T.Compose([
     lambda t : torch.from_numpy(t),
     lambda t : t.float(),
     lambda t : t.permute((2, 0, 1)),
+    lambda t : F.avg_pool2d(t, 2),
     T.Normalize(mean=mean, std=std),
     lambda t : t.cuda(),
     lambda t : t.unsqueeze(0)
@@ -64,18 +63,14 @@ class TripletNet (nn.Module) :
         self.conv = smallConvNet()
         self.ALPHA = 1
         self.nn = nn.Sequential(
-            nn.Linear(3 * 128, self.hidden_size),
+            nn.Linear(128, self.hidden_size),
             nn.ReLU(),
             nn.Linear(self.hidden_size, 128)
         )
 
     def embedding (self, im, crop, whole) : 
-        globalEmbed = self.conv(im)
-        cropEmbed = self.conv(crop)
         wholeEmbed = self.conv(whole)
-        cat = torch.cat((globalEmbed, cropEmbed, wholeEmbed), dim=1)
-        embed = self.nn(cat)
-        return embed
+        return wholeEmbed
 
     def forward (self, 
             im,
@@ -89,7 +84,7 @@ class TripletNet (nn.Module) :
         dplus  = torch.sqrt(1e-5 + torch.sum((plusEmbed  - refEmbed) ** 2, dim=1, keepdims=True))
         dminus = torch.sqrt(1e-5 + torch.sum((minusEmbed - refEmbed) ** 2, dim=1, keepdims=True))
         dplus_ = F.softmax(torch.cat((dplus, dminus), dim=1), dim=1)[:, 0]
-        mask = dplus_ > 0.4
+        mask = dplus_ > 0.3
         hardRatio = mask.sum() / dplus.shape[0]
         dplus_ = dplus_[mask]
         dratio = (dminus[mask] / dplus[mask])
