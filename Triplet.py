@@ -66,12 +66,22 @@ class TripletNet (nn.Module) :
             nn.ReLU(),
             nn.Linear(self.hidden_size, 128)
         )
+        self.weighter = nn.Sequential(
+            nn.Linear(3 * 1024, self.hidden_size), 
+            nn.ReLU(), 
+            nn.Linear(self.hidden_size, 3),
+            nn.Softmax()
+        )
 
     def embedding (self, im, crop, whole) : 
-        # imEmbed = self.conv(im)
-        # cropEmbed = self.conv(crop)
-        wholeEmbed = self.nn(self.conv(whole))
-        return wholeEmbed
+        imEmbed = self.conv(im)
+        cropEmbed = self.conv(crop)
+        wholeEmbed = self.conv(whole)
+        weights = self.weighter(torch.cat((imEmbed, cropEmbed, wholeEmbed), dim=1))
+        i = weights[:, 0].view((-1, 1)) * imEmbed
+        c = weights[:, 1].view((-1, 1)) * cropEmbed
+        w = weights[:, 2].view((-1, 1)) * wholeEmbed
+        return self.nn(i + c + w)
 
     def forward (self, 
             im,
@@ -87,9 +97,12 @@ class TripletNet (nn.Module) :
         dplus_ = F.softmax(torch.cat((dplus, dminus), dim=1), dim=1)[:, 0]
         mask = dplus_ > 0.3
         hardRatio = mask.sum() / dplus.shape[0]
-        dplus_ = dplus_[mask]
-        dratio = (dminus[mask] / dplus[mask])
-        dplus_ = dplus_ * refMinus[mask] / refPlus[mask]
+        # dplus_ = dplus_[mask]
+        # dratio = (dminus[mask] / dplus[mask])
+        # dplus_ = dplus_ * refMinus[mask] / refPlus[mask]
+        dplus_ = dplus_
+        dratio = (dminus / dplus)
+        dplus_ = dplus_ * refMinus / refPlus
         return dict(dplus_=dplus_, dratio=dratio, hardRatio=hardRatio)
 
     def dendrogram (self, t) : 
