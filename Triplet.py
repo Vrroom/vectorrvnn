@@ -28,11 +28,10 @@ def smallConvNet () :
         convLayer(3, 64, 5, 1),
         nn.MaxPool2d(2),
         convLayer(64, 128, 3, 1),
-        # nn.MaxPool2d(2),
-        # convLayer(128, 256, 3, 1),
-        # nn.MaxPool2d(2),
+        nn.MaxPool2d(2),
+        convLayer(128, 256, 3, 1),
+        nn.MaxPool2d(2),
         # nn.Conv2d(256, 128, 2),
-        nn.AdaptiveAvgPool2d((1, 1)), 
         nn.Flatten()
     )
 
@@ -63,13 +62,15 @@ class TripletNet (nn.Module) :
         self.conv = smallConvNet()
         self.ALPHA = 1
         self.nn = nn.Sequential(
-            nn.Linear(128, self.hidden_size),
+            nn.Linear(1024, self.hidden_size),
             nn.ReLU(),
             nn.Linear(self.hidden_size, 128)
         )
 
     def embedding (self, im, crop, whole) : 
-        wholeEmbed = self.conv(whole)
+        # imEmbed = self.conv(im)
+        # cropEmbed = self.conv(crop)
+        wholeEmbed = self.nn(self.conv(whole))
         return wholeEmbed
 
     def forward (self, 

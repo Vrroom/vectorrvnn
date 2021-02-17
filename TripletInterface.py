@@ -41,7 +41,7 @@ class TripletInterface (ttools.ModelInterface) :
         if cuda:
             self.device = "cuda"
         self.model.to(self.device)
-        self.opt = optim.Adam(self.model.parameters(), lr=lr, weight_decay=1e-4)
+        self.opt = optim.Adam(self.model.parameters(), lr=lr, weight_decay=5e-4)
         milestones = [100]
         self.sched = MultiStepLR(self.opt, milestones, gamma=0.5, verbose=True)
 
