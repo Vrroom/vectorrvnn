@@ -29,7 +29,7 @@ def generateData (dataDir, pickleFileName) :
         pickle.dump(svgDatas, fd)
 
 class TripletSampler () : 
-    def __init__ (self, data, length, seed=1, val=False) :
+    def __init__ (self, data, length, seed=0, val=False) :
         self.data = data
         self.rng = random.Random(seed)
         self.seed = seed
@@ -46,11 +46,8 @@ class TripletSampler () :
             tId = self.rng.randint(0, n - 1)
             t = self.data[tId]
             ref = self.rng.sample(t.nodes, k=1).pop()
-            # plus = self.rng.sample(list(t.nodes - [ref]), k=1).pop()
             plus = self.rng.sample(list(siblings(t, ref)), k=1).pop()
             refPlus = lcaScore(t, ref, plus) 
-            # minusSet = [n for n in t.nodes if lcaScore(t, ref, n) > refPlus]
-            # minus = self.rng.sample(minusSet, k=1).pop()
             minus = self.rng.sample(list(t.nodes - [ref] - siblings(t, ref) - descendants(t, ref)), k=1).pop()
         except Exception as e : 
             return self.getSample()
@@ -94,13 +91,13 @@ class TripletSVGDataSet (data.Dataset, Saveable) :
         super(TripletSVGDataSet, self).__init__() 
         with open(pickleFileName, 'rb') as fd : 
             self.svgDatas = pickle.load(fd) 
-        mean = [0.8142, 0.8045, 0.7693]
-        std = [0.3361, 0.3329, 0.3664]
+        mean = [0.17859975,0.16340605,0.12297418,0.35452954]
+        std = [0.32942199,0.30115585,0.25773552,0.46831796]
         self.transform = T.Compose([
             torch.from_numpy,
             lambda t : t.float(),
             lambda t : t.permute((2, 0, 1)),
-            lambda t : F.avg_pool2d(t, 2),
+            # lambda t : F.avg_pool2d (t, 2),
             T.Normalize(mean=mean, std=std)
         ])
         if transform is not None : 

@@ -12,7 +12,7 @@ from networkx.drawing.nx_agraph import graphviz_layout
 from matplotlib.offsetbox import OffsetImage
 from matplotlib.offsetbox import AnnotationBbox
 import matplotlib.pyplot as plt
-from raster import svgStringToBitmap, alphaCompositeOnWhite
+from raster import svgStringToBitmap, alphaCompositeOnGrey, alphaCompositeOnWhite
 from graphIO import GraphReadWrite
 from imageio import imwrite
 
@@ -111,7 +111,7 @@ def putOnCanvas (pts, images, outFile) :
     sz = 500
     pad = (h + w)
     pix = sz + 2 * pad
-    canvas = np.ones((pix, pix, 4)) #, dtype=np.uint8) * int(255)
+    canvas = np.ones((pix, pix, 4))#, dtype=np.uint8) * int(255)
     canvas[:, :, 3] = 0
     for pt, im in zip(pts, images) : 
         h_, w_, _ = im.shape
@@ -125,7 +125,7 @@ def putOnCanvas (pts, images, outFile) :
         blob = canvas[sx:ex, sy:ey, :] 
         canvas[sx:ex, sy:ey,:] = np.clip(im * alpha + blob * (1 - alpha), 0, 1)
 
-    canvas = alphaCompositeOnWhite(canvas)
+    canvas = alphaCompositeOnGrey(canvas)
     plt.imsave(outFile, canvas, format='png')
 
 def matplotlibFigureSaver (obj, fname) :

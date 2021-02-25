@@ -41,8 +41,8 @@ class TripletInterface (ttools.ModelInterface) :
         if cuda:
             self.device = "cuda"
         self.model.to(self.device)
-        self.opt = optim.Adam(self.model.parameters(), lr=lr, weight_decay=5e-4)
-        milestones = [50, 75]
+        self.opt = optim.Adam(self.model.parameters(), lr=lr, weight_decay=1e-4)
+        milestones = [50, 100]
         self.sched = MultiStepLR(self.opt, milestones, gamma=0.5, verbose=True)
 
     def logGradients (self, ret) : 
@@ -152,6 +152,7 @@ class TripletInterface (ttools.ModelInterface) :
         result = self.forward(batch)
         dplus2 = result['dplus_']
         dratio = result['dratio']
+        mask = result['mask']
         loss = dplus2.sum() / (dplus2.shape[0] + 1e-6)
         ret = {}
         # optimize
@@ -162,6 +163,7 @@ class TripletInterface (ttools.ModelInterface) :
             if nrm > self.max_grad_norm:
                 LOG.warning("Clipping generator gradients. norm = %.3f > %.3f", nrm, self.max_grad_norm)
         self.opt.step()
+        ret['mask'] = mask
         ret["loss"] = loss.item()
         ret["conv-first-layer-kernel"] = self.model.conv[0][0].weight
         ret['dratio'] = dratio
@@ -202,20 +204,10 @@ class TripletInterface (ttools.ModelInterface) :
         self.fillEstimates(ret, self.val_dataset)
         return ret
 
-def evalVal(model) : 
-    model.eval()
-    testData = TripletSVGDataSet('cv64.pkl').svgDatas
-    testData = [t for t in testData if t.nPaths < 50]
-    scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
-    testData = list(map(treeify, testData))
-    inferredTrees = [model.greedyTree(t) for t in tqdm(testData)]
-    scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
-    print(np.mean(scores))
-
 def train (name) : 
     with open('Configs/config.json') as fd : 
         config = json.load(fd)
-    trainData = TripletSVGDataSet('train64.pkl')
+    trainData = TripletSVGDataSet('train4channel.pkl')
     dataLoader = torch.utils.data.DataLoader(
         trainData, 
         batch_size=32, 
@@ -223,7 +215,7 @@ def train (name) :
         pin_memory=True,
         collate_fn=lambda x : aggregateDict(x, torch.stack)
     )
-    valData = TripletSVGDataSet('cv64.pkl')
+    valData = TripletSVGDataSet('cv4channel.pkl')
     valDataLoader = torch.utils.data.DataLoader(
         valData, 
         batch_size=128,
@@ -252,8 +244,7 @@ def train (name) :
         keys=keys, val_keys=val_keys, env=name + "_training_plots", port=port, frequency=100))
     trainer.add_callback(SchedulerCallback(interface.sched))
     # Start training
-    trainer.train(dataLoader, num_epochs=100, val_dataloader=valDataLoader)
-    evalVal(model)
+    trainer.train(dataLoader, num_epochs=200, val_dataloader=valDataLoader)
 
 if __name__ == "__main__" : 
     import sys

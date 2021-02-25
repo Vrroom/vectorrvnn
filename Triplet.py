@@ -25,23 +25,21 @@ from scipy.cluster.hierarchy import linkage
 
 def smallConvNet () : 
     return nn.Sequential(
-        convLayer(3, 64, 5, 1),
+        convLayer(4, 64, 5, 1),
         nn.MaxPool2d(2),
         convLayer(64, 128, 3, 1),
-        nn.MaxPool2d(2),
-        convLayer(128, 256, 3, 1),
-        nn.MaxPool2d(2),
+        nn.AdaptiveAvgPool2d((1, 1)),
         # nn.Conv2d(256, 128, 2),
         nn.Flatten()
     )
 
-mean = [0.8142, 0.8045, 0.7693]
-std = [0.3361, 0.3329, 0.3664]
+mean = [0.17859975,0.16340605,0.12297418,0.35452954]
+std = [0.32942199,0.30115585,0.25773552,0.46831796]
 transform = T.Compose([
     lambda t : torch.from_numpy(t),
     lambda t : t.float(),
     lambda t : t.permute((2, 0, 1)),
-    lambda t : F.avg_pool2d(t, 2),
+    # lambda t : F.avg_pool2d (t, 2),
     T.Normalize(mean=mean, std=std),
     lambda t : t.cuda(),
     lambda t : t.unsqueeze(0)
@@ -50,8 +48,8 @@ transform = T.Compose([
 @lru_cache
 def getEmbedding (im, pathSet, doc, embeddingFn): 
     pathSet = asTuple(pathSet)
-    crop  = transform(SVGSubset2NumpyImage (doc, pathSet, 64, 64)) 
-    whole = transform(SVGSubset2NumpyImage2(doc, pathSet, 64, 64)) 
+    crop  = transform(SVGSubset2NumpyImage (doc, pathSet, 32, 32, True)) 
+    whole = transform(SVGSubset2NumpyImage2(doc, pathSet, 32, 32, True)) 
     return embeddingFn(im, crop, whole) 
 
 class TripletNet (nn.Module) :
@@ -62,26 +60,17 @@ class TripletNet (nn.Module) :
         self.conv = smallConvNet()
         self.ALPHA = 1
         self.nn = nn.Sequential(
-            nn.Linear(1024, self.hidden_size),
+            nn.Linear(3 * 128, self.hidden_size),
             nn.ReLU(),
             nn.Linear(self.hidden_size, 128)
-        )
-        self.weighter = nn.Sequential(
-            nn.Linear(3 * 1024, self.hidden_size), 
-            nn.ReLU(), 
-            nn.Linear(self.hidden_size, 3),
-            nn.Softmax()
         )
 
     def embedding (self, im, crop, whole) : 
         imEmbed = self.conv(im)
         cropEmbed = self.conv(crop)
         wholeEmbed = self.conv(whole)
-        weights = self.weighter(torch.cat((imEmbed, cropEmbed, wholeEmbed), dim=1))
-        i = weights[:, 0].view((-1, 1)) * imEmbed
-        c = weights[:, 1].view((-1, 1)) * cropEmbed
-        w = weights[:, 2].view((-1, 1)) * wholeEmbed
-        return self.nn(i + c + w)
+        cat = torch.cat((imEmbed, cropEmbed, wholeEmbed), dim=1)
+        return self.nn(cat)
 
     def forward (self, 
             im,
@@ -95,15 +84,12 @@ class TripletNet (nn.Module) :
         dplus  = torch.sqrt(1e-5 + torch.sum((plusEmbed  - refEmbed) ** 2, dim=1, keepdims=True))
         dminus = torch.sqrt(1e-5 + torch.sum((minusEmbed - refEmbed) ** 2, dim=1, keepdims=True))
         dplus_ = F.softmax(torch.cat((dplus, dminus), dim=1), dim=1)[:, 0]
-        mask = dplus_ > 0.3
+        mask = dplus_ > 0.4
         hardRatio = mask.sum() / dplus.shape[0]
-        # dplus_ = dplus_[mask]
-        # dratio = (dminus[mask] / dplus[mask])
-        # dplus_ = dplus_ * refMinus[mask] / refPlus[mask]
-        dplus_ = dplus_
-        dratio = (dminus / dplus)
-        dplus_ = dplus_ * refMinus / refPlus
-        return dict(dplus_=dplus_, dratio=dratio, hardRatio=hardRatio)
+        dplus_ = dplus_[mask]
+        dratio = (dminus[mask] / dplus[mask])
+        dplus_ = dplus_ * refMinus[mask] / refPlus[mask]
+        return dict(dplus_=dplus_, dratio=dratio, hardRatio=hardRatio, mask=mask)
 
     def dendrogram (self, t) : 
         with torch.no_grad(): 
@@ -193,6 +179,15 @@ class TripletNet (nn.Module) :
                 subtrees.remove(right)
                 subtrees.append(newSubtree)
 
+        allEmbeddings = []
+        ims = []
+        for ps in seenPathSets :
+            em = getEmbedding(im, ps, doc, self.embedding)
+            ims.append(svgStringToBitmap(getSubsetSvg2(paths, ps, doc.get_viewbox()), 32, 32, True))
+            allEmbeddings.append(em.cpu().numpy())
+        m = TSNE(n_components=2, perplexity=3)
+        x = m.fit_transform(np.concatenate(allEmbeddings, axis=0))
+        putOnCanvas(x, ims, t.svgFile + '_TSNE.png')
         return treeFromNestedArray(subtrees)
 
 def testCorrect (model, dataset):  
@@ -250,44 +245,15 @@ def getModel(name) :
     return model
 
 if __name__ == "__main__" : 
-    # Load all the data
-    # from subprocess import call
-    # import json
-    # DIR = 'cvForApp'
     testData = TripletSVGDataSet('cv4channel.pkl').svgDatas
     testData = [t for t in testData if t.nPaths < 50]
-    model = getModel("widerKernel")
-    # # testCorrect(model, TripletSVGDataSet('cv64.pkl'))
+    model = getModel("rgba32")
     scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
     testData = list(map(treeify, testData))
     inferredTrees = [model.greedyTree(t) for t in tqdm(testData)]
     scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
     print(np.mean(scores))
-    # inferredTrees = [model.dendrogram(t) for t in tqdm(testData)]
-    # scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
-    # print(np.mean(scores))
-    # inferredTrees = [model.greedyBinaryTree(t) for t in tqdm(testData)]
-    # scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
-    # print(np.mean(scores))
-    # idFiles = [osp.join(osp.split(t.svgFile)[0], 'id.txt') for t in testData]
-    # for i, (tree, idFile) in enumerate(zip(inferredTrees, idFiles)) :
-    #     DATA_DIR = osp.join(DIR, str(i))
-    #     os.mkdir(DATA_DIR)
-    #     with open(osp.join(DATA_DIR, 'tree.json'), 'w+') as fd: 
-    #         json.dump(tree, fd)
-    #     call(['cp', idFile, DATA_DIR])
-
     with open('triplet_rgba_infer_val.pkl', 'wb') as fd : 
         pickle.dump(inferredTrees, fd)
-    # with open('triplet_hn_sampling_infer_val.pkl', 'rb') as fd : 
-    #     inferredTrees = pickle.load(fd)
-    # testData = list(map(treeify, testData))
     for gt, t in tqdm(list(zip(testData, inferredTrees))): 
         fillSVG(gt, t)
-    # scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
-    # scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
-    # # scores_ = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees_), total=len(testData))]
-    # print(np.mean(scores))
-    # # with open('o.txt', 'a+') as fd : 
-    # #     res = f'dendrogram val triplet - {np.mean(scores)} {np.std(scores)}'
-    #     fd.write(res + '\n')

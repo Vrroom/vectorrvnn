@@ -130,6 +130,13 @@ def alphaCompositeOnWhite (source) :
     s_ = source[:, :, :3]
     return d_ * (1 - alpha) + s_ * alpha
 
+def alphaCompositeOnGrey (source) : 
+    destination = np.ones_like(source) / 2
+    alpha = source[:, :, 3:]
+    d_ = destination[:, :, :3]
+    s_ = source[:, :, :3]
+    return d_ * (1 - alpha) + s_ * alpha
+
 def svgStringToBitmap (svgString, H, W, alpha=False) :
     svgName = randomString(10) + '.svg'
     svgName = osp.join('/tmp', svgName)

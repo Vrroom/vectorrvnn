@@ -242,20 +242,27 @@ class KernelCallback (ttools.callbacks.ImageDisplayCallback) :
 
 class ImageCallback(ttools.callbacks.ImageDisplayCallback):
     def visualized_image(self, batch, step_data, is_val):
-        im = batch['im'][0].cpu().unsqueeze(0)
-        im = torch.cat((im, im), 2)
-        refCrop = batch['refCrop'][0].cpu().unsqueeze(0)
-        refWhole = batch['refWhole'][0].cpu().unsqueeze(0)
-        ref = torch.cat((refCrop, refWhole), 2)
-        plusCrop = batch['plusCrop'][0].cpu().unsqueeze(0)
-        plusWhole = batch['plusWhole'][0].cpu().unsqueeze(0)
-        plus = torch.cat((plusCrop, plusWhole), 2)
-        minusCrop = batch['minusCrop'][0].cpu().unsqueeze(0)
-        minusWhole = batch['minusWhole'][0].cpu().unsqueeze(0)
-        minus = torch.cat((minusCrop, minusWhole), 2)
-        viz = torch.cat([im, ref, plus, minus], 3)
-        viz = (viz - viz.min()) / (viz.max() - viz.min())
-        return viz
+        try : 
+            mask = step_data['mask']
+            im = batch['im'][mask][0].cpu().unsqueeze(0)
+            im = torch.cat((im, im), 2)
+            refCrop  = batch['refCrop'][mask][0].cpu().unsqueeze(0)
+            refWhole = batch['refWhole'][mask][0].cpu().unsqueeze(0)
+            ref = torch.cat((refCrop, refWhole), 2)
+            plusCrop  = batch['plusCrop'][mask][0].cpu().unsqueeze(0)
+            plusWhole = batch['plusWhole'][mask][0].cpu().unsqueeze(0)
+            plus = torch.cat((plusCrop, plusWhole), 2)
+            minusCrop  = batch['minusCrop'][mask][0].cpu().unsqueeze(0)
+            minusWhole = batch['minusWhole'][mask][0].cpu().unsqueeze(0)
+            minus = torch.cat((minusCrop, minusWhole), 2)
+            viz = torch.cat([im, ref, plus, minus], 3)
+            viz = (viz - viz.min()) / (viz.max() - viz.min())
+            ones_like = torch.ones_like(viz[:, :3, :, :])
+            alpha = viz[:, 3:, :, :]
+            viz = alpha * viz[:, :3, :, :] + (1 - alpha) * ones_like
+            return viz
+        except Exception :
+            return torch.ones((1, 3, 64, 128))
         
     def caption(self, batch, step_data, is_val):
         # write some informative caption into the visdom window
