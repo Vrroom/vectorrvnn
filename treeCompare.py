@@ -11,8 +11,10 @@ import more_itertools
 import copy
 from functools import reduce
 from treeOps import *
+from listOps import *
 from matching import bestAssignmentCost
 from pulp import *
+from sklearn import metrics
 import time
 
 def ted (t1, t2) : 
@@ -408,40 +410,49 @@ def treeify (t) :
         t_.nodes[n]['pathSet'] = leaves(t)
     return t_
 
+def levelPathSetCuts (t, d):
+    setNodeDepths(t)
+    n = len(leaves(t))
+    cuts = [list(t.nodes[n]['pathSet']) for n in t.nodes if t.nodes[n]['depth'] == d]
+    singles = list(set(range(n)) - set(more_itertools.flatten(cuts)))
+    singles = [[_] for _ in singles]
+    cuts.extend(singles)
+    clusterIds = np.zeros(n)
+    for i, cluster in enumerate(cuts) :
+        clusterIds[cluster] = i
+    return clusterIds
+
+def avgMetric (ts1, ts2, d, f) :
+    avgs = []
+    for t1, t2 in zip(ts1, ts2) : 
+        c1 = levelPathSetCuts(t1, d)
+        c2 = levelPathSetCuts(t2, d)
+        avgs.append(f(c1, c2))
+    return avg(avgs)
+
 def compareMethod (pickleFile) : 
+    print(pickleFile)
     testData = TripletSVGDataSet('cv64.pkl').svgDatas
     testData = [t for t in testData if len(leaves(t)) < 50]
-    testData = [t for t in testData if len(leaves(t)) > 5]
     testData = list(map(treeify, testData))
     with open(pickleFile, 'rb') as fd : 
         inferredTrees = pickle.load(fd)
     inferredTrees = [t for t in inferredTrees if len(leaves(t)) < 50]
-    inferredTrees = [t for t in inferredTrees if len(leaves(t)) > 5]
-    a = []
-    for i in range(100) : 
-        arrays = [hierarchicalClusterCompareFM(t1, t2, 6) for t1, t2 in zip(testData, inferredTrees)]
-        arrays = np.stack(arrays)
-        a.append(np.mean(arrays, axis=0))
-    a = np.stack(a)
-    return a.mean(axis=0)
+    print("FMI")
+    print(avgMetric(testData, inferredTrees, 1, metrics.fowlkes_mallows_score))
+    print(avgMetric(testData, inferredTrees, 2, metrics.fowlkes_mallows_score))
+    print(avgMetric(testData, inferredTrees, 3, metrics.fowlkes_mallows_score))
+    print("NMI")
+    print(avgMetric(testData, inferredTrees, 1, metrics.normalized_mutual_info_score))
+    print(avgMetric(testData, inferredTrees, 2, metrics.normalized_mutual_info_score))
+    print(avgMetric(testData, inferredTrees, 3, metrics.normalized_mutual_info_score))
 
 if __name__ == "__main__" : 
     import matplotlib.pyplot as plt
     x = list(range(2, 6))
     ycLuster = compareMethod('cLuster_infer_val.pkl')
     ySuggero = compareMethod('suggero_infer_val.pkl')
-    yTriplet = compareMethod('greedy_infer_val.pkl')
-    yTripletNew = compareMethod('triplet_new_sampling_infer_val.pkl')
-    plt.plot(x, ycLuster, label="cLuster")
-    plt.plot(x, ySuggero, label="Suggero")
-    plt.plot(x, yTriplet, label="Triplet (Ours)")
-    plt.plot(x, yTripletNew, label="Triplet New (Ours)")
-    plt.xlabel('k')
-    plt.ylabel('FM Index')
-    plt.ylim(0, 1)
-    plt.xticks(range(2, 6), range(2, 6))
-    plt.legend()
-    plt.savefig('baseline')
+    yTriplet = compareMethod('triplet_rgba_positional_infer_val.pkl')
 #     from Dataset import SVGDataSet
 #     from tqdm import tqdm
 #     testData = SVGDataSet('cv.pkl').svgDatas

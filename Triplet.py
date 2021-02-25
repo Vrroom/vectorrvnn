@@ -25,12 +25,13 @@ from scipy.cluster.hierarchy import linkage
 
 def smallConvNet () : 
     return nn.Sequential(
-        convLayer(4, 64, 5, 1),
+        convLayer(4, 16, 5, 1),
         nn.MaxPool2d(2),
-        convLayer(64, 128, 3, 1),
-        nn.AdaptiveAvgPool2d((1, 1)),
+        convLayer(16, 32, 3, 1),
+        nn.MaxPool2d(2), 
         # nn.Conv2d(256, 128, 2),
-        nn.Flatten()
+        nn.Flatten(),
+        nn.Linear(1152, 128)
     )
 
 mean = [0.17859975,0.16340605,0.12297418,0.35452954]
@@ -247,13 +248,13 @@ def getModel(name) :
 if __name__ == "__main__" : 
     testData = TripletSVGDataSet('cv4channel.pkl').svgDatas
     testData = [t for t in testData if t.nPaths < 50]
-    model = getModel("rgba32")
+    model = getModel("rgba32_positional")
     scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
     testData = list(map(treeify, testData))
     inferredTrees = [model.greedyTree(t) for t in tqdm(testData)]
     scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
     print(np.mean(scores))
-    with open('triplet_rgba_infer_val.pkl', 'wb') as fd : 
+    with open('triplet_rgba_positional_infer_val.pkl', 'wb') as fd : 
         pickle.dump(inferredTrees, fd)
     for gt, t in tqdm(list(zip(testData, inferredTrees))): 
         fillSVG(gt, t)

@@ -174,7 +174,7 @@ class TripletInterface (ttools.ModelInterface) :
         return ret
 
     def init_validation(self):
-        return {"count1": 0, "count2": 0, "loss": 0, "dratio": None, "ratio": None, "hardRatio": 0}
+        return {"count1": 0, "count2": 0, "loss": 0, "dratio": None, "ratio": None, "hardRatio": 0, "mask": None}
 
     def validation_step(self, batch, running_data) : 
         self.model.eval()
@@ -183,6 +183,7 @@ class TripletInterface (ttools.ModelInterface) :
             result = self.forward(batch)
             dratio = result['dratio']
             dplus2 = result['dplus_']
+            mask = result['mask']
             hardRatio = result['hardRatio'].item()
             loss = dplus2.mean().item()
             n = ratio.numel()
@@ -199,7 +200,8 @@ class TripletInterface (ttools.ModelInterface) :
             "count2": count2 + n, 
             "dratio": dratio_,
             "ratio": ratio_,
-            "hardRatio": hardRatio_
+            "hardRatio": hardRatio_,
+            'mask': mask
         }
         self.fillEstimates(ret, self.val_dataset)
         return ret
@@ -239,7 +241,7 @@ def train (name) :
     val_keys=keys[:3]
     trainer.add_callback(ttools.callbacks.CheckpointingCallback(checkpointer))
     trainer.add_callback(ttools.callbacks.ProgressBarCallback(keys=val_keys, val_keys=val_keys))
-    trainer.add_callback(ImageCallback(env=name + "_vis", win="samples", port=port, frequency=100))
+    trainer.add_callback(ImageCallback(env=name + "_vis", win="samples", port=port, frequency=50))
     trainer.add_callback(ttools.callbacks.VisdomLoggingCallback(
         keys=keys, val_keys=val_keys, env=name + "_training_plots", port=port, frequency=100))
     trainer.add_callback(SchedulerCallback(interface.sched))
