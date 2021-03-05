@@ -87,10 +87,13 @@ class TripletSVGDataSet (data.Dataset, Saveable) :
     """
     Pre-processed trees from clustering algorithm.
     """
-    def __init__ (self, pickleFileName, transform=None) : 
+    def __init__ (self, pickleDir, transform=None) : 
         super(TripletSVGDataSet, self).__init__() 
-        with open(pickleFileName, 'rb') as fd : 
-            self.svgDatas = pickle.load(fd) 
+        files = listdir(pickleDir)
+        self.svgDatas = []
+        for f in tqdm(files) :
+            with open(f, 'rb') as fd :
+                self.svgDatas.extend(pickle.load(fd))
         mean = [0.17859975,0.16340605,0.12297418,0.35452954]
         std = [0.32942199,0.30115585,0.25773552,0.46831796]
         self.transform = T.Compose([

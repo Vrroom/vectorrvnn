@@ -28,7 +28,7 @@ LOG = ttools.get_logger(__name__)
 
 class TripletInterface (ttools.ModelInterface) : 
 
-    def __init__(self, model, dataset, val_dataset, lr=3e-4, cuda=True, max_grad_norm=10,
+    def __init__(self, model, dataset, lr=3e-4, cuda=True, max_grad_norm=10,
                  variational=True):
         super(TripletInterface, self).__init__()
         self.max_grad_norm = max_grad_norm
@@ -37,7 +37,6 @@ class TripletInterface (ttools.ModelInterface) :
         self.epoch = 0
         self.cuda = cuda
         self.dataset = dataset
-        self.val_dataset = val_dataset
         if cuda:
             self.device = "cuda"
         self.model.to(self.device)
@@ -173,55 +172,14 @@ class TripletInterface (ttools.ModelInterface) :
         self.fillEstimates(ret, self.dataset)
         return ret
 
-    def init_validation(self):
-        return {"count1": 0, "count2": 0, "loss": 0, "dratio": None, "ratio": None, "hardRatio": 0, "mask": None}
-
-    def validation_step(self, batch, running_data) : 
-        self.model.eval()
-        with torch.no_grad():
-            ratio = batch['refMinus'] / batch['refPlus']
-            result = self.forward(batch)
-            dratio = result['dratio']
-            dplus2 = result['dplus_']
-            mask = result['mask']
-            hardRatio = result['hardRatio'].item()
-            loss = dplus2.mean().item()
-            n = ratio.numel()
-            n_ = dplus2.numel()
-            count1 = running_data['count1']
-            count2 = running_data['count2']
-            cumLoss = (running_data["loss"] * count1 + loss * n_) / (count1 + n_)
-            hardRatio_ = (running_data["hardRatio"] * count2 + hardRatio * n) / (count2 + n)
-            dratio_ = dratio if running_data['dratio'] is None else torch.cat([running_data['dratio'], dratio])
-            ratio_ = ratio if running_data['ratio'] is None else torch.cat([running_data['ratio'], ratio])
-        ret = {
-            "loss" : cumLoss,
-            "count1": count1 + n_, 
-            "count2": count2 + n, 
-            "dratio": dratio_,
-            "ratio": ratio_,
-            "hardRatio": hardRatio_,
-            'mask': mask
-        }
-        self.fillEstimates(ret, self.val_dataset)
-        return ret
-
 def train (name) : 
-    with open('Configs/config.json') as fd : 
+    with open('./commonConfig.json') as fd : 
         config = json.load(fd)
-    trainData = TripletSVGDataSet('train4channel.pkl')
+    trainData = TripletSVGDataSet(config['suggero_pickles'])
     dataLoader = torch.utils.data.DataLoader(
         trainData, 
         batch_size=32, 
         sampler=TripletSampler(trainData.svgDatas, 10000),
-        pin_memory=True,
-        collate_fn=lambda x : aggregateDict(x, torch.stack)
-    )
-    valData = TripletSVGDataSet('cv4channel.pkl')
-    valDataLoader = torch.utils.data.DataLoader(
-        valData, 
-        batch_size=128,
-        sampler=TripletSampler(valData.svgDatas, 1000, val=True),
         pin_memory=True,
         collate_fn=lambda x : aggregateDict(x, torch.stack)
     )
@@ -231,7 +189,7 @@ def train (name) :
     # Initiate main model.
     model = TripletNet(dict(hidden_size=100)).float()
     checkpointer = ttools.Checkpointer(MERGE_OUTPUT, model)
-    interface = TripletInterface(model, trainData, valData)
+    interface = TripletInterface(model, trainData)
     trainer = ttools.Trainer(interface)
     port = 8097
     named_children = [n for n, _ in model.named_children()]
@@ -246,7 +204,7 @@ def train (name) :
         keys=keys, val_keys=val_keys, env=name + "_training_plots", port=port, frequency=100))
     trainer.add_callback(SchedulerCallback(interface.sched))
     # Start training
-    trainer.train(dataLoader, num_epochs=200, val_dataloader=valDataLoader)
+    trainer.train(dataLoader, num_epochs=200)
 
 if __name__ == "__main__" : 
     import sys
