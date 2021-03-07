@@ -41,8 +41,8 @@ class TripletInterface (ttools.ModelInterface) :
             self.device = "cuda"
         self.model.to(self.device)
         self.opt = optim.Adam(self.model.parameters(), lr=lr, weight_decay=1e-4)
-        milestones = [50, 100]
-        self.sched = MultiStepLR(self.opt, milestones, gamma=0.5, verbose=True)
+        milestones = [100, 150, 200, 250, 300, 350]
+        self.sched = MultiStepLR(self.opt, milestones, gamma=0.9, verbose=True)
 
     def logGradients (self, ret) : 
         with torch.no_grad() : 
@@ -204,7 +204,7 @@ def train (name) :
         keys=keys, val_keys=val_keys, env=name + "_training_plots", port=port, frequency=100))
     trainer.add_callback(SchedulerCallback(interface.sched))
     # Start training
-    trainer.train(dataLoader, num_epochs=200)
+    trainer.train(dataLoader, num_epochs=400)
 
 if __name__ == "__main__" : 
     import sys
