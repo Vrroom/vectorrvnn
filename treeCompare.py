@@ -432,7 +432,7 @@ def avgMetric (ts1, ts2, d, f) :
 
 def compareMethod (pickleFile) : 
     print(pickleFile)
-    testData = TripletSVGDataSet('cv64.pkl').svgDatas
+    testData = TripletSVGDataSet('cv4channel.pkl').svgDatas
     testData = [t for t in testData if len(leaves(t)) < 50]
     testData = list(map(treeify, testData))
     with open(pickleFile, 'rb') as fd : 
@@ -450,9 +450,9 @@ def compareMethod (pickleFile) :
 if __name__ == "__main__" : 
     import matplotlib.pyplot as plt
     x = list(range(2, 6))
-    ycLuster = compareMethod('cLuster_infer_val.pkl')
+    # ycLuster = compareMethod('cLuster_infer_val.pkl')
     ySuggero = compareMethod('suggero_infer_val.pkl')
-    yTriplet = compareMethod('triplet_rgba_positional_infer_val.pkl')
+    yTriplet = compareMethod('triplet_suggero_new_infer_val.pkl')
 #     from Dataset import SVGDataSet
 #     from tqdm import tqdm
 #     testData = SVGDataSet('cv.pkl').svgDatas

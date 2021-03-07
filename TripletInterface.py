@@ -162,7 +162,11 @@ class TripletInterface (ttools.ModelInterface) :
         dplus2 = result['dplus_']
         dratio = result['dratio']
         mask = result['mask']
-        loss = dplus2.sum() / (dplus2.shape[0] + 1e-6)
+        initLoss = 0
+        now = self.model.state_dict()
+        for k in now.keys () :
+            initLoss += torch.linalg.norm(now[k] - self.init[k])
+        loss = (dplus2.sum() / (dplus2.shape[0] + 1e-6)) + 0.1 * initLoss
         ret = {}
         # optimize
         self.opt.zero_grad()

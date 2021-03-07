@@ -238,7 +238,7 @@ def getModel(name) :
     model = TripletNet(dict(hidden_size=100))
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     MERGE_OUTPUT = os.path.join(BASE_DIR, "results", name)
-    state_dict = torch.load(os.path.join(MERGE_OUTPUT, 'training_end.pth'))
+    state_dict = torch.load(os.path.join(MERGE_OUTPUT, 'epoch_8.pth'))
     model.load_state_dict(state_dict['model'])
     model = model.float()
     model.to("cuda")
@@ -248,7 +248,7 @@ def getModel(name) :
 if __name__ == "__main__" : 
     testData = TripletSVGDataSet('cv4channel.pkl').svgDatas
     testData = [t for t in testData if t.nPaths < 50]
-    model = getModel("tripletSuggeroNew")
+    model = getModel("tripletSuggeroInitLoss")
     scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
     testData = list(map(treeify, testData))
     inferredTrees = [model.greedyTree(t) for t in tqdm(testData)]
