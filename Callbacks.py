@@ -234,6 +234,7 @@ class KernelCallback (ttools.callbacks.ImageDisplayCallback) :
             chunks = [c.squeeze() for c in chunks]
             n = math.isqrt(N)
             viz =  torch.stack([torch.cat(chunks[i*n: (i+1)*n], 1) for i in range(n)])
+            viz = viz[:, :3, :, :]
             return viz
 
     def caption(self, batch, step_data, is_val):

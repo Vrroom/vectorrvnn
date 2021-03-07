@@ -23,12 +23,13 @@ import visdom
 from torchUtils import *
 from Callbacks import *
 from Scheduler import *
+from copy import deepcopy
 
 LOG = ttools.get_logger(__name__)
 
 class TripletInterface (ttools.ModelInterface) : 
 
-    def __init__(self, model, dataset, lr=3e-4, cuda=True, max_grad_norm=10,
+    def __init__(self, model, dataset, val_dataset, lr=3e-4, cuda=True, max_grad_norm=10,
                  variational=True):
         super(TripletInterface, self).__init__()
         self.max_grad_norm = max_grad_norm
@@ -37,12 +38,14 @@ class TripletInterface (ttools.ModelInterface) :
         self.epoch = 0
         self.cuda = cuda
         self.dataset = dataset
+        self.val_dataset = val_dataset
         if cuda:
             self.device = "cuda"
         self.model.to(self.device)
         self.opt = optim.Adam(self.model.parameters(), lr=lr, weight_decay=1e-4)
         milestones = [100, 150, 200, 250, 300, 350]
         self.sched = MultiStepLR(self.opt, milestones, gamma=0.9, verbose=True)
+        self.init = deepcopy(self.model.state_dict())
 
     def logGradients (self, ret) : 
         with torch.no_grad() : 
@@ -128,6 +131,13 @@ class TripletInterface (ttools.ModelInterface) :
             ret['centroid-distance'] = e2.item()
             # ret['subspace-projection'] = e3.item()
 
+    def logInitDiff (self, ret) : 
+        with torch.no_grad() :
+            ret['initdiff'] = 0
+            now = self.model.state_dict()
+            for k in now.keys () :
+                ret['initdiff'] += torch.linalg.norm(now[k] - self.init[k]).item()
+
     def forward (self, batch) : 
         im = batch['im'].cuda()
         refCrop = batch['refCrop'].cuda()
@@ -170,12 +180,46 @@ class TripletInterface (ttools.ModelInterface) :
         self.logParameterNorms(ret)
         self.logGradients(ret)
         self.fillEstimates(ret, self.dataset)
+        self.logInitDiff(ret)
+        return ret
+
+    def init_validation(self):
+        return {"count1": 0, "count2": 0, "loss": 0, "dratio": None, "ratio": None, "hardRatio": 0, "mask": None}
+
+    def validation_step(self, batch, running_data) : 
+        self.model.eval()
+        with torch.no_grad():
+            ratio = batch['refMinus'] / batch['refPlus']
+            result = self.forward(batch)
+            dratio = result['dratio']
+            dplus2 = result['dplus_']
+            mask = result['mask']
+            hardRatio = result['hardRatio'].item()
+            loss = dplus2.mean().item()
+            n = ratio.numel()
+            n_ = dplus2.numel()
+            count1 = running_data['count1']
+            count2 = running_data['count2']
+            cumLoss = (running_data["loss"] * count1 + loss * n_) / (count1 + n_)
+            hardRatio_ = (running_data["hardRatio"] * count2 + hardRatio * n) / (count2 + n)
+            dratio_ = dratio if running_data['dratio'] is None else torch.cat([running_data['dratio'], dratio])
+            ratio_ = ratio if running_data['ratio'] is None else torch.cat([running_data['ratio'], ratio])
+        ret = {
+            "loss" : cumLoss,
+            "count1": count1 + n_, 
+            "count2": count2 + n, 
+            "dratio": dratio_,
+            "ratio": ratio_,
+            "hardRatio": hardRatio_,
+            'mask': mask
+        }
+        self.fillEstimates(ret, self.val_dataset)
         return ret
 
 def train (name) : 
     with open('./commonConfig.json') as fd : 
         config = json.load(fd)
-    trainData = TripletSVGDataSet(config['suggero_pickles'])
+    trainData = TripletSVGDataSet('train4channel.pkl')
     dataLoader = torch.utils.data.DataLoader(
         trainData, 
         batch_size=32, 
@@ -183,19 +227,30 @@ def train (name) :
         pin_memory=True,
         collate_fn=lambda x : aggregateDict(x, torch.stack)
     )
+    cvData = TripletSVGDataSet('cv4channel.pkl')
+    val_dataloader = torch.utils.data.DataLoader(
+        cvData, 
+        batch_size=128, 
+        sampler=TripletSampler(cvData.svgDatas, 1000),
+        pin_memory=True,
+        collate_fn=lambda x : aggregateDict(x, torch.stack)
+    )
     # Load pretrained path module
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    MODEL_INIT_PATH = os.path.join(BASE_DIR, "results", "suggeroNew")
     MERGE_OUTPUT = os.path.join(BASE_DIR, "results", name)
     # Initiate main model.
     model = TripletNet(dict(hidden_size=100)).float()
+    state_dict = torch.load(os.path.join(MODEL_INIT_PATH, 'training_end.pth'))
+    model.load_state_dict(state_dict['model'])
     checkpointer = ttools.Checkpointer(MERGE_OUTPUT, model)
-    interface = TripletInterface(model, trainData)
+    interface = TripletInterface(model, trainData, cvData)
     trainer = ttools.Trainer(interface)
     port = 8097
     named_children = [n for n, _ in model.named_children()]
     named_grad = [f'{n}_grad' for n in named_children]
     named_wd = [f'{n}_wd' for n in named_children]
-    keys = ["loss", "hardRatio", "avg-distance", "centroid-distance", *named_grad, *named_wd]
+    keys = ["loss", "hardRatio", "avg-distance", "centroid-distance", *named_grad, *named_wd, 'initdiff']
     val_keys=keys[:3]
     trainer.add_callback(ttools.callbacks.CheckpointingCallback(checkpointer))
     trainer.add_callback(ttools.callbacks.ProgressBarCallback(keys=val_keys, val_keys=val_keys))
@@ -203,8 +258,9 @@ def train (name) :
     trainer.add_callback(ttools.callbacks.VisdomLoggingCallback(
         keys=keys, val_keys=val_keys, env=name + "_training_plots", port=port, frequency=100))
     trainer.add_callback(SchedulerCallback(interface.sched))
+    trainer.add_callback(KernelCallback("conv-first-layer-kernel", win="kernel", env=name + "_kernel", port=port, frequency=100))
     # Start training
-    trainer.train(dataLoader, num_epochs=400)
+    trainer.train(dataLoader, num_epochs=100, val_dataloader=val_dataloader)
 
 if __name__ == "__main__" : 
     import sys
