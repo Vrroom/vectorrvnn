@@ -29,7 +29,7 @@ LOG = ttools.get_logger(__name__)
 
 class TripletInterface (ttools.ModelInterface) : 
 
-    def __init__(self, model, dataset, val_dataset, lr=3e-4, cuda=True, max_grad_norm=10,
+    def __init__(self, model, dataset, val_dataset, lr=3e-5, cuda=True, max_grad_norm=10,
                  variational=True):
         super(TripletInterface, self).__init__()
         self.max_grad_norm = max_grad_norm
@@ -165,8 +165,8 @@ class TripletInterface (ttools.ModelInterface) :
         initLoss = 0
         now = self.model.state_dict()
         for k in now.keys () :
-            initLoss += torch.linalg.norm(now[k] - self.init[k])
-        loss = (dplus2.sum() / (dplus2.shape[0] + 1e-6)) + 0.1 * initLoss
+            initLoss += torch.sum((now[k] - self.init[k]) ** 2)
+        loss = (dplus2.sum() / (dplus2.shape[0] + 1e-6)) + initLoss
         ret = {}
         # optimize
         self.opt.zero_grad()
