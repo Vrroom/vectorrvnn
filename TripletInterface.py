@@ -29,7 +29,7 @@ LOG = ttools.get_logger(__name__)
 
 class TripletInterface (ttools.ModelInterface) : 
 
-    def __init__(self, model, dataset, val_dataset, lr=3e-5, cuda=True, max_grad_norm=10,
+    def __init__(self, model, dataset, val_dataset, lr=3e-4, cuda=True, max_grad_norm=10,
                  variational=True):
         super(TripletInterface, self).__init__()
         self.max_grad_norm = max_grad_norm
@@ -166,7 +166,7 @@ class TripletInterface (ttools.ModelInterface) :
         now = self.model.state_dict()
         for k in now.keys () :
             initLoss += torch.sum((now[k] - self.init[k]) ** 2)
-        loss = (dplus2.sum() / (dplus2.shape[0] + 1e-6)) + initLoss
+        loss = (dplus2.sum() / (dplus2.shape[0] + 1e-6))#  + initLoss
         ret = {}
         # optimize
         self.opt.zero_grad()
@@ -241,7 +241,7 @@ def train (name) :
     )
     # Load pretrained path module
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    MODEL_INIT_PATH = os.path.join(BASE_DIR, "results", "suggeroNew")
+    MODEL_INIT_PATH = os.path.join(BASE_DIR, "results", "suggeroTwoImages")
     MERGE_OUTPUT = os.path.join(BASE_DIR, "results", name)
     # Initiate main model.
     model = TripletNet(dict(hidden_size=100)).float()

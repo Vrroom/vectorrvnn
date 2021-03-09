@@ -61,16 +61,16 @@ class TripletNet (nn.Module) :
         self.conv = smallConvNet()
         self.ALPHA = 1
         self.nn = nn.Sequential(
-            nn.Linear(3 * 128, self.hidden_size),
+            nn.Linear(2 * 128, self.hidden_size),
             nn.ReLU(),
             nn.Linear(self.hidden_size, 128)
         )
 
     def embedding (self, im, crop, whole) : 
         imEmbed = self.conv(im)
-        cropEmbed = self.conv(crop)
+        # cropEmbed = self.conv(crop)
         wholeEmbed = self.conv(whole)
-        cat = torch.cat((imEmbed, cropEmbed, wholeEmbed), dim=1)
+        cat = torch.cat((imEmbed, wholeEmbed), dim=1)
         return self.nn(cat)
 
     def forward (self, 
@@ -248,13 +248,13 @@ def getModel(name) :
 if __name__ == "__main__" : 
     testData = TripletSVGDataSet('cv4channel.pkl').svgDatas
     testData = [t for t in testData if t.nPaths < 50]
-    model = getModel("tripletSuggeroInitLoss")
+    model = getModel("tripletSuggeroWithoutCrop")
     scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
     testData = list(map(treeify, testData))
     inferredTrees = [model.greedyTree(t) for t in tqdm(testData)]
     scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
     print(np.mean(scores))
-    with open('triplet_suggero_new_infer_val.pkl', 'wb') as fd : 
+    with open('triplet_without_crop_infer_val.pkl', 'wb') as fd : 
         pickle.dump(inferredTrees, fd)
     for gt, t in tqdm(list(zip(testData, inferredTrees))): 
         fillSVG(gt, t)
