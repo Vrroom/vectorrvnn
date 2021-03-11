@@ -17,8 +17,6 @@ from graphIO import GraphReadWrite
 from torchUtils import imageForResnet
 from itertools import product
 from more_itertools import unzip
-
-def isDegenerateBBox (box) : 
     _, _, h, w = box
     return h == 0 and w == 0 
 
@@ -45,7 +43,6 @@ class TripletSVGData (nx.DiGraph) :
         self.doc = svg.Document(svgFile)
         # The nodes in the graph are indexed according
         # to the order they come up in the list.
-        self.doc = svg.Document(svgFile)
         self.doc.normalize_viewbox()
         docViewBox = self.doc.get_viewbox()
         paths = self.doc.flatten_all_paths()
@@ -102,7 +99,26 @@ class TripletSVGData (nx.DiGraph) :
         for n in self.nodes : 
             ps  = self.nodes[n]['pathSet']
             self.nodes[n]['crop'] = self.pathSetCrop(n)
-            # self.nodes[n]['whole'] = SVGSubset2NumpyImage2(self.doc, ps, 32, 32, alpha=True)
-            plt.imshow(self.nodes[n]['crop'])
-            plt.savefig(f'./pngs/{n}.png')
-            plt.close()
+            self.nodes[n]['whole'] = self.alphaComposite(ps)
+            # plt.imshow(self.nodes[n]['crop'])
+            # plt.savefig(f'./pngs/{n}-crop.png')
+            # plt.close()
+            # plt.imshow(self.nodes[n]['whole'])
+            # plt.savefig(f'./pngs/{n}-whole.png')
+            # plt.close()
+
+    def alphaComposite (self, pathSet) :
+        pathSet = sorted(pathSet)
+        n = len(pathSet)
+        if n == 1 :
+            return self.pathRasters[pathSet.pop()]
+        else :
+            l = self.alphaComposite(pathSet[:n//2])
+            r = self.alphaComposite(pathSet[n//2:])
+            cl, cr = l[:, :, :3], r[:, :, :3]
+            al, ar = l[:, :, 3:], r[:, :, 3:]
+            ao = ar + al * (1 - ar)
+            co = (cr * ar + cl * al * (1 - ar))
+            co[(ao > 0).squeeze()] /= ao[(ao > 0).squeeze()]
+            o = np.concatenate((co, ao), axis=2)
+            return o
