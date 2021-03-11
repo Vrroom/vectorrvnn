@@ -203,6 +203,10 @@ def fd (path, nSamples=100, freqs=10, **kwargs) :
     newAn = np.hstack([reals, imags])
     return newAn
 
+def bb (path) : 
+    x1, x2, y1, y2 = path.bbox()
+    return [x1, y1, x2 - x1, y2 - y1]
+
 def relbb (path, docbb, **kwargs) :
     """ 
     Compute the relative bounding box

@@ -1,9 +1,11 @@
 import svgpathtools as svg
+import matplotlib.pyplot as plt
+from skimage import transform
 import networkx as nx
 from raster import *
 import relationshipGraph
 from relationshipGraph import *
-from descriptor import relbb, equiDistantSamples, pathAttr
+from descriptor import relbb, equiDistantSamples, pathAttr, bb
 from functools import reduce
 import numpy as np
 from graphOps import contractGraph
@@ -43,14 +45,20 @@ class TripletSVGData (nx.DiGraph) :
         self.doc = svg.Document(svgFile)
         # The nodes in the graph are indexed according
         # to the order they come up in the list.
-        doc = svg.Document(svgFile)
-        docViewBox = doc.get_viewbox()
-        paths = doc.flatten_all_paths()
+        self.doc = svg.Document(svgFile)
+        self.doc.normalize_viewbox()
+        docViewBox = self.doc.get_viewbox()
+        paths = self.doc.flatten_all_paths()
         paths = [p for p in paths if not isDegenerateBBox(relbb(p.path, docViewBox))]
         self.nPaths = len(paths)
-        self.pathViewBoxes = [relbb(p.path, docViewBox) for p in paths]
+        self.pathViewBoxes = [bb(p.path) for p in paths]
         for r in [r for r in self.nodes if self.in_degree(r) == 0] : 
             self._computeBBoxes(r)
+        self.bigImage = SVGtoNumpyImage(svgFile, 300, 300, alpha=True)
+        self.bigImage = np.pad(self.bigImage, ((150, 150), (150, 150), (0, 0)), mode='constant')
+        self.pathRasters = []
+        for i, p in enumerate(paths) : 
+            self.pathRasters.append(SVGSubset2NumpyImage2(self.doc, (i,) , 32, 32, alpha=True))
         self.image = SVGtoNumpyImage(svgFile, 32, 32, alpha=True)
         self._pathSet2Tuple()
         self._computeNodeImages()
@@ -71,8 +79,30 @@ class TripletSVGData (nx.DiGraph) :
             xM, yM = (boxes[:,0] + boxes[:,2]).max(), (boxes[:,1] + boxes[:,3]).max()
             nx.set_node_attributes(self, {node: [xm, ym, xM - xm, yM - ym]}, 'bbox')
     
+    def pathSetCrop (self, n) :
+        xm, ym, h, w = self.nodes[n]['bbox']
+        docXm, docYm, docH, docW = self.doc.get_viewbox()
+        docD = min(docH, docW)
+        d = max(h, w)
+        eps = docD / 20
+        if h > w :
+            box = [xm, ym + w/2 - d/2, d, d]
+        else : 
+            box = [xm + h/2 - d/2, ym, d, d]
+        box[0] -= eps
+        box[1] -= eps
+        box[2] += 2 * eps
+        box[3] += 2 * eps
+        f = lambda x : int(300 * ((x - docXm) / docH) + 150)
+        g = lambda y : int(300 * ((y - docYm) / docW) + 150)
+        im = self.bigImage[g(box[1]):g(box[1]+box[3]), f(box[0]):f(box[0]+box[2]), :]
+        return transform.resize(im, (32, 32))
+
     def _computeNodeImages (self) : 
         for n in self.nodes : 
             ps  = self.nodes[n]['pathSet']
-            self.nodes[n]['crop'] = SVGSubset2NumpyImage(self.doc, ps, 32, 32, alpha=True)
-            self.nodes[n]['whole'] = SVGSubset2NumpyImage2(self.doc, ps, 32, 32, alpha=True)
+            self.nodes[n]['crop'] = self.pathSetCrop(n)
+            # self.nodes[n]['whole'] = SVGSubset2NumpyImage2(self.doc, ps, 32, 32, alpha=True)
+            plt.imshow(self.nodes[n]['crop'])
+            plt.savefig(f'./pngs/{n}.png')
+            plt.close()

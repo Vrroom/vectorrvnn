@@ -23,10 +23,11 @@ def generateData (dataDir, pickleFileName) :
     dataPts = map(listdir, listdir(dataDir))
     removeTxt = lambda x : filter(lambda y : not y.endswith('txt'), x)
     dataPts = list(map(lambda x : list(removeTxt(reversed(x))), dataPts))
-    with mp.Pool(maxtasksperchild=30) as p : 
-        svgDatas = list(p.starmap(partial(TripletSVGData, graph=None, samples=None), dataPts))
-    with open(pickleFileName, 'wb') as fd : 
-        pickle.dump(svgDatas, fd)
+    # with mp.Pool(maxtasksperchild=30) as p : 
+    dataPts = dataPts[:1]
+    svgDatas = list(starmap(partial(TripletSVGData, graph=None, samples=None), dataPts))
+    # with open(pickleFileName, 'wb') as fd : 
+    #     pickle.dump(svgDatas, fd)
 
 class TripletSampler () : 
     def __init__ (self, data, length, seed=0, val=False) :
@@ -142,9 +143,9 @@ if __name__ == "__main__" :
     import json
     with open('commonConfig.json') as fd : 
         commonConfig = json.load(fd)
-    generateData(commonConfig['train_directory'], 'train64.pkl')
-    generateData(commonConfig['test_directory'], 'test64.pkl')
-    generateData(commonConfig['cv_directory'], 'cv64.pkl')
+    generateData(commonConfig['train_directory'], '_.pkl')
+    # generateData(commonConfig['test_directory'], '_.pkl')
+    # generateData(commonConfig['cv_directory'], '_.pkl')
     # data_ = TripletSVGDataSet('cv.pkl')
     # dataloader = data.DataLoader(data_, sampler=TripletSampler(data_.svgDatas, val=True), batch_size=10)
     # for e in range(2) :
