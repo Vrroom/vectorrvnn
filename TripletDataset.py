@@ -1,3 +1,5 @@
+import os
+import os.path as osp
 import pickle
 import random
 from torchvision import transforms as T
@@ -11,6 +13,7 @@ import torch
 from TripletSVGData import TripletSVGData
 from treeOps import *
 from itertools import starmap, product
+from more_itertools import unzip, chunked
 from tqdm import tqdm
 import h5py 
 
@@ -19,15 +22,37 @@ class Saveable () :
         with open(savePath, 'wb') as fd :
             pickle.dump(self, fd)
 
-def generateData (dataDir, pickleFileName) : 
+def tryTripletSVGData (i, j) :
+    try : 
+        return TripletSVGData(i, j)
+    except Exception : 
+        return None
+
+def generateSuggeroData (dataDir, pickleDir) : 
+    dataPts = list(map(listdir, listdir(dataDir)))
+    _, pickles = unzip(dataPts)
+    pickles = list(pickles)
+    svgFiles =  []
+    for f, _ in dataPts : 
+        with open(f) as fp : 
+            svgFiles.append(fp.read().strip())
+    pts = list(zip(svgFiles, pickles))
+    chunkedPts = list(chunked(pts, len(pts) // 100))
+    for i, chunk in enumerate(tqdm(chunkedPts)) : 
+        with mp.Pool(maxtasksperchild=30) as p : 
+            svgDatas = list(p.starmap(tryTripletSVGData, chunk, chunksize=4))
+        pickleFileName = osp.join(pickleDir, f'{i}.pkl')
+        with open(pickleFileName, 'wb') as fd : 
+            pickle.dump(svgDatas, fd)
+
+def generateAnnotatedData (dataDir, pickleFileName) : 
     dataPts = map(listdir, listdir(dataDir))
     removeTxt = lambda x : filter(lambda y : not y.endswith('txt'), x)
     dataPts = list(map(lambda x : list(removeTxt(reversed(x))), dataPts))
-    # with mp.Pool(maxtasksperchild=30) as p : 
-    dataPts = dataPts[:1]
-    svgDatas = list(starmap(partial(TripletSVGData, graph=None, samples=None), dataPts))
-    # with open(pickleFileName, 'wb') as fd : 
-    #     pickle.dump(svgDatas, fd)
+    with mp.Pool(maxtasksperchild=30) as p : 
+        svgDatas = list(p.starmap(tryTripletSVGData, dataPts))
+    with open(pickleFileName, 'wb') as fd : 
+        pickle.dump(svgDatas, fd)
 
 class TripletSampler () : 
     def __init__ (self, data, length, seed=0, val=False) :
@@ -49,7 +74,8 @@ class TripletSampler () :
             ref = self.rng.sample(t.nodes, k=1).pop()
             plus = self.rng.sample(list(siblings(t, ref)), k=1).pop()
             refPlus = lcaScore(t, ref, plus) 
-            minus = self.rng.sample(list(t.nodes - [ref] - siblings(t, ref) - descendants(t, ref)), k=1).pop()
+            minusSet = t.nodes - [ref] - siblings(t, ref) - descendants(t, ref) - {parent(t, ref)}
+            minus = self.rng.sample(list(minusSet), k=1).pop()
         except Exception as e : 
             return self.getSample()
         refMinus = lcaScore(t, ref, minus)
@@ -92,11 +118,16 @@ class TripletSVGDataSet (data.Dataset, Saveable) :
         super(TripletSVGDataSet, self).__init__() 
         with open(pickleDir, 'rb') as fd :
             self.svgDatas = pickle.load(fd)
-        # files = listdir(pickleDir)
-        # self.svgDatas = []
-        # for f in tqdm(files) :
-        #     with open(f, 'rb') as fd :
-        #         self.svgDatas.extend(pickle.load(fd))
+        #files = listdir(pickleDir)
+        #self.svgDatas = []
+        #for f in tqdm(files) :
+        #    with open(f, 'rb') as fd :
+        #        data = pickle.load(fd)
+        #    data = list(filter(lambda x : x is not None, data))
+        #    for i, _ in enumerate(data) :
+        #        del data[i].image
+        #        del data[i].bigImage
+        #    self.svgDatas.extend(data)
         mean = [0.17859975,0.16340605,0.12297418,0.35452954]
         std = [0.32942199,0.30115585,0.25773552,0.46831796]
         self.transform = T.Compose([
@@ -111,7 +142,7 @@ class TripletSVGDataSet (data.Dataset, Saveable) :
 
     def getNodeInput (self, tId, node) : 
         t = self.svgDatas[tId]
-        im   = self.transform(t.image).unsqueeze(0)
+        im   = self.transform(t.nodes[findRoot(t)]['whole']).unsqueeze(0)
         crop = self.transform(t.nodes[node]['crop']).unsqueeze(0)
         whole = self.transform(t.nodes[node]['whole']).unsqueeze(0)
 
@@ -120,7 +151,7 @@ class TripletSVGDataSet (data.Dataset, Saveable) :
     def __getitem__ (self, index) :
         tId, ref, plus, minus, refPlus, refMinus = index
         t = self.svgDatas[tId]
-        im         = self.transform(t.image)
+        im         = self.transform(t.nodes[findRoot(t)]['whole'])
         refCrop    = self.transform(t.nodes[ref  ]['crop' ])
         refWhole   = self.transform(t.nodes[ref  ]['whole'])
         plusCrop   = self.transform(t.nodes[plus ]['crop' ])
@@ -143,11 +174,7 @@ if __name__ == "__main__" :
     import json
     with open('commonConfig.json') as fd : 
         commonConfig = json.load(fd)
-    generateData(commonConfig['train_directory'], '_.pkl')
-    # generateData(commonConfig['test_directory'], '_.pkl')
-    # generateData(commonConfig['cv_directory'], '_.pkl')
-    # data_ = TripletSVGDataSet('cv.pkl')
-    # dataloader = data.DataLoader(data_, sampler=TripletSampler(data_.svgDatas, val=True), batch_size=10)
-    # for e in range(2) :
-    #     for batch in dataloader : 
-    #         print(e)
+    # generateSuggeroData('./unsupervised', commonConfig['suggero_pickles'])
+    # generateAnnotatedData(commonConfig['train_directory'], 'train.pkl')
+    # generateAnnotatedData(commonConfig['test_directory'], 'test.pkl')
+    generateAnnotatedData(commonConfig['cv_directory'], 'cv.pkl')

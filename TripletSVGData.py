@@ -1,5 +1,4 @@
 import svgpathtools as svg
-import matplotlib.pyplot as plt
 from skimage import transform
 import networkx as nx
 from raster import *
@@ -17,12 +16,14 @@ from graphIO import GraphReadWrite
 from torchUtils import imageForResnet
 from itertools import product
 from more_itertools import unzip
+
+def isDegenerateBBox (box) :
     _, _, h, w = box
-    return h == 0 and w == 0 
+    return h == 0 and w == 0
 
 class TripletSVGData (nx.DiGraph) : 
 
-    def __init__ (self, svgFile, pickle, graph, samples, useColor=True) : 
+    def __init__ (self, svgFile, pickle) : 
         """
         Constructor.
 
@@ -51,12 +52,12 @@ class TripletSVGData (nx.DiGraph) :
         self.pathViewBoxes = [bb(p.path) for p in paths]
         for r in [r for r in self.nodes if self.in_degree(r) == 0] : 
             self._computeBBoxes(r)
-        self.bigImage = SVGtoNumpyImage(svgFile, 300, 300, alpha=True)
+        pathIdx = list(range(len(paths)))
+        self.bigImage = SVGSubset2NumpyImage2(self.doc, pathIdx, 300, 300, alpha=True)
         self.bigImage = np.pad(self.bigImage, ((150, 150), (150, 150), (0, 0)), mode='constant')
         self.pathRasters = []
         for i, p in enumerate(paths) : 
             self.pathRasters.append(SVGSubset2NumpyImage2(self.doc, (i,) , 32, 32, alpha=True))
-        self.image = SVGtoNumpyImage(svgFile, 32, 32, alpha=True)
         self._pathSet2Tuple()
         self._computeNodeImages()
 
@@ -76,8 +77,12 @@ class TripletSVGData (nx.DiGraph) :
             xM, yM = (boxes[:,0] + boxes[:,2]).max(), (boxes[:,1] + boxes[:,3]).max()
             nx.set_node_attributes(self, {node: [xm, ym, xM - xm, yM - ym]}, 'bbox')
     
-    def pathSetCrop (self, n) :
-        xm, ym, h, w = self.nodes[n]['bbox']
+    def pathSetCrop (self, ps) :
+        paths = self.doc.flatten_all_paths()
+        boxes = np.array([paths[i].path.bbox() for i in ps])
+        xm, xM = boxes[:,0].min(), boxes[:,1].max()
+        ym, yM = boxes[:,2].min(), boxes[:,3].max()
+        h, w = xM - xm, yM - ym
         docXm, docYm, docH, docW = self.doc.get_viewbox()
         docD = min(docH, docW)
         d = max(h, w)
@@ -98,14 +103,8 @@ class TripletSVGData (nx.DiGraph) :
     def _computeNodeImages (self) : 
         for n in self.nodes : 
             ps  = self.nodes[n]['pathSet']
-            self.nodes[n]['crop'] = self.pathSetCrop(n)
+            self.nodes[n]['crop'] = self.pathSetCrop(ps)
             self.nodes[n]['whole'] = self.alphaComposite(ps)
-            # plt.imshow(self.nodes[n]['crop'])
-            # plt.savefig(f'./pngs/{n}-crop.png')
-            # plt.close()
-            # plt.imshow(self.nodes[n]['whole'])
-            # plt.savefig(f'./pngs/{n}-whole.png')
-            # plt.close()
 
     def alphaComposite (self, pathSet) :
         pathSet = sorted(pathSet)

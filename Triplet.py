@@ -47,10 +47,11 @@ transform = T.Compose([
 ])
 
 @lru_cache
-def getEmbedding (im, pathSet, doc, embeddingFn): 
+def getEmbedding (t, pathSet, embeddingFn): 
     pathSet = asTuple(pathSet)
-    crop  = transform(SVGSubset2NumpyImage (doc, pathSet, 32, 32, True)) 
-    whole = transform(SVGSubset2NumpyImage2(doc, pathSet, 32, 32, True)) 
+    im    = transform(t.pathSetCrop(leaves(t)))
+    crop  = transform(t.pathSetCrop(pathSet)) 
+    whole = transform(t.alphaComposite(pathSet)) 
     return embeddingFn(im, crop, whole) 
 
 class TripletNet (nn.Module) :
@@ -61,16 +62,16 @@ class TripletNet (nn.Module) :
         self.conv = smallConvNet()
         self.ALPHA = 1
         self.nn = nn.Sequential(
-            nn.Linear(2 * 128, self.hidden_size),
+            nn.Linear(3 * 128, self.hidden_size),
             nn.ReLU(),
             nn.Linear(self.hidden_size, 128)
         )
 
     def embedding (self, im, crop, whole) : 
         imEmbed = self.conv(im)
-        # cropEmbed = self.conv(crop)
+        cropEmbed = self.conv(crop)
         wholeEmbed = self.conv(whole)
-        cat = torch.cat((imEmbed, wholeEmbed), dim=1)
+        cat = torch.cat((imEmbed, cropEmbed, wholeEmbed), dim=1)
         return self.nn(cat)
 
     def forward (self, 
@@ -92,59 +93,13 @@ class TripletNet (nn.Module) :
         dplus_ = dplus_ * refMinus[mask] / refPlus[mask]
         return dict(dplus_=dplus_, dratio=dratio, hardRatio=hardRatio, mask=mask)
 
-    def dendrogram (self, t) : 
-        with torch.no_grad(): 
-            subtrees = leaves(t)
-            doc = svg.Document(t.svgFile)
-            im = transform(t.image)
-            embeddings = torch.stack([getEmbedding(im, tuple(collapse(s)), doc, self.embedding).squeeze() for s in subtrees])
-            embeddings = embeddings.cpu().numpy()
-            linkageMatrix = linkage(embeddings, method='centroid')
-            for row in linkageMatrix : 
-                i, j = row[:2]
-                i, j = int(i), int(j)
-                subtrees.append((subtrees[i], subtrees[j]))
-            return (treeFromNestedArray(subtrees[-1:]))
-
-    def greedyBinaryTree (self, t) : 
-
-        def distance (ps1, ps2) : 
-            em1 = getEmbedding(im, ps1, doc, self.embedding) 
-            em2 = getEmbedding(im, ps2, doc, self.embedding) 
-            return torch.linalg.norm(em1 - em2)
-
-        def subtreeEval (candidate) : 
-            childPathSets = [tuple(collapse(c)) for c in candidate]
-            return max(starmap(distance, combinations(childPathSets, 2)))
-
-        def simplify (a, b) : 
-            return (a, b)
-
-        with torch.no_grad() : 
-            subtrees = leaves(t)
-            doc = svg.Document(t.svgFile)
-            im = transform(t.image)
-            while len(subtrees) > 1 : 
-                treePairs = list(combinations(subtrees, 2))
-                pathSets  = [tuple(collapse(s)) for s in subtrees]
-                options   = list(combinations(pathSets, 2))
-                distances = list(starmap(distance, options))
-                left, right = treePairs[argmin(distances)]
-                newSubtree = simplify(left, right)
-                subtrees.remove(left)
-                subtrees.remove(right)
-                subtrees.append(newSubtree)
-        return treeFromNestedArray(subtrees)
-
     def greedyTree (self, t) : 
-        # TODO : What if we don't commit to one tree and keep growing multiple trees 
-        # parallely.
 
         def distance (ps1, ps2) : 
             seenPathSets.add(asTuple(ps1))
             seenPathSets.add(asTuple(ps2))
-            em1 = getEmbedding(im, ps1, doc, self.embedding) 
-            em2 = getEmbedding(im, ps2, doc, self.embedding) 
+            em1 = getEmbedding(t, ps1, self.embedding) 
+            em2 = getEmbedding(t, ps2, self.embedding) 
             return torch.linalg.norm(em1 - em2)
 
         def subtreeEval (candidate) : 
@@ -168,7 +123,6 @@ class TripletNet (nn.Module) :
             subtrees = leaves(t)
             doc = svg.Document(t.svgFile)
             paths = doc.flatten_all_paths()
-            im = transform(t.image)
             while len(subtrees) > 1 : 
                 treePairs = list(combinations(subtrees, 2))
                 pathSets  = [tuple(collapse(s)) for s in subtrees]
@@ -180,15 +134,6 @@ class TripletNet (nn.Module) :
                 subtrees.remove(right)
                 subtrees.append(newSubtree)
 
-        # allEmbeddings = []
-        # ims = []
-        # for ps in seenPathSets :
-        #     em = getEmbedding(im, ps, doc, self.embedding)
-        #     ims.append(svgStringToBitmap(getSubsetSvg2(paths, ps, doc.get_viewbox()), 32, 32, True))
-        #     allEmbeddings.append(em.cpu().numpy())
-        # m = TSNE(n_components=2, perplexity=3)
-        # x = m.fit_transform(np.concatenate(allEmbeddings, axis=0))
-        # putOnCanvas(x, ims, t.svgFile + '_TSNE.png')
         return treeFromNestedArray(subtrees)
 
 def testCorrect (model, dataset):  
@@ -246,15 +191,15 @@ def getModel(name) :
     return model
 
 if __name__ == "__main__" : 
-    testData = TripletSVGDataSet('cv4channel.pkl').svgDatas
+    testData = TripletSVGDataSet('cv.pkl').svgDatas
     testData = [t for t in testData if t.nPaths < 50]
-    model = getModel("tripletSuggeroWithoutCrop")
+    model = getModel("tripletSuggeroRetrain")
     scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
     testData = list(map(treeify, testData))
     inferredTrees = [model.greedyTree(t) for t in tqdm(testData)]
     scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
     print(np.mean(scores))
-    with open('triplet_without_crop_infer_val.pkl', 'wb') as fd : 
+    with open('triplet_retrain_infer_val.pkl', 'wb') as fd : 
         pickle.dump(inferredTrees, fd)
     for gt, t in tqdm(list(zip(testData, inferredTrees))): 
         fillSVG(gt, t)
