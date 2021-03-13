@@ -8,7 +8,6 @@ def area (bbox) :
     return bbox[:, 2] * bbox[:, 3]
 
 def iou (bbox1, bbox2) : 
-    # TODO : WRONG INTERPRETATION
     """
     Compute the intersection over union for two bounding
     boxes.

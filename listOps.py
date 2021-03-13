@@ -48,7 +48,8 @@ def argmax(lst) :
     ----------
     lst : list
     """
-    return next(filter(lambda x : max(lst) == lst[x], range(len(lst))))
+    m = max(lst)
+    return next(filter(lambda x : m == lst[x], range(len(lst))))
 
 def argmin(lst) :
     """
@@ -58,7 +59,8 @@ def argmin(lst) :
     ----------
     lst : list
     """
-    return next(filter(lambda x : min(lst) == lst[x], range(len(lst))))
+    m = min(lst)
+    return next(filter(lambda x : m == lst[x], range(len(lst))))
 
 def isDisjoint(a, b) : 
     if isinstance(a, int) : 

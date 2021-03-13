@@ -4,7 +4,7 @@ import networkx as nx
 from raster import *
 import relationshipGraph
 from relationshipGraph import *
-from descriptor import relbb, equiDistantSamples, pathAttr, bb
+from descriptor import relbb, equiDistantSamples, bb
 from functools import reduce
 import numpy as np
 from graphOps import contractGraph
@@ -16,6 +16,7 @@ from graphIO import GraphReadWrite
 from torchUtils import imageForResnet
 from itertools import product
 from more_itertools import unzip
+from functools import lru_cache
 
 def isDegenerateBBox (box) :
     _, _, h, w = box
@@ -57,7 +58,7 @@ class TripletSVGData (nx.DiGraph) :
         self.bigImage = np.pad(self.bigImage, ((150, 150), (150, 150), (0, 0)), mode='constant')
         self.pathRasters = []
         for i, p in enumerate(paths) : 
-            self.pathRasters.append(SVGSubset2NumpyImage2(self.doc, (i,) , 32, 32, alpha=True))
+            self.pathRasters.append(SVGSubset2NumpyImage2(self.doc, (i,), 32, 32, alpha=True))
         self._pathSet2Tuple()
         self._computeNodeImages()
 
@@ -77,9 +78,11 @@ class TripletSVGData (nx.DiGraph) :
             xM, yM = (boxes[:,0] + boxes[:,2]).max(), (boxes[:,1] + boxes[:,3]).max()
             nx.set_node_attributes(self, {node: [xm, ym, xM - xm, yM - ym]}, 'bbox')
     
+    @lru_cache
     def pathSetCrop (self, ps) :
-        paths = self.doc.flatten_all_paths()
-        boxes = np.array([paths[i].path.bbox() for i in ps])
+        if 'paths' not in dir(self):
+            self.paths = self.doc.flatten_all_paths()
+        boxes = np.array([self.paths[i].path.bbox() for i in ps])
         xm, xM = boxes[:,0].min(), boxes[:,1].max()
         ym, yM = boxes[:,2].min(), boxes[:,3].max()
         h, w = xM - xm, yM - ym
@@ -106,11 +109,12 @@ class TripletSVGData (nx.DiGraph) :
             self.nodes[n]['crop'] = self.pathSetCrop(ps)
             self.nodes[n]['whole'] = self.alphaComposite(ps)
 
+    @lru_cache
     def alphaComposite (self, pathSet) :
-        pathSet = sorted(pathSet)
+        pathSet = tuple(sorted(pathSet))
         n = len(pathSet)
         if n == 1 :
-            return self.pathRasters[pathSet.pop()]
+            return self.pathRasters[pathSet[0]]
         else :
             l = self.alphaComposite(pathSet[:n//2])
             r = self.alphaComposite(pathSet[n//2:])

@@ -29,7 +29,6 @@ def smallConvNet () :
         nn.MaxPool2d(2),
         convLayer(16, 32, 3, 1),
         nn.MaxPool2d(2), 
-        # nn.Conv2d(256, 128, 2),
         nn.Flatten(),
         nn.Linear(1152, 128)
     )
@@ -40,7 +39,6 @@ transform = T.Compose([
     lambda t : torch.from_numpy(t),
     lambda t : t.float(),
     lambda t : t.permute((2, 0, 1)),
-    # lambda t : F.avg_pool2d (t, 2),
     T.Normalize(mean=mean, std=std),
     lambda t : t.cuda(),
     lambda t : t.unsqueeze(0)
@@ -49,7 +47,8 @@ transform = T.Compose([
 @lru_cache
 def getEmbedding (t, pathSet, embeddingFn): 
     pathSet = asTuple(pathSet)
-    im    = transform(t.pathSetCrop(leaves(t)))
+    allPaths = tuple(leaves(t))
+    im    = transform(t.pathSetCrop(allPaths))
     crop  = transform(t.pathSetCrop(pathSet)) 
     whole = transform(t.alphaComposite(pathSet)) 
     return embeddingFn(im, crop, whole) 
@@ -157,16 +156,6 @@ def testCorrect (model, dataset):
     dplus2 = model(im, refCrop, refWhole, plusCrop, plusWhole, minusCrop, minusWhole, lcaScore)
     loss = dplus2.mean()
     print(loss)
-
-def treeify (t) : 
-    n = t.number_of_nodes()
-    t_ = deepcopy(t)
-    roots = [r for r in t.nodes if t.in_degree(r) == 0]
-    if len(roots) > 1 : 
-        edges = list(product([n], roots))
-        t_.add_edges_from(edges)
-        t_.nodes[n]['pathSet'] = leaves(t)
-    return t_
 
 def fillSVG (gt, t) : 
     doc = svg.Document(gt.svgFile)

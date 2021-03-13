@@ -134,7 +134,6 @@ class TripletSVGDataSet (data.Dataset, Saveable) :
             torch.from_numpy,
             lambda t : t.float(),
             lambda t : t.permute((2, 0, 1)),
-            # lambda t : F.avg_pool2d (t, 2),
             T.Normalize(mean=mean, std=std)
         ])
         if transform is not None : 
@@ -145,7 +144,6 @@ class TripletSVGDataSet (data.Dataset, Saveable) :
         im   = self.transform(t.nodes[findRoot(t)]['whole']).unsqueeze(0)
         crop = self.transform(t.nodes[node]['crop']).unsqueeze(0)
         whole = self.transform(t.nodes[node]['whole']).unsqueeze(0)
-
         return dict(im=im, crop=crop, whole=whole)
         
     def __getitem__ (self, index) :

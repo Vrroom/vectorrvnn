@@ -90,11 +90,7 @@ def getSubsetSvg(paths, lst, vb) :
     """
     vbox = ' '.join([str(_) for _ in vb])
     ps = [p[0] for p in paths]
-    # opacity = {"fill-opacity": 0.2, "stroke-opacity": 0.2}
     attrs = [deepcopy(p[1].attrib) for p in paths]
-    # for i in range(len(paths)) :
-    #     if i not in lst: 
-    #         attrs[i].update(opacity)
     order = [p[3] for p in paths]
     cmb = list(zip(order, ps, attrs))
     cmb.sort()

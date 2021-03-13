@@ -29,8 +29,7 @@ LOG = ttools.get_logger(__name__)
 
 class TripletInterface (ttools.ModelInterface) : 
 
-    def __init__(self, model, dataset, val_dataset, lr=3e-4, cuda=True, max_grad_norm=10,
-                 variational=True):
+    def __init__(self, model, dataset, val_dataset, lr=3e-4, cuda=True, max_grad_norm=10):
         super(TripletInterface, self).__init__()
         self.max_grad_norm = max_grad_norm
         self.model = model
@@ -66,14 +65,6 @@ class TripletInterface (ttools.ModelInterface) :
                 wd /= len(list(module.parameters())) + 1
                 ret[f'{name}_wd'] = wd.item()
         
-    def logBNDiff (self, ret) : 
-        with torch.no_grad() : 
-            bns = list(filter(lambda x : isinstance(x, MyBN), self.model.conv.modules()))
-            mean_diff = sum(map(lambda x: x.mean_diff, bns)).item()
-            var_diff = sum(map(lambda x: x.var_diff, bns)).item()
-            ret['mean_diff'] = mean_diff
-            ret['var_diff'] = var_diff
-
     @lru_cache
     def getNodeEmbedding (self, tId, node, dataset) : 
         pt = dataset.getNodeInput(tId, node)
@@ -126,10 +117,8 @@ class TripletInterface (ttools.ModelInterface) :
         with torch.no_grad(): 
             e1 = self.estimate(self.parent2ChildrenAvgDistance, dataset)
             e2 = self.estimate(self.parent2ChildrenCentroidDistance, dataset)
-            # e3 = self.estimate(self.parent2ChildrenSubspaceProjection, dataset)
             ret['avg-distance'] = e1.item()
             ret['centroid-distance'] = e2.item()
-            # ret['subspace-projection'] = e3.item()
 
     def logInitDiff (self, ret) : 
         with torch.no_grad() :
@@ -164,9 +153,7 @@ class TripletInterface (ttools.ModelInterface) :
         mask = result['mask']
         initLoss = 0
         now = self.model.state_dict()
-        for k in now.keys () :
-            initLoss += torch.sum((now[k] - self.init[k]) ** 2)
-        loss = (dplus2.sum() / (dplus2.shape[0] + 1e-6))#  + initLoss
+        loss = (dplus2.sum() / (dplus2.shape[0] + 1e-6))
         ret = {}
         # optimize
         self.opt.zero_grad()

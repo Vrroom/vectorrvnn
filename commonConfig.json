@@ -2,12 +2,6 @@
 	"train_directory"     : "/net/voxel07/misc/me/sumitc/vectorrvnn/ManuallyAnnotatedDataset_v2/Train",
 	"test_directory"      : "/net/voxel07/misc/me/sumitc/vectorrvnn/ManuallyAnnotatedDataset_v2/Test",
 	"cv_directory"        : "/net/voxel07/misc/me/sumitc/vectorrvnn/ManuallyAnnotatedDataset_v2/Val",
-	"log_file"            : "test.log",
-	"show_log_every"      : 10,
-	"save_snapshot_every" : 301,
-	"cuda"                : false,
-	"gpu"                 : 0,
-	"expt_path"           : "./Expts/",
 	"suggero_pickles"     : "/net/voxel07/misc/extra/data/sumitc/suggeroPickles32"
 }
 

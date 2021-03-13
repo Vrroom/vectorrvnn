@@ -27,11 +27,10 @@ from copy import deepcopy
 
 LOG = ttools.get_logger(__name__)
 
-class TripletInterface (ttools.ModelInterface) : 
+class SuggeroPretrainInterface (ttools.ModelInterface) : 
 
-    def __init__(self, model, dataset, val_dataset, lr=3e-4, cuda=True, max_grad_norm=10,
-                 variational=True):
-        super(TripletInterface, self).__init__()
+    def __init__(self, model, dataset, val_dataset, lr=3e-4, cuda=True, max_grad_norm=10):
+        super(SuggeroPretrainInterface, self).__init__()
         self.max_grad_norm = max_grad_norm
         self.model = model
         self.device = "cpu"
@@ -66,14 +65,6 @@ class TripletInterface (ttools.ModelInterface) :
                 wd /= len(list(module.parameters())) + 1
                 ret[f'{name}_wd'] = wd.item()
         
-    def logBNDiff (self, ret) : 
-        with torch.no_grad() : 
-            bns = list(filter(lambda x : isinstance(x, MyBN), self.model.conv.modules()))
-            mean_diff = sum(map(lambda x: x.mean_diff, bns)).item()
-            var_diff = sum(map(lambda x: x.var_diff, bns)).item()
-            ret['mean_diff'] = mean_diff
-            ret['var_diff'] = var_diff
-
     def forward (self, batch) : 
         im = batch['im'].cuda()
         refCrop = batch['refCrop'].cuda()
@@ -136,7 +127,7 @@ def train (name) :
     # Initiate main model.
     model = TripletNet(dict(hidden_size=100)).float()
     checkpointer = ttools.Checkpointer(MERGE_OUTPUT, model)
-    interface = TripletInterface(model, trainData, None)
+    interface = SuggeroPretrainInterface(model, trainData, None)
     trainer = ttools.Trainer(interface)
     port = 8097
     named_children = [n for n, _ in model.named_children()]
