@@ -40,11 +40,11 @@ transform = T.Compose([
     lambda t : t.float(),
     lambda t : t.permute((2, 0, 1)),
     T.Normalize(mean=mean, std=std),
-    lambda t : t.cuda(),
+    # lambda t : t.cuda(),
     lambda t : t.unsqueeze(0)
 ])
 
-@lru_cache
+@lru_cache(maxsize=128)
 def getEmbedding (t, pathSet, embeddingFn): 
     pathSet = asTuple(pathSet)
     allPaths = tuple(leaves(t))
@@ -92,7 +92,7 @@ class TripletNet (nn.Module) :
         dplus_ = dplus_ * refMinus[mask] / refPlus[mask]
         return dict(dplus_=dplus_, dratio=dratio, hardRatio=hardRatio, mask=mask)
 
-    def greedyTree (self, t) : 
+    def greedyTree (self, t, subtrees=None) : 
 
         def distance (ps1, ps2) : 
             seenPathSets.add(asTuple(ps1))
@@ -117,10 +117,11 @@ class TripletNet (nn.Module) :
             best = candidates[argmin(scores)]
             return best
 
+        if subtrees is None : 
+            subtrees = leaves(t)
         seenPathSets = set()
         with torch.no_grad() : 
-            subtrees = leaves(t)
-            doc = svg.Document(t.svgFile)
+            doc = t.doc
             paths = doc.flatten_all_paths()
             while len(subtrees) > 1 : 
                 treePairs = list(combinations(subtrees, 2))
@@ -134,6 +135,7 @@ class TripletNet (nn.Module) :
                 subtrees.append(newSubtree)
 
         return treeFromNestedArray(subtrees)
+
 
 def testCorrect (model, dataset):  
     dataLoader = torch.utils.data.DataLoader(
@@ -168,14 +170,14 @@ def fillSVG (gt, t) :
     thing = treeImageFromGraph(t)
     matplotlibFigureSaver(thing, f'{gt.svgFile}')
 
-def getModel(name) : 
+def getModel() : 
     model = TripletNet(dict(hidden_size=100))
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    MERGE_OUTPUT = os.path.join(BASE_DIR, "results", name)
-    state_dict = torch.load(os.path.join(MERGE_OUTPUT, 'epoch_8.pth'))
+    MODEL_DIR = os.path.join(BASE_DIR, 'modelCkpt')
+    state_dict = torch.load(os.path.join(MODEL_DIR, 'model.pth'), map_location=torch.device('cpu'))
     model.load_state_dict(state_dict['model'])
     model = model.float()
-    model.to("cuda")
+    # model.to("cuda")
     model.eval()
     return model
 

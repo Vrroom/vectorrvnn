@@ -47,10 +47,12 @@ class TripletSVGData (nx.DiGraph) :
         # to the order they come up in the list.
         self.doc.normalize_viewbox()
         docViewBox = self.doc.get_viewbox()
-        paths = self.doc.flatten_all_paths()
+        paths = cachedFlattenPaths(self.doc)
         paths = [p for p in paths if not isDegenerateBBox(relbb(p.path, docViewBox))]
         self.nPaths = len(paths)
         self.pathViewBoxes = [bb(p.path) for p in paths]
+        with open(svgFile) as fd : 
+            self.svg = fd.read()
         for r in [r for r in self.nodes if self.in_degree(r) == 0] : 
             self._computeBBoxes(r)
         pathIdx = list(range(len(paths)))
@@ -78,11 +80,10 @@ class TripletSVGData (nx.DiGraph) :
             xM, yM = (boxes[:,0] + boxes[:,2]).max(), (boxes[:,1] + boxes[:,3]).max()
             nx.set_node_attributes(self, {node: [xm, ym, xM - xm, yM - ym]}, 'bbox')
     
-    @lru_cache
+    @lru_cache(maxsize=128)
     def pathSetCrop (self, ps) :
-        if 'paths' not in dir(self):
-            self.paths = self.doc.flatten_all_paths()
-        boxes = np.array([self.paths[i].path.bbox() for i in ps])
+        paths = cachedFlattenPaths(self.doc)
+        boxes = np.array([paths[i].path.bbox() for i in ps])
         xm, xM = boxes[:,0].min(), boxes[:,1].max()
         ym, yM = boxes[:,2].min(), boxes[:,3].max()
         h, w = xM - xm, yM - ym
@@ -109,7 +110,7 @@ class TripletSVGData (nx.DiGraph) :
             self.nodes[n]['crop'] = self.pathSetCrop(ps)
             self.nodes[n]['whole'] = self.alphaComposite(ps)
 
-    @lru_cache
+    @lru_cache(maxsize=128)
     def alphaComposite (self, pathSet) :
         pathSet = tuple(sorted(pathSet))
         n = len(pathSet)

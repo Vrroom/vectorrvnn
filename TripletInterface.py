@@ -65,7 +65,7 @@ class TripletInterface (ttools.ModelInterface) :
                 wd /= len(list(module.parameters())) + 1
                 ret[f'{name}_wd'] = wd.item()
         
-    @lru_cache
+    @lru_cache(maxsize=128)
     def getNodeEmbedding (self, tId, node, dataset) : 
         pt = dataset.getNodeInput(tId, node)
         im    = pt['im'].cuda()

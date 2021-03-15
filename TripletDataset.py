@@ -169,10 +169,10 @@ class TripletSVGDataSet (data.Dataset, Saveable) :
         )
 
 if __name__ == "__main__" : 
-    import json
-    with open('commonConfig.json') as fd : 
-        commonConfig = json.load(fd)
-    # generateSuggeroData('./unsupervised', commonConfig['suggero_pickles'])
+    # import json
+    # with open('commonConfig.json') as fd : 
+    #     commonConfig = json.load(fd)
+    generateSuggeroData('./unsupervised', commonConfig['suggero_pickles'])
     # generateAnnotatedData(commonConfig['train_directory'], 'train.pkl')
     # generateAnnotatedData(commonConfig['test_directory'], 'test.pkl')
-    generateAnnotatedData(commonConfig['cv_directory'], 'cv.pkl')
+    # generateAnnotatedData('ManuallyAnnotatedDataset_v2/Val', 'cv.pkl')

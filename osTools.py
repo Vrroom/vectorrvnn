@@ -1,6 +1,9 @@
 import os
 import os.path as osp
 
+def getBaseName(fullName) : 
+    return osp.splitext(osp.split(fullName)[1])[0]
+
 def zipDirs (dirList) :
     """ 
     A common operation is to get SVGs

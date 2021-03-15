@@ -7,6 +7,7 @@ import os.path as osp
 import svgpathtools as svg
 import matplotlib.image as image
 import string
+from strokeAnalyses import cachedFlattenPaths
 
 def randomString(k) : 
     """
@@ -149,7 +150,7 @@ def svgStringToBitmap (svgString, H, W, alpha=False) :
     return alphaCompositeOnWhite(img)
 
 def SVGSubset2NumpyImage (doc, pathSet, H, W, alpha=False) :
-    paths = doc.flatten_all_paths()
+    paths = cachedFlattenPaths(doc)
     boxes = np.array([paths[i].path.bbox() for i in pathSet])
     docBox = doc.get_viewbox()
     docDim = min(docBox[2], docBox[3])
@@ -170,7 +171,7 @@ def SVGSubset2NumpyImage (doc, pathSet, H, W, alpha=False) :
     return svgStringToBitmap(svgString, H, W, alpha)
 
 def SVGSubset2NumpyImage2 (doc, pathSet, H, W, alpha=False) :
-    paths = doc.flatten_all_paths()
+    paths = cachedFlattenPaths(doc)
     boxes = np.array([paths[i].path.bbox() for i in pathSet])
     docBox = doc.get_viewbox()
     svgString = getSubsetSvg2(paths, pathSet, docBox)

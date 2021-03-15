@@ -75,26 +75,29 @@ def subtreeSize(s, T, subSize) :
 def nxGraph2appGraph (forest) : 
     appGraph = dict(nodes=[], links=[])
     sortedNodes = sorted(list(forest.nodes))
+    sortedNodes = list(map(int, sortedNodes))
     for n in sortedNodes :
-        type = "path" if forest.out_degree(n) == 0 else "group"
+        nodeType = "path" if forest.out_degree(n) == 0 else "group"
         paths = list(leavesInSubtree(forest, n))
         children = list(forest.neighbors(n))
+        paths = list(map(int, paths))
+        children = list(map(int, children))
         node = dict(
             id=n, 
             x=0, 
             y=0, 
-            type=type, 
+            type=nodeType, 
             paths=paths, 
             children=children
         )
         appGraph['nodes'].append(node)
     for (u, v) in forest.edges : 
-        link = dict(source=u, target=v, type="group")
+        link = dict(source=int(u), target=int(v), type="group")
         appGraph['links'].append(link)
     for n in sortedNodes : 
         nodeParent = parent(forest, n)
         if nodeParent is not None : 
-            appGraph['nodes'][n]['parent'] = nodeParent
+            appGraph['nodes'][n]['parent'] = int(nodeParent)
     return appGraph
 
 
