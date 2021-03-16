@@ -40,7 +40,7 @@ def generateSuggeroData (dataDir, pickleDir) :
     chunkedPts = list(chunked(pts, len(pts) // 100))
     for i, chunk in enumerate(tqdm(chunkedPts)) : 
         with mp.Pool(maxtasksperchild=30) as p : 
-            svgDatas = list(p.starmap(tryTripletSVGData, chunk, chunksize=4))
+            svgDatas = list(p.starmap(tryTripletSVGData, chunk, chunksize=12))
         pickleFileName = osp.join(pickleDir, f'{i}.pkl')
         with open(pickleFileName, 'wb') as fd : 
             pickle.dump(svgDatas, fd)
@@ -125,7 +125,6 @@ class TripletSVGDataSet (data.Dataset, Saveable) :
         #        data = pickle.load(fd)
         #    data = list(filter(lambda x : x is not None, data))
         #    for i, _ in enumerate(data) :
-        #        del data[i].image
         #        del data[i].bigImage
         #    self.svgDatas.extend(data)
         mean = [0.17859975,0.16340605,0.12297418,0.35452954]
@@ -169,10 +168,10 @@ class TripletSVGDataSet (data.Dataset, Saveable) :
         )
 
 if __name__ == "__main__" : 
-    # import json
-    # with open('commonConfig.json') as fd : 
-    #     commonConfig = json.load(fd)
-    generateSuggeroData('./unsupervised', commonConfig['suggero_pickles'])
+    import json
+    with open('commonConfig.json') as fd : 
+        commonConfig = json.load(fd)
+    generateSuggeroData('./unsupervised_v2', commonConfig['suggero_pickles'])
     # generateAnnotatedData(commonConfig['train_directory'], 'train.pkl')
     # generateAnnotatedData(commonConfig['test_directory'], 'test.pkl')
     # generateAnnotatedData('ManuallyAnnotatedDataset_v2/Val', 'cv.pkl')

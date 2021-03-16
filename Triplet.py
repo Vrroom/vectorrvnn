@@ -40,7 +40,7 @@ transform = T.Compose([
     lambda t : t.float(),
     lambda t : t.permute((2, 0, 1)),
     T.Normalize(mean=mean, std=std),
-    # lambda t : t.cuda(),
+    lambda t : t.cuda(),
     lambda t : t.unsqueeze(0)
 ])
 
@@ -170,27 +170,25 @@ def fillSVG (gt, t) :
     thing = treeImageFromGraph(t)
     matplotlibFigureSaver(thing, f'{gt.svgFile}')
 
-def getModel() : 
+def getModel(name) : 
     model = TripletNet(dict(hidden_size=100))
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    MODEL_DIR = os.path.join(BASE_DIR, 'modelCkpt')
-    state_dict = torch.load(os.path.join(MODEL_DIR, 'model.pth'), map_location=torch.device('cpu'))
+    MODEL_DIR = os.path.join(BASE_DIR, 'results', name)
+    state_dict = torch.load(os.path.join(MODEL_DIR, "epoch_8.pth"), map_location=torch.device('cpu'))
     model.load_state_dict(state_dict['model'])
     model = model.float()
-    # model.to("cuda")
+    model.to("cuda")
     model.eval()
     return model
 
 if __name__ == "__main__" : 
     testData = TripletSVGDataSet('cv.pkl').svgDatas
     testData = [t for t in testData if t.nPaths < 50]
-    model = getModel("tripletSuggeroRetrain")
+    model = getModel("triplet_suggero_v2")
     scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
     testData = list(map(treeify, testData))
     inferredTrees = [model.greedyTree(t) for t in tqdm(testData)]
     scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
     print(np.mean(scores))
-    with open('triplet_retrain_infer_val.pkl', 'wb') as fd : 
-        pickle.dump(inferredTrees, fd)
-    for gt, t in tqdm(list(zip(testData, inferredTrees))): 
-        fillSVG(gt, t)
+    #for gt, t in tqdm(list(zip(testData, inferredTrees))): 
+    #    fillSVG(gt, t)

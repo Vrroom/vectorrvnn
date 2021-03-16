@@ -265,6 +265,6 @@ def processDir(DIR) :
 if __name__ == "__main__" : 
     DATASET = '/net/voxel07/misc/extra/data/sumitc/datasetv1'
     OUTDIR = 'unsupervised_v2'
-    os.mkdir(OUTDIR)
+    files = listdir(DATASET)
     with mp.Pool(mp.cpu_count()) as p : 
-        p.map(processDir, listdir(DATASET), chunksize=30)
+        list(tqdm(p.imap(processDir, files, chunksize=30), total=len(files)))

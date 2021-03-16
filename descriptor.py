@@ -82,7 +82,7 @@ def bb (doc, i) :
     x1, x2, y1, y2 = path.bbox()
     return [x1, y1, x2 - x1, y2 - y1]
 
-def relbb (doc, i, docbb, **kwargs) :
+def relbb (doc, i, **kwargs) :
     """ 
     Compute the relative bounding box
     of the path with respect to the 
@@ -95,6 +95,7 @@ def relbb (doc, i, docbb, **kwargs) :
     docbb : list
         The svg document's bounding box.
     """
+    docbb = doc.get_viewbox()
     path = cachedFlattenPaths(doc)[i].path
     xmin, xmax, ymin, ymax = path.bbox()
     x1 = (xmin - docbb[0]) / (docbb[2] - docbb[0])

@@ -228,7 +228,7 @@ def train (name) :
     )
     # Load pretrained path module
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    MODEL_INIT_PATH = os.path.join(BASE_DIR, "results", "suggeroRetrain")
+    MODEL_INIT_PATH = os.path.join(BASE_DIR, "results", "suggero_v2")
     MERGE_OUTPUT = os.path.join(BASE_DIR, "results", name)
     # Initiate main model.
     model = TripletNet(dict(hidden_size=100)).float()

@@ -48,9 +48,9 @@ class TripletSVGData (nx.DiGraph) :
         self.doc.normalize_viewbox()
         docViewBox = self.doc.get_viewbox()
         paths = cachedFlattenPaths(self.doc)
-        paths = [p for p in paths if not isDegenerateBBox(relbb(p.path, docViewBox))]
+        paths = [p for i, p in enumerate(paths) if not isDegenerateBBox(relbb(self.doc, i))]
         self.nPaths = len(paths)
-        self.pathViewBoxes = [bb(p.path) for p in paths]
+        self.pathViewBoxes = [bb(self.doc, i) for i, p in enumerate(paths)]
         with open(svgFile) as fd : 
             self.svg = fd.read()
         for r in [r for r in self.nodes if self.in_degree(r) == 0] : 
