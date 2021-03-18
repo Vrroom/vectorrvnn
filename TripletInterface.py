@@ -170,7 +170,7 @@ class TripletInterface (ttools.ModelInterface) :
         ret['hardRatio'] = result['hardRatio'].item()
         self.logParameterNorms(ret)
         self.logGradients(ret)
-        self.fillEstimates(ret, self.dataset)
+        # self.fillEstimates(ret, self.dataset)
         self.logInitDiff(ret)
         return ret
 
@@ -210,7 +210,7 @@ class TripletInterface (ttools.ModelInterface) :
 def train (name) : 
     with open('./commonConfig.json') as fd : 
         config = json.load(fd)
-    trainData = TripletSVGDataSet('train.pkl')
+    trainData = TripletSVGDataSet('train64.pkl')
     dataLoader = torch.utils.data.DataLoader(
         trainData, 
         batch_size=32, 
@@ -218,7 +218,7 @@ def train (name) :
         pin_memory=True,
         collate_fn=lambda x : aggregateDict(x, torch.stack)
     )
-    cvData = TripletSVGDataSet('cv.pkl')
+    cvData = TripletSVGDataSet('cv64.pkl')
     val_dataloader = torch.utils.data.DataLoader(
         cvData, 
         batch_size=128, 
@@ -228,7 +228,7 @@ def train (name) :
     )
     # Load pretrained path module
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    MODEL_INIT_PATH = os.path.join(BASE_DIR, "results", "suggero_v2")
+    MODEL_INIT_PATH = os.path.join(BASE_DIR, "results", "suggero_64_v2")
     MERGE_OUTPUT = os.path.join(BASE_DIR, "results", name)
     # Initiate main model.
     model = TripletNet(dict(hidden_size=100)).float()
@@ -241,8 +241,8 @@ def train (name) :
     named_children = [n for n, _ in model.named_children()]
     named_grad = [f'{n}_grad' for n in named_children]
     named_wd = [f'{n}_wd' for n in named_children]
-    keys = ["loss", "hardRatio", "avg-distance", "centroid-distance", *named_grad, *named_wd, 'initdiff']
-    val_keys=keys[:3]
+    keys = ["loss", "hardRatio", *named_grad, *named_wd, 'initdiff']
+    val_keys=keys[:2]
     trainer.add_callback(ttools.callbacks.CheckpointingCallback(checkpointer))
     trainer.add_callback(ttools.callbacks.ProgressBarCallback(keys=val_keys, val_keys=val_keys))
     trainer.add_callback(ImageCallback(env=name + "_vis", win="samples", port=port, frequency=50))

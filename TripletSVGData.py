@@ -60,7 +60,7 @@ class TripletSVGData (nx.DiGraph) :
         self.bigImage = np.pad(self.bigImage, ((150, 150), (150, 150), (0, 0)), mode='constant')
         self.pathRasters = []
         for i, p in enumerate(paths) : 
-            self.pathRasters.append(SVGSubset2NumpyImage2(self.doc, (i,), 32, 32, alpha=True))
+            self.pathRasters.append(SVGSubset2NumpyImage2(self.doc, (i,), 64, 64, alpha=True))
         self._pathSet2Tuple()
         self._computeNodeImages()
 
@@ -102,7 +102,7 @@ class TripletSVGData (nx.DiGraph) :
         f = lambda x : int(300 * ((x - docXm) / docH) + 150)
         g = lambda y : int(300 * ((y - docYm) / docW) + 150)
         im = self.bigImage[g(box[1]):g(box[1]+box[3]), f(box[0]):f(box[0]+box[2]), :]
-        return transform.resize(im, (32, 32))
+        return transform.resize(im, (64, 64))
 
     def _computeNodeImages (self) : 
         for n in self.nodes : 

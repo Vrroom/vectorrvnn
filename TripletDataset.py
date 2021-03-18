@@ -1,6 +1,6 @@
 import os
 import os.path as osp
-import pickle
+import _pickle as cPickle
 import random
 from torchvision import transforms as T
 import multiprocessing as mp
@@ -14,13 +14,14 @@ from TripletSVGData import TripletSVGData
 from treeOps import *
 from itertools import starmap, product
 from more_itertools import unzip, chunked
+from functools import lru_cache
 from tqdm import tqdm
 import h5py 
 
 class Saveable () :
     def save (self, savePath) : 
         with open(savePath, 'wb') as fd :
-            pickle.dump(self, fd)
+            cPickle.dump(self, fd)
 
 def tryTripletSVGData (i, j) :
     try : 
@@ -28,31 +29,31 @@ def tryTripletSVGData (i, j) :
     except Exception : 
         return None
 
-def generateSuggeroData (dataDir, pickleDir) : 
+def generateSuggeroData (dataDir, cPickleDir) : 
     dataPts = list(map(listdir, listdir(dataDir)))
-    _, pickles = unzip(dataPts)
-    pickles = list(pickles)
+    _, cPickles = unzip(dataPts)
+    cPickles = list(cPickles)
     svgFiles =  []
     for f, _ in dataPts : 
         with open(f) as fp : 
             svgFiles.append(fp.read().strip())
-    pts = list(zip(svgFiles, pickles))
+    pts = list(zip(svgFiles, cPickles))
     chunkedPts = list(chunked(pts, len(pts) // 100))
     for i, chunk in enumerate(tqdm(chunkedPts)) : 
         with mp.Pool(maxtasksperchild=30) as p : 
             svgDatas = list(p.starmap(tryTripletSVGData, chunk, chunksize=12))
-        pickleFileName = osp.join(pickleDir, f'{i}.pkl')
-        with open(pickleFileName, 'wb') as fd : 
-            pickle.dump(svgDatas, fd)
+        cPickleFileName = osp.join(cPickleDir, f'{i}.pkl')
+        with open(cPickleFileName, 'wb') as fd : 
+            cPickle.dump(svgDatas, fd)
 
-def generateAnnotatedData (dataDir, pickleFileName) : 
+def generateAnnotatedData (dataDir, cPickleFileName) : 
     dataPts = map(listdir, listdir(dataDir))
     removeTxt = lambda x : filter(lambda y : not y.endswith('txt'), x)
     dataPts = list(map(lambda x : list(removeTxt(reversed(x))), dataPts))
     with mp.Pool(maxtasksperchild=30) as p : 
         svgDatas = list(p.starmap(tryTripletSVGData, dataPts))
-    with open(pickleFileName, 'wb') as fd : 
-        pickle.dump(svgDatas, fd)
+    with open(cPickleFileName, 'wb') as fd : 
+        cPickle.dump(svgDatas, fd)
 
 class TripletSampler () : 
     def __init__ (self, data, length, seed=0, val=False) :
@@ -110,23 +111,44 @@ def whiteBackgroundTransform (im) :
     destination = 1 * np.ones_like(source)
     return alpha * source + (1 - alpha) * destination
 
+class PickleDataset (data.Dataset) :
+
+    def __init__ (self, cPickleDir, transform=None) :
+        super(PickleDataset, self).__init__()
+        self.files = listdir(cPickleDir)
+
+    @lru_cache(maxsize=4)
+    def __getitem__ (self, idx) :
+        fname = self.files[idx]
+        with open(fname, 'rb') as fp : 
+            t = cPickle.load(fp)
+        return t
+
+    def __len__ (self) :
+        return len(self.files)
+
+def getData (f) : 
+    with open(f, 'rb') as fp : 
+        t = cPickle.load(fp)
+    del t.bigImage
+    del t.doc
+    del t.svg
+    return t
+
 class TripletSVGDataSet (data.Dataset, Saveable) : 
     """
     Pre-processed trees from clustering algorithm.
     """
-    def __init__ (self, pickleDir, transform=None) : 
+    def __init__ (self, cPickleDir, transform=None) : 
         super(TripletSVGDataSet, self).__init__() 
-        with open(pickleDir, 'rb') as fd :
-            self.svgDatas = pickle.load(fd)
-        #files = listdir(pickleDir)
-        #self.svgDatas = []
-        #for f in tqdm(files) :
-        #    with open(f, 'rb') as fd :
-        #        data = pickle.load(fd)
-        #    data = list(filter(lambda x : x is not None, data))
-        #    for i, _ in enumerate(data) :
-        #        del data[i].bigImage
-        #    self.svgDatas.extend(data)
+        with open(cPickleDir, 'rb') as fd :
+            self.svgDatas = cPickle.load(fd)
+        
+        #files = listdir(cPickleDir)
+        #n = len(files)
+        #with mp.Pool() as p : 
+        #    self.svgDatas = list(tqdm(p.imap(getData, files[:int(0.7 * n)])))
+
         mean = [0.17859975,0.16340605,0.12297418,0.35452954]
         std = [0.32942199,0.30115585,0.25773552,0.46831796]
         self.transform = T.Compose([
@@ -171,7 +193,7 @@ if __name__ == "__main__" :
     import json
     with open('commonConfig.json') as fd : 
         commonConfig = json.load(fd)
-    generateSuggeroData('./unsupervised_v2', commonConfig['suggero_pickles'])
-    # generateAnnotatedData(commonConfig['train_directory'], 'train.pkl')
-    # generateAnnotatedData(commonConfig['test_directory'], 'test.pkl')
-    # generateAnnotatedData('ManuallyAnnotatedDataset_v2/Val', 'cv.pkl')
+    # generateSuggeroData('./unsupervised_v2', commonConfig['suggero_pickles'])
+    generateAnnotatedData(commonConfig['train_directory'], 'train64.pkl')
+    generateAnnotatedData(commonConfig['test_directory'], 'test64.pkl')
+    generateAnnotatedData('ManuallyAnnotatedDataset_v2/Val', 'cv64.pkl')
