@@ -25,16 +25,14 @@ from scipy.cluster.hierarchy import linkage
 
 def smallConvNet () : 
     return nn.Sequential(
-        convLayer(4, 16, 5, 1),
-        nn.MaxPool2d(2),
-        convLayer(16, 32, 3, 1),
-        nn.MaxPool2d(2), 
-        convLayer(32, 64, 3, 1),
-        nn.MaxPool2d(2), 
-        convLayer(64, 128, 2, 2),
-        nn.AdaptiveAvgPool2d((1, 1)),
+        convLayer(4, 32, 5, 1),
+        convLayer(32, 32, 5, 2),
+        convLayer(32, 64, 5, 1),
+        convLayer(64, 64, 5, 2),
+        convLayer(64, 64, 4, 2),
+        convLayer(64, 64, 4, 2),
         nn.Flatten(),
-        #nn.Linear(5 * 5 * 64, 128)
+        nn.Linear(1024, 128)
     )
 
 mean = [0.17859975,0.16340605,0.12297418,0.35452954]
@@ -178,7 +176,7 @@ def getModel(name) :
     model = TripletNet(dict(hidden_size=100))
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     MODEL_DIR = os.path.join(BASE_DIR, 'results', name)
-    state_dict = torch.load(os.path.join(MODEL_DIR, "training_end.pth"), map_location=torch.device('cpu'))
+    state_dict = torch.load(os.path.join(MODEL_DIR, "epoch_4.pth"), map_location=torch.device('cpu'))
     model.load_state_dict(state_dict['model'])
     model = model.float()
     model.to("cuda")
@@ -186,9 +184,9 @@ def getModel(name) :
     return model
 
 if __name__ == "__main__" : 
-    testData = TripletSVGDataSet('cv.pkl').svgDatas
+    testData = TripletSVGDataSet('cv64.pkl').svgDatas
     testData = [t for t in testData if t.nPaths < 50]
-    model = getModel("suggero_64_v2")
+    model = getModel("triplet_suggero_svgvae_64_v2")
     scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
     testData = list(map(treeify, testData))
     inferredTrees = [model.greedyTree(t) for t in tqdm(testData)]

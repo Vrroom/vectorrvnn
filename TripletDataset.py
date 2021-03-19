@@ -147,7 +147,7 @@ class TripletSVGDataSet (data.Dataset, Saveable) :
         #files = listdir(cPickleDir)
         #n = len(files)
         #with mp.Pool() as p : 
-        #    self.svgDatas = list(tqdm(p.imap(getData, files[:int(0.7 * n)])))
+        #    self.svgDatas = list(tqdm(p.imap(getData, files[:int(0.6 * n)])))
 
         mean = [0.17859975,0.16340605,0.12297418,0.35452954]
         std = [0.32942199,0.30115585,0.25773552,0.46831796]

@@ -14,8 +14,10 @@ class MyBN (nn.BatchNorm2d) :
         return thing
 
 def convLayer (in_channel, out_channel, kernel_size, stride) :
+    padding = kernel_size // 2 - (0 if kernel_size % 2 == 1 else 1)
     return nn.Sequential(
-        nn.Conv2d(in_channel, out_channel, kernel_size, stride),
+        nn.Conv2d(in_channel, out_channel, kernel_size, stride, padding),
+        nn.InstanceNorm2d(out_channel),
         nn.ReLU()
     )
 

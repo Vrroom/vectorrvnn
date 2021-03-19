@@ -120,12 +120,12 @@ class TripletInterface (ttools.ModelInterface) :
             ret['avg-distance'] = e1.item()
             ret['centroid-distance'] = e2.item()
 
-    def logInitDiff (self, ret) : 
-        with torch.no_grad() :
-            ret['initdiff'] = 0
-            now = self.model.state_dict()
-            for k in now.keys () :
-                ret['initdiff'] += torch.linalg.norm(now[k] - self.init[k]).item()
+    #def logInitDiff (self, ret) : 
+    #    with torch.no_grad() :
+    #        ret['initdiff'] = 0
+    #        now = self.model.state_dict()
+    #        for k in now.keys () :
+    #            ret['initdiff'] += torch.linalg.norm(now[k] - self.init[k]).item()
 
     def forward (self, batch) : 
         im = batch['im'].cuda()
@@ -171,7 +171,7 @@ class TripletInterface (ttools.ModelInterface) :
         self.logParameterNorms(ret)
         self.logGradients(ret)
         # self.fillEstimates(ret, self.dataset)
-        self.logInitDiff(ret)
+        # self.logInitDiff(ret)
         return ret
 
     def init_validation(self):
@@ -228,7 +228,7 @@ def train (name) :
     )
     # Load pretrained path module
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    MODEL_INIT_PATH = os.path.join(BASE_DIR, "results", "suggero_64_v2")
+    MODEL_INIT_PATH = os.path.join(BASE_DIR, "results", "suggero_64_svgvae_v2")
     MERGE_OUTPUT = os.path.join(BASE_DIR, "results", name)
     # Initiate main model.
     model = TripletNet(dict(hidden_size=100)).float()
@@ -241,7 +241,7 @@ def train (name) :
     named_children = [n for n, _ in model.named_children()]
     named_grad = [f'{n}_grad' for n in named_children]
     named_wd = [f'{n}_wd' for n in named_children]
-    keys = ["loss", "hardRatio", *named_grad, *named_wd, 'initdiff']
+    keys = ["loss", "hardRatio", *named_grad, *named_wd] #, 'initdiff']
     val_keys=keys[:2]
     trainer.add_callback(ttools.callbacks.CheckpointingCallback(checkpointer))
     trainer.add_callback(ttools.callbacks.ProgressBarCallback(keys=val_keys, val_keys=val_keys))
