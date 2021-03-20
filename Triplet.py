@@ -1,4 +1,5 @@
 import torch
+from sklearn import metrics
 from dictOps import *
 from functools import lru_cache
 from itertools import starmap, combinations
@@ -22,25 +23,33 @@ from TripletDataset import *
 from torchvision import transforms as T
 from more_itertools import collapse
 from scipy.cluster.hierarchy import linkage
+import torchvision.models as models
+
+def set_parameter_requires_grad(model, feature_extracting):
+    if feature_extracting:
+        for param in model.parameters():
+            param.requires_grad = False
 
 def smallConvNet () : 
+    model = nn.Sequential(
+        models.resnet50().float(),
+        nn.Linear(1000, 20)
+    )
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    MODEL_DIR = os.path.join(BASE_DIR, 'results', 'bam')
+    state_dict = torch.load(os.path.join(MODEL_DIR, "training_end.pth"))
+    model.load_state_dict(state_dict['model'])
+    set_parameter_requires_grad(model[0], True)
     return nn.Sequential(
-        convLayer(4, 32, 5, 1),
-        convLayer(32, 32, 5, 2),
-        convLayer(32, 64, 5, 1),
-        convLayer(64, 64, 5, 2),
-        convLayer(64, 64, 4, 2),
-        convLayer(64, 64, 4, 2),
-        nn.Flatten(),
-        nn.Linear(1024, 128)
+        model[0],
+        nn.Linear(1000, 128)
     )
 
-mean = [0.17859975,0.16340605,0.12297418,0.35452954]
-std = [0.32942199,0.30115585,0.25773552,0.46831796]
+mean = [0.485, 0.456, 0.406]
+std = [0.229, 0.224, 0.225]
 transform = T.Compose([
-    lambda t : torch.from_numpy(t),
-    lambda t : t.float(),
-    lambda t : t.permute((2, 0, 1)),
+    T.ToTensor(),
+    whiteBackgroundTransform,
     T.Normalize(mean=mean, std=std),
     lambda t : t.cuda(),
     lambda t : t.unsqueeze(0)
@@ -176,7 +185,7 @@ def getModel(name) :
     model = TripletNet(dict(hidden_size=100))
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     MODEL_DIR = os.path.join(BASE_DIR, 'results', name)
-    state_dict = torch.load(os.path.join(MODEL_DIR, "epoch_4.pth"), map_location=torch.device('cpu'))
+    state_dict = torch.load(os.path.join(MODEL_DIR, "epoch_2.pth"), map_location=torch.device('cpu'))
     model.load_state_dict(state_dict['model'])
     model = model.float()
     model.to("cuda")
@@ -184,12 +193,14 @@ def getModel(name) :
     return model
 
 if __name__ == "__main__" : 
-    testData = TripletSVGDataSet('cv64.pkl').svgDatas
+    with open('cv64.pkl', 'rb') as fp : 
+        testData = pickle.load(fp)
     testData = [t for t in testData if t.nPaths < 50]
-    model = getModel("triplet_suggero_svgvae_64_v2")
+    model = getModel("suggero_pretrained_bam")
     scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
     testData = list(map(treeify, testData))
     inferredTrees = [model.greedyTree(t) for t in tqdm(testData)]
+    print(avgMetric(testData, inferredTrees, 1, metrics.fowlkes_mallows_score))
     scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
     print(np.mean(scores))
     #for gt, t in tqdm(list(zip(testData, inferredTrees))): 

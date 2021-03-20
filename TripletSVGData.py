@@ -17,6 +17,10 @@ from torchUtils import imageForResnet
 from itertools import product
 from more_itertools import unzip
 from functools import lru_cache
+import os
+import os.path as osp
+from osTools import *
+import matplotlib.pyplot as plt
 
 def isDegenerateBBox (box) :
     _, _, h, w = box
@@ -126,3 +130,26 @@ class TripletSVGData (nx.DiGraph) :
             co[(ao > 0).squeeze()] /= ao[(ao > 0).squeeze()]
             o = np.concatenate((co, ao), axis=2)
             return o
+    
+    def mkdir (self, dname) :
+        if not osp.exists(dname) : 
+            os.mkdir(dname)
+
+    def write (self, root) : 
+        dname = osp.join(root, getBaseName(self.svgFile))
+        self.mkdir(dname)
+        cropDir = osp.join(dname, 'crop')
+        wholeDir = osp.join(dname, 'whole')
+        self.mkdir(cropDir)
+        self.mkdir(wholeDir)
+        for n in self.nodes : 
+            fname1 = osp.join(cropDir, f'{n}.png')
+            fname2 = osp.join(wholeDir, f'{n}.png')
+            plt.imsave(fname1, self.nodes[n]['crop'])
+            plt.imsave(fname2, self.nodes[n]['whole'])
+        treeCopy = nx.DiGraph()
+        treeCopy.update(self)
+        for n in treeCopy.nodes : 
+            del treeCopy.nodes[n]['crop']
+            del treeCopy.nodes[n]['whole']
+        nx.write_gpickle(treeCopy, osp.join(dname, 'tree.pkl'))

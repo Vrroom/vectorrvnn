@@ -235,6 +235,7 @@ class KernelCallback (ttools.callbacks.ImageDisplayCallback) :
             n = math.isqrt(N)
             viz =  torch.stack([torch.cat(chunks[i*n: (i+1)*n], 1) for i in range(n)])
             viz = viz[:, :3, :, :]
+            viz = (viz - viz.min()) / (viz.max() - viz.min())
             return viz
 
     def caption(self, batch, step_data, is_val):
@@ -258,9 +259,9 @@ class ImageCallback(ttools.callbacks.ImageDisplayCallback):
             minus = torch.cat((minusCrop, minusWhole), 2)
             viz = torch.cat([im, ref, plus, minus], 3)
             viz = (viz - viz.min()) / (viz.max() - viz.min())
-            ones_like = 0.9 * torch.ones_like(viz[:, :3, :, :])
-            alpha = viz[:, 3:, :, :]
-            viz = alpha * viz[:, :3, :, :] + (1 - alpha) * ones_like
+            # ones_like = 0.9 * torch.ones_like(viz[:, :3, :, :])
+            # alpha = viz[:, 3:, :, :]
+            # viz = alpha * viz[:, :3, :, :] + (1 - alpha) * ones_like
             return viz
         except Exception :
             return torch.ones((1, 3, 64, 128))
@@ -270,4 +271,16 @@ class ImageCallback(ttools.callbacks.ImageDisplayCallback):
         refMinus = int(batch['refMinus'][0].cpu())
         refPlus = int(batch['refPlus'][0].cpu())
         return f'{refMinus} / {refPlus}'
+
+class BamImageCallback(ttools.callbacks.ImageDisplayCallback):
+    def visualized_image(self, batch, step_data, is_val):
+        ims = batch[0][:16].cpu()
+        ims = (ims - ims.min()) / (ims.max() - ims.min())
+        return ims
+        
+    def caption(self, batch, step_data, is_val):
+        # write some informative caption into the visdom window
+        labels = batch[1][:10].cpu()
+        labels = [str(int(l)) for l in labels]
+        return ', '.join(labels)
 

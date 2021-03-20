@@ -103,22 +103,64 @@ class SuggeroPretrainInterface (ttools.ModelInterface) :
         self.opt.step()
         ret['mask'] = mask
         ret["loss"] = loss.item()
-        ret["conv-first-layer-kernel"] = self.model.conv[0][0].weight
+        ret["conv-first-layer-kernel"] = self.model.conv[0].conv1.weight
         ret['dratio'] = dratio
         ret['hardRatio'] = result['hardRatio'].item()
         self.logParameterNorms(ret)
         self.logGradients(ret)
         return ret
 
+    def init_validation(self):
+        return {"count1": 0, "count2": 0, "loss": 0, "dratio": None, "ratio": None, "hardRatio": 0, "mask": None}
+
+    def validation_step(self, batch, running_data) : 
+        self.model.eval()
+        with torch.no_grad():
+            ratio = batch['refMinus'] / batch['refPlus']
+            result = self.forward(batch)
+            dratio = result['dratio']
+            dplus2 = result['dplus_']
+            mask = result['mask']
+            hardRatio = result['hardRatio'].item()
+            loss = dplus2.mean().item()
+            n = ratio.numel()
+            n_ = dplus2.numel()
+            count1 = running_data['count1']
+            count2 = running_data['count2']
+            cumLoss = (running_data["loss"] * count1 + loss * n_) / (count1 + n_)
+            hardRatio_ = (running_data["hardRatio"] * count2 + hardRatio * n) / (count2 + n)
+            dratio_ = dratio if running_data['dratio'] is None else torch.cat([running_data['dratio'], dratio])
+            ratio_ = ratio if running_data['ratio'] is None else torch.cat([running_data['ratio'], ratio])
+        ret = {
+            "loss" : cumLoss,
+            "count1": count1 + n_, 
+            "count2": count2 + n, 
+            "dratio": dratio_,
+            "ratio": ratio_,
+            "hardRatio": hardRatio_,
+            'mask': mask
+        }
+        return ret
+
 def train (name) : 
     with open('./commonConfig.json') as fd : 
         config = json.load(fd)
-    trainData = TripletSVGDataSet(config['suggero_pickles'])
+    trainData = TripletSVGDataSet(osp.join(config['suggero_pickles'], 'train'))
+    valData = TripletSVGDataSet(osp.join(config['suggero_pickles'], 'val'))
     dataLoader = torch.utils.data.DataLoader(
         trainData, 
-        batch_size=32, 
-        sampler=TripletSampler(trainData.svgDatas, 10000),
+        batch_size=512, 
+        sampler=TripletSampler(trainData.svgDatas, 640000),
         pin_memory=True,
+        num_workers=6,
+        collate_fn=lambda x : aggregateDict(x, torch.stack)
+    )
+    val_dataloader = torch.utils.data.DataLoader(
+        valData, 
+        batch_size=128, 
+        sampler=TripletSampler(valData.svgDatas, 64000, True),
+        pin_memory=True,
+        num_workers=6,
         collate_fn=lambda x : aggregateDict(x, torch.stack)
     )
     # Load pretrained path module
@@ -143,7 +185,7 @@ def train (name) :
     trainer.add_callback(SchedulerCallback(interface.sched))
     trainer.add_callback(KernelCallback("conv-first-layer-kernel", win="kernel", env=name + "_kernel", port=port, frequency=100))
     # Start training
-    trainer.train(dataLoader, num_epochs=400)
+    trainer.train(dataLoader, num_epochs=400, val_dataloader=val_dataloader)
 
 if __name__ == "__main__" : 
     import sys

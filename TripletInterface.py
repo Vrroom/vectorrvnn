@@ -65,68 +65,6 @@ class TripletInterface (ttools.ModelInterface) :
                 wd /= len(list(module.parameters())) + 1
                 ret[f'{name}_wd'] = wd.item()
         
-    @lru_cache(maxsize=128)
-    def getNodeEmbedding (self, tId, node, dataset) : 
-        pt = dataset.getNodeInput(tId, node)
-        im    = pt['im'].cuda()
-        crop  = pt['crop'].cuda()
-        whole = pt['whole'].cuda()
-        return self.model.embedding(im, crop, whole)
-
-    def parentAndChildrenEmbeddings(self, tId, p, dataset) :
-        t = dataset.svgDatas[tId]
-        children = list(t.neighbors(p))
-        pEmbedding = self.getNodeEmbedding(tId, p, dataset)
-        childrenEmbedding = [self.getNodeEmbedding(tId, c, dataset) for c in children]
-        return (pEmbedding, childrenEmbedding)
-
-    def parent2ChildrenAvgDistance (self, tId, p, dataset) : 
-        pEmbedding, childrenEmbedding = self.parentAndChildrenEmbeddings(tId, p, dataset) 
-        val = avg([torch.linalg.norm(cEmbedding - pEmbedding) for cEmbedding in childrenEmbedding])
-        return val
-
-    def parent2ChildrenCentroidDistance (self, tId, p, dataset) : 
-        pEmbedding, childrenEmbedding = self.parentAndChildrenEmbeddings(tId, p, dataset) 
-        centroid = avg(childrenEmbedding)
-        return torch.linalg.norm(pEmbedding - centroid)
-
-    def parent2ChildrenSubspaceProjection (self, tId, p, dataset) : 
-        pEmbedding, childrenEmbedding = self.parentAndChildrenEmbeddings(tId, p, dataset) 
-        A = torch.stack(childrenEmbedding).squeeze()
-        x = A.t() @ torch.inverse(A @ A.t()) @ A @ pEmbedding.t()
-        x = x.t()
-        return torch.linalg.norm(pEmbedding - x)
-    
-    def sampleTP (self, dataset) : 
-        try :
-            tId = random.randint(0, len(dataset.svgDatas) - 1)
-            t = dataset.svgDatas[tId]
-            p   = random.sample([n for n in t.nodes if t.out_degree(n) > 0], k = 1).pop()
-        except Exception : 
-            return self.sampleTP(dataset)
-        return tId, p
-
-    def estimate (self, metric, dataset) : 
-        estimates = []
-        for i in range(10) : 
-            tId, p = self.sampleTP(dataset)
-            estimates.append(metric(tId, p, dataset))
-        return avg(estimates)
-
-    def fillEstimates (self, ret, dataset) : 
-        with torch.no_grad(): 
-            e1 = self.estimate(self.parent2ChildrenAvgDistance, dataset)
-            e2 = self.estimate(self.parent2ChildrenCentroidDistance, dataset)
-            ret['avg-distance'] = e1.item()
-            ret['centroid-distance'] = e2.item()
-
-    #def logInitDiff (self, ret) : 
-    #    with torch.no_grad() :
-    #        ret['initdiff'] = 0
-    #        now = self.model.state_dict()
-    #        for k in now.keys () :
-    #            ret['initdiff'] += torch.linalg.norm(now[k] - self.init[k]).item()
-
     def forward (self, batch) : 
         im = batch['im'].cuda()
         refCrop = batch['refCrop'].cuda()
@@ -170,8 +108,6 @@ class TripletInterface (ttools.ModelInterface) :
         ret['hardRatio'] = result['hardRatio'].item()
         self.logParameterNorms(ret)
         self.logGradients(ret)
-        # self.fillEstimates(ret, self.dataset)
-        # self.logInitDiff(ret)
         return ret
 
     def init_validation(self):

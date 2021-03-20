@@ -17,6 +17,7 @@ from more_itertools import unzip, chunked
 from functools import lru_cache
 from tqdm import tqdm
 import h5py 
+from PIL import Image
 
 class Saveable () :
     def save (self, savePath) : 
@@ -97,18 +98,18 @@ class TripletSampler () :
         return self.length
 
 def lightBackgroundTransform (im) : 
-    source = im[:, :, :3]
-    alpha = im[:, :, 3:]
-    destination = np.zeros_like(source)
-    destination[:, :, 0] = random.uniform(0.5, 1)
-    destination[:, :, 1] = random.uniform(0.5, 1)
-    destination[:, :, 2] = random.uniform(0.5, 1)
+    source = im[:3, :, :]
+    alpha = im[3:, :, :]
+    destination = torch.zeros_like(source)
+    destination[0, :, :] = random.uniform(0.5, 1)
+    destination[1, :, :] = random.uniform(0.5, 1)
+    destination[2, :, :] = random.uniform(0.5, 1)
     return alpha * source + (1 - alpha) * destination
 
 def whiteBackgroundTransform (im) : 
-    source = im[:, :, :3]
-    alpha = im[:, :, 3:]
-    destination = 1 * np.ones_like(source)
+    source = im[:3, :, :]
+    alpha = im[3:, :, :]
+    destination = 0.7 * torch.ones_like(source)
     return alpha * source + (1 - alpha) * destination
 
 class PickleDataset (data.Dataset) :
@@ -127,34 +128,21 @@ class PickleDataset (data.Dataset) :
     def __len__ (self) :
         return len(self.files)
 
-def getData (f) : 
-    with open(f, 'rb') as fp : 
-        t = cPickle.load(fp)
-    del t.bigImage
-    del t.doc
-    del t.svg
-    return t
-
 class TripletSVGDataSet (data.Dataset, Saveable) : 
     """
     Pre-processed trees from clustering algorithm.
     """
-    def __init__ (self, cPickleDir, transform=None) : 
+    def __init__ (self, root, transform=None) : 
         super(TripletSVGDataSet, self).__init__() 
-        with open(cPickleDir, 'rb') as fd :
-            self.svgDatas = cPickle.load(fd)
-        
-        #files = listdir(cPickleDir)
-        #n = len(files)
-        #with mp.Pool() as p : 
-        #    self.svgDatas = list(tqdm(p.imap(getData, files[:int(0.6 * n)])))
-
-        mean = [0.17859975,0.16340605,0.12297418,0.35452954]
-        std = [0.32942199,0.30115585,0.25773552,0.46831796]
+        self.files = listdir(root)
+        self.svgDatas = []
+        for f in tqdm(self.files) : 
+            self.svgDatas.append(nx.read_gpickle(osp.join(f, 'tree.pkl')))
+        mean = [0.485, 0.456, 0.406]
+        std = [0.229, 0.224, 0.225]
         self.transform = T.Compose([
-            torch.from_numpy,
-            lambda t : t.float(),
-            lambda t : t.permute((2, 0, 1)),
+            T.ToTensor(),
+            whiteBackgroundTransform,
             T.Normalize(mean=mean, std=std)
         ])
         if transform is not None : 
@@ -166,17 +154,23 @@ class TripletSVGDataSet (data.Dataset, Saveable) :
         crop = self.transform(t.nodes[node]['crop']).unsqueeze(0)
         whole = self.transform(t.nodes[node]['whole']).unsqueeze(0)
         return dict(im=im, crop=crop, whole=whole)
+
+    def loadImage (self, fname, imageType, node, fromFile=True) : 
+        with open(osp.join(fname, imageType, f'{node}.png'), 'rb') as f : 
+            img = Image.open(f)
+            return img.convert('RGBA')
         
     def __getitem__ (self, index) :
         tId, ref, plus, minus, refPlus, refMinus = index
+        fname = self.files[tId]
         t = self.svgDatas[tId]
-        im         = self.transform(t.nodes[findRoot(t)]['whole'])
-        refCrop    = self.transform(t.nodes[ref  ]['crop' ])
-        refWhole   = self.transform(t.nodes[ref  ]['whole'])
-        plusCrop   = self.transform(t.nodes[plus ]['crop' ])
-        plusWhole  = self.transform(t.nodes[plus ]['whole'])
-        minusCrop  = self.transform(t.nodes[minus]['crop' ])
-        minusWhole = self.transform(t.nodes[minus]['whole'])
+        im         = self.transform(self.loadImage(fname, 'whole', findRoot(t)))
+        refCrop    = self.transform(self.loadImage(fname, 'crop' , ref))
+        refWhole   = self.transform(self.loadImage(fname, 'whole', ref))
+        plusCrop   = self.transform(self.loadImage(fname, 'crop' , plus))
+        plusWhole  = self.transform(self.loadImage(fname, 'whole', plus))
+        minusCrop  = self.transform(self.loadImage(fname, 'crop' , minus))
+        minusWhole = self.transform(self.loadImage(fname, 'whole', minus))
         return dict(
             im=im,
             refCrop=refCrop,
