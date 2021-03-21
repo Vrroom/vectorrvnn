@@ -1,4 +1,5 @@
 import torch
+from sklearn import metrics
 from treeOps import *
 import random
 import numpy as np
@@ -246,6 +247,7 @@ class ImageCallback(ttools.callbacks.ImageDisplayCallback):
     def visualized_image(self, batch, step_data, is_val):
         try : 
             mask = step_data['mask']
+            mask = mask.view(-1)
             im = batch['im'][mask][0].cpu().unsqueeze(0)
             im = torch.cat((im, im), 2)
             refCrop  = batch['refCrop'][mask][0].cpu().unsqueeze(0)
@@ -263,7 +265,8 @@ class ImageCallback(ttools.callbacks.ImageDisplayCallback):
             # alpha = viz[:, 3:, :, :]
             # viz = alpha * viz[:, :3, :, :] + (1 - alpha) * ones_like
             return viz
-        except Exception :
+        except Exception as e:
+            print(e)
             return torch.ones((1, 3, 64, 128))
         
     def caption(self, batch, step_data, is_val):
@@ -283,4 +286,38 @@ class BamImageCallback(ttools.callbacks.ImageDisplayCallback):
         labels = batch[1][:10].cpu()
         labels = [str(int(l)) for l in labels]
         return ', '.join(labels)
+
+
+class MeasureFMI (ttools.callbacks.Callback) : 
+    def __init__(self, model, 
+            frequency=100, server=None, port=8097, 
+            base_url="/", env="main", log=False):
+        if server is None:
+            server = "http://localhost"
+        self._api = visdom.Visdom(server=server, port=port, env=env,
+                                  base_url=base_url)
+        if self._api.win_exists("val_FM"):
+            self._api.close("val_FM")
+        self._step = 0
+        self.model = model
+        self.frequency = frequency
+
+    def validation_start(self, dataloader) : 
+        super(MeasureFMI, self).validation_start(dataloader)
+        with open('cv64.pkl', 'rb') as fp : 
+            testData = pickle.load(fp)
+        self.model.eval()
+        with torch.no_grad() : 
+            testData = [t for t in testData if t.nPaths < 50]
+            testData = list(map(treeify, testData))
+            inferredTrees = [self.model.greedyTree(t) for t in tqdm(testData)]
+        score = avgMetric(testData, inferredTrees, 1, metrics.fowlkes_mallows_score)
+        opts=dict(
+            title="FMI", 
+            ylabel="FMIndex",
+            xlabel="Epoch"
+        )
+        t = self.epoch + 1
+        self._api.line([score], [t], win="val_FM", update="append", name="", opts=opts)
+
 

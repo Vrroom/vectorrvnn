@@ -31,18 +31,11 @@ def set_parameter_requires_grad(model, feature_extracting):
             param.requires_grad = False
 
 def smallConvNet () : 
-    model = nn.Sequential(
-        models.resnet50().float(),
-        nn.Linear(1000, 20)
-    )
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    MODEL_DIR = os.path.join(BASE_DIR, 'results', 'bam')
-    state_dict = torch.load(os.path.join(MODEL_DIR, "training_end.pth"))
-    model.load_state_dict(state_dict['model'])
-    set_parameter_requires_grad(model[0], True)
+    alexnet = models.alexnet(pretrained=True)
     return nn.Sequential(
-        model[0],
-        nn.Linear(1000, 128)
+        alexnet.features,
+        nn.Flatten(),
+        nn.Linear(256, 128)
     )
 
 mean = [0.485, 0.456, 0.406]
@@ -70,7 +63,7 @@ class TripletNet (nn.Module) :
         super(TripletNet, self).__init__() 
         self.hidden_size = config['hidden_size']
         self.conv = smallConvNet()
-        self.ALPHA = 1
+        self.ALPHA = 0.2
         self.nn = nn.Sequential(
             nn.Linear(3 * 128, self.hidden_size),
             nn.ReLU(),
@@ -93,14 +86,12 @@ class TripletNet (nn.Module) :
         refEmbed = self.embedding(im, refCrop, refWhole)
         plusEmbed = self.embedding(im, plusCrop, plusWhole)
         minusEmbed = self.embedding(im, minusCrop, minusWhole)
-        dplus  = torch.sqrt(1e-5 + torch.sum((plusEmbed  - refEmbed) ** 2, dim=1, keepdims=True))
-        dminus = torch.sqrt(1e-5 + torch.sum((minusEmbed - refEmbed) ** 2, dim=1, keepdims=True))
-        dplus_ = F.softmax(torch.cat((dplus, dminus), dim=1), dim=1)[:, 0]
-        mask = dplus_ > 0.4
+        dplus  = torch.sum((plusEmbed  - refEmbed) ** 2, dim=1, keepdims=True)
+        dminus = torch.sum((minusEmbed - refEmbed) ** 2, dim=1, keepdims=True)
+        mask = dplus > dminus
         hardRatio = mask.sum() / dplus.shape[0]
-        dplus_ = dplus_[mask]
         dratio = (dminus[mask] / dplus[mask])
-        dplus_ = dplus_ * refMinus[mask] / refPlus[mask]
+        dplus_ = F.relu((dplus - dminus + self.ALPHA)) # * refMinus / refPlus)
         return dict(dplus_=dplus_, dratio=dratio, hardRatio=hardRatio, mask=mask)
 
     def greedyTree (self, t, subtrees=None) : 
@@ -185,7 +176,7 @@ def getModel(name) :
     model = TripletNet(dict(hidden_size=100))
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     MODEL_DIR = os.path.join(BASE_DIR, 'results', name)
-    state_dict = torch.load(os.path.join(MODEL_DIR, "epoch_2.pth"), map_location=torch.device('cpu'))
+    state_dict = torch.load(os.path.join(MODEL_DIR, "training_end.pth"), map_location=torch.device('cpu'))
     model.load_state_dict(state_dict['model'])
     model = model.float()
     model.to("cuda")
@@ -196,7 +187,7 @@ if __name__ == "__main__" :
     with open('cv64.pkl', 'rb') as fp : 
         testData = pickle.load(fp)
     testData = [t for t in testData if t.nPaths < 50]
-    model = getModel("suggero_pretrained_bam")
+    model = getModel("suggero_pretrained_alexnet")
     scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
     testData = list(map(treeify, testData))
     inferredTrees = [model.greedyTree(t) for t in tqdm(testData)]

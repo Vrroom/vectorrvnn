@@ -1,4 +1,4 @@
-from functools import partial, reduce
+from functools import partial, reduce, lru_cache
 import itertools
 import more_itertools
 import networkx as nx
@@ -37,6 +37,7 @@ def lca (t, a, b, r) :
             break
     return r
 
+@lru_cache(maxsize=128)
 def lcaScore (t, a, b) : 
     if a == b : 
         return 0

@@ -29,7 +29,7 @@ LOG = ttools.get_logger(__name__)
 
 class SuggeroPretrainInterface (ttools.ModelInterface) : 
 
-    def __init__(self, model, dataset, val_dataset, lr=3e-4, cuda=True, max_grad_norm=10):
+    def __init__(self, model, dataset, val_dataset, lr=5e-2, cuda=True, max_grad_norm=10):
         super(SuggeroPretrainInterface, self).__init__()
         self.max_grad_norm = max_grad_norm
         self.model = model
@@ -41,9 +41,10 @@ class SuggeroPretrainInterface (ttools.ModelInterface) :
         if cuda:
             self.device = "cuda"
         self.model.to(self.device)
-        self.opt = optim.Adam(self.model.parameters(), lr=lr, weight_decay=1e-4)
-        milestones = [100, 150, 200, 250, 300, 350]
-        self.sched = MultiStepLR(self.opt, milestones, gamma=0.7, verbose=True)
+        self.opt = optim.SGD(self.model.parameters(), lr=lr)
+        # milestones = [100, 150, 200, 250, 300, 350]
+        milestones = list(range(1,100, 5))
+        self.sched = MultiStepLR(self.opt, milestones, gamma=0.93, verbose=True)
         self.init = deepcopy(self.model.state_dict())
 
     def logGradients (self, ret) : 
@@ -89,8 +90,6 @@ class SuggeroPretrainInterface (ttools.ModelInterface) :
         dplus2 = result['dplus_']
         dratio = result['dratio']
         mask = result['mask']
-        initLoss = 0
-        now = self.model.state_dict()
         loss = (dplus2.sum() / (dplus2.shape[0] + 1e-6))
         ret = {}
         # optimize
@@ -103,7 +102,7 @@ class SuggeroPretrainInterface (ttools.ModelInterface) :
         self.opt.step()
         ret['mask'] = mask
         ret["loss"] = loss.item()
-        ret["conv-first-layer-kernel"] = self.model.conv[0].conv1.weight
+        ret["conv-first-layer-kernel"] = self.model.conv[0][0].weight
         ret['dratio'] = dratio
         ret['hardRatio'] = result['hardRatio'].item()
         self.logParameterNorms(ret)
@@ -149,16 +148,16 @@ def train (name) :
     valData = TripletSVGDataSet(osp.join(config['suggero_pickles'], 'val'))
     dataLoader = torch.utils.data.DataLoader(
         trainData, 
-        batch_size=512, 
-        sampler=TripletSampler(trainData.svgDatas, 640000),
+        batch_size=128, 
+        sampler=TripletSampler(trainData.svgDatas, 256000),
         pin_memory=True,
         num_workers=6,
         collate_fn=lambda x : aggregateDict(x, torch.stack)
     )
     val_dataloader = torch.utils.data.DataLoader(
         valData, 
-        batch_size=128, 
-        sampler=TripletSampler(valData.svgDatas, 64000, True),
+        batch_size=2560, 
+        sampler=TripletSampler(valData.svgDatas, 25600, True),
         pin_memory=True,
         num_workers=6,
         collate_fn=lambda x : aggregateDict(x, torch.stack)
@@ -179,10 +178,11 @@ def train (name) :
     val_keys=keys[:2]
     trainer.add_callback(ttools.callbacks.CheckpointingCallback(checkpointer))
     trainer.add_callback(ttools.callbacks.ProgressBarCallback(keys=val_keys, val_keys=val_keys))
-    trainer.add_callback(ImageCallback(env=name + "_vis", win="samples", port=port, frequency=50))
+    trainer.add_callback(ImageCallback(env=name + "_vis", win="samples", port=port, frequency=5))
     trainer.add_callback(ttools.callbacks.VisdomLoggingCallback(
         keys=keys, val_keys=val_keys, env=name + "_training_plots", port=port, frequency=100))
     trainer.add_callback(SchedulerCallback(interface.sched))
+    trainer.add_callback(MeasureFMI(model, env=name+"_fmi"))
     trainer.add_callback(KernelCallback("conv-first-layer-kernel", win="kernel", env=name + "_kernel", port=port, frequency=100))
     # Start training
     trainer.train(dataLoader, num_epochs=400, val_dataloader=val_dataloader)

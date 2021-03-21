@@ -56,7 +56,7 @@ class BamInterface (ttools.ModelInterface) :
         self.opt.step()
         ret['loss'] = loss.item()
         ret['accuracy'] = accuracy.item()
-        ret["conv-first-layer-kernel"] = self.model[0].conv1.weight
+        ret["conv-first-layer-kernel"] = self.model.features[0].weight
         return ret
 
     def init_validation (self) : 
@@ -99,7 +99,7 @@ def train (name) :
     trainData, valData, _ = data.random_split(dataset, [trainN, valN, 0])
     dataLoader = data.DataLoader(
         trainData, 
-        batch_size=128, 
+        batch_size=64, 
         num_workers=6,
         shuffle=True,
         pin_memory=True
@@ -112,10 +112,8 @@ def train (name) :
     )
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     OUTPUT = os.path.join(BASE_DIR, "results", name)
-    model = nn.Sequential(
-        resnet50(pretrained=True).float(),
-        nn.Linear(1000, 20)
-    )
+    model = alexnet(pretrained=True)
+    model.classifier[6] = nn.Linear(4096, 20)
     checkpointer = ttools.Checkpointer(OUTPUT, model)
     interface = BamInterface(model, trainData)
     trainer = ttools.Trainer(interface)
