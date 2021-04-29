@@ -20,81 +20,106 @@ from torch import nn
 import torch.nn.functional as F
 from torchUtils import * 
 from TripletDataset import *
-from torchvision import transforms as T
+from torchvision.models import resnet50
 from more_itertools import collapse
 from scipy.cluster.hierarchy import linkage
 import torchvision.models as models
+from PositionalEncoding import PositionalEncoding
+import Constants as C
+import albumentations as A
+from albumentations.pytorch import ToTensorV2
 
-def set_parameter_requires_grad(model, feature_extracting):
-    if feature_extracting:
-        for param in model.parameters():
-            param.requires_grad = False
+def set_parameter_requires_grad(model, requires_grad):
+    for param in model.parameters():
+        param.requires_grad = requires_grad
 
-def smallConvNet () : 
-    alexnet = models.alexnet(pretrained=True)
-    return nn.Sequential(
-        alexnet.features,
-        nn.Flatten(),
-        nn.Linear(256, 128)
-    )
+def convnet () : 
+    # Load BAM! pretrained resnet50
+    BASE_DIR = os.path.dirname(os.path.abspath(''))
+    MODEL_DIR = os.path.join(BASE_DIR, 'vectorrvnn', 'results', 'bam_aug2')
+    model = resnet50(pretrained=True)
+    model.fc = nn.Linear(2048, 20)
+    state_dict = torch.load(os.path.join(MODEL_DIR, "epoch_15.pth"))
+    model.load_state_dict(state_dict['model'])
+    # Use the weights of the pretrained model to 
+    # create weights for the new model.
+    stitchedWts = model.fc.weight.repeat((C.embedding_size // 20 + 1, 1))[:C.embedding_size, :]
+    stitchedBias = model.fc.bias.repeat(C.embedding_size // 20 + 1)[:C.embedding_size]
+    model.fc = nn.Linear(2048, C.embedding_size)
+    model.fc.weight.data = stitchedWts
+    model.fc.bias.data = stitchedBias
+    # Use the convolutional part of resnet for feature extraction 
+    # only. Train only the fully connected layer on top.
+    set_parameter_requires_grad(model, False)
+    set_parameter_requires_grad(model.layer4, True)
+    set_parameter_requires_grad(model.fc, True)
+    # Make sure that parameters are floats 
+    # And load model on cuda!
+    model = model.float()
+    model.to("cuda")
+    return model
 
-mean = [0.485, 0.456, 0.406]
-std = [0.229, 0.224, 0.225]
-transform = T.Compose([
-    T.ToTensor(),
-    whiteBackgroundTransform,
-    T.Normalize(mean=mean, std=std),
-    lambda t : t.cuda(),
-    lambda t : t.unsqueeze(0)
+transform = A.Compose([
+    A.Normalize(mean=C.mean, std=C.std, max_pixel_value=1),
+    ToTensorV2()
 ])
 
 @lru_cache(maxsize=128)
 def getEmbedding (t, pathSet, embeddingFn): 
     pathSet = asTuple(pathSet)
     allPaths = tuple(leaves(t))
-    im    = transform(t.pathSetCrop(allPaths))
-    crop  = transform(t.pathSetCrop(pathSet)) 
-    whole = transform(t.alphaComposite(pathSet)) 
-    return embeddingFn(im, crop, whole) 
+    im    = whiteBackgroundTransform(t.alphaComposite(allPaths))
+    crop  = whiteBackgroundTransform(t.pathSetCrop(pathSet))
+    whole = whiteBackgroundTransform(t.alphaComposite(pathSet))
+    
+    im    = transform(image=im   )['image'].cuda().unsqueeze(0)
+    crop  = transform(image=crop )['image'].cuda().unsqueeze(0)
+    whole = transform(image=whole)['image'].cuda().unsqueeze(0)
+    paddedPaths = (list(allPaths) + [-1] * (C.max_len - len(allPaths)))
+    position = torch.tensor(paddedPaths, dtype=torch.long).cuda().unsqueeze(0)   
+    return embeddingFn(im, crop, whole, position) 
 
 class TripletNet (nn.Module) :
 
     def __init__ (self, config) :
         super(TripletNet, self).__init__() 
         self.hidden_size = config['hidden_size']
-        self.conv = smallConvNet()
-        self.ALPHA = 0.2
+        self.conv = convnet()
+        self.pe = PositionalEncoding()
         self.nn = nn.Sequential(
-            nn.Linear(3 * 128, self.hidden_size),
+            nn.Linear(3 * C.embedding_size, self.hidden_size),
             nn.ReLU(),
-            nn.Linear(self.hidden_size, 128)
+            nn.Linear(self.hidden_size, C.embedding_size)
         )
 
-    def embedding (self, im, crop, whole) : 
+    def embedding (self, im, crop, whole, position) : 
         imEmbed = self.conv(im)
-        cropEmbed = self.conv(crop)
-        wholeEmbed = self.conv(whole)
+        cropEmbed = self.pe(self.conv(crop), position)
+        wholeEmbed = self.pe(self.conv(whole), position)
         cat = torch.cat((imEmbed, cropEmbed, wholeEmbed), dim=1)
         return self.nn(cat)
 
     def forward (self, 
             im,
-            refCrop, refWhole, 
-            plusCrop, plusWhole, 
-            minusCrop, minusWhole,
+            refCrop, refWhole, refPosition,
+            plusCrop, plusWhole, plusPosition,
+            minusCrop, minusWhole, minusPosition,
             refPlus, refMinus) : 
-        refEmbed = self.embedding(im, refCrop, refWhole)
-        plusEmbed = self.embedding(im, plusCrop, plusWhole)
-        minusEmbed = self.embedding(im, minusCrop, minusWhole)
+        # TODO: Put a TopK based loss here!!
+        refEmbed = self.embedding(im, refCrop, refWhole, refPosition)
+        plusEmbed = self.embedding(im, plusCrop, plusWhole, plusPosition)
+        minusEmbed = self.embedding(im, minusCrop, minusWhole, minusPosition)
         dplus  = torch.sum((plusEmbed  - refEmbed) ** 2, dim=1, keepdims=True)
         dminus = torch.sum((minusEmbed - refEmbed) ** 2, dim=1, keepdims=True)
-        mask = dplus > dminus
+        dplus_ = F.softmax(torch.cat((dplus, dminus), dim=1), dim=1)[:, 0]
+        mask = dplus_ > 0.4
         hardRatio = mask.sum() / dplus.shape[0]
+        dplus_ = dplus_[mask]
         dratio = (dminus[mask] / dplus[mask])
-        dplus_ = F.relu((dplus - dminus + self.ALPHA)) # * refMinus / refPlus)
+        dplus_ = dplus_ * refMinus[mask] / refPlus[mask]
         return dict(dplus_=dplus_, dratio=dratio, hardRatio=hardRatio, mask=mask)
 
-    def greedyTree (self, t, subtrees=None) : 
+    def greedyTree (self, t, subtrees=None, binary=False) : 
 
         def distance (ps1, ps2) : 
             seenPathSets.add(asTuple(ps1))
@@ -108,6 +133,7 @@ class TripletNet (nn.Module) :
             return max(starmap(distance, combinations(childPathSets, 2)))
 
         def simplify (a, b) : 
+            if binary : return (a, b)
             candidates = []
             candidatePatterns = ['(*a, *b)', '(a, b)', '(*a, b)', '(a, *b)']
             for pattern in candidatePatterns :
@@ -123,8 +149,6 @@ class TripletNet (nn.Module) :
             subtrees = leaves(t)
         seenPathSets = set()
         with torch.no_grad() : 
-            doc = t.doc
-            paths = doc.flatten_all_paths()
             while len(subtrees) > 1 : 
                 treePairs = list(combinations(subtrees, 2))
                 pathSets  = [tuple(collapse(s)) for s in subtrees]
@@ -137,7 +161,6 @@ class TripletNet (nn.Module) :
                 subtrees.append(newSubtree)
 
         return treeFromNestedArray(subtrees)
-
 
 def testCorrect (model, dataset):  
     dataLoader = torch.utils.data.DataLoader(
@@ -168,15 +191,15 @@ def fillSVG (gt, t) :
     for n in t.nodes : 
         t.nodes[n].pop('image', None)
         pathSet = t.nodes[n]['pathSet']
-        t.nodes[n]['svg'] = getSubsetSvg2(paths, pathSet, vb)
+        t.nodes[n]['svg'] = getSubsetSvg2(doc, paths, pathSet, vb)
     thing = treeImageFromGraph(t)
-    matplotlibFigureSaver(thing, f'{gt.svgFile}')
+    return thing
 
-def getModel(name) : 
+def getModel(name, version='training_end.pth') : 
     model = TripletNet(dict(hidden_size=100))
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     MODEL_DIR = os.path.join(BASE_DIR, 'results', name)
-    state_dict = torch.load(os.path.join(MODEL_DIR, "training_end.pth"), map_location=torch.device('cpu'))
+    state_dict = torch.load(os.path.join(MODEL_DIR, version))
     model.load_state_dict(state_dict['model'])
     model = model.float()
     model.to("cuda")
@@ -194,5 +217,3 @@ if __name__ == "__main__" :
     print(avgMetric(testData, inferredTrees, 1, metrics.fowlkes_mallows_score))
     scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
     print(np.mean(scores))
-    #for gt, t in tqdm(list(zip(testData, inferredTrees))): 
-    #    fillSVG(gt, t)

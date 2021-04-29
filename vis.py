@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 from raster import svgStringToBitmap, alphaCompositeOnGrey, alphaCompositeOnWhite
 from graphIO import GraphReadWrite
 from imageio import imwrite
+from treeOps import *
 
 def treeAxisFromGraph(G, ax) : 
     pos = graphviz_layout(G, prog='dot')
@@ -46,9 +47,10 @@ def treeImageFromGraph (G) :
     pos = graphviz_layout(G, prog='dot')
     ax.set_aspect('equal')
     nx.draw(G, pos, ax=ax, node_size=0.5, arrowsize=1)
+    md = max(1, math.ceil(maxDepth(G) / 10))
     for n in G :
         img = svgStringToBitmap(G.nodes[n]['svg'], 64, 64)
-        imagebox = OffsetImage(img, zoom=0.2)
+        imagebox = OffsetImage(img, zoom=0.2 / md)
         imagebox.image.axes = ax
         ab = AnnotationBbox(imagebox, pos[n], pad=0)
         ax.add_artist(ab)
@@ -82,7 +84,7 @@ def treeImageFromJson (jsonTuple) :
     G = GraphReadWrite('tree').read(jsonFile)
     return treeImageFromGraph(G)
 
-def putOnCanvas (pts, images, outFile) :
+def putOnCanvas (pts, images) :
     """ 
     Put images at the corresponding
     points in R^2 in a super-large
@@ -107,7 +109,7 @@ def putOnCanvas (pts, images, outFile) :
     min_y = np.min(pts[:,1])
     max_y = np.max(pts[:,1])
     h, w, _ = images[0].shape
-    sz = 500
+    sz = 400
     pad = (h + w)
     pix = sz + 2 * pad
     canvas = np.ones((pix, pix, 4))#, dtype=np.uint8) * int(255)
@@ -125,7 +127,7 @@ def putOnCanvas (pts, images, outFile) :
         canvas[sx:ex, sy:ey,:] = np.clip(im * alpha + blob * (1 - alpha), 0, 1)
 
     canvas = alphaCompositeOnGrey(canvas)
-    plt.imsave(outFile, canvas, format='png')
+    return canvas
 
 def matplotlibFigureSaver (obj, fname) :
     """ 

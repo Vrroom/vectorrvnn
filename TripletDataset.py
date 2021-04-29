@@ -8,7 +8,7 @@ from functools import partial
 from torchUtils import imageForResnet
 from torch.utils import data
 import torch.nn.functional as F
-from osTools import listdir
+from osTools import *
 import torch
 from TripletSVGData import TripletSVGData
 from treeOps import *
@@ -18,6 +18,9 @@ from functools import lru_cache
 from tqdm import tqdm
 import h5py 
 from PIL import Image
+import Constants as C
+import albumentations as A
+from albumentations.pytorch import ToTensorV2
 
 class Saveable () :
     def save (self, savePath) : 
@@ -27,10 +30,11 @@ class Saveable () :
 def tryTripletSVGData (i, j) :
     try : 
         return TripletSVGData(i, j)
-    except Exception : 
+    except Exception as e: 
+        print(e)
         return None
 
-def generateSuggeroData (dataDir, cPickleDir) : 
+def generateSuggeroData (dataDir, outDir) : 
     dataPts = list(map(listdir, listdir(dataDir)))
     _, cPickles = unzip(dataPts)
     cPickles = list(cPickles)
@@ -43,18 +47,19 @@ def generateSuggeroData (dataDir, cPickleDir) :
     for i, chunk in enumerate(tqdm(chunkedPts)) : 
         with mp.Pool(maxtasksperchild=30) as p : 
             svgDatas = list(p.starmap(tryTripletSVGData, chunk, chunksize=12))
-        cPickleFileName = osp.join(cPickleDir, f'{i}.pkl')
-        with open(cPickleFileName, 'wb') as fd : 
-            cPickle.dump(svgDatas, fd)
+        for data in svgDatas : 
+            if data is not None : 
+                data.write(outDir)
 
-def generateAnnotatedData (dataDir, cPickleFileName) : 
+def generateAnnotatedData (dataDir, outDir) : 
     dataPts = map(listdir, listdir(dataDir))
     removeTxt = lambda x : filter(lambda y : not y.endswith('txt'), x)
     dataPts = list(map(lambda x : list(removeTxt(reversed(x))), dataPts))
     with mp.Pool(maxtasksperchild=30) as p : 
         svgDatas = list(p.starmap(tryTripletSVGData, dataPts))
-    with open(cPickleFileName, 'wb') as fd : 
-        cPickle.dump(svgDatas, fd)
+    for data in svgDatas :
+        if data is not None : 
+            data.write(outDir)
 
 class TripletSampler () : 
     def __init__ (self, data, length, seed=0, val=False) :
@@ -110,27 +115,11 @@ def lightBackgroundTransform (im) :
     destination[2, :, :] = random.uniform(0.5, 1)
     return alpha * source + (1 - alpha) * destination
 
-def whiteBackgroundTransform (im) : 
-    source = im[:3, :, :]
-    alpha = im[3:, :, :]
-    destination = 0.7 * torch.ones_like(source)
+def whiteBackgroundTransform (image) : 
+    source = image[:, :, :3]
+    alpha = image[:, :, 3:]
+    destination = image.max() * np.ones_like(source)
     return alpha * source + (1 - alpha) * destination
-
-class PickleDataset (data.Dataset) :
-
-    def __init__ (self, cPickleDir, transform=None) :
-        super(PickleDataset, self).__init__()
-        self.files = listdir(cPickleDir)
-
-    @lru_cache(maxsize=4)
-    def __getitem__ (self, idx) :
-        fname = self.files[idx]
-        with open(fname, 'rb') as fp : 
-            t = cPickle.load(fp)
-        return t
-
-    def __len__ (self) :
-        return len(self.files)
 
 class TripletSVGDataSet (data.Dataset, Saveable) : 
     """
@@ -142,56 +131,66 @@ class TripletSVGDataSet (data.Dataset, Saveable) :
         self.svgDatas = []
         for f in tqdm(self.files) : 
             self.svgDatas.append(nx.read_gpickle(osp.join(f, 'tree.pkl')))
-        mean = [0.485, 0.456, 0.406]
-        std = [0.229, 0.224, 0.225]
-        self.transform = T.Compose([
-            T.ToTensor(),
-            whiteBackgroundTransform,
-            T.Normalize(mean=mean, std=std)
+            
+        self.transform = A.Compose([
+            A.Normalize(mean=C.mean, std=C.std, max_pixel_value=1),
+            ToTensorV2()
         ])
         if transform is not None : 
-            self.transform = T.Compose([transform, self.transform])
-
-    def getNodeInput (self, tId, node) : 
-        t = self.svgDatas[tId]
-        im   = self.transform(t.nodes[findRoot(t)]['whole']).unsqueeze(0)
-        crop = self.transform(t.nodes[node]['crop']).unsqueeze(0)
-        whole = self.transform(t.nodes[node]['whole']).unsqueeze(0)
-        return dict(im=im, crop=crop, whole=whole)
+            self.transform = A.Compose([transform, self.transform])
 
     def loadImage (self, fname, imageType, node, fromFile=True) : 
         with open(osp.join(fname, imageType, f'{node}.png'), 'rb') as f : 
             img = Image.open(f)
-            return img.convert('RGBA')
+            img = np.array(img.convert('RGBA'))
+            if img.dtype == np.uint8 : 
+                img = img.astype(np.float) / 255
+            assert img.max() < 1.1, "Image still in uint8"
+            return whiteBackgroundTransform(img)
+        
+    def positions (self, tId, node) : 
+        t = self.svgDatas[tId]
+        paths = t.nodes[node]['pathSet']
+        paddedPaths = (list(paths) + [-1] * (C.max_len - len(paths)))
+        position = torch.tensor(paddedPaths, dtype=torch.long)
+        return position
+    
+    def _getNodeFeatures (self, tId, node) :
+        fname = self.files[tId]
+        t = self.svgDatas[tId]
+        crop     = self.transform(image=self.loadImage(fname, 'crop', node))['image']
+        whole    = self.transform(image=self.loadImage(fname, 'whole', node))['image']
+        position = self.positions(tId, node)
+        return crop, whole, position
         
     def __getitem__ (self, index) :
         tId, ref, plus, minus, refPlus, refMinus = index
         fname = self.files[tId]
         t = self.svgDatas[tId]
-        im         = self.transform(self.loadImage(fname, 'whole', findRoot(t)))
-        refCrop    = self.transform(self.loadImage(fname, 'crop' , ref))
-        refWhole   = self.transform(self.loadImage(fname, 'whole', ref))
-        plusCrop   = self.transform(self.loadImage(fname, 'crop' , plus))
-        plusWhole  = self.transform(self.loadImage(fname, 'whole', plus))
-        minusCrop  = self.transform(self.loadImage(fname, 'crop' , minus))
-        minusWhole = self.transform(self.loadImage(fname, 'whole', minus))
+        im         = self.transform(image=self.loadImage(fname, 'whole', findRoot(t)))['image']
+        refCrop  , refWhole  , refPositions   = self._getNodeFeatures(tId, ref)
+        plusCrop , plusWhole , plusPositions  = self._getNodeFeatures(tId, plus)
+        minusCrop, minusWhole, minusPositions = self._getNodeFeatures(tId, minus)
         return dict(
-            im=im,
-            refCrop=refCrop,
-            refWhole=refWhole,
-            plusCrop=plusCrop,
-            plusWhole=plusWhole,
-            minusCrop=minusCrop,
-            minusWhole=minusWhole,
-            refPlus=torch.tensor(refPlus),
-            refMinus=torch.tensor(refMinus)
+            im            =im,
+            refCrop       =refCrop,
+            refWhole      =refWhole,
+            refPositions  =refPositions,
+            plusCrop      =plusCrop,
+            plusWhole     =plusWhole,
+            plusPositions =plusPositions,
+            minusCrop     =minusCrop,
+            minusWhole    =minusWhole,
+            minusPositions=minusPositions,
+            refPlus       =torch.tensor(refPlus),
+            refMinus      =torch.tensor(refMinus)
         )
 
 if __name__ == "__main__" : 
     import json
     with open('commonConfig.json') as fd : 
         commonConfig = json.load(fd)
-    # generateSuggeroData('./unsupervised_v2', commonConfig['suggero_pickles'])
-    generateAnnotatedData(commonConfig['train_directory'], 'train64.pkl')
-    generateAnnotatedData(commonConfig['test_directory'], 'test64.pkl')
-    generateAnnotatedData('ManuallyAnnotatedDataset_v2/Val', 'cv64.pkl')
+    # generateSuggeroData('./unsupervised_v2', commonConfig['suggero_dest'])
+    generateAnnotatedData(commonConfig['val_directory'], commonConfig['val_dest'])
+    generateAnnotatedData(commonConfig['test_directory'], commonConfig['test_dest'])
+    generateAnnotatedData(commonConfig['train_directory'], commonConfig['train_dest'])

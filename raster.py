@@ -1,4 +1,5 @@
 import subprocess
+import xml.etree.ElementTree as ET
 from copy import deepcopy
 import numpy as np
 import random
@@ -8,6 +9,16 @@ import svgpathtools as svg
 import matplotlib.image as image
 import string
 from strokeAnalyses import cachedFlattenPaths
+
+def inheritedAttributes (doc, element) : 
+    attrs = deepcopy(element.attrib)
+    if element in doc.parent_map : 
+        parentElement = doc.parent_map[element]
+        parentAttrs = inheritedAttributes(doc, parentElement)
+        parentAttrs.update(attrs)
+        return parentAttrs
+    else :
+        return attrs
 
 def randomString(k) : 
     """
@@ -56,7 +67,7 @@ def singlePathSvg(path, vb, out) :
     vbox = ' '.join([str(_) for _ in vb])
     svg.wsvg([path[0]], attributes=[path[1].attrib], viewbox=vbox, filename=out)
 
-def getSubsetSvg(paths, lst, vb) :
+def getSubsetSvg(doc, paths, lst, vb) :
     """
     An svg is a collection of paths. 
     This function chooses a list of
@@ -89,36 +100,23 @@ def getSubsetSvg(paths, lst, vb) :
     vb : list
         The viewbox of the original svg.
     """
+    docCpy = deepcopy(doc)
     vbox = ' '.join([str(_) for _ in vb])
-    ps = [p[0] for p in paths]
-    attrs = [deepcopy(p[1].attrib) for p in paths]
-    order = [p[3] for p in paths]
-    cmb = list(zip(order, ps, attrs))
-    cmb.sort()
-    ps = [p for _, p, _ in cmb]
-    attrs = [a for _, _, a in cmb]
-    drawing = svg.disvg(ps, 
-                        attributes=attrs, 
-                        viewbox=vbox, 
-                        paths2Drawing=True, 
-                        openinbrowser=False)
-    return drawing.tostring()
+    docCpy.set_viewbox(vbox)
+    return ET.tostring(root, encoding='unicode')
 
-def getSubsetSvg2(paths, lst, vb) :
+def getSubsetSvg2(doc, paths, lst, vb) :
+    docCpy = deepcopy(doc)
     vbox = ' '.join([str(_) for _ in vb])
-    ps = [paths[i][0] for i in lst]
-    attrs = [deepcopy(paths[i][1].attrib) for i in lst]
-    order = [paths[i][3] for i in lst]
-    cmb = list(zip(order, ps, attrs))
-    cmb.sort()
-    ps = [p for _, p, _ in cmb]
-    attrs = [a for _, _, a in cmb]
-    drawing = svg.disvg(ps, 
-                        attributes=attrs, 
-                        viewbox=vbox, 
-                        paths2Drawing=True, 
-                        openinbrowser=False)
-    return drawing.tostring()
+    docCpy.set_viewbox(vbox)
+    root = docCpy.root
+    unwantedPaths = list(set(range(len(paths))) - set(lst))
+    unwantedPathIds = [paths[i].zIndex for i in unwantedPaths]
+    allElts = list(root.iter())
+    unwantedElts = [allElts[i] for i in unwantedPathIds]
+    for elt in unwantedElts : 
+        docCpy.parent_map[elt].remove(elt)
+    return ET.tostring(root, encoding='unicode')
 
 def alphaCompositeOnWhite (source) : 
     destination = np.ones_like(source)
@@ -167,14 +165,14 @@ def SVGSubset2NumpyImage (doc, pathSet, H, W, alpha=False) :
     box[1] -= eps
     box[2] += 2 * eps
     box[3] += 2 * eps
-    svgString = getSubsetSvg(paths, pathSet, box)
+    svgString = getSubsetSvg(doc, paths, pathSet, box)
     return svgStringToBitmap(svgString, H, W, alpha)
 
 def SVGSubset2NumpyImage2 (doc, pathSet, H, W, alpha=False) :
     paths = cachedFlattenPaths(doc)
     boxes = np.array([paths[i].path.bbox() for i in pathSet])
     docBox = doc.get_viewbox()
-    svgString = getSubsetSvg2(paths, pathSet, docBox)
+    svgString = getSubsetSvg2(doc, paths, pathSet, docBox)
     return svgStringToBitmap(svgString, H, W, alpha)
 
 def SVGtoNumpyImage (svgFilePath, H, W, alpha=False) :

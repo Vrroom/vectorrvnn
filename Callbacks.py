@@ -244,26 +244,26 @@ class KernelCallback (ttools.callbacks.ImageDisplayCallback) :
             return self.key
 
 class ImageCallback(ttools.callbacks.ImageDisplayCallback):
+
+    def normalize (self, image) : 
+        return (image - image.min()) / (image.max() - image.min())
+
     def visualized_image(self, batch, step_data, is_val):
         try : 
             mask = step_data['mask']
             mask = mask.view(-1)
-            im = batch['im'][mask][0].cpu().unsqueeze(0)
+            im = self.normalize(batch['im'][mask][0].cpu().unsqueeze(0))
             im = torch.cat((im, im), 2)
-            refCrop  = batch['refCrop'][mask][0].cpu().unsqueeze(0)
-            refWhole = batch['refWhole'][mask][0].cpu().unsqueeze(0)
+            refCrop  = self.normalize(batch['refCrop'][mask][0].cpu().unsqueeze(0))
+            refWhole = self.normalize(batch['refWhole'][mask][0].cpu().unsqueeze(0))
             ref = torch.cat((refCrop, refWhole), 2)
-            plusCrop  = batch['plusCrop'][mask][0].cpu().unsqueeze(0)
-            plusWhole = batch['plusWhole'][mask][0].cpu().unsqueeze(0)
+            plusCrop  = self.normalize(batch['plusCrop'][mask][0].cpu().unsqueeze(0))
+            plusWhole = self.normalize(batch['plusWhole'][mask][0].cpu().unsqueeze(0))
             plus = torch.cat((plusCrop, plusWhole), 2)
-            minusCrop  = batch['minusCrop'][mask][0].cpu().unsqueeze(0)
-            minusWhole = batch['minusWhole'][mask][0].cpu().unsqueeze(0)
+            minusCrop  = self.normalize(batch['minusCrop'][mask][0].cpu().unsqueeze(0))
+            minusWhole = self.normalize(batch['minusWhole'][mask][0].cpu().unsqueeze(0))
             minus = torch.cat((minusCrop, minusWhole), 2)
             viz = torch.cat([im, ref, plus, minus], 3)
-            viz = (viz - viz.min()) / (viz.max() - viz.min())
-            # ones_like = 0.9 * torch.ones_like(viz[:, :3, :, :])
-            # alpha = viz[:, 3:, :, :]
-            # viz = alpha * viz[:, :3, :, :] + (1 - alpha) * ones_like
             return viz
         except Exception as e:
             print(e)
@@ -277,13 +277,13 @@ class ImageCallback(ttools.callbacks.ImageDisplayCallback):
 
 class BamImageCallback(ttools.callbacks.ImageDisplayCallback):
     def visualized_image(self, batch, step_data, is_val):
-        ims = batch[0][:16].cpu()
+        ims = batch[0][:16]
         ims = (ims - ims.min()) / (ims.max() - ims.min())
         return ims
         
     def caption(self, batch, step_data, is_val):
         # write some informative caption into the visdom window
-        labels = batch[1][:10].cpu()
+        labels = batch[1][:16].cpu()
         labels = [str(int(l)) for l in labels]
         return ', '.join(labels)
 

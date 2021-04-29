@@ -29,7 +29,7 @@ LOG = ttools.get_logger(__name__)
 
 class SuggeroPretrainInterface (ttools.ModelInterface) : 
 
-    def __init__(self, model, dataset, val_dataset, lr=5e-2, cuda=True, max_grad_norm=10):
+    def __init__(self, model, dataset, val_dataset, lr=3e-4, cuda=True, max_grad_norm=10):
         super(SuggeroPretrainInterface, self).__init__()
         self.max_grad_norm = max_grad_norm
         self.model = model
@@ -41,10 +41,9 @@ class SuggeroPretrainInterface (ttools.ModelInterface) :
         if cuda:
             self.device = "cuda"
         self.model.to(self.device)
-        self.opt = optim.SGD(self.model.parameters(), lr=lr)
-        # milestones = [100, 150, 200, 250, 300, 350]
-        milestones = list(range(1,100, 5))
-        self.sched = MultiStepLR(self.opt, milestones, gamma=0.93, verbose=True)
+        self.opt = optim.Adam(self.model.parameters(), lr=lr)
+        milestones = list(range(1, 400, 10))
+        self.sched = MultiStepLR(self.opt, milestones, gamma=0.7, verbose=True)
         self.init = deepcopy(self.model.state_dict())
 
     def logGradients (self, ret) : 
@@ -67,20 +66,28 @@ class SuggeroPretrainInterface (ttools.ModelInterface) :
                 ret[f'{name}_wd'] = wd.item()
         
     def forward (self, batch) : 
-        im = batch['im'].cuda()
-        refCrop = batch['refCrop'].cuda()
-        refWhole = batch['refWhole'].cuda()
-        plusCrop = batch['plusCrop'].cuda()
-        plusWhole = batch['plusWhole'].cuda()
-        minusCrop = batch['minusCrop'].cuda()
-        minusWhole = batch['minusWhole'].cuda()
-        refPlus = batch['refPlus'].cuda()
-        refMinus = batch['refMinus'].cuda()
+        im             = batch['im'].cuda()
+        
+        refCrop        = batch['refCrop'].cuda()
+        refWhole       = batch['refWhole'].cuda()
+        refPositions   = batch['refPositions'].cuda()
+        
+        plusCrop       = batch['plusCrop'].cuda()
+        plusWhole      = batch['plusWhole'].cuda()
+        plusPositions  = batch['plusPositions'].cuda()
+        
+        minusCrop      = batch['minusCrop'].cuda()
+        minusWhole     = batch['minusWhole'].cuda()
+        minusPositions = batch['minusPositions'].cuda()
+        
+        refPlus        = batch['refPlus'].cuda()
+        refMinus       = batch['refMinus'].cuda()
+        
         return self.model(
             im, 
-            refCrop, refWhole, 
-            plusCrop, plusWhole, 
-            minusCrop, minusWhole, 
+            refCrop, refWhole, refPositions, 
+            plusCrop, plusWhole, plusPositions, 
+            minusCrop, minusWhole, minusPositions, 
             refPlus, refMinus
         )
 
@@ -102,7 +109,7 @@ class SuggeroPretrainInterface (ttools.ModelInterface) :
         self.opt.step()
         ret['mask'] = mask
         ret["loss"] = loss.item()
-        ret["conv-first-layer-kernel"] = self.model.conv[0][0].weight
+        ret["conv-first-layer-kernel"] = self.model.conv.conv1.weight
         ret['dratio'] = dratio
         ret['hardRatio'] = result['hardRatio'].item()
         self.logParameterNorms(ret)
@@ -121,7 +128,7 @@ class SuggeroPretrainInterface (ttools.ModelInterface) :
             dplus2 = result['dplus_']
             mask = result['mask']
             hardRatio = result['hardRatio'].item()
-            loss = dplus2.mean().item()
+            loss = (dplus2.sum() / (dplus2.shape[0] + 1e-6)).item()
             n = ratio.numel()
             n_ = dplus2.numel()
             count1 = running_data['count1']
@@ -144,11 +151,11 @@ class SuggeroPretrainInterface (ttools.ModelInterface) :
 def train (name) : 
     with open('./commonConfig.json') as fd : 
         config = json.load(fd)
-    trainData = TripletSVGDataSet(osp.join(config['suggero_pickles'], 'train'))
-    valData = TripletSVGDataSet(osp.join(config['suggero_pickles'], 'val'))
+    trainData = TripletSVGDataSet(osp.join(config['suggero_dest'], 'train'))
+    valData = TripletSVGDataSet(osp.join(config['suggero_dest'], 'val'))
     dataLoader = torch.utils.data.DataLoader(
         trainData, 
-        batch_size=128, 
+        batch_size=512, 
         sampler=TripletSampler(trainData.svgDatas, 256000),
         pin_memory=True,
         num_workers=6,
@@ -156,7 +163,7 @@ def train (name) :
     )
     val_dataloader = torch.utils.data.DataLoader(
         valData, 
-        batch_size=2560, 
+        batch_size=128, 
         sampler=TripletSampler(valData.svgDatas, 25600, True),
         pin_memory=True,
         num_workers=6,
@@ -182,7 +189,7 @@ def train (name) :
     trainer.add_callback(ttools.callbacks.VisdomLoggingCallback(
         keys=keys, val_keys=val_keys, env=name + "_training_plots", port=port, frequency=100))
     trainer.add_callback(SchedulerCallback(interface.sched))
-    trainer.add_callback(MeasureFMI(model, env=name+"_fmi"))
+#     trainer.add_callback(MeasureFMI(model, env=name+"_fmi"))
     trainer.add_callback(KernelCallback("conv-first-layer-kernel", win="kernel", env=name + "_kernel", port=port, frequency=100))
     # Start training
     trainer.train(dataLoader, num_epochs=400, val_dataloader=val_dataloader)

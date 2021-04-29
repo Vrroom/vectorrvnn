@@ -1,5 +1,6 @@
 from torchvision.datasets import ImageFolder
 import os
+import cv2
 import os.path as osp
 from torchvision.models import *
 from torchvision import transforms as T
@@ -15,6 +16,9 @@ import ttools.interfaces
 from PIL import ImageFile
 import warnings
 from torch.utils import data
+from BamDataset import *
+import albumentations as A
+from albumentations.pytorch import ToTensorV2
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
@@ -51,12 +55,12 @@ class BamInterface (ttools.ModelInterface) :
         loss.backward()
         if self.max_grad_norm is not None:
             nrm = nn.utils.clip_grad_norm_(self.model.parameters(), self.max_grad_norm)
-            if nrm > self.max_grad_norm:
-                LOG.warning("Clipping generator gradients. norm = %.3f > %.3f", nrm, self.max_grad_norm)
+            # if nrm > self.max_grad_norm:
+            #     LOG.warning("Clipping generator gradients. norm = %.3f > %.3f", nrm, self.max_grad_norm)
         self.opt.step()
         ret['loss'] = loss.item()
         ret['accuracy'] = accuracy.item()
-        ret["conv-first-layer-kernel"] = self.model.features[0].weight
+        ret["conv-first-layer-kernel"] = self.model.conv1.weight
         return ret
 
     def init_validation (self) : 
@@ -82,38 +86,40 @@ class BamInterface (ttools.ModelInterface) :
         return ret
 
 def train (name) : 
-    transform = T.Compose([
-        T.RandomCrop(64, pad_if_needed=True),
-        T.ToTensor(),
-        T.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
+    trainTransform = A.Compose([
+        A.HorizontalFlip(p=0.5),
+        A.RandomBrightnessContrast(p=0.5),
+        A.ShiftScaleRotate(shift_limit=0.05, scale_limit=0.05, rotate_limit=20, p=0.2, border_mode=cv2.BORDER_CONSTANT),
+        A.RGBShift(0.1, 0.1, 0.1, p=0.2),
+        A.ToGray(p=0.04),
+        A.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225), max_pixel_value=1),
+        ToTensorV2(),
     ])
-    dataset = ImageFolder(
-        '/misc/extra/data/sumitc/bam', 
-        transform=transform,
-        is_valid_file=lambda path : osp.getsize(path) > 10000
-    )
-    print(dataset.classes)
+    valTransform = A.Compose([
+        A.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225), max_pixel_value=1),
+        ToTensorV2(),
+    ])
+    dataset = BamDataset('/misc/extra/data/sumitc/bam.h5')
     n = len(dataset)
-    trainN = int(0.8*n)
-    valN = n - trainN
-    trainData, valData, _ = data.random_split(dataset, [trainN, valN, 0])
+    trainN = 4 * n // 5
+    trainData = Subset(dataset, list(range(trainN)), transform=trainTransform)
+    valData = Subset(dataset, list(range(trainN, n)), transform=valTransform)
     dataLoader = data.DataLoader(
         trainData, 
-        batch_size=64, 
-        num_workers=6,
-        shuffle=True,
+        batch_size=128, 
+        num_workers=8,
         pin_memory=True
     )
     val_dataloader = data.DataLoader(
         valData,
         batch_size=128,
-        num_workers=6,
+        num_workers=8,
         pin_memory=True
     )
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     OUTPUT = os.path.join(BASE_DIR, "results", name)
-    model = alexnet(pretrained=True)
-    model.classifier[6] = nn.Linear(4096, 20)
+    model = resnet50(pretrained=True)
+    model.fc = nn.Linear(2048, 20)
     checkpointer = ttools.Checkpointer(OUTPUT, model)
     interface = BamInterface(model, trainData)
     trainer = ttools.Trainer(interface)
@@ -125,9 +131,9 @@ def train (name) :
     trainer.add_callback(ttools.callbacks.VisdomLoggingCallback(
         keys=keys, val_keys=keys, env=name + "_training_plots", port=port, frequency=100))
     trainer.add_callback(SchedulerCallback(interface.sched))
-    trainer.add_callback(KernelCallback("conv-first-layer-kernel", win="kernel", env=name + "_kernel", port=port, frequency=100))
+    # trainer.add_callback(KernelCallback("conv-first-layer-kernel", win="kernel", env=name + "_kernel", port=port, frequency=100))
     # Start training
-    trainer.train(dataLoader, num_epochs=400, val_dataloader=val_dataloader)
+    trainer.train(dataLoader, num_epochs=100, val_dataloader=val_dataloader)
 
 if __name__ == "__main__" : 
     import sys
