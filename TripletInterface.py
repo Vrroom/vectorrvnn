@@ -41,9 +41,9 @@ class TripletInterface (ttools.ModelInterface) :
         if cuda:
             self.device = "cuda"
         self.model.to(self.device)
-        self.opt = optim.Adam(self.model.parameters(), lr=lr, weight_decay=1e-4)
-        milestones = [100, 150, 200, 250, 300, 350]
-        self.sched = MultiStepLR(self.opt, milestones, gamma=0.9, verbose=True)
+        self.opt = optim.Adam(self.model.parameters(), lr=lr)
+        milestones = list(range(1, 400, 10))
+        self.sched = MultiStepLR(self.opt, milestones, gamma=0.7, verbose=True)
         self.init = deepcopy(self.model.state_dict())
 
     def logGradients (self, ret) : 
@@ -66,20 +66,28 @@ class TripletInterface (ttools.ModelInterface) :
                 ret[f'{name}_wd'] = wd.item()
         
     def forward (self, batch) : 
-        im = batch['im'].cuda()
-        refCrop = batch['refCrop'].cuda()
-        refWhole = batch['refWhole'].cuda()
-        plusCrop = batch['plusCrop'].cuda()
-        plusWhole = batch['plusWhole'].cuda()
-        minusCrop = batch['minusCrop'].cuda()
-        minusWhole = batch['minusWhole'].cuda()
-        refPlus = batch['refPlus'].cuda()
-        refMinus = batch['refMinus'].cuda()
+        im             = batch['im'].cuda()
+        
+        refCrop        = batch['refCrop'].cuda()
+        refWhole       = batch['refWhole'].cuda()
+        refPositions   = batch['refPositions'].cuda()
+        
+        plusCrop       = batch['plusCrop'].cuda()
+        plusWhole      = batch['plusWhole'].cuda()
+        plusPositions  = batch['plusPositions'].cuda()
+        
+        minusCrop      = batch['minusCrop'].cuda()
+        minusWhole     = batch['minusWhole'].cuda()
+        minusPositions = batch['minusPositions'].cuda()
+        
+        refPlus        = batch['refPlus'].cuda()
+        refMinus       = batch['refMinus'].cuda()
+        
         return self.model(
             im, 
-            refCrop, refWhole, 
-            plusCrop, plusWhole, 
-            minusCrop, minusWhole, 
+            refCrop, refWhole, refPositions, 
+            plusCrop, plusWhole, plusPositions, 
+            minusCrop, minusWhole, minusPositions, 
             refPlus, refMinus
         )
 
@@ -89,7 +97,6 @@ class TripletInterface (ttools.ModelInterface) :
         dplus2 = result['dplus_']
         dratio = result['dratio']
         mask = result['mask']
-        initLoss = 0
         now = self.model.state_dict()
         loss = (dplus2.sum() / (dplus2.shape[0] + 1e-6))
         ret = {}
@@ -103,7 +110,7 @@ class TripletInterface (ttools.ModelInterface) :
         self.opt.step()
         ret['mask'] = mask
         ret["loss"] = loss.item()
-        ret["conv-first-layer-kernel"] = self.model.conv[0][0].weight
+        ret["conv-first-layer-kernel"] = self.model.conv.conv1.weight
         ret['dratio'] = dratio
         ret['hardRatio'] = result['hardRatio'].item()
         self.logParameterNorms(ret)
@@ -140,44 +147,45 @@ class TripletInterface (ttools.ModelInterface) :
             "hardRatio": hardRatio_,
             'mask': mask
         }
-        self.fillEstimates(ret, self.val_dataset)
         return ret
 
 def train (name) : 
     with open('./commonConfig.json') as fd : 
         config = json.load(fd)
-    trainData = TripletSVGDataSet('train64.pkl')
+    trainData = TripletSVGDataSet(config['train_dest'])
+    valData = TripletSVGDataSet(config['val_dest'])
     dataLoader = torch.utils.data.DataLoader(
         trainData, 
-        batch_size=32, 
-        sampler=TripletSampler(trainData.svgDatas, 10000),
+        batch_size=512, 
+        sampler=TripletSampler(trainData.svgDatas, 256000),
         pin_memory=True,
+        num_workers=6,
         collate_fn=lambda x : aggregateDict(x, torch.stack)
     )
-    cvData = TripletSVGDataSet('cv64.pkl')
     val_dataloader = torch.utils.data.DataLoader(
-        cvData, 
+        valData, 
         batch_size=128, 
-        sampler=TripletSampler(cvData.svgDatas, 1000),
+        sampler=TripletSampler(valData.svgDatas, 25600, True),
         pin_memory=True,
+        num_workers=6,
         collate_fn=lambda x : aggregateDict(x, torch.stack)
     )
     # Load pretrained path module
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    MODEL_INIT_PATH = os.path.join(BASE_DIR, "results", "suggero_64_svgvae_v2")
+    MODEL_INIT_PATH = os.path.join(BASE_DIR, "results", "bam_resnet_suggero")
     MERGE_OUTPUT = os.path.join(BASE_DIR, "results", name)
     # Initiate main model.
     model = TripletNet(dict(hidden_size=100)).float()
     state_dict = torch.load(os.path.join(MODEL_INIT_PATH, 'training_end.pth'))
     model.load_state_dict(state_dict['model'])
     checkpointer = ttools.Checkpointer(MERGE_OUTPUT, model)
-    interface = TripletInterface(model, trainData, cvData)
+    interface = TripletInterface(model, trainData, valData)
     trainer = ttools.Trainer(interface)
     port = 8097
     named_children = [n for n, _ in model.named_children()]
     named_grad = [f'{n}_grad' for n in named_children]
     named_wd = [f'{n}_wd' for n in named_children]
-    keys = ["loss", "hardRatio", *named_grad, *named_wd] #, 'initdiff']
+    keys = ["loss", "hardRatio", *named_grad, *named_wd] 
     val_keys=keys[:2]
     trainer.add_callback(ttools.callbacks.CheckpointingCallback(checkpointer))
     trainer.add_callback(ttools.callbacks.ProgressBarCallback(keys=val_keys, val_keys=val_keys))

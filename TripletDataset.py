@@ -81,9 +81,13 @@ class TripletSampler () :
             ref = self.rng.sample(t.nodes, k=1).pop()
             plus = self.rng.sample(t.nodes - [ref], k=1).pop()
             minus = self.rng.sample(t.nodes - [ref], k=1).pop()
-            while lcaScore(t, ref, plus) == lcaScore(t, ref, minus) : 
+            attempts = 0
+            while lcaScore(t, ref, plus) == lcaScore(t, ref, minus) and attempts < 10:
+                attempts += 1
                 plus = self.rng.sample(t.nodes - [ref], k=1).pop()
                 minus = self.rng.sample(t.nodes - [ref], k=1).pop()
+            if attempts >= 10 : 
+                return self.getSample()
             if lcaScore(t, ref, plus) > lcaScore(t, ref, minus) :
                 minus, plus = plus, minus
         except Exception as e : 
