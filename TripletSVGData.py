@@ -1,3 +1,4 @@
+from copy import deepcopy
 import svgpathtools as svg
 from skimage import transform
 import networkx as nx
@@ -21,52 +22,95 @@ import os
 import os.path as osp
 from osTools import *
 import matplotlib.pyplot as plt
+import Constants as C
+import pydiffvg
 
 def isDegenerateBBox (box) :
     _, _, h, w = box
     return h == 0 and w == 0
 
+def bboxUnion(a, b) : 
+    ax1, ax2, ay1, ay2 = a
+    bx1, bx2, by1, by2 = b
+
+    assert(ax1 <= ax2)
+    assert(ay1 <= ay2)
+
+    assert(bx1 <= bx2)
+    assert(by1 <= by2)
+
+    return min(ax1, bx1), max(ax2, bx2), min(ay1, by1), max(ay2, by2)
+
+def drawingBBox (doc) : 
+    paths = doc.flatten_all_paths()
+    bboxes = [p.path.bbox() for p in paths]
+    x, X, y, Y = reduce(bboxUnion, bboxes)
+    return [x, y, X - x, Y - y]
+
+def normalizeBBox (box) : 
+    x, y, h, w = box
+    d = max(h, w)
+    return [x - (d - h) / 2, y - (d - w)/ 2, d, d]
+
+def render(canvas_width, canvas_height, shapes, shape_groups):
+    _render = pydiffvg.RenderFunction.apply
+    scene_args = pydiffvg.RenderFunction.serialize_scene(\
+        canvas_width, canvas_height, shapes, shape_groups)
+    img = _render(canvas_width, # width
+                 canvas_height, # height
+                 2,   # num_samples_x
+                 2,   # num_samples_y
+                 0,   # seed
+                 None,
+                 *scene_args)
+    return img
+
 class TripletSVGData (nx.DiGraph) : 
 
-    def __init__ (self, svgFile, pickle) : 
-        """
-        Constructor.
-
-        Role of this object is to aggregate all 
-        data items for this svgFile, given the 
-        configuration and provide a set of
-        methods to conveniently operate recursive 
-        networks over them. 
-        """
-        # The pathSet attribute also has indices which 
-        # are the same as how the svgpathtools library
-        # orders the paths.
-        super(TripletSVGData, self).__init__(nx.read_gpickle(pickle))
+    def preprocessTree (self) : 
         setSubtreeSizes(self)
         setNodeDepths(self)
         setNodeBottomDepths(self)
+        self._pathSet2Tuple()
+
+    def preprocessGraphic (self, svgFile) :
         self.svgFile = svgFile
-        self.doc = svg.Document(svgFile)
-        # The nodes in the graph are indexed according
-        # to the order they come up in the list.
-        self.doc.normalize_viewbox()
-        docViewBox = self.doc.get_viewbox()
+        doc = svg.Document(svgFile)
+        docViewBox = normalizeBBox(drawingBBox(doc))
+        scale = C.raster_size / docViewBox[-1]
+        docViewBox = [_ * scale for _ in docViewBox]
+        gstr = f'<g transform="translate({-docViewBox[0]} {-docViewBox[1]}) scale({scale})"></g>'
+        groupElt = ET.fromstring(gstr)
+        doc.set_viewbox(' '.join(map(str, [0, 0, *docViewBox[-2:]])))
+        rootCpy = deepcopy(doc.tree.getroot())
+        childrenCpy = list(rootCpy)
+        groupElt.extend(childrenCpy)
+        root = doc.tree.getroot()
+        while len(root) != 0 : 
+            for child in root : 
+                root.remove(child)
+        root.append(groupElt)
+        doc.tree._setroot(root)
+        self.doc = doc
+        self.svg = ET.tostring(self.doc.tree.getroot()).decode()
         paths = cachedFlattenPaths(self.doc)
         paths = [p for i, p in enumerate(paths) if not isDegenerateBBox(relbb(self.doc, i))]
         self.nPaths = len(paths)
         self.pathViewBoxes = [bb(self.doc, i) for i, p in enumerate(paths)]
-        with open(svgFile) as fd : 
-            self.svg = fd.read()
-        for r in [r for r in self.nodes if self.in_degree(r) == 0] : 
-            self._computeBBoxes(r)
-        pathIdx = list(range(len(paths)))
-        self.bigImage = SVGSubset2NumpyImage2(self.doc, pathIdx, 300, 300, alpha=True)
-        self.bigImage = np.pad(self.bigImage, ((150, 150), (150, 150), (0, 0)), mode='constant')
-        self.pathRasters = []
-        for i, p in enumerate(paths) : 
-            self.pathRasters.append(SVGSubset2NumpyImage2(self.doc, (i,), 64, 64, alpha=True))
-        self._pathSet2Tuple()
-        self._computeNodeImages()
+        # for r in [r for r in self.nodes if self.in_degree(r) == 0] : 
+        #     self._computeBBoxes(r)
+
+    def preprocessRasters (self) : 
+        pass
+        
+    def __init__ (self, svgFile, pickle) : 
+        """
+        Constructor.
+        """
+        super(TripletSVGData, self).__init__(nx.read_gpickle(pickle))
+        self.preprocessTree()
+        self.preprocessGraphic(svgFile)
+        self.preprocessRasters()
 
     def _pathSet2Tuple (self) : 
         for n in self.nodes :
