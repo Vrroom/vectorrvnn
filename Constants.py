@@ -1,3 +1,10 @@
+train_directory = "/net/voxel07/misc/me/sumitc/vectorrvnn/ManuallyAnnotatedDataset_v2/Train"
+test_directory = "/net/voxel07/misc/me/sumitc/vectorrvnn/ManuallyAnnotatedDataset_v2/Test"
+val_directory = "/net/voxel07/misc/me/sumitc/vectorrvnn/ManuallyAnnotatedDataset_v2/Val"
+suggero_dest = "/net/voxel07/misc/extra/data/sumitc/suggero"
+train_dest = "/net/voxel07/misc/extra/data/sumitc/annotations/train"
+test_dest = "/net/voxel07/misc/extra/data/sumitc/annotations/test"
+val_dest = "/net/voxel07/misc/extra/data/sumitc/annotations/val"
 max_len = 500
 embedding_size = 128
 mean = (0.485, 0.456, 0.406)
