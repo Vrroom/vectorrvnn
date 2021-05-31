@@ -3,17 +3,53 @@ from matplotlib import colors
 import xml.etree.ElementTree as ET
 from copy import deepcopy
 from .svgIO import GRAPHIC_TAGS
+import cssutils
 
 @lru_cache(maxsize=128)
 def cachedPaths (doc) : 
     return doc.paths()
 
+def parseHex(s):
+    s = s.lstrip('#')
+    if len(s) == 3:
+        s = s[0] + s[0] + s[1] + s[1] + s[2] + s[2]
+    rgb = tuple(int(s[i:i+2], 16) for i in (0, 2, 4))
+    return [rgb[0] / 255.0, rgb[1] / 255.0, rgb[2] / 255.0]
+
+def parseColor(s):
+    s = s.lstrip(' ')
+    color = [0, 0, 0]
+    if s[0] == '#':
+        color[:3] = parseHex(s)
+    elif s == 'none':
+        color = [0, 0, 0]
+    elif s[:4] == 'rgb(':
+        rgb = s[4:-1].split(',')
+        color = [
+            int(rgb[0]) / 255.0, 
+            int(rgb[1]) / 255.0, 
+            int(rgb[2]) / 255.0
+        ]
+    else:
+        try : 
+            color = colors.to_rgb(s)
+        except ValueError : 
+            warnings.warn('Unknown color command ' + s)
+    return color
+
 def pathColor (path, attr) : 
     if attr in path.element.attrib : 
-        attr = colors.to_rgb(path.element.attrib[attr])
+        return parseColor(path.element.attrib[attr])
     else :
-        attr = [1, 1, 1]
-    return attr
+        if 'style' in path.element.attrib : 
+            style = cssutils.parseStyle(
+                    path.element.attrib['style'])
+            if attr in style.keys() : 
+                return parseColor(style.getPropertyValue(attr))
+            else :
+                return [1, 1, 1]
+        else : 
+            return [1, 1, 1]
 
 def pathStrokeWidth (path) :
     if 'stroke-width' in path.element.attrib : 

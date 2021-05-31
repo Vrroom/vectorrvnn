@@ -11,23 +11,12 @@ def zipDirs (dirList) :
     and match them up and perform 
     some operations on them. 
 
-    Since the files have similar names,
-    we sort them before zipping them.
-
-    For example, dir1 may have E269.svg
-    while dir2 may have E269.json. Sorting 
-    will ensure that while zipping, these 
-    two files are together.
-
     Parameters
     ----------
     dirList : list
         List of directories to zip.
     """
-    filesInDirList = list(map(os.listdir, dirList))
-    for i in range(len(dirList)) :
-        filesInDirList[i].sort()
-        filesInDirList[i] = [osp.join(dirList[i], f) for f in filesInDirList[i]]
+    filesInDirList = list(map(listdir, dirList))
     return zip(*filesInDirList)
 
 def listdir (path) :

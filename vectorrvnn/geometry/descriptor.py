@@ -1,38 +1,30 @@
 """ vector descriptor for path geometries """
 import numpy as np
 import random
+from functools import lru_cache
 from vectorrvnn.utils.comp import *
 from vectorrvnn.utils.svg import cachedPaths
-import matplotlib.colors as colors
-from functools import lru_cache
+from .utils import isDegenerateBBox
 
 @lru_cache(maxsize=128)
-def d2 (doc, i, docbb, bins=10, nSamples=100, **kwargs) :
+def d2 (doc, i, bins=10, nSamples=100, **kwargs) :
     """
     Compute the d2 descriptors of the path.
     Take two random points on the curve
     and make an histogram of the distance 
-    between them. We use this or fd in our
-    experiments.
+    between them. 
     """
     path = cachedPaths(doc)[i].path
-    xmin, xmax, ymin, ymax = path.bbox()
-    rmax = np.sqrt((xmax-xmin)**2 + (ymax-ymin)**2)
-    if rmax <= 1e-10 : 
+    xm, xM, ym, yM = path.bbox()
+    if isDegenerateBBox([xm, ym, xM - xm, yM - ym]) : 
         return np.ones(bins)
-    hist = np.zeros(bins)
-    binSz = rmax / bins
     L = path.length() 
+    rs = []
     for i in range(nSamples) : 
         pt1 = path.point(path.ilength(random.random() * L, s_tol=1e-3))
         pt2 = path.point(path.ilength(random.random() * L, s_tol=1e-3))
-        r = abs(pt1 - pt2) 
-        bIdx = int(r / binSz)
-        if bIdx == bins :
-            bIdx -= 1
-        hist[bIdx] += 1
-    hist = hist / hist.sum()
-    return hist.tolist()
+        rs.append(abs(pt1 - pt2))
+    return np.histogram(rs, bins=bins)[0] / nSamples
 
 @lru_cache(maxsize=128)
 def fd (doc, i, nSamples=25, freqs=10, **kwargs) :
@@ -62,7 +54,7 @@ def fd (doc, i, nSamples=25, freqs=10, **kwargs) :
 @lru_cache(maxsize=128)
 def bb (doc, i, **kwargs) : 
     """ absolute bounding box coordinates for the ith path """
-    path = paths(doc)[i].path
+    path = cachedPaths(doc)[i].path
     x1, x2, y1, y2 = path.bbox()
     return [x1, y1, x2 - x1, y2 - y1]
 

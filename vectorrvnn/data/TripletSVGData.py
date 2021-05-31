@@ -3,45 +3,25 @@ import svgpathtools as svg
 from skimage import transform
 import networkx as nx
 from raster import *
-import relationshipGraph
-from relationshipGraph import *
 from descriptor import relbb, equiDistantSamples, bb
 from functools import reduce
 import numpy as np
-from graphOps import contractGraph
 from treeOps import *
 from torchvision import transforms as T
 import torch
-from svgIO import getTreeStructureFromSVG
-from graphIO import GraphReadWrite
-from torchUtils import imageForResnet
 from itertools import product
 from more_itertools import unzip
 from functools import lru_cache
 import os
 import os.path as osp
-from osTools import *
+from vectorrvnn.utils.os import *
 import matplotlib.pyplot as plt
 import Constants as C
-import pydiffvg
 
 def normalizeBBox (box) : 
     x, y, h, w = box
     d = max(h, w)
     return [x - (d - h) / 2, y - (d - w)/ 2, d, d]
-
-def render(canvas_width, canvas_height, shapes, shape_groups):
-    _render = pydiffvg.RenderFunction.apply
-    scene_args = pydiffvg.RenderFunction.serialize_scene(\
-        canvas_width, canvas_height, shapes, shape_groups)
-    img = _render(canvas_width, # width
-                 canvas_height, # height
-                 2,   # num_samples_x
-                 2,   # num_samples_y
-                 0,   # seed
-                 None,
-                 *scene_args)
-    return img
 
 class TripletSVGData (nx.DiGraph) : 
 
@@ -78,9 +58,6 @@ class TripletSVGData (nx.DiGraph) :
         # for r in [r for r in self.nodes if self.in_degree(r) == 0] : 
         #     self._computeBBoxes(r)
 
-    def preprocessRasters (self) : 
-        pass
-        
     def __init__ (self, svgFile, pickle) : 
         """
         Constructor.
@@ -153,25 +130,3 @@ class TripletSVGData (nx.DiGraph) :
             o = np.concatenate((co, ao), axis=2)
             return o
     
-    def mkdir (self, dname) :
-        if not osp.exists(dname) : 
-            os.mkdir(dname)
-
-    def write (self, root) : 
-        dname = osp.join(root, getBaseName(self.svgFile))
-        self.mkdir(dname)
-        cropDir = osp.join(dname, 'crop')
-        wholeDir = osp.join(dname, 'whole')
-        self.mkdir(cropDir)
-        self.mkdir(wholeDir)
-        for n in self.nodes : 
-            fname1 = osp.join(cropDir, f'{n}.png')
-            fname2 = osp.join(wholeDir, f'{n}.png')
-            plt.imsave(fname1, self.nodes[n]['crop'])
-            plt.imsave(fname2, self.nodes[n]['whole'])
-        treeCopy = nx.DiGraph()
-        treeCopy.update(self)
-        for n in treeCopy.nodes : 
-            del treeCopy.nodes[n]['crop']
-            del treeCopy.nodes[n]['whole']
-        nx.write_gpickle(treeCopy, osp.join(dname, 'tree.pkl'))

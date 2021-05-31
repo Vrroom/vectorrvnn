@@ -3,8 +3,8 @@ import numpy as np
 from vectorrvnn.utils.svg import cachedPaths
 
 def isDegenerateBBox (box) :
-    _, _, h, w = box
-    return h == 0 and w == 0
+    _, _, w, h = box
+    return h < 1e-5 and w < 1e-5
 
 def bboxUnion(a, b) : 
     ax1, ax2, ay1, ay2 = a

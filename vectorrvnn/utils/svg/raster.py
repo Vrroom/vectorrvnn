@@ -1,46 +1,40 @@
-# import subprocess
 # import xml.etree.ElementTree as ET
 # from copy import deepcopy
-# import numpy as np
 # import random
 # import os
 # import os.path as osp
 # import svgpathtools as svg
 # import matplotlib.image as image
 # import string
+import numpy as np
+import torch
 import pathfinder_rasterizer as pr
 from .svgTools import *
 
-# def alphaComposite (source, module=np, color=[1,1,1]) : 
-#     if module == np : 
-#         color = np.array(color)
-#         alpha = source[..., 3:] 
-#         d_ = np.ones_like(source[..., :3])
-#         d_[..., :] = color
-#         s_ = source[..., :3]
-#     else : 
-#         color = torch.tensor(color)
-#         alpha = source[:, 3:, ...] 
-#         d_ = torch.ones_like(source[:, :3, ...])
-#         d_[:, :, ...] = color
-#         s_ = source[:, :3, ...]
-#     return d_ * (1 - alpha) + s_ * alpha
- 
+def alphaComposite (source, module=np, color=[1,1,1]) : 
+    originalShape = source.shape
+    if len(originalShape) < 4 : 
+        source = source.reshape((1, *originalShape))
+    if module == np : 
+        source = np.transpose(source, (0, 3, 1, 2))
+    alpha = source[:, 3:, ...] 
+    d_ = module.ones_like(source[:, :3, ...])
+    for i, c in enumerate(color) : 
+        d_[:, i, ...] = c
+    s_ = source[:, :3, ...]
+    composited = d_ * (1 - alpha) + s_ * alpha
+    if module == np : 
+        composited = np.transpose(composited, (0, 2, 3, 1))
+    if len(originalShape) < 4 : 
+        composited = composited.squeeze()
+    return composited
+
 def rasterize (doc, h, w) : 
     fixOrigin(doc)
     scaleToFit(doc, h, w)
     doc.set_viewbox(' '.join(map(str, [0, 0, h, w])))
     return pr.numpyRaster(doc) 
 
-# def inheritedAttributes (doc, element) : 
-#     attrs = deepcopy(element.attrib)
-#     if element in doc.parent_map : 
-#         parentElement = doc.parent_map[element]
-#         parentAttrs = inheritedAttributes(doc, parentElement)
-#         parentAttrs.update(attrs)
-#         return parentAttrs
-#     else :
-#         return attrs
 # 
 # def getSubsetSvg(doc, paths, lst, vb) :
 #     """
@@ -122,20 +116,3 @@ def rasterize (doc, h, w) :
 #     svgString = getSubsetSvg2(doc, paths, pathSet, docBox)
 #     return svgStringToBitmap(svgString, H, W, alpha)
 # 
-# def SVGtoNumpyImage (svgFilePath, H, W, alpha=False) :
-#     """
-#     Take an SVG file and rasterize it to 
-#     obtain a numpy array of given height and
-#     width. 
-# 
-#     Parameters
-#     ----------
-#     svgFilePath : str
-#     H : float
-#         Desired height of output.
-#     W : float 
-#         Desired width of output.
-#     """
-#     with open(svgFilePath) as fd : 
-#         string = fd.read()
-#     return svgStringToBitmap(string, H, W, alpha)
