@@ -35,6 +35,8 @@ def listdir (path) :
     Convenience function to get 
     full path details while calling os.listdir
 
+    Also ensures that the order is always the same.
+
     Parameters
     ----------
     path : str

@@ -19,7 +19,7 @@ def graphFromSvg (svgFile, graphFunction) :
         path relation computer.
     """
     doc = svg.Document(svgFile)
-    paths = doc.flatten_all_paths()
+    paths = doc.paths()
     G = graphFunction(paths, vbox=doc.get_viewbox())
     return G
 
@@ -96,7 +96,7 @@ def getTreeStructureFromSVG (svgFile) :
     ]
     groupTag = '{http://www.w3.org/2000/svg}g'
     doc = svg.Document(svgFile)
-    paths = doc.flatten_all_paths()
+    paths = doc.paths()
     zIndexMap = dict([(p.zIndex, i) for i, p in enumerate(paths)])
     tree = doc.tree
     root = tree.getroot()
@@ -135,15 +135,8 @@ def tree2Document (document, tree, attribs) :
     treeApplyRootFirst(tree, root, addToDocument)
     return document
 
-def setSVGAttributes (tree, paths, vb) :
+def setSVGStringForNodes (tree, paths, vb) :
     def getter (T, n, _) :
         lst = tree.nodes[n]['pathSet']
         tree.nodes[n]['svg'] = getSubsetSvg(paths, lst, vb)
     treeApplyChildrenFirst(tree, findRoot(tree), getter)
-
-if __name__ == "__main__" : 
-    from osTools import listdir
-    from listOps import avg
-    dirname = '/Users/amaltaas/BTP/vectorrvnn/PartNetSubset/Test'
-    files = listdir(dirname)
-    print(avg(list(map(lambda x : x.number_of_nodes(), map(getTreeStructureFromSVG, files)))))

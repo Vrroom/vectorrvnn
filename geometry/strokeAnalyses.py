@@ -1,16 +1,11 @@
 from functools import lru_cache, partial
 import numpy as np
 import random
-from treeOps import *
+from vectorrvnn.utils.graph import *
 from scipy.spatial.distance import pdist, squareform
 from more_itertools import flatten
 from shapely.geometry import *
-import cProfile
 import pickle
-
-@lru_cache(maxsize=16)
-def cachedFlattenPaths (doc) :
-    return doc.flatten_all_paths()
 
 def strokeCoversPath(path, stroke, doc) : 
     def pointPathIntersect (point):  

@@ -3,6 +3,18 @@ from treeOps import leavesInSubtree, parent
 import copy
 import more_itertools
 
+def hac2nxDiGraph (leaves, links) :
+    T = nx.DiGraph()
+    T.add_nodes_from(leaves)
+    n = max(leaves) + 1
+    leaves.extend(list(range(n, 3 * n)))
+    for i, link in enumerate(links) : 
+        T.add_edge(n + i, leaves[link[0]])
+        T.add_edge(n + i, leaves[link[1]])
+    for node in T.nodes:  
+        T.nodes[node]['pathSet'] = list(leavesInSubtree(T, node))
+    return T
+
 def contractGraph (G, nodeSet) : 
     """
     Contract the graph by merging all 

@@ -27,8 +27,8 @@ def optimalRotationAndTranslation (pts1, pts2) :
     centroid2 = np.mean(pts2, axis=0)
     pts1_ = pts1 - centroid1
     pts2_ = pts2 - centroid2
-    pts1_ = pts1_ / (np.std(pts1_, axis=0) + 1e-3)
-    pts2_ = pts2_ / (np.std(pts2_, axis=0) + 1e-3)
+    pts1_ = pts1_ / (np.std(pts1_, axis=0) + 1e-4)
+    pts2_ = pts2_ / (np.std(pts2_, axis=0) + 1e-4)
     H = pts1_.T @ pts2_
     U, S, Vt = np.linalg.svd(H)
     R = Vt.T @ U.T

@@ -1,20 +1,19 @@
 import networkx as nx
+from networkx.drawing.nx_agraph import graphviz_layout
 import os
 import os.path as osp
 import torch
+from vectorrvnn.utils.graph import *
 from tqdm import tqdm
 import json
 from skimage import transform
 import math
 import numpy as np
-from networkx.drawing.nx_agraph import graphviz_layout
 from matplotlib.offsetbox import OffsetImage
 from matplotlib.offsetbox import AnnotationBbox
 import matplotlib.pyplot as plt
 from raster import svgStringToBitmap, alphaCompositeOnGrey, alphaCompositeOnWhite
-from graphIO import GraphReadWrite
 from imageio import imwrite
-from treeOps import *
 
 def treeAxisFromGraph(G, ax) : 
     pos = graphviz_layout(G, prog='dot')
@@ -101,8 +100,6 @@ def putOnCanvas (pts, images) :
         Collection of 2D points
     images : list
         Corresponding images to embed
-    outFile : str
-        Path to output file.
     """
     min_x = np.min(pts[:,0])
     max_x = np.max(pts[:,0])
@@ -112,7 +109,7 @@ def putOnCanvas (pts, images) :
     sz = 400
     pad = (h + w)
     pix = sz + 2 * pad
-    canvas = np.ones((pix, pix, 4))#, dtype=np.uint8) * int(255)
+    canvas = np.ones((pix, pix, 4))
     canvas[:, :, 3] = 0
     for pt, im in zip(pts, images) : 
         h_, w_, _ = im.shape
@@ -125,7 +122,6 @@ def putOnCanvas (pts, images) :
         alpha = im[:, :, 3:]
         blob = canvas[sx:ex, sy:ey, :] 
         canvas[sx:ex, sy:ey,:] = np.clip(im * alpha + blob * (1 - alpha), 0, 1)
-
     canvas = alphaCompositeOnGrey(canvas)
     return canvas
 

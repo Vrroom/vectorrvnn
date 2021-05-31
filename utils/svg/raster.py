@@ -118,34 +118,20 @@ def getSubsetSvg2(doc, paths, lst, vb) :
         docCpy.parent_map[elt].remove(elt)
     return ET.tostring(root, encoding='unicode')
 
-def alphaCompositeOnWhite (source) : 
-    destination = np.ones_like(source)
-    alpha = source[:, :, 3:]
-    d_ = destination[:, :, :3]
-    s_ = source[:, :, :3]
+def alphaComposite (source, module=np, color=[1,1,1]) : 
+    if module == np : 
+        color = np.array(color)
+        alpha = source[..., 3:] 
+        d_ = np.ones_like(source[..., :3])
+        d_[..., :] = color
+        s_ = source[..., :3]
+    else : 
+        color = torch.tensor(color)
+        alpha = source[:, 3:, ...] 
+        d_ = torch.ones_like(source[:, :3, ...])
+        d_[:, :, ...] = color
+        s_ = source[:, :3, ...]
     return d_ * (1 - alpha) + s_ * alpha
-
-def alphaCompositeOnGrey (source) : 
-    destination = np.ones_like(source) / 2
-    alpha = source[:, :, 3:]
-    d_ = destination[:, :, :3]
-    s_ = source[:, :, :3]
-    return d_ * (1 - alpha) + s_ * alpha
-
-def svgStringToBitmap (svgString, H, W, alpha=False) :
-    svgName = randomString(10) + '.svg'
-    svgName = osp.join('/tmp', svgName)
-    pngName = randomString(10) + '.png'
-    pngName = osp.join('/tmp', pngName)
-    with open(svgName, 'w+') as fd :
-        fd.write(svgString)
-    rasterize(svgName, pngName, H, W)
-    img = image.imread(pngName)
-    os.remove(svgName)
-    os.remove(pngName)
-    if alpha: 
-        return img
-    return alphaCompositeOnWhite(img)
 
 def SVGSubset2NumpyImage (doc, pathSet, H, W, alpha=False) :
     paths = cachedFlattenPaths(doc)

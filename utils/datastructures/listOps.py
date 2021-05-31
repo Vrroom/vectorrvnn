@@ -2,10 +2,15 @@ import itertools
 from itertools import combinations, chain
 
 def subsets (lst, k) : 
+    """ return size k subsets of list """ 
     combs = map(lambda i: combinations(lst, i), range(2, k + 1))
     return itertools.chain(*combs)
 
 def avg (lst) : 
+    """ 
+    use this instead of np.mean if you are worried
+    about empty lists.
+    """
     if len(lst) == 0 : 
         return 0
     return sum(lst) / len(lst)
@@ -39,7 +44,6 @@ def removeIndices (lst, indices) :
     for i in sorted(indices, reverse=True):
         del lst[i] 
 
-
 def argmax(lst) :
     """
     Compute the argmax of a list.
@@ -63,10 +67,7 @@ def argmin(lst) :
     return next(filter(lambda x : m == lst[x], range(len(lst))))
 
 def isDisjoint(a, b) : 
-    if isinstance(a, int) : 
-        a = [a]
-    if isinstance(b, int) : 
-        b = [b]
+    """ are two lists disjoint """
     return len(set(a).intersection(set(b))) == 0
 
 def pairwiseDisjoint (setList) :
@@ -84,4 +85,5 @@ def pairwiseDisjoint (setList) :
     return True
 
 def asTuple (a) :
+    """ convert int to singleton tuple, leave tuples as is """
     return a if isinstance(a, tuple) else (a, )

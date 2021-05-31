@@ -1,3 +1,7 @@
+"""
+Convenience functions for manipulating points 
+as represented in svgpathtools
+"""
 import numpy as np
 
 def complexLE (x, y) :
@@ -43,6 +47,4 @@ def complexCross (x, y) :
     v1 = np.array([x.real, x.imag, 0.0]) 
     v2 = np.array([y.real, y.imag, 0.0]) 
     return np.linalg.norm(np.cross(v1,v2))
-
-    
 
