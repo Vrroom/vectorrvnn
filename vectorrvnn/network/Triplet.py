@@ -1,20 +1,14 @@
 import torch
 from sklearn import metrics
-from dictOps import *
+from vectorrvnn.utils import *
 from functools import lru_cache
 from itertools import starmap, combinations
-from vis import *
 from copy import deepcopy
-from treeCompare import * 
 from sklearn.manifold import TSNE
 from tqdm import tqdm
 import os
 import os.path as osp
 import svgpathtools as svg
-from treeOps import *
-from listOps import *
-from graphOps import nxGraph2appGraph
-from raster import *
 import numpy as np
 from torch import nn
 import torch.nn.functional as F

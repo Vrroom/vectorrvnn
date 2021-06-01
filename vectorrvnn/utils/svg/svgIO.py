@@ -96,16 +96,8 @@ def getTreeStructureFromSVG (svgFile) :
             T.nodes[curId]['pathSet'] = pathSet
         return curId
 
-    childTags = [
-        '{http://www.w3.org/2000/svg}rect',
-        '{http://www.w3.org/2000/svg}circle',
-        '{http://www.w3.org/2000/svg}ellipse',
-        '{http://www.w3.org/2000/svg}line', 
-        '{http://www.w3.org/2000/svg}polyline',
-        '{http://www.w3.org/2000/svg}polygon',
-        '{http://www.w3.org/2000/svg}path',
-    ]
-    groupTag = '{http://www.w3.org/2000/svg}g'
+    childTags = GRAPHIC_TAGS[:-1]
+    groupTag = GRAPHIC_TAGS[-1]
     doc = svg.Document(svgFile)
     paths = doc.paths()
     zIndexMap = dict([(p.zIndex, i) for i, p in enumerate(paths)])

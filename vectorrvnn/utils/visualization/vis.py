@@ -1,27 +1,25 @@
 import networkx as nx
 from networkx.drawing.nx_agraph import graphviz_layout
-import os
-import os.path as osp
-import torch
-from vectorrvnn.utils.graph import *
-from tqdm import tqdm
-import json
 from skimage import transform
-import math
 import numpy as np
+import matplotlib.pyplot as plt
 from matplotlib.offsetbox import OffsetImage
 from matplotlib.offsetbox import AnnotationBbox
-import matplotlib.pyplot as plt
-from raster import svgStringToBitmap, alphaCompositeOnGrey, alphaCompositeOnWhite
-from imageio import imwrite
+from vectorrvnn.utils import *
 
 def treeAxisFromGraph(G, ax) : 
+    setNodeDepths(G) # filter nodes deeper than level 5
+    doc = G.doc
     pos = graphviz_layout(G, prog='dot')
     ax.set_aspect('equal')
     nx.draw(G, pos, ax=ax, node_size=0.5, arrowsize=1)
+    md = max(1, np.ceil(maxDepth(G) / 10))
     for n in G :
-        img = svgStringToBitmap(G.nodes[n]['svg'])
-        imagebox = OffsetImage(img, zoom=0.2)
+        if G.nodes[n]['depth'] > 5 : 
+            continue
+        subsetDoc = getSubsetSvg(doc, G.nodes[n]['pathSet'])
+        img = rasterize(subsetDoc, 64, 64)
+        imagebox = OffsetImage(img, zoom=0.2 / md)
         imagebox.image.axes = ax
         ab = AnnotationBbox(imagebox, pos[n], pad=0)
         ax.add_artist(ab)
@@ -29,13 +27,9 @@ def treeAxisFromGraph(G, ax) :
 
 def treeImageFromGraph (G) :
     """
-    Visualize the paths as depicted
-    by the tree structure of the 
-    graph.
-
-    This helps us understand whether the 
-    network's decomposition is good or
-    not.
+    Visualize the paths as depicted by the tree structure 
+    of the graph.  This helps us understand whether the 
+    network's decomposition is good or not.
 
     Parameters
     ----------
@@ -43,45 +37,8 @@ def treeImageFromGraph (G) :
         Hierarchy of paths
     """
     fig, ax = plt.subplots(dpi=1500)
-    pos = graphviz_layout(G, prog='dot')
-    ax.set_aspect('equal')
-    nx.draw(G, pos, ax=ax, node_size=0.5, arrowsize=1)
-    md = max(1, math.ceil(maxDepth(G) / 10))
-    for n in G :
-        img = svgStringToBitmap(G.nodes[n]['svg'], 64, 64)
-        imagebox = OffsetImage(img, zoom=0.2 / md)
-        imagebox.image.axes = ax
-        ab = AnnotationBbox(imagebox, pos[n], pad=0)
-        ax.add_artist(ab)
-    ax.axis('off')
+    treeAxisFromGraph(G, ax)
     return (fig, ax)
-
-def treeImageFromJson (jsonTuple) :
-    """
-    Given a tuple containing
-    a single json file representing the
-    tree structure of a particular svg,
-    we visualize the figure using 
-    matplotlib.
-
-    For each rooted subtree, we keep an
-    icon depicting the paths in that 
-    subtree.
-
-    This helps us understand whether the 
-    network's decomposition is good or
-    not.
-
-    Parameters
-    ----------
-    jsonTuple : tuple
-        singleton tuple containing path 
-        to the json file containing
-        tree data.
-    """
-    jsonFile, = jsonTuple
-    G = GraphReadWrite('tree').read(jsonFile)
-    return treeImageFromGraph(G)
 
 def putOnCanvas (pts, images) :
     """ 
@@ -115,8 +72,8 @@ def putOnCanvas (pts, images) :
         h_, w_, _ = im.shape
         if h_ != h or w_ != w :
             im = transform.resize(im, (h, w))
-        pix_x = pad + math.floor(sz * ((pt[0] - min_x) / (max_x - min_x)))
-        pix_y = pad + math.floor(sz * ((pt[1] - min_y) / (max_y - min_y)))
+        pix_x = pad + np.floor(sz * ((pt[0] - min_x) / (max_x - min_x)))
+        pix_y = pad + np.floor(sz * ((pt[1] - min_y) / (max_y - min_y)))
         sx, ex = pix_x - (h // 2), pix_x + (h // 2)
         sy, ey = pix_y - (w // 2), pix_y + (w // 2)
         alpha = im[:, :, 3:]

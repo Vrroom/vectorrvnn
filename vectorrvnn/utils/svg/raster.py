@@ -3,11 +3,11 @@
 # import random
 # import os
 # import os.path as osp
-# import svgpathtools as svg
 # import matplotlib.image as image
 # import string
 import numpy as np
 import torch
+import svgpathtools as svg
 import pathfinder_rasterizer as pr
 from .svgTools import *
 
@@ -35,58 +35,21 @@ def rasterize (doc, h, w) :
     doc.set_viewbox(' '.join(map(str, [0, 0, h, w])))
     return pr.numpyRaster(doc) 
 
-# 
-# def getSubsetSvg(doc, paths, lst, vb) :
-#     """
-#     An svg is a collection of paths. 
-#     This function chooses a list of
-#     paths from the svg and makes an svg
-#     string for those paths. 
-# 
-#     While doing this, we have to be careful
-#     about the order in which these paths
-#     are put because they determine the
-#     order in which they are rendered. 
-# 
-#     For this, I have tweaked the 
-#     svgpathtools library to also
-#     store the zIndex of the paths
-#     so that we have help while putting
-#     the paths together
-# 
-#     >>> doc = svg.Document('file.svg')
-#     >>> paths = doc.flatten_all_paths()
-#     >>> print(getSubsetSvg(paths, [1,2,3], doc.get_viewbox()))
-# 
-#     Parameters
-#     ----------
-#     paths : list
-#         List where each element is of
-#         the type svg.Document.FlattenedPath
-#     lst : list
-#         An index set into the previous list 
-#         specifying the paths we want.
-#     vb : list
-#         The viewbox of the original svg.
-#     """
-#     docCpy = deepcopy(doc)
-#     vbox = ' '.join([str(_) for _ in vb])
-#     docCpy.set_viewbox(vbox)
-#     return ET.tostring(root, encoding='unicode')
-# 
-# def getSubsetSvg2(doc, paths, lst, vb) :
-#     docCpy = deepcopy(doc)
-#     vbox = ' '.join([str(_) for _ in vb])
-#     docCpy.set_viewbox(vbox)
-#     root = docCpy.root
-#     unwantedPaths = list(set(range(len(paths))) - set(lst))
-#     unwantedPathIds = [paths[i].zIndex for i in unwantedPaths]
-#     allElts = list(root.iter())
-#     unwantedElts = [allElts[i] for i in unwantedPathIds]
-#     for elt in unwantedElts : 
-#         docCpy.parent_map[elt].remove(elt)
-#     return ET.tostring(root, encoding='unicode')
-# 
+def getSubsetSvg(doc, lst) :
+    paths = cachedPaths(doc)
+    nPaths = len(paths)
+    docCpy = deepcopy(doc)
+    root = docCpy.root
+    unwantedPaths = list(set(range(nPaths)) - set(lst))
+    unwantedPathIds = [paths[i].zIndex for i in unwantedPaths]
+    allElts = list(root.iter())
+    unwantedElts = [allElts[i] for i in unwantedPathIds]
+    for elt in unwantedElts : 
+        docCpy.parent_map[elt].remove(elt)
+    newDocument = svg.Document(None)
+    newDocument.fromString(ET.tostring(root, encoding='unicode'))
+    return newDocument
+
 # 
 # def SVGSubset2NumpyImage (doc, pathSet, H, W, alpha=False) :
 #     paths = cachedFlattenPaths(doc)

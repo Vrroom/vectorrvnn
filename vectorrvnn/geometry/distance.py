@@ -1,11 +1,12 @@
 """ distance functions for comparing paths """
 from scipy.spatial.distance import directed_hausdorff
 from functools import lru_cache
-from vectorrvnn.utils import *
+from collections import namedtuple
 from skimage import color
 import numpy as np
 from .descriptor import *
 from .utils import *
+from vectorrvnn.utils import *
 
 def _getPathPair(doc, i, j) :
     paths = cachedPaths(doc)
@@ -124,11 +125,20 @@ def endpointDistance (doc, i, j) :
             circleIoU(c2, c4))
     return score
 
+def isometricDistance (doc, i, j) : 
+    """ 
+    Get the relative error in the best isometric
+    transformation from i to j. 
+    """
+    path1, path2 = _getPathPair(doc, i, j)
+    _, _, _, relE = isometry(path1.path, path2.path)
+    return relE
+
 def parallelismDistance (doc, i, j) : 
     """ try to figure out if the paths are parallel """
     path1, path2 = _getPathPair(doc, i, j) 
-    l1, l2 = path1.length(), path2.length()
-    samplingDistance = 0.05 * min(l1, l2)
+    l1, l2 = path1.path.length(), path2.path.length()
+    samplingDistance = 0.02 * min(l1, l2)
     n = int(l1 / samplingDistance)
     m = int(l2 / samplingDistance)
     samples1 = np.array(equiDistantSamples(doc, i, nSamples=n, normalize=False)).T

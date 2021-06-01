@@ -1,29 +1,12 @@
-from copy import deepcopy
+from functools import reduce, lru_cache
 import svgpathtools as svg
 from skimage import transform
 import networkx as nx
-from raster import *
-from descriptor import relbb, equiDistantSamples, bb
-from functools import reduce
 import numpy as np
-from treeOps import *
-from torchvision import transforms as T
-import torch
-from itertools import product
-from more_itertools import unzip
-from functools import lru_cache
-import os
-import os.path as osp
-from vectorrvnn.utils.os import *
-import matplotlib.pyplot as plt
-import Constants as C
+from vectorrvnn.geometry import *
+from vectorrvnn.utils import *
 
-def normalizeBBox (box) : 
-    x, y, h, w = box
-    d = max(h, w)
-    return [x - (d - h) / 2, y - (d - w)/ 2, d, d]
-
-class TripletSVGData (nx.DiGraph) : 
+class SVGData (nx.DiGraph) : 
 
     def preprocessTree (self) : 
         setSubtreeSizes(self)
@@ -33,39 +16,27 @@ class TripletSVGData (nx.DiGraph) :
 
     def preprocessGraphic (self, svgFile) :
         self.svgFile = svgFile
-        doc = svg.Document(svgFile)
-        docViewBox = normalizeBBox(drawingBBox(doc))
-        scale = C.raster_size / docViewBox[-1]
-        docViewBox = [_ * scale for _ in docViewBox]
-        gstr = f'<g transform="translate({-docViewBox[0]} {-docViewBox[1]}) scale({scale})"></g>'
-        groupElt = ET.fromstring(gstr)
-        doc.set_viewbox(' '.join(map(str, [0, 0, *docViewBox[-2:]])))
-        rootCpy = deepcopy(doc.tree.getroot())
-        childrenCpy = list(rootCpy)
-        groupElt.extend(childrenCpy)
-        root = doc.tree.getroot()
-        while len(root) != 0 : 
-            for child in root : 
-                root.remove(child)
-        root.append(groupElt)
-        doc.tree._setroot(root)
-        self.doc = doc
-        self.svg = ET.tostring(self.doc.tree.getroot()).decode()
-        paths = cachedFlattenPaths(self.doc)
-        paths = [p for i, p in enumerate(paths) if not isDegenerateBBox(relbb(self.doc, i))]
+        self.doc = svg.Document(svgFile)
+        paths = cachedPaths(self.doc)
+        paths = [p for i, p in enumerate(paths) 
+                if not isDegenerateBBox(bb(self.doc, i))]
         self.nPaths = len(paths)
         self.pathViewBoxes = [bb(self.doc, i) for i, p in enumerate(paths)]
-        # for r in [r for r in self.nodes if self.in_degree(r) == 0] : 
-        #     self._computeBBoxes(r)
+        for r in [r for r in self.nodes if self.in_degree(r) == 0] : 
+            self._computeBBoxes(r)
 
-    def __init__ (self, svgFile, pickle) : 
-        """
-        Constructor.
-        """
-        super(TripletSVGData, self).__init__(nx.read_gpickle(pickle))
+    def __init__ (self, svgFile, treePickle=None, tree=None) : 
+        """ Only one of treePickle and tree can be not None """
+        assert(treePickle is None or tree is None)
+        if treePickle is not None : 
+            super(SVGData, self).__init__(nx.read_gpickle(treePickle))
+        elif tree is not None : 
+            super(SVGData, self).__init__(tree)
+        else :
+            super(SVGData, self).__init__()
         self.preprocessTree()
         self.preprocessGraphic(svgFile)
-        self.preprocessRasters()
+        # self.preprocessRasters()
 
     def _pathSet2Tuple (self) : 
         for n in self.nodes :

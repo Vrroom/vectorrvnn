@@ -16,10 +16,7 @@ def treeify (t) :
     return t_
 
 def numNodes2Binarize (t) :
-    """
-    How many nodes should be added to 
-    binarize a tree.
-    """
+    """ How many nodes should be added to binarize a tree  """
     return sum([t.out_degree(n) - 2 for n in t.nodes if t.out_degree(n) > 2])
 
 def lca (t, a, b, r) : 
@@ -422,17 +419,3 @@ def parent(t, n) :
 def siblings(t, n): 
     p = parent(t, n)
     return set(t.neighbors(p)) - {n}
-
-if __name__ == "__main__" : 
-    import json
-    from Dataset import SVGDataSet 
-    with open('commonConfig.json') as fd : 
-        commonConfig = json.load(fd)
-    # Load all the data
-    trainDir = commonConfig['train_directory']
-    trainData = SVGDataSet(trainDir, 'adjGraph', 10, useColor=False)
-    things = list(map(maxDepth, trainData))
-    setNodeDepths(trainData[0])
-    import matplotlib.pyplot as plt
-    plt.hist(things)
-    plt.show()
