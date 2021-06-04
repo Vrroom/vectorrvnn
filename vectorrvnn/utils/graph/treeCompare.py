@@ -131,16 +131,6 @@ def levenshteinDistance (a, b, matchFn, costFn) :
         row = newRow
     return row[n]
 
-def treeify (t) : 
-    n = t.number_of_nodes()
-    t_ = deepcopy(t)
-    roots = [r for r in t.nodes if t.in_degree(r) == 0]
-    if len(roots) > 1 : 
-        edges = list(product([n], roots))
-        t_.add_edges_from(edges)
-        t_.nodes[n]['pathSet'] = leaves(t)
-    return t_
-
 def levelPathSetCuts (t, d):
     setNodeDepths(t)
     n = len(leaves(t))
@@ -152,42 +142,3 @@ def levelPathSetCuts (t, d):
     for i, cluster in enumerate(cuts) :
         clusterIds[cluster] = i
     return clusterIds
-
-def avgMetric (ts1, ts2, d, f) :
-    avgs = []
-    for t1, t2 in zip(ts1, ts2) : 
-        c1 = levelPathSetCuts(t1, d)
-        c2 = levelPathSetCuts(t2, d)
-        avgs.append(f(c1, c2))
-    return avg(avgs)
-
-def compareMethod (pickleFile) : 
-    print(pickleFile)
-    testData = TripletSVGDataSet('cv4channel.pkl').svgDatas
-    testData = [t for t in testData if len(leaves(t)) < 50]
-    testData = list(map(treeify, testData))
-    with open(pickleFile, 'rb') as fd : 
-        inferredTrees = pickle.load(fd)
-    inferredTrees = [t for t in inferredTrees if len(leaves(t)) < 50]
-    print("FMI")
-    print(avgMetric(testData, inferredTrees, 1, metrics.fowlkes_mallows_score))
-    print(avgMetric(testData, inferredTrees, 2, metrics.fowlkes_mallows_score))
-    print(avgMetric(testData, inferredTrees, 3, metrics.fowlkes_mallows_score))
-    print("NMI")
-    print(avgMetric(testData, inferredTrees, 1, metrics.normalized_mutual_info_score))
-    print(avgMetric(testData, inferredTrees, 2, metrics.normalized_mutual_info_score))
-    print(avgMetric(testData, inferredTrees, 3, metrics.normalized_mutual_info_score))
-
-if __name__ == "__main__" : 
-    import matplotlib.pyplot as plt
-    x = list(range(2, 6))
-    # ycLuster = compareMethod('cLuster_infer_val.pkl')
-    ySuggero = compareMethod('suggero_infer_val.pkl')
-    yTriplet = compareMethod('triplet_suggero_new_infer_val.pkl')
-#     from Dataset import SVGDataSet
-#     from tqdm import tqdm
-#     testData = SVGDataSet('cv.pkl').svgDatas
-#     print(ted(testData[0], testData[1]))
-#     # dists = [ted(t, t) for t in tqdm(testData)]
-# 
-#     # print(np.mean(dists))

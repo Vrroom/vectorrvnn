@@ -5,13 +5,12 @@ import torch.optim as optim
 import random
 from vectorrvnn.utils import *
 from vectorrvnn.data import *
+from vectorrvnn.trainutils import *
 import os
 import json
 import ttools 
 import ttools.interfaces
 from ttools.modules import networks
-from Callbacks import *
-from Scheduler import *
 from copy import deepcopy
 
 LOG = ttools.get_logger(__name__)
@@ -95,7 +94,7 @@ class TripletInterface (ttools.ModelInterface) :
         if self.max_grad_norm is not None:
             nrm = nn.utils.clip_grad_norm_(self.model.parameters(), self.max_grad_norm)
             if nrm > self.max_grad_norm:
-                LOG.warning("Clipping generator gradients. norm = %.3f > %.3f", nrm, self.max_grad_norm)
+                LOG.warning("Clipping gradients. norm = %.3f > %.3f", nrm, self.max_grad_norm)
         self.opt.step()
         ret['mask'] = mask
         ret["loss"] = loss.item()

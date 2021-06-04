@@ -22,7 +22,6 @@ def numNodes2Binarize (t) :
 def lca (t, a, b, r) : 
     testNodes = {a, b}
     while True :
-        desc = map(partial(descendants, t), t.neighbors(r))
         found = False
         for n in t.neighbors(r) : 
             desc = descendants(t, n)
@@ -47,7 +46,7 @@ def lcaScore (t, a, b) :
         d = max(t.nodes[a]['depth'], t.nodes[b]['depth'])
         l_ = (d - t.nodes[l]['depth'])
         return l_
-    return 5
+    return np.inf
 
 def lofScore (t, a, b) :
     l = lca(t, a, b)

@@ -1,24 +1,21 @@
 import torch
+from torch import nn
+import torch.nn.functional as F
 from sklearn import metrics
 from vectorrvnn.utils import *
+from vectorrvnn.data import *
+from vectorrvnn.trainutils import *
+from .PositionalEncoding import PositionalEncoding
 from functools import lru_cache
 from itertools import starmap, combinations
-from copy import deepcopy
-from sklearn.manifold import TSNE
-from tqdm import tqdm
 import os
 import os.path as osp
 import svgpathtools as svg
 import numpy as np
-from torch import nn
-import torch.nn.functional as F
-from torchUtils import * 
-from TripletDataset import *
 from torchvision.models import resnet50
 from more_itertools import collapse
 from scipy.cluster.hierarchy import linkage
 import torchvision.models as models
-from PositionalEncoding import PositionalEncoding
 import Constants as C
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
@@ -53,10 +50,6 @@ def convnet () :
     model.to("cuda")
     return model
 
-transform = A.Compose([
-    A.Normalize(mean=C.mean, std=C.std, max_pixel_value=1),
-    ToTensorV2()
-])
 
 @lru_cache(maxsize=128)
 def getEmbedding (t, pathSet, embeddingFn): 
@@ -156,58 +149,3 @@ class TripletNet (nn.Module) :
 
         return treeFromNestedArray(subtrees)
 
-def testCorrect (model, dataset):  
-    dataLoader = torch.utils.data.DataLoader(
-        dataset, 
-        batch_size=32, 
-        sampler=TripletSampler(dataset.svgDatas, 10000),
-        pin_memory=True,
-        collate_fn=lambda x : aggregateDict(x, torch.stack)
-    )
-    for batch in dataLoader : 
-        break
-    im = batch['im'].cuda()
-    refCrop = batch['refCrop'].cuda()
-    refWhole = batch['refWhole'].cuda()
-    plusCrop = batch['plusCrop'].cuda()
-    plusWhole = batch['plusWhole'].cuda()
-    minusCrop = batch['minusCrop'].cuda()
-    minusWhole = batch['minusWhole'].cuda()
-    lcaScore = batch['lcaScore'].cuda()
-    dplus2 = model(im, refCrop, refWhole, plusCrop, plusWhole, minusCrop, minusWhole, lcaScore)
-    loss = dplus2.mean()
-    print(loss)
-
-def fillSVG (gt, t) : 
-    doc = svg.Document(gt.svgFile)
-    paths = doc.flatten_all_paths()
-    vb = doc.get_viewbox()
-    for n in t.nodes : 
-        t.nodes[n].pop('image', None)
-        pathSet = t.nodes[n]['pathSet']
-        t.nodes[n]['svg'] = getSubsetSvg2(doc, paths, pathSet, vb)
-    thing = treeImageFromGraph(t)
-    return thing
-
-def getModel(name, version='training_end.pth') : 
-    model = TripletNet(dict(hidden_size=100))
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    MODEL_DIR = os.path.join(BASE_DIR, 'results', name)
-    state_dict = torch.load(os.path.join(MODEL_DIR, version))
-    model.load_state_dict(state_dict['model'])
-    model = model.float()
-    model.to("cuda")
-    model.eval()
-    return model
-
-if __name__ == "__main__" : 
-    with open('cv64.pkl', 'rb') as fp : 
-        testData = pickle.load(fp)
-    testData = [t for t in testData if t.nPaths < 50]
-    model = getModel("suggero_pretrained_alexnet")
-    scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
-    testData = list(map(treeify, testData))
-    inferredTrees = [model.greedyTree(t) for t in tqdm(testData)]
-    print(avgMetric(testData, inferredTrees, 1, metrics.fowlkes_mallows_score))
-    scores = [scoreFn(t, t_) for t, t_ in tqdm(zip(testData, inferredTrees), total=len(testData))]
-    print(np.mean(scores))
