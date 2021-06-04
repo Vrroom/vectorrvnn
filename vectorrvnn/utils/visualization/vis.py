@@ -17,7 +17,7 @@ def treeAxisFromGraph(G, ax) :
     for n in G :
         if G.nodes[n]['depth'] > 5 : 
             continue
-        subsetDoc = getSubsetSvg(doc, G.nodes[n]['pathSet'])
+        subsetDoc = subsetSvg(doc, G.nodes[n]['pathSet'])
         img = rasterize(subsetDoc, 64, 64)
         imagebox = OffsetImage(img, zoom=0.2 / md)
         imagebox.image.axes = ax

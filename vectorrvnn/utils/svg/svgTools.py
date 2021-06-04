@@ -2,6 +2,7 @@ from functools import lru_cache
 from matplotlib import colors
 import xml.etree.ElementTree as ET
 from copy import deepcopy
+import svgpathtools as svg
 from .svgIO import GRAPHIC_TAGS
 import cssutils
 
@@ -93,4 +94,17 @@ def globalTransform(doc, transform) :
 def combineGraphics (doc1, doc2) : 
     pass
 
-
+def subsetSvg(doc, lst) :
+    paths = cachedPaths(doc)
+    nPaths = len(paths)
+    docCpy = deepcopy(doc)
+    root = docCpy.root
+    unwantedPaths = list(set(range(nPaths)) - set(lst))
+    unwantedPathIds = [paths[i].zIndex for i in unwantedPaths]
+    allElts = list(root.iter())
+    unwantedElts = [allElts[i] for i in unwantedPathIds]
+    for elt in unwantedElts : 
+        docCpy.parent_map[elt].remove(elt)
+    newDocument = svg.Document(None)
+    newDocument.fromString(ET.tostring(root, encoding='unicode'))
+    return newDocument

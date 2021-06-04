@@ -57,4 +57,12 @@ def test_isometry () :
     assert(isometricDistance(docs[1], 0, 1) < 0.01)
     assert(isometricDistance(docs[2], 0, 1) > 0.1)
 
-test_isometry()
+def test_areaintersection () : 
+    chdir = osp.split(osp.abspath(__file__))[0]
+    fname = osp.join(chdir, 'data', 'intersection.svg')
+    doc = svg.Document(fname)
+    a1 = areaIntersectionDistance(doc, 0, 1)
+    a2 = areaIntersectionDistance(doc, 1, 2)
+    a3 = areaIntersectionDistance(doc, 2, 0)
+    assert(a1 == 0) 
+    assert(a3 > a2)

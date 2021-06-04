@@ -162,3 +162,9 @@ def parallelismDistance (doc, i, j) :
         d = distanceOfPointFromLine(seg1[0], (seg2[0], N_.T)) / strokeLen
         E.append((theta + e + d) / 3)
     return min(E)
+
+def areaIntersectionDistance(doc, i, j) : 
+    """ find the area of intersection of two paths """
+    imi, imj = pathBitmap(doc, i), pathBitmap(doc, j)
+    return (imi * imj).sum()
+

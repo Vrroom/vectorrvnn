@@ -3,7 +3,8 @@ import numpy as np
 import random
 from functools import lru_cache
 from vectorrvnn.utils.comp import *
-from vectorrvnn.utils.svg import cachedPaths
+from vectorrvnn.utils.svg import *
+import pathfinder_rasterizer as pr
 from .utils import isDegenerateBBox
 
 @lru_cache(maxsize=128)
@@ -89,3 +90,8 @@ def equiDistantSamples (doc, i, nSamples=5, **kwargs) :
         x = [p.real for p in pts]
         y = [p.imag for p in pts]
         return [x,y]
+
+@lru_cache(maxsize=128)
+def pathBitmap (doc, i, **kwargs) : 
+    im = rasterize(subsetSvg(doc, [i]))
+    return im[:, :, 3]

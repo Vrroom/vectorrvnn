@@ -7,5 +7,5 @@ def test_svgdata () :
     files = listdir(osp.join(chdir, 'data'))
     docs = [svg.Document(f) for f in files]
     trees = pmap(suggero, docs)
-    datapts = [SVGData(f, tree=t) for f, t in zip(files, trees)]
-
+    datapts = [SVGData(svgFile=f, tree=t) for f, t in zip(files, trees)]
+    assert(True)

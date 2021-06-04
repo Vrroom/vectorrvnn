@@ -1,26 +1,15 @@
 import torch 
-from tqdm import tqdm
 import torch.nn.functional as F
 from torch import nn
 import torch.optim as optim
-from torch.optim.lr_scheduler import MultiStepLR
 import random
-from listOps import avg
-import matplotlib.pyplot as plt
-from itertools import product
+from vectorrvnn.utils import *
+from vectorrvnn.data import *
 import os
-from Triplet import *
-from TripletSVGData import *
-from TripletDataset import *
 import json
-import more_itertools
-import math
 import ttools 
 import ttools.interfaces
 from ttools.modules import networks
-from dictOps import aggregateDict
-import visdom
-from torchUtils import *
 from Callbacks import *
 from Scheduler import *
 from copy import deepcopy
@@ -29,7 +18,8 @@ LOG = ttools.get_logger(__name__)
 
 class SuggeroPretrainInterface (ttools.ModelInterface) : 
 
-    def __init__(self, model, dataset, val_dataset, lr=3e-4, cuda=True, max_grad_norm=10):
+    def __init__(self, model, dataset, val_dataset, 
+            lr=3e-4, cuda=True, max_grad_norm=10):
         super(SuggeroPretrainInterface, self).__init__()
         self.max_grad_norm = max_grad_norm
         self.model = model
@@ -43,7 +33,7 @@ class SuggeroPretrainInterface (ttools.ModelInterface) :
         self.model.to(self.device)
         self.opt = optim.Adam(self.model.parameters(), lr=lr)
         milestones = list(range(1, 400, 10))
-        self.sched = MultiStepLR(self.opt, milestones, gamma=0.7, verbose=True)
+        self.sched = optim.MultiStepLR(self.opt, milestones, gamma=0.7, verbose=True)
         self.init = deepcopy(self.model.state_dict())
 
     def logGradients (self, ret) : 
@@ -127,8 +117,8 @@ class SuggeroPretrainInterface (ttools.ModelInterface) :
             dratio = result['dratio']
             dplus2 = result['dplus_']
             mask = result['mask']
+            loss = dplus2.mean().item()
             hardRatio = result['hardRatio'].item()
-            loss = (dplus2.sum() / (dplus2.shape[0] + 1e-6)).item()
             n = ratio.numel()
             n_ = dplus2.numel()
             count1 = running_data['count1']
