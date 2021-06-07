@@ -1,7 +1,7 @@
 import networkx as nx
 from .treeOps import leavesInSubtree, parent
 import copy
-import more_itertools
+import more_itertools, itertools
 
 def hac2nxDiGraph (leaves, links) :
     T = nx.DiGraph()

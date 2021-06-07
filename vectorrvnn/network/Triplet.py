@@ -1,24 +1,18 @@
 import torch
 from torch import nn
 import torch.nn.functional as F
-from sklearn import metrics
 from vectorrvnn.utils import *
 from vectorrvnn.data import *
 from vectorrvnn.trainutils import *
+import vectorrvnn.trainutils.Constants as C
 from .PositionalEncoding import PositionalEncoding
 from functools import lru_cache
 from itertools import starmap, combinations
 import os
 import os.path as osp
-import svgpathtools as svg
 import numpy as np
 from torchvision.models import resnet50
 from more_itertools import collapse
-from scipy.cluster.hierarchy import linkage
-import torchvision.models as models
-import Constants as C
-import albumentations as A
-from albumentations.pytorch import ToTensorV2
 
 def set_parameter_requires_grad(model, requires_grad):
     for param in model.parameters():
@@ -49,22 +43,6 @@ def convnet () :
     model = model.float()
     model.to("cuda")
     return model
-
-
-@lru_cache(maxsize=128)
-def getEmbedding (t, pathSet, embeddingFn): 
-    pathSet = asTuple(pathSet)
-    allPaths = tuple(leaves(t))
-    im    = whiteBackgroundTransform(t.alphaComposite(allPaths))
-    crop  = whiteBackgroundTransform(t.pathSetCrop(pathSet))
-    whole = whiteBackgroundTransform(t.alphaComposite(pathSet))
-    
-    im    = transform(image=im   )['image'].cuda().unsqueeze(0)
-    crop  = transform(image=crop )['image'].cuda().unsqueeze(0)
-    whole = transform(image=whole)['image'].cuda().unsqueeze(0)
-    paddedPaths = (list(allPaths) + [-1] * (C.max_len - len(allPaths)))
-    position = torch.tensor(paddedPaths, dtype=torch.long).cuda().unsqueeze(0)   
-    return embeddingFn(im, crop, whole, position) 
 
 class TripletNet (nn.Module) :
 

@@ -1,8 +1,10 @@
+""" suggero - https://mi-lab.org/files/2013/10/suggero.pdf """
 import numpy as np
 from sklearn.cluster import AgglomerativeClustering
 from vectorrvnn.geometry import *
 from vectorrvnn.utils.svg import cachedPaths
 from vectorrvnn.utils.graph import hac2nxDiGraph
+import networkx as nx
 
 USE_LITE = True
 
@@ -13,15 +15,10 @@ SUGGERO_ADVANCED = [localProximity, globalProximity,
 SUGGERO_LITE = SUGGERO_ADVANCED[:-2]
 
 def affinityMatrix (doc, affinityFn) :
-    paths = cachedPaths(doc)
-    n = len(paths)
-    M = np.zeros((n, n))
-    for i in range(n) : 
-        for j in range(i + 1, n) : 
-            M[i, j] = affinityFn(doc, i, j)
-    M = M + M.T
-    M = M / (M.max() + 1e-3)
-    return M 
+    G = relationshipGraph(doc, affinityFn, True)
+    M = nx.to_numpy_matrix(G, weight=affinityFn.__name__)
+    M = M / (M.max() + 1e-5)
+    return M
 
 def combinedAffinityMatrix (doc, affinityFns, weights) : 
     affinityMatrices = [affinityMatrix(doc, fn) for fn in affinityFns]

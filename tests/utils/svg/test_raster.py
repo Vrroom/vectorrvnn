@@ -1,7 +1,6 @@
-import pytest
 from vectorrvnn.utils import *
+from vectorrvnn.geometry import *
 import svgpathtools as svg
-import xml.etree.ElementTree as ET
 import matplotlib.image as image
 import os
 import os.path as osp
@@ -36,3 +35,4 @@ def test_alphacomposite () :
 
     fpAssert(a2.mean(), 1.0)
     fpAssert(a3.mean(), 1.0)
+

@@ -1,10 +1,96 @@
 from functools import lru_cache
+import re
+import string
 from matplotlib import colors
 import xml.etree.ElementTree as ET
 from copy import deepcopy
+import networkx as nx
+import itertools, more_itertools
 import svgpathtools as svg
-from .svgIO import GRAPHIC_TAGS
-import cssutils
+from vectorrvnn.utils.graph import *
+
+# Stroke attributes. 
+STROKE_LINECAP = ['butt', 'round', 'square'] # default in butt
+STROKE_LINEJOIN = ['miter', 'arcs', 'bevel', # default is miter
+        'miter-clip', 'round'] 
+
+# Defaults for path attributes
+DEFAULT_COLOR = 'black'
+DEFAULT_LINECAP = 'butt'
+DEFAULT_LINEJOIN = 'miter'
+DEFAULT_STROKEWIDTH = '1'
+
+GRAPHIC_TAGS = [
+    '{http://www.w3.org/2000/svg}rect',
+    '{http://www.w3.org/2000/svg}circle',
+    '{http://www.w3.org/2000/svg}ellipse',
+    '{http://www.w3.org/2000/svg}line', 
+    '{http://www.w3.org/2000/svg}polyline',
+    '{http://www.w3.org/2000/svg}polygon',
+    '{http://www.w3.org/2000/svg}path',
+    '{http://www.w3.org/2000/svg}switch',
+    '{http://www.w3.org/2000/svg}g',
+]
+
+class Del:
+    def __init__(self, keep=string.digits + '.-e'):
+        self.comp = dict((ord(c),c) for c in keep)
+    def __getitem__(self, k):
+        return self.comp.get(k)
+DD = Del()
+
+def getTreeStructureFromSVG (svgFile) : 
+    """
+    Infer the tree structure from the
+    XML document. 
+
+    Parameters
+    ----------
+    svgFile : str
+        Path to the svgFile.
+    """
+
+    def buildTreeGraph (element) :
+        """
+        Recursively create networkx tree and 
+        add path indices to the tree.
+
+        Parameters
+        ----------
+        element : Element
+            Element at this level of the
+            tree.
+        """
+        nonlocal r
+        curId = r
+        r += 1
+        T.add_node(curId)
+        if element.tag in childTags : 
+            zIdx = allNodes.index(element)
+            pathIdx = zIndexMap[zIdx]
+            T.nodes[curId]['pathSet'] = (pathIdx,)
+        else : 
+            childIdx = []
+            validTags = lambda x : x.tag in childTags or x.tag == groupTag
+            children = list(map(buildTreeGraph, filter(validTags, element)))
+            T.add_edges_from(list(itertools.product([curId], children)))
+            pathSet = tuple(more_itertools.collapse([T.nodes[c]['pathSet'] for c in children]))
+            T.nodes[curId]['pathSet'] = pathSet
+        return curId
+
+    childTags = GRAPHIC_TAGS[:-1]
+    groupTag = GRAPHIC_TAGS[-1]
+    doc = svg.Document(svgFile)
+    paths = doc.paths()
+    zIndexMap = dict([(p.zIndex, i) for i, p in enumerate(paths)])
+    tree = doc.tree
+    root = tree.getroot()
+    allNodes = list(root.iter())
+    T = nx.DiGraph()
+    r = 0
+    buildTreeGraph (root)
+    T = removeOneOutDegreeNodesFromTree(T)
+    return T
 
 @lru_cache(maxsize=128)
 def cachedPaths (doc) : 
@@ -38,25 +124,39 @@ def parseColor(s):
             warnings.warn('Unknown color command ' + s)
     return color
 
-def pathColor (path, attr) : 
+def pathAttribute (path, attr, default) : 
     if attr in path.element.attrib : 
-        return parseColor(path.element.attrib[attr])
-    else :
-        if 'style' in path.element.attrib : 
-            style = cssutils.parseStyle(
-                    path.element.attrib['style'])
-            if attr in style.keys() : 
-                return parseColor(style.getPropertyValue(attr))
-            else :
-                return [1, 1, 1]
-        else : 
-            return [1, 1, 1]
+        return path.element.attrib[attr]
+    elif 'style' in path.element.attrib : 
+        style = path.element.attrib['style']
+        style = dict(map(
+                lambda x : x.split(':'), 
+                style.split(';')))
+        if attr in style : 
+            return style[attr]
+    return default
+    
+def pathColor (path, attr) : 
+    """ attr can be one of stroke/fill """
+    return parseColor(pathAttribute(path, attr, DEFAULT_COLOR))
 
 def pathStrokeWidth (path) :
-    if 'stroke-width' in path.element.attrib : 
-        return float(path.element.attrib['stroke-width'])
-    else :
-        return 1
+    pw = pathAttribute(path, 'stroke-width', DEFAULT_STROKEWIDTH)
+    return float(pw.translate(DD))
+
+def pathStrokeLineCap (path): 
+    return pathAttribute(path, 'stroke-linecap', DEFAULT_LINECAP)
+
+def pathStrokeLineJoin (path): 
+    return pathAttribute(path, 'stroke-linejoin', DEFAULT_LINEJOIN)
+
+def pathStrokeDashArray(path) : 
+    """ 
+    Instead of the whole dasharray string, just 
+    say whether there is this attribute or not
+    """
+    da = pathAttribute(path, 'stroke-dasharray', None)
+    return da if da != 'none' else None
 
 def fixOrigin (doc) : 
     ox, oy = doc.get_viewbox()[:2]
@@ -67,6 +167,14 @@ def scaleToFit (doc, h, w) :
     ow, oh = doc.get_viewbox()[-2:]
     globalTransform(doc, 
             dict(transform=f'scale({w/ow} {h/oh})'))
+
+def translate (doc, tx, ty) : 
+    globalTransform(doc, 
+            dict(transform=f'translate({tx} {ty})'))
+
+def rotate (doc, degrees, px=0, py=0) :
+    globalTransform(doc,
+            dict(transform=f'rotate({degrees} {px} {py})'))
 
 def removeGraphicChildren (xmltree) :
     children = [e for e in xmltree if e.tag in GRAPHIC_TAGS]
@@ -90,9 +198,6 @@ def globalTransform(doc, transform) :
     removeGraphicChildren(root)
     root.append(groupElement)
     doc.tree._setroot(root)
-
-def combineGraphics (doc1, doc2) : 
-    pass
 
 def subsetSvg(doc, lst) :
     paths = cachedPaths(doc)

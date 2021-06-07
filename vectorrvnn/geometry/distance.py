@@ -1,5 +1,7 @@
 """ distance functions for comparing paths """
+import re
 from scipy.spatial.distance import directed_hausdorff
+import itertools
 from functools import lru_cache
 from collections import namedtuple
 from skimage import color
@@ -34,7 +36,7 @@ def hausdorff (a, b) :
     """ symmetric hausdorff distance between point clouds """
     return max(directed_hausdorff(a, b)[0], directed_hausdorff(b, a)[0])
 
-def localProximity(doc, i, j) : 
+def localProximity(doc, i, j, **kwargs) : 
     """ 
     Local proximity between paths as the 
     distance between center of bounding boxes.
@@ -45,7 +47,7 @@ def localProximity(doc, i, j) :
     sqDist = complexDot(center1 - center2, center1 - center2)
     return np.sqrt(sqDist)
 
-def globalProximity(doc, i, j) :
+def globalProximity(doc, i, j, **kwargs) :
     """ 
     Global proximity between paths as the 
     distance as the average distance between points
@@ -59,28 +61,28 @@ def globalProximity(doc, i, j) :
     samples2 = np.array(samples2)
     return np.linalg.norm(samples1 - samples2, axis=0).mean()
 
-def fourierDescriptorDistance (doc, i, j) : 
+def fourierDescriptorDistance (doc, i, j, **kwargs) : 
     """ 
     Distance between fourier descriptors to 
     measure curve similarity.
     """
     return np.linalg.norm(fd(doc, i) - fd(doc, j))
 
-def fillDistance (doc, i, j) : 
+def fillDistance (doc, i, j, **kwargs) : 
     """ distance between fill color in CIELAB space """
     path1, path2 = _getPathPair(doc, i, j)
     lab1 = color.rgb2lab(pathColor(path1, 'fill'))
     lab2 = color.rgb2lab(pathColor(path2, 'fill'))
     return np.linalg.norm(lab1 - lab2)
 
-def strokeDistance (doc, i, j) : 
+def strokeDistance (doc, i, j, **kwargs) : 
     """ distance between stroke color in CIELAB space """
     path1, path2 = _getPathPair(doc, i, j)
     lab1 = color.rgb2lab(pathColor(path1, 'stroke'))
     lab2 = color.rgb2lab(pathColor(path2, 'stroke'))
     return np.linalg.norm(lab1 - lab2)
 
-def strokeWidthDifference (doc, i, j) : 
+def strokeWidthDifference (doc, i, j, **kwargs) : 
     """ absolute difference in stroke width """
     path1, path2 = _getPathPair(doc, i, j)
     return abs(pathStrokeWidth(path1) - pathStrokeWidth(path2))
@@ -106,7 +108,7 @@ def _pathsWithTolerance (doc) :
         newPaths.append(FlattenedPath(*path, tol=tol))
     return newPaths
 
-def endpointDistance (doc, i, j) :
+def endpointDistance (doc, i, j, **kwargs) :
     """
     Distance is low if two paths' endpoints can
     be merged. High otherwise.
@@ -125,7 +127,7 @@ def endpointDistance (doc, i, j) :
             circleIoU(c2, c4))
     return score
 
-def isometricDistance (doc, i, j) : 
+def isometricDistance (doc, i, j, **kwargs) : 
     """ 
     Get the relative error in the best isometric
     transformation from i to j. 
@@ -134,7 +136,7 @@ def isometricDistance (doc, i, j) :
     _, _, _, relE = isometry(path1.path, path2.path)
     return relE
 
-def parallelismDistance (doc, i, j) : 
+def parallelismDistance (doc, i, j, **kwargs) : 
     """ try to figure out if the paths are parallel """
     path1, path2 = _getPathPair(doc, i, j) 
     l1, l2 = path1.path.length(), path2.path.length()
@@ -163,8 +165,96 @@ def parallelismDistance (doc, i, j) :
         E.append((theta + e + d) / 3)
     return min(E)
 
-def areaIntersectionDistance(doc, i, j) : 
+def areaIntersectionDistance(doc, i, j, **kwargs) : 
     """ find the area of intersection of two paths """
     imi, imj = pathBitmap(doc, i), pathBitmap(doc, j)
     return (imi * imj).sum()
 
+def autogroupAreaSimilarity (doc, i, j, **kwargs) :
+    # TODO Add fill to closed objects
+    imi, imj = pathBitmap(doc, i), pathBitmap(doc, j)
+    a1 = (imi > 0).sum()
+    a2 = (imj > 0).sum()
+    return 1 - abs(a1 - a2) / max(a1, a2)
+
+def autogroupPlacementDistance (doc, i, j, **kwargs) : 
+    path1, path2 = _getPathPair(doc, i, j)
+    if len(path1.path.intersect(path2.path, tol=1e-1)) > 0  : 
+        return 0
+    samples1 = np.array(equiDistantSamples(doc, i, normalize=False)).T
+    samples2 = np.array(equiDistantSamples(doc, j, normalize=False)).T
+    return hausdorff(samples1, samples2)
+
+def autogroupShapeHistogramSimilarity (doc, i, j, **kwargs) : 
+    """
+    Reference : 
+        https://diglib.eg.org/bitstream/handle/10.2312/egs20211016/short1005_supp.pdf?sequence=2&isAllowed=y
+    """
+    a, b = shapeHistogram(doc, i), shapeHistogram(doc, j)
+    return histScore(a, b)
+
+def autogroupStrokeSimilarity (doc, i, j, **kwargs) : 
+    """
+    Reference : 
+        https://diglib.eg.org/bitstream/handle/10.2312/egs20211016/short1005_supp.pdf?sequence=2&isAllowed=y
+    """
+    path1, path2 = _getPathPair(doc, i, j) 
+
+    c1 = pathColor(path1, 'stroke')
+    c2 = pathColor(path2, 'stroke')
+    colorScore = normalizedCiede2000Score(c1, c2)
+
+    sw1, sw2 = pathStrokeWidth(path1), pathStrokeWidth(path2)
+    swScore = 1 - abs(sw1 - sw2) / max(sw1, sw2)
+
+    lc1, lc2 = pathStrokeLineCap(path1), pathStrokeLineCap(path2)
+    lcScore = 1 if lc1 == lc2 else 0
+
+    lj1, lj2 = pathStrokeLineJoin(path1), pathStrokeLineJoin(path2)
+    ljScore = 1 if lj1 == lj2 else 0
+
+    da1, da2 = pathStrokeDashArray(path1), pathStrokeDashArray(path2)
+    if da1 is None and da2 is None : 
+        daScore = 1
+    elif (da1 is None) != (da2 is None) : 
+        daScore = 0 
+    else : 
+        
+        da1 = list(map(float, re.split(', ', da1)))
+        da2 = list(map(float, re.split(', ', da2)))
+        numerator = sum(map(lambda a, b : a == b, da1, da2))
+        denominator = max(len(da1), len(da2))
+        daScore = numerator / denominator
+
+    return avg([colorScore, lcScore, ljScore, daScore, swScore])
+
+def autogroupColorSimilarity (doc, i, j, 
+        containmentGraph=None) : 
+    l1, a1, b1 = colorHistogram(doc, i, containmentGraph)
+    l2, a2, b2 = colorHistogram(doc, j, containmentGraph)
+    lscore = histScore(l1, l2)
+    ascore = histScore(a1, a2)
+    bscore = histScore(b1, b2)
+    return avg([lscore, ascore, bscore])
+
+def bboxContains (doc, i, j, **kwargs) : 
+    path1, path2 = _getPathPair(doc, i, j)
+    return contains(path1.path.bbox(), path2.path.bbox())
+
+def relationshipGraph (doc, relFn, symmetric, **kwargs) : 
+    """
+    Encode relationship weight as edges. symmetric is either True or False.
+    """
+    paths = cachedPaths(doc)
+    wtName = relFn.__name__
+    n = len(paths)
+    if symmetric : 
+        G = nx.Graph()
+        iterator = itertools.combinations
+    else : 
+        G = nx.DiGraph()
+        iterator = itertools.permutations
+    for i, j in iterator(range(n), r=2) : 
+        wt = relFn(doc, i, j, **kwargs)
+        G.add_edge(i, j, **{wtName: wt})
+    return G

@@ -5,7 +5,8 @@ import networkx as nx
 import numpy as np
 from copy import deepcopy
 
-def treeify (t) : 
+def forest2tree (t) : 
+    """ convert a forest into a single tree """
     n = t.number_of_nodes()
     t_ = deepcopy(t)
     roots = [r for r in t.nodes if t.in_degree(r) == 0]
@@ -102,8 +103,7 @@ def maxDepth (t) :
     
 def subtreeSize(s, t, subSize) :
     """
-    Calculate the size of each
-    subtree in the rooted tree t.
+    Calculate the size of each subtree in the rooted tree t.
 
     Parameters
     ----------

@@ -275,19 +275,6 @@ class ImageCallback(ttools.callbacks.ImageDisplayCallback):
         refPlus = int(batch['refPlus'][0].cpu())
         return f'{refMinus} / {refPlus}'
 
-class BamImageCallback(ttools.callbacks.ImageDisplayCallback):
-    def visualized_image(self, batch, step_data, is_val):
-        ims = batch[0][:16]
-        ims = (ims - ims.min()) / (ims.max() - ims.min())
-        return ims
-        
-    def caption(self, batch, step_data, is_val):
-        # write some informative caption into the visdom window
-        labels = batch[1][:16].cpu()
-        labels = [str(int(l)) for l in labels]
-        return ', '.join(labels)
-
-
 class MeasureFMI (ttools.callbacks.Callback) : 
     def __init__(self, model, 
             frequency=100, server=None, port=8097, 

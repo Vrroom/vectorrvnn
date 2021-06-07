@@ -1,6 +1,19 @@
 """ geometry utility functions """
 import numpy as np
 from vectorrvnn.utils.svg import cachedPaths
+from skimage import color
+
+def histScore (a, b) : 
+    return np.minimum(a, b).sum() / np.maximum(a, b).sum()
+
+def normalizedCiede2000Score (rgb1, rgb2) : 
+    lab1 = color.rgb2lab(rgb1)
+    lab2 = color.rgb2lab(rgb2)
+    cmin = (0, -128, -128)
+    cmax = (100, 127, 127)
+    maxD = color.deltaE_ciede2000(cmin, cmax)
+    delE = color.deltaE_ciede2000(lab1, lab2)
+    return 1 - (delE / maxD)
 
 def normalizeBBox (box) : 
     x, y, w, h = box
@@ -10,6 +23,16 @@ def normalizeBBox (box) :
 def isDegenerateBBox (box) :
     _, _, w, h = box
     return h < 1e-5 and w < 1e-5
+
+def contains (a, b) : 
+    """ does a contain b """
+    ax1, ax2, ay1, ay2 = a
+    bx1, bx2, by1, by2 = b
+
+    return (ax1 <= bx1 <= bx2 <= ax2 \
+            and ay1 <= by1 <= by2 <= ay2) \
+            and not (ax1 == bx1 and ax2 == bx2 \
+            and ay1 == by1 and ay2 == by2)
 
 def bboxUnion(a, b) : 
     ax1, ax2, ay1, ay2 = a

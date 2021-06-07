@@ -1,11 +1,32 @@
 """ vector descriptor for path geometries """
+from skimage import color
 import numpy as np
 import random
 from functools import lru_cache
 from vectorrvnn.utils.comp import *
 from vectorrvnn.utils.svg import *
+from vectorrvnn.utils.graph import *
 import pathfinder_rasterizer as pr
 from .utils import isDegenerateBBox
+
+@lru_cache(maxsize=128)
+def colorHistogram(doc, i, containmentGraph=None) : 
+    """ channel wise histograms in lab space """
+    if containmentGraph is None : 
+        subset = subsetSvg(doc, [i])
+    else : 
+        subset = subsetSvg(doc, 
+                list(descendants(containmentGraph, i)))
+    im = rasterize(subset) 
+    rgb, alpha = im[:, :, :3], im[:, :, 3]
+    lab = color.rgb2lab(rgb) 
+    l = lab[:, :, 0][alpha > 0]
+    a = lab[:, :, 1][alpha > 0]
+    b = lab[:, :, 2][alpha > 0]
+    histL = np.histogram(l, range=(0, 100)   , bins=100)[0]
+    histA = np.histogram(a, range=(-128, 127), bins=255)[0]
+    histB = np.histogram(b, range=(-128, 127), bins=255)[0]
+    return histL, histA, histB
 
 @lru_cache(maxsize=128)
 def d2 (doc, i, bins=10, nSamples=100, **kwargs) :
@@ -26,6 +47,20 @@ def d2 (doc, i, bins=10, nSamples=100, **kwargs) :
         pt2 = path.point(path.ilength(random.random() * L, s_tol=1e-3))
         rs.append(abs(pt1 - pt2))
     return np.histogram(rs, bins=bins)[0] / nSamples
+
+@lru_cache(maxsize=128)
+def shapeHistogram (doc, i, nSamples=50) : 
+    path = cachedPaths(doc)[i].path
+    xm, xM, ym, yM = path.bbox()
+    s = max(xM - xm, yM - ym) * np.sqrt(2)
+    ts = np.arange(0, 1, 1 / nSamples)
+    L = path.length()
+    if L == 0 :
+        return np.ones(min(nSamples, 20))
+    pts = np.array([path.point(path.ilength(t * L, s_tol=1e-2)) for t in ts])
+    pts = pts - pts.mean()
+    pts = np.abs(pts) / s
+    return np.histogram(pts, range=(0, 1), bins=nSamples)[0]
 
 @lru_cache(maxsize=128)
 def fd (doc, i, nSamples=25, freqs=10, **kwargs) :
@@ -93,5 +128,9 @@ def equiDistantSamples (doc, i, nSamples=5, **kwargs) :
 
 @lru_cache(maxsize=128)
 def pathBitmap (doc, i, **kwargs) : 
-    im = rasterize(subsetSvg(doc, [i]))
+    doc_ = subsetSvg(doc, [i])
+    for path in doc_.paths() : 
+        path.element.attrib.pop('style', None)
+        path.element.attrib['fill'] = 'black'
+    im = rasterize(doc_)
     return im[:, :, 3]
