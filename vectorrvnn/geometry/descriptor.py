@@ -127,10 +127,11 @@ def equiDistantSamples (doc, i, nSamples=5, **kwargs) :
         return [x,y]
 
 @lru_cache(maxsize=128)
-def pathBitmap (doc, i, **kwargs) : 
+def pathBitmap (doc, i, fill=True, **kwargs) : 
     doc_ = subsetSvg(doc, [i])
-    for path in doc_.paths() : 
-        path.element.attrib.pop('style', None)
-        path.element.attrib['fill'] = 'black'
+    if fill : 
+        for path in doc_.paths() : 
+            path.element.attrib.pop('style', None)
+            path.element.attrib['fill'] = 'black'
     im = rasterize(doc_)
     return im[:, :, 3]

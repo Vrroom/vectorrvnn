@@ -1,5 +1,5 @@
 import networkx as nx
-from .treeOps import leavesInSubtree, parent
+from .treeOps import leavesInSubtree, parent, descendants
 import copy
 import more_itertools, itertools
 
@@ -111,5 +111,24 @@ def nxGraph2appGraph (forest) :
         if nodeParent is not None : 
             appGraph['nodes'][n]['parent'] = int(nodeParent)
     return appGraph
+
+def leqInPO (i, j, po) : 
+    """ is i <= j in the partial order """
+    return i in descendants(po, j) 
+
+def simplifyPO (po) : 
+    """ 
+    If i <= j <= k, then remove links like i <= k 
+    """
+    edgesToBeRemoved = []
+    for n in po.nodes : 
+        neighbors = list(po.neighbors(n)) 
+        for c in neighbors : 
+            gc = descendants(po, c) - {c}
+            needless = set(neighbors).intersection(gc)
+            edgesToBeRemoved.extend([(n, _) for _ in needless])
+    po_ = copy.deepcopy(po)
+    po_.remove_edges_from(edgesToBeRemoved)
+    return po_
 
 

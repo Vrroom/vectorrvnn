@@ -167,22 +167,23 @@ def parallelismDistance (doc, i, j, **kwargs) :
 
 def areaIntersectionDistance(doc, i, j, **kwargs) : 
     """ find the area of intersection of two paths """
-    imi, imj = pathBitmap(doc, i), pathBitmap(doc, j)
+    imi, imj = pathBitmap(doc, i, fill=False), pathBitmap(doc, j, fill=False)
     return (imi * imj).sum()
 
 def autogroupAreaSimilarity (doc, i, j, **kwargs) :
-    # TODO Add fill to closed objects
     imi, imj = pathBitmap(doc, i), pathBitmap(doc, j)
     a1 = (imi > 0).sum()
     a2 = (imj > 0).sum()
-    return 1 - abs(a1 - a2) / max(a1, a2)
+    return 1 - abs(a1 - a2) / (max(a1, a2) + 1e-6)
 
 def autogroupPlacementDistance (doc, i, j, **kwargs) : 
     path1, path2 = _getPathPair(doc, i, j)
-    if len(path1.path.intersect(path2.path, tol=1e-1)) > 0  : 
-        return 0
-    samples1 = np.array(equiDistantSamples(doc, i, normalize=False)).T
-    samples2 = np.array(equiDistantSamples(doc, j, normalize=False)).T
+    samples1 = np.array(
+        equiDistantSamples(
+            doc, i, nSamples=20, normalize=False)).T
+    samples2 = np.array(
+        equiDistantSamples(
+            doc, j, nSamples=20, normalize=False)).T
     return hausdorff(samples1, samples2)
 
 def autogroupShapeHistogramSimilarity (doc, i, j, **kwargs) : 
@@ -237,6 +238,12 @@ def autogroupColorSimilarity (doc, i, j,
     bscore = histScore(b1, b2)
     return avg([lscore, ascore, bscore])
 
+def occludes (doc, i, j, **kwargs) : 
+    """ does j occlude i? """ 
+    areaIntersection = areaIntersectionDistance(doc, i, j)
+    _, _, w, h = doc.get_viewbox() 
+    return j > i and (areaIntersection / (w * h)) > 1e-4
+
 def bboxContains (doc, i, j, **kwargs) : 
     path1, path2 = _getPathPair(doc, i, j)
     return contains(path1.path.bbox(), path2.path.bbox())
@@ -257,4 +264,8 @@ def relationshipGraph (doc, relFn, symmetric, **kwargs) :
     for i, j in iterator(range(n), r=2) : 
         wt = relFn(doc, i, j, **kwargs)
         G.add_edge(i, j, **{wtName: wt})
+    # add self relation
+    for i in range(n) : 
+        wt = relFn(doc, i, i, **kwargs) 
+        G.add_edge(i, i, **{wtName: wt})
     return G

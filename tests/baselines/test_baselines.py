@@ -14,7 +14,7 @@ def test_suggero () :
         t.doc = d
         figure = treeImageFromGraph(t)
         matplotlibFigureSaver(figure,
-                osp.join(chdir, 'out', fname))
+                osp.join(chdir, 'out', 'suggero-' + fname))
     assert(True)
 
 def test_distance_from_self_is_zero () :
@@ -25,4 +25,17 @@ def test_distance_from_self_is_zero () :
     for t in trees : 
         assert(ted(t, t) < 1e-4)
 
-test_suggero()
+def test_autogroup () : 
+    chdir = osp.split(osp.abspath(__file__))[0]
+    files = listdir(osp.join(chdir, 'data'))
+    docs = [svg.Document(f) for f in files]
+    trees = list(map(autogroup, docs))
+    for t, d, f in zip(trees, docs, files) : 
+        fname = getBaseName(f)
+        t.doc = d
+        figure = treeImageFromGraph(t)
+        matplotlibFigureSaver(figure,
+                osp.join(chdir, 'out', 'autogroup-' + fname))
+    assert(True)
+
+test_autogroup()

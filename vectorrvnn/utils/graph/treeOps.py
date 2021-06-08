@@ -418,3 +418,14 @@ def parent(t, n) :
 def siblings(t, n): 
     p = parent(t, n)
     return set(t.neighbors(p)) - {n}
+
+def tree2Parenthesis (tree, symbols, r=None) :
+    if r is None: 
+        r = findRoot(tree)
+    if tree.out_degree(r) == 0 : 
+        return symbols[r]
+    else : 
+        return tuple([
+            tree2Parenthesis(tree, symbols, r=_) 
+            for _ in tree.neighbors(r)
+        ])
