@@ -35,40 +35,46 @@ def _descriptorWeightFn (lst, mat, variance) :
     return float(submatRange > 0.15 * variance)
 
 def _dropExtraParents (graph) : 
+    """ 
+    For each node that has more than one parent, keep the one
+    parent whose z-index < z-index of the node and whose 
+    z-index is the maximum among such nodes
+    """
     extra = [] 
-    for i, j in product(graph.nodes, graph.nodes) : 
-        if i != j : 
-            ci = descendants(graph, i) - {i}
-            cj = descendants(graph, j) - {j}
-            if not isDisjoint(ci, cj) : 
-                common = list(ci.intersection(cj))
-                extra.extend([(i, _) for _ in common])
+    for i in graph.nodes : 
+        pis = parents(graph, i) 
+        pis = sorted(list(filter(lambda j : j < i, pis)))
+        rest = list(filter(lambda j : j > i, pis))
+        pis = pis[:-1] + rest
+        extra.extend([(p, i) for p in pis])
     graph_ = deepcopy(graph)
     graph_.remove_edges_from(extra)
     return graph_
 
-def implies (p, q) : 
-    """ p => q """
-    return (p and q) or not p
+def _contains(doc, i, j, **kwargs) : 
+    # answers whether j is contained in i
+    if i == j :
+        return 0
 
-def canMerge (i, j, occlusionGraph) : 
-    """ 
-    Two things can be merged if they don't occlude each other
-    or if they do, they are adjacent in the z-index order
-    """
-    return implies(leqInPO(j, i, occlusionGraph), j == i + 1)\
-            or implies(leqInPO(i, j, occlusionGraph), i == j + 1)
+    imi = pathBitmap(doc, i, fill=False)
+    imj = pathBitmap(doc, j, fill=False)
+
+    proj_j = ((imi > 0) * imj).sum() / imj.sum()
+    proj_i = ((imj > 0) * imi).sum() / imi.sum()
+    
+    if proj_j > 0.9 and proj_i > 0.9 : 
+        return j > i
+    else : 
+        return (proj_j > 0.5 and proj_i < 0.1) or proj_j > 0.9 
 
 def autogroup (doc) : 
     paths = cachedPaths(doc)
     n = len(paths)
     # directed graph where a -> b iff a contains b
     containmentGraph = _dropExtraParents(
-        simplifyPO(
-            subgraph(
-                relationshipGraph(doc, bboxContains, False),
-                lambda x: x['bboxContains']
-            )
+        subgraph(
+            relationshipGraph(doc, _contains, False),
+            lambda x: x['_contains']
         )
     )
     # find the similarity matrices for each function

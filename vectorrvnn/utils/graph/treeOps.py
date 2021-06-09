@@ -409,6 +409,10 @@ def computeLCAMatrix(T) :
         for j, b in enumerate(T.nodes) : 
             T.lcaMatrix[i, j] = T.nodes[lca(T, a, b)]['depth'] / T.maxDepth
 
+def parents(t, n) : 
+    """ in a dag """
+    return [p for p in t.nodes if n in t.neighbors(p)]
+
 def parent(t, n) : 
     if t.in_degree(n) == 0 : 
         return None

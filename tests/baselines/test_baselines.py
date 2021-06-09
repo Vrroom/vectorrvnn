@@ -38,4 +38,3 @@ def test_autogroup () :
                 osp.join(chdir, 'out', 'autogroup-' + fname))
     assert(True)
 
-test_autogroup()

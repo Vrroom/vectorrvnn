@@ -1,6 +1,7 @@
 """ distance functions for comparing paths """
 import re
 from scipy.spatial.distance import directed_hausdorff
+from shapely.geometry import *
 import itertools
 from functools import lru_cache
 from collections import namedtuple
@@ -178,13 +179,17 @@ def autogroupAreaSimilarity (doc, i, j, **kwargs) :
 
 def autogroupPlacementDistance (doc, i, j, **kwargs) : 
     path1, path2 = _getPathPair(doc, i, j)
-    samples1 = np.array(
-        equiDistantSamples(
-            doc, i, nSamples=20, normalize=False)).T
-    samples2 = np.array(
-        equiDistantSamples(
-            doc, j, nSamples=20, normalize=False)).T
-    return hausdorff(samples1, samples2)
+    l1, l2 = path1.path.length(), path2.path.length()
+    samplingDistance = 0.02 * min(l1, l2)
+    n = int(l1 / samplingDistance)
+    m = int(l2 / samplingDistance)
+    samples1 = list(zip(*equiDistantSamples(doc, i, 
+        nSamples=n, normalize=False)))
+    samples2 = list(zip(*equiDistantSamples(doc, j, 
+        nSamples=m, normalize=False)))
+    ls1 = LineString(samples1)
+    ls2 = LineString(samples2)
+    return ls1.distance(ls2)
 
 def autogroupShapeHistogramSimilarity (doc, i, j, **kwargs) : 
     """
@@ -206,7 +211,7 @@ def autogroupStrokeSimilarity (doc, i, j, **kwargs) :
     colorScore = normalizedCiede2000Score(c1, c2)
 
     sw1, sw2 = pathStrokeWidth(path1), pathStrokeWidth(path2)
-    swScore = 1 - abs(sw1 - sw2) / max(sw1, sw2)
+    swScore = 1 - abs(sw1 - sw2) / (max(sw1, sw2) + 1e-5)
 
     lc1, lc2 = pathStrokeLineCap(path1), pathStrokeLineCap(path2)
     lcScore = 1 if lc1 == lc2 else 0

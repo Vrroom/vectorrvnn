@@ -82,7 +82,7 @@ def test_autogroup_stroke_similarity () :
             for doc in docs]
     matrices = [nx.to_numpy_matrix(g, weight=fnName) 
             for g in graphs]
-    matrices = [np.ones_like(m) - np.eye(m.shape[0]) - m for m in matrices]
+    matrices = [1 - m for m in matrices]
     # all vals should be bounded in range
     assert(all([0 <= m.min() <= m.max() <= 1 for m in matrices]))
     # all matrices should be symmetric 
@@ -123,7 +123,7 @@ def test_autogroup_color_similarity () :
     ]
     matrices = [nx.to_numpy_matrix(g, weight=fnName) 
             for g in graphs]
-    matrices = [np.ones_like(m) - np.eye(m.shape[0]) - m for m in matrices]
+    matrices = [1 - m for m in matrices]
     # all vals should be bounded in range
     assert(all([0 <= m.min() <= m.max() <= 1 for m in matrices]))
     # all matrices should be symmetric 
@@ -148,7 +148,7 @@ def test_autogroup_shape_similarity () :
     g = relationshipGraph(doc, 
             autogroupShapeHistogramSimilarity, True) 
     m = nx.to_numpy_matrix(g, weight=fnName)
-    m = np.ones_like(m) - np.eye(m.shape[0]) - m
+    m = 1 - m
     assert(0 <= m.min() <= m.max() <= 1)
     assert(np.linalg.norm(m.T - m) < 1e-3)
     # Rasterize the groups after clustering to visualize
@@ -172,7 +172,7 @@ def test_autogroup_area_similarity () :
     g = relationshipGraph(doc, 
             autogroupAreaSimilarity, True) 
     m = nx.to_numpy_matrix(g, weight=fnName)
-    m = np.ones_like(m) - np.eye(m.shape[0]) - m
+    m = 1 - m
     assert(0 <= m.min() <= m.max() <= 1)
     assert(np.linalg.norm(m.T - m) < 1e-3)
     # Rasterize the groups after clustering to visualize
