@@ -30,5 +30,5 @@
 - [ ] Experiment with conventional metric learning CNNs
 - [ ] Answer Sid's questions on T.E.Ds - for that I think I'll have to obtain the matching map 
 - [ ] Analyse Mike's clusters
-- [x] Write Adobe autogroup - Finding containment groups may/maynot be necessary. Can still proceed without that bit.
+- [x] Write Adobe autogroup
 - [ ] Is it possible to make ilength faster?
