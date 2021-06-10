@@ -38,3 +38,4 @@ FMI 3 = 0.1371 (up)
 ```
 - [x] Write Adobe autogroup
 - [ ] Is it possible to make ilength faster?
+- [ ] Figure out if adobe method is viable for tree generation.
