@@ -1,15 +1,16 @@
 import torch
 import torch.nn as nn
 import math
-import Constants as C
 from torch.autograd import Variable
 
 # Source - http://nlp.seas.harvard.edu/2018/04/03/attention.html#positional-encoding
 class PositionalEncoding(nn.Module):
     "Implement the PE function."
-    def __init__(self, d_model=C.embedding_size, dropout=0.1, max_len=C.max_len):
+    def __init__(self, opts, dropout=0.1):
         super(PositionalEncoding, self).__init__()
         self.dropout = nn.Dropout(p=dropout)
+        max_len = opts.max_len
+        d_model = opts.embedding_size
         # Compute the positional encodings once in log space.
         pe = torch.zeros(max_len, d_model)
         position = torch.arange(0, max_len).unsqueeze(1)

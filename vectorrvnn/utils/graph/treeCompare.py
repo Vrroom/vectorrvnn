@@ -131,7 +131,13 @@ def levenshteinDistance (a, b, matchFn, costFn) :
         row = newRow
     return row[n]
 
-def levelPathSetCuts (t, d):
+def fmi (t, t_, level) : 
+    return metrics.fowlkes_mallows_score(
+        _levelPathSetCuts(t , level),
+        _levelPathSetCuts(t_, level)
+    )
+
+def _levelPathSetCuts (t, d):
     setNodeDepths(t)
     n = len(leaves(t))
     cuts = [list(t.nodes[n]['pathSet']) for n in t.nodes if t.nodes[n]['depth'] == d]
@@ -142,3 +148,8 @@ def levelPathSetCuts (t, d):
     for i, cluster in enumerate(cuts) :
         clusterIds[cluster] = i
     return clusterIds
+
+
+
+
+

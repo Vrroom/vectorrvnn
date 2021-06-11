@@ -225,9 +225,8 @@ def autogroupStrokeSimilarity (doc, i, j, **kwargs) :
     elif (da1 is None) != (da2 is None) : 
         daScore = 0 
     else : 
-        
-        da1 = list(map(float, re.split(', ', da1)))
-        da2 = list(map(float, re.split(', ', da2)))
+        da1 = parseDashArray(da1)
+        da2 = parseDashArray(da2)
         numerator = sum(map(lambda a, b : a == b, da1, da2))
         denominator = max(len(da1), len(da2))
         daScore = numerator / denominator

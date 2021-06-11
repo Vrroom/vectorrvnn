@@ -96,6 +96,11 @@ def getTreeStructureFromSVG (svgFile) :
 def cachedPaths (doc) : 
     return doc.paths()
 
+def parseDashArray(da) : 
+    return list(map(float, filter(
+        lambda x : len(x) > 0, 
+        re.split(',| ', da))))
+
 def parseHex(s):
     s = s.lstrip('#')
     if len(s) == 3:

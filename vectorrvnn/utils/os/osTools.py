@@ -1,6 +1,16 @@
 import os
 import os.path as osp
 
+def mkdir(path) : 
+    if osp.exists(path) : 
+        return 
+    try : 
+        os.mkdir(path) 
+    except FileNotFoundError : 
+        parentPath, _ = osp.split(path)
+        mkdir(parentPath)
+        os.mkdir(path)
+
 def getBaseName(fullName) : 
     return osp.splitext(osp.split(fullName)[1])[0]
 

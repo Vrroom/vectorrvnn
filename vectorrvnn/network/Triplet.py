@@ -4,40 +4,24 @@ import torch.nn.functional as F
 from vectorrvnn.utils import *
 from vectorrvnn.data import *
 from vectorrvnn.trainutils import *
-import vectorrvnn.trainutils.Constants as C
 from .PositionalEncoding import PositionalEncoding
-from functools import lru_cache
 from itertools import starmap, combinations
+from more_itertools import collapse
 import os
 import os.path as osp
 import numpy as np
-from torchvision.models import resnet50
-from more_itertools import collapse
+from torchvision.models import *
 
 def set_parameter_requires_grad(model, requires_grad):
     for param in model.parameters():
         param.requires_grad = requires_grad
 
-def convnet () : 
-    # Load BAM! pretrained resnet50
-    BASE_DIR = os.path.dirname(os.path.abspath(''))
-    MODEL_DIR = os.path.join(BASE_DIR, 'vectorrvnn', 'results', 'bam_aug2')
-    model = resnet50(pretrained=True)
-    model.fc = nn.Linear(2048, 20)
-    state_dict = torch.load(os.path.join(MODEL_DIR, "epoch_15.pth"))
-    model.load_state_dict(state_dict['model'])
+def convnet (opts) : 
+    model = resnet18(pretrained=True)
     # Use the weights of the pretrained model to 
     # create weights for the new model.
-    stitchedWts = model.fc.weight.repeat((C.embedding_size // 20 + 1, 1))[:C.embedding_size, :]
-    stitchedBias = model.fc.bias.repeat(C.embedding_size // 20 + 1)[:C.embedding_size]
-    model.fc = nn.Linear(2048, C.embedding_size)
-    model.fc.weight.data = stitchedWts
-    model.fc.bias.data = stitchedBias
-    # Use the convolutional part of resnet for feature extraction 
-    # only. Train only the fully connected layer on top.
-    set_parameter_requires_grad(model, False)
-    set_parameter_requires_grad(model.layer4, True)
-    set_parameter_requires_grad(model.fc, True)
+    inFeatures = model.fc.in_features
+    model.fc = nn.Linear(inFeatures, opts.embedding_size)
     # Make sure that parameters are floats 
     # And load model on cuda!
     model = model.float()
@@ -46,16 +30,22 @@ def convnet () :
 
 class TripletNet (nn.Module) :
 
-    def __init__ (self, config) :
+    def __init__ (self, opts) :
         super(TripletNet, self).__init__() 
-        self.hidden_size = config['hidden_size']
-        self.conv = convnet()
-        self.pe = PositionalEncoding()
-        self.nn = nn.Sequential(
-            nn.Linear(3 * C.embedding_size, self.hidden_size),
-            nn.ReLU(),
-            nn.Linear(self.hidden_size, C.embedding_size)
-        )
+        self.opts = opts
+        self.conv = convnet(opts)
+        self.pe = PositionalEncoding(opts)
+        if opts.hidden_size is not None : 
+            self.nn = nn.Sequential(
+                nn.Linear(3 * opts.embedding_size, opts.hidden_size),
+                nn.ReLU(),
+                nn.Linear(opts.hidden_size, opts.embedding_size)
+            )
+        else : 
+            self.nn = nn.Linear(
+                3 * opts.embedding_size, 
+                opts.embedding_size
+            )
 
     def embedding (self, im, crop, whole, position) : 
         imEmbed = self.conv(im)
@@ -70,18 +60,19 @@ class TripletNet (nn.Module) :
             plusCrop, plusWhole, plusPosition,
             minusCrop, minusWhole, minusPosition,
             refPlus, refMinus) : 
-        # TODO: Put a TopK based loss here!!
+        # Start with simple max-margin loss
         refEmbed = self.embedding(im, refCrop, refWhole, refPosition)
         plusEmbed = self.embedding(im, plusCrop, plusWhole, plusPosition)
         minusEmbed = self.embedding(im, minusCrop, minusWhole, minusPosition)
         dplus  = torch.sum((plusEmbed  - refEmbed) ** 2, dim=1, keepdims=True)
         dminus = torch.sum((minusEmbed - refEmbed) ** 2, dim=1, keepdims=True)
-        dplus_ = F.softmax(torch.cat((dplus, dminus), dim=1), dim=1)[:, 0]
-        mask = dplus_ > 0.4
-        hardRatio = mask.sum() / dplus.shape[0]
-        dplus_ = dplus_[mask]
+        margin = torch.relu(dplus - dminus + self.opts.max_margin)
+        # FIXME: define the API for convenience and generality
+        mask = (margin == margin).squeeze()
+        hardRatio=mask.sum() / mask.nelement()
+        dplus_ = margin
         dratio = (dminus[mask] / dplus[mask])
-        dplus_ = dplus_ * refMinus[mask] / refPlus[mask]
+        # dplus_ = dplus_ * refMinus[mask] / refPlus[mask]
         return dict(dplus_=dplus_, dratio=dratio, hardRatio=hardRatio, mask=mask)
 
     def greedyTree (self, t, subtrees=None, binary=False) : 

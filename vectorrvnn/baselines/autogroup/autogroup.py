@@ -43,10 +43,10 @@ def _dropExtraParents (graph) :
     extra = [] 
     for i in graph.nodes : 
         pis = parents(graph, i) 
-        pis = sorted(list(filter(lambda j : j < i, pis)))
-        rest = list(filter(lambda j : j > i, pis))
-        pis = pis[:-1] + rest
-        extra.extend([(p, i) for p in pis])
+        before =  sorted(list(filter(lambda j : j < i, pis)))
+        after = list(filter(lambda j : j > i, pis))
+        extraParents = before[:-1] + after
+        extra.extend([(p, i) for p in extraParents])
     graph_ = deepcopy(graph)
     graph_.remove_edges_from(extra)
     return graph_
@@ -59,8 +59,8 @@ def _contains(doc, i, j, **kwargs) :
     imi = pathBitmap(doc, i, fill=False)
     imj = pathBitmap(doc, j, fill=False)
 
-    proj_j = ((imi > 0) * imj).sum() / imj.sum()
-    proj_i = ((imj > 0) * imi).sum() / imi.sum()
+    proj_j = ((imi > 0) * imj).sum() / (imj.sum() + 1e-5)
+    proj_i = ((imj > 0) * imi).sum() / (imi.sum() + 1e-5)
     
     if proj_j > 0.9 and proj_i > 0.9 : 
         return j > i
@@ -107,6 +107,9 @@ def autogroup (doc) :
     containmentGraph.add_edges_from(
         [(n, _) for _ in containmentGraph.nodes 
             if containmentGraph.in_degree(_) == 0])
+    
+    assert nx.is_tree(containmentGraph), \
+            "Containment graph is not a tree"
 
     # partition node set into set of siblings
     parents = nonLeaves(containmentGraph)

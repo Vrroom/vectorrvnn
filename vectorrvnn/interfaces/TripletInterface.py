@@ -6,10 +6,12 @@ import random
 from vectorrvnn.utils import *
 from vectorrvnn.data import *
 from vectorrvnn.trainutils import *
+from vectorrvnn.network import *
 import os
 import json
 import ttools 
 import ttools.interfaces
+from ttools.callbacks import *
 from ttools.modules import networks
 from copy import deepcopy
 
@@ -17,8 +19,8 @@ LOG = ttools.get_logger(__name__)
 
 class TripletInterface (ttools.ModelInterface) : 
 
-    def __init__(self, model, dataset, val_dataset, 
-            lr=3e-4, cuda=True, max_grad_norm=10):
+    def __init__(self, opts, model, dataset, val_dataset, 
+            cuda=True, max_grad_norm=10):
         super(TripletInterface, self).__init__()
         self.max_grad_norm = max_grad_norm
         self.model = model
@@ -30,9 +32,8 @@ class TripletInterface (ttools.ModelInterface) :
         if cuda:
             self.device = "cuda"
         self.model.to(self.device)
-        self.opt = optim.Adam(self.model.parameters(), lr=lr)
-        milestones = list(range(1, 400, 10))
-        self.sched = optim.MultiStepLR(self.opt, milestones, gamma=0.7, verbose=True)
+        self.opt = optim.Adam(self.model.parameters(), lr=opts.lr)
+        self.sched = getScheduler(self.opt, opts)
         self.init = deepcopy(self.model.state_dict())
 
     def logGradients (self, ret) : 
@@ -57,15 +58,15 @@ class TripletInterface (ttools.ModelInterface) :
     def forward (self, batch) : 
         im             = batch['im'].cuda()
         
-        refCrop        = batch['refCrop'].cuda()
+        # refCrop        = batch['refCrop'].cuda()
         refWhole       = batch['refWhole'].cuda()
         refPositions   = batch['refPositions'].cuda()
         
-        plusCrop       = batch['plusCrop'].cuda()
+        # plusCrop       = batch['plusCrop'].cuda()
         plusWhole      = batch['plusWhole'].cuda()
         plusPositions  = batch['plusPositions'].cuda()
         
-        minusCrop      = batch['minusCrop'].cuda()
+        # minusCrop      = batch['minusCrop'].cuda()
         minusWhole     = batch['minusWhole'].cuda()
         minusPositions = batch['minusPositions'].cuda()
         
@@ -74,9 +75,9 @@ class TripletInterface (ttools.ModelInterface) :
         
         return self.model(
             im, 
-            refCrop, refWhole, refPositions, 
-            plusCrop, plusWhole, plusPositions, 
-            minusCrop, minusWhole, minusPositions, 
+            refWhole, refWhole, refPositions, 
+            plusWhole, plusWhole, plusPositions, 
+            minusWhole, minusWhole, minusPositions, 
             refPlus, refMinus
         )
 
@@ -137,55 +138,103 @@ class TripletInterface (ttools.ModelInterface) :
         }
         return ret
 
-def train (name) : 
-    with open('./commonConfig.json') as fd : 
-        config = json.load(fd)
-    trainData = TripletSVGDataSet(config['train_dest'])
-    valData = TripletSVGDataSet(config['val_dest'])
-    dataLoader = torch.utils.data.DataLoader(
-        trainData, 
-        batch_size=512, 
-        sampler=TripletSampler(trainData.svgDatas, 256000),
-        pin_memory=True,
-        num_workers=6,
-        collate_fn=lambda x : aggregateDict(x, torch.stack)
-    )
-    val_dataloader = torch.utils.data.DataLoader(
-        valData, 
-        batch_size=128, 
-        sampler=TripletSampler(valData.svgDatas, 25600, True),
-        pin_memory=True,
-        num_workers=6,
-        collate_fn=lambda x : aggregateDict(x, torch.stack)
-    )
-    # Load pretrained path module
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    MODEL_INIT_PATH = os.path.join(BASE_DIR, "results", "bam_resnet_suggero")
-    MERGE_OUTPUT = os.path.join(BASE_DIR, "results", name)
-    # Initiate main model.
-    model = TripletNet(dict(hidden_size=100)).float()
-    state_dict = torch.load(os.path.join(MODEL_INIT_PATH, 'training_end.pth'))
-    model.load_state_dict(state_dict['model'])
-    checkpointer = ttools.Checkpointer(MERGE_OUTPUT, model)
-    interface = TripletInterface(model, trainData, valData)
-    trainer = ttools.Trainer(interface)
-    port = 8097
-    named_children = [n for n, _ in model.named_children()]
-    named_grad = [f'{n}_grad' for n in named_children]
-    named_wd = [f'{n}_wd' for n in named_children]
-    keys = ["loss", "hardRatio", *named_grad, *named_wd] 
+def addCallbacks (trainer, model, opts) : 
+    modelParams = [n for n, _ in model.named_children()]
+    gradNorms = [f'{n}_grad' for n in modelParams]
+    weightDecay = [f'{n}_wd' for n in modelParams]
+    keys = ["loss", "hardRatio", *gradNorms, *weightDecay] 
     val_keys=keys[:2]
-    trainer.add_callback(ttools.callbacks.CheckpointingCallback(checkpointer))
-    trainer.add_callback(ttools.callbacks.ProgressBarCallback(keys=val_keys, val_keys=val_keys))
-    trainer.add_callback(ImageCallback(env=name + "_vis", win="samples", port=port, frequency=50))
-    trainer.add_callback(ttools.callbacks.VisdomLoggingCallback(
-        keys=keys, val_keys=val_keys, env=name + "_training_plots", port=port, frequency=100))
-    trainer.add_callback(SchedulerCallback(interface.sched))
-    trainer.add_callback(KernelCallback("conv-first-layer-kernel", win="kernel", env=name + "_kernel", port=port, frequency=100))
+    checkpointer = ttools.Checkpointer(
+        osp.join(opts.checkpoints_dir, opts.name),
+        model
+    )
+    trainer.add_callback(
+        CheckpointingCallback(checkpointer)
+    )
+    trainer.add_callback(
+        ProgressBarCallback(
+            keys=keys, 
+            val_keys=val_keys
+        )
+    )
+    trainer.add_callback(
+        ImageCallback(
+            env=opts.name + "_vis", 
+            win="samples", 
+            frequency=opts.frequency
+        )
+    )
+    trainer.add_callback(
+        VisdomLoggingCallback(
+            keys=keys, 
+            val_keys=val_keys, 
+            env=opts.name + "_training_plots", 
+            frequency=opts.frequency
+        )
+    )
+    trainer.add_callback(
+        SchedulerCallback(trainer.interface.sched)
+    )
+    trainer.add_callback(
+        KernelCallback(
+            "conv-first-layer-kernel", 
+            win="kernel", 
+            env=opts.name + "_kernel", 
+            frequency=opts.frequency
+        )
+    )
+
+def buildModel (opts) : 
+    # Load pretrained path module
+    model = TripletNet(opts).float()
+    if opts.load_ckpt is not None : 
+        initPath = osp.join(
+            opts.checkpoints_dir, 
+            opts.load_ckpt
+        )
+        state_dict = torch.load(
+            osp.join(
+                initPath, 
+                'training_end.pth'
+            )
+        )
+        model.load_state_dict(state_dict['model'])
+    return model
+
+def buildData (opts) : 
+    trainData = TripletDataset(osp.join(opts.dataroot, 'Train'))
+    valData = TripletDataset(osp.join(opts.dataroot, 'Val'))
+    trainDataLoader = TripletDataLoader(
+        opts=opts, 
+        sampler=TripletSampler(
+            trainData, 
+            opts.train_epoch_length
+        )
+    )
+    valDataLoader = TripletDataLoader(
+        opts=opts, 
+        sampler=TripletSampler(
+            valData,
+            opts.val_epoch_length,
+            val=True
+        )
+    )
+    return trainData, valData, trainDataLoader, valDataLoader
+
+def train () : 
+    opts = Options().parse()
+    trainData, valData, trainDataLoader, valDataLoader = buildData(opts)
+    model = buildModel(opts) 
+    interface = TripletInterface(opts, model, trainData, valData)
+    trainer = ttools.Trainer(interface)
+    addCallbacks(trainer, model, opts)
     # Start training
-    trainer.train(dataLoader, num_epochs=100, val_dataloader=val_dataloader)
+    trainer.train(
+        trainDataLoader, 
+        num_epochs=opts.n_epochs, 
+        val_dataloader=valDataLoader
+    )
 
 if __name__ == "__main__" : 
-    import sys
-    train(sys.argv[1])
+    train()
 

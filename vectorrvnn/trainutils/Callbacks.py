@@ -1,16 +1,13 @@
 import torch
 from sklearn import metrics
-from treeOps import *
+from vectorrvnn.utils import *
 import random
 import numpy as np
-import math
 import ttools 
 import ttools.interfaces
 from ttools.modules import networks
 import visdom
 from functools import lru_cache
-from listOps import avg
-from treeCompare import *
 
 class FMIndexCallback(ttools.callbacks.Callback):  
 
@@ -223,8 +220,8 @@ class ConfusionLineCallback(ttools.callbacks.Callback):
         self._step += 1
 
 class KernelCallback (ttools.callbacks.ImageDisplayCallback) : 
-    def __init__ (self, key, env, win, port, frequency=100) : 
-        super(KernelCallback, self).__init__(env=env, win=win, port=port, frequency=frequency)
+    def __init__ (self, key, env, win, frequency=100) : 
+        super(KernelCallback, self).__init__(env=env, win=win, frequency=frequency)
         self.key = key
 
     def visualized_image(self, batch, step_data, is_val):
@@ -233,7 +230,7 @@ class KernelCallback (ttools.callbacks.ImageDisplayCallback) :
             N, *_ = kernels.shape
             chunks = torch.chunk(kernels, N)
             chunks = [c.squeeze() for c in chunks]
-            n = math.isqrt(N)
+            n = int(np.floor(np.sqrt(N)))
             viz =  torch.stack([torch.cat(chunks[i*n: (i+1)*n], 1) for i in range(n)])
             viz = viz[:, :3, :, :]
             viz = (viz - viz.min()) / (viz.max() - viz.min())
@@ -254,13 +251,13 @@ class ImageCallback(ttools.callbacks.ImageDisplayCallback):
             mask = mask.view(-1)
             im = self.normalize(batch['im'][mask][0].cpu().unsqueeze(0))
             im = torch.cat((im, im), 2)
-            refCrop  = self.normalize(batch['refCrop'][mask][0].cpu().unsqueeze(0))
+            refCrop  = self.normalize(batch['refWhole'][mask][0].cpu().unsqueeze(0))
             refWhole = self.normalize(batch['refWhole'][mask][0].cpu().unsqueeze(0))
             ref = torch.cat((refCrop, refWhole), 2)
-            plusCrop  = self.normalize(batch['plusCrop'][mask][0].cpu().unsqueeze(0))
+            plusCrop  = self.normalize(batch['plusWhole'][mask][0].cpu().unsqueeze(0))
             plusWhole = self.normalize(batch['plusWhole'][mask][0].cpu().unsqueeze(0))
             plus = torch.cat((plusCrop, plusWhole), 2)
-            minusCrop  = self.normalize(batch['minusCrop'][mask][0].cpu().unsqueeze(0))
+            minusCrop  = self.normalize(batch['minusWhole'][mask][0].cpu().unsqueeze(0))
             minusWhole = self.normalize(batch['minusWhole'][mask][0].cpu().unsqueeze(0))
             minus = torch.cat((minusCrop, minusWhole), 2)
             viz = torch.cat([im, ref, plus, minus], 3)
@@ -271,8 +268,8 @@ class ImageCallback(ttools.callbacks.ImageDisplayCallback):
         
     def caption(self, batch, step_data, is_val):
         # write some informative caption into the visdom window
-        refMinus = int(batch['refMinus'][0].cpu())
-        refPlus = int(batch['refPlus'][0].cpu())
+        refMinus = float(batch['refMinus'][0].cpu())
+        refPlus = float(batch['refPlus'][0].cpu())
         return f'{refMinus} / {refPlus}'
 
 class MeasureFMI (ttools.callbacks.Callback) : 

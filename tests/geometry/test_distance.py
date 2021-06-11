@@ -210,3 +210,4 @@ def test_autogroup_space_similarity () :
         osp.join(chdir, 'out', f'autogroup-place'))
     distance = ted(T, T_) / (T.number_of_nodes() + T_.number_of_nodes())
     assert(distance < 0.16)
+

@@ -4,7 +4,7 @@ from vectorrvnn.utils.svg import cachedPaths
 from skimage import color
 
 def histScore (a, b) : 
-    return np.minimum(a, b).sum() / np.maximum(a, b).sum()
+    return np.minimum(a, b).sum() / (np.maximum(a, b).sum() + 1e-5)
 
 def normalizedCiede2000Score (rgb1, rgb2) : 
     lab1 = color.rgb2lab(rgb1)
