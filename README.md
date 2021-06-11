@@ -25,7 +25,10 @@
 
 - [x] Clean any useless code lying around. 
 - [ ] Figure out which graphics to use and do their preprocessing. <switch>, size of graphic, number of paths, size of paths.
-- [x] Write data augmentation code.
+- [ ] Write data augmentation code.
+- [ ] Add different metric learning loss functions for experimentation.
+- [ ] fix callbacks
+- [ ] Run experiments more than cleaning code.
 - [ ] Blind method evaluation tool (can be given to anyone later also)
 - [ ] Experiment with conventional metric learning CNNs
 - [ ] Answer Sid's questions on T.E.Ds - for that I think I'll have to obtain the matching map 
