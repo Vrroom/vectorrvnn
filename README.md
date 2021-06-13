@@ -41,6 +41,8 @@ FMI 3 = 0.1371 (up)
 ```
 - [x] Write Adobe autogroup
 - [ ] Is it possible to make ilength faster?
-- [ ] Figure out if adobe method is viable for tree generation.
+- [x] Figure out if adobe method is viable for tree generation. (not so unless ilength can be made faster)
 - [ ] Take all the annotated data and put it somewhere nice so that analysis is easy
-- [ ] autoprepare stuff for device and evaluation method.
+- [x] autoprepare stuff for device and evaluation method.
+- [ ] cleaner interface for training/testing.
+- [ ] add vis for distance distribution, hierarchies, lr
