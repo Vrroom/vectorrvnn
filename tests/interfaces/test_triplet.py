@@ -2,7 +2,8 @@ from vectorrvnn.utils import *
 from vectorrvnn.data import *
 from vectorrvnn.trainutils import *
 from vectorrvnn.network import *
-from vectorrvnn.interfaces import *
+from vectorrvnn.interfaces import buildData, buildModel, TripletInterface, addCallbacks
+import ttools
 
 def test_interface() : 
     chdir = osp.split(osp.abspath(__file__))[0]
@@ -39,4 +40,3 @@ def test_interface() :
     )
     assert(True)
 
-test_interface()

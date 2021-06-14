@@ -15,7 +15,7 @@ def test_deep_keys () :
     )
     keys = list(deepKeys(d))
     lengths = list(map(len, keys))
-    assert(len(keys) == 7)
+    assert(len(keys) == 5)
     assert(max(lengths) == 2)
 
 def test_aggregate_dict () : 

@@ -8,17 +8,15 @@ from matplotlib.offsetbox import AnnotationBbox
 from vectorrvnn.utils import *
 
 def treeAxisFromGraph(G, ax) : 
-    setNodeDepths(G) # filter nodes deeper than level 5
-    doc = G.doc
-    pos = graphviz_layout(G, prog='dot')
+    G_ = trimTreeByDepth(G, 4)
+    doc = G_.doc
+    pos = graphviz_layout(G_, prog='dot')
     ax.set_aspect('equal')
-    nx.draw(G, pos, ax=ax, node_size=0.5, arrowsize=1)
-    md = max(1, np.ceil(maxDepth(G) / 10))
-    for n in G :
-        if G.nodes[n]['depth'] > 5 : 
-            continue
-        subsetDoc = subsetSvg(doc, G.nodes[n]['pathSet'])
-        img = rasterize(subsetDoc, 64, 64)
+    nx.draw(G_, pos, ax=ax, node_size=0.5, arrowsize=1)
+    md = max(1, np.ceil(maxDepth(G_) / 10))
+    for n in G_ :
+        subsetDoc = subsetSvg(doc, G_.nodes[n]['pathSet'])
+        img = rasterize(subsetDoc, 128, 128)
         imagebox = OffsetImage(img, zoom=0.2 / md)
         imagebox.image.axes = ax
         ab = AnnotationBbox(imagebox, pos[n], pad=0)
@@ -36,7 +34,7 @@ def treeImageFromGraph (G) :
     G : nx.DiGraph
         Hierarchy of paths
     """
-    fig, ax = plt.subplots(dpi=1500)
+    fig, ax = plt.subplots(dpi=100)
     treeAxisFromGraph(G, ax)
     return (fig, ax)
 

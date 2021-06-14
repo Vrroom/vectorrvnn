@@ -3,12 +3,11 @@ from vectorrvnn.utils import *
 from vectorrvnn.network import *
 from vectorrvnn.data import *
 from vectorrvnn.trainutils import *
-from vectorrvnn.interfaces import *
+from vectorrvnn.interfaces import buildData, buildModel, TripletInterface, addCallbacks
 import os
 import os.path as osp
 import logging
 from tqdm import tqdm
-import cProfile
 
 logging.basicConfig(filename='.log', level=logging.INFO)
 
@@ -32,7 +31,7 @@ def test_model () :
         '--name', 'test_model',
     ])
     data = TripletDataset(osp.join(opts.dataroot, 'Test'))
-    data = [t for t in data if t.nPaths < 50][:20]
+    data = [t for t in data if t.nPaths < 50][:10]
     model = buildModel(opts)
     data = list(map(forest2tree, data))
     out = list(map(model.greedyTree, tqdm(data)))

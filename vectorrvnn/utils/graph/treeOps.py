@@ -5,6 +5,14 @@ import networkx as nx
 import numpy as np
 from copy import deepcopy
 
+def trimTreeByDepth (t, levels) : 
+    t_ = deepcopy(t)
+    setNodeDepths(t_)
+    removeNodes = [n for n in t_.nodes 
+            if t_.nodes[n]['depth'] > levels]
+    t_.remove_nodes_from(removeNodes)
+    return t_
+
 def forest2tree (t) : 
     """ convert a forest into a single tree """
     n = t.number_of_nodes()
