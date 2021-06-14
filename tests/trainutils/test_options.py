@@ -24,4 +24,3 @@ def test_options () :
         '256'
     ])
     assert True
-

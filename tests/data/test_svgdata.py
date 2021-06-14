@@ -41,14 +41,5 @@ def test_svgdata_and_sampler () :
     dataloader = TripletDataLoader(opts=opts, sampler=sampler)
     for batch in dataloader : 
         break
-    # visualize the triplets in batch as images
-    refWhole = batch['refWhole'].permute((0, 2, 3, 1)).numpy()
-    plusWhole = batch['plusWhole'].permute((0, 2, 3, 1)).numpy()
-    minusWhole = batch['minusWhole'].permute((0, 2, 3, 1)).numpy()
-    big = np.concatenate((refWhole, plusWhole, minusWhole), axis=2)
-    big = big.reshape(-1, *big.shape[2:])
-    big = (big - big.min()) / (big.max() - big.min())
-    plt.imshow(big)
-    plt.savefig(osp.join(outdir, 'triplet.png'))
     assert(True)
 

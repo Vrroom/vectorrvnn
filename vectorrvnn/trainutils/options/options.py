@@ -2,6 +2,7 @@ import argparse
 import os
 import os.path as osp
 from vectorrvnn.utils import *
+from collections import namedtuple
 
 class Options():
     """
@@ -20,7 +21,7 @@ class Options():
         self.initialized = False
 
     def initialize(self, parser):
-        # basic parameters
+        # Basic Parameters
         parser.add_argument(
             '--dataroot', 
             type=str,
@@ -44,7 +45,20 @@ class Options():
             default=None,
             help='load checkpoint from this path'
         )
-        # model parameters
+        parser.add_argument(
+            '--device',
+            type=str,
+            default='cuda:0',
+            choices=['cpu', 'cuda:0'],
+            help='device to run training on.'
+        )
+        # Model Parameters
+        parser.add_argument(
+            '--modelcls',
+            type=str,
+            default='TwoBranch',
+            help='model class to use'
+        )
         parser.add_argument(
             '--embedding_size',
             type=int,
@@ -52,16 +66,17 @@ class Options():
             help='size of the path encoding'
         )
         parser.add_argument(
-            '--max_margin',
-            type=float,
-            default=1.0,
-            help='margin for triplet loss'
-        )
-        parser.add_argument(
             '--hidden_size', 
             type=int,
             default=None,
             help='size of hidden layer before output'
+        )
+        parser.add_argument(
+            '--phase',
+            type=str,
+            default='train',
+            choices=['train', 'test'],
+            help='phase of the experiment'
         )
         # if number of input channels is 3, remember to 
         # apply some alphacompositing rule and also 
@@ -72,52 +87,12 @@ class Options():
             default=3, 
             help='# of input image channels: 3 for RGB and 4 for RGBA'
         )
-
-        parser.add_argument(
-            '--train_epoch_length',
-            type=int,
-            default=25600,
-            help='number of triplets per epoch for training'
-        )
-
-        parser.add_argument(
-            '--val_epoch_length',
-            type=int,
-            default=2560,
-            help='number of triplets per epoch for validation'
-        )
         parser.add_argument(
             '--max_len',
             type=int,
             default=500,
             help='maximum number of paths in a graphic'
         )
-        parser.add_argument(
-            '--mean', 
-            type=list,
-            default=[0.485, 0.456, 0.406],
-            help='mean to normalize rasters before forward pass'
-        )
-        parser.add_argument(
-            '--std',
-            type=list,
-            default=[0.229, 0.224, 0.225],
-            help='std to normalize rasters before forward pass'
-        )
-
-        # According to facenet 
-        #   (https://arxiv.org/pdf/1503.03832.pdf),
-        # we need large batch sizes when learning based 
-        # on triplet loss with hard/semi-hard 
-        # negative mining. They use a batch size of 1800.
-        # I'll go with 512.
-        parser.add_argument(
-            '--batch_size', 
-            type=int, 
-            default=512, 
-            help='input batch size'
-        )
-        
         # The pattern grouping paper: 
         #   (https://people.cs.umass.edu/~kalo/papers/PatternGrouping/PatternGrouping.pdf)
         # used 800 by 800 rasters.
@@ -135,6 +110,37 @@ class Options():
             help='frequency of showing visualizations on screen'
         )
         # training parameters
+        self.add_loss_args(parser)
+        parser.add_argument(
+            '--batch_size', 
+            type=int, 
+            default=512, 
+            help='input batch size'
+        )
+        parser.add_argument(
+            '--train_epoch_length',
+            type=int,
+            default=25600,
+            help='number of triplets per epoch for training'
+        )
+        parser.add_argument(
+            '--mean', 
+            type=tuple,
+            default=(0.485, 0.456, 0.406),
+            help='mean to normalize rasters before forward pass'
+        )
+        parser.add_argument(
+            '--std',
+            type=tuple,
+            default=(0.229, 0.224, 0.225),
+            help='std to normalize rasters before forward pass'
+        )
+        parser.add_argument(
+            '--val_epoch_length',
+            type=int,
+            default=2560,
+            help='number of triplets per epoch for validation'
+        )
         parser.add_argument(
             '--n_epochs', 
             type=int, 
@@ -175,6 +181,38 @@ class Options():
         self.initialized = True
         return parser
 
+    def add_loss_args(self, parser) : 
+        parser.add_argument(
+            '--loss',
+            type=str,
+            default='maxMarginLoss',
+            choices=[
+                'maxMarginLoss', 
+                'tripletLoss',
+                'hardSemiHardMaxMarginLoss', 
+                'hardTripletLoss'
+            ],
+            help='loss function for training'
+        )
+        parser.add_argument(
+            '--hard_threshold',
+            type=float,
+            default=None,
+            help='margin for triplet loss'
+        )
+        parser.add_argument(
+            '--max_margin',
+            type=float,
+            default=1.0,
+            help='margin for triplet loss'
+        )
+
+    def validate_loss_args (self, opt) : 
+        if opt.loss.endswith('MarginLoss') : 
+            assert (opt.max_margin is not None)
+        elif opt.loss == 'HardTripletLoss' : 
+            assert (opt.hard_threshold is not None)
+
     def gather_options(self, testing=[]):
         """Initialize our parser with basic options(only once).
         Add additional model-specific and dataset-specific options.
@@ -197,6 +235,7 @@ class Options():
         return parser.parse_args()
 
     def validate(self, opt): 
+        self.validate_loss_args(opt)
         assert(len(opt.std) == opt.input_nc)
         assert(len(opt.mean) == opt.input_nc)
 
@@ -225,11 +264,16 @@ class Options():
             opt_file.write(message)
             opt_file.write('\n')
 
+    def toNamedTuple (self, opt) : 
+        items = sorted(vars(opt).items())
+        Option = namedtuple('Option', [k for k, _ in items])
+        return Option(*[v for _, v in items])
+
     def parse(self, testing=[]):
         """Parse our options, create checkpoints directory suffix, and set up gpu device."""
         opt = self.gather_options(testing=testing)
         self.validate(opt)
         # process opt.suffix
         self.print_options(opt)
-        self.opt = opt
+        self.opt = self.toNamedTuple(opt)
         return self.opt

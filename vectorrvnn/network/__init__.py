@@ -1,2 +1,3 @@
-from .Triplet import *
+from .TripletBase import *
+from .TwoBranch import *
 from .PositionalEncoding import *

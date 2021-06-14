@@ -25,11 +25,12 @@ def test_interface() :
         '--val_epoch_length',
         '256'
     ])
-    trainData, valData, trainDataLoader, valDataLoader = buildData(opts)
+    data = buildData(opts)
+    trainData, valData, trainDataLoader, valDataLoader = data
     model = buildModel(opts) 
     interface = TripletInterface(opts, model, trainData, valData)
     trainer = ttools.Trainer(interface)
-    addCallbacks(trainer, model, opts)
+    addCallbacks(trainer, model, data, opts)
     # Start training
     trainer.train(
         trainDataLoader, 
@@ -38,3 +39,4 @@ def test_interface() :
     )
     assert(True)
 
+test_interface()

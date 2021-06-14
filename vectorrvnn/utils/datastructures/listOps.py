@@ -9,8 +9,10 @@ def subsets (lst, k) :
 def avg (lst) : 
     """ 
     use this instead of np.mean if you are worried
-    about empty lists.
+    about empty lists. if list is actually an iterator,
+    this function will consume the iterator.
     """
+    lst = list(lst)
     if len(lst) == 0 : 
         return 0
     return sum(lst) / len(lst)

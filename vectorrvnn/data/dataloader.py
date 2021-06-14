@@ -1,7 +1,8 @@
-import multiprocessing as mp
+from vectorrvnn.network import *
 from vectorrvnn.utils import *
-import torchvision.transforms as T
+from vectorrvnn.trainutils import *
 from functools import partial
+import numpy as np
 
 class TripletDataLoader () : 
     
@@ -9,37 +10,16 @@ class TripletDataLoader () :
         self.opts = opts
         self.sampler = sampler
         self.i = 0
-        transforms = [
-            T.ToTensor(), 
-            T.Lambda(lambda t : t.float()),
-            T.Normalize(mean=opts.mean, std=opts.std)
-        ]
-        if opts.input_nc < 4 : 
-            transforms.insert(
-                1, 
-                T.Lambda(
-                    partial(alphaComposite, module=torch)
-                )
-            )
-        self.transform = T.Compose(transforms)
+        self.transform = getTransform(opts)
 
     def __iter__ (self) :
         return self
 
-    def _positions (self, t, node) : 
-        paths = t.nodes[node]['pathSet']
-        paddedPaths = (list(paths) + [-1] * (self.opts.max_len - len(paths)))
-        position = torch.tensor(paddedPaths, dtype=torch.long)
-        return position
-
     def _nodefeatures (self, t, node) : 
         paths = t.nodes[node]['pathSet']
-        im = rasterize(
-            subsetSvg(t.doc, paths), 
-            self.opts.raster_size, 
-            self.opts.raster_size
-        )
-        return self.transform(im), self._positions(t, node)
+        Cls = globals()[self.opts.modelcls]
+        features = Cls.nodeFeatures(t, paths, self.opts)
+        return features
 
     def _tensorify (self, t, ref, plus, minus, refPlus, refMinus) : 
         im = self.transform(
@@ -49,19 +29,14 @@ class TripletDataLoader () :
                 self.opts.raster_size
             )
         )
-        refWhole  , refPositions   = self._nodefeatures(t, ref)
-        plusWhole , plusPositions  = self._nodefeatures(t, plus)
-        minusWhole, minusPositions = self._nodefeatures(t, minus)
+        ref = self._nodefeatures(t, ref)
+        plus = self._nodefeatures(t, plus)
+        minus = self._nodefeatures(t, minus)
         return dict(
-            im            =im,
-            refWhole      =refWhole,
-            refPositions  =refPositions,
-            plusWhole     =plusWhole,
-            plusPositions =plusPositions,
-            minusWhole    =minusWhole,
-            minusPositions=minusPositions,
-            refPlus       =torch.tensor(refPlus),
-            refMinus      =torch.tensor(refMinus)
+            im=im,
+            ref=ref,
+            plus=plus,
+            minus=minus,
         )
     
     def __next__ (self) : 

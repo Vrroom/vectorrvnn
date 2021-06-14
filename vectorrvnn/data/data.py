@@ -1,4 +1,4 @@
-from functools import reduce, lru_cache
+from functools import reduce
 import svgpathtools as svg
 from skimage import transform
 import networkx as nx
