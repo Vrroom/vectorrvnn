@@ -49,7 +49,7 @@ class Options():
             '--device',
             type=str,
             default='cuda:0',
-            choices=['cpu', 'cuda:0'],
+            choices=['cpu', 'cuda:0', 'cuda:1'],
             help='device to run training on.'
         )
         # Model Parameters
@@ -145,13 +145,13 @@ class Options():
             '--n_epochs', 
             type=int, 
             default=100, 
-            help='number of epochs with the initial learning rate'
+            help='total number of epochs'
         )
         parser.add_argument(
-            '--n_epochs_decay', 
+            '--decay_start', 
             type=int, 
-            default=100, 
-            help='number of epochs to linearly decay learning rate to zero'
+            default=50, 
+            help='epoch from which to start lr decay'
         )
         parser.add_argument(
             '--beta1', 
@@ -172,13 +172,6 @@ class Options():
             choices=['linear', 'step', 'plateau', 'cosine'],
             help='learning rate policy.'
         )
-        parser.add_argument(
-            '--lr_decay_iters', 
-            type=int, 
-            default=50, 
-            help='multiply by a gamma every lr_decay_iters iterations'
-        )
-        
         self.initialized = True
         return parser
 

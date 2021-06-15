@@ -8,17 +8,12 @@ def getScheduler(optimizer, opt):
         opt (option class) -- stores all the experiment flags; 
         needs to be a subclass of BaseOptions. opt.lr_policy is 
         the name of learning rate policy: linear | step | plateau | cosine
-
-    For 'linear', we keep the same learning rate for the first <opt.n_epochs> epochs
-    and linearly decay the rate to zero over the next <opt.n_epochs_decay> epochs.
-    For other schedulers (step, plateau, and cosine), we use the default PyTorch schedulers.
-    See https://pytorch.org/docs/stable/optim.html for more details.
     """
     if opt.lr_policy == 'linear':
         def lambda_rule(epoch):
             lr_l = 1.0 \
-                    - max(0, epoch + 1 - opt.n_epochs) \
-                    / float(opt.n_epochs_decay + 1)
+                    - max(0, epoch + 1 - opt.decay_start) \
+                    / float(opt.n_epochs - opt.decay_start + 1)
             return lr_l
         scheduler = LambdaLR(optimizer, lr_lambda=lambda_rule)
     elif opt.lr_policy == 'step':

@@ -16,15 +16,17 @@ def test_interface() :
         '--name', 
         'test',
         '--n_epochs',
-        '1',
+        '2',
         '--batch_size',
-        '64',
+        '8',
         '--raster_size',
         '128',
         '--train_epoch_length',
         '256',
         '--val_epoch_length',
-        '256'
+        '256',
+        '--decay_start',
+        '0'
     ])
     data = buildData(opts)
     trainData, valData, trainDataLoader, valDataLoader = data
