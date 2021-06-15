@@ -169,7 +169,8 @@ class Options():
             '--lr_policy', 
             type=str, 
             default='linear', 
-            help='learning rate policy. [linear | step | plateau | cosine]'
+            choices=['linear', 'step', 'plateau', 'cosine'],
+            help='learning rate policy.'
         )
         parser.add_argument(
             '--lr_decay_iters', 

@@ -137,8 +137,9 @@ class HierarchyVisCallback (Callback) :
         data = list(map(forest2tree, data))
         out = list(map(self.model.greedyTree, data))
         for i in range(self.nWindows) : 
+            out[i].doc = data[i].doc
             fig, ax = plt.subplots(1, 1, dpi=100) 
-            treeAxisFromGraph(data[i], ax)
+            treeAxisFromGraph(out[i], ax)
             self._api.matplot(plt, win=f'hierarchies-{i}')
             plt.close()
 
