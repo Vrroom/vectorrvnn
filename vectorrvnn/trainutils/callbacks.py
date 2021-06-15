@@ -2,11 +2,20 @@ import torch
 from torch import nn
 from sklearn import metrics
 from functools import partial
+from itertools import starmap
 from vectorrvnn.utils import *
 from .torchTools import * 
 import numpy as np
 from ttools.callbacks import *
 import visdom
+import random
+import matplotlib.pyplot as plt
+import plotly.express as px
+import pandas as pd
+
+def closeWindow (api, name) : 
+    if api.win_exists(name) : 
+        api.close(name)
 
 class SchedulerCallback (Callback) : 
     """ Take a step of the lr schedular after each epoch end """
@@ -49,7 +58,7 @@ class KernelDisplayCallback (ImageDisplayCallback) :
             return 'kernel'
 
 class TripletVisCallback(ImageDisplayCallback): 
-
+    """ visualize the images for each node in triplet """
     def node2Image (self, node, mask) : 
         ims = tensorFilter(node, isImage)
         if mask is None : 
@@ -73,17 +82,72 @@ class TripletVisCallback(ImageDisplayCallback):
     def caption(self, batch, step_data, is_val):
         return 'triplets'
 
+class DistanceHistogramCallback (Callback) : 
+    """ show the distribution of dplus and dminus """
+    def __init__ (self, frequency=100, env="main") : 
+        super(DistanceHistogramCallback, self).__init__() 
+        self._api = visdom.Visdom(env=env)
+        closeWindow(self._api, 'distance-train')
+        closeWindow(self._api, 'distance-val')
+        self.frequency = frequency
+
+    def _plot_distribution (self, dplus, dminus, win) : 
+        labels = (['plus'] * len(dplus) + ['minus'] * len(dminus))
+        df = pd.DataFrame(data=dict(
+            distance=np.concatenate((dplus, dminus)),
+            labels=labels
+        ))
+        fig = px.histogram(
+            df, 
+            x="distance", 
+            color="labels",
+            opacity=0.5,
+            nbins=100
+        )
+        self._api.plotlyplot(fig, win=win)
+
+    def batch_end (self, batch, step_data) : 
+        super(DistanceHistogramCallback, self).batch_end(batch, step_data)
+        dplus = step_data['dplus'].view(-1).detach().cpu().numpy()
+        dminus = step_data['dminus'].view(-1).detach().cpu().numpy()
+        self._plot_distribution(dplus, dminus, 'distance-train')
+
+    def val_batch_end (self, batch, running_data)  :
+        super(DistanceHistogramCallback, self).val_batch_end(batch, running_data)
+        dplus = running_data['dplus'].view(-1).detach().cpu().numpy()
+        dminus = running_data['dminus'].view(-1).detach().cpu().numpy()
+        self._plot_distribution(dplus, dminus, 'distance-val')
+
+class HierarchyVisCallback (Callback) : 
+    """ show inferred hierarchies """
+    def __init__ (self, model, valData, frequency=100, env="main") : 
+        super(HierarchyVisCallback, self).__init__() 
+        self._api = visdom.Visdom(env=env)
+        self.nWindows = 10
+        for i in range(self.nWindows) : 
+            closeWindow(self._api, f'hierarchies-{i}')
+        self.model = model
+        self.valData = valData
+        self.frequency = frequency
+        self.rng = random.Random(0)
+
+    def validation_start (self, dataloader) : 
+        super(HierarchyVisCallback, self).validation_start(dataloader)
+        data = self.rng.sample(list(self.valData), k=self.nWindows) 
+        data = list(map(forest2tree, data))
+        out = list(map(self.model.greedyTree, data))
+        for i in range(self.nWindows) : 
+            fig, ax = plt.subplots(1, 1, dpi=100) 
+            treeAxisFromGraph(data[i], ax)
+            self._api.matplot(plt, win=f'hierarchies-{i}')
+            plt.close()
+
 class FMICallback (Callback) : 
     """ Plot fmi for the validation set after each epoch """
-    def __init__(self, model, valData, frequency=100, server=None,
-            port=8097, base_url="/", env="main", log=False):
+    def __init__(self, model, valData, frequency=100, env="main"):
         super(FMICallback, self).__init__()
-        if server is None:
-            server = "http://localhost"
-        self._api = visdom.Visdom(server=server, port=port, env=env,
-                                  base_url=base_url)
-        if self._api.win_exists("val_FMI"):
-            self._api.close("val_FMI")
+        self._api = visdom.Visdom(env=env)
+        closeWindow(self._api, 'val_FMI')
         self.model = model
         self.valData = valData
         self.frequency = frequency

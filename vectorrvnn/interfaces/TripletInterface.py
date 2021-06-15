@@ -183,6 +183,20 @@ def addCallbacks (trainer, model, data, opts) :
             env=opts.name + "_fmi"
         )
     )
+    trainer.add_callback(
+        HierarchyVisCallback(
+            model,
+            valData,
+            frequency=opts.frequency,
+            env=opts.name + "_hierarchy"
+        )
+    )
+    trainer.add_callback(
+        DistanceHistogramCallback(
+            frequency=opts.frequency,
+            env=opts.name + "_distance"
+        )
+    )
 
 def buildModel (opts) : 
     # Load pretrained path module
