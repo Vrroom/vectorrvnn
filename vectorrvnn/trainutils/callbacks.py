@@ -69,18 +69,19 @@ class TripletVisCallback(ImageDisplayCallback):
                 ims = [im[mask][0] for im in ims]
             except Exception : 
                 ims = [torch.ones_like(im[0]) for im in ims]
-        return torch.stack(ims)
+        tensorApply(ims, normalize2UnitRange)
+        return torch.cat(ims, 2)
 
     def visualized_image(self, batch, step_data, is_val):
         mask = step_data['mask']
         ref   = self.node2Image(batch['ref'], mask)
         plus  = self.node2Image(batch['plus'], mask)
         minus = self.node2Image(batch['minus'], mask)
-        viz = torch.cat([ref, plus, minus], 3)
+        viz = torch.stack([ref, plus, minus])
         return viz
         
     def caption(self, batch, step_data, is_val):
-        return 'triplets'
+        return 'ref, plus, minus'
 
 class DistanceHistogramCallback (Callback) : 
     """ show the distribution of dplus and dminus """

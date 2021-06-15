@@ -37,7 +37,10 @@ def tensorFilter(thing, predicate, module=torch) :
                 predicate=predicate,
                 module=module
             ), 
-            thing.values()
+            map(
+                lambda k : thing[k],
+                sorted(thing.keys())
+            )
         )))
     elif isinstance(thing, list) : 
         return list(flatten(map(
