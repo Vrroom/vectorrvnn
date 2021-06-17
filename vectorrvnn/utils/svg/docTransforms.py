@@ -1,5 +1,5 @@
 from .svgTools import *
-from vectorrvnn.geometry.boxes import * 
+from vectorrvnn.utils.boxes import * 
 from copy import deepcopy
 from functools import reduce
 
@@ -42,7 +42,7 @@ def modAttr (doc, attr, value) :
 @immutable_doc
 def docUnion (doc, that) : 
     # add the canvases
-    setDocBBox(getDocBBox(doc) + getDocBBox(that))
+    setDocBBox(doc, getDocBBox(doc) + getDocBBox(that))
     # add the paths
     thatRoot = deepcopy(that.tree.getroot())
     thatChildren = list(filter(

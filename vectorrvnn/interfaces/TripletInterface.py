@@ -220,17 +220,18 @@ def buildModel (opts) :
 def buildData (opts) : 
     trainData = TripletDataset(osp.join(opts.dataroot, 'Train'))
     valData = TripletDataset(osp.join(opts.dataroot, 'Val'))
+    SamplerCls = globals()[opts.samplercls]
     trainDataLoader = TripletDataLoader(
         opts=opts, 
-        sampler=TripletSampler(
+        sampler=SamplerCls(
             trainData, 
             opts.train_epoch_length,
-            transform=getDocTransform(self.opts)
+            transform=getGraphicAugmentation(opts)
         )
     )
     valDataLoader = TripletDataLoader(
         opts=opts, 
-        sampler=TripletSampler(
+        sampler=SamplerCls(
             valData,
             opts.val_epoch_length,
             val=True

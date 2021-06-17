@@ -32,6 +32,33 @@ class TripletSampler () :
         self.i = 0
 
     def getSample (self) : 
+        raise NotImplementedError
+
+    def __iter__ (self): 
+        return self
+
+    def __next__ (self) : 
+        if self.i < len(self) : 
+            self.i += 1
+            return self.getSample()
+        else :
+            self.i = 0
+            if self.val : 
+                self.rng = random.Random(self.seed)
+            raise StopIteration
+
+    def reset (self) : 
+        self.i = 0
+        if self.val : 
+            self.rng = random.Random(self.seed)
+
+    def __len__ (self) : 
+        # Fixed number of samples for each epoch.
+        return self.length
+
+class AllSampler (TripletSampler) : 
+
+    def getSample(self) : 
         n = len(self.svgdatas)
         try : 
             dataPt = self.rng.choice(self.svgdatas) # choose random data point
@@ -58,25 +85,31 @@ class TripletSampler () :
         refPlus = lcaScore(dataPt, ref, plus)
         return (dataPt, ref, plus, minus, refPlus, refMinus)
 
-    def __iter__ (self): 
-        return self
+class SiblingSampler (TripletSampler) : 
 
-    def __next__ (self) : 
-        if self.i < len(self) : 
-            self.i += 1
-            return self.getSample()
-        else :
-            self.i = 0
-            if self.val : 
-                self.rng = random.Random(self.seed)
-            raise StopIteration
-
-    def reset (self) : 
-        self.i = 0
-        if self.val : 
-            self.rng = random.Random(self.seed)
-
-    def __len__ (self) : 
-        # Fixed number of samples for each epoch.
-        return self.length
-
+    def getSample(self) : 
+        n = len(self.svgdatas)
+        while True : 
+            dataPt = self.rng.choice(self.svgdatas) # choose random data point
+            dataPt = self.transform(dataPt, self.svgdatas) # transform it
+            found = False
+            for attempt in range(10) : 
+                try : 
+                    ref = self.rng.choice(list(dataPt.nodes)) # set reference node
+                    plus = self.rng.choice(list(siblings(dataPt, ref))) # set plus node
+                    minus = self.rng.choice(list(
+                        dataPt.nodes \
+                                - descendants(
+                                    dataPt, 
+                                    parent(dataPt, ref)
+                                )
+                    )) # set minus node
+                    found = True
+                    break
+                except Exception: 
+                    pass
+            if found : 
+                break
+        refMinus = lcaScore(dataPt, ref, minus)
+        refPlus = lcaScore(dataPt, ref, plus)
+        return (dataPt, ref, plus, minus, refPlus, refMinus)

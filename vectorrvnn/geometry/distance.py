@@ -9,7 +9,6 @@ from skimage import color
 import numpy as np
 from .descriptor import *
 from .utils import *
-from .boxes import *
 from vectorrvnn.utils import *
 
 def _getPathPair(doc, i, j) :

@@ -3,7 +3,6 @@ import svgpathtools as svg
 from skimage import transform
 import networkx as nx
 import numpy as np
-from vectorrvnn.geometry.boxes import *
 from vectorrvnn.geometry import *
 from vectorrvnn.utils import *
 
@@ -59,6 +58,6 @@ class SVGData (nx.DiGraph) :
         for n in self.nodes : 
             ps = self.nodes[n]['pathSet']
             relPaths = [paths[i] for i in ps]
-            bbox = sum(map(pathBBox, relPaths))
+            bbox = reduce(lambda x, y: x + y, map(pathBBox, relPaths))
             nx.set_node_attributes(self, {n: bbox}, 'bbox')
     

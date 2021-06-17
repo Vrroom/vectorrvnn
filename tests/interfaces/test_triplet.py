@@ -42,4 +42,3 @@ def test_interface() :
     )
     assert(True)
 
-test_interface()

@@ -4,6 +4,7 @@ import more_itertools
 import networkx as nx
 import numpy as np
 from copy import deepcopy
+from vectorrvnn.utils import argmax
 
 def trimTreeByDepth (t, levels) : 
     t_ = deepcopy(t)

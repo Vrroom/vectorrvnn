@@ -6,7 +6,7 @@ from functools import lru_cache
 from vectorrvnn.utils.comp import *
 from vectorrvnn.utils.svg import *
 from vectorrvnn.utils.graph import *
-from .boxes import *
+from vectorrvnn.utils.boxes import *
 import pathfinder_rasterizer as pr
 
 @lru_cache(maxsize=128)

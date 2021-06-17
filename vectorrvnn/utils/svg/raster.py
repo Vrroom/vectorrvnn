@@ -3,7 +3,7 @@ import numpy as np
 import torch
 import pathfinder_rasterizer as pr
 from .svgTools import *
-from vectorrvnn.geometry.boxes import *
+from vectorrvnn.utils.boxes import *
 
 def alphaComposite (source, module=np, color=[1,1,1]) : 
     originalShape = source.shape
@@ -35,5 +35,5 @@ def rasterize (doc, h=None, w=None) :
     fixOrigin(doc)
     if h is not None : 
         scaleToFit(doc, h, w)
-        setDocBBox(DimBBox(0, 0, w, h))
+        setDocBBox(doc, DimBBox(0, 0, w, h))
     return pr.numpyRaster(doc)

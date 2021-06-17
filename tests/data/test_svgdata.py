@@ -32,7 +32,7 @@ def test_svgdata_and_sampler () :
     # confirm that data points are constructed properly
     datapts = [SVGData(svgFile=f, tree=t) for f, t in zip(files, trees)]
     # confirm that sampling happens properly.
-    sampler = TripletSampler(datapts, 
+    sampler = AllSampler(datapts, 
             length=opts.train_epoch_length)
     for _ in sampler : 
         pass 

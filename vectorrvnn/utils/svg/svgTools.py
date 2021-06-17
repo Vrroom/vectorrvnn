@@ -8,7 +8,7 @@ import networkx as nx
 import itertools, more_itertools
 import svgpathtools as svg
 from vectorrvnn.utils.graph import *
-from vectorrvnn.geometry.boxes import *
+from vectorrvnn.utils.boxes import *
 
 # Stroke attributes. 
 STROKE_LINECAP = ['butt', 'round', 'square'] # default in butt
@@ -111,7 +111,7 @@ def unparseCSS(cssDict) :
 def parseCSS(cssString) : 
     return dict(map(
         lambda x : x.split(':'), 
-        style.split(';')
+        cssString.split(';')
     ))
 
 def parseDashArray(da) : 

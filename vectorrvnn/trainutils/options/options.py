@@ -112,6 +112,20 @@ class Options():
         # training parameters
         self.add_loss_args(parser)
         parser.add_argument(
+            '--augmentation', 
+            type=str,
+            default='none',
+            choices=['none', 'simple'],
+            help='Augmentation applied to data'
+        )
+        parser.add_argument(
+            '--samplercls',
+            type=str,
+            default='AllSampler', 
+            choices=['AllSampler', 'SiblingSampler'],
+            help='Class to use to sample triplets'
+        )
+        parser.add_argument(
             '--batch_size', 
             type=int, 
             default=512, 
