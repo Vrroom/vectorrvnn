@@ -9,6 +9,7 @@ from skimage import color
 import numpy as np
 from .descriptor import *
 from .utils import *
+from .boxes import *
 from vectorrvnn.utils import *
 
 def _getPathPair(doc, i, j) :
@@ -21,18 +22,6 @@ def circleIoU (circle1, circle2) :
     unionArea = circleArea(circle1) + circleArea(circle2) - intersectionArea
     return intersectionArea / unionArea
 
-def iou (box1, box2) : 
-    """ intersection over union for rectangles """
-    x1, y1, w1, h1 = box1
-    x2, y2, w2, h2 = box2
-    xm = max(x1, x2)
-    xM = min(x1 + w1, x2 + w2) 
-    ym = max(y1, y2)
-    yM = min(y1 + h1, y2 + h2) 
-    intersection = max(0, xM - xm) * max(0, yM - ym)
-    union = (w1 * h1) + (w2 * h2) - intersection + 1e-3
-    return intersection / union
-
 def hausdorff (a, b) : 
     """ symmetric hausdorff distance between point clouds """
     return max(directed_hausdorff(a, b)[0], directed_hausdorff(b, a)[0])
@@ -43,8 +32,8 @@ def localProximity(doc, i, j, **kwargs) :
     distance between center of bounding boxes.
     """
     path1, path2 = _getPathPair(doc, i, j)
-    center1 = center(path1.path.bbox())
-    center2 = center(path2.path.bbox())
+    center1 = pathBBox(path1.path).center()
+    center2 = pathBBox(path2.path).center()
     sqDist = complexDot(center1 - center2, center1 - center2)
     return np.sqrt(sqDist)
 
@@ -245,12 +234,14 @@ def autogroupColorSimilarity (doc, i, j,
 def occludes (doc, i, j, **kwargs) : 
     """ does j occlude i? """ 
     areaIntersection = areaIntersectionDistance(doc, i, j)
-    _, _, w, h = doc.get_viewbox() 
-    return j > i and (areaIntersection / (w * h)) > 1e-4
+    docArea = getDocBBox(doc).area()
+    return j > i and (areaIntersection / docArea) > 1e-4
 
 def bboxContains (doc, i, j, **kwargs) : 
     path1, path2 = _getPathPair(doc, i, j)
-    return contains(path1.path.bbox(), path2.path.bbox())
+    b1 = pathBBox(path1.path)
+    b2 = pathBBox(path2.path)
+    return b1.contains(b2)
 
 def relationshipGraph (doc, relFn, symmetric, **kwargs) : 
     """

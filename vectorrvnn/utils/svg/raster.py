@@ -3,6 +3,7 @@ import numpy as np
 import torch
 import pathfinder_rasterizer as pr
 from .svgTools import *
+from vectorrvnn.geometry.boxes import *
 
 def alphaComposite (source, module=np, color=[1,1,1]) : 
     originalShape = source.shape
@@ -22,6 +23,7 @@ def alphaComposite (source, module=np, color=[1,1,1]) :
         composited = composited.squeeze()
     return composited
 
+@immutable_doc
 def rasterize (doc, h=None, w=None) : 
     """
     Rasterize a document to given height and width.
@@ -30,9 +32,8 @@ def rasterize (doc, h=None, w=None) :
     """ 
     assert ((h is None and w is None) \
             or (h is not None and w is not None))
-    doc_ = deepcopy(doc)
-    fixOrigin(doc_)
+    fixOrigin(doc)
     if h is not None : 
-        scaleToFit(doc_, h, w)
-        doc_.set_viewbox(' '.join(map(str, [0, 0, w, h])))
-    return pr.numpyRaster(doc_) 
+        scaleToFit(doc, h, w)
+        setDocBBox(DimBBox(0, 0, w, h))
+    return pr.numpyRaster(doc)

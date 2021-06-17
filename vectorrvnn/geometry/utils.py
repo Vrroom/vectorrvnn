@@ -15,39 +15,6 @@ def normalizedCiede2000Score (rgb1, rgb2) :
     delE = color.deltaE_ciede2000(lab1, lab2)
     return 1 - (delE / maxD)
 
-def normalizeBBox (box) : 
-    x, y, w, h = box
-    d = max(w, h)
-    return [x - (d - w) / 2, y - (d - h)/ 2, d, d]
-
-def isDegenerateBBox (box) :
-    _, _, w, h = box
-    return h < 1e-5 and w < 1e-5
-
-def contains (a, b) : 
-    """ does a contain b """
-    ax1, ax2, ay1, ay2 = a
-    bx1, bx2, by1, by2 = b
-
-    return (ax1 <= bx1 <= bx2 <= ax2 \
-            and ay1 <= by1 <= by2 <= ay2) \
-            and not (ax1 == bx1 and ax2 == bx2 \
-            and ay1 == by1 and ay2 == by2)
-
-def bboxUnion(a, b) : 
-    ax1, ax2, ay1, ay2 = a
-    bx1, bx2, by1, by2 = b
-    return [min(ax1, bx1), 
-            max(ax2, bx2), 
-            min(ay1, by1), 
-            max(ay2, by2)]
-
-def graphicBBox (doc) : 
-    paths = cachedPaths(doc)
-    bboxes = [p.path.bbox() for p in paths]
-    x, X, y, Y = reduce(bboxUnion, bboxes)
-    return [x, y, X - x, Y - y]
-
 def distanceOfPointFromLine (p, line) : 
     """ exactly what the name suggests :/ """
     p_, slope = line
@@ -87,11 +54,6 @@ def circleArea (circle) :
     """ area of circle """
     r, _ = circle
     return np.pi * (r ** 2)
-
-def center (bbox) : 
-    """ center of a bounding box """
-    xm, xM, ym, yM = bbox
-    return complex((xm + xM) / 2, (ym + yM) / 2)
 
 def optimalRotationAndTranslation (pts1, pts2) : 
     """

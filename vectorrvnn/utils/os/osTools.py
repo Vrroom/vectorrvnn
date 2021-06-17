@@ -45,4 +45,3 @@ def listdir (path) :
     paths.sort()
     return paths
 
-

@@ -6,8 +6,8 @@ from functools import lru_cache
 from vectorrvnn.utils.comp import *
 from vectorrvnn.utils.svg import *
 from vectorrvnn.utils.graph import *
+from .boxes import *
 import pathfinder_rasterizer as pr
-from .utils import isDegenerateBBox
 
 @lru_cache(maxsize=128)
 def colorHistogram(doc, i, containmentGraph=None) : 
@@ -37,22 +37,21 @@ def d2 (doc, i, bins=10, nSamples=100, **kwargs) :
     between them. 
     """
     path = cachedPaths(doc)[i].path
-    xm, xM, ym, yM = path.bbox()
-    if isDegenerateBBox([xm, ym, xM - xm, yM - ym]) : 
+    if pathBBox(path).isDegenerate() : 
         return np.ones(bins)
     L = path.length() 
     rs = []
     for i in range(nSamples) : 
-        pt1 = path.point(path.ilength(random.random() * L, s_tol=1e-3))
-        pt2 = path.point(path.ilength(random.random() * L, s_tol=1e-3))
+        pt1 = path.point(path.ilength(random.random() * L, s_tol=1e-2))
+        pt2 = path.point(path.ilength(random.random() * L, s_tol=1e-2))
         rs.append(abs(pt1 - pt2))
     return np.histogram(rs, bins=bins)[0] / nSamples
 
 @lru_cache(maxsize=128)
 def shapeHistogram (doc, i, nSamples=50) : 
     path = cachedPaths(doc)[i].path
-    xm, xM, ym, yM = path.bbox()
-    s = max(xM - xm, yM - ym) * np.sqrt(2)
+    box = pathBBox(path).todim()
+    s = max(box.w, box.h) * np.sqrt(2)
     ts = np.arange(0, 1, 1 / nSamples)
     L = path.length()
     if L == 0 :
@@ -91,8 +90,7 @@ def fd (doc, i, nSamples=25, freqs=10, **kwargs) :
 def bb (doc, i, **kwargs) : 
     """ absolute bounding box coordinates for the ith path """
     path = cachedPaths(doc)[i].path
-    x1, x2, y1, y2 = path.bbox()
-    return [x1, y1, x2 - x1, y2 - y1]
+    return pathBBox(path).todim().tolist()
 
 @lru_cache(maxsize=128)
 def relbb (doc, i, **kwargs) :
@@ -100,13 +98,14 @@ def relbb (doc, i, **kwargs) :
     Compute the relative bounding box of the path 
     with respect to the document's bounding box.
     """
-    docbb = doc.get_viewbox()
+    docbb = getDocBBox(doc)
     path = cachedPaths(doc)[i].path
-    xmin, xmax, ymin, ymax = path.bbox()
-    x1 = (xmin - docbb[0]) / (docbb[2] - docbb[0])
-    x2 = (xmax - docbb[0]) / (docbb[2] - docbb[0])
-    y1 = (ymin - docbb[1]) / (docbb[3] - docbb[1])
-    y2 = (ymax - docbb[1]) / (docbb[3] - docbb[1])
+
+    xmin, xmax, ymin, ymax = pathBBox(path).tolist()
+    x1 = (xmin - docbb.x) / (docbb.w)
+    x2 = (xmax - docbb.x) / (docbb.w)
+    y1 = (ymin - docbb.y) / (docbb.h)
+    y2 = (ymax - docbb.y) / (docbb.h)
     return [x1, y1, x2 - x1, y2 - y1]
 
 @lru_cache(maxsize=128)
@@ -115,7 +114,7 @@ def equiDistantSamples (doc, i, nSamples=5, **kwargs) :
     path = cachedPaths(doc)[i].path
     ts = np.linspace(0, 1, nSamples)
     L = path.length()
-    pts = [path.point(path.ilength(t * L, 1e-4)) for t in ts]
+    pts = [path.point(path.ilength(t * L, 1e-2)) for t in ts]
     if kwargs['normalize'] : 
         dx, dy = docbb[2] - docbb[0], docbb[3] - docbb[1]
         x = [p.real / dx for p in pts]

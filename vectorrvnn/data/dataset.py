@@ -12,6 +12,7 @@ class TripletDataset () :
         """
         files = listdir(datadir)
         svgFiles, treeFiles = [], []
+        self.metadata = []
         for f in files : 
             exampleFiles = listdir(f)
             svgFile  = next(filter(
@@ -22,6 +23,12 @@ class TripletDataset () :
                 lambda x : x.endswith('pkl'), 
                 exampleFiles
             ))
+            txtFile = next(filter(
+                lambda x : x.endswith('txt'),
+                exampleFiles
+            ))
+            with open(txtFile) as fd : 
+                self.metadata.append(fd.read().strip())
             svgFiles.append(svgFile)
             treeFiles.append(treeFile)
         self.data = [SVGData(svgFile=sf, treePickle=tf) 

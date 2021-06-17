@@ -28,34 +28,24 @@ def numNodes2Binarize (t) :
     """ How many nodes should be added to binarize a tree  """
     return sum([t.out_degree(n) - 2 for n in t.nodes if t.out_degree(n) > 2])
 
-def lca (t, a, b, r) : 
-    testNodes = {a, b}
-    while True :
-        found = False
-        for n in t.neighbors(r) : 
-            desc = descendants(t, n)
-            if testNodes.issubset(desc) : 
-                r = n
-                found = True
-                break
-        if not found : 
-            break
-    return r
+def lca (t, a, b) : 
+    setNodeDepths(t)
+    test = {a, b}
+    r = findRoot(t) 
+    anc = list(filter(
+        lambda x : test.issubset(descendants(t, x)),
+        t.nodes
+    ))
+    ancDepths = [t.nodes[n]['depth'] for n in anc]
+    return anc[argmax(ancDepths)]
 
 @lru_cache(maxsize=128)
 def lcaScore (t, a, b) : 
     if a == b : 
         return 0
-    roots = [_ for _ in t.nodes if t.in_degree(_) == 0]
-    subtrees = [descendants(t, _) for _ in roots]
-    doesIntersect = list(map(lambda s : len(s.intersection({a, b})) == 2, subtrees))
-    if any(doesIntersect) : 
-        r = [r_ for r_, d in zip(roots, doesIntersect) if d].pop()
-        l = lca(t, a, b, r)
-        d = max(t.nodes[a]['depth'], t.nodes[b]['depth'])
-        l_ = (d - t.nodes[l]['depth'])
-        return l_
-    return np.inf
+    l = lca(t, a, b)
+    d = max(t.nodes[a]['depth'], t.nodes[b]['depth'])
+    return (d - t.nodes[l]['depth'])
 
 def lofScore (t, a, b) :
     l = lca(t, a, b)

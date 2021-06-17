@@ -224,7 +224,8 @@ def buildData (opts) :
         opts=opts, 
         sampler=TripletSampler(
             trainData, 
-            opts.train_epoch_length
+            opts.train_epoch_length,
+            transform=getDocTransform(self.opts)
         )
     )
     valDataLoader = TripletDataLoader(

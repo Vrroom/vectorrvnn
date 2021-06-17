@@ -52,7 +52,6 @@ def graphCluster (G, algo, doc) :
         return curId
 
     paths = doc.paths()
-    vbox = doc.get_viewbox()
     tree = nx.DiGraph()
     idx = 0
     root = 0

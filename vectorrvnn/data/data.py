@@ -3,6 +3,7 @@ import svgpathtools as svg
 from skimage import transform
 import networkx as nx
 import numpy as np
+from vectorrvnn.geometry.boxes import *
 from vectorrvnn.geometry import *
 from vectorrvnn.utils import *
 
@@ -16,6 +17,8 @@ class SVGData (nx.DiGraph) :
     and the path sets at each node. 
     """
     def initTree (self, tree=None) : 
+        if not nx.is_tree(self) : 
+            tree = forest2tree(self)
         if tree is not None : 
             self.clear()
             self.update(tree)
@@ -23,16 +26,15 @@ class SVGData (nx.DiGraph) :
         setNodeDepths(self)
         setNodeBottomDepths(self)
         self._setPathSets()
+        assert nx.is_tree(self)
 
     def initGraphic (self, doc) :
         self.doc = doc
         paths = cachedPaths(self.doc)
         paths = [p for i, p in enumerate(paths) 
-                if not isDegenerateBBox(bb(self.doc, i))]
+                if not pathBBox(p.path).isDegenerate()]
         self.nPaths = len(paths)
-        self.pathViewBoxes = [bb(self.doc, i) for i, p in enumerate(paths)]
-        for r in [r for r in self.nodes if self.in_degree(r) == 0] : 
-            self._computeBBoxes(r)
+        self._computeBBoxes(findRoot(self))
 
     def _setPathSets (self) : 
         """ set pathsets for each node """
@@ -53,14 +55,10 @@ class SVGData (nx.DiGraph) :
         self.initGraphic(svg.Document(svgFile))
 
     def _computeBBoxes (self, node) : 
-        if self.out_degree(node) == 0 : 
-            pId = self.nodes[node]['pathSet'][0]
-            nx.set_node_attributes(self, {node: self.pathViewBoxes[pId]}, 'bbox')
-        else : 
-            for n in self.neighbors(node) : 
-                self._computeBBoxes(n)
-            boxes = np.array([self.nodes[n]['bbox'] for n in self.neighbors(node)])
-            xm, ym = boxes[:,0].min(), boxes[:,1].min()
-            xM, yM = (boxes[:,0] + boxes[:,2]).max(), (boxes[:,1] + boxes[:,3]).max()
-            nx.set_node_attributes(self, {node: [xm, ym, xM - xm, yM - ym]}, 'bbox')
+        paths = [p.path for p in cachedPaths(self.doc)]
+        for n in self.nodes : 
+            ps = self.nodes[n]['pathSet']
+            relPaths = [paths[i] for i in ps]
+            bbox = sum(map(pathBBox, relPaths))
+            nx.set_node_attributes(self, {n: bbox}, 'bbox')
     

@@ -1,4 +1,4 @@
-from functools import lru_cache
+from functools import lru_cache, wraps
 import re
 import string
 from matplotlib import colors
@@ -8,6 +8,7 @@ import networkx as nx
 import itertools, more_itertools
 import svgpathtools as svg
 from vectorrvnn.utils.graph import *
+from vectorrvnn.geometry.boxes import *
 
 # Stroke attributes. 
 STROKE_LINECAP = ['butt', 'round', 'square'] # default in butt
@@ -38,6 +39,13 @@ class Del:
     def __getitem__(self, k):
         return self.comp.get(k)
 DD = Del()
+
+def immutable_doc (fn) :
+    @wraps(fn)
+    def wrapper (doc, *args, **kwargs) : 
+        doc_ = deepcopy(doc)
+        return fn(doc_, *args, **kwargs)
+    return wrapper
 
 def getTreeStructureFromSVG (svgFile) : 
     """
@@ -96,10 +104,21 @@ def getTreeStructureFromSVG (svgFile) :
 def cachedPaths (doc) : 
     return doc.paths()
 
+def unparseCSS(cssDict) :  
+    items = [f'{k}:{v}' for k, v in cssDict.items()]
+    return ';'.join(items)
+
+def parseCSS(cssString) : 
+    return dict(map(
+        lambda x : x.split(':'), 
+        style.split(';')
+    ))
+
 def parseDashArray(da) : 
     return list(map(float, filter(
         lambda x : len(x) > 0, 
-        re.split(',| ', da))))
+        re.split(',| ', da))
+    ))
 
 def parseHex(s):
     s = s.lstrip('#')
@@ -129,57 +148,56 @@ def parseColor(s):
             warnings.warn('Unknown color command ' + s)
     return color
 
-def pathAttribute (path, attr, default) : 
+def pathAttributeSet (path, attr, value) : 
+    path.element.attrib[attr] = value
+    if 'style' in path.element.attrib : 
+        style = path.element.attrib['style']
+        parsed = parseCSS(style)
+        if attr in parsed : 
+            parsed[attr] = value
+            path.element.attrib['style'] = unparseCSS(parsed)
+
+def pathAttributeGet (path, attr, default) : 
     if attr in path.element.attrib : 
         return path.element.attrib[attr]
     elif 'style' in path.element.attrib : 
         style = path.element.attrib['style']
-        style = dict(map(
-                lambda x : x.split(':'), 
-                style.split(';')))
-        if attr in style : 
-            return style[attr]
+        parsed = parseCSS(style)
+        if attr in parsed : 
+            return parsed[attr]
     return default
     
 def pathColor (path, attr) : 
     """ attr can be one of stroke/fill """
-    return parseColor(pathAttribute(path, attr, DEFAULT_COLOR))
+    return parseColor(pathAttributeGet(path, attr, DEFAULT_COLOR))
 
 def pathStrokeWidth (path) :
-    pw = pathAttribute(path, 'stroke-width', DEFAULT_STROKEWIDTH)
+    pw = pathAttributeGet(path, 'stroke-width', DEFAULT_STROKEWIDTH)
     return float(pw.translate(DD))
 
 def pathStrokeLineCap (path): 
-    return pathAttribute(path, 'stroke-linecap', DEFAULT_LINECAP)
+    return pathAttributeGet(path, 'stroke-linecap', DEFAULT_LINECAP)
 
 def pathStrokeLineJoin (path): 
-    return pathAttribute(path, 'stroke-linejoin', DEFAULT_LINEJOIN)
+    return pathAttributeGet(path, 'stroke-linejoin', DEFAULT_LINEJOIN)
 
 def pathStrokeDashArray(path) : 
     """ 
     Instead of the whole dasharray string, just 
     say whether there is this attribute or not
     """
-    da = pathAttribute(path, 'stroke-dasharray', None)
+    da = pathAttributeGet(path, 'stroke-dasharray', None)
     return da if da != 'none' else None
 
 def fixOrigin (doc) : 
-    ox, oy = doc.get_viewbox()[:2]
+    x, y = getDocBBox(doc).tolist()[:2]
     globalTransform(doc, 
-            dict(transform=f'translate({-ox} {-oy})'))
+            dict(transform=f'translate({-x} {-y})'))
 
 def scaleToFit (doc, h, w) : 
-    ow, oh = doc.get_viewbox()[-2:]
+    ow, oh = getDocBBox(doc).tolist()[-2:]
     globalTransform(doc, 
             dict(transform=f'scale({w/ow} {h/oh})'))
-
-def translate (doc, tx, ty) : 
-    globalTransform(doc, 
-            dict(transform=f'translate({tx} {ty})'))
-
-def rotate (doc, degrees, px=0, py=0) :
-    globalTransform(doc,
-            dict(transform=f'rotate({degrees} {px} {py})'))
 
 def removeGraphicChildren (xmltree) :
     children = [e for e in xmltree if e.tag in GRAPHIC_TAGS]
@@ -204,17 +222,3 @@ def globalTransform(doc, transform) :
     root.append(groupElement)
     doc.tree._setroot(root)
 
-def subsetSvg(doc, lst) :
-    paths = cachedPaths(doc)
-    nPaths = len(paths)
-    docCpy = deepcopy(doc)
-    root = docCpy.root
-    unwantedPaths = list(set(range(nPaths)) - set(lst))
-    unwantedPathIds = [paths[i].zIndex for i in unwantedPaths]
-    allElts = list(root.iter())
-    unwantedElts = [allElts[i] for i in unwantedPathIds]
-    for elt in unwantedElts : 
-        docCpy.parent_map[elt].remove(elt)
-    newDocument = svg.Document(None)
-    newDocument.fromString(ET.tostring(root, encoding='unicode'))
-    return newDocument
