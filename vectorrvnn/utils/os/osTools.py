@@ -45,3 +45,10 @@ def listdir (path) :
     paths.sort()
     return paths
 
+def allfiles (directory) :
+    """ List full paths of all files/directory in directory """
+    for f in listdir(directory) : 
+        yield f 
+        if osp.isdir(f) : 
+            yield from allfiles(f)
+

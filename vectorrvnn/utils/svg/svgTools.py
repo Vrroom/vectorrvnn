@@ -33,6 +33,8 @@ GRAPHIC_TAGS = [
     '{http://www.w3.org/2000/svg}g',
 ]
 
+PATH_TAGS = GRAPHIC_TAGS[:-1]
+
 class Del:
     def __init__(self, keep=string.digits + '.-e'):
         self.comp = dict((ord(c),c) for c in keep)
@@ -86,7 +88,7 @@ def getTreeStructureFromSVG (svgFile) :
             T.nodes[curId]['pathSet'] = pathSet
         return curId
 
-    childTags = GRAPHIC_TAGS[:-1]
+    childTags = PATH_TAGS
     groupTag = GRAPHIC_TAGS[-1]
     doc = svg.Document(svgFile)
     paths = doc.paths()
@@ -100,7 +102,7 @@ def getTreeStructureFromSVG (svgFile) :
     T = removeOneOutDegreeNodesFromTree(T)
     return T
 
-@lru_cache(maxsize=128)
+@lru_cache(maxsize=1024)
 def cachedPaths (doc) : 
     return doc.paths()
 
@@ -148,24 +150,30 @@ def parseColor(s):
             warnings.warn('Unknown color command ' + s)
     return color
 
-def pathAttributeSet (path, attr, value) : 
-    path.element.attrib[attr] = value
-    if 'style' in path.element.attrib : 
-        style = path.element.attrib['style']
+def xmlAttributeSet (element, attr, value) : 
+    element.attrib[attr] = value
+    if 'style' in element.attrib : 
+        style = element.attrib['style']
         parsed = parseCSS(style)
         if attr in parsed : 
             parsed[attr] = value
-            path.element.attrib['style'] = unparseCSS(parsed)
+            element.attrib['style'] = unparseCSS(parsed)
 
-def pathAttributeGet (path, attr, default) : 
-    if attr in path.element.attrib : 
-        return path.element.attrib[attr]
-    elif 'style' in path.element.attrib : 
-        style = path.element.attrib['style']
+def xmlAttributeGet (element, attr, default) : 
+    if attr in element.attrib : 
+        return element.attrib[attr]
+    elif 'style' in element.attrib : 
+        style = element.attrib['style']
         parsed = parseCSS(style)
         if attr in parsed : 
             return parsed[attr]
     return default
+
+def pathAttributeSet (path, attr, value) : 
+    xmlAttributeSet(path.element, attr, value)
+
+def pathAttributeGet (path, attr, default) : 
+    return xmlAttributeGet(path.element, attr, default)
     
 def pathColor (path, attr) : 
     """ attr can be one of stroke/fill """
@@ -221,4 +229,4 @@ def globalTransform(doc, transform) :
     removeGraphicChildren(root)
     root.append(groupElement)
     doc.tree._setroot(root)
-
+    doc.updateParentMap()

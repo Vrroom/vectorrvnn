@@ -11,7 +11,7 @@ def test_interface() :
         '--dataroot',
         osp.join(
             chdir,
-            '../../ManuallyAnnotatedDataset_v2'
+            '../../data/Toy'
         ),
         '--name', 
         'test',
@@ -26,7 +26,9 @@ def test_interface() :
         '--val_epoch_length',
         '256',
         '--decay_start',
-        '0'
+        '0',
+        '--augmentation',
+        'simple'
     ])
     data = buildData(opts)
     trainData, valData, trainDataLoader, valDataLoader = data
@@ -42,3 +44,4 @@ def test_interface() :
     )
     assert(True)
 
+test_interface()

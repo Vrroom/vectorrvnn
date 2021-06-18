@@ -1,4 +1,3 @@
-from vectorrvnn.utils import saveArgs
 from functools import reduce, wraps
 from collections import namedtuple
 
@@ -31,7 +30,10 @@ class BBox :
 class ExtentBBox (BBox):
 
     def __init__ (self, x, X, y, Y) : 
-        saveArgs.save(locals())
+        self.x = x
+        self.X = X
+        self.y = y
+        self.Y = Y
 
     def tolist(self) : 
         return [
@@ -105,7 +107,10 @@ class ExtentBBox (BBox):
 class DimBBox (BBox):
     
     def __init__ (self, x, y, w, h) : 
-        saveArgs.save(locals())
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
 
     def tolist(self) : 
         return [

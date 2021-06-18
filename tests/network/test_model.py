@@ -26,9 +26,18 @@ def test_model () :
     """ test whether things work """
     chdir = osp.split(osp.abspath(__file__))[0]
     opts = Options().parse(testing=[
-        '--dataroot', osp.join(chdir, '../../ManuallyAnnotatedDataset_v2'),
-        '--checkpoints_dir', osp.join(chdir, '../../results'),
-        '--name', 'test_model',
+        '--dataroot', 
+        osp.join(chdir, '../../data/Toy'),
+        '--checkpoints_dir', 
+        osp.join(chdir, '../../results'),
+        '--name', 
+        'test_model', 
+        '--structure_embedding_size', 
+        '8',
+        '--embedding_size',
+        '32',
+        '--modelcls', 
+        'PatternGrouping'
     ])
     data = TripletDataset(osp.join(opts.dataroot, 'Test'))
     data = [t for t in data if t.nPaths < 50][:10]
@@ -37,3 +46,5 @@ def test_model () :
     out = list(map(model.greedyTree, tqdm(data)))
     logScores(data, out)
     assert(True)
+
+test_model()

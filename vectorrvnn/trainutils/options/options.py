@@ -60,6 +60,12 @@ class Options():
             help='model class to use'
         )
         parser.add_argument(
+            '--structure_embedding_size',
+            type=int,
+            default=None,
+            help='size of the structure embedding'
+        )
+        parser.add_argument(
             '--embedding_size',
             type=int,
             default=128, 
@@ -111,6 +117,13 @@ class Options():
         )
         # training parameters
         self.add_loss_args(parser)
+        parser.add_argument(
+            '--init_type',
+            type=str,
+            default='kaiming',
+            choices=['normal', 'xavier', 'kaiming', 'orthogonal'],
+            help='initialized modules that are not pretrained'
+        )
         parser.add_argument(
             '--augmentation', 
             type=str,
@@ -244,6 +257,8 @@ class Options():
 
     def validate(self, opt): 
         self.validate_loss_args(opt)
+        assert((opt.structure_embedding_size is not None) \
+                == (opt.modelcls == 'PatternGrouping'))
         assert(len(opt.std) == opt.input_nc)
         assert(len(opt.mean) == opt.input_nc)
 

@@ -2,12 +2,11 @@ from vectorrvnn.utils import *
 
 class SVGDataTransform : 
 
-    def __init__ (self, transform=None, p=1.0) : 
-        if transform is None : 
-            self.transform = lambda *args : args[0]
-        else : 
-            self.transform = transform
+    def __init__ (self, p=1.0) : 
         self.p = p
+
+    def transform (self, svgdata, *args) : 
+        return svgdata
     
     def __call__ (self, svgdata, *args) : 
         toss = random.random()
@@ -20,7 +19,13 @@ class NoFill (SVGDataTransform) :
     
     def transform (self, svgdata, *args) : 
         svgdata_ = deepcopy(svgdata)
-        svgdata_.doc = modAttr(svgdata_.doc, 'fill', 'none')
+        svgdata_.doc = modAttrs(
+            svgdata_.doc, 
+            dict(
+                fill='none', 
+                stroke='black'
+            )
+        )
         return svgdata_
 
 class Rotate (SVGDataTransform) : 
@@ -35,10 +40,10 @@ class Rotate (SVGDataTransform) :
             lambda x, y : x + y, 
             map(
                 pathBBox, 
-                cachedPaths(svgdata.doc)
+                [p.path for p in cachedPaths(svgdata.doc)]
             )
         ).center()
-        degree = random.randint(*degreeRange)
+        degree = random.randint(*self.degreeRange)
         svgdata_.doc = rotate(
             svgdata_.doc, 
             degree, 

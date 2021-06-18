@@ -35,8 +35,19 @@ def modAttr (doc, attr, value) :
         3. modAttr(doc, 'fill', "#ff0000") # set fill to red for all paths
         4. modAttr(doc, 'stroke', "#00ff00") # set stroke to blue for all paths
     """
-    for path in doc.paths() : 
-        pathAttributeSet(path, attr, str(value))
+    root = doc.tree.getroot()
+    for elt in root.iter() : 
+        if elt.tag in PATH_TAGS : 
+            xmlAttributeSet(elt, attr, str(value))
+    return doc
+
+@immutable_doc
+def modAttrs (doc, attrDict) :
+    root = doc.tree.getroot()
+    for elt in root.iter() : 
+        if elt.tag in PATH_TAGS : 
+            for k, v in attrDict.items():
+                xmlAttributeSet(elt, k, str(v))
     return doc
 
 @immutable_doc
@@ -55,13 +66,15 @@ def docUnion (doc, that) :
 
 @immutable_doc
 def subsetSvg(doc, lst) :
-    paths = cachedPaths(doc)
-    nPaths = len(paths)
-    root = doc.root
-    unwantedPaths = list(set(range(nPaths)) - set(lst))
-    unwantedPathIds = [paths[i].zIndex for i in unwantedPaths]
-    allElts = list(root.iter())
-    unwantedElts = [allElts[i] for i in unwantedPathIds]
+    doc.updateParentMap()
+    root = doc.tree.getroot()
+    paths = list(filter(
+        lambda e : e.tag in PATH_TAGS, 
+        root.iter()
+    ))
+    n = len(paths)
+    unwanted = list(set(range(n)) - set(lst))
+    unwantedElts = [paths[i] for i in unwanted]
     for elt in unwantedElts : 
         doc.parent_map[elt].remove(elt)
     newDocument = svg.Document(None)

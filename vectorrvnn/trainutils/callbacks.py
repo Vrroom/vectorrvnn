@@ -159,18 +159,24 @@ class FMICallback (Callback) :
         data = filter(lambda t: t.nPaths < 40, self.valData)
         data = list(map(forest2tree, data))
         out = list(map(self.model.greedyTree, data))
-        # FIXME : Find out how to plot all of them.
         scores = list(map(
             lambda k : avg(map(partial(fmi, level=k), data, out)),
-            range(1, 2)
+            range(1, 4)
         ))
         t = self.epoch + 1
+        opts=dict(
+            title='FMI', 
+            ylabel='FMI',
+            xlabel="Epoch"
+        )
         for i, s in enumerate(scores) : 
-            opts=dict(
-                title=f'FMI-{i}', 
-                ylabel=f'FMI-{i}',
-                xlabel="Epoch"
+            self._api.line(
+                [s], 
+                [t], 
+                win="val_FMI", 
+                update="append", 
+                name=f'FMI-{i}', 
+                opts=opts
             )
-            self._api.line([s], [t], win="val_FMI", update="append", name="", opts=opts)
 
 

@@ -8,7 +8,7 @@ def test_options () :
         '--dataroot',
         osp.join(
             chdir,
-            '../../ManuallyAnnotatedDataset_v2'
+            '../../data/Toy'
         ),
         '--name', 
         'test',

@@ -56,7 +56,7 @@ def logScores (ts1, ts2) :
 
 def test_scores () : 
     chdir = osp.split(osp.abspath(__file__))[0]
-    dataDir = osp.join(chdir, '../../ManuallyAnnotatedDataset_v2/Val')
+    dataDir = osp.join(chdir, '../../data/All/Val')
     files = listdir(dataDir)[:5]
     svgFiles = [osp.join(f, osp.split(f)[1] + '.svg') for f in files]
     treeFiles = [osp.join(f, osp.split(f)[1] + '.pkl') for f in files]
