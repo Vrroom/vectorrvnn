@@ -47,7 +47,7 @@ class PatternGrouping (TripletBase) :
         )
         bitmap = np.copy(
             np.expand_dims(
-                data['im'][:, :, -1], 
+                data['whole'][:, :, -1], 
                 0
             )
         )
@@ -57,8 +57,10 @@ class PatternGrouping (TripletBase) :
             module=np
         )
         data['bitmap'] = torch.from_numpy(bitmap).float()
+        # get bounding box of pathset and normalize by document's bbox
         bboxes = [t.nodes[i]['bbox'] for i in ps]
-        bbox = reduce(lambda x, y : x + y, bboxes)
-        data['bbox'] = torch.tensor(bbox.tolist())
+        bbox = reduce(lambda x, y : x + y, bboxes) 
+        bbox = bbox / getDocBBox(t.doc)
+        data['bbox'] = torch.tensor(bbox.tolist()).float()
         return data
 

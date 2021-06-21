@@ -15,7 +15,7 @@ class TripletBase (nn.Module) :
         2. mask    - which nodes were used. (default - None)
         3. dplus   - distance between ref and plus.
         4. dminus  - distance between ref and minus.
-        5. hardpct - percentage of hard triplets (default - None)
+        5. hardpct - percentage of hard triplets.
     """
     def __init__ (self, opts) :
         super(TripletBase, self).__init__() 
@@ -42,13 +42,15 @@ class TripletBase (nn.Module) :
         assert(maxMargin is not None)
         dplus, dminus = self._distances2Ref(ref, plus, minus, **kwargs)
         margin = torch.relu(dplus - dminus + maxMargin)
+        mask = (dplus >= dminus).view(-1, 1)
+        hardpct = mask.sum() / mask.nelement()
         loss = margin.mean()
         return dict(
             loss=loss,
             mask=None,
             dplus=dplus,
             dminus=dminus,
-            hardpct=None
+            hardpct=hardpct
         )
 
     def hardSemiHardMaxMarginLoss (self, ref, plus, minus, **kwargs) : 
@@ -61,7 +63,7 @@ class TripletBase (nn.Module) :
         margin = torch.relu(dplus - dminus + maxMargin)
         mask = (dplus >= dminus).view(-1, 1)
         loss = maskedMean(margin, mask)
-        hardpct = mask.sum() / mask.nelements()
+        hardpct = mask.sum() / mask.nelement()
         return dict(
             loss=loss,
             mask=mask,
@@ -75,18 +77,22 @@ class TripletBase (nn.Module) :
         Triplet loss defined in the original triplet learning paper: 
             Deep Metric Learning Using Triplet Network
         """
+        hardThreshold = self.opts.hard_threshold
+        assert (hardThreshold is not None)
         dplus, dminus = self._distances2Ref(ref, plus, minus, **kwargs)
         cre = F.softmax(
             torch.cat((dplus, dminus), dim=1), 
             dim=1
         )
         loss = (cre ** 2).mean()
+        mask = (cre > hardThreshold).view(-1, 1)
+        hardpct = mask.sum() / mask.nelement()
         return dict(
             loss=loss,
             mask=None,
             dplus=dplus,
             dminus=dminus,
-            hardpct=None
+            hardpct=hardpct
         )
 
     def hardTripletLoss (self, ref, plus, minus, **kwargs)  :
@@ -99,7 +105,7 @@ class TripletBase (nn.Module) :
         )
         mask = (cre > hardThreshold).view(-1, 1)
         loss = maskedMean(cre ** 2, mask)
-        hardpct = mask.sum() / mask.nelements()
+        hardpct = mask.sum() / mask.nelement()
         return dict(
             loss=loss,
             mask=mask,

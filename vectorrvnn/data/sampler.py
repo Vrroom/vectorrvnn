@@ -1,5 +1,7 @@
 import random
 from vectorrvnn.utils.graph import *
+from itertools import permutations, combinations, starmap
+from functools import partial
 
 class TripletSampler () : 
     """ 
@@ -112,4 +114,47 @@ class SiblingSampler (TripletSampler) :
                 break
         refMinus = lcaScore(dataPt, ref, minus)
         refPlus = lcaScore(dataPt, ref, plus)
+        return (dataPt, ref, plus, minus, refPlus, refMinus)
+
+class DiscriminativeSampler (TripletSampler):  
+    """ ref and plus must be closer to each other than to minus """ 
+
+    def getSample(self) : 
+        n = len(self.svgdatas)
+        try : 
+            dataPt = self.rng.choice(self.svgdatas) # choose random data point
+            dataPt = self.transform(dataPt, self.svgdatas) # transform it
+            for attempt in range(10) : 
+                three = self.rng.sample(list(dataPt.nodes), k=3) # sample three nodes
+                pairs = list(combinations(three, 2)) # make 3 pairs
+                distances = list(starmap(
+                    partial(distanceInTree, dataPt), 
+                    pairs
+                )) # compute distance in tree between pairs
+                # find the permutation, if such exists such that
+                # two nodes are closer to each other than the third node
+                perm = next(
+                    filter(
+                        lambda p : (distances[p[0]] < distances[p[1]]) \
+                                and (distances[p[0]] < distances[p[2]]), 
+                        permutations([0, 1, 2], 3)
+                    ), 
+                    None
+                ) 
+                if perm is not None:  
+                    ref = pairs[perm[0]][0]
+                    plus = pairs[perm[0]][1]
+                    minus = (set(three) - {ref, plus}).pop()
+                    break
+            # if unsuccessful, try sampling again
+            if perm is None : 
+                return self.getSample()
+        except Exception as e : 
+            # exception will typically arise if you try to 
+            # sample more elements than there are in the list
+            return self.getSample()
+        refMinus = distanceInTree(dataPt, ref, minus)
+        refPlus = distanceInTree(dataPt, ref, plus)
+        plusMinus = distanceInTree(dataPt, plus, minus)
+        assert (refPlus < refMinus and refPlus < plusMinus)
         return (dataPt, ref, plus, minus, refPlus, refMinus)

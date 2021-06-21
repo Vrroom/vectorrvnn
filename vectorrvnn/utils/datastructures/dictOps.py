@@ -1,12 +1,13 @@
 from more_itertools import flatten
 from functools import partial
 
-def aggregateDict (listOfDicts, reducer) : 
+def aggregateDict (listOfDicts, reducer, keys=None) : 
     """ 
     Very handy function to combine a list of dicts
     into a dict with the reducer applied by key.
     """
-    keys = list(set(flatten(map(deepKeys, listOfDicts))))
+    if keys is None : 
+        keys = list(set(flatten(map(deepKeys, listOfDicts))))
     aggregator = lambda key : reducer(
         list(map(
             partial(deepGet, deepKey=key), 

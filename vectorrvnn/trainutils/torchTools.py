@@ -82,11 +82,28 @@ def normalize2UnitRange (thing) :
     else : 
         return (thing - m) / (M - m)
 
-def isImage (thing, module=torch) : 
+def channelDim (thing, module=torch) : 
     cId = 0 if module == torch else 2
     if len(thing.shape) == 4 : 
-        return thing.shape[cId + 1] in [1, 3, 4]
+        return cId + 1
     elif len(thing.shape) == 3 : 
-        return thing.shape[cId] in [1, 3, 4]
+        return cId
     else : 
-        return False
+        return None
+
+def channels (thing, module=torch) : 
+    idx = channelDim(thing, module)
+    if idx is not None:  
+        return thing.shape[idx]
+    return None
+
+def isImage (thing, module=torch) : 
+    return (len(thing.shape) in [3, 4]) \
+            and (channels(thing) in [1, 3, 4])
+
+def isGreyScale (thing, module=torch) : 
+    return isImage(thing, module) \
+            and channels(thing) == 1
+
+def toGreyScale (im, module=torch) : 
+    return torch.cat((im, im, im), channelDim(im, module))

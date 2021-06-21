@@ -41,14 +41,17 @@ class TripletDataLoader () :
     
     def __next__ (self) : 
         if self.i >= len(self) :
-            self.i = 0 
-            self.sampler.reset()
+            self.reset()
             raise StopIteration
         else : 
             self.i += 1
             samples = [next(self.sampler) for _ in range(self.opts.batch_size)]
             tensorified = [self._tensorify(*_) for _ in samples]
             return aggregateDict(tensorified, torch.stack)
+
+    def reset (self) : 
+        self.i = 0
+        self.sampler.reset()
 
     def __len__ (self) : 
         return len(self.sampler) // self.opts.batch_size

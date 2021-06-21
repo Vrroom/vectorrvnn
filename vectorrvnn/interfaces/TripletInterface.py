@@ -67,7 +67,7 @@ class TripletInterface (ttools.ModelInterface) :
                     module.parameters())
                 )
                 grad = avg(map(
-                    lambda x : x.pow(2).mean(),
+                    lambda x : x.grad.pow(2).mean(),
                     filter(
                         lambda x : x.grad is not None,
                         module.parameters()

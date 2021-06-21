@@ -48,6 +48,13 @@ def lcaScore (t, a, b) :
     d = max(t.nodes[a]['depth'], t.nodes[b]['depth'])
     return (d - t.nodes[l]['depth'])
 
+def distanceInTree (t, a, b) : 
+    l = lca(t, a, b) 
+    aDepth = t.nodes[a]['depth']
+    bDepth = t.nodes[b]['depth']
+    lDepth = t.nodes[l]['depth']
+    return (aDepth - lDepth) + (bDepth - lDepth)
+
 def lofScore (t, a, b) :
     l = lca(t, a, b)
     sl = t.nodes[l]['subtree-size']

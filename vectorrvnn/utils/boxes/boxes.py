@@ -27,6 +27,9 @@ class BBox :
         union = (self + that).area()
         return intersection / union
 
+    def __truediv__ (self, that) : 
+        raise NotImplementedError
+
 class ExtentBBox (BBox):
 
     def __init__ (self, x, X, y, Y) : 
@@ -89,7 +92,18 @@ class ExtentBBox (BBox):
         X = min(self.X, that.X)
         Y = min(self.Y, that.Y)
         return ExtentBBox(x, X, y, Y)
-            
+
+    def __truediv__ (self, that): 
+        if isinstance(that, ExtentBBox) : 
+            d = max(that.X - that.x, that.Y - that.y)
+        else : 
+            d = max(that.w, that.h)
+        return ExtentBBox(
+            (self.x - that.x) / d,
+            (self.X - that.x) / d,
+            (self.y - that.y) / d,
+            (self.Y - that.y) / d
+        )
 
     def contains (self, that) :
         return (self.x <= that.x <= that.X <= self.X \
@@ -103,6 +117,7 @@ class ExtentBBox (BBox):
             self.X - self.x,
             self.Y - self.y
         )
+
 
 class DimBBox (BBox):
     
@@ -164,6 +179,18 @@ class DimBBox (BBox):
         X = min(self.x + self.w, that.x + that.w)
         Y = min(self.y + self.h, that.y + that.h)
         return DimBBox(x, y, X - x, Y - y)
+
+    def __truediv__ (self, that) : 
+        if isinstance(that, ExtentBBox) : 
+            d = max(that.X - that.x, that.Y - that.y)
+        else : 
+            d = max(that.w, that.h)
+        return DimBBox(
+            (self.x - that.x) / d,
+            (self.y - that.y) / d,
+            self.w / d,
+            self.h / d
+        )
     
     def contains (self, that) :
         return (self.x <= that.x <= that.x + that.w <= self.x + self.w \

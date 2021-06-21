@@ -70,14 +70,14 @@ def putOnCanvas (pts, images) :
         h_, w_, _ = im.shape
         if h_ != h or w_ != w :
             im = transform.resize(im, (h, w))
-        pix_x = pad + np.floor(sz * ((pt[0] - min_x) / (max_x - min_x)))
-        pix_y = pad + np.floor(sz * ((pt[1] - min_y) / (max_y - min_y)))
+        pix_x = int(pad + np.floor(sz * ((pt[0] - min_x) / (max_x - min_x))))
+        pix_y = int(pad + np.floor(sz * ((pt[1] - min_y) / (max_y - min_y))))
         sx, ex = pix_x - (h // 2), pix_x + (h // 2)
         sy, ey = pix_y - (w // 2), pix_y + (w // 2)
         alpha = im[:, :, 3:]
         blob = canvas[sx:ex, sy:ey, :] 
         canvas[sx:ex, sy:ey,:] = np.clip(im * alpha + blob * (1 - alpha), 0, 1)
-    canvas = alphaCompositeOnGrey(canvas)
+    canvas = alphaComposite(canvas, color=[0.5, 0.5, 0.5])
     return canvas
 
 def matplotlibFigureSaver (obj, fname) :

@@ -27,8 +27,12 @@ def test_interface() :
         '256',
         '--decay_start',
         '0',
-        '--augmentation',
-        'simple'
+        '--samplercls',
+        'DiscriminativeSampler',
+        '--modelcls',
+        'PatternGrouping',
+        '--structure_embedding_size',
+        '8',
     ])
     data = buildData(opts)
     trainData, valData, trainDataLoader, valDataLoader = data

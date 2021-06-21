@@ -59,24 +59,25 @@ class KernelDisplayCallback (ImageDisplayCallback) :
 
 class TripletVisCallback(ImageDisplayCallback): 
     """ visualize the images for each node in triplet """
-    def node2Image (self, node, mask) : 
+    def node2Image (self, node, mask, i=0) : 
         ims = tensorFilter(node, isImage)
+        tensorApply(ims, toGreyScale, isGreyScale)
         if mask is None : 
-            ims = [im[0] for im in ims]
+            ims = [im[i] for im in ims]
         else : 
             try : 
                 mask = mask.view(-1)
-                ims = [im[mask][0] for im in ims]
+                ims = [im[mask][i] for im in ims]
             except Exception : 
-                ims = [torch.ones_like(im[0]) for im in ims]
+                ims = [torch.ones_like(im[i]) for im in ims]
         tensorApply(ims, normalize2UnitRange)
         return torch.cat(ims, 2)
 
-    def visualized_image(self, batch, step_data, is_val):
+    def visualized_image(self, batch, step_data, is_val, i=0):
         mask = step_data['mask']
-        ref   = self.node2Image(batch['ref'], mask)
-        plus  = self.node2Image(batch['plus'], mask)
-        minus = self.node2Image(batch['minus'], mask)
+        ref   = self.node2Image(batch['ref'], mask, i)
+        plus  = self.node2Image(batch['plus'], mask, i)
+        minus = self.node2Image(batch['minus'], mask, i)
         viz = torch.stack([ref, plus, minus])
         return viz
         
