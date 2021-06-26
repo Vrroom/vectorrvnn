@@ -1,7 +1,7 @@
 from .transform import *
 from .composition import *
 
-simple = NoFill(p=0.5)
+simple = Rotate(p=0.3)
 
 def getGraphicAugmentation (opts) : 
     if opts.augmentation == 'none' : 

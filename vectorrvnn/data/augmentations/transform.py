@@ -18,15 +18,14 @@ class SVGDataTransform :
 class NoFill (SVGDataTransform) : 
     
     def transform (self, svgdata, *args) : 
-        svgdata_ = deepcopy(svgdata)
-        svgdata_.doc = modAttrs(
-            svgdata_.doc, 
+        modAttrs(
+            svgdata,
             dict(
                 fill='none', 
                 stroke='black'
             )
         )
-        return svgdata_
+        return svgdata
 
 class Rotate (SVGDataTransform) : 
     """ Randomly rotate graphic about it's center """     
@@ -35,21 +34,8 @@ class Rotate (SVGDataTransform) :
         self.degreeRange = degreeRange
 
     def transform (self, svgdata, *args) : 
-        svgdata_ = deepcopy(svgdata)
-        center = reduce(
-            lambda x, y : x + y, 
-            map(
-                pathBBox, 
-                [p.path for p in cachedPaths(svgdata.doc)]
-            )
-        ).center()
+        rootNode = svgdata.nodes[findRoot(svgdata)]
+        center = rootNode['bbox'].center()
         degree = random.randint(*self.degreeRange)
-        svgdata_.doc = rotate(
-            svgdata_.doc, 
-            degree, 
-            px=center.real, 
-            py=center.imag
-        )
-        return svgdata_
-
-
+        rotate(svgdata, degree, center)
+        return svgdata

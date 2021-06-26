@@ -37,7 +37,7 @@ def test_model () :
         '--embedding_size',
         '32',
         '--modelcls', 
-        'PatternGrouping'
+        'PatternGroupingV2',
     ])
     data = TripletDataset(osp.join(opts.dataroot, 'Test'))
     data = [t for t in data if t.nPaths < 50][:10]
@@ -47,4 +47,3 @@ def test_model () :
     logScores(data, out)
     assert(True)
 
-test_model()

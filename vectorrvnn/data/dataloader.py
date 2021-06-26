@@ -22,18 +22,10 @@ class TripletDataLoader () :
         return features
 
     def _tensorify (self, t, ref, plus, minus, refPlus, refMinus) : 
-        im = self.transform(
-            rasterize(
-                t.doc, 
-                self.opts.raster_size, 
-                self.opts.raster_size
-            )
-        )
         ref = self._nodefeatures(t, ref)
         plus = self._nodefeatures(t, plus)
         minus = self._nodefeatures(t, minus)
         return dict(
-            im=im,
             ref=ref,
             plus=plus,
             minus=minus,

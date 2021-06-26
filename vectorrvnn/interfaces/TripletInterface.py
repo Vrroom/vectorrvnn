@@ -197,6 +197,12 @@ def addCallbacks (trainer, model, data, opts) :
             env=opts.name + "_distance"
         )
     )
+    trainer.add_callback(
+        BBoxVisCallback(
+            frequency=opts.frequency,
+            env=opts.name + "_vis"
+        )
+    )
 
 def buildModel (opts) : 
     # Load pretrained path module
@@ -207,12 +213,7 @@ def buildModel (opts) :
             opts.checkpoints_dir, 
             opts.load_ckpt
         )
-        state_dict = torch.load(
-            osp.join(
-                initPath, 
-                'training_end.pth'
-            )
-        )
+        state_dict = torch.load(initPath)
         model.load_state_dict(state_dict['model'])
     model.to(opts.device)
     return model

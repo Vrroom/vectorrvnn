@@ -7,3 +7,9 @@ repos:
         stages: [commit]
         language: system
         entry: jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace
+      - id: clear-images
+        name: clear-images
+        files: \.png$
+        stages: [commit]
+        language: system
+        entry: rm 

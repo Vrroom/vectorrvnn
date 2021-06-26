@@ -6,6 +6,23 @@ import os
 import os.path as osp
 import svgpathtools as svg
 
+def test_crops () : 
+    chdir = osp.split(osp.abspath(__file__))[0]
+    svgFiles = list(filter(
+        lambda x : '1F4A' in x,
+        listdir(osp.join(chdir, 'data'))
+    ))
+    docs = list(map(svg.Document, svgFiles))
+    for i, d in enumerate(docs) : 
+        for j, p in enumerate(cachedPaths(d)) :
+            if pathBBox(p.path).area() < 1:
+                continue
+            doc_ = crop(d, [j])
+            im = rasterize(doc_, 200, 200)
+            fullpath = osp.join(chdir, 'out', f'crop-{i}-{j}.png')
+            image.imsave(fullpath, im)
+    assert True
+
 def test_doc_transforms () : 
     chdir = osp.split(osp.abspath(__file__))[0]
     svgFiles = list(filter(

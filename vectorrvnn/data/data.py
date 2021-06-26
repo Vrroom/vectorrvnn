@@ -28,12 +28,15 @@ class SVGData (nx.DiGraph) :
         assert nx.is_tree(self)
 
     def initGraphic (self, doc) :
-        self.doc = doc
+        self.doc = withoutDegeneratePaths(doc)
         paths = cachedPaths(self.doc)
-        paths = [p for i, p in enumerate(paths) 
-                if not pathBBox(p.path).isDegenerate()]
         self.nPaths = len(paths)
+        assert(self.nPaths == len(leaves(self)))
         self._computeBBoxes(findRoot(self))
+
+    def recalculateBBoxes(self, fn) : 
+        for n in self.nodes : 
+            self.nodes[n]['bbox'] = fn(self.nodes[n]['bbox'])
 
     def _setPathSets (self) : 
         """ set pathsets for each node """
@@ -52,12 +55,13 @@ class SVGData (nx.DiGraph) :
         self.initTree()
         self.svgFile = svgFile
         self.initGraphic(svg.Document(svgFile))
+        normalize(self)
 
     def _computeBBoxes (self, node) : 
         paths = [p.path for p in cachedPaths(self.doc)]
         for n in self.nodes : 
             ps = self.nodes[n]['pathSet']
             relPaths = [paths[i] for i in ps]
-            bbox = reduce(lambda x, y: x + y, map(pathBBox, relPaths))
+            bbox = union(map(pathBBox, relPaths))
             nx.set_node_attributes(self, {n: bbox}, 'bbox')
-    
+

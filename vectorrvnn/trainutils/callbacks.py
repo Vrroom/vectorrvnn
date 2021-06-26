@@ -145,6 +145,59 @@ class HierarchyVisCallback (Callback) :
             self._api.matplot(plt, win=f'hierarchies-{i}')
             plt.close()
 
+class BBoxVisCallback (Callback) : 
+
+    def __init__ (self, frequency=100, env="main") :
+        super(BBoxVisCallback, self).__init__()
+        self._api = visdom.Visdom(env=env)
+        closeWindow(self._api, 'bboxes')
+        self._tstep = 0
+        self._vstep = 0
+        self.frequency = frequency
+
+    def _bbox_df (self, batch, node) : 
+        bbox = batch[node]['bbox'][0].view(-1).detach().cpu().numpy() 
+        x, y, w, h = bbox
+        y = 1 - y 
+        df = pd.DataFrame(data=dict(
+            x=[x, x, x + w, x + w, x],
+            y=[y, y - h, y - h, y, y],
+            nodeType=[node] * 5,
+        ))
+        return df
+
+    def _plot_bbox (self, batch, win) : 
+        refBox   = self._bbox_df(batch, 'ref')
+        plusBox  = self._bbox_df(batch, 'plus')
+        minusBox = self._bbox_df(batch, 'minus')
+        df = pd.concat((refBox, plusBox, minusBox))
+        fig = px.line(
+            df, 
+            x="x", 
+            y="y",
+            color="nodeType",
+            title=win
+        )
+        fig.update_xaxes(range=[0, 1])
+        fig.update_yaxes(range=[0, 1])
+        self._api.plotlyplot(fig, win=win)
+
+    def batch_end (self, batch, step_data) : 
+        super(BBoxVisCallback, self).batch_end(batch, step_data)
+        if self._tstep % self.frequency != 0:
+            self._tstep += 1
+            return
+        self._tstep = 1
+        self._plot_bbox(batch, 'bbox-train')
+
+    def val_batch_end (self, batch, running_data)  :
+        super(BBoxVisCallback, self).val_batch_end(batch, running_data)
+        if self._vstep % self.frequency != 0:
+            self._vstep += 1
+            return
+        self._vstep = 1
+        self._plot_bbox(batch, 'bbox-val')
+
 class FMICallback (Callback) : 
     """ Plot fmi for the validation set after each epoch """
     def __init__(self, model, valData, frequency=100, env="main"):

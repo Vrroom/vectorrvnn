@@ -9,16 +9,13 @@ def test_interface() :
     chdir = osp.split(osp.abspath(__file__))[0]
     opts = Options().parse(testing=[
         '--dataroot',
-        osp.join(
-            chdir,
-            '../../data/Toy'
-        ),
+        osp.join(chdir, '../../data/Toy'),
         '--name', 
         'test',
         '--n_epochs',
-        '2',
+        '1',
         '--batch_size',
-        '8',
+        '2',
         '--raster_size',
         '128',
         '--train_epoch_length',
@@ -30,9 +27,11 @@ def test_interface() :
         '--samplercls',
         'DiscriminativeSampler',
         '--modelcls',
-        'PatternGrouping',
+        'PatternGroupingV2',
         '--structure_embedding_size',
         '8',
+        '--augmentation',
+        'simple'
     ])
     data = buildData(opts)
     trainData, valData, trainDataLoader, valDataLoader = data
@@ -41,11 +40,16 @@ def test_interface() :
     trainer = ttools.Trainer(interface)
     addCallbacks(trainer, model, data, opts)
     # Start training
+    import cProfile
+    pro = cProfile.Profile()
+    pro.enable()
     trainer.train(
         trainDataLoader, 
         num_epochs=opts.n_epochs, 
         val_dataloader=valDataLoader
     )
+    pro.disable()
+    pro.print_stats('cumtime')
     assert(True)
 
 test_interface()

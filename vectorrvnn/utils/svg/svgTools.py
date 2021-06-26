@@ -44,10 +44,12 @@ DD = Del()
 
 def immutable_doc (fn) :
     @wraps(fn)
-    def wrapper (doc, *args, **kwargs) : 
+    def wrapper (doc, *args, **kwargs) :
         doc_ = deepcopy(doc)
         return fn(doc_, *args, **kwargs)
     return wrapper
+
+
 
 def getTreeStructureFromSVG (svgFile) : 
     """
@@ -198,14 +200,19 @@ def pathStrokeDashArray(path) :
     return da if da != 'none' else None
 
 def fixOrigin (doc) : 
-    x, y = getDocBBox(doc).tolist()[:2]
+    x, y, w, h = getDocBBox(doc).tolist()
     globalTransform(doc, 
             dict(transform=f'translate({-x} {-y})'))
+    setDocBBox(doc, BBox(0, 0, w, h, w, h))
 
-def scaleToFit (doc, h, w) : 
-    ow, oh = getDocBBox(doc).tolist()[-2:]
+def scaleToFit (doc, w, h) : 
+    box = getDocBBox(doc)
+    ox, oy, ow, oh = box.tolist()
+    sx = w / ow
+    sy = h / oh
     globalTransform(doc, 
-            dict(transform=f'scale({w/ow} {h/oh})'))
+            dict(transform=f'scale({sx} {sy})'))
+    setDocBBox(doc, box.scaled(sx, sy))
 
 def removeGraphicChildren (xmltree) :
     children = [e for e in xmltree if e.tag in GRAPHIC_TAGS]
@@ -230,3 +237,40 @@ def globalTransform(doc, transform) :
     root.append(groupElement)
     doc.tree._setroot(root)
     doc.updateParentMap()
+
+@immutable_doc
+def crop (doc, box) :
+    setDocBBox(doc, box.normalized())
+    return doc
+
+@immutable_doc
+def subsetSvg(doc, lst) :
+    root = doc.tree.getroot()
+    paths = list(filter(
+        lambda e : e.tag in PATH_TAGS, 
+        root.iter()
+    ))
+    n = len(paths)
+    unwanted = list(set(range(n)) - set(lst))
+    unwantedElts = [paths[i] for i in unwanted]
+    doc.updateParentMap()
+    for elt in unwantedElts : 
+        doc.parent_map[elt].remove(elt)
+    newDocument = svg.Document(None)
+    newDocument.fromString(ET.tostring(root, encoding='unicode'))
+    return newDocument
+
+@immutable_doc
+def withoutDegeneratePaths (doc) : 
+    root = doc.tree.getroot()
+    paths = doc.paths()
+    degenZIndices = [p.zIndex for p in paths 
+            if pathBBox(p.path).isDegenerate()]
+    allElts = list(root.iter())
+    unwantedElts = [allElts[i] for i in degenZIndices]
+    doc.updateParentMap()
+    for elt in unwantedElts :
+        doc.parent_map[elt].remove(elt)
+    newDocument = svg.Document(None)
+    newDocument.fromString(ET.tostring(root, encoding='unicode'))
+    return newDocument

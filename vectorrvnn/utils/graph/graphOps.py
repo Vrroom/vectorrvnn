@@ -131,4 +131,5 @@ def simplifyPO (po) :
     po_.remove_edges_from(edgesToBeRemoved)
     return po_
 
-
+def filterNodes (nodes, keyPredicate, key) : 
+    return filter(lambda x : keyPredicate(nodes[x][key]), nodes)

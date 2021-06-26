@@ -4,6 +4,7 @@ from vectorrvnn.trainutils import *
 from itertools import starmap, combinations
 from more_itertools import collapse
 from functools import lru_cache
+import numpy as np
 
 class TripletBase (nn.Module) :
     """
@@ -131,6 +132,12 @@ class TripletBase (nn.Module) :
             return self.embedding(f)
 
         def distance (ps1, ps2) : 
+            docbox = getDocBBox(t.doc)
+            box1 = pathsetBox(t, ps1)
+            box2 = pathsetBox(t, ps2)
+            if pathBBoxTooSmall(box1, docbox)\
+                    or pathBBoxTooSmall(box2, docbox) : 
+                return torch.tensor(np.inf).to(self.opts.device)
             return l2(psEmbedding(ps1), psEmbedding(ps2))
 
         if subtrees is None : 

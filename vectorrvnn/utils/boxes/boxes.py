@@ -1,23 +1,49 @@
-from functools import reduce, wraps
-from collections import namedtuple
+import numpy as np
+import shapely.affinity as sa
+import shapely.geometry as sg
+from functools import reduce
 
 def pathBBox (path) : 
-    return ExtentBBox(*path.bbox())
+    x, X, y, Y = path.bbox()
+    return BBox(x, y, X, Y, X - x, Y - y)
 
 def getDocBBox (doc) :
-    return DimBBox(*doc.get_viewbox())
+    x, y, w, h = doc.get_viewbox()
+    return BBox(x, y, x + w, y + h, w, h)
 
 def setDocBBox (doc, box) : 
-    if isinstance(box, ExtentBBox) :
-        box = box.todim()
-    lst = [box.x, box.y, box.w, box.h]
-    string = ' '.join(map(str, lst))
+    string = ' '.join(map(str, box.tolist()))
     doc.set_viewbox(string)
+
+def pathBBoxTooSmall (pathbox, docbox) : 
+    rel = pathbox / docbox
+    return rel.normalized().area() <= 5e-4
+
+def union(boxes) : 
+    return reduce(lambda x, y: x | y, boxes)
+
+def intersection (boxes) : 
+    return reduce(lambda x, y: x & y, boxes)
+
+def pathsetBox (t, ps) : 
+    return union([t.nodes[i]['bbox'] for i in ps])
 
 class BBox : 
 
-    def todim (self) : return self
-    def toext (self) : return self
+    def __init__ (self, x, y, X, Y, w, h) : 
+        self.x = x
+        self.y = y
+        self.X = X
+        self.Y = Y
+        self.w = w
+        self.h = h
+        self.assertConsistent()
+
+    def assertConsistent (self) : 
+        assert(self.X >= self.x)
+        assert(self.Y >= self.y)
+        assert(np.isclose(self.X - self.x, self.w))
+        assert(np.isclose(self.Y - self.y, self.h))
 
     def iou (self, that) : 
         if (self + that).isDegenerate() \
@@ -27,30 +53,14 @@ class BBox :
         union = (self + that).area()
         return intersection / union
 
-    def __truediv__ (self, that) : 
-        raise NotImplementedError
-
-class ExtentBBox (BBox):
-
-    def __init__ (self, x, X, y, Y) : 
-        self.x = x
-        self.X = X
-        self.y = y
-        self.Y = Y
-
-    def tolist(self) : 
-        return [
-            self.x,
-            self.X,
-            self.y,
-            self.Y
-        ]
+    def isDegenerate (self) : 
+        return np.isclose(self.w, 0) and np.isclose(self.h, 0)
 
     def area (self) : 
         if self.isDegenerate() : 
             return 0
         else : 
-            return (self.X - self.x) * (self.Y - self.y)
+            return self.w * self.h
 
     def center (self) : 
         return complex(
@@ -58,150 +68,94 @@ class ExtentBBox (BBox):
             (self.y + self.Y) / 2
         )
 
-    def normalized (self) : 
-        w, h = self.X - self.x, self.Y - self.y
-        d = max(w, h)
-        return ExtentBBox(
-            self.x - (d - w) / 2,
-            self.x - (d - w) / 2 + d,
-            self.y - (d - h) / 2,
-            self.y - (d - h) / 2 + d
-        )
-
-    def isDegenerate (self) : 
-        w, h = self.X - self.x, self.Y - self.y
-        return (w < 1e-5 and h < 1e-5) or w < 0 or h < 0
-
     def __eq__ (self, that) : 
         return self.x == that.x \
                 and self.X == that.X \
                 and self.y == that.y \
                 and self.Y == that.Y
 
-    def __add__(self, that) : 
-        return ExtentBBox(
-            min(self.x, that.x), 
-            max(self.X, that.X), 
-            min(self.y, that.y), 
-            max(self.Y, that.Y)
-        )
+    def __mul__ (self, s) : 
+        return self.scaled(s, origin='center')
 
-    def __mul__ (self, that) : 
+    def __or__ (self, that) : 
+        x = min(self.x, that.x)
+        y = min(self.y, that.y)
+        X = max(self.X, that.X)
+        Y = max(self.Y, that.Y)
+        return BBox(x, y, X, Y, X - x, Y - y)
+
+    def __and__ (self, that) : 
         x = max(self.x, that.x)
         y = max(self.y, that.y)
         X = min(self.X, that.X)
         Y = min(self.Y, that.Y)
-        return ExtentBBox(x, X, y, Y)
+        return BBox(x, y, X, Y, X - x, Y - y)
 
-    def __truediv__ (self, that): 
-        if isinstance(that, ExtentBBox) : 
-            d = max(that.X - that.x, that.Y - that.y)
-        else : 
-            d = max(that.w, that.h)
-        return ExtentBBox(
-            (self.x - that.x) / d,
-            (self.X - that.x) / d,
-            (self.y - that.y) / d,
-            (self.Y - that.y) / d
-        )
-
-    def contains (self, that) :
+    def __contains__ (self, that) :
         return (self.x <= that.x <= that.X <= self.X \
                 and self.y <= that.y <= that.Y <= self.Y) \
                 and not self == that
 
-    def todim (self) :
-        return DimBBox(
-            self.x, 
-            self.y,
-            self.X - self.x,
-            self.Y - self.y
-        )
-
-
-class DimBBox (BBox):
-    
-    def __init__ (self, x, y, w, h) : 
-        self.x = x
-        self.y = y
-        self.w = w
-        self.h = h
-
-    def tolist(self) : 
-        return [
-            self.x,
-            self.y,
-            self.w,
-            self.h
-        ]
-
-    def area (self) : 
-        if self.isDegenerate() :
-            return 0
-        else : 
-            return self.w * self.h
-
-    def center (self) : 
-        return complex(
-            (self.x + (self.w / 2)), 
-            (self.y + (self.h / 2))
-        )
+    def __truediv__ (self, that): 
+        nx = (self.x - that.x) / that.w
+        ny = (self.y - that.y) / that.h
+        nX = (self.X - that.x) / that.w
+        nY = (self.Y - that.y) / that.h
+        nw = nX - nx
+        nh = nY - ny
+        return BBox(nx, ny, nX, nY, nw, nh)
 
     def normalized (self) : 
         d = max(self.w, self.h)
-        return DimBBox(
-            self.x - (d - self.w) / 2,
-            self.y - (d - self.h) / 2,
-            d, 
-            d
-        )
+        nx = self.x - (d - self.w) / 2
+        ny = self.y - (d - self.h) / 2
+        nX = nx + d
+        nY = ny + d
+        return BBox(nx, ny, nX, nY, d, d)
 
-    def isDegenerate (self) : 
-        return (self.w < 1e-5 and self.h < 1e-5) \
-                or self.w < 0 or self.h < 0
+    def tolist (self) : 
+        return [self.x, self.y, self.w, self.h]
 
-    def __eq__ (self, that) : 
-        return self.x == that.x \
-                and self.y == that.y \
-                and self.w == that.w \
-                and self.h == that.h
+    def __repr__ (self) : 
+        x = self.x
+        y = self.y
+        X = self.X
+        Y = self.Y
+        w = self.w
+        h = self.h
+        return f'BBox(x={x}, y={y}, X={X}, Y={Y}, w={w}, h={h})'
 
-    def __add__ (self, that) : 
-        x = min(self.x, that.x)
-        y = min(self.y, that.y)
-        X = max(self.x + self.w, that.x + that.w)
-        Y = max(self.y + self.h, that.y + that.h)
-        return DimBBox(x, y, X - x, Y - y)
-
-    def __mul__ (self, that) : 
-        x = max(self.x, that.x)
-        y = max(self.y, that.y)
-        X = min(self.x + self.w, that.x + that.w)
-        Y = min(self.y + self.h, that.y + that.h)
-        return DimBBox(x, y, X - x, Y - y)
-
-    def __truediv__ (self, that) : 
-        if isinstance(that, ExtentBBox) : 
-            d = max(that.X - that.x, that.Y - that.y)
+    def rotated (self, degree, pt=None) : 
+        if pt is None:  
+            pt = sg.Point(0, 0)
         else : 
-            d = max(that.w, that.h)
-        return DimBBox(
-            (self.x - that.x) / d,
-            (self.y - that.y) / d,
-            self.w / d,
-            self.h / d
-        )
-    
-    def contains (self, that) :
-        return (self.x <= that.x <= that.x + that.w <= self.x + self.w \
-                and self.y <= that.y <= that.y + that.h <= self.y + self.h) \
-                and not self == that
+            pt = sg.Point(pt.real, pt.imag)
+        x, y, X, Y = sa.rotate(self.toShapely(), degree, origin=pt).bounds
+        return BBox(x, y, X, Y, X - x, Y - y)
 
-    def toext (self) :
-        return ExtentBBox(
-            self.x,
-            self.x + self.w,
-            self.y,
-            self.y + self.h
-        )
+    def translated (self, tx, ty=0) : 
+        x, y, X, Y = sa.translate(self.toShapely(), tx, ty).bounds
+        return BBox(x, y, X, Y, X - x, Y - y)
+
+    def scaled (self, sx, sy=None, origin=sg.Point(0, 0)) : 
+        if sy is None : 
+            sy = sx
+        x, y, X, Y = sa.scale(self.toShapely(), sx, sy, origin=origin).bounds
+        return BBox(x, y, X, Y, X - x, Y - y)
+
+    def skewX (self, xs) : 
+        x, y, X, Y = sa.skew(self.toShapely(), xs=xs).bounds
+        return BBox(x, y, X, Y, X - x, Y - y)
+
+    def skewY (self, ys) : 
+        x, y, X, Y = sa.skew(self.toShapely(), ys=ys).bounds
+        return BBox(x, y, X, Y, X - x, Y - y)
+
+    def toShapely (self) : 
+        return sg.Polygon([
+            (self.x, self.y),
+            (self.x, self.Y),
+            (self.X, self.Y),
+            (self.X, self.y)
+        ])
 

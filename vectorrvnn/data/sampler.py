@@ -1,7 +1,8 @@
 import random
-from vectorrvnn.utils.graph import *
+from vectorrvnn.utils import *
 from itertools import permutations, combinations, starmap
 from functools import partial
+from copy import deepcopy 
 
 class TripletSampler () : 
     """ 
@@ -64,7 +65,7 @@ class AllSampler (TripletSampler) :
         n = len(self.svgdatas)
         try : 
             dataPt = self.rng.choice(self.svgdatas) # choose random data point
-            dataPt = self.transform(dataPt, self.svgdatas) # transform it
+            dataPt = self.transform(deepcopy(dataPt), self.svgdatas) # transform it
             ref = self.rng.choice(list(dataPt.nodes)) # set reference nodes
             plus, minus = self.rng.sample(dataPt.nodes - [ref], k=2) # sample two other nodes
             # make 10 attempts to sample two nodes where one is closer to ref than other
@@ -93,7 +94,7 @@ class SiblingSampler (TripletSampler) :
         n = len(self.svgdatas)
         while True : 
             dataPt = self.rng.choice(self.svgdatas) # choose random data point
-            dataPt = self.transform(dataPt, self.svgdatas) # transform it
+            dataPt = self.transform(deepcopy(dataPt), self.svgdatas) # transform it
             found = False
             for attempt in range(10) : 
                 try : 
@@ -121,11 +122,20 @@ class DiscriminativeSampler (TripletSampler):
 
     def getSample(self) : 
         n = len(self.svgdatas)
+        dataPt = self.rng.choice(self.svgdatas) # choose random data point
+        dataPt = self.transform(deepcopy(dataPt), self.svgdatas) # transform it
+        docbox = getDocBBox(dataPt.doc)
+        nodes = list(filterNodes(
+            dataPt.nodes,
+            complement(partial(
+                pathBBoxTooSmall, 
+                docbox=docbox
+            )), 
+            'bbox'
+        ))
         try : 
-            dataPt = self.rng.choice(self.svgdatas) # choose random data point
-            dataPt = self.transform(dataPt, self.svgdatas) # transform it
             for attempt in range(10) : 
-                three = self.rng.sample(list(dataPt.nodes), k=3) # sample three nodes
+                three = self.rng.sample(nodes, k=3) # sample three nodes
                 pairs = list(combinations(three, 2)) # make 3 pairs
                 distances = list(starmap(
                     partial(distanceInTree, dataPt), 
@@ -150,8 +160,6 @@ class DiscriminativeSampler (TripletSampler):
             if perm is None : 
                 return self.getSample()
         except Exception as e : 
-            # exception will typically arise if you try to 
-            # sample more elements than there are in the list
             return self.getSample()
         refMinus = distanceInTree(dataPt, ref, minus)
         refPlus = distanceInTree(dataPt, ref, plus)

@@ -258,7 +258,7 @@ class Options():
     def validate(self, opt): 
         self.validate_loss_args(opt)
         assert((opt.structure_embedding_size is not None) \
-                == (opt.modelcls == 'PatternGrouping'))
+                == (opt.modelcls.startswith('PatternGrouping')))
         assert(len(opt.std) == opt.input_nc)
         assert(len(opt.mean) == opt.input_nc)
 
@@ -283,6 +283,8 @@ class Options():
         expr_dir = osp.join(opt.checkpoints_dir, opt.name)
         mkdir(expr_dir)
         file_name = osp.join(expr_dir, '{}_opt.txt'.format(opt.name))
+        if osp.exists(file_name) : 
+            file_name += '.swp'
         with open(file_name, 'wt') as opt_file:
             opt_file.write(message)
             opt_file.write('\n')
