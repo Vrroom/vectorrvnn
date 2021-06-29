@@ -5,7 +5,7 @@ from functools import reduce
 
 def rotate (tree, degrees, pt) :
     globalTransform(tree.doc,
-            dict(transform=f'rotate({degrees} {pt.real} {pt.imag})'))
+            dict(transform=f'rotate({degrees:.3f} {pt.real:.3f} {pt.imag:.3f})'))
     tree.recalculateBBoxes(lambda b : b.rotated(degrees, pt))
     normalize(tree)
     return tree
@@ -16,7 +16,7 @@ def scale(tree, sx, sy=None) :
     if sy is None : 
         sy = sx
     globalTransform(tree.doc,
-            dict(transform=f'scale({sx} {sy})'))
+            dict(transform=f'scale({sx:.3f} {sy:.3f})'))
     tree.recalculateBBoxes(lambda b : b.scaled(sx, sy))
     normalize(tree)
     return tree

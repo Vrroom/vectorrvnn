@@ -14,6 +14,7 @@ import ttools.interfaces
 from ttools.callbacks import *
 from ttools.modules import networks
 from copy import deepcopy
+from tqdm import tqdm
 
 LOG = ttools.get_logger(__name__)
 
@@ -121,7 +122,7 @@ class TripletInterface (ttools.ModelInterface) :
         with torch.no_grad():
             ret = self.forward(batch)
             ret['count'] = 1 + running_data['count']
-            self._accumulate(ret, running_data)
+            ret = self._accumulate(ret, running_data)
             tensorApply(
                 ret, 
                 lambda t : t.item(), 
@@ -203,6 +204,9 @@ def addCallbacks (trainer, model, data, opts) :
             env=opts.name + "_vis"
         )
     )
+    trainer.add_callback(
+        CheckpointingBestNCallback(checkpointer, key='fmi')
+    )
 
 def buildModel (opts) : 
     # Load pretrained path module
@@ -259,15 +263,15 @@ def test (opts) :
     testData = TripletDataset(osp.join(opts.dataroot, 'Test'))
     model = buildModel(opts)
     model.eval()
-    testData = list(map(forest2tree, testData))
-    out = list(map(model.greedyTree, data))
+    ts1 = list(map(forest2tree, testData))
+    ts2 = list(map(model.greedyTree, ts1))
     scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
-    tedscore = avg(map(scoreFn, ts1, ts2))
+    tedscore = avg(map(scoreFn, ts1, tqdm(ts2)))
     fmi1score = avg(map(partial(fmi, level=1), ts1, ts2))
     fmi2score = avg(map(partial(fmi, level=2), ts1, ts2))
     fmi3score = avg(map(partial(fmi, level=3), ts1, ts2))
     exprDir = osp.join(opts.checkpoints_dir, opts.name)
-    logFile = osp.join(expr_dir, f'{opts.name}.log')
+    logFile = osp.join(exprDir, f'{opts.name}.log')
     with open(logFile, 'w+') as fd : 
         fd.write(f'T.E.D.    = {tedscore}\n')
         fd.write(f'F.M.I.(1) = {fmi1score}\n')

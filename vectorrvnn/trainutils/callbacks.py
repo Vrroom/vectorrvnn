@@ -1,12 +1,14 @@
 import torch
+from datetime import datetime
 from torch import nn
 from sklearn import metrics
-from functools import partial
+from functools import partial, cmp_to_key
 from itertools import starmap
 from vectorrvnn.utils import *
 from .torchTools import * 
 import numpy as np
 from ttools.callbacks import *
+import ttools
 import visdom
 import random
 import matplotlib.pyplot as plt
@@ -208,8 +210,8 @@ class FMICallback (Callback) :
         self.valData = valData
         self.frequency = frequency
 
-    def validation_start(self, dataloader) : 
-        super(FMICallback, self).validation_start(dataloader)
+    def validation_end(self, val_data) : 
+        super(FMICallback, self).validation_end(val_data)
         data = filter(lambda t: t.nPaths < 40, self.valData)
         data = list(map(forest2tree, data))
         out = list(map(self.model.greedyTree, data))
@@ -232,5 +234,49 @@ class FMICallback (Callback) :
                 name=f'FMI-{i}', 
                 opts=opts
             )
+        val_data['fmi'] = scores[0]
 
+class CheckpointingBestNCallback (Callback) : 
+    """ A callback which saves the best N models.
 
+    Args:
+        checkpointer (Checkpointer): actual checkpointer responsible for the I/O
+        key: key into accumulated validation data to define metric.
+        N (int, optional): number of models to save
+        sense (string, optional): one of "maximize"/"minimize". 
+            Denoting whether we want to maximize/minimize val metric.
+    """
+    
+    BEST_PREFIX = "best_"
+
+    def __init__ (self, checkpointer, key, N=3, sense="maximize") : 
+        super(CheckpointingBestNCallback, self).__init__()
+        self.checkpointer = checkpointer
+        self.key = key
+        self.N = N
+        self.sense = sense
+        self.default = sense == "maximize"
+        self.cmp = lambda x, y : x > y if self.default else y > x
+        self.ckptDict = dict()
+
+    def validation_end(self, val_data): 
+        super(CheckpointingBestNCallback, self).validation_end(val_data)
+        score = val_data[self.key] 
+        isBetter = any([self.cmp(score, y) for y in self.ckptDict.keys()])
+        if len(self.ckptDict) < self.N or isBetter : 
+            path = "{}{:.3f}".format(CheckpointingBestNCallback.BEST_PREFIX, score)
+            path = path.replace('.', '-')
+            path = path + '-' + datetime.now().strftime('%m-%d-%Y-%H-%M-%S')
+            self.checkpointer.save(path, extras=dict(score=score))
+            self.ckptDict[score] = path
+            self.__purge_old_files()
+
+    def __purge_old_files(self) : 
+        """Delete checkpoints that are beyond the max to keep."""
+        chkpts = os.listdir(self.checkpointer.root)
+        toBeRemoved = sorted(self.ckptDict.keys(), reverse=self.default)[self.N:]
+        for s in toBeRemoved : 
+            cpref = self.ckptDict[s]
+            cname = [fname for fname in chkpts if cpref in fname].pop()
+            self.checkpointer.delete(cname)
+            self.ckptDict.pop(s)

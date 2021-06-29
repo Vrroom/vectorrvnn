@@ -128,7 +128,7 @@ class Options():
             '--augmentation', 
             type=str,
             default='none',
-            choices=['none', 'simple'],
+            choices=['none', 'simple', 'oneof'],
             help='Augmentation applied to data'
         )
         parser.add_argument(

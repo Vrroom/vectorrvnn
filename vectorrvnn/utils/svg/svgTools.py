@@ -202,7 +202,7 @@ def pathStrokeDashArray(path) :
 def fixOrigin (doc) : 
     x, y, w, h = getDocBBox(doc).tolist()
     globalTransform(doc, 
-            dict(transform=f'translate({-x} {-y})'))
+            dict(transform=f'translate({-x:.3f} {-y:.3f})'))
     setDocBBox(doc, BBox(0, 0, w, h, w, h))
 
 def scaleToFit (doc, w, h) : 
@@ -211,7 +211,7 @@ def scaleToFit (doc, w, h) :
     sx = w / ow
     sy = h / oh
     globalTransform(doc, 
-            dict(transform=f'scale({sx} {sy})'))
+            dict(transform=f'scale({sx:.3f} {sy:.3f})'))
     setDocBBox(doc, box.scaled(sx, sy))
 
 def removeGraphicChildren (xmltree) :

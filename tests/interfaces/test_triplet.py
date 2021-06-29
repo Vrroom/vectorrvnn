@@ -13,15 +13,15 @@ def test_interface() :
         '--name', 
         'test',
         '--n_epochs',
-        '1',
+        '5',
         '--batch_size',
         '2',
         '--raster_size',
         '128',
         '--train_epoch_length',
-        '256',
+        '4',
         '--val_epoch_length',
-        '256',
+        '4',
         '--decay_start',
         '0',
         '--samplercls',
@@ -31,7 +31,7 @@ def test_interface() :
         '--structure_embedding_size',
         '8',
         '--augmentation',
-        'simple'
+        'none'
     ])
     data = buildData(opts)
     trainData, valData, trainDataLoader, valDataLoader = data
@@ -40,16 +40,11 @@ def test_interface() :
     trainer = ttools.Trainer(interface)
     addCallbacks(trainer, model, data, opts)
     # Start training
-    import cProfile
-    pro = cProfile.Profile()
-    pro.enable()
     trainer.train(
         trainDataLoader, 
         num_epochs=opts.n_epochs, 
         val_dataloader=valDataLoader
     )
-    pro.disable()
-    pro.print_stats('cumtime')
     assert(True)
 
 test_interface()
