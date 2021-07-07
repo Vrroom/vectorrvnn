@@ -262,7 +262,6 @@ def train (opts) :
 def test (opts) : 
     testData = TripletDataset(osp.join(opts.dataroot, 'Test'))
     model = buildModel(opts)
-    model.eval()
     ts1 = list(map(forest2tree, testData))
     ts2 = list(map(model.greedyTree, ts1))
     scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())

@@ -50,7 +50,7 @@ def test_doc_transforms () :
         modAttr(
             doc, 
             'fill-opacity',
-            0.5
+            lambda x : '0.5'
         )
         for doc in docs
     ]
@@ -58,7 +58,7 @@ def test_doc_transforms () :
         modAttr(
             doc, 
             'stroke-opacity',
-            0.5
+            lambda x : '0.5'
         )
         for doc in translucent
     ]
@@ -71,7 +71,7 @@ def test_doc_transforms () :
         modAttr(
             doc, 
             'stroke-width',
-            10
+            lambda x : '10'
         )
         for doc in docs
     ]
@@ -80,7 +80,7 @@ def test_doc_transforms () :
         fullpath = osp.join(chdir, 'out', 'strokewidth-' + getBaseName(fname) + '.png')
         image.imsave(fullpath, im)
     # composition 
-    composed = docUnion(modAttr(docs[0], 'fill-opacity', 0.7), docs[1])
+    composed = docUnion(modAttr(docs[0], 'fill-opacity', lambda x: '0.7'), docs[1])
     raster = rasterize(composed, 200, 200)
     fullpath = osp.join(chdir, 'out', 'composed' + '.png')
     image.imsave(fullpath, raster)

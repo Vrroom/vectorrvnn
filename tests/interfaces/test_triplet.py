@@ -15,23 +15,23 @@ def test_interface() :
         '--n_epochs',
         '5',
         '--batch_size',
-        '2',
+        '32',
         '--raster_size',
         '128',
         '--train_epoch_length',
-        '4',
+        '128',
         '--val_epoch_length',
-        '4',
+        '128',
         '--decay_start',
         '0',
         '--samplercls',
         'DiscriminativeSampler',
         '--modelcls',
-        'PatternGroupingV2',
+        'PatternGrouping',
         '--structure_embedding_size',
         '8',
         '--augmentation',
-        'none'
+        'compose'
     ])
     data = buildData(opts)
     trainData, valData, trainDataLoader, valDataLoader = data
@@ -40,6 +40,8 @@ def test_interface() :
     trainer = ttools.Trainer(interface)
     addCallbacks(trainer, model, data, opts)
     # Start training
+    import pdb
+    pdb.set_trace()
     trainer.train(
         trainDataLoader, 
         num_epochs=opts.n_epochs, 

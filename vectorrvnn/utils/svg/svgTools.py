@@ -49,8 +49,6 @@ def immutable_doc (fn) :
         return fn(doc_, *args, **kwargs)
     return wrapper
 
-
-
 def getTreeStructureFromSVG (svgFile) : 
     """
     Infer the tree structure from the
@@ -153,6 +151,7 @@ def parseColor(s):
     return color
 
 def xmlAttributeSet (element, attr, value) : 
+    if value is None: return 
     element.attrib[attr] = value
     if 'style' in element.attrib : 
         style = element.attrib['style']

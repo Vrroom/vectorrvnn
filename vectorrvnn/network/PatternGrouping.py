@@ -56,7 +56,7 @@ class PatternGrouping (TripletBase) :
             getTransform(opts),
             module=np
         )
-        data['bitmap'] = torch.from_numpy(bitmap).float()
+        data['bitmap'] = torch.from_numpy(bitmap).float() 
         # get bounding box of pathset and normalize by document's bbox
         bbox = pathsetBox(t, ps)
         bbox = bbox / getDocBBox(t.doc)

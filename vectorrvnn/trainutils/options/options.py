@@ -117,6 +117,7 @@ class Options():
         )
         # training parameters
         self.add_loss_args(parser)
+        self.add_batch_args(parser)
         parser.add_argument(
             '--init_type',
             type=str,
@@ -128,7 +129,7 @@ class Options():
             '--augmentation', 
             type=str,
             default='none',
-            choices=['none', 'simple', 'oneof'],
+            choices=['none', 'simple', 'oneof', 'compose'],
             help='Augmentation applied to data'
         )
         parser.add_argument(
@@ -137,12 +138,6 @@ class Options():
             default='AllSampler', 
             choices=['AllSampler', 'SiblingSampler', 'DiscriminativeSampler'],
             help='Class to use to sample triplets'
-        )
-        parser.add_argument(
-            '--batch_size', 
-            type=int, 
-            default=512, 
-            help='input batch size'
         )
         parser.add_argument(
             '--train_epoch_length',
@@ -201,6 +196,20 @@ class Options():
         )
         self.initialized = True
         return parser
+    
+    def add_batch_args(self, parser): 
+        parser.add_argument(
+            '--batch_size', 
+            type=int, 
+            default=32, 
+            help='input batch size'
+        )
+        parser.add_argument(
+            '--base_size',
+            type=int,
+            default=32,
+            help='process batches of base size to create minibatch (to avoid GPU OOM)'
+        )
 
     def add_loss_args(self, parser) : 
         parser.add_argument(
@@ -227,6 +236,9 @@ class Options():
             default=1.0,
             help='margin for triplet loss'
         )
+
+    def validate_batch_size_args (self, opt) : 
+        assert opt.batch_size % opt.base_size == 0
 
     def validate_loss_args (self, opt) : 
         if opt.loss.endswith('MarginLoss') : 
@@ -257,6 +269,7 @@ class Options():
 
     def validate(self, opt): 
         self.validate_loss_args(opt)
+        self.validate_batch_size_args(opt)
         assert((opt.structure_embedding_size is not None) \
                 == (opt.modelcls.startswith('PatternGrouping')))
         assert(len(opt.std) == opt.input_nc)

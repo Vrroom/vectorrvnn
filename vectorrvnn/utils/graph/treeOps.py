@@ -439,3 +439,11 @@ def tree2Parenthesis (tree, symbols, r=None) :
             tree2Parenthesis(tree, symbols, r=_) 
             for _ in tree.neighbors(r)
         ])
+
+def maxNodesByLevel (tree) : 
+    setNodeDepths(tree)
+    M = maxDepth(tree)
+    return max([
+        len([_ for _ in tree.nodes if tree.nodes[_]['depth'] == i])
+        for i in range(M)
+    ])

@@ -6,6 +6,15 @@ import matplotlib.pyplot as plt
 from matplotlib.offsetbox import OffsetImage
 from matplotlib.offsetbox import AnnotationBbox
 from vectorrvnn.utils import *
+from itertools import islice, cycle
+from more_itertools import collapse
+
+COLOR_MAP = dict(
+    red=[1, 0, 0],
+    green=[0, 1, 0],
+    blue=[0, 0, 1],
+    yellow=[1, 1, 0],
+)
 
 def treeAxisFromGraph(G, ax) : 
     G_ = trimTreeByDepth(G, 4)
@@ -95,3 +104,134 @@ def matplotlibFigureSaver (obj, fname) :
     fig.savefig(fname + '.png')
     plt.close(fig)
 
+def _xrange (pos) :
+    xs = [v[0] for v in pos.values()]
+    return min(xs), max(xs)
+
+def _yrange (pos) : 
+    ys = [v[1] for v in pos.values()]
+    return min(ys), max(ys)
+
+def _calculateShift (pos1, pos2) :
+    mx1, Mx1 = _xrange(pos1)
+    mx2, Mx2 = _xrange(pos2)
+    my1, My1 = _yrange(pos1)
+    my2, My2 = _yrange(pos2)
+    my = min(my1, my2)
+    My = max(My1, My2)
+    shift = max(Mx1 - mx2, 0) + ((Mx1 - mx1) + (Mx2 - mx2)) / 4
+    pos2 = dictmap(lambda k, v : (v[0] + shift, v[1]), pos2)
+    pos1 = dictmap(
+        lambda k, v : (v[0], my + (My - my) * (v[1] - my1) / (My1 - my1)), 
+        pos1
+    )
+    pos2 = dictmap(
+        lambda k, v : (v[0], my + (My - my) * (v[1] - my2) / (My2 - my2)), 
+        pos2
+    )
+    return pos1, pos2
+
+def treeMatchVis (t1, t2, matchMatrix) : 
+    fig, ax = plt.subplots(dpi=200)
+    treeMatchVisOnAxis(t1, t2, matchMatrix, fig, ax)
+    return (fig, ax)
+
+def treeMatchVisOnAxis (t1, t2, matchMatrix, fig, ax, prefix=('1-', '2-')) :
+
+    pos1 = graphviz_layout(t1, prog='dot')
+    pos2 = graphviz_layout(t2, prog='dot')
+    pos1, pos2 = _calculateShift(pos1, pos2)
+
+    nodes1, nodes2 = list(t1.nodes), list(t2.nodes)
+
+    # set the match graph and mark positions.
+    a, b = nx.DiGraph(t1), nx.DiGraph(t2)
+    g = nx.union(a, b, rename=prefix)
+    g.remove_edges_from(list(g.edges))
+    gPos = dict()
+    edge_color = list(islice(
+        collapse(cycle([
+            'red',
+            'yellow',
+            'green',
+            'blue',
+        ])), 
+        0, 
+        (matchMatrix == 1).sum()
+    ))
+    for (i, j), color in zip(zip(*np.where(matchMatrix == 1)), edge_color) :
+        u = f'{prefix[0]}{nodes1[i]}'
+        v = f'{prefix[1]}{nodes2[j]}'
+        g.add_edge(u, v)
+        gPos[u] = pos1[nodes1[i]]
+        gPos[v] = pos2[nodes2[j]]
+        a[nodes1[i]]['color'] = color
+        b[nodes2[j]]['color'] = color
+
+    nx.draw_networkx_nodes(
+        t1, 
+        pos1, 
+        ax=ax, 
+        node_size=0.5
+    )
+    nx.draw_networkx_nodes(
+        t2, 
+        pos2, 
+        ax=ax, 
+        node_size=0.5
+    )
+    nx.draw_networkx_edges(
+        t1, 
+        pos1, 
+        ax=ax, 
+        arrowsize=1
+    ) 
+    nx.draw_networkx_edges(
+        t2, 
+        pos2, 
+        ax=ax, 
+        arrowsize=1
+    )
+    nx.draw_networkx_edges(
+        g, 
+        gPos,
+        connectionstyle="arc3,rad=0.2", 
+        edge_color=edge_color, 
+        alpha=0.4, 
+        arrowsize=1, 
+        ax=ax
+    )
+    
+    # horizontal space for one tree in pixels
+    pixX = fig.get_figwidth() * fig.dpi / 4
+    # max number of images that'll be side by side
+    sideBySideIms = max(maxNodesByLevel(t1), maxNodesByLevel(t2)) + 1
+    # raster size
+    imSize = 128
+    # zoom for each view
+    zoom = pixX / (sideBySideIms * imSize)
+    for n in t1 :
+        subsetDoc = subsetSvg(t1.doc, t1.nodes[n]['pathSet'])
+        img = rasterize(subsetDoc, imSize, imSize)
+        color = [1, 1, 1]
+        if 'color' in a.nodes[n] : 
+            color = COLOR_MAP[a.nodes[n]['color']]
+        img = alphaComposite(img, module=np, color=color)
+        imagebox = OffsetImage(img, zoom=zoom)
+        imagebox.image.axes = ax
+        ab = AnnotationBbox(imagebox, pos1[n], pad=0)
+        ax.add_artist(ab)
+
+    for n in t2 :
+        subsetDoc = subsetSvg(t2.doc, t2.nodes[n]['pathSet'])
+        img = rasterize(subsetDoc, imSize, imSize)
+        color = [1, 1, 1]
+        if 'color' in b.nodes[n] : 
+            color = COLOR_MAP[b.nodes[n]['color']]
+        img = alphaComposite(img, module=np, color=color)
+        imagebox = OffsetImage(img, zoom=zoom)
+        imagebox.image.axes = ax
+        ab = AnnotationBbox(imagebox, pos2[n], pad=0)
+        ax.add_artist(ab)
+
+    ax.axis('off')

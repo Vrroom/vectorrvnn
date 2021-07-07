@@ -8,6 +8,15 @@ oneof = OneOf([
     NoFill()
 ], p=0.3)
 
+compose = Compose([
+    Rotate(p=0.7),
+    NoFill(p=0.4),
+    OneOf([
+        StrokeWidthJitter(scaleRange=(0.5, 2)),
+        OpacityJitter(lowerBound=0.5)
+    ], p=0.5)
+], p=0.5)
+
 def getGraphicAugmentation (opts) : 
     if opts.augmentation == 'none' : 
         return lambda *args:  args[0]

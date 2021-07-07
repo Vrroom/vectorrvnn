@@ -5,6 +5,7 @@ import numpy as np
 import random
 from functools import reduce
 from functional import compose
+from .rng import *
 
 class Compose(SVGDataTransform):
 
@@ -17,9 +18,10 @@ class Compose(SVGDataTransform):
 
     def __init__(self, transforms, p=1.0):
         super(Compose, self).__init__(p)
+        self.transforms = transforms
     
     def transform (self, svgdata, *args) : 
-        return reduce(compose, transforms)(svgdata, *args)
+        return reduce(compose, self.transforms)(svgdata, *args)
 
 class OneOf(SVGDataTransform):
     """Select one of transforms to apply.
@@ -38,7 +40,7 @@ class OneOf(SVGDataTransform):
         self.transforms = transforms
 
     def transform (self, svgdata, *args) :
-        random_state = np.random.RandomState(random.randint(0, 2 ** 32 - 1))
+        random_state = np.random.RandomState(trng.randint(0, 2 ** 32 - 1))
         t = random_state.choice(self.transforms, p=self.transforms_ps)
         return t(svgdata, *args)
 

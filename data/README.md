@@ -27,3 +27,8 @@ be loaded with `nx.read_gpickle`. More often than not the directed
 graph will be a tree, otherwise it'll be a forest. The leaf nodes
 in the graph index the paths in the graphic (the `.svg` file). 
 See `data.py` for more information on how data is loaded.
+
+100/300 of graphics in All/Val are also in All/Train
+100/300 of graphics in All/Test are also in All/Train
+
+The (graphic, tree) pairs are unique
