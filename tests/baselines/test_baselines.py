@@ -73,3 +73,4 @@ def test_scores () :
     logScores(suggeroTrees, gtTrees)
     assert(True)
 
+test_suggero()

@@ -16,17 +16,24 @@ COLOR_MAP = dict(
     yellow=[1, 1, 0],
 )
 
-def treeAxisFromGraph(G, ax) : 
-    G_ = trimTreeByDepth(G, 4)
-    doc = G_.doc
-    pos = graphviz_layout(G_, prog='dot')
+def treeAxisFromGraph(G, fig, ax) : 
+    G.graph['nodesep'] = 1
+    doc = G.doc
+    pos = graphviz_layout(G, prog='dot')
     ax.set_aspect('equal')
-    nx.draw(G_, pos, ax=ax, node_size=0.5, arrowsize=1)
-    md = max(1, np.ceil(maxDepth(G_) / 10))
-    for n in G_ :
-        subsetDoc = subsetSvg(doc, G_.nodes[n]['pathSet'])
-        img = rasterize(subsetDoc, 128, 128)
-        imagebox = OffsetImage(img, zoom=0.2 / md)
+    nx.draw(G, pos, ax=ax, node_size=0.5, arrowsize=1)
+    # horizontal space for one tree in pixels
+    pixX = fig.get_figwidth() * fig.dpi / 4
+    # max number of images that'll be side by side
+    sideBySideIms = maxNodesByLevel(G) + 1
+    # raster size
+    imSize = 128
+    # zoom for each view
+    zoom = pixX / (sideBySideIms * imSize * 3)
+    for n in G :
+        subsetDoc = subsetSvg(doc, G.nodes[n]['pathSet'])
+        img = rasterize(subsetDoc, imSize, imSize)
+        imagebox = OffsetImage(img, zoom=zoom)
         imagebox.image.axes = ax
         ab = AnnotationBbox(imagebox, pos[n], pad=0)
         ax.add_artist(ab)
@@ -43,8 +50,8 @@ def treeImageFromGraph (G) :
     G : nx.DiGraph
         Hierarchy of paths
     """
-    fig, ax = plt.subplots(dpi=100)
-    treeAxisFromGraph(G, ax)
+    fig, ax = plt.subplots(figsize=(10, 5), dpi=200)
+    treeAxisFromGraph(G, fig, ax)
     return (fig, ax)
 
 def putOnCanvas (pts, images) :
@@ -108,7 +115,7 @@ def _xrange (pos) :
     xs = [v[0] for v in pos.values()]
     return min(xs), max(xs)
 
-def _yrange (pos) : 
+def _yrange (pos) :
     ys = [v[1] for v in pos.values()]
     return min(ys), max(ys)
 
@@ -119,25 +126,25 @@ def _calculateShift (pos1, pos2) :
     my2, My2 = _yrange(pos2)
     my = min(my1, my2)
     My = max(My1, My2)
-    shift = max(Mx1 - mx2, 0) + ((Mx1 - mx1) + (Mx2 - mx2)) / 4
+    shift = max(Mx1 - mx2, 0) + ((Mx1 - mx1) + (Mx2 - mx2)) / 8
     pos2 = dictmap(lambda k, v : (v[0] + shift, v[1]), pos2)
     pos1 = dictmap(
-        lambda k, v : (v[0], my + (My - my) * (v[1] - my1) / (My1 - my1)), 
+        lambda k, v : (v[0], my + (My - my) * (v[1] - my1) / (My1 - my1)),
         pos1
     )
     pos2 = dictmap(
-        lambda k, v : (v[0], my + (My - my) * (v[1] - my2) / (My2 - my2)), 
+        lambda k, v : (v[0], my + (My - my) * (v[1] - my2) / (My2 - my2)),
         pos2
     )
     return pos1, pos2
 
-def treeMatchVis (t1, t2, matchMatrix) : 
-    fig, ax = plt.subplots(dpi=200)
+def treeMatchVis (t1, t2, matchMatrix) :
+    fig, ax = plt.subplots(figsize=(20, 5), dpi=200)
     treeMatchVisOnAxis(t1, t2, matchMatrix, fig, ax)
     return (fig, ax)
 
 def treeMatchVisOnAxis (t1, t2, matchMatrix, fig, ax, prefix=('1-', '2-')) :
-
+    t1.graph['nodesep'] = t2.graph['nodesep'] = 1
     pos1 = graphviz_layout(t1, prog='dot')
     pos2 = graphviz_layout(t2, prog='dot')
     pos1, pos2 = _calculateShift(pos1, pos2)
@@ -155,9 +162,9 @@ def treeMatchVisOnAxis (t1, t2, matchMatrix, fig, ax, prefix=('1-', '2-')) :
             'yellow',
             'green',
             'blue',
-        ])), 
-        0, 
-        (matchMatrix == 1).sum()
+        ])),
+        0,
+        int((matchMatrix == 1).sum())
     ))
     for (i, j), color in zip(zip(*np.where(matchMatrix == 1)), edge_color) :
         u = f'{prefix[0]}{nodes1[i]}'
@@ -165,43 +172,33 @@ def treeMatchVisOnAxis (t1, t2, matchMatrix, fig, ax, prefix=('1-', '2-')) :
         g.add_edge(u, v)
         gPos[u] = pos1[nodes1[i]]
         gPos[v] = pos2[nodes2[j]]
-        a[nodes1[i]]['color'] = color
-        b[nodes2[j]]['color'] = color
+        a.nodes[nodes1[i]]['color'] = color
+        b.nodes[nodes2[j]]['color'] = color
 
     nx.draw_networkx_nodes(
-        t1, 
-        pos1, 
-        ax=ax, 
+        t1,
+        pos1,
+        ax=ax,
         node_size=0.5
     )
     nx.draw_networkx_nodes(
-        t2, 
-        pos2, 
-        ax=ax, 
+        t2,
+        pos2,
+        ax=ax,
         node_size=0.5
     )
     nx.draw_networkx_edges(
-        t1, 
-        pos1, 
-        ax=ax, 
-        arrowsize=1
-    ) 
-    nx.draw_networkx_edges(
-        t2, 
-        pos2, 
-        ax=ax, 
+        t1,
+        pos1,
+        ax=ax,
         arrowsize=1
     )
     nx.draw_networkx_edges(
-        g, 
-        gPos,
-        connectionstyle="arc3,rad=0.2", 
-        edge_color=edge_color, 
-        alpha=0.4, 
-        arrowsize=1, 
-        ax=ax
+        t2,
+        pos2,
+        ax=ax,
+        arrowsize=1
     )
-    
     # horizontal space for one tree in pixels
     pixX = fig.get_figwidth() * fig.dpi / 4
     # max number of images that'll be side by side
@@ -209,12 +206,12 @@ def treeMatchVisOnAxis (t1, t2, matchMatrix, fig, ax, prefix=('1-', '2-')) :
     # raster size
     imSize = 128
     # zoom for each view
-    zoom = pixX / (sideBySideIms * imSize)
+    zoom = pixX / (sideBySideIms * imSize * 3)
     for n in t1 :
         subsetDoc = subsetSvg(t1.doc, t1.nodes[n]['pathSet'])
         img = rasterize(subsetDoc, imSize, imSize)
         color = [1, 1, 1]
-        if 'color' in a.nodes[n] : 
+        if 'color' in a.nodes[n] :
             color = COLOR_MAP[a.nodes[n]['color']]
         img = alphaComposite(img, module=np, color=color)
         imagebox = OffsetImage(img, zoom=zoom)
@@ -226,7 +223,7 @@ def treeMatchVisOnAxis (t1, t2, matchMatrix, fig, ax, prefix=('1-', '2-')) :
         subsetDoc = subsetSvg(t2.doc, t2.nodes[n]['pathSet'])
         img = rasterize(subsetDoc, imSize, imSize)
         color = [1, 1, 1]
-        if 'color' in b.nodes[n] : 
+        if 'color' in b.nodes[n] :
             color = COLOR_MAP[b.nodes[n]['color']]
         img = alphaComposite(img, module=np, color=color)
         imagebox = OffsetImage(img, zoom=zoom)
@@ -235,3 +232,5 @@ def treeMatchVisOnAxis (t1, t2, matchMatrix, fig, ax, prefix=('1-', '2-')) :
         ax.add_artist(ab)
 
     ax.axis('off')
+
+
