@@ -183,7 +183,6 @@ def cted (t1, t2, matching=False):
         the symmetric difference of the pathSets divided
         by their union.
         """
-        return 0 if x == y else 1
         ps1 = set(t1.nodes[x]['pathSet'])
         ps2 = set(t2.nodes[y]['pathSet'])
         return len(ps1 ^ ps2) / len(ps1 | ps2)

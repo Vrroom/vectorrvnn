@@ -1,4 +1,5 @@
 from torch.optim.lr_scheduler import *
+from torch.optim.swa_utils import *
 
 def getScheduler(optimizer, opt):
     """Return a learning rate scheduler
@@ -7,7 +8,7 @@ def getScheduler(optimizer, opt):
         optimizer          -- the optimizer of the network
         opt (option class) -- stores all the experiment flags; 
         needs to be a subclass of BaseOptions. opt.lr_policy is 
-        the name of learning rate policy: linear | step | plateau | cosine
+        the name of learning rate policy: linear | step | plateau | cosine | swalr
     """
     if opt.lr_policy == 'linear':
         def lambda_rule(epoch):
@@ -35,6 +36,12 @@ def getScheduler(optimizer, opt):
             optimizer, 
             T_max=opt.n_epochs, 
             eta_min=0
+        )
+    elif opt.lr_policy == 'swalr': 
+        scheduler = SWALR(
+            optimizer, 
+            swa_lr=10 * opt.lr, 
+            anneal_strategy='linear',
         )
     else:
         return NotImplementedError(

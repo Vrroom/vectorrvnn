@@ -1,8 +1,9 @@
 import torch
-from datetime import datetime
 from torch import nn
+from torch.optim.swa_utils import *
+from datetime import datetime
 from sklearn import metrics
-from functools import partial, cmp_to_key
+from functools import partial
 from itertools import starmap
 from vectorrvnn.utils import *
 from .torchTools import * 
@@ -28,6 +29,29 @@ class SchedulerCallback (Callback) :
     def epoch_end (self) :
         super(SchedulerCallback, self).epoch_end()
         self.sched.step()
+
+class SWACallback (SchedulerCallback) : 
+    """ Manage stochastic weight averaging """
+    def __init__ (self, sched, model, swaModel, dataloader, opts) : 
+        super(SWACallback, self).__init__(sched)
+        self.model = model
+        self.swaModel = swaModel
+        self.dataloader = dataloader
+        self.opts = opts
+
+    def epoch_end (self) : 
+        self.swaModel.update_parameters(self.model)
+        super(SWACallback, self).epoch_end()
+
+    def training_end (self) : 
+        """ Set BatchNorm Stats """ 
+        super(SWACallback, self).training_end()
+        for batch in self.dataloader:  
+            tensorApply(
+                batch,
+                lambda t : t.to(self.opts.device)
+            )
+            self.swaModel(**batch)
 
 class KernelDisplayCallback (ImageDisplayCallback) : 
     """ display the kernels of the first convolutional layer """
@@ -143,7 +167,7 @@ class HierarchyVisCallback (Callback) :
         for i in range(self.nWindows) : 
             out[i].doc = data[i].doc
             fig, ax = plt.subplots(1, 1, dpi=100) 
-            treeAxisFromGraph(out[i], ax)
+            treeAxisFromGraph(out[i], fig, ax)
             self._api.matplot(plt, win=f'hierarchies-{i}')
             plt.close()
 

@@ -13,7 +13,7 @@ def test_interface() :
         '--name', 
         'test',
         '--n_epochs',
-        '5',
+        '30',
         '--batch_size',
         '32',
         '--raster_size',
@@ -31,7 +31,11 @@ def test_interface() :
         '--structure_embedding_size',
         '8',
         '--augmentation',
-        'compose'
+        'compose',
+        '--use_swa',
+        'true',
+        '--lr_policy',
+        'swalr'
     ])
     data = buildData(opts)
     trainData, valData, trainDataLoader, valDataLoader = data
@@ -40,8 +44,6 @@ def test_interface() :
     trainer = ttools.Trainer(interface)
     addCallbacks(trainer, model, data, opts)
     # Start training
-    import pdb
-    pdb.set_trace()
     trainer.train(
         trainDataLoader, 
         num_epochs=opts.n_epochs, 

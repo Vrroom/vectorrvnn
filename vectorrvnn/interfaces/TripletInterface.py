@@ -2,6 +2,7 @@ import torch
 import torch.nn.functional as F
 from torch import nn
 import torch.optim as optim
+from torch.optim.swa_utils import *
 import random
 from vectorrvnn.utils import *
 from vectorrvnn.data import *
@@ -82,7 +83,7 @@ class TripletInterface (ttools.ModelInterface) :
         ret['lr'] = lr
 
     def forward (self, batch) : 
-        batch = tensorApply(
+        tensorApply(
             batch, 
             lambda t : t.to(self.opts.device)
         )
@@ -136,10 +137,27 @@ def addCallbacks (trainer, model, data, opts) :
     gradNorms = [f'{n}_grad' for n in modelParams]
     weightDecay = [f'{n}_wd' for n in modelParams]
     keys = ["loss", "hardpct", "lr", *gradNorms, *weightDecay]
-    _, valData, _, _ = data
+    _, valData, trainDataLoader, _ = data
+    if opts.use_swa == 'true' : 
+        swaModel = AveragedModel(model)
+        model_ = swaModel.module
+        trainer.add_callback(
+            SWACallback(
+                trainer.interface.sched,
+                model, 
+                swaModel,
+                trainDataLoader, 
+                opts
+            )
+        )
+    else :
+        model_ = model
+        trainer.add_callback(
+            SchedulerCallback(trainer.interface.sched)
+        )
     checkpointer = ttools.Checkpointer(
         osp.join(opts.checkpoints_dir, opts.name),
-        model
+        model_
     )
     trainer.add_callback(
         CheckpointingCallback(checkpointer)
@@ -166,11 +184,8 @@ def addCallbacks (trainer, model, data, opts) :
         )
     )
     trainer.add_callback(
-        SchedulerCallback(trainer.interface.sched)
-    )
-    trainer.add_callback(
         KernelDisplayCallback(
-            model,
+            model_,
             win="kernel", 
             env=opts.name + "_kernel", 
             frequency=opts.frequency
@@ -178,7 +193,7 @@ def addCallbacks (trainer, model, data, opts) :
     )
     trainer.add_callback(
         FMICallback(
-            model, 
+            model_, 
             valData,
             frequency=opts.frequency,
             env=opts.name + "_fmi"
@@ -186,7 +201,7 @@ def addCallbacks (trainer, model, data, opts) :
     )
     trainer.add_callback(
         HierarchyVisCallback(
-            model,
+            model_,
             valData,
             frequency=opts.frequency,
             env=opts.name + "_hierarchy"
