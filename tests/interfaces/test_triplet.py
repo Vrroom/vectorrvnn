@@ -35,7 +35,9 @@ def test_interface() :
         '--use_swa',
         'true',
         '--lr_policy',
-        'swalr'
+        'swalr',
+        '--frequency',
+        '10'
     ])
     data = buildData(opts)
     trainData, valData, trainDataLoader, valDataLoader = data

@@ -16,24 +16,18 @@ COLOR_MAP = dict(
     yellow=[1, 1, 0],
 )
 
-def treeAxisFromGraph(G, fig, ax) : 
+def treeAxisFromGraph(G, fig, ax) :
     G.graph['nodesep'] = 1
-    doc = G.doc
-    pos = graphviz_layout(G, prog='dot')
+    G_ = trimTreeByDepth(G, 4)
+    doc = G_.doc
+    pos = graphviz_layout(G_, prog='dot')
     ax.set_aspect('equal')
-    nx.draw(G, pos, ax=ax, node_size=0.5, arrowsize=1)
-    # horizontal space for one tree in pixels
-    pixX = fig.get_figwidth() * fig.dpi / 4
-    # max number of images that'll be side by side
-    sideBySideIms = maxNodesByLevel(G) + 1
-    # raster size
-    imSize = 128
-    # zoom for each view
-    zoom = pixX / (sideBySideIms * imSize * 3)
-    for n in G :
-        subsetDoc = subsetSvg(doc, G.nodes[n]['pathSet'])
-        img = rasterize(subsetDoc, imSize, imSize)
-        imagebox = OffsetImage(img, zoom=zoom)
+    nx.draw(G_, pos, ax=ax, node_size=0.5, arrowsize=1)
+    md = max(1, np.ceil(maxDepth(G_) / 10))
+    for n in G_ :
+        subsetDoc = subsetSvg(doc, G_.nodes[n]['pathSet'])
+        img = rasterize(subsetDoc, 128, 128)
+        imagebox = OffsetImage(img, zoom=0.2 / md)
         imagebox.image.axes = ax
         ab = AnnotationBbox(imagebox, pos[n], pad=0)
         ax.add_artist(ab)
@@ -50,7 +44,7 @@ def treeImageFromGraph (G) :
     G : nx.DiGraph
         Hierarchy of paths
     """
-    fig, ax = plt.subplots(figsize=(10, 5), dpi=200)
+    fig, ax = plt.subplots(dpi=200)
     treeAxisFromGraph(G, fig, ax)
     return (fig, ax)
 

@@ -210,19 +210,25 @@ class BBoxVisCallback (Callback) :
 
     def batch_end (self, batch, step_data) : 
         super(BBoxVisCallback, self).batch_end(batch, step_data)
-        if self._tstep % self.frequency != 0:
-            self._tstep += 1
-            return
-        self._tstep = 1
-        self._plot_bbox(batch, 'bbox-train')
+        try : 
+            if self._tstep % self.frequency != 0:
+                self._tstep += 1
+                return
+            self._tstep = 1
+            self._plot_bbox(batch, 'bbox-train')
+        except Exception :
+            pass
 
     def val_batch_end (self, batch, running_data)  :
         super(BBoxVisCallback, self).val_batch_end(batch, running_data)
-        if self._vstep % self.frequency != 0:
-            self._vstep += 1
-            return
-        self._vstep = 1
-        self._plot_bbox(batch, 'bbox-val')
+        try : 
+            if self._vstep % self.frequency != 0:
+                self._vstep += 1
+                return
+            self._vstep = 1
+            self._plot_bbox(batch, 'bbox-val')
+        except Exception : 
+            pass
 
 class FMICallback (Callback) : 
     """ Plot fmi for the validation set after each epoch """

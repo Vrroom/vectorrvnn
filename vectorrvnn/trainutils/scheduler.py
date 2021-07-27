@@ -40,8 +40,7 @@ def getScheduler(optimizer, opt):
     elif opt.lr_policy == 'swalr': 
         scheduler = SWALR(
             optimizer, 
-            swa_lr=10 * opt.lr, 
-            anneal_strategy='linear',
+            swa_lr=0.5 * opt.lr, 
         )
     else:
         return NotImplementedError(
