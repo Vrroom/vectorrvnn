@@ -6,6 +6,31 @@ import numpy as np
 from copy import deepcopy
 from vectorrvnn.utils import argmax
 
+def treeUnion (t1, t2) : 
+    """
+    Take the union of two trees.
+
+    Since these trees actually represent graphic organizations,
+    the leaves in both trees will be labelled by their render
+    order. When we combine both the graphics, the paths from 
+    the second are pushed on top of the first in the render order.
+    For this purpose, we need to relabel the leaves in the second
+    tree. As a result the non leaf nodes in both trees also get
+    relabelled.
+    """
+    l1, l2 = len(leaves(t1)), len(leaves(t2))
+    nl1, nl2 = len(nonLeaves(t1)), len(nonLeaves(t2))
+    # Find the mapping in the combination
+    t1NonLeafMapping = dict([(n, l1 + l2 + i) for i, n in enumerate(nonLeaves(t1))])
+    t2LeafMapping = dict([(n, l1 + n) for n in leaves(t2)])
+    t2NonLeafMapping = dict([(n, l1 + l2 + nl1 + i) for i, n in enumerate(nonLeaves(t2))])
+    # relabel
+    t1_ = nx.relabel_nodes(t1, t1NonLeafMapping)
+    t2_ = nx.relabel_nodes(t2, {**t2LeafMapping, **t2NonLeafMapping})
+    # take union
+    union = nx.union(t1_, t2_)
+    return union
+
 def trimTreeByDepth (t, levels) : 
     t_ = deepcopy(t)
     setNodeDepths(t_)

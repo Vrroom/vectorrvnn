@@ -38,3 +38,39 @@ def test_svgdata() :
         pass
     assert(True)
 
+def test_union () :
+    chdir = osp.split(osp.abspath(__file__))[0]
+    opts = Options().parse(testing=[
+        '--dataroot',
+        osp.join(chdir, '../../data/Toy'),
+        '--name', 
+        'test',
+        '--n_epochs',
+        '2',
+        '--batch_size',
+        '2',
+        '--raster_size',
+        '128',
+        '--train_epoch_length',
+        '256',
+        '--val_epoch_length',
+        '256',
+        '--decay_start',
+        '0',
+        '--samplercls',
+        'DiscriminativeSampler',
+        '--modelcls',
+        'PatternGroupingV2',
+        '--structure_embedding_size',
+        '8',
+        '--augmentation',
+        'none'
+    ])
+    data = buildData(opts)
+    trainData, _, _, _ = data
+    import pdb
+    pdb.set_trace()
+    newPt = trainData[0] | trainData[1]
+    assert(True)
+
+test_union()

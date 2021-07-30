@@ -65,3 +65,16 @@ class SVGData (nx.DiGraph) :
             bbox = union(map(pathBBox, relPaths))
             nx.set_node_attributes(self, {n: bbox}, 'bbox')
 
+    def __or__ (self, that) : 
+        """
+        Take the union of two datapoints. Compositing one on
+        top of the other.
+        """
+        union = deepcopy(self) 
+        union.initTree(treeUnion(self, that))
+        union.doc = docUnion(self.doc, that.doc) 
+        union.initGraphic(union.doc)
+        normalize(union)
+        return union
+
+

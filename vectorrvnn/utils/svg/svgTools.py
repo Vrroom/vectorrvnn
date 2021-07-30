@@ -273,3 +273,17 @@ def withoutDegeneratePaths (doc) :
     newDocument = svg.Document(None)
     newDocument.fromString(ET.tostring(root, encoding='unicode'))
     return newDocument
+
+@immutable_doc
+def docUnion (doc, that) :
+    # add the canvases
+    setDocBBox(doc, getDocBBox(doc) + getDocBBox(that))
+    # add the paths
+    thatRoot = deepcopy(that.tree.getroot())
+    thatChildren = list(filter(
+        lambda e : e.tag in GRAPHIC_TAGS,
+        thatRoot
+    ))
+    root = doc.tree.getroot()
+    root.extend(thatChildren)
+    return doc
