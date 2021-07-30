@@ -8,6 +8,12 @@ class PatternGrouping (TripletBase) :
 
     def __init__ (self, opts) : 
         super(PatternGrouping, self).__init__(opts)
+        self.vis.append(
+            BBoxVisCallback(
+                frequency=opts.frequency,
+                env=opts.name + "_vis"
+            )
+        )
         self.unet = UNet(opts)
         self.conv = convnet(opts)
         self.last = nn.Linear(

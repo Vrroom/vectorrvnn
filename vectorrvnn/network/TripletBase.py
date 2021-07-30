@@ -20,6 +20,12 @@ class TripletBase (nn.Module) :
     """
     def __init__ (self, opts) :
         super(TripletBase, self).__init__() 
+        self.vis = [
+            DistanceHistogramCallback(
+                frequency=opts.frequency,
+                env=opts.name + "_distance"
+            )
+        ]
         self.opts = opts
 
     def embedding (self, node, **kwargs) : 

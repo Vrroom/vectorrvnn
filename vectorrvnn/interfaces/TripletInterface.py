@@ -192,11 +192,11 @@ def addCallbacks (trainer, model, data, opts) :
         )
     )
     trainer.add_callback(
-        FMICallback(
+        TreeScoresCallback(
             model_, 
             valData,
             frequency=opts.frequency,
-            env=opts.name + "_fmi"
+            env=opts.name + "_treeScores"
         )
     )
     trainer.add_callback(
@@ -207,18 +207,8 @@ def addCallbacks (trainer, model, data, opts) :
             env=opts.name + "_hierarchy"
         )
     )
-    trainer.add_callback(
-        DistanceHistogramCallback(
-            frequency=opts.frequency,
-            env=opts.name + "_distance"
-        )
-    )
-    trainer.add_callback(
-        BBoxVisCallback(
-            frequency=opts.frequency,
-            env=opts.name + "_vis"
-        )
-    )
+    for vis in model_.vis : 
+        trainer.add_callback(vis)
     trainer.add_callback(
         CheckpointingBestNCallback(checkpointer, key='fmi')
     )

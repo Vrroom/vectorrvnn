@@ -210,38 +210,32 @@ class BBoxVisCallback (Callback) :
 
     def batch_end (self, batch, step_data) : 
         super(BBoxVisCallback, self).batch_end(batch, step_data)
-        try : 
-            if self._tstep % self.frequency != 0:
-                self._tstep += 1
-                return
-            self._tstep = 1
-            self._plot_bbox(batch, 'bbox-train')
-        except Exception :
-            pass
+        if self._tstep % self.frequency != 0:
+            self._tstep += 1
+            return
+        self._tstep = 1
+        self._plot_bbox(batch, 'bbox-train')
 
     def val_batch_end (self, batch, running_data)  :
         super(BBoxVisCallback, self).val_batch_end(batch, running_data)
-        try : 
-            if self._vstep % self.frequency != 0:
-                self._vstep += 1
-                return
-            self._vstep = 1
-            self._plot_bbox(batch, 'bbox-val')
-        except Exception : 
-            pass
+        if self._vstep % self.frequency != 0:
+            self._vstep += 1
+            return
+        self._vstep = 1
+        self._plot_bbox(batch, 'bbox-val')
 
-class FMICallback (Callback) : 
-    """ Plot fmi for the validation set after each epoch """
+class TreeScoresCallback (Callback) : 
+    """ Plot fmi and cted for the validation set after each epoch """
     def __init__(self, model, valData, frequency=100, env="main"):
-        super(FMICallback, self).__init__()
+        super(TreeScoresCallback, self).__init__()
         self._api = visdom.Visdom(env=env)
-        closeWindow(self._api, 'val_FMI')
+        closeWindow(self._api, 'val_TreeScores')
         self.model = model
         self.valData = valData
         self.frequency = frequency
 
     def validation_end(self, val_data) : 
-        super(FMICallback, self).validation_end(val_data)
+        super(TreeScoresCallback, self).validation_end(val_data)
         data = filter(lambda t: t.nPaths < 40, self.valData)
         data = list(map(forest2tree, data))
         out = list(map(self.model.greedyTree, data))
@@ -249,21 +243,30 @@ class FMICallback (Callback) :
             lambda k : avg(map(partial(fmi, level=k), data, out)),
             range(1, 4)
         ))
+        ctedScore = avg(map(cted, data, out))
         t = self.epoch + 1
         opts=dict(
-            title='FMI', 
-            ylabel='FMI',
+            title='TreeScores', 
+            ylabel='TreeScores',
             xlabel="Epoch"
         )
         for i, s in enumerate(scores) : 
             self._api.line(
                 [s], 
                 [t], 
-                win="val_FMI", 
+                win="val_TreeScores", 
                 update="append", 
                 name=f'FMI-{i}', 
                 opts=opts
             )
+        self._api.line(
+            [s],
+            [t],
+            win="val_TreeScores", 
+            update="append",
+            name="cted",
+            opts=opts
+        )
         val_data['fmi'] = scores[0]
 
 class CheckpointingBestNCallback (Callback) : 

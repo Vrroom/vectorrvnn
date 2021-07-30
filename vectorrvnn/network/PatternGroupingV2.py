@@ -22,6 +22,12 @@ class PatternGroupingV2 (TripletBase) :
 
     def __init__ (self, opts) : 
         super(PatternGroupingV2, self).__init__(opts)
+        self.vis.append(
+            BBoxVisCallback(
+                frequency=opts.frequency,
+                env=opts.name + "_vis"
+            )
+        )
         self.unet = UNet(opts)
         self.conv = convnet(opts)
         self.merger = nn.Linear(512 * 4, opts.embedding_size)

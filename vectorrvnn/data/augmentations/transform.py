@@ -67,6 +67,15 @@ class OpacityJitter (SVGDataTransform) :
         )
         return svgdata
 
+class GraphicCompose (SVGDataTransform) : 
+
+    def __init__ (self, n_other=1, p=1.0) : 
+        super(GraphicCompose, self).__init__(p=p)
+        self.n_other = n_other
+
+    def transform (self, svgdata, *args) : 
+        pass
+
 
 class Rotate (SVGDataTransform) : 
     """ Randomly rotate graphic about it's center """     
