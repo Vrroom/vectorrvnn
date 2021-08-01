@@ -50,7 +50,7 @@ def d2 (doc, i, bins=10, nSamples=100, **kwargs) :
 @lru_cache(maxsize=128)
 def shapeHistogram (doc, i, nSamples=50) : 
     path = cachedPaths(doc)[i].path
-    box = pathBBox(path).todim()
+    box = pathBBox(path)
     s = max(box.w, box.h) * np.sqrt(2)
     ts = np.arange(0, 1, 1 / nSamples)
     L = path.length()
@@ -90,7 +90,7 @@ def fd (doc, i, nSamples=25, freqs=10, **kwargs) :
 def bb (doc, i, **kwargs) : 
     """ absolute bounding box coordinates for the ith path """
     path = cachedPaths(doc)[i].path
-    return pathBBox(path).todim().tolist()
+    return pathBBox(path).tolist()
 
 @lru_cache(maxsize=128)
 def relbb (doc, i, **kwargs) :

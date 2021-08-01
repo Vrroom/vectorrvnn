@@ -277,7 +277,7 @@ def withoutDegeneratePaths (doc) :
 @immutable_doc
 def docUnion (doc, that) :
     # add the canvases
-    setDocBBox(doc, getDocBBox(doc) + getDocBBox(that))
+    setDocBBox(doc, getDocBBox(doc) | getDocBBox(that))
     # add the paths
     thatRoot = deepcopy(that.tree.getroot())
     thatChildren = list(filter(

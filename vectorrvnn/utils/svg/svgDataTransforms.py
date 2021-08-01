@@ -10,6 +10,13 @@ def rotate (tree, degrees, pt) :
     normalize(tree)
     return tree
 
+def translate(tree, tx, ty)  : 
+    globalTransform(tree.doc,
+            dict(transform=f'translate({tx:.3f} {ty:.3f})'))
+    tree.recalculateBBoxes(lambda b : b.translated(tx, ty))
+    normalize(tree)
+    return tree
+
 def scale(tree, sx, sy=None) : 
     """ Modify this because it is more convenient to scale the document in place
     """

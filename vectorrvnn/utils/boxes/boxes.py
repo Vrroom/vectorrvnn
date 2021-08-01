@@ -4,7 +4,10 @@ import shapely.geometry as sg
 from functools import reduce
 
 def pathBBox (path) : 
-    x, X, y, Y = path.bbox()
+    try : 
+        x, X, y, Y = path.bbox()
+    except Exception : 
+        x, X, y, Y = 0, 0, 0, 0
     return BBox(x, y, X, Y, X - x, Y - y)
 
 def getDocBBox (doc) :
@@ -124,6 +127,12 @@ class BBox :
         w = self.w
         h = self.h
         return f'BBox(x={x}, y={y}, X={X}, Y={Y}, w={w}, h={h})'
+
+    def __xor__ (self, that) : 
+        """ check whether boxes are disjoint """
+        b1 = sg.box(self.x, self.y, self.X, self.Y)
+        b2 = sg.box(that.x, that.y, that.X, that.Y)
+        return b1.disjoint(b2)
 
     def rotated (self, degree, pt=None) : 
         if pt is None:  

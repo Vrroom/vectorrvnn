@@ -28,7 +28,11 @@ def treeUnion (t1, t2) :
     t1_ = nx.relabel_nodes(t1, t1NonLeafMapping)
     t2_ = nx.relabel_nodes(t2, {**t2LeafMapping, **t2NonLeafMapping})
     # take union
-    union = nx.union(t1_, t2_)
+    union = forest2tree(nx.union(t1_, t2_))
+    for n in union.nodes : 
+        keys = list(union.nodes[n].keys())
+        for k in keys : 
+            union.nodes[n].pop(k, None)
     return union
 
 def trimTreeByDepth (t, levels) : 
@@ -183,7 +187,7 @@ def leaves (tree) :
     ----------
     tree : nx.DiGraph
     """
-    return list(filter (lambda x : tree.out_degree(x) == 0, tree.nodes))
+    return sorted(list(filter(lambda x: tree.out_degree(x) == 0, tree.nodes)))
 
 def nonLeaves (tree) :
     """

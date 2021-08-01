@@ -71,9 +71,11 @@ class SVGData (nx.DiGraph) :
         top of the other.
         """
         union = deepcopy(self) 
-        union.initTree(treeUnion(self, that))
+        t1, t2 = nx.DiGraph(self), nx.DiGraph(that)
+        union.initTree(treeUnion(t1, t2))
         union.doc = docUnion(self.doc, that.doc) 
-        union.initGraphic(union.doc)
+        union.nPaths = self.nPaths + that.nPaths
+        union._computeBBoxes(findRoot(union))
         normalize(union)
         return union
 

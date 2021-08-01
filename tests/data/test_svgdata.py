@@ -2,6 +2,8 @@ from vectorrvnn.trainutils import Options
 from vectorrvnn.utils import *
 from vectorrvnn.data import *
 from vectorrvnn.interfaces import *
+import random
+import matplotlib.image as image
 
 def test_svgdata() :
     chdir = osp.split(osp.abspath(__file__))[0]
@@ -13,7 +15,7 @@ def test_svgdata() :
         '--n_epochs',
         '2',
         '--batch_size',
-        '2',
+        '32',
         '--raster_size',
         '128',
         '--train_epoch_length',
@@ -48,7 +50,7 @@ def test_union () :
         '--n_epochs',
         '2',
         '--batch_size',
-        '2',
+        '32',
         '--raster_size',
         '128',
         '--train_epoch_length',
@@ -68,9 +70,32 @@ def test_union () :
     ])
     data = buildData(opts)
     trainData, _, _, _ = data
-    import pdb
-    pdb.set_trace()
-    newPt = trainData[0] | trainData[1]
-    assert(True)
+    for i in range(10) : 
+        a, b = random.sample(list(trainData), k=2)
+        newPt = a | b 
+        assert((not id(newPt) == id(b)) and (not id(newPt) == id(a)))
+        assert(newPt.number_of_nodes() == (1 + a.number_of_nodes() + b.number_of_nodes()))
+        im = rasterize(newPt.doc, 200, 200)
+        fullpath = osp.join(chdir, 'out', f'union-{i}.png')
+        image.imsave(fullpath, im)
 
-test_union()
+def test_union_aug () : 
+    chdir = osp.split(osp.abspath(__file__))[0]
+    opts = Options().parse(testing=[
+        '--dataroot', '../../data/Toy',
+        '--embedding_size', '32',
+        '--samplercls', 'DiscriminativeSampler',
+        '--phase', 'test'
+    ])
+    data = buildData(opts)
+    _, valData, _, _ = data
+    aug = GraphicCompose()
+    for i in range(4) : 
+        graphic = aug(trng.choice(valData), valData)
+        im = rasterize(graphic.doc, 200, 200)
+        fullpath = osp.join(chdir, 'out', f'aug-{i}.png')
+        image.imsave(fullpath, im)
+        figure = treeImageFromGraph(graphic)
+        matplotlibFigureSaver(figure,
+                osp.join(chdir, 'out', f'aug-tree-{i}.png'))
+    assert(True)

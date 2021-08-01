@@ -225,6 +225,10 @@ def buildModel (opts) :
         state_dict = torch.load(initPath)
         model.load_state_dict(state_dict['model'])
     model.to(opts.device)
+    if opts.phase == 'train' : 
+        model.train()
+    else :
+        model.eval()
     return model
 
 def buildData (opts) : 
