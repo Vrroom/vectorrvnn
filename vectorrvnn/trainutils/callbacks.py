@@ -243,7 +243,8 @@ class TreeScoresCallback (Callback) :
             lambda k : avg(map(partial(fmi, level=k), data, out)),
             range(1, 4)
         ))
-        ctedScore = avg(map(cted, data, out))
+        normedCted = lambda x, y : cted(x, y) / (x.number_of_nodes() + y.number_of_nodes())
+        ctedScore = avg(map(normedCted, data, out))
         t = self.epoch + 1
         opts=dict(
             title='TreeScores', 
@@ -260,7 +261,7 @@ class TreeScoresCallback (Callback) :
                 opts=opts
             )
         self._api.line(
-            [s],
+            [ctedScore],
             [t],
             win="val_TreeScores", 
             update="append",

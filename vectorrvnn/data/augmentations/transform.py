@@ -81,8 +81,8 @@ class GraphicCompose (SVGDataTransform) :
         """
         bigBox = BBox(0, 0, 100, 100, 100, 100)
         while True : 
-            x1, y1, x2, y2 = [trng.randint(0, 50) for _ in range(4)]
-            h1, h2 = [trng.randint(20, 50) for _ in range(2)]
+            x1, y1, x2, y2 = [trng.randint(0, 95) for _ in range(4)]
+            h1, h2 = [trng.randint(5, 50) for _ in range(2)]
             w1, w2 = r1 * h1, r2 * h2
             box1 = BBox(x1, y1, x1 + w1, y1 + h1, w1, h1)
             box2 = BBox(x2, y2, x2 + w2, y2 + h2, w2, h2)

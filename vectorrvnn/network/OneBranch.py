@@ -16,6 +16,12 @@ class OneBranch (TripletBase) :
     """
     def __init__ (self, opts) :
         super(OneBranch, self).__init__(opts)
+        self.vis.append(
+            BBoxVisCallback(
+                frequency=opts.frequency,
+                env=opts.name + "_vis"
+            )
+        )
         self.conv = convnet(opts)
 
     def embedding (self, node, **kwargs) : 
@@ -26,6 +32,11 @@ class OneBranch (TripletBase) :
     @classmethod
     def nodeFeatures (cls, t, ps, opts) : 
         data = dict(
+            im=rasterize(
+                t.doc,
+                opts.raster_size,
+                opts.raster_size
+            ),
             whole=rasterize(
                 subsetSvg(t.doc, ps),
                 opts.raster_size,
@@ -37,6 +48,9 @@ class OneBranch (TripletBase) :
             getTransform(opts),
             module=np
         )
+        bbox = pathsetBox(t, ps)
+        bbox = bbox / getDocBBox(t.doc)
+        data['bbox'] = torch.tensor(bbox.tolist()).float()
         return data
 
 
