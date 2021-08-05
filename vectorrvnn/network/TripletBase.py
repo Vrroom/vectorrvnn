@@ -27,6 +27,7 @@ class TripletBase (nn.Module) :
             )
         ]
         self.opts = opts
+        self.sim_criteria = globals()[opts.sim_criteria]
 
     def embedding (self, node, **kwargs) : 
         """ 
@@ -144,7 +145,7 @@ class TripletBase (nn.Module) :
             if pathBBoxTooSmall(box1, docbox)\
                     or pathBBoxTooSmall(box2, docbox) : 
                 return torch.tensor(np.inf).to(self.opts.device)
-            return l2(psEmbedding(ps1), psEmbedding(ps2))
+            return self.sim_criteria(psEmbedding(ps1), psEmbedding(ps2))
 
         if subtrees is None : 
             subtrees = leaves(t)

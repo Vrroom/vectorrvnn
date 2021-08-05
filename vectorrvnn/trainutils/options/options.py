@@ -99,9 +99,6 @@ class Options():
             default=500,
             help='maximum number of paths in a graphic'
         )
-        # The pattern grouping paper: 
-        #   (https://people.cs.umass.edu/~kalo/papers/PatternGrouping/PatternGrouping.pdf)
-        # used 800 by 800 rasters.
         parser.add_argument(
             '--raster_size', 
             type=int, 
@@ -150,6 +147,13 @@ class Options():
             type=tuple,
             default=(0.485, 0.456, 0.406),
             help='mean to normalize rasters before forward pass'
+        )
+        parser.add_argument(
+            '--sim_criteria',
+            type=str,
+            default='l2',
+            choices=['l2', 'negativeCosineSimilarity'],
+            help='metric to compare embeddings'
         )
         parser.add_argument(
             '--std',

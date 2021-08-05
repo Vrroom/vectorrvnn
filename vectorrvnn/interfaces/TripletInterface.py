@@ -273,7 +273,7 @@ def test (opts) :
     model = buildModel(opts)
     ts1 = list(map(forest2tree, testData))
     ts2 = list(map(model.greedyTree, ts1))
-    scoreFn = lambda t, t_ : ted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
+    scoreFn = lambda t, t_ : cted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
     tedscore = avg(map(scoreFn, ts1, tqdm(ts2)))
     fmi1score = avg(map(partial(fmi, level=1), ts1, ts2))
     fmi2score = avg(map(partial(fmi, level=2), ts1, ts2))
@@ -281,7 +281,7 @@ def test (opts) :
     exprDir = osp.join(opts.checkpoints_dir, opts.name)
     logFile = osp.join(exprDir, f'{opts.name}.log')
     with open(logFile, 'w+') as fd : 
-        fd.write(f'T.E.D.    = {tedscore}\n')
+        fd.write(f'C.T.E.D.  = {tedscore}\n')
         fd.write(f'F.M.I.(1) = {fmi1score}\n')
         fd.write(f'F.M.I.(2) = {fmi2score}\n')
         fd.write(f'F.M.I.(3) = {fmi3score}\n')
