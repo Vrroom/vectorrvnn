@@ -55,7 +55,7 @@ def shapeHistogram (doc, i, nSamples=50) :
     ts = np.arange(0, 1, 1 / nSamples)
     L = path.length()
     if L == 0 :
-        return np.ones(min(nSamples, 20))
+        return np.ones(nSamples)
     pts = np.array([path.point(path.ilength(t * L, s_tol=1e-2)) for t in ts])
     pts = pts - pts.mean()
     pts = np.abs(pts) / s

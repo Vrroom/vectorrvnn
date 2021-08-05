@@ -68,6 +68,7 @@ def _contains(doc, i, j, **kwargs) :
         return (proj_j > 0.5 and proj_i < 0.1) or proj_j > 0.9 
 
 def autogroup (doc) : 
+    doc = withoutDegeneratePaths(doc)
     paths = cachedPaths(doc)
     n = len(paths)
     # directed graph where a -> b iff a contains b

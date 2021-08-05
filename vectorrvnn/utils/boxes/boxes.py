@@ -31,6 +31,9 @@ def intersection (boxes) :
 def pathsetBox (t, ps) : 
     return union([t.nodes[i]['bbox'] for i in ps])
 
+def isclose(x, y, atol=1e-8, rtol=1e-5):
+    return abs(x - y) <= atol + rtol * abs(y)
+
 class BBox : 
 
     def __init__ (self, x, y, X, Y, w, h) : 
@@ -45,8 +48,8 @@ class BBox :
     def assertConsistent (self) : 
         assert(self.X >= self.x)
         assert(self.Y >= self.y)
-        assert(np.isclose(self.X - self.x, self.w))
-        assert(np.isclose(self.Y - self.y, self.h))
+        assert(isclose(self.X - self.x, self.w))
+        assert(isclose(self.Y - self.y, self.h))
 
     def iou (self, that) : 
         if (self + that).isDegenerate() \

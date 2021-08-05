@@ -32,7 +32,7 @@ class SVGData (nx.DiGraph) :
         paths = cachedPaths(self.doc)
         self.nPaths = len(paths)
         assert(self.nPaths == len(leaves(self)))
-        self._computeBBoxes(findRoot(self))
+        self._computeBBoxes()
 
     def recalculateBBoxes(self, fn) : 
         for n in self.nodes : 
@@ -57,7 +57,7 @@ class SVGData (nx.DiGraph) :
         self.initGraphic(svg.Document(svgFile))
         normalize(self)
 
-    def _computeBBoxes (self, node) : 
+    def _computeBBoxes (self) : 
         paths = [p.path for p in cachedPaths(self.doc)]
         for n in self.nodes : 
             ps = self.nodes[n]['pathSet']
@@ -65,18 +65,38 @@ class SVGData (nx.DiGraph) :
             bbox = union(map(pathBBox, relPaths))
             nx.set_node_attributes(self, {n: bbox}, 'bbox')
 
+    def _setBBox (self, n) : 
+        if 'bbox' in self.nodes[n] : 
+            return self.nodes[n]['bbox']
+        childBBoxes = [self._setBBox(_) for _ in self.neighbors(n)]
+        bbox = union(childBBoxes)
+        nx.set_node_attributes(self, {n: bbox}, 'bbox')
+        return bbox
+        
     def __or__ (self, that) : 
         """
         Take the union of two datapoints. Compositing one on
         top of the other.
         """
-        union = deepcopy(self) 
+        dataUnion = deepcopy(self) 
         t1, t2 = nx.DiGraph(self), nx.DiGraph(that)
-        union.initTree(treeUnion(t1, t2))
-        union.doc = docUnion(self.doc, that.doc) 
-        union.nPaths = self.nPaths + that.nPaths
-        union._computeBBoxes(findRoot(union))
-        normalize(union)
-        return union
+        # combine the trees of self and that
+        dataUnion.initTree(treeUnion(t1, t2))
+        # combine the documents 
+        dataUnion.doc = docUnion(self.doc, that.doc) 
+        # new paths are the sum of individual paths
+        dataUnion.nPaths = self.nPaths + that.nPaths
+        # set the bbox for the new root
+        newRoot = findRoot(dataUnion)
+        leafBoxes = [
+            *[self.nodes[l]['bbox'] for l in leaves(self)],
+            *[that.nodes[l]['bbox'] for l in leaves(that)]
+        ]
+        for l, bbox in zip(leaves(dataUnion), leafBoxes) : 
+            nx.set_node_attributes(dataUnion, {l: bbox}, 'bbox')
+        dataUnion._setBBox(newRoot)
+        # normalize into a suitable viewbox
+        normalize(dataUnion)
+        return dataUnion
 
 

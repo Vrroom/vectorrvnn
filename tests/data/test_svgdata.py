@@ -1,7 +1,7 @@
 from vectorrvnn.trainutils import Options
 from vectorrvnn.utils import *
 from vectorrvnn.data import *
-from vectorrvnn.interfaces import *
+from vectorrvnn.interfaces import buildData
 import random
 import matplotlib.image as image
 
@@ -16,8 +16,6 @@ def test_svgdata() :
         '2',
         '--batch_size',
         '32',
-        '--raster_size',
-        '128',
         '--train_epoch_length',
         '256',
         '--val_epoch_length',
@@ -27,11 +25,9 @@ def test_svgdata() :
         '--samplercls',
         'DiscriminativeSampler',
         '--modelcls',
-        'PatternGroupingV2',
-        '--structure_embedding_size',
-        '8',
+        'OneBranch',
         '--augmentation',
-        'none'
+        'multiaug'
     ])
     data = buildData(opts)
     trainData, valData, trainDataLoader, valDataLoader = data
@@ -82,7 +78,7 @@ def test_union () :
 def test_union_aug () : 
     chdir = osp.split(osp.abspath(__file__))[0]
     opts = Options().parse(testing=[
-        '--dataroot', '../../data/Toy',
+        '--dataroot', osp.join(chdir, '../../data/Toy'),
         '--embedding_size', '32',
         '--samplercls', 'DiscriminativeSampler',
         '--phase', 'test'
@@ -99,3 +95,4 @@ def test_union_aug () :
         matplotlibFigureSaver(figure,
                 osp.join(chdir, 'out', f'aug-tree-{i}.png'))
     assert(True)
+

@@ -7,7 +7,7 @@ import torch
 import os
 import os.path as osp
 
-def test_unet () :
+def _test_unet () :
     chdir = osp.split(osp.abspath(__file__))[0]
     opts = Options().parse(testing=[
         '--dataroot', 

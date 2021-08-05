@@ -16,6 +16,42 @@ COLOR_MAP = dict(
     yellow=[1, 1, 0],
 )
 
+def treeVisAsDirectory (G) :
+    """
+    Display the tree as a directory.
+
+    root
+        child_1
+            grandchild_1
+            ...
+        child_n
+    """
+    def assignId (node) : 
+        nonlocal i, nodeId 
+        nodeId[node] = i
+        i += 1
+        return list(map(assignId, G_.neighbors(node)))
+        
+    maxDepth, maxNodes = 4, 30
+    raster_size = 64
+    doc = G.doc 
+    G_ = trimTreeByDepth(G, maxDepth)
+    setNodeDepths(G_)
+    nNodes = min(G_.number_of_nodes(), maxNodes)
+    canvas = np.zeros((nNodes * raster_size, (maxDepth + 1) * raster_size, 4))
+    i, nodeId = 0, dict()
+    assignId(findRoot(G_))
+    positions = [(nodeId[n], G_.nodes[n]['depth']) for n in G_.nodes]
+    for n, pos in zip(G_.nodes, positions) : 
+        i, j = pos
+        subsetDoc = subsetSvg(doc, G_.nodes[n]['pathSet'])
+        setDocBBox(subsetDoc, G_.nodes[n]['bbox'].normalized() * 1.2)
+        raster = rasterize(subsetDoc, raster_size, raster_size)
+        sI, sJ = i * raster_size, j * raster_size
+        canvas[sI:sI + raster_size, sJ:sJ + raster_size, :] = raster
+    canvas = alphaComposite(canvas, color=[0.5, 0.5, 0.5])
+    return canvas
+
 def treeAxisFromGraph(G, fig, ax) :
     G.graph['nodesep'] = 1
     G_ = trimTreeByDepth(G, 4)

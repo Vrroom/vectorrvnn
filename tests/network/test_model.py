@@ -32,12 +32,10 @@ def test_model () :
         osp.join(chdir, '../../results'),
         '--name', 
         'test_model', 
-        '--structure_embedding_size', 
-        '8',
         '--embedding_size',
         '32',
         '--modelcls', 
-        'PatternGroupingV2',
+        'OneBranch',
     ])
     data = TripletDataset(osp.join(opts.dataroot, 'Test'))
     data = [t for t in data if t.nPaths < 50][:10]

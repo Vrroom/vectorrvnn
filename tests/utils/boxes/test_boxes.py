@@ -10,13 +10,13 @@ def test_boxes () :
     docs = list(map(svg.Document, files))
     for doc in docs : 
         docbox = getDocBBox(doc)
-        assert(docbox + docbox == docbox)
+        assert(docbox | docbox == docbox)
         assert(abs((docbox / docbox).area() - 1) < 1e-4)
         assert(abs((docbox / docbox).center() - complex(0.5, 0.5)) < 1e-4)
         paths = cachedPaths(doc)
         for path in paths : 
             pathbox = pathBBox(path.path)
-            assert(pathbox + pathbox == pathbox)
+            assert(pathbox | pathbox == pathbox)
 
         for pi, pj in product(paths, paths):
             b1 = pathBBox(pi.path)

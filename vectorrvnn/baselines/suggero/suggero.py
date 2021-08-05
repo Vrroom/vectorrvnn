@@ -2,7 +2,7 @@
 import numpy as np
 from sklearn.cluster import AgglomerativeClustering
 from vectorrvnn.geometry import *
-from vectorrvnn.utils.svg import cachedPaths
+from vectorrvnn.utils.svg import cachedPaths, withoutDegeneratePaths
 from vectorrvnn.utils.graph import hac2nxDiGraph
 import networkx as nx
 
@@ -26,6 +26,7 @@ def combinedAffinityMatrix (doc, affinityFns, weights) :
     return combinedMatrix
 
 def suggero (doc) : 
+    doc = withoutDegeneratePaths(doc)
     paths = cachedPaths(doc)
     subtrees = list(range(len(paths)))
     paths = [paths[i] for i in subtrees]

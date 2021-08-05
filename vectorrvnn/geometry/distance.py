@@ -240,7 +240,7 @@ def bboxContains (doc, i, j, **kwargs) :
     path1, path2 = _getPathPair(doc, i, j)
     b1 = pathBBox(path1.path)
     b2 = pathBBox(path2.path)
-    return b1.contains(b2)
+    return b1 in b2 and not (b1 == b2)
 
 def relationshipGraph (doc, relFn, symmetric, **kwargs) : 
     """

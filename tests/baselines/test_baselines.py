@@ -1,10 +1,11 @@
 from vectorrvnn.baselines import *
 from vectorrvnn.utils import *
+from tqdm import tqdm
 import os
 import os.path as osp
 import networkx as nx
 import svgpathtools as svg
-from more_itertools import unzip
+from more_itertools import unzip, flatten
 import logging
 
 logging.basicConfig(filename='.log', level=logging.INFO)
@@ -58,20 +59,18 @@ def test_scores () :
     chdir = osp.split(osp.abspath(__file__))[0]
     dataDir = osp.join(chdir, '../../data/All/Val')
     files = listdir(dataDir)[:5]
-    svgFiles = [osp.join(f, osp.split(f)[1] + '.svg') for f in files]
-    treeFiles = [osp.join(f, osp.split(f)[1] + '.pkl') for f in files]
+    svgFiles  = list(flatten([filter(lambda x : x.endswith('svg'), allfiles(f)) for f in files]))
+    treeFiles = list(flatten([filter(lambda x : x.endswith('pkl'), allfiles(f)) for f in files]))
     docs = [svg.Document(f) for f in svgFiles]
     small = [(t, s, d) for t, s, d in zip(treeFiles, svgFiles, docs) 
             if len(d.paths()) < 50]
     treeFiles, svgFiles, docs = list(map(list, unzip(small)))
     gtTrees = list(map(nx.read_gpickle, treeFiles))
-    autogroupTrees = list(map(autogroup, docs))
-    suggeroTrees = list(map(suggero, docs))
+    autogroupTrees = list(map(autogroup, tqdm(docs)))
+    suggeroTrees = list(map(suggero, tqdm(docs)))
     logging.info('Autogroup')
     logScores(autogroupTrees, gtTrees)
     logging.info('Suggero')
     logScores(suggeroTrees, gtTrees)
     assert(True)
-
-test_autogroup()
 

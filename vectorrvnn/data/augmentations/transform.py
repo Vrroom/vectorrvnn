@@ -80,7 +80,7 @@ class GraphicCompose (SVGDataTransform) :
         rs are the ratio ws / hs for s = 1, 2
         """
         bigBox = BBox(0, 0, 100, 100, 100, 100)
-        while True : 
+        for i in range(10) : 
             x1, y1, x2, y2 = [trng.randint(0, 95) for _ in range(4)]
             h1, h2 = [trng.randint(5, 50) for _ in range(2)]
             w1, w2 = r1 * h1, r2 * h2
@@ -88,6 +88,7 @@ class GraphicCompose (SVGDataTransform) :
             box2 = BBox(x2, y2, x2 + w2, y2 + h2, w2, h2)
             if box1 in bigBox and box2 in bigBox and (box1 ^ box2) : 
                 return box1, box2
+        return None
     
     def _calculateR (self, pt) :
         box = pt.nodes[findRoot(pt)]['bbox']
@@ -105,7 +106,10 @@ class GraphicCompose (SVGDataTransform) :
     def transform (self, svgdata, *args) : 
         other = trng.choice(list(args[0]))
         r1, r2 = self._calculateR(svgdata), self._calculateR(other)
-        box1, box2 = self.sample(r1, r2)
+        boxes = self.sample(r1, r2)
+        if boxes is None : 
+            return svgdata
+        box1, box2 = boxes
         svgdata = self._fitInBox(svgdata, box1)
         other = self._fitInBox(other, box2)
         return svgdata | other

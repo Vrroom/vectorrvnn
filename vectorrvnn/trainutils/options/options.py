@@ -188,6 +188,12 @@ class Options():
             help='initial learning rate for adam'
         )
         parser.add_argument(
+            '--wd',
+            type=float,
+            default=0.0001,
+            help='weight decay for optimizer'
+        )
+        parser.add_argument(
             '--use_swa',
             type=str,
             default='false',

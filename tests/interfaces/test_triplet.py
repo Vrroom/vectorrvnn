@@ -42,16 +42,9 @@ def test_interface() :
     trainer = ttools.Trainer(interface)
     addCallbacks(trainer, model, data, opts)
     # Start training
-    import cProfile
-    pro = cProfile.Profile() 
-    pro.enable()
     trainer.train(
         trainDataLoader, 
         num_epochs=opts.n_epochs, 
         val_dataloader=valDataLoader
     )
-    pro.disable()
-    pro.print_stats('cumtime')
     assert(True)
-
-test_interface()
