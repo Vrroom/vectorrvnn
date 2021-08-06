@@ -122,6 +122,28 @@ class TripletBase (nn.Module) :
             hardpct=hardpct
         )
 
+    def cosineSimilarity (self, ref, plus, minus, **kwargs) : 
+        temperature = self.opts.temperature
+        assert (temperature is not None)
+        # Find and normalize embeddings
+        refEmbed   = unitNorm(self.embedding(ref  , **kwargs))
+        plusEmbed  = unitNorm(self.embedding(plus , **kwargs))
+        minusEmbed = unitNorm(self.embedding(minus, **kwargs))
+        # compute the cosine similarity and divide by temperature
+        dplus  = (refEmbed * plusEmbed ).sum(dim=1, keepdim=True) / temperature
+        dminus = (refEmbed * minusEmbed).sum(dim=1, keepdim=True) / temperature
+        # compute loss, mask and hardpct.
+        loss = - torch.softmax(torch.cat((dplus, dminus), dim=1), dim=1)[:, 0].mean()
+        mask = (dplus < dminus).view(-1, 1)
+        hardpct = mask.sum() / mask.nelement()
+        return dict(
+            loss=loss,
+            mask=None,
+            dplus=dplus,
+            dminus=dminus,
+            hardpct=hardpct
+        )
+
     def forward (self, ref, plus, minus, **kwargs) : 
         # figure out which loss to use from opts.
         lossFn = getattr(self, self.opts.loss)

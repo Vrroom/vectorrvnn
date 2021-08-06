@@ -67,15 +67,16 @@ def l2 (a, b, eps=1e-5) :
     l2 = torch.sqrt(d2 + eps)
     return l2
 
+def unitNorm(a) : 
+    return a / a.norm(dim=1, keepdim=True)
+
 def negativeCosineSimilarity (a, b) : 
     """
     a.shape == b.shape == [B, N].
     B is the batch size and N is the dimension
     of the embedding.
     """
-    a_ = a / a.norm(dim=1, keepdim=True)
-    b_ = b / b.norm(dim=1, keepdim=True)
-    return - (a_ * b_).sum(dim=1, keepdim=True)
+    return - (unitNorm(a) * unitNorm(b)).sum(dim=1, keepdim=True)
 
 def maskedMean(thing, mask, eps=1e-5) : 
     """

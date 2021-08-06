@@ -237,7 +237,8 @@ class Options():
                 'maxMarginLoss', 
                 'tripletLoss',
                 'hardSemiHardMaxMarginLoss', 
-                'hardTripletLoss'
+                'hardTripletLoss', 
+                'cosineSimilarity'
             ],
             help='loss function for training'
         )
@@ -253,6 +254,13 @@ class Options():
             default=1.0,
             help='margin for triplet loss'
         )
+        parser.add_argument(
+            '--temperature',
+            type=float,
+            default=1.0,
+            help='temperature control for cosine similarity loss'
+        )
+
 
     def validate_batch_size_args (self, opt) : 
         assert opt.batch_size % opt.base_size == 0
@@ -260,8 +268,10 @@ class Options():
     def validate_loss_args (self, opt) : 
         if opt.loss.endswith('MarginLoss') : 
             assert (opt.max_margin is not None)
-        elif opt.loss == 'HardTripletLoss' : 
+        elif opt.loss == 'hardTripletLoss' : 
             assert (opt.hard_threshold is not None)
+        elif opt.loss == 'cosineSimilarity' : 
+            assert (opt.temperature is not None)
 
     def gather_options(self, testing=[]):
         """Initialize our parser with basic options(only once).
