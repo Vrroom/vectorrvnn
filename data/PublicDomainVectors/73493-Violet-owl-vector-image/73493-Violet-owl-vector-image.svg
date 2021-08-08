@@ -1,300 +1,52 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="1000"
-   height="1000"
-   viewBox="0 0 264.58333 264.58334"
-   version="1.1"
-   id="svg8"
-   inkscape:version="0.92.3 (2405546, 2018-03-11)"
-   sodipodi:docname="purple_owl.svg">
-  <defs
-     id="defs2">
-    <filter
-       inkscape:label="Film Grain"
-       inkscape:menu="Image Effects"
-       inkscape:menu-tooltip="Adds a small scale graininess"
-       style="color-interpolation-filters:sRGB;"
-       id="filter155">
-      <feTurbulence
-         type="fractalNoise"
-         numOctaves="3"
-         baseFrequency="1"
-         seed="0"
-         result="result0"
-         id="feTurbulence145" />
-      <feColorMatrix
-         result="result4"
-         values="0"
-         type="saturate"
-         id="feColorMatrix147" />
-      <feComposite
-         in="SourceGraphic"
-         in2="result4"
-         operator="arithmetic"
-         k1="1.25"
-         k2="0.5"
-         k3="0.5"
-         result="result2"
-         id="feComposite149" />
-      <feBlend
-         result="result5"
-         mode="normal"
-         in="result2"
-         in2="SourceGraphic"
-         id="feBlend151" />
-      <feComposite
-         in="result5"
-         in2="SourceGraphic"
-         operator="in"
-         result="result3"
-         id="feComposite153" />
-    </filter>
-  </defs>
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="0.47"
-     inkscape:cx="-232.85714"
-     inkscape:cy="450.39564"
-     inkscape:document-units="mm"
-     inkscape:current-layer="layer2"
-     showgrid="false"
-     units="px"
-     inkscape:window-width="1920"
-     inkscape:window-height="935"
-     inkscape:window-x="-9"
-     inkscape:window-y="-9"
-     inkscape:window-maximized="1" />
-  <metadata
-     id="metadata5">
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:ns2="http://www.inkscape.org/namespaces/inkscape" xmlns:ns4="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="324.76180031999996" id="svg8" version="1.1" viewBox="-34.62300695999999 -31.42420815999998 324.76180031999996 324.76180031999996" width="324.76180031999996" ns1:docname="purple_owl.svg" ns2:version="0.92.3 (2405546, 2018-03-11)">
+  <svg:defs id="defs2">
+    <svg:filter id="filter155" style="color-interpolation-filters:sRGB;" ns2:label="Film Grain" ns2:menu="Image Effects" ns2:menu-tooltip="Adds a small scale graininess">
+      <svg:feTurbulence baseFrequency="1" id="feTurbulence145" numOctaves="3" result="result0" seed="0" type="fractalNoise" />
+      <svg:feColorMatrix id="feColorMatrix147" result="result4" type="saturate" values="0" />
+      <svg:feComposite id="feComposite149" in="SourceGraphic" in2="result4" k1="1.25" k2="0.5" k3="0.5" operator="arithmetic" result="result2" />
+      <svg:feBlend id="feBlend151" in="result2" in2="SourceGraphic" mode="normal" result="result5" />
+      <svg:feComposite id="feComposite153" in="result5" in2="SourceGraphic" operator="in" result="result3" />
+    </svg:filter>
+  </svg:defs>
+  <ns1:namedview bordercolor="#666666" borderopacity="1.0" id="base" pagecolor="#ffffff" showgrid="false" units="px" ns2:current-layer="layer2" ns2:cx="-232.85714" ns2:cy="450.39564" ns2:document-units="mm" ns2:pageopacity="0.0" ns2:pageshadow="2" ns2:window-height="935" ns2:window-maximized="1" ns2:window-width="1920" ns2:window-x="-9" ns2:window-y="-9" ns2:zoom="0.47" />
+  <svg:metadata id="metadata5">
     <rdf:RDF>
-      <cc:Work
-         rdf:about="">
+      <ns4:Work rdf:about="">
         <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-      </cc:Work>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </ns4:Work>
     </rdf:RDF>
-  </metadata>
-  <g
-     inkscape:label="Ebene 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-32.41665)" />
-  <g
-     inkscape:groupmode="layer"
-     id="layer2"
-     inkscape:label="färbung">
-    <g
-       id="g193">
-      <rect
-         y="31.081671"
-         x="-7.5595236"
-         height="264.58334"
-         width="269.11905"
-         id="rect10"
-         style="opacity:1;fill:#f9f9f9;fill-opacity:1;fill-rule:nonzero;stroke:#f9f9f9;stroke-width:4;stroke-opacity:1"
-         transform="translate(0,-32.416649)" />
-      <g
-         transform="matrix(0.73236068,0,0,0.6361187,316.39197,-4.5661886)"
-         id="g112">
-        <g
-           transform="translate(0,-32.416649)"
-           id="g54">
-          <ellipse
-             ry="64.738472"
-             rx="74.589981"
-             cy="132.0576"
-             cx="-250.79121"
-             id="path32"
-             style="opacity:1;fill:#b380ff;fill-opacity:1;fill-rule:nonzero;stroke:#b380ff;stroke-width:4;stroke-opacity:1" />
-          <path
-             sodipodi:nodetypes="sssss"
-             inkscape:connector-curvature="0"
-             id="path34"
-             d="m -164.37943,249.99422 c 11.38813,101.00018 -33.26805,107.35289 -81.62678,107.24068 -80.13747,-0.18594 -102.82526,-19.23285 -87.2562,-105.55185 10.34745,-57.36898 33.4365,-107.24069 81.62677,-107.24069 48.19027,0 80.72467,47.62424 87.25621,105.55186 z"
-             style="opacity:1;fill:#b380ff;fill-opacity:1;fill-rule:nonzero;stroke:#b380ff;stroke-width:4;stroke-opacity:1" />
-          <ellipse
-             ry="19.421543"
-             rx="14.073582"
-             cy="362.58286"
-             cx="-290.4787"
-             id="path37"
-             style="opacity:1;fill:#b380ff;fill-opacity:1;fill-rule:nonzero;stroke:#b380ff;stroke-width:4;stroke-opacity:1" />
-          <ellipse
-             style="opacity:1;fill:#b380ff;fill-opacity:1;fill-rule:nonzero;stroke:#b380ff;stroke-width:4;stroke-opacity:1"
-             id="ellipse39"
-             cx="-290.4787"
-             cy="362.58286"
-             rx="14.073582"
-             ry="19.421543" />
-          <ellipse
-             ry="19.421543"
-             rx="14.073582"
-             cy="365.39758"
-             cx="-221.23668"
-             id="ellipse41"
-             style="opacity:1;fill:#b380ff;fill-opacity:1;fill-rule:nonzero;stroke:#b380ff;stroke-width:4;stroke-opacity:1" />
-          <path
-             transform="matrix(1.2445539,0,0,1.2193988,63.479277,-18.180014)"
-             inkscape:transform-center-y="-4.8051642"
-             inkscape:transform-center-x="-0.13159281"
-             d="m -262.8945,80.266826 -13.96785,0.183135 -13.96784,0.183135 6.82532,-12.188079 6.82532,-12.188078 7.14253,12.004943 z"
-             inkscape:randomized="0"
-             inkscape:rounded="0"
-             inkscape:flatsided="false"
-             sodipodi:arg2="1.5576859"
-             sodipodi:arg1="0.51048832"
-             sodipodi:r2="8.0650339"
-             sodipodi:r1="16.130068"
-             sodipodi:cy="72.38562"
-             sodipodi:cx="-276.96808"
-             sodipodi:sides="3"
-             id="path43"
-             style="opacity:1;fill:#b380ff;fill-opacity:1;fill-rule:nonzero;stroke:#b380ff;stroke-width:4;stroke-opacity:1"
-             sodipodi:type="star" />
-          <path
-             sodipodi:type="star"
-             style="opacity:1;fill:#b380ff;fill-opacity:1;fill-rule:nonzero;stroke:#b380ff;stroke-width:4;stroke-opacity:1"
-             id="path45"
-             sodipodi:sides="3"
-             sodipodi:cx="-276.96808"
-             sodipodi:cy="72.38562"
-             sodipodi:r1="16.130068"
-             sodipodi:r2="8.0650339"
-             sodipodi:arg1="0.51048832"
-             sodipodi:arg2="1.5576859"
-             inkscape:flatsided="false"
-             inkscape:rounded="0"
-             inkscape:randomized="0"
-             d="m -262.8945,80.266826 -13.96785,0.183135 -13.96784,0.183135 6.82532,-12.188079 6.82532,-12.188078 7.14253,12.004943 z"
-             inkscape:transform-center-x="-0.13159281"
-             inkscape:transform-center-y="-4.8051642"
-             transform="matrix(1.2445539,0,0,1.2193988,120.47928,-21.180014)" />
-        </g>
-        <ellipse
-           style="opacity:1;fill:#ccaaff;fill-opacity:1;fill-rule:nonzero;stroke:#b380ff;stroke-width:5.88411713;stroke-opacity:1"
-           id="path57"
-           cx="-249.10242"
-           cy="221.23671"
-           rx="66.892601"
-           ry="80.121765" />
-        <ellipse
-           style="opacity:1;fill:#ccaaff;fill-opacity:1;fill-rule:nonzero;stroke:#b380ff;stroke-width:4.30118704;stroke-opacity:1"
-           id="path59"
-           cx="-250.22827"
-           cy="82.471191"
-           rx="64.306412"
-           ry="38.411018" />
-        <rect
-           style="opacity:1;fill:#ccaaff;fill-opacity:1;fill-rule:nonzero;stroke:#c6afe9;stroke-width:2.17113447;stroke-opacity:1"
-           id="rect61"
-           width="3.315413"
-           height="19.261992"
-           x="-298.61026"
-           y="328.32434" />
-        <rect
-           y="328.32434"
-           x="-286.61026"
-           height="19.261992"
-           width="3.315413"
-           id="rect63"
-           style="opacity:1;fill:#ccaaff;fill-opacity:1;fill-rule:nonzero;stroke:#c6afe9;stroke-width:2.17113447;stroke-opacity:1" />
-        <rect
-           style="opacity:1;fill:#ccaaff;fill-opacity:1;fill-rule:nonzero;stroke:#c6afe9;stroke-width:2.17113447;stroke-opacity:1"
-           id="rect65"
-           width="3.315413"
-           height="19.261992"
-           x="-229.61026"
-           y="331.32434" />
-        <rect
-           y="331.32434"
-           x="-217.61026"
-           height="19.261992"
-           width="3.315413"
-           id="rect67"
-           style="opacity:1;fill:#ccaaff;fill-opacity:1;fill-rule:nonzero;stroke:#c6afe9;stroke-width:2.17113447;stroke-opacity:1" />
-        <ellipse
-           style="opacity:1;fill:#f9f9f9;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4;stroke-opacity:1"
-           id="path69"
-           cx="-282.31604"
-           cy="82.471184"
-           rx="17.732714"
-           ry="23.362146" />
-        <ellipse
-           ry="23.362146"
-           rx="17.732714"
-           cy="82.471184"
-           cx="-228.31604"
-           id="ellipse71"
-           style="opacity:1;fill:#f9f9f9;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4;stroke-opacity:1" />
-        <path
-           sodipodi:type="star"
-           style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4;stroke-opacity:1"
-           id="path73"
-           sodipodi:sides="3"
-           sodipodi:cx="-111.46277"
-           sodipodi:cy="157.06116"
-           sodipodi:r1="18.923603"
-           sodipodi:r2="9.4618025"
-           sodipodi:arg1="-2.6113769"
-           sodipodi:arg2="-1.5641793"
-           inkscape:flatsided="false"
-           inkscape:rounded="0"
-           inkscape:randomized="0"
-           d="m -127.78812,147.49112 16.38796,0.10844 16.387962,0.10844 -8.287892,14.13818 -8.28789,14.13817 -8.10007,-14.24662 z"
-           inkscape:transform-center-x="-0.052646059"
-           inkscape:transform-center-y="3.325529"
-           transform="matrix(0.8408547,0,0,0.71110349,-160.15135,14.078865)" />
-        <ellipse
-           style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4;stroke-opacity:1"
-           id="path75"
-           cx="-278.09396"
-           cy="85.848839"
-           rx="12.384751"
-           ry="19.984486" />
-        <ellipse
-           ry="19.984486"
-           rx="12.384751"
-           cy="85.848839"
-           cx="-224.09396"
-           id="ellipse77"
-           style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4;stroke-opacity:1" />
-        <ellipse
-           style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:3.02395082;stroke-opacity:1"
-           id="path79"
-           cx="-271.24957"
-           cy="77.686172"
-           rx="3.5842123"
-           ry="3.865684" />
-        <ellipse
-           ry="3.865684"
-           rx="3.5842123"
-           cy="77.686172"
-           cx="-217.24957"
-           id="ellipse81"
-           style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:3.02395082;stroke-opacity:1" />
-      </g>
-    </g>
-    <path
-       style="opacity:1;fill:#784421;fill-opacity:1;fill-rule:nonzero;stroke:#803300;stroke-width:2.52142644;stroke-opacity:1;filter:url(#filter155)"
-       d="M 1.7973904,207.71042 C 86.402221,203.70742 140.33735,253.11663 263.07531,182.70364 L 262.62714,247.3279 1.7973904,243.95619 c 65.9045926,-12.90282 111.9503396,-25.55829 0,-36.24577 z"
-       id="rect114"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccc" />
-  </g>
-</svg>
+  </svg:metadata>
+  <svg:g id="layer1" transform="translate(0,-32.41665)" ns2:groupmode="layer" ns2:label="Ebene 1" />
+  <svg:g id="layer2" ns2:groupmode="layer" ns2:label="f&#228;rbung">
+    <svg:g id="g193">
+      <svg:rect height="264.58334" id="rect10" style="opacity:1;fill:#f9f9f9;fill-opacity:1;fill-rule:nonzero;stroke:#f9f9f9;stroke-width:4;stroke-opacity:1" transform="translate(0,-32.416649)" width="269.11905" x="-7.5595236" y="31.081671" />
+      <svg:g id="g112" transform="matrix(0.73236068,0,0,0.6361187,316.39197,-4.5661886)">
+        <svg:g id="g54" transform="translate(0,-32.416649)">
+          <svg:ellipse cx="-250.79121" cy="132.0576" id="path32" rx="74.589981" ry="64.738472" style="opacity:1;fill:#b380ff;fill-opacity:1;fill-rule:nonzero;stroke:#b380ff;stroke-width:4;stroke-opacity:1" />
+          <svg:path d="m -164.37943,249.99422 c 11.38813,101.00018 -33.26805,107.35289 -81.62678,107.24068 -80.13747,-0.18594 -102.82526,-19.23285 -87.2562,-105.55185 10.34745,-57.36898 33.4365,-107.24069 81.62677,-107.24069 48.19027,0 80.72467,47.62424 87.25621,105.55186 z" id="path34" style="opacity:1;fill:#b380ff;fill-opacity:1;fill-rule:nonzero;stroke:#b380ff;stroke-width:4;stroke-opacity:1" ns1:nodetypes="sssss" ns2:connector-curvature="0" />
+          <svg:ellipse cx="-290.4787" cy="362.58286" id="path37" rx="14.073582" ry="19.421543" style="opacity:1;fill:#b380ff;fill-opacity:1;fill-rule:nonzero;stroke:#b380ff;stroke-width:4;stroke-opacity:1" />
+          <svg:ellipse cx="-290.4787" cy="362.58286" id="ellipse39" rx="14.073582" ry="19.421543" style="opacity:1;fill:#b380ff;fill-opacity:1;fill-rule:nonzero;stroke:#b380ff;stroke-width:4;stroke-opacity:1" />
+          <svg:ellipse cx="-221.23668" cy="365.39758" id="ellipse41" rx="14.073582" ry="19.421543" style="opacity:1;fill:#b380ff;fill-opacity:1;fill-rule:nonzero;stroke:#b380ff;stroke-width:4;stroke-opacity:1" />
+          <svg:path d="m -262.8945,80.266826 -13.96785,0.183135 -13.96784,0.183135 6.82532,-12.188079 6.82532,-12.188078 7.14253,12.004943 z" id="path43" style="opacity:1;fill:#b380ff;fill-opacity:1;fill-rule:nonzero;stroke:#b380ff;stroke-width:4;stroke-opacity:1" transform="matrix(1.2445539,0,0,1.2193988,63.479277,-18.180014)" ns1:arg1="0.51048832" ns1:arg2="1.5576859" ns1:cx="-276.96808" ns1:cy="72.38562" ns1:r1="16.130068" ns1:r2="8.0650339" ns1:sides="3" ns1:type="star" ns2:flatsided="false" ns2:randomized="0" ns2:rounded="0" ns2:transform-center-x="-0.13159281" ns2:transform-center-y="-4.8051642" />
+          <svg:path d="m -262.8945,80.266826 -13.96785,0.183135 -13.96784,0.183135 6.82532,-12.188079 6.82532,-12.188078 7.14253,12.004943 z" id="path45" style="opacity:1;fill:#b380ff;fill-opacity:1;fill-rule:nonzero;stroke:#b380ff;stroke-width:4;stroke-opacity:1" transform="matrix(1.2445539,0,0,1.2193988,120.47928,-21.180014)" ns1:arg1="0.51048832" ns1:arg2="1.5576859" ns1:cx="-276.96808" ns1:cy="72.38562" ns1:r1="16.130068" ns1:r2="8.0650339" ns1:sides="3" ns1:type="star" ns2:flatsided="false" ns2:randomized="0" ns2:rounded="0" ns2:transform-center-x="-0.13159281" ns2:transform-center-y="-4.8051642" />
+        </svg:g>
+        <svg:ellipse cx="-249.10242" cy="221.23671" id="path57" rx="66.892601" ry="80.121765" style="opacity:1;fill:#ccaaff;fill-opacity:1;fill-rule:nonzero;stroke:#b380ff;stroke-width:5.88411713;stroke-opacity:1" />
+        <svg:ellipse cx="-250.22827" cy="82.471191" id="path59" rx="64.306412" ry="38.411018" style="opacity:1;fill:#ccaaff;fill-opacity:1;fill-rule:nonzero;stroke:#b380ff;stroke-width:4.30118704;stroke-opacity:1" />
+        <svg:rect height="19.261992" id="rect61" style="opacity:1;fill:#ccaaff;fill-opacity:1;fill-rule:nonzero;stroke:#c6afe9;stroke-width:2.17113447;stroke-opacity:1" width="3.315413" x="-298.61026" y="328.32434" />
+        <svg:rect height="19.261992" id="rect63" style="opacity:1;fill:#ccaaff;fill-opacity:1;fill-rule:nonzero;stroke:#c6afe9;stroke-width:2.17113447;stroke-opacity:1" width="3.315413" x="-286.61026" y="328.32434" />
+        <svg:rect height="19.261992" id="rect65" style="opacity:1;fill:#ccaaff;fill-opacity:1;fill-rule:nonzero;stroke:#c6afe9;stroke-width:2.17113447;stroke-opacity:1" width="3.315413" x="-229.61026" y="331.32434" />
+        <svg:rect height="19.261992" id="rect67" style="opacity:1;fill:#ccaaff;fill-opacity:1;fill-rule:nonzero;stroke:#c6afe9;stroke-width:2.17113447;stroke-opacity:1" width="3.315413" x="-217.61026" y="331.32434" />
+        <svg:ellipse cx="-282.31604" cy="82.471184" id="path69" rx="17.732714" ry="23.362146" style="opacity:1;fill:#f9f9f9;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4;stroke-opacity:1" />
+        <svg:ellipse cx="-228.31604" cy="82.471184" id="ellipse71" rx="17.732714" ry="23.362146" style="opacity:1;fill:#f9f9f9;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4;stroke-opacity:1" />
+        <svg:path d="m -127.78812,147.49112 16.38796,0.10844 16.387962,0.10844 -8.287892,14.13818 -8.28789,14.13817 -8.10007,-14.24662 z" id="path73" style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4;stroke-opacity:1" transform="matrix(0.8408547,0,0,0.71110349,-160.15135,14.078865)" ns1:arg1="-2.6113769" ns1:arg2="-1.5641793" ns1:cx="-111.46277" ns1:cy="157.06116" ns1:r1="18.923603" ns1:r2="9.4618025" ns1:sides="3" ns1:type="star" ns2:flatsided="false" ns2:randomized="0" ns2:rounded="0" ns2:transform-center-x="-0.052646059" ns2:transform-center-y="3.325529" />
+        <svg:ellipse cx="-278.09396" cy="85.848839" id="path75" rx="12.384751" ry="19.984486" style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4;stroke-opacity:1" />
+        <svg:ellipse cx="-224.09396" cy="85.848839" id="ellipse77" rx="12.384751" ry="19.984486" style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4;stroke-opacity:1" />
+        <svg:ellipse cx="-271.24957" cy="77.686172" id="path79" rx="3.5842123" ry="3.865684" style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:3.02395082;stroke-opacity:1" />
+        <svg:ellipse cx="-217.24957" cy="77.686172" id="ellipse81" rx="3.5842123" ry="3.865684" style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:3.02395082;stroke-opacity:1" />
+      </svg:g>
+    </svg:g>
+    <svg:path d="M 1.7973904,207.71042 C 86.402221,203.70742 140.33735,253.11663 263.07531,182.70364 L 262.62714,247.3279 1.7973904,243.95619 c 65.9045926,-12.90282 111.9503396,-25.55829 0,-36.24577 z" id="rect114" style="opacity:1;fill:#784421;fill-opacity:1;fill-rule:nonzero;stroke:#803300;stroke-width:2.52142644;stroke-opacity:1;filter:url(#filter155)" ns1:nodetypes="ccccc" ns2:connector-curvature="0" />
+  </svg:g>
+</svg:svg>

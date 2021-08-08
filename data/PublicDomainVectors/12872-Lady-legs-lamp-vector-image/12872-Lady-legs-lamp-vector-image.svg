@@ -1,26 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:cc="http://web.resource.org/cc/"
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    xmlns:ns1="http://sozi.baierouge.fr"
-    width="100%"
-    height="100%"
-    viewBox="0 0 320 740"
-    xml:space="preserve"
-  >
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="939.8932903592299" viewBox="-311.5077562907261 -68.45524751339667 939.8932903592299 939.8932903592299" width="939.8932903592299" xml:space="preserve">
 
- <title
-    >Leg Lamp - A Major Award</title
-  >
+ <svg:title>Leg Lamp - A Major Award</svg:title>
 
-  <desc
-    >
+  <svg:desc>
     Leg Lamp - A Major Award
     Inspired by the movie, A Christmas Story.  
 
@@ -34,220 +16,61 @@
     Visit http://www.cattocreations.com for award winning children's eBooks
     
     Learn SVG Interactively and other free ePub3 eBooks at http://www.cattocreations.com/ePub3.html
-  </desc
-  >
+  </svg:desc>
   
-  <defs
-    >
-    <pattern
-        id="fishnet"
-        width="15"
-        height="6"
-        patternUnits="userSpaceOnUse"
-      >
-      <path
-          style="stroke:#000000;stroke-width:0.5;"
-          d="m0 0l15 6m0-6l-15 6"
-      />
-    </pattern
-    > 
-    <clipPath
-        id="stocking"
-      >
-      <rect
-          x="225"
-          y="210"
-          width="150"
-          height="485"
-      />
-    </clipPath
-    >
-    <clipPath
-        id="base"
-      >
-      <ellipse
-          cx="300"
-          cy="680"
-          rx="75"
-          ry="30"
-          style="fill:brown;stroke:black"
-      />
-    </clipPath
-    >
-    <clipPath
-        id="base2"
-      >
-      <rect
-          x="219"
-          y="685"
-          width="162"
-          height="80"
-      />
-    </clipPath
-    >
+  <svg:defs>
+    <svg:pattern height="6" id="fishnet" patternUnits="userSpaceOnUse" width="15">
+      <svg:path d="m0 0l15 6m0-6l-15 6" style="stroke:#000000;stroke-width:0.5;" />
+    </svg:pattern> 
+    <svg:clipPath id="stocking">
+      <svg:rect height="485" width="150" x="225" y="210" />
+    </svg:clipPath>
+    <svg:clipPath id="base">
+      <svg:ellipse cx="300" cy="680" rx="75" ry="30" style="fill:brown;stroke:black" />
+    </svg:clipPath>
+    <svg:clipPath id="base2">
+      <svg:rect height="80" width="162" x="219" y="685" />
+    </svg:clipPath>
 
-    <linearGradient
-        id="g1"
-        x1="0%"
-        x2="100%"
-        y1="50%"
-        y2="50%"
-      >
-      <stop
-          offset="0%"
-          style="stop-color:brown"
-      />
-      <stop
-          offset="30%"
-          style="stop-color:#cccc33"
-      />
-      <stop
-          offset="90%"
-          style="stop-color:brown"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="g2"
-        x1="40%"
-        x2="60%"
-        y1="100%"
-        y2="0%"
-      >
-      <stop
-          offset="0%"
-          style="stop-color:#cccc33"
-      />
-      <stop
-          offset="50%"
-          style="stop-color:brown"
-      />
-    </linearGradient
-    >
-    <radialGradient
-        id="light1"
-        cx="298.0137"
-        cy="104.3232"
-        r="122.4957"
-        gradientUnits="userSpaceOnUse"
-      >
-      <stop
-          offset="20%"
-          style="stop-color:#ffffff"
-      />
-      <stop
-          offset="30%"
-          style="stop-color:#fbfbfb"
-      />
-      <stop
-          offset="40%"
-          style="stop-color:#eeeeee"
-      />
-      <stop
-          offset="50%"
-          style="stop-color:#d9d9d9"
-      />
-      <stop
-          offset="60%"
-          style="stop-color:#bcbcbc"
-      />
-      <stop
-          offset="90%"
-          style="stop-color:#969696"
-      />
-    </radialGradient
-    >
-    <linearGradient
-        id="light2"
-        x1="20%"
-        x2="100%"
-        y1="60%"
-        y2="20%"
-      >
-      <stop
-          offset="10%"
-          style="stop-color:orange"
-      />
-      <stop
-          offset="50%"
-          style="stop-color:#ffff99"
-      />
-      <stop
-          offset="90%"
-          style="stop-color:orange"
-      />
-    </linearGradient
-    >
-    <filter
-        id="f1"
-      >
-      <feGaussianBlur
-          in="SourceAlpha"
-          stdDeviation="4"
-          result="blur1"
-      />
-      <feSpecularLighting
-          result="specOut"
-          in="blur1"
-          specularExponent="40"
-          lighting-color="#999999"
-        >
-        <fePointLight
-            x="290"
-            y="230"
-            z="170"
-        />
-      </feSpecularLighting
-      >
-      <feComposite
-          in="SourceGraphic"
-          in2="specOut"
-          operator="arithmetic"
-          k1="0"
-          k2="1"
-          k3="1"
-          k4="0"
-      />
-    </filter
-    >
-    <filter
-        id="f2"
-      >
-      <feGaussianBlur
-          in="SourceAlpha"
-          stdDeviation="1"
-          result="blur1"
-      />
-      <feSpecularLighting
-          result="specOut"
-          in="blur1"
-          specularExponent="10"
-          lighting-color="#999999"
-        >
-        <fePointLight
-            x="340"
-            y="440"
-            z="30"
-        />
-      </feSpecularLighting
-      >
-      <feComposite
-          in="SourceGraphic"
-          in2="specOut"
-          operator="arithmetic"
-          k1="0"
-          k2="1"
-          k3="1"
-          k4="0"
-      />
-    </filter
-    >
-  </defs
-  >
+    <svg:linearGradient id="g1" x1="0%" x2="100%" y1="50%" y2="50%">
+      <svg:stop offset="0%" style="stop-color:brown" />
+      <svg:stop offset="30%" style="stop-color:#cccc33" />
+      <svg:stop offset="90%" style="stop-color:brown" />
+    </svg:linearGradient>
+    <svg:linearGradient id="g2" x1="40%" x2="60%" y1="100%" y2="0%">
+      <svg:stop offset="0%" style="stop-color:#cccc33" />
+      <svg:stop offset="50%" style="stop-color:brown" />
+    </svg:linearGradient>
+    <svg:radialGradient cx="298.0137" cy="104.3232" gradientUnits="userSpaceOnUse" id="light1" r="122.4957">
+      <svg:stop offset="20%" style="stop-color:#ffffff" />
+      <svg:stop offset="30%" style="stop-color:#fbfbfb" />
+      <svg:stop offset="40%" style="stop-color:#eeeeee" />
+      <svg:stop offset="50%" style="stop-color:#d9d9d9" />
+      <svg:stop offset="60%" style="stop-color:#bcbcbc" />
+      <svg:stop offset="90%" style="stop-color:#969696" />
+    </svg:radialGradient>
+    <svg:linearGradient id="light2" x1="20%" x2="100%" y1="60%" y2="20%">
+      <svg:stop offset="10%" style="stop-color:orange" />
+      <svg:stop offset="50%" style="stop-color:#ffff99" />
+      <svg:stop offset="90%" style="stop-color:orange" />
+    </svg:linearGradient>
+    <svg:filter id="f1">
+      <svg:feGaussianBlur in="SourceAlpha" result="blur1" stdDeviation="4" />
+      <svg:feSpecularLighting in="blur1" lighting-color="#999999" result="specOut" specularExponent="40">
+        <svg:fePointLight x="290" y="230" z="170" />
+      </svg:feSpecularLighting>
+      <svg:feComposite in="SourceGraphic" in2="specOut" k1="0" k2="1" k3="1" k4="0" operator="arithmetic" />
+    </svg:filter>
+    <svg:filter id="f2">
+      <svg:feGaussianBlur in="SourceAlpha" result="blur1" stdDeviation="1" />
+      <svg:feSpecularLighting in="blur1" lighting-color="#999999" result="specOut" specularExponent="10">
+        <svg:fePointLight x="340" y="440" z="30" />
+      </svg:feSpecularLighting>
+      <svg:feComposite in="SourceGraphic" in2="specOut" k1="0" k2="1" k3="1" k4="0" operator="arithmetic" />
+    </svg:filter>
+  </svg:defs>
 
-  <style
-      type="text/css"
-    ><![CDATA[
+  <svg:style type="text/css">
     #lampbase {fill:brown;stroke:none;}
     .basefront {stroke:url(#g1);stroke-width:20;clip-path:url(#base2);}
     .basetop {fill:url(#g2);stroke:#666666;stroke-width:2;}
@@ -265,252 +88,65 @@
     #shade {stroke:#BB8833;stroke-width:0.5;stroke-miterlimit:10;}
     .shadecover {fill:#ffca00;opacity:0.7;}
     .light {fill:url(#light1);}
-  ]]>
-  </style
-  >
+  
+  </svg:style>
 
-  <g
-      transform="translate(0,0) scale(1)"
-    >
-    <g
-        transform="translate(-140,0)"
-      >
-      <g
-          id="lampbase"
-        >
-        <rect
-            x="219"
-            y="680"
-            width="162"
-            height="20"
-        />
-        <path
-            d="M219,696a86,38,0,0,0,160,0"
-            class="basefront"
-        />
-        <ellipse
-            cx="300"
-            cy="680"
-            rx="80"
-            ry="30"
-            class="basetop"
-        />
-      </g
-      >
-      <g
-          id="backtassels"
-        >
-        <g
-            transform="translate(0,22)"
-          >
-          <path
-              class="tassels"
-              d="M442,202c0,0,-127.5,23.1,-285,-2"
-          />
-        </g
-        >
-        <path
-            class="insideshade"
-            d="M155,200c0,0,127.5-23.1,287,0c0,10,-127.5,23.1,-285,2z"
-        />
-        <path
-            class="blackrim"
-            d="M442,200c0,10,-127.5,23.1,-285,2"
-        />
-      </g
-      >
+  <svg:g transform="translate(0,0) scale(1)">
+    <svg:g transform="translate(-140,0)">
+      <svg:g id="lampbase">
+        <svg:rect height="20" width="162" x="219" y="680" />
+        <svg:path class="basefront" d="M219,696a86,38,0,0,0,160,0" />
+        <svg:ellipse class="basetop" cx="300" cy="680" rx="80" ry="30" />
+      </svg:g>
+      <svg:g id="backtassels">
+        <svg:g transform="translate(0,22)">
+          <svg:path class="tassels" d="M442,202c0,0,-127.5,23.1,-285,-2" />
+        </svg:g>
+        <svg:path class="insideshade" d="M155,200c0,0,127.5-23.1,287,0c0,10,-127.5,23.1,-285,2z" />
+        <svg:path class="blackrim" d="M442,200c0,10,-127.5,23.1,-285,2" />
+      </svg:g>
 
-      <g
-          id="leg"
-        >
-        <path
-            class="leglight"
-            d="M234.5,187h120.7               c0,0,6.7-38.5-14.7,212.9c0,0,35.3,42,10.7,136.7c0,0-8,51.3,3.3,70.7c0,0-4.7,11-20.3,25.3s-12,8.3-26.3,23.3s-26.3,10-27.3,6.7               c0,0,22.3-31.3,30-52s-9.3-124.3-16-174c0,0-11-15.7-13.3-40.5c0,0-38.7-111.5-41-149.5C240.2,246.5,234.8,202.5,234.5,187z"
-        />
-        <path
-            class="legstocking"
-            d="M234.5,187h120.7               c0,0,6.7-38.5-14.7,212.9c0,0,35.3,42,10.7,136.7c0,0-8,51.3,3.3,70.7c0,0-4.7,11-20.3,25.3s-12,8.3-26.3,23.3s-26.3,10-27.3,6.7               c0,0,22.3-31.3,30-52s-9.3-124.3-16-174c0,0-11-15.7-13.3-40.5c0,0-38.7-111.5-41-149.5C240.2,246.5,234.8,202.5,234.5,187z"
-        />
-      </g
-      >
+      <svg:g id="leg">
+        <svg:path class="leglight" d="M234.5,187h120.7               c0,0,6.7-38.5-14.7,212.9c0,0,35.3,42,10.7,136.7c0,0-8,51.3,3.3,70.7c0,0-4.7,11-20.3,25.3s-12,8.3-26.3,23.3s-26.3,10-27.3,6.7               c0,0,22.3-31.3,30-52s-9.3-124.3-16-174c0,0-11-15.7-13.3-40.5c0,0-38.7-111.5-41-149.5C240.2,246.5,234.8,202.5,234.5,187z" />
+        <svg:path class="legstocking" d="M234.5,187h120.7               c0,0,6.7-38.5-14.7,212.9c0,0,35.3,42,10.7,136.7c0,0-8,51.3,3.3,70.7c0,0-4.7,11-20.3,25.3s-12,8.3-26.3,23.3s-26.3,10-27.3,6.7               c0,0,22.3-31.3,30-52s-9.3-124.3-16-174c0,0-11-15.7-13.3-40.5c0,0-38.7-111.5-41-149.5C240.2,246.5,234.8,202.5,234.5,187z" />
+      </svg:g>
 
-      <g
-          id="garter"
-        >
-        <path
-            d="M236,212c20,-3,40,3,58,0c20,-3,40,3,62,0"
-        />
-        <path
-            d="M237,222c20,4,40,-4,58,0c20,4,40,-4,60,0"
-            style="stroke-width:2;"
-        />
-        <path
-            d="M237,223c20,1,40,-1,58,0c20,1,40,-1,60,0"
-            class="banding"
-        />
-        <path
-            d="M238,232c20,-2,40,3,58,0c20,-2,40,3,58,0"
-        />
-      </g
-      >
+      <svg:g id="garter">
+        <svg:path d="M236,212c20,-3,40,3,58,0c20,-3,40,3,62,0" />
+        <svg:path d="M237,222c20,4,40,-4,58,0c20,4,40,-4,60,0" style="stroke-width:2;" />
+        <svg:path class="banding" d="M237,223c20,1,40,-1,58,0c20,1,40,-1,60,0" />
+        <svg:path d="M238,232c20,-2,40,3,58,0c20,-2,40,3,58,0" />
+      </svg:g>
 
-      <g
-          id="shoeshadow"
-        >	
-        <g
-            transform="translate(258,1645) skewX(15) scale(1,-1.4) rotate(3,280,664)"
-          >
-          <path
-              d="M280.2,664.1c0,0-6.7,8.9-36.7,16.4v4.8c0,0,23,7.5,58.3,3.2c0,0,2.2,2.5,30.8-36.5                 c0,0,7.8-4,9.2,2.7l0.8,29.8l7,0.2c0,0-1.5-8.5,13.1-54.7c0,0-1.1-13-8.5-23.9s-27.9,42.8-58.4,58.4                 C295.9,664.4,286.6,669.7,280.2,664.1z"
-          />
-        </g
-        >
-      </g
-      >
+      <svg:g id="shoeshadow">	
+        <svg:g transform="translate(258,1645) skewX(15) scale(1,-1.4) rotate(3,280,664)">
+          <svg:path d="M280.2,664.1c0,0-6.7,8.9-36.7,16.4v4.8c0,0,23,7.5,58.3,3.2c0,0,2.2,2.5,30.8-36.5                 c0,0,7.8-4,9.2,2.7l0.8,29.8l7,0.2c0,0-1.5-8.5,13.1-54.7c0,0-1.1-13-8.5-23.9s-27.9,42.8-58.4,58.4                 C295.9,664.4,286.6,669.7,280.2,664.1z" />
+        </svg:g>
+      </svg:g>
 
-      <path
-          id="shoe"
-          d="M280.2,664.1c0,0-6.7,8.9-36.7,16.4v4.8c0,0,23,7.5,58.3,3.2c0,0,2.2,2.5,30.8-36.5             c0,0,7.8-4,9.2,2.7l0.8,29.8l7,0.2c0,0-1.5-8.5,13.1-54.7c0,0-1.1-13-8.5-23.9s-27.9,42.8-58.4,58.4             C295.9,664.4,286.6,669.7,280.2,664.1z"
-      />
+      <svg:path d="M280.2,664.1c0,0-6.7,8.9-36.7,16.4v4.8c0,0,23,7.5,58.3,3.2c0,0,2.2,2.5,30.8-36.5             c0,0,7.8-4,9.2,2.7l0.8,29.8l7,0.2c0,0-1.5-8.5,13.1-54.7c0,0-1.1-13-8.5-23.9s-27.9,42.8-58.4,58.4             C295.9,664.4,286.6,669.7,280.2,664.1z" id="shoe" />
 
-      <g
-          id="shade"
-        >	
-        <path
-            class="light"
-            d="M215.8,17.5c0,0-1.8,1,1.8,3.8               s6,114.8-62.5,157v16.5c0,0-5,3.8,0,4s125.2-21.2,287.8,0c0,0,2-1.2-2-4.8l-0.2-15.8c0,0-65-46.5-61.8-157c0,0,1.5,0.5,1.2-3.8               S275,2.8,215.8,17.5z"
-        />
-        <path
-            class="shadecover"
-            d="M215.8,17.5c0,0-1.8,1,1.8,3.8               s6,114.8-62.5,157v16.5c0,0-5,3.8,0,4s125.2-21.2,287.8,0c0,0,2-1.2-2-4.8l-0.2-15.8c0,0-65-46.5-61.8-157c0,0,1.5,0.5,1.2-3.8               S275,2.8,215.8,17.5z"
-        />
-        <g
-            class="wire2"
-          >
-          <path
-              d="M249,13.5c0,0,11,76.2-31.2,156v18.2"
-          />
-          <path
-              d="M320.2,13.5c0,0-2.5,105.8,24,154.8V186"
-          />
-          <path
-              d="M372.2,17.2c0,0-8.8,103,54.2,157.2V193"
-          />
-        </g
-        >
-        <g
-            class="wire1"
-          >
-          <path
-              d="M217.8,18.5c0,0,50-14.2,161.8,0"
-          />
-          <path
-              d="M155,179c0,0,117.5-28.8,285.8,0"
-          />
-          <path
-              d="M155,197.2c0,0,127.5-23.1,287,0"
-          />
-        </g
-        >
-      </g
-      >
+      <svg:g id="shade">	
+        <svg:path class="light" d="M215.8,17.5c0,0-1.8,1,1.8,3.8               s6,114.8-62.5,157v16.5c0,0-5,3.8,0,4s125.2-21.2,287.8,0c0,0,2-1.2-2-4.8l-0.2-15.8c0,0-65-46.5-61.8-157c0,0,1.5,0.5,1.2-3.8               S275,2.8,215.8,17.5z" />
+        <svg:path class="shadecover" d="M215.8,17.5c0,0-1.8,1,1.8,3.8               s6,114.8-62.5,157v16.5c0,0-5,3.8,0,4s125.2-21.2,287.8,0c0,0,2-1.2-2-4.8l-0.2-15.8c0,0-65-46.5-61.8-157c0,0,1.5,0.5,1.2-3.8               S275,2.8,215.8,17.5z" />
+        <svg:g class="wire2">
+          <svg:path d="M249,13.5c0,0,11,76.2-31.2,156v18.2" />
+          <svg:path d="M320.2,13.5c0,0-2.5,105.8,24,154.8V186" />
+          <svg:path d="M372.2,17.2c0,0-8.8,103,54.2,157.2V193" />
+        </svg:g>
+        <svg:g class="wire1">
+          <svg:path d="M217.8,18.5c0,0,50-14.2,161.8,0" />
+          <svg:path d="M155,179c0,0,117.5-28.8,285.8,0" />
+          <svg:path d="M155,197.2c0,0,127.5-23.1,287,0" />
+        </svg:g>
+      </svg:g>
 
-      <path
-          class="blackrim"
-          d="M155,200c0,0,127.5-23.1,287,0"
-      />
-      <g
-          transform="translate(0,22)"
-          class="tassels"
-        >
-        <path
-            d="M157,197.2c0,0,127.5-23.1,287,0"
-        />
-        <path
-            style="stroke-dasharray:1,2.5,1,2.5,0,270,1,2.5,1,2.5"
-            d="M155,197.2L444,197"
-        />
-      </g
-      >
-    </g
-    >
-  </g
-  >
-<metadata
-    ><rdf:RDF
-      ><cc:Work
-        ><dc:format
-          >image/svg+xml</dc:format
-        ><dc:type
-            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-        /><cc:license
-            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
-        /><dc:publisher
-          ><cc:Agent
-              rdf:about="http://openclipart.org/"
-            ><dc:title
-              >Openclipart</dc:title
-            ></cc:Agent
-          ></dc:publisher
-        ><dc:title
-          >Leg Lamp - A Major Award</dc:title
-        ><dc:date
-          >2013-12-12T20:12:58</dc:date
-        ><dc:description
-          >Inspired by the movie, A Christmas Story, where the Leg Lamp was a major award for a contest. SVG code can be inserted into an SVG image then scaled and positioned where desired.&#13;\n</dc:description
-        ><dc:source
-          >https://openclipart.org/detail/189454/leg-lamp---a-major-award-by-jaynick-189454</dc:source
-        ><dc:creator
-          ><cc:Agent
-            ><dc:title
-              >JayNick</dc:title
-            ></cc:Agent
-          ></dc:creator
-        ><dc:subject
-          ><rdf:Bag
-            ><rdf:li
-              >2013</rdf:li
-            ><rdf:li
-              >christmas</rdf:li
-            ><rdf:li
-              >coloring</rdf:li
-            ><rdf:li
-              >contest</rdf:li
-            ><rdf:li
-              >handcoded</rdf:li
-            ><rdf:li
-              >icon</rdf:li
-            ><rdf:li
-              >lamp</rdf:li
-            ><rdf:li
-              >leg</rdf:li
-            ><rdf:li
-              >light</rdf:li
-            ><rdf:li
-              >movie</rdf:li
-            ><rdf:li
-              >shade</rdf:li
-            ><rdf:li
-              >shoe</rdf:li
-            ><rdf:li
-              >stocking</rdf:li
-            ><rdf:li
-              >story</rdf:li
-            ><rdf:li
-              >xmas</rdf:li
-            ></rdf:Bag
-          ></dc:subject
-        ></cc:Work
-      ><cc:License
-          rdf:about="http://creativecommons.org/licenses/publicdomain/"
-        ><cc:permits
-            rdf:resource="http://creativecommons.org/ns#Reproduction"
-        /><cc:permits
-            rdf:resource="http://creativecommons.org/ns#Distribution"
-        /><cc:permits
-            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
-        /></cc:License
-      ></rdf:RDF
-    ></metadata
-  ></svg
->
+      <svg:path class="blackrim" d="M155,200c0,0,127.5-23.1,287,0" />
+      <svg:g class="tassels" transform="translate(0,22)">
+        <svg:path d="M157,197.2c0,0,127.5-23.1,287,0" />
+        <svg:path d="M155,197.2L444,197" style="stroke-dasharray:1,2.5,1,2.5,0,270,1,2.5,1,2.5" />
+      </svg:g>
+    </svg:g>
+  </svg:g>
+<svg:metadata><rdf:RDF><ns2:Work><dc:format>image/svg+xml</dc:format><dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><ns2:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" /><dc:publisher><ns2:Agent rdf:about="http://openclipart.org/"><dc:title>Openclipart</dc:title></ns2:Agent></dc:publisher><dc:title>Leg Lamp - A Major Award</dc:title><dc:date>2013-12-12T20:12:58</dc:date><dc:description>Inspired by the movie, A Christmas Story, where the Leg Lamp was a major award for a contest. SVG code can be inserted into an SVG image then scaled and positioned where desired.
+\n</dc:description><dc:source>https://openclipart.org/detail/189454/leg-lamp---a-major-award-by-jaynick-189454</dc:source><dc:creator><ns2:Agent><dc:title>JayNick</dc:title></ns2:Agent></dc:creator><dc:subject><rdf:Bag><rdf:li>2013</rdf:li><rdf:li>christmas</rdf:li><rdf:li>coloring</rdf:li><rdf:li>contest</rdf:li><rdf:li>handcoded</rdf:li><rdf:li>icon</rdf:li><rdf:li>lamp</rdf:li><rdf:li>leg</rdf:li><rdf:li>light</rdf:li><rdf:li>movie</rdf:li><rdf:li>shade</rdf:li><rdf:li>shoe</rdf:li><rdf:li>stocking</rdf:li><rdf:li>story</rdf:li><rdf:li>xmas</rdf:li></rdf:Bag></dc:subject></ns2:Work><ns2:License rdf:about="http://creativecommons.org/licenses/publicdomain/"><ns2:permits rdf:resource="http://creativecommons.org/ns#Reproduction" /><ns2:permits rdf:resource="http://creativecommons.org/ns#Distribution" /><ns2:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" /></ns2:License></rdf:RDF></svg:metadata></svg:svg>

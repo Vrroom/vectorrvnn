@@ -1,350 +1,74 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-<svg
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    xmlns:cc="http://creativecommons.org/ns#"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:ns1="http://sozi.baierouge.fr"
-    id="svg2"
-    sodipodi:docname="seal-YG.svg"
-    viewBox="0 0 771.02 1062.2"
-    version="1.1"
-    inkscape:version="0.48+devel r"
-  >
-  <defs
-      id="defs4"
-    >
-    <filter
-        id="filter3093"
-        inkscape:menu="Bevels"
-        height="1.3"
-        width="1.3"
-        color-interpolation-filters="sRGB"
-        y="-0.15"
-        x="-0.15"
-        inkscape:menu-tooltip="Glossy bevel with blurred edges"
-        inkscape:label="Melted jelly"
-      >
-      <feComposite
-          id="feComposite3095"
-          k4="0"
-          in2="SourceGraphic"
-          k3="0"
-          k2="0.9"
-          k1="0"
-          result="fbSourceGraphic"
-          in="SourceGraphic"
-          operator="arithmetic"
-      />
-      <feGaussianBlur
-          id="feGaussianBlur3097"
-          in="fbSourceGraphic"
-          stdDeviation="6"
-          result="result0"
-      />
-      <feSpecularLighting
-          id="feSpecularLighting3099"
-          lighting-color="#ffffff"
-          specularConstant="1"
-          surfaceScale="6"
-          result="result1"
-          specularExponent="25"
-          in="result0"
-        >
-        <feDistantLight
-            id="feDistantLight3101"
-            elevation="55"
-            azimuth="235"
-        />
-      </feSpecularLighting
-      >
-      <feComposite
-          id="feComposite3103"
-          k4="0"
-          in2="result1"
-          k3="1.5"
-          k2="1"
-          k1="0"
-          result="result4"
-          in="result0"
-          operator="arithmetic"
-      />
-      <feComposite
-          id="feComposite3105"
-          operator="atop"
-          in="result4"
-          in2="result0"
-          result="result2"
-      />
-    </filter
-    >
-    <filter
-        id="filter3948"
-        height="1.2899"
-        width="1.4748"
-        color-interpolation-filters="sRGB"
-        y="-.14494"
-        x="-.23742"
-        inkscape:collect="always"
-      >
-      <feGaussianBlur
-          id="feGaussianBlur3950"
-          stdDeviation="23.035715"
-          inkscape:collect="always"
-      />
-    </filter
-    >
-    <filter
-        id="filter3960"
-        inkscape:menu="Textures"
-        height="1.3"
-        width="1.3"
-        color-interpolation-filters="sRGB"
-        y="-0.15"
-        x="-0.15"
-        inkscape:menu-tooltip="Aquarelle paper effect which can be used for pictures as for objects"
-        inkscape:label="Rough paper"
-      >
-      <feTurbulence
-          id="feTurbulence3962"
-          baseFrequency="0.04"
-          seed="0"
-          result="result4"
-          numOctaves="5"
-          type="fractalNoise"
-      />
-      <feDisplacementMap
-          id="feDisplacementMap3964"
-          scale="10"
-          yChannelSelector="G"
-          in2="result4"
-          result="result3"
-          xChannelSelector="R"
-          in="SourceGraphic"
-      />
-      <feDiffuseLighting
-          id="feDiffuseLighting3966"
-          lighting-color="#e9e6d7"
-          diffuseConstant="1"
-          result="result1"
-          in="result4"
-          surfaceScale="2"
-        >
-        <feDistantLight
-            id="feDistantLight3968"
-            elevation="40"
-            azimuth="235"
-        />
-      </feDiffuseLighting
-      >
-      <feComposite
-          id="feComposite3970"
-          operator="in"
-          result="result2"
-          in2="result1"
-          in="result3"
-      />
-      <feComposite
-          id="feComposite3972"
-          in2="result1"
-          k3="0"
-          k2="0"
-          k1="1.7"
-          result="result5"
-          k4="0"
-          operator="arithmetic"
-      />
-      <feBlend
-          id="feBlend3974"
-          mode="normal"
-          in2="result3"
-          in="result5"
-      />
-    </filter
-    >
-    <filter
-        id="filter4006"
-        inkscape:collect="always"
-        color-interpolation-filters="sRGB"
-      >
-      <feGaussianBlur
-          id="feGaussianBlur4008"
-          stdDeviation="17.143252"
-          inkscape:collect="always"
-      />
-    </filter
-    >
-  </defs
-  >
-  <sodipodi:namedview
-      id="base"
-      bordercolor="#666666"
-      inkscape:pageshadow="2"
-      inkscape:window-y="27"
-      fit-margin-left="0"
-      pagecolor="#ffffff"
-      inkscape:window-height="994"
-      inkscape:window-maximized="1"
-      inkscape:zoom="0.24748737"
-      inkscape:window-x="0"
-      showgrid="false"
-      borderopacity="1.0"
-      inkscape:current-layer="layer3"
-      inkscape:cx="1013.2728"
-      inkscape:cy="697.37337"
-      fit-margin-top="0"
-      fit-margin-right="0"
-      fit-margin-bottom="0"
-      inkscape:window-width="1669"
-      inkscape:pageopacity="0.0"
-      inkscape:document-units="px"
-  />
-  <g
-      id="layer2"
-      inkscape:label="ruban"
-      inkscape:groupmode="layer"
-      transform="translate(20.369 -105.42)"
-    >
-    <path
-        id="path3166"
-        style="filter:url(#filter3948);fill-rule:evenodd;fill:#000000"
-        inkscape:connector-curvature="0"
-        d="m231.43 730.93 131.43 57.143s-62.857 72.857-75.714 154.29c-12.857 81.429-17.143 170-17.143 170h-17.143l-20-108.57-88.571 94.286h-14.286s7.1429-107.14 32.857-187.14 68.571-172.86 68.571-180z"
-    />
-    <path
-        id="path3097"
-        style="filter:url(#filter3960);fill-rule:evenodd;fill:#0000ff"
-        inkscape:connector-curvature="0"
-        d="m207.14 703.79 131.43 57.143s-62.857 72.857-75.714 154.29c-12.86 81.43-17.15 169.98-17.15 169.98h-17.143l-20-108.57-88.57 94.27h-14.286s7.1429-107.14 32.857-187.14 68.571-172.86 68.571-180z"
-    />
-  </g
-  >
-  <g
-      id="layer3"
-      inkscape:label="tampon"
-      inkscape:groupmode="layer"
-      transform="translate(20.369 -105.42)"
-    >
-    <path
-        id="path3127-9"
-        style="filter:url(#filter4006);fill-rule:evenodd;fill:#000000"
-        sodipodi:nodetypes="ssssssssssssscs"
-        inkscape:connector-curvature="0"
-        d="m329.05 147.01c-17.468 0.28564-41.938 5.9688-73.812 25.344-72.857 44.286-98.594 60.009-128.59 71.438-30 11.429-85.692 58.558-91.406 102.84-5.7143 44.286 17.134 167.17 18.562 228.59 1.4286 61.429-41.415 92.83-12.844 125.69 28.571 32.857 58.554 40 137.13 70 78.571 30 171.42 102.86 218.56 65.719 47.143-37.143 138.57-32.853 170-54.281 31.429-21.429 72.879-45.71 98.594-124.28 25.714-78.571 25.719-158.56 35.719-188.56s-27.147-81.446-55.719-142.88c-28.571-61.429 4.2723-77.147-67.156-115.72-71.429-38.571-215.72-55.688-215.72-55.688s-10.853-8.586-33.312-8.2188z"
-    />
-    <path
-        id="path4002"
-        inkscape:connector-curvature="0"
-        sodipodi:nodetypes="ssssssssssssscs"
-        style="fill-rule:evenodd;fill:#800000"
-        d="m320.96 147.01c-17.468 0.28564-41.938 5.9688-73.812 25.344-72.857 44.286-98.594 60.009-128.59 71.438-30 11.429-85.692 58.558-91.406 102.84-5.7143 44.286 17.134 167.17 18.562 228.59 1.4286 61.429-41.415 92.83-12.844 125.69 28.571 32.857 58.554 40 137.13 70 78.571 30 171.42 102.86 218.56 65.719 47.143-37.143 138.57-32.853 170-54.281 31.429-21.429 72.879-45.71 98.594-124.28 25.714-78.571 25.719-158.56 35.719-188.56s-27.147-81.446-55.719-142.88c-28.571-61.429 4.2723-77.147-67.156-115.72-71.429-38.571-215.72-55.688-215.72-55.688s-10.853-8.586-33.312-8.2188z"
-    />
-    <path
-        id="path3985"
-        d="m325.25 144.16c-17.47 0.28-41.94 5.96-73.81 25.34-72.86 44.29-98.6 60.01-128.6 71.44-29.996 11.43-85.688 58.56-91.402 102.84-5.715 44.29 17.133 167.17 18.562 228.6 1.4286 61.429-41.415 92.83-12.844 125.69 28.571 32.857 58.554 40 137.12 70 78.571 30 171.42 102.86 218.56 65.719 47.143-37.143 138.57-32.853 170-54.281 31.429-21.429 72.879-45.71 98.594-124.28 25.714-78.571 25.719-158.56 35.719-188.56s-27.147-81.446-55.719-142.88c-28.56-61.44 4.28-77.16-67.15-115.73s-215.72-55.68-215.72-55.68-10.853-8.586-33.312-8.2188zm39.906 54.031c161.68 0 292.72 131.07 292.72 292.75s-131.04 292.75-292.72 292.75-292.75-131.07-292.75-292.75 131.07-292.75 292.75-292.75z"
-        style="filter:url(#filter3093);fill-rule:evenodd;fill:#800000"
-        inkscape:connector-curvature="0"
-    />
-    <path
-        id="path3987"
-        sodipodi:rx="277.14285"
-        sodipodi:ry="277.14285"
-        style="color:#000000;filter:url(#filter3093);fill:#800000"
-        sodipodi:type="arc"
-        d="m694.29 549.51c0 153.06-124.08 277.14-277.14 277.14-153.07 0-277.15-124.08-277.15-277.14 0-153.07 124.08-277.15 277.14-277.15s277.14 124.08 277.14 277.14z"
-        transform="matrix(1.0563 0 0 1.0563 -75.483 -89.506)"
-        sodipodi:cy="549.50507"
-        sodipodi:cx="417.14285"
-    />
-  </g
-  >
-  <metadata
-    >
-    <rdf:RDF
-      >
-      <cc:Work
-        >
-        <dc:format
-          >image/svg+xml</dc:format
-        >
-        <dc:type
-            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-        />
-        <cc:license
-            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
-        />
-        <dc:publisher
-          >
-          <cc:Agent
-              rdf:about="http://openclipart.org/"
-            >
-            <dc:title
-              >Openclipart</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:publisher
-        >
-        <dc:title
-          >a seal</dc:title
-        >
-        <dc:date
-          >2010-12-30T17:18:17</dc:date
-        >
-        <dc:description
-        />
-        <dc:source
-          >https://openclipart.org/detail/102619/a-seal-by-yves_guillou</dc:source
-        >
-        <dc:creator
-          >
-          <cc:Agent
-            >
-            <dc:title
-              >yves_guillou</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:creator
-        >
-        <dc:subject
-          >
-          <rdf:Bag
-            >
-            <rdf:li
-              >ancient</rdf:li
-            >
-            <rdf:li
-              >seal</rdf:li
-            >
-          </rdf:Bag
-          >
-        </dc:subject
-        >
-      </cc:Work
-      >
-      <cc:License
-          rdf:about="http://creativecommons.org/licenses/publicdomain/"
-        >
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Reproduction"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Distribution"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
-        />
-      </cc:License
-      >
-    </rdf:RDF
-    >
-  </metadata
-  >
-</svg
->
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:ns2="http://www.inkscape.org/namespaces/inkscape" xmlns:ns4="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="1161.8583012630734" id="svg2" version="1.1" viewBox="-197.73433868343673 -58.09377615781745 1161.8583012630734 1161.8583012630734" width="1161.8583012630734" ns1:docname="seal-YG.svg" ns2:version="0.48+devel r">
+  <svg:defs id="defs4">
+    <svg:filter color-interpolation-filters="sRGB" height="1.3" id="filter3093" width="1.3" x="-0.15" y="-0.15" ns2:label="Melted jelly" ns2:menu="Bevels" ns2:menu-tooltip="Glossy bevel with blurred edges">
+      <svg:feComposite id="feComposite3095" in="SourceGraphic" in2="SourceGraphic" k1="0" k2="0.9" k3="0" k4="0" operator="arithmetic" result="fbSourceGraphic" />
+      <svg:feGaussianBlur id="feGaussianBlur3097" in="fbSourceGraphic" result="result0" stdDeviation="6" />
+      <svg:feSpecularLighting id="feSpecularLighting3099" in="result0" lighting-color="#ffffff" result="result1" specularConstant="1" specularExponent="25" surfaceScale="6">
+        <svg:feDistantLight azimuth="235" elevation="55" id="feDistantLight3101" />
+      </svg:feSpecularLighting>
+      <svg:feComposite id="feComposite3103" in="result0" in2="result1" k1="0" k2="1" k3="1.5" k4="0" operator="arithmetic" result="result4" />
+      <svg:feComposite id="feComposite3105" in="result4" in2="result0" operator="atop" result="result2" />
+    </svg:filter>
+    <svg:filter color-interpolation-filters="sRGB" height="1.2899" id="filter3948" width="1.4748" x="-.23742" y="-.14494" ns2:collect="always">
+      <svg:feGaussianBlur id="feGaussianBlur3950" stdDeviation="23.035715" ns2:collect="always" />
+    </svg:filter>
+    <svg:filter color-interpolation-filters="sRGB" height="1.3" id="filter3960" width="1.3" x="-0.15" y="-0.15" ns2:label="Rough paper" ns2:menu="Textures" ns2:menu-tooltip="Aquarelle paper effect which can be used for pictures as for objects">
+      <svg:feTurbulence baseFrequency="0.04" id="feTurbulence3962" numOctaves="5" result="result4" seed="0" type="fractalNoise" />
+      <svg:feDisplacementMap id="feDisplacementMap3964" in="SourceGraphic" in2="result4" result="result3" scale="10" xChannelSelector="R" yChannelSelector="G" />
+      <svg:feDiffuseLighting diffuseConstant="1" id="feDiffuseLighting3966" in="result4" lighting-color="#e9e6d7" result="result1" surfaceScale="2">
+        <svg:feDistantLight azimuth="235" elevation="40" id="feDistantLight3968" />
+      </svg:feDiffuseLighting>
+      <svg:feComposite id="feComposite3970" in="result3" in2="result1" operator="in" result="result2" />
+      <svg:feComposite id="feComposite3972" in2="result1" k1="1.7" k2="0" k3="0" k4="0" operator="arithmetic" result="result5" />
+      <svg:feBlend id="feBlend3974" in="result5" in2="result3" mode="normal" />
+    </svg:filter>
+    <svg:filter color-interpolation-filters="sRGB" id="filter4006" ns2:collect="always">
+      <svg:feGaussianBlur id="feGaussianBlur4008" stdDeviation="17.143252" ns2:collect="always" />
+    </svg:filter>
+  </svg:defs>
+  <ns1:namedview bordercolor="#666666" borderopacity="1.0" fit-margin-bottom="0" fit-margin-left="0" fit-margin-right="0" fit-margin-top="0" id="base" pagecolor="#ffffff" showgrid="false" ns2:current-layer="layer3" ns2:cx="1013.2728" ns2:cy="697.37337" ns2:document-units="px" ns2:pageopacity="0.0" ns2:pageshadow="2" ns2:window-height="994" ns2:window-maximized="1" ns2:window-width="1669" ns2:window-x="0" ns2:window-y="27" ns2:zoom="0.24748737" />
+  <svg:g id="layer2" transform="translate(20.369 -105.42)" ns2:groupmode="layer" ns2:label="ruban">
+    <svg:path d="m231.43 730.93 131.43 57.143s-62.857 72.857-75.714 154.29c-12.857 81.429-17.143 170-17.143 170h-17.143l-20-108.57-88.571 94.286h-14.286s7.1429-107.14 32.857-187.14 68.571-172.86 68.571-180z" id="path3166" style="filter:url(#filter3948);fill-rule:evenodd;fill:#000000" ns2:connector-curvature="0" />
+    <svg:path d="m207.14 703.79 131.43 57.143s-62.857 72.857-75.714 154.29c-12.86 81.43-17.15 169.98-17.15 169.98h-17.143l-20-108.57-88.57 94.27h-14.286s7.1429-107.14 32.857-187.14 68.571-172.86 68.571-180z" id="path3097" style="filter:url(#filter3960);fill-rule:evenodd;fill:#0000ff" ns2:connector-curvature="0" />
+  </svg:g>
+  <svg:g id="layer3" transform="translate(20.369 -105.42)" ns2:groupmode="layer" ns2:label="tampon">
+    <svg:path d="m329.05 147.01c-17.468 0.28564-41.938 5.9688-73.812 25.344-72.857 44.286-98.594 60.009-128.59 71.438-30 11.429-85.692 58.558-91.406 102.84-5.7143 44.286 17.134 167.17 18.562 228.59 1.4286 61.429-41.415 92.83-12.844 125.69 28.571 32.857 58.554 40 137.13 70 78.571 30 171.42 102.86 218.56 65.719 47.143-37.143 138.57-32.853 170-54.281 31.429-21.429 72.879-45.71 98.594-124.28 25.714-78.571 25.719-158.56 35.719-188.56s-27.147-81.446-55.719-142.88c-28.571-61.429 4.2723-77.147-67.156-115.72-71.429-38.571-215.72-55.688-215.72-55.688s-10.853-8.586-33.312-8.2188z" id="path3127-9" style="filter:url(#filter4006);fill-rule:evenodd;fill:#000000" ns1:nodetypes="ssssssssssssscs" ns2:connector-curvature="0" />
+    <svg:path d="m320.96 147.01c-17.468 0.28564-41.938 5.9688-73.812 25.344-72.857 44.286-98.594 60.009-128.59 71.438-30 11.429-85.692 58.558-91.406 102.84-5.7143 44.286 17.134 167.17 18.562 228.59 1.4286 61.429-41.415 92.83-12.844 125.69 28.571 32.857 58.554 40 137.13 70 78.571 30 171.42 102.86 218.56 65.719 47.143-37.143 138.57-32.853 170-54.281 31.429-21.429 72.879-45.71 98.594-124.28 25.714-78.571 25.719-158.56 35.719-188.56s-27.147-81.446-55.719-142.88c-28.571-61.429 4.2723-77.147-67.156-115.72-71.429-38.571-215.72-55.688-215.72-55.688s-10.853-8.586-33.312-8.2188z" id="path4002" style="fill-rule:evenodd;fill:#800000" ns1:nodetypes="ssssssssssssscs" ns2:connector-curvature="0" />
+    <svg:path d="m325.25 144.16c-17.47 0.28-41.94 5.96-73.81 25.34-72.86 44.29-98.6 60.01-128.6 71.44-29.996 11.43-85.688 58.56-91.402 102.84-5.715 44.29 17.133 167.17 18.562 228.6 1.4286 61.429-41.415 92.83-12.844 125.69 28.571 32.857 58.554 40 137.12 70 78.571 30 171.42 102.86 218.56 65.719 47.143-37.143 138.57-32.853 170-54.281 31.429-21.429 72.879-45.71 98.594-124.28 25.714-78.571 25.719-158.56 35.719-188.56s-27.147-81.446-55.719-142.88c-28.56-61.44 4.28-77.16-67.15-115.73s-215.72-55.68-215.72-55.68-10.853-8.586-33.312-8.2188zm39.906 54.031c161.68 0 292.72 131.07 292.72 292.75s-131.04 292.75-292.72 292.75-292.75-131.07-292.75-292.75 131.07-292.75 292.75-292.75z" id="path3985" style="filter:url(#filter3093);fill-rule:evenodd;fill:#800000" ns2:connector-curvature="0" />
+    <svg:path d="m694.29 549.51c0 153.06-124.08 277.14-277.14 277.14-153.07 0-277.15-124.08-277.15-277.14 0-153.07 124.08-277.15 277.14-277.15s277.14 124.08 277.14 277.14z" id="path3987" style="color:#000000;filter:url(#filter3093);fill:#800000" transform="matrix(1.0563 0 0 1.0563 -75.483 -89.506)" ns1:cx="417.14285" ns1:cy="549.50507" ns1:rx="277.14285" ns1:ry="277.14285" ns1:type="arc" />
+  </svg:g>
+  <svg:metadata>
+    <rdf:RDF>
+      <ns4:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns4:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <ns4:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </ns4:Agent>
+        </dc:publisher>
+        <dc:title>a seal</dc:title>
+        <dc:date>2010-12-30T17:18:17</dc:date>
+        <dc:description />
+        <dc:source>https://openclipart.org/detail/102619/a-seal-by-yves_guillou</dc:source>
+        <dc:creator>
+          <ns4:Agent>
+            <dc:title>yves_guillou</dc:title>
+          </ns4:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>ancient</rdf:li>
+            <rdf:li>seal</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </ns4:Work>
+      <ns4:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns4:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns4:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns4:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns4:License>
+    </rdf:RDF>
+  </svg:metadata>
+</svg:svg>

@@ -1,8 +1,6 @@
-<svg width="100%" height="100%" viewBox="500 0 500 700"
-     xmlns="http://www.w3.org/2000/svg"
-     xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg:svg xmlns:ns1="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" height="840.0" viewBox="330.0 -70.0 840.0 840.0" width="840.0">
      
-  <desc><![CDATA[
+  <svg:desc>
     Animated Coding Card
     
     Animated card links to many openclipart images which are referenced in the remix tags for this image
@@ -10,10 +8,10 @@
     
     written by Jay Nick
     STEAMcoded.org
-  ]]>
-  </desc>
+  
+  </svg:desc>
      
-  <style type="text/css"><![CDATA[
+  <svg:style type="text/css">
      @import 'https://fonts.googleapis.com/css?family=Droid+Sans';
      @import 'https://fonts.googleapis.com/css?family=Kalam';
     .t1 {font-family:'Kalam',cursive;font-size:50px;text-anchor:middle;fill:lime;stroke:none;}
@@ -25,84 +23,84 @@
     
     .show {visibility:visible;}
     .hide {visibility:hidden;}
-  ]]>
-  </style>
   
-  <animate id="a1" attributeName="viewBox" values="500 0 500 700;0 0 1000 700;" begin="3s" dur="1s" fill="freeze" />
+  </svg:style>
+  
+  <svg:animate attributeName="viewBox" begin="3s" dur="1s" fill="freeze" id="a1" values="500 0 500 700;0 0 1000 700;" />
 
-  <g id="insideRight">     
-    <rect x="500" y="0" width="500" height="700" class="c2" />
-    <g transform="translate(750,100)" class="t2">
-      <text x="0" y="0" style="font-size:1.4em;">It's in your DNA!</text>
-      <text x="0" y="500">Program or be programmed.</text>
-      <text x="230" y="540" style="text-anchor:end;fill:black;">- Learn to Code!</text>
-    </g>
+  <svg:g id="insideRight">     
+    <svg:rect class="c2" height="700" width="500" x="500" y="0" />
+    <svg:g class="t2" transform="translate(750,100)">
+      <svg:text style="font-size:1.4em;" x="0" y="0">It's in your DNA!</svg:text>
+      <svg:text x="0" y="500">Program or be programmed.</svg:text>
+      <svg:text style="text-anchor:end;fill:black;" x="230" y="540">- Learn to Code!</svg:text>
+    </svg:g>
 
-    <g transform="translate(925,50)">
-      <a xlink:href="https://openclipart.org/detail/192915/dna">
-        <image id="DNA" x="0" y="0" width="80" height="80" xlink:href="https://openclipart.org/download/192915/1397926776.svg" transform="rotate(-22,40,40)" />
-      </a>
-    </g>
-    <g transform="translate(500,50)">
-      <a xlink:href="https://openclipart.org/detail/192915/dna">
-        <use xlink:href="#DNA" />
-      </a>
-    </g>
-    <a xlink:href="https://openclipart.org/detail/95191/genetic-code">
-      <image id="insideLRightImage" x="550" y="135" width="400" height="400" xlink:href="https://openclipart.org/download/95191/genetic-code.svg" />
-      <text x="750" y="555" class="caption">From center go outwards: A gene with <tspan style="font-weight:bold;">AGC</tspan> has amino acid <tspan style="font-weight:bold;">Serine</tspan></text>
-    </a>
-  </g>
+    <svg:g transform="translate(925,50)">
+      <svg:a ns1:href="https://openclipart.org/detail/192915/dna">
+        <svg:image height="80" id="DNA" transform="rotate(-22,40,40)" width="80" x="0" y="0" ns1:href="https://openclipart.org/download/192915/1397926776.svg" />
+      </svg:a>
+    </svg:g>
+    <svg:g transform="translate(500,50)">
+      <svg:a ns1:href="https://openclipart.org/detail/192915/dna">
+        <svg:use ns1:href="#DNA" />
+      </svg:a>
+    </svg:g>
+    <svg:a ns1:href="https://openclipart.org/detail/95191/genetic-code">
+      <svg:image height="400" id="insideLRightImage" width="400" x="550" y="135" ns1:href="https://openclipart.org/download/95191/genetic-code.svg" />
+      <svg:text class="caption" x="750" y="555">From center go outwards: A gene with <svg:tspan style="font-weight:bold;">AGC</svg:tspan> has amino acid <svg:tspan style="font-weight:bold;">Serine</svg:tspan></svg:text>
+    </svg:a>
+  </svg:g>
       
 
-  <g id="coverPage" transform="translate(500,0)" class="c1">
-    <animate attributeName="class" values="c1;c2;" begin="3s" dur="1s" calcMode="discrete" fill="freeze" />
-    <g id="openCardAnimation">
-      <animateTransform attributeType="XML" attributeName="transform" type="scale" values="1,1;-1,1;" dur="1s" begin="3s" fill="freeze" />
-      <rect x="0" y="0" width="500" height="700" />
-      <g id="coverFront" class="show">
-        <animate attributeName="class" values="show;hide;" begin="3s" dur="1s" calcMode="discrete" fill="freeze" />
-        <text x="250" y="90" class="t1">Why learn to code?!</text>
-        <circle cx="250" cy="350" r="240" style="fill:lime;stroke:none;" />
-        <a xlink:href="https://openclipart.org/detail/211418/thenanobel-programming">
-          <image id="coverImage" x="50" y="150" width="400" height="400" xlink:href="https://openclipart.org/download/211418/programmer.svg" />
-        </a>
-      </g>
+  <svg:g class="c1" id="coverPage" transform="translate(500,0)">
+    <svg:animate attributeName="class" begin="3s" calcMode="discrete" dur="1s" fill="freeze" values="c1;c2;" />
+    <svg:g id="openCardAnimation">
+      <svg:animateTransform attributeName="transform" attributeType="XML" begin="3s" dur="1s" fill="freeze" type="scale" values="1,1;-1,1;" />
+      <svg:rect height="700" width="500" x="0" y="0" />
+      <svg:g class="show" id="coverFront">
+        <svg:animate attributeName="class" begin="3s" calcMode="discrete" dur="1s" fill="freeze" values="show;hide;" />
+        <svg:text class="t1" x="250" y="90">Why learn to code?!</svg:text>
+        <svg:circle cx="250" cy="350" r="240" style="fill:lime;stroke:none;" />
+        <svg:a ns1:href="https://openclipart.org/detail/211418/thenanobel-programming">
+          <svg:image height="400" id="coverImage" width="400" x="50" y="150" ns1:href="https://openclipart.org/download/211418/programmer.svg" />
+        </svg:a>
+      </svg:g>
 
-      <g id="coverBack" transform="translate(500,0) scale(-1,1)" class="hide" style="fill:red;">
-        <animate attributeName="class" values="hide;show;" begin="3s" dur="1s" fill="freeze" />
-        <rect x="0" y="0" width="500" height="700" style="fill:black;" />
-        <g transform="translate(0,0)">
-          <circle cx="125" cy="125" r="100" style="fill:magenta;stroke:none;" />
-          <a xlink:href="https://openclipart.org/detail/211418/thenanobel-programming">
-            <image x="50" y="50" width="150" height="150" transform="translate(250,0) scale(-1,1)" xlink:href="https://openclipart.org/download/211418/programmer.svg" />
-          </a>
-        </g>
-        <g transform="translate(250,0)">
-          <circle cx="125" cy="125" r="100" style="fill:cyan;stroke:none;" />
-          <a xlink:href="https://openclipart.org/detail/263224/african-programmer">
-            <image x="50" y="50" width="50" height="50" transform="translate(-100,-100) scale(3)" xlink:href="https://openclipart.org/download/263224/africanprogrammer.svg" />
-          </a>
-        </g>
-        <g transform="translate(0,450)">
-          <circle cx="125" cy="125" r="100" style="fill:yellow;stroke:none;" />
-          <a xlink:href="https://openclipart.org/detail/263351/african-programmer-with-slower-internet">
-            <image x="50" y="50" width="150" height="150" transform="translate(250,0) scale(-1,1)" xlink:href="https://openclipart.org/download/263351/africanprogrammer-slower-internet.svg" />
-          </a>
-        </g>
-        <g transform="translate(250,450)">
-          <circle cx="125" cy="125" r="100" style="fill:lime;stroke:none;" />
-          <a xlink:href="https://openclipart.org/detail/211418/thenanobel-programming">
-            <image x="50" y="50" width="150" height="150" xlink:href="https://openclipart.org/download/211418/programmer.svg" />
-          </a>
-        </g>
+      <svg:g class="hide" id="coverBack" style="fill:red;" transform="translate(500,0) scale(-1,1)">
+        <svg:animate attributeName="class" begin="3s" dur="1s" fill="freeze" values="hide;show;" />
+        <svg:rect height="700" style="fill:black;" width="500" x="0" y="0" />
+        <svg:g transform="translate(0,0)">
+          <svg:circle cx="125" cy="125" r="100" style="fill:magenta;stroke:none;" />
+          <svg:a ns1:href="https://openclipart.org/detail/211418/thenanobel-programming">
+            <svg:image height="150" transform="translate(250,0) scale(-1,1)" width="150" x="50" y="50" ns1:href="https://openclipart.org/download/211418/programmer.svg" />
+          </svg:a>
+        </svg:g>
+        <svg:g transform="translate(250,0)">
+          <svg:circle cx="125" cy="125" r="100" style="fill:cyan;stroke:none;" />
+          <svg:a ns1:href="https://openclipart.org/detail/263224/african-programmer">
+            <svg:image height="50" transform="translate(-100,-100) scale(3)" width="50" x="50" y="50" ns1:href="https://openclipart.org/download/263224/africanprogrammer.svg" />
+          </svg:a>
+        </svg:g>
+        <svg:g transform="translate(0,450)">
+          <svg:circle cx="125" cy="125" r="100" style="fill:yellow;stroke:none;" />
+          <svg:a ns1:href="https://openclipart.org/detail/263351/african-programmer-with-slower-internet">
+            <svg:image height="150" transform="translate(250,0) scale(-1,1)" width="150" x="50" y="50" ns1:href="https://openclipart.org/download/263351/africanprogrammer-slower-internet.svg" />
+          </svg:a>
+        </svg:g>
+        <svg:g transform="translate(250,450)">
+          <svg:circle cx="125" cy="125" r="100" style="fill:lime;stroke:none;" />
+          <svg:a ns1:href="https://openclipart.org/detail/211418/thenanobel-programming">
+            <svg:image height="150" width="150" x="50" y="50" ns1:href="https://openclipart.org/download/211418/programmer.svg" />
+          </svg:a>
+        </svg:g>
 
-        <a xlink:href="https://openclipart.org/detail/221379/personal-computer">
-          <image id="insideLeftImage" x="133" y="225" width="233" height="250" xlink:href="https://openclipart.org/download/221379/Personal-Computer.svg" />
-        </a>
-        <text x="250" y="310" class="t1" style="font-size:32px;">Hello World!</text>
-      </g>
-    </g>
-  </g>
+        <svg:a ns1:href="https://openclipart.org/detail/221379/personal-computer">
+          <svg:image height="250" id="insideLeftImage" width="233" x="133" y="225" ns1:href="https://openclipart.org/download/221379/Personal-Computer.svg" />
+        </svg:a>
+        <svg:text class="t1" style="font-size:32px;" x="250" y="310">Hello World!</svg:text>
+      </svg:g>
+    </svg:g>
+  </svg:g>
 
-</svg>
+</svg:svg>

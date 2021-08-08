@@ -1,41 +1,38 @@
-<?xml version="1.0"?>
-<svg width="100%" height="100%" viewBox="0 0 800 800"
-  xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg:svg xmlns:ns1="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" height="960.0" viewBox="-80.0 -80.0 960.0 960.0" width="960.0">
   
-  <desc>
+  <svg:desc>
     Tulip Fractal
     
     SVG Fractal by Jay Nick, STEAMcoded.org
 
     More Fractals at http://steamcoded.org/fractals.html    
-  </desc>
+  </svg:desc>
   
-  <defs>
-    <symbol id="t1" viewBox="0 0 200 200" overflow="visible">
-      <path d="M0,200L200,200L100,0z" />
-    </symbol>
-    <symbol id="t2" viewBox="0 0 200 200" overflow="visible">
-      <path d="M0,0L200,0L100,200z" />
-    </symbol>
-    <symbol id="tulip" viewBox="0 0 160 370">
-      <a xlink:href="http://steamcoded.org/fractals.html">
-        <g transform="translate(15,3) scale(0.9) translate(35,5)" style="stroke-width:0.5;stroke-linejoin:miter;stroke-miterlimit:15;">
-          <g style="stroke:#009900;fill:#00bb00;">
-            <path d="M42,320q50,-150,0,-220q-50,150,0,220" transform="rotate(-19,42,320)" />
-            <path d="M42,320q50,-150,0,-220q-50,150,0,220" transform="translate(87,0) rotate(20,-42,320) scale(-1,1)" />
-            <path d="M29,110L39,110c0,80,30,180,-8,254l-10,0c37,-74,10,-174,8,-254" style="stroke:none;" />
-          </g>
+  <svg:defs>
+    <svg:symbol id="t1" overflow="visible" viewBox="0 0 200 200">
+      <svg:path d="M0,200L200,200L100,0z" />
+    </svg:symbol>
+    <svg:symbol id="t2" overflow="visible" viewBox="0 0 200 200">
+      <svg:path d="M0,0L200,0L100,200z" />
+    </svg:symbol>
+    <svg:symbol id="tulip" viewBox="0 0 160 370">
+      <svg:a ns1:href="http://steamcoded.org/fractals.html">
+        <svg:g style="stroke-width:0.5;stroke-linejoin:miter;stroke-miterlimit:15;" transform="translate(15,3) scale(0.9) translate(35,5)">
+          <svg:g style="stroke:#009900;fill:#00bb00;">
+            <svg:path d="M42,320q50,-150,0,-220q-50,150,0,220" transform="rotate(-19,42,320)" />
+            <svg:path d="M42,320q50,-150,0,-220q-50,150,0,220" transform="translate(87,0) rotate(20,-42,320) scale(-1,1)" />
+            <svg:path d="M29,110L39,110c0,80,30,180,-8,254l-10,0c37,-74,10,-174,8,-254" style="stroke:none;" />
+          </svg:g>
 
-          <path d="M33,2c41,70,0,96,0,110c-31,-70,0,-96,0,-110z" />
-          <path d="M0,0c26,40,-29,96,20,117c35,12,12,-80,-20,-117z" />
-          <path d="M0,0c26,40,-29,96,20,117c35,12,12,-80,-20,-117z" transform="translate(68,0) scale(-1,1)"/>
-        </g>
-      </a>
-    </symbol>
-  </defs>
+          <svg:path d="M33,2c41,70,0,96,0,110c-31,-70,0,-96,0,-110z" />
+          <svg:path d="M0,0c26,40,-29,96,20,117c35,12,12,-80,-20,-117z" />
+          <svg:path d="M0,0c26,40,-29,96,20,117c35,12,12,-80,-20,-117z" transform="translate(68,0) scale(-1,1)" />
+        </svg:g>
+      </svg:a>
+    </svg:symbol>
+  </svg:defs>
   
-  <style type="text/css"><![CDATA[
+  <svg:style type="text/css">
     .c0 {display:none;}
     .c1 {fill:red;stroke:red;}
     .c2 {fill:pink;stroke:pink;}
@@ -48,74 +45,74 @@
     .bg0 {display:none;}
     .bg1 {fill:#cc99ff;}
     .bg2 {fill:lightblue;}
-  ]]>
-  </style>
+  
+  </svg:style>
 
-  <g id="triangle">
-    <rect x="0" y="0" width="800" height="800" style="display:none;" />
-    <use width="800" height="800" xlink:href="#t1" class="c0" />
+  <svg:g id="triangle">
+    <svg:rect height="800" style="display:none;" width="800" x="0" y="0" />
+    <svg:use class="c0" height="800" width="800" ns1:href="#t1" />
     
-    <g class="c1">
-      <g id="tf00">
-        <use id="bg" width="800" height="800" xlink:href="#t2" transform="translate(200,400) scale(0.5)" class="bg0" />
-        <use id="fg" width="800" height="800" xlink:href="#tulip" transform="translate(200,400) scale(0.5)" />
-      </g>
-    </g>
+    <svg:g class="c1">
+      <svg:g id="tf00">
+        <svg:use class="bg0" height="800" id="bg" transform="translate(200,400) scale(0.5)" width="800" ns1:href="#t2" />
+        <svg:use height="800" id="fg" transform="translate(200,400) scale(0.5)" width="800" ns1:href="#tulip" />
+      </svg:g>
+    </svg:g>
 
-    <g id="tfill">
-      <g class="c2">
-        <g id="tf0">
-          <use x="400" y="0" width="800" height="800" xlink:href="#tf00" transform="scale(0.5)" />
-        </g>
-      </g>
+    <svg:g id="tfill">
+      <svg:g class="c2">
+        <svg:g id="tf0">
+          <svg:use height="800" transform="scale(0.5)" width="800" x="400" y="0" ns1:href="#tf00" />
+        </svg:g>
+      </svg:g>
 
-      <g class="c3">
-        <g id="tf1">
-          <use x="400" y="0" width="800" height="800" xlink:href="#tf0" transform="scale(0.5)" />
-          <use x="200" y="400" width="800" height="800" xlink:href="#tf0" transform="scale(0.5)" />
-          <use x="600" y="400" width="800" height="800" xlink:href="#tf0" transform="scale(0.5)" />
-        </g>
-      </g>
-      <g class="c4">
-        <g id="tf2">
-          <use x="400" y="0" width="800" height="800" xlink:href="#tf1" transform="scale(0.5)" />
-          <use x="200" y="400" width="800" height="800" xlink:href="#tf1" transform="scale(0.5)" />
-          <use x="600" y="400" width="800" height="800" xlink:href="#tf1" transform="scale(0.5)" />
-        </g>
-      </g>
-      <g class="c5">
-        <g id="tf3">
-          <use x="400" y="0" width="800" height="800" xlink:href="#tf2" transform="scale(0.5)" />
-          <use x="200" y="400" width="800" height="800" xlink:href="#tf2" transform="scale(0.5)" />
-          <use x="600" y="400" width="800" height="800" xlink:href="#tf2" transform="scale(0.5)" />
-        </g>
-      </g>
+      <svg:g class="c3">
+        <svg:g id="tf1">
+          <svg:use height="800" transform="scale(0.5)" width="800" x="400" y="0" ns1:href="#tf0" />
+          <svg:use height="800" transform="scale(0.5)" width="800" x="200" y="400" ns1:href="#tf0" />
+          <svg:use height="800" transform="scale(0.5)" width="800" x="600" y="400" ns1:href="#tf0" />
+        </svg:g>
+      </svg:g>
+      <svg:g class="c4">
+        <svg:g id="tf2">
+          <svg:use height="800" transform="scale(0.5)" width="800" x="400" y="0" ns1:href="#tf1" />
+          <svg:use height="800" transform="scale(0.5)" width="800" x="200" y="400" ns1:href="#tf1" />
+          <svg:use height="800" transform="scale(0.5)" width="800" x="600" y="400" ns1:href="#tf1" />
+        </svg:g>
+      </svg:g>
+      <svg:g class="c5">
+        <svg:g id="tf3">
+          <svg:use height="800" transform="scale(0.5)" width="800" x="400" y="0" ns1:href="#tf2" />
+          <svg:use height="800" transform="scale(0.5)" width="800" x="200" y="400" ns1:href="#tf2" />
+          <svg:use height="800" transform="scale(0.5)" width="800" x="600" y="400" ns1:href="#tf2" />
+        </svg:g>
+      </svg:g>
 
-      <g class="c6">
-        <g id="tf4">
-          <use x="400" y="0" width="800" height="800" xlink:href="#tf3" transform="scale(0.5)" />
-          <use x="200" y="400" width="800" height="800" xlink:href="#tf3" transform="scale(0.5)" />
-          <use x="600" y="400" width="800" height="800" xlink:href="#tf3" transform="scale(0.5)" />
-        </g>
-      </g>
+      <svg:g class="c6">
+        <svg:g id="tf4">
+          <svg:use height="800" transform="scale(0.5)" width="800" x="400" y="0" ns1:href="#tf3" />
+          <svg:use height="800" transform="scale(0.5)" width="800" x="200" y="400" ns1:href="#tf3" />
+          <svg:use height="800" transform="scale(0.5)" width="800" x="600" y="400" ns1:href="#tf3" />
+        </svg:g>
+      </svg:g>
 
-      <g class="c7">
-        <g id="tf5">
-          <use x="400" y="0" width="800" height="800" xlink:href="#tf4" transform="scale(0.5)" />
-          <use x="200" y="400" width="800" height="800" xlink:href="#tf4" transform="scale(0.5)" />
-          <use x="600" y="400" width="800" height="800" xlink:href="#tf4" transform="scale(0.5)" />
-        </g>
-      </g>
+      <svg:g class="c7">
+        <svg:g id="tf5">
+          <svg:use height="800" transform="scale(0.5)" width="800" x="400" y="0" ns1:href="#tf4" />
+          <svg:use height="800" transform="scale(0.5)" width="800" x="200" y="400" ns1:href="#tf4" />
+          <svg:use height="800" transform="scale(0.5)" width="800" x="600" y="400" ns1:href="#tf4" />
+        </svg:g>
+      </svg:g>
 
-    </g>
+    </svg:g>
 
-    <use x="-200" y="400" width="800" height="800" xlink:href="#tfill" />
-    <use x="200" y="400" width="800" height="800" xlink:href="#tfill" />
-  </g>
+    <svg:use height="800" width="800" x="-200" y="400" ns1:href="#tfill" />
+    <svg:use height="800" width="800" x="200" y="400" ns1:href="#tfill" />
+  </svg:g>
 
-  <g style="display:none">
-    <use width="800" height="800" xlink:href="#triangle" transform="translate(-400,0) rotate(180,400,400)" />
-    <use width="800" height="800" xlink:href="#triangle" transform="translate(400,0) rotate(180,400,400)" />
-    <use width="800" height="800" xlink:href="#triangle" transform="translate(0,800) rotate(180,400,400)" />
-  </g>
-</svg>
+  <svg:g style="display:none">
+    <svg:use height="800" transform="translate(-400,0) rotate(180,400,400)" width="800" ns1:href="#triangle" />
+    <svg:use height="800" transform="translate(400,0) rotate(180,400,400)" width="800" ns1:href="#triangle" />
+    <svg:use height="800" transform="translate(0,800) rotate(180,400,400)" width="800" ns1:href="#triangle" />
+  </svg:g>
+</svg:svg>

@@ -1,501 +1,112 @@
-<?xml version="1.0"?>
-<svg
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:cc="http://creativecommons.org/ns#"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    xmlns:ns1="http://sozi.baierouge.fr"
-    id="svg2"
-    viewBox="0 0 1125.6 361.55"
-    version="1.1"
-  >
-  <defs
-      id="defs4"
-    >
-    <linearGradient
-        id="linearGradient4073"
-      >
-      <stop
-          id="stop4075"
-          stop-opacity="0.4"
-          offset="0"
-      />
-      <stop
-          id="stop4081"
-          stop-opacity="0"
-          offset=".5"
-      />
-      <stop
-          id="stop4077"
-          stop-opacity="0.4"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient4057"
-      >
-      <stop
-          id="stop4059"
-          stop-color="#f00"
-          offset="0"
-      />
-      <stop
-          id="stop4069"
-          stop-color="#ff8000"
-          offset=".25"
-      />
-      <stop
-          id="stop4067"
-          stop-color="#ff0"
-          offset=".5"
-      />
-      <stop
-          id="stop4065"
-          stop-color="#80ff00"
-          offset=".75"
-      />
-      <stop
-          id="stop4061"
-          stop-color="#0f0"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient3122"
-        y2="43.719"
-        xlink:href="#linearGradient4057"
-        gradientUnits="userSpaceOnUse"
-        x2="-4.3125"
-        gradientTransform="matrix(0 -6.4447 6.5207 0 349.85 378.94)"
-        y1="43.719"
-        x1="-51.062"
-    />
-    <linearGradient
-        id="linearGradient3124"
-        y2="50.906"
-        xlink:href="#linearGradient4073"
-        gradientUnits="userSpaceOnUse"
-        x2="-27.688"
-        gradientTransform="matrix(0 -32.5 6.5207 0 349.85 -951.52)"
-        y1="36.531"
-        x1="-27.688"
-    />
-    <linearGradient
-        id="linearGradient3126"
-        y2="43.719"
-        xlink:href="#linearGradient4057"
-        gradientUnits="userSpaceOnUse"
-        x2="-4.3125"
-        gradientTransform="matrix(0 -6.4447 6.5207 0 215.95 378.94)"
-        y1="43.719"
-        x1="-51.062"
-    />
-    <linearGradient
-        id="linearGradient3128"
-        y2="50.906"
-        xlink:href="#linearGradient4073"
-        gradientUnits="userSpaceOnUse"
-        x2="-27.688"
-        gradientTransform="matrix(0 -16.112 6.5207 0 215.95 -114.69)"
-        y1="36.531"
-        x1="-27.688"
-    />
-    <linearGradient
-        id="linearGradient3130"
-        y2="43.719"
-        xlink:href="#linearGradient4057"
-        gradientUnits="userSpaceOnUse"
-        x2="-4.3125"
-        gradientTransform="matrix(0 -6.4447 6.5207 0 -51.867 378.94)"
-        y1="43.719"
-        x1="-51.062"
-    />
-    <linearGradient
-        id="linearGradient3132"
-        y2="50.906"
-        xlink:href="#linearGradient4073"
-        gradientUnits="userSpaceOnUse"
-        x2="-27.688"
-        gradientTransform="matrix(0 -8.0559 6.5207 0 -51.867 296.67)"
-        y1="36.531"
-        x1="-27.688"
-    />
-    <linearGradient
-        id="linearGradient3134"
-        y2="43.719"
-        xlink:href="#linearGradient4057"
-        gradientUnits="userSpaceOnUse"
-        x2="-4.3125"
-        gradientTransform="matrix(0 -6.4447 6.5207 0 82.04 378.94)"
-        y1="43.719"
-        x1="-51.062"
-    />
-    <linearGradient
-        id="linearGradient3136"
-        y2="50.906"
-        xlink:href="#linearGradient4073"
-        gradientUnits="userSpaceOnUse"
-        x2="-27.688"
-        gradientTransform="matrix(0 -10.741 6.5207 0 82.04 159.55)"
-        y1="36.531"
-        x1="-27.688"
-    />
-    <linearGradient
-        id="linearGradient3138"
-        y2="43.719"
-        xlink:href="#linearGradient4057"
-        gradientUnits="userSpaceOnUse"
-        x2="-4.3125"
-        y1="43.719"
-        x1="-51.062"
-    />
-    <linearGradient
-        id="linearGradient3140"
-        y2="50.906"
-        xlink:href="#linearGradient4073"
-        gradientUnits="userSpaceOnUse"
-        x2="-27.688"
-        y1="36.531"
-        x1="-27.688"
-    />
-    <linearGradient
-        id="linearGradient3157"
-        y2="50.906"
-        xlink:href="#linearGradient4073"
-        gradientUnits="userSpaceOnUse"
-        x2="-27.688"
-        gradientTransform="matrix(0 -32.5 6.5207 0 805.9 -948.11)"
-        y1="36.531"
-        x1="-27.688"
-    />
-  </defs
-  >
-  <g
-      id="layer1"
-      transform="translate(-32.349 -369.97)"
-    >
-    <g
-        id="g3159"
-      >
-      <g
-          id="g4141"
-          transform="matrix(0 -.34572 .34572 0 -149.34 736.97)"
-        >
-        <path
-            id="path3024"
-            d="m15.774 525.53v387.33h987.68v-96.832h58.099v-193.66h-58.099v-96.832h-987.68zm58.099 58.099h871.48v271.13h-871.48v-271.13z"
-        />
-        <g
-            id="g4083"
-            transform="matrix(18.641 0 0 18.861 1025.7 -18747)"
-          >
-          <path
-              id="path3951"
-              d="m-51.062 36.531v14.375h10.75 9 9 7.25 1.75 9v-14.375h-9-1.75-7.25-9-9-10.75z"
-              transform="translate(0 988.36)"
-              fill="url(#linearGradient3138)"
-          />
-          <path
-              id="path4071"
-              d="m-51.062 36.531v14.375h10.75 9 9 7.25 1.75 9v-14.375h-9-1.75-7.25-9-9-10.75z"
-              transform="translate(0 988.36)"
-              fill="url(#linearGradient3140)"
-          />
-        </g
-        >
-        <path
-            id="path3047"
-            stroke-linejoin="bevel"
-            d="m577.4 816.02v-77.465h271.13l-348.59-116.2v77.465h-271.13l348.59 116.2z"
-            stroke="#000"
-            stroke-width="15"
-            fill="none"
-        />
-      </g
-      >
-      <g
-          id="g4323"
-          transform="translate(128.86 3.4123)"
-        >
-        <rect
-            id="rect4254"
-            transform="translate(0 308.27)"
-            height="301.29"
-            width="93.734"
-            y="98.461"
-            x="320.25"
-            fill="#808080"
-        />
-        <path
-            id="path4200"
-            d="m300.16 728.1h133.91v-341.46h-33.477v-20.086h-66.953v20.086h-33.477v341.46zm20.086-20.086v-301.29h93.735v301.29h-93.735z"
-        />
-        <path
-            id="path4204"
-            d="m320.25 708.02h93.735v-41.568-34.801-34.801-28.034-6.7669-34.801h-93.735v34.801 6.7669 28.034 34.801 34.801 41.568z"
-            fill="url(#linearGradient3134)"
-        />
-        <path
-            id="path4206"
-            d="m320.25 708.02h93.735v-69.281-58.002-58.002-46.724-11.278-58.002h-93.735v58.002 11.278 46.724 58.002 58.002 69.281z"
-            fill="url(#linearGradient3136)"
-        />
-        <path
-            id="path4208"
-            stroke-linejoin="bevel"
-            d="m400.59 533.94h-26.781v-93.735l-40.172 120.52h26.781v93.735l40.172-120.52z"
-            stroke="#000"
-            stroke-width="5.1858"
-            fill="none"
-        />
-      </g
-      >
-      <g
-          id="g4345"
-          transform="translate(64.428 3.4123)"
-        >
-        <rect
-            id="rect4260"
-            height="301.29"
-            width="93.734"
-            y="406.73"
-            x="186.34"
-            fill="#808080"
-        />
-        <path
-            id="path4154"
-            d="m166.26 728.1h133.91v-341.46h-33.477v-20.086h-66.953v20.086h-33.477v341.46zm20.086-20.086v-301.29h93.735v301.29h-93.735z"
-        />
-        <path
-            id="path4158"
-            fill="url(#linearGradient3130)"
-            d="m186.34 708.02h93.735v-55.424-46.402-46.402-37.379-9.0226-46.402h-93.735v46.402 9.0226 37.379 46.402 46.402 55.424z"
-        />
-        <path
-            id="path4160"
-            fill="url(#linearGradient3132)"
-            d="m186.34 708.02h93.735v-69.281-58.002-58.002-46.724-11.278-58.002h-93.735v58.002 11.278 46.724 58.002 58.002 69.281z"
-        />
-        <path
-            id="path4162"
-            stroke-linejoin="bevel"
-            d="m266.69 533.94h-26.781v-93.735l-40.172 120.52h26.781v93.735l40.172-120.52z"
-            stroke="#000"
-            stroke-width="5.1858"
-            fill="none"
-        />
-      </g
-      >
-      <g
-          id="g4301"
-          transform="translate(193.29 3.4123)"
-        >
-        <rect
-            id="rect4258"
-            height="301.29"
-            width="93.734"
-            y="406.73"
-            x="454.16"
-            fill="#808080"
-        />
-        <path
-            id="path4220"
-            d="m434.07 728.1h133.91v-341.46h-33.477v-20.086h-66.953v20.086h-33.477v341.46zm20.086-20.086v-301.29h93.735v301.29h-93.735z"
-        />
-        <path
-            id="path4224"
-            fill="url(#linearGradient3126)"
-            d="m454.15 708.02h93.735v-27.712-23.201-23.201-18.69-4.5113-23.201h-93.735v23.201 4.5113 18.69 23.201 23.201 27.712z"
-        />
-        <path
-            id="path4226"
-            fill="url(#linearGradient3128)"
-            d="m454.15 708.02h93.735v-69.281-58.002-58.002-46.724-11.278-58.002h-93.735v58.002 11.278 46.724 58.002 58.002 69.281z"
-        />
-        <path
-            id="path4228"
-            stroke-linejoin="bevel"
-            d="m534.5 533.94h-26.781v-93.735l-40.172 120.52h26.781v93.735l40.172-120.52z"
-            stroke="#000"
-            stroke-width="5.1858"
-            fill="none"
-        />
-      </g
-      >
-      <g
-          id="g4279"
-          transform="translate(257.71 3.4123)"
-        >
-        <rect
-            id="rect4256"
-            height="301.29"
-            width="93.734"
-            y="406.73"
-            x="588.06"
-            fill="#808080"
-        />
-        <path
-            id="path4240"
-            d="m567.98 728.1h133.91v-341.46h-33.477v-20.086h-66.953v20.086h-33.477v341.46zm20.086-20.086v-301.29h93.735v301.29h-93.735z"
-        />
-        <path
-            id="path4244"
-            d="m588.06 708.02h93.735v-13.738-11.502-11.502-9.2653-2.2364-11.502h-93.735v11.502 2.2364 9.2653 11.502 11.502 13.738z"
-            fill="url(#linearGradient3122)"
-        />
-        <path
-            id="path4246"
-            d="m588.06 708.02h93.735v-69.281-58.002-58.002-46.724-11.278-58.002h-93.735v58.002 11.278 46.724 58.002 58.002 69.281z"
-            fill="url(#linearGradient3124)"
-        />
-        <path
-            id="path4248"
-            stroke-linejoin="bevel"
-            d="m668.41 533.94h-26.781v-93.735l-40.172 120.52h26.781v93.735l40.172-120.52z"
-            stroke="#000"
-            stroke-width="5.1858"
-            fill="none"
-        />
-      </g
-      >
-      <g
-          id="g3151"
-        >
-        <rect
-            id="rect3108"
-            height="301.29"
-            width="93.734"
-            y="410.14"
-            x="1044.1"
-            fill="#808080"
-        />
-        <path
-            id="path3114"
-            fill="url(#linearGradient3157)"
-            d="m1044.1 711.43h93.735v-69.281-58.002-58.002-46.724-11.278-58.002h-93.735v58.002 11.278 46.724 58.002 58.002 69.281z"
-        />
-        <path
-            id="path3110"
-            d="m1024 731.52h133.91v-341.46h-33.477v-20.086h-66.953v20.086h-33.477v341.46zm20.086-20.086v-301.29h93.735v301.29h-93.735z"
-        />
-        <path
-            id="path3116"
-            stroke-linejoin="bevel"
-            d="m1124.5 537.35h-26.781v-93.735l-40.172 120.52h26.781v93.735l40.172-120.52z"
-            stroke="#000"
-            stroke-width="5.1858"
-            fill="none"
-        />
-      </g
-      >
-    </g
-    >
-  </g
-  >
-  <metadata
-    >
-    <rdf:RDF
-      >
-      <cc:Work
-        >
-        <dc:format
-          >image/svg+xml</dc:format
-        >
-        <dc:type
-            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-        />
-        <cc:license
-            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
-        />
-        <dc:publisher
-          >
-          <cc:Agent
-              rdf:about="http://openclipart.org/"
-            >
-            <dc:title
-              >Openclipart</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:publisher
-        >
-        <dc:title
-          >Battery Status</dc:title
-        >
-        <dc:date
-          >2013-11-20T13:43:04</dc:date
-        >
-        <dc:description
-          >Just adding some gradients.</dc:description
-        >
-        <dc:source
-          >https://openclipart.org/detail/188945/battery-status-by-gustavorezende-188945</dc:source
-        >
-        <dc:creator
-          >
-          <cc:Agent
-            >
-            <dc:title
-              >gustavorezende</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:creator
-        >
-        <dc:subject
-          >
-          <rdf:Bag
-            >
-            <rdf:li
-              >battery</rdf:li
-            >
-            <rdf:li
-              >charge</rdf:li
-            >
-            <rdf:li
-              >empty</rdf:li
-            >
-            <rdf:li
-              >energy</rdf:li
-            >
-            <rdf:li
-              >icon</rdf:li
-            >
-            <rdf:li
-              >status</rdf:li
-            >
-            <rdf:li
-              >symbol</rdf:li
-            >
-          </rdf:Bag
-          >
-        </dc:subject
-        >
-      </cc:Work
-      >
-      <cc:License
-          rdf:about="http://creativecommons.org/licenses/publicdomain/"
-        >
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Reproduction"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Distribution"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
-        />
-      </cc:License
-      >
-    </rdf:RDF
-    >
-  </metadata
-  >
-</svg
->
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://www.w3.org/1999/xlink" xmlns:ns3="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="1350.67652208" id="svg2" version="1.1" viewBox="-112.55914524000002 -494.56511104000003 1350.6765220800003 1350.67652208" width="1350.6765220800003">
+  <svg:defs id="defs4">
+    <svg:linearGradient id="linearGradient4073">
+      <svg:stop id="stop4075" offset="0" stop-opacity="0.4" />
+      <svg:stop id="stop4081" offset=".5" stop-opacity="0" />
+      <svg:stop id="stop4077" offset="1" stop-opacity="0.4" />
+    </svg:linearGradient>
+    <svg:linearGradient id="linearGradient4057">
+      <svg:stop id="stop4059" offset="0" stop-color="#f00" />
+      <svg:stop id="stop4069" offset=".25" stop-color="#ff8000" />
+      <svg:stop id="stop4067" offset=".5" stop-color="#ff0" />
+      <svg:stop id="stop4065" offset=".75" stop-color="#80ff00" />
+      <svg:stop id="stop4061" offset="1" stop-color="#0f0" />
+    </svg:linearGradient>
+    <svg:linearGradient gradientTransform="matrix(0 -6.4447 6.5207 0 349.85 378.94)" gradientUnits="userSpaceOnUse" id="linearGradient3122" x1="-51.062" x2="-4.3125" y1="43.719" y2="43.719" ns1:href="#linearGradient4057" />
+    <svg:linearGradient gradientTransform="matrix(0 -32.5 6.5207 0 349.85 -951.52)" gradientUnits="userSpaceOnUse" id="linearGradient3124" x1="-27.688" x2="-27.688" y1="36.531" y2="50.906" ns1:href="#linearGradient4073" />
+    <svg:linearGradient gradientTransform="matrix(0 -6.4447 6.5207 0 215.95 378.94)" gradientUnits="userSpaceOnUse" id="linearGradient3126" x1="-51.062" x2="-4.3125" y1="43.719" y2="43.719" ns1:href="#linearGradient4057" />
+    <svg:linearGradient gradientTransform="matrix(0 -16.112 6.5207 0 215.95 -114.69)" gradientUnits="userSpaceOnUse" id="linearGradient3128" x1="-27.688" x2="-27.688" y1="36.531" y2="50.906" ns1:href="#linearGradient4073" />
+    <svg:linearGradient gradientTransform="matrix(0 -6.4447 6.5207 0 -51.867 378.94)" gradientUnits="userSpaceOnUse" id="linearGradient3130" x1="-51.062" x2="-4.3125" y1="43.719" y2="43.719" ns1:href="#linearGradient4057" />
+    <svg:linearGradient gradientTransform="matrix(0 -8.0559 6.5207 0 -51.867 296.67)" gradientUnits="userSpaceOnUse" id="linearGradient3132" x1="-27.688" x2="-27.688" y1="36.531" y2="50.906" ns1:href="#linearGradient4073" />
+    <svg:linearGradient gradientTransform="matrix(0 -6.4447 6.5207 0 82.04 378.94)" gradientUnits="userSpaceOnUse" id="linearGradient3134" x1="-51.062" x2="-4.3125" y1="43.719" y2="43.719" ns1:href="#linearGradient4057" />
+    <svg:linearGradient gradientTransform="matrix(0 -10.741 6.5207 0 82.04 159.55)" gradientUnits="userSpaceOnUse" id="linearGradient3136" x1="-27.688" x2="-27.688" y1="36.531" y2="50.906" ns1:href="#linearGradient4073" />
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="linearGradient3138" x1="-51.062" x2="-4.3125" y1="43.719" y2="43.719" ns1:href="#linearGradient4057" />
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="linearGradient3140" x1="-27.688" x2="-27.688" y1="36.531" y2="50.906" ns1:href="#linearGradient4073" />
+    <svg:linearGradient gradientTransform="matrix(0 -32.5 6.5207 0 805.9 -948.11)" gradientUnits="userSpaceOnUse" id="linearGradient3157" x1="-27.688" x2="-27.688" y1="36.531" y2="50.906" ns1:href="#linearGradient4073" />
+  </svg:defs>
+  <svg:g id="layer1" transform="translate(-32.349 -369.97)">
+    <svg:g id="g3159">
+      <svg:g id="g4141" transform="matrix(0 -.34572 .34572 0 -149.34 736.97)">
+        <svg:path d="m15.774 525.53v387.33h987.68v-96.832h58.099v-193.66h-58.099v-96.832h-987.68zm58.099 58.099h871.48v271.13h-871.48v-271.13z" id="path3024" />
+        <svg:g id="g4083" transform="matrix(18.641 0 0 18.861 1025.7 -18747)">
+          <svg:path d="m-51.062 36.531v14.375h10.75 9 9 7.25 1.75 9v-14.375h-9-1.75-7.25-9-9-10.75z" fill="url(#linearGradient3138)" id="path3951" transform="translate(0 988.36)" />
+          <svg:path d="m-51.062 36.531v14.375h10.75 9 9 7.25 1.75 9v-14.375h-9-1.75-7.25-9-9-10.75z" fill="url(#linearGradient3140)" id="path4071" transform="translate(0 988.36)" />
+        </svg:g>
+        <svg:path d="m577.4 816.02v-77.465h271.13l-348.59-116.2v77.465h-271.13l348.59 116.2z" fill="none" id="path3047" stroke="#000" stroke-linejoin="bevel" stroke-width="15" />
+      </svg:g>
+      <svg:g id="g4323" transform="translate(128.86 3.4123)">
+        <svg:rect fill="#808080" height="301.29" id="rect4254" transform="translate(0 308.27)" width="93.734" x="320.25" y="98.461" />
+        <svg:path d="m300.16 728.1h133.91v-341.46h-33.477v-20.086h-66.953v20.086h-33.477v341.46zm20.086-20.086v-301.29h93.735v301.29h-93.735z" id="path4200" />
+        <svg:path d="m320.25 708.02h93.735v-41.568-34.801-34.801-28.034-6.7669-34.801h-93.735v34.801 6.7669 28.034 34.801 34.801 41.568z" fill="url(#linearGradient3134)" id="path4204" />
+        <svg:path d="m320.25 708.02h93.735v-69.281-58.002-58.002-46.724-11.278-58.002h-93.735v58.002 11.278 46.724 58.002 58.002 69.281z" fill="url(#linearGradient3136)" id="path4206" />
+        <svg:path d="m400.59 533.94h-26.781v-93.735l-40.172 120.52h26.781v93.735l40.172-120.52z" fill="none" id="path4208" stroke="#000" stroke-linejoin="bevel" stroke-width="5.1858" />
+      </svg:g>
+      <svg:g id="g4345" transform="translate(64.428 3.4123)">
+        <svg:rect fill="#808080" height="301.29" id="rect4260" width="93.734" x="186.34" y="406.73" />
+        <svg:path d="m166.26 728.1h133.91v-341.46h-33.477v-20.086h-66.953v20.086h-33.477v341.46zm20.086-20.086v-301.29h93.735v301.29h-93.735z" id="path4154" />
+        <svg:path d="m186.34 708.02h93.735v-55.424-46.402-46.402-37.379-9.0226-46.402h-93.735v46.402 9.0226 37.379 46.402 46.402 55.424z" fill="url(#linearGradient3130)" id="path4158" />
+        <svg:path d="m186.34 708.02h93.735v-69.281-58.002-58.002-46.724-11.278-58.002h-93.735v58.002 11.278 46.724 58.002 58.002 69.281z" fill="url(#linearGradient3132)" id="path4160" />
+        <svg:path d="m266.69 533.94h-26.781v-93.735l-40.172 120.52h26.781v93.735l40.172-120.52z" fill="none" id="path4162" stroke="#000" stroke-linejoin="bevel" stroke-width="5.1858" />
+      </svg:g>
+      <svg:g id="g4301" transform="translate(193.29 3.4123)">
+        <svg:rect fill="#808080" height="301.29" id="rect4258" width="93.734" x="454.16" y="406.73" />
+        <svg:path d="m434.07 728.1h133.91v-341.46h-33.477v-20.086h-66.953v20.086h-33.477v341.46zm20.086-20.086v-301.29h93.735v301.29h-93.735z" id="path4220" />
+        <svg:path d="m454.15 708.02h93.735v-27.712-23.201-23.201-18.69-4.5113-23.201h-93.735v23.201 4.5113 18.69 23.201 23.201 27.712z" fill="url(#linearGradient3126)" id="path4224" />
+        <svg:path d="m454.15 708.02h93.735v-69.281-58.002-58.002-46.724-11.278-58.002h-93.735v58.002 11.278 46.724 58.002 58.002 69.281z" fill="url(#linearGradient3128)" id="path4226" />
+        <svg:path d="m534.5 533.94h-26.781v-93.735l-40.172 120.52h26.781v93.735l40.172-120.52z" fill="none" id="path4228" stroke="#000" stroke-linejoin="bevel" stroke-width="5.1858" />
+      </svg:g>
+      <svg:g id="g4279" transform="translate(257.71 3.4123)">
+        <svg:rect fill="#808080" height="301.29" id="rect4256" width="93.734" x="588.06" y="406.73" />
+        <svg:path d="m567.98 728.1h133.91v-341.46h-33.477v-20.086h-66.953v20.086h-33.477v341.46zm20.086-20.086v-301.29h93.735v301.29h-93.735z" id="path4240" />
+        <svg:path d="m588.06 708.02h93.735v-13.738-11.502-11.502-9.2653-2.2364-11.502h-93.735v11.502 2.2364 9.2653 11.502 11.502 13.738z" fill="url(#linearGradient3122)" id="path4244" />
+        <svg:path d="m588.06 708.02h93.735v-69.281-58.002-58.002-46.724-11.278-58.002h-93.735v58.002 11.278 46.724 58.002 58.002 69.281z" fill="url(#linearGradient3124)" id="path4246" />
+        <svg:path d="m668.41 533.94h-26.781v-93.735l-40.172 120.52h26.781v93.735l40.172-120.52z" fill="none" id="path4248" stroke="#000" stroke-linejoin="bevel" stroke-width="5.1858" />
+      </svg:g>
+      <svg:g id="g3151">
+        <svg:rect fill="#808080" height="301.29" id="rect3108" width="93.734" x="1044.1" y="410.14" />
+        <svg:path d="m1044.1 711.43h93.735v-69.281-58.002-58.002-46.724-11.278-58.002h-93.735v58.002 11.278 46.724 58.002 58.002 69.281z" fill="url(#linearGradient3157)" id="path3114" />
+        <svg:path d="m1024 731.52h133.91v-341.46h-33.477v-20.086h-66.953v20.086h-33.477v341.46zm20.086-20.086v-301.29h93.735v301.29h-93.735z" id="path3110" />
+        <svg:path d="m1124.5 537.35h-26.781v-93.735l-40.172 120.52h26.781v93.735l40.172-120.52z" fill="none" id="path3116" stroke="#000" stroke-linejoin="bevel" stroke-width="5.1858" />
+      </svg:g>
+    </svg:g>
+  </svg:g>
+  <svg:metadata>
+    <rdf:RDF>
+      <ns3:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns3:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <ns3:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </ns3:Agent>
+        </dc:publisher>
+        <dc:title>Battery Status</dc:title>
+        <dc:date>2013-11-20T13:43:04</dc:date>
+        <dc:description>Just adding some gradients.</dc:description>
+        <dc:source>https://openclipart.org/detail/188945/battery-status-by-gustavorezende-188945</dc:source>
+        <dc:creator>
+          <ns3:Agent>
+            <dc:title>gustavorezende</dc:title>
+          </ns3:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>battery</rdf:li>
+            <rdf:li>charge</rdf:li>
+            <rdf:li>empty</rdf:li>
+            <rdf:li>energy</rdf:li>
+            <rdf:li>icon</rdf:li>
+            <rdf:li>status</rdf:li>
+            <rdf:li>symbol</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </ns3:Work>
+      <ns3:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns3:License>
+    </rdf:RDF>
+  </svg:metadata>
+</svg:svg>

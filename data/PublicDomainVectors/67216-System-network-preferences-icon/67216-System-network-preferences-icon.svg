@@ -1,59 +1,57 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--part of the matt icon theme by sixsixfive released under CC0 (https://creativecommons.org/publicdomain/zero/1.0/) on openclipart-->
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 128 128">
- <defs id="0">
-  <linearGradient id="2">
-   <stop id="M"/>
-   <stop offset="1" id="N" stop-opacity="0"/>
-  </linearGradient>
-  <linearGradient id="3">
-   <stop id="O" stop-color="#323232"/>
-   <stop offset="1" id="P" stop-color="#202020"/>
-  </linearGradient>
-  <linearGradient id="4">
-   <stop id="Q" stop-color="#c6c6c6"/>
-   <stop offset="1" id="R" stop-color="#c3c3c3"/>
-  </linearGradient>
-  <linearGradient id="5">
-   <stop id="S" stop-color="#555"/>
-   <stop offset="1" id="T" stop-color="#555"/>
-  </linearGradient>
-  <linearGradient id="6">
-   <stop id="U" stop-color="#f3c300"/>
-   <stop offset="1" id="V" stop-color="#fd0"/>
-  </linearGradient>
-  <radialGradient xlink:href="#6" id="7" cx="310.3" cy="14.649" r="45" gradientTransform="matrix(1,0,0,0.2,0,11.719152)" gradientUnits="userSpaceOnUse"/>
-  <radialGradient xlink:href="#4" id="8" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0.62378236,0,0,0.4990259,1.6217628,56.077927)" cx="16.423" cy="8.405" r="97.03"/>
-  <radialGradient xlink:href="#6" id="9" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1,0,0,0.2,0,11.719152)" cx="352.5" cy="51.882" fx="353.74" fy="98.42" r="45"/>
-  <radialGradient xlink:href="#6" id="A" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1,0,0,0.2,0,11.719152)" cx="316.3" cy="14.649" r="45"/>
-  <radialGradient xlink:href="#6" id="B" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1,0,0,0.2,0,11.719152)" cx="311.54" cy="79.81" fx="312.16" fy="104.63" r="45"/>
-  <linearGradient xlink:href="#3" id="C" y1="-11.243" x2="0" y2="140" gradientUnits="userSpaceOnUse"/>
-  <filter id="D">
-   <feGaussianBlur stdDeviation="1.11" id="W"/>
-  </filter>
-  <radialGradient xlink:href="#2" id="E" cx="64.42" cy="115.48" r="58.49" gradientTransform="matrix(1,0,0,0.04507042,0,110.27419)" gradientUnits="userSpaceOnUse"/>
-  <filter id="F" x="-0.005" width="1.01" y="-0.109" height="1.219">
-   <feGaussianBlur stdDeviation="0.24002" id="X"/>
-  </filter>
- </defs>
- <g id="1" transform="translate(0,-32)">
-  <path id="G" d="m 122.90484,115.47887 a 58.486889,2.6360288 0 1 1 -116.9737754,0 58.486889,2.6360288 0 1 1 116.9737754,0 z" transform="matrix(1,0,0,1.5625,-0.41795349,-34.43963)" opacity="0.641" fill="url(#E)" filter="url(#F)"/>
-  <path d="m 8.46875,46.5625 c -3.3158484,0 -6.03125,2.676336 -6.03125,6 l 0,86.875 c 0,3.32366 2.7154008,6 6.03125,6 l 111.0625,0 c 3.31585,0 6.03125,-2.67634 6.03125,-6 l 0,-86.875 c 0,-3.323664 -2.7154,-6 -6.03125,-6 l -111.0625,0 z" id="H" filter="url(#D)" stroke-width="0"/>
-  <path id="I" d="m 8.46875,46.5625 c -3.3158484,0 -6.03125,2.676336 -6.03125,6 l 0,86.875 c 0,3.32366 2.7154008,6 6.03125,6 l 111.0625,0 c 3.31585,0 6.03125,-2.67634 6.03125,-6 l 0,-86.875 c 0,-3.323664 -2.7154,-6 -6.03125,-6 l -111.0625,0 z" fill="#8c8c8c" stroke-width="0"/>
-  <rect y="47.582" x="3.477" height="96.84" width="121.05" id="J" fill="url(#8)" stroke-width="0" rx="4.99"/>
-  <g id="K" transform="matrix(0.69716212,0,0,0.69716212,-5.716212,40.22703)">
-   <path id="Y" d="M 24.84375,18.59375 A 1.4180484,1.4180484 0 0 0 23.59375,20 l 0,90 A 1.4180484,1.4180484 0 0 0 25,111.40625 l 33.59375,0 0,13.59375 A 1.4180484,1.4180484 0 0 0 60,126.40625 l 13.59375,0 0,13.59375 A 1.4180484,1.4180484 0 0 0 75,141.40625 l 50,0 A 1.4180484,1.4180484 0 0 0 126.40625,140 l 0,-13.59375 13.59375,0 A 1.4180484,1.4180484 0 0 0 141.40625,125 l 0,-13.59375 33.59375,0 A 1.4180484,1.4180484 0 0 0 176.40625,110 l 0,-90 A 1.4180484,1.4180484 0 0 0 175,18.59375 l -150,0 a 1.4180484,1.4180484 0 0 0 -0.15625,0 z" fill="#171717" stroke-width="0"/>
-   <path d="m 25,20 0,90 35,0 0,15 15,0 0,15 50,0 0,-15 15,0 0,-15 35,0 0,-90 -150,0 z" id="Z" fill="url(#C)" stroke-width="0"/>
-  </g>
-  <g id="L" transform="matrix(0.69716212,0,0,0.69716212,-152.33153,51.626369)" fill="url(#B)">
-   <rect y="5.649" x="265.3" height="18" width="6" id="a" fill="url(#7)" stroke-width="0"/>
-   <rect y="5.649" x="277.3" height="18" width="6" id="b" fill="url(#7)" stroke-width="0"/>
-   <rect y="5.649" x="289.3" height="18" width="6" id="c" fill="url(#7)" stroke-width="0"/>
-   <rect y="5.649" x="301.3" height="18" width="6" id="d" fill="url(#9)" stroke-width="0"/>
-   <rect y="5.649" x="313.3" height="18" width="6" id="e" fill="url(#A)" stroke-width="0"/>
-   <rect y="5.649" x="325.3" height="18" width="6" id="f" fill="url(#7)" stroke-width="0"/>
-   <rect y="5.649" x="337.3" height="18" width="6" id="g" fill="url(#7)" stroke-width="0"/>
-   <rect y="5.649" x="349.3" height="18" width="6" id="h" fill="url(#7)" stroke-width="0"/>
-  </g>
- </g>
-</svg>
+<svg:svg xmlns:ns1="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" height="147.75000000000003" viewBox="-9.874999999999996 -7.536300312500001 147.75000000000006 147.75000000000003" width="147.75000000000006">
+ <svg:defs id="0">
+  <svg:linearGradient id="2">
+   <svg:stop id="M" />
+   <svg:stop id="N" offset="1" stop-opacity="0" />
+  </svg:linearGradient>
+  <svg:linearGradient id="3">
+   <svg:stop id="O" stop-color="#323232" />
+   <svg:stop id="P" offset="1" stop-color="#202020" />
+  </svg:linearGradient>
+  <svg:linearGradient id="4">
+   <svg:stop id="Q" stop-color="#c6c6c6" />
+   <svg:stop id="R" offset="1" stop-color="#c3c3c3" />
+  </svg:linearGradient>
+  <svg:linearGradient id="5">
+   <svg:stop id="S" stop-color="#555" />
+   <svg:stop id="T" offset="1" stop-color="#555" />
+  </svg:linearGradient>
+  <svg:linearGradient id="6">
+   <svg:stop id="U" stop-color="#f3c300" />
+   <svg:stop id="V" offset="1" stop-color="#fd0" />
+  </svg:linearGradient>
+  <svg:radialGradient cx="310.3" cy="14.649" gradientTransform="matrix(1,0,0,0.2,0,11.719152)" gradientUnits="userSpaceOnUse" id="7" r="45" ns1:href="#6" />
+  <svg:radialGradient cx="16.423" cy="8.405" gradientTransform="matrix(0.62378236,0,0,0.4990259,1.6217628,56.077927)" gradientUnits="userSpaceOnUse" id="8" r="97.03" ns1:href="#4" />
+  <svg:radialGradient cx="352.5" cy="51.882" fx="353.74" fy="98.42" gradientTransform="matrix(1,0,0,0.2,0,11.719152)" gradientUnits="userSpaceOnUse" id="9" r="45" ns1:href="#6" />
+  <svg:radialGradient cx="316.3" cy="14.649" gradientTransform="matrix(1,0,0,0.2,0,11.719152)" gradientUnits="userSpaceOnUse" id="A" r="45" ns1:href="#6" />
+  <svg:radialGradient cx="311.54" cy="79.81" fx="312.16" fy="104.63" gradientTransform="matrix(1,0,0,0.2,0,11.719152)" gradientUnits="userSpaceOnUse" id="B" r="45" ns1:href="#6" />
+  <svg:linearGradient gradientUnits="userSpaceOnUse" id="C" x2="0" y1="-11.243" y2="140" ns1:href="#3" />
+  <svg:filter id="D">
+   <svg:feGaussianBlur id="W" stdDeviation="1.11" />
+  </svg:filter>
+  <svg:radialGradient cx="64.42" cy="115.48" gradientTransform="matrix(1,0,0,0.04507042,0,110.27419)" gradientUnits="userSpaceOnUse" id="E" r="58.49" ns1:href="#2" />
+  <svg:filter height="1.219" id="F" width="1.01" x="-0.005" y="-0.109">
+   <svg:feGaussianBlur id="X" stdDeviation="0.24002" />
+  </svg:filter>
+ </svg:defs>
+ <svg:g id="1" transform="translate(0,-32)">
+  <svg:path d="m 122.90484,115.47887 a 58.486889,2.6360288 0 1 1 -116.9737754,0 58.486889,2.6360288 0 1 1 116.9737754,0 z" fill="url(#E)" filter="url(#F)" id="G" opacity="0.641" transform="matrix(1,0,0,1.5625,-0.41795349,-34.43963)" />
+  <svg:path d="m 8.46875,46.5625 c -3.3158484,0 -6.03125,2.676336 -6.03125,6 l 0,86.875 c 0,3.32366 2.7154008,6 6.03125,6 l 111.0625,0 c 3.31585,0 6.03125,-2.67634 6.03125,-6 l 0,-86.875 c 0,-3.323664 -2.7154,-6 -6.03125,-6 l -111.0625,0 z" filter="url(#D)" id="H" stroke-width="0" />
+  <svg:path d="m 8.46875,46.5625 c -3.3158484,0 -6.03125,2.676336 -6.03125,6 l 0,86.875 c 0,3.32366 2.7154008,6 6.03125,6 l 111.0625,0 c 3.31585,0 6.03125,-2.67634 6.03125,-6 l 0,-86.875 c 0,-3.323664 -2.7154,-6 -6.03125,-6 l -111.0625,0 z" fill="#8c8c8c" id="I" stroke-width="0" />
+  <svg:rect fill="url(#8)" height="96.84" id="J" rx="4.99" stroke-width="0" width="121.05" x="3.477" y="47.582" />
+  <svg:g id="K" transform="matrix(0.69716212,0,0,0.69716212,-5.716212,40.22703)">
+   <svg:path d="M 24.84375,18.59375 A 1.4180484,1.4180484 0 0 0 23.59375,20 l 0,90 A 1.4180484,1.4180484 0 0 0 25,111.40625 l 33.59375,0 0,13.59375 A 1.4180484,1.4180484 0 0 0 60,126.40625 l 13.59375,0 0,13.59375 A 1.4180484,1.4180484 0 0 0 75,141.40625 l 50,0 A 1.4180484,1.4180484 0 0 0 126.40625,140 l 0,-13.59375 13.59375,0 A 1.4180484,1.4180484 0 0 0 141.40625,125 l 0,-13.59375 33.59375,0 A 1.4180484,1.4180484 0 0 0 176.40625,110 l 0,-90 A 1.4180484,1.4180484 0 0 0 175,18.59375 l -150,0 a 1.4180484,1.4180484 0 0 0 -0.15625,0 z" fill="#171717" id="Y" stroke-width="0" />
+   <svg:path d="m 25,20 0,90 35,0 0,15 15,0 0,15 50,0 0,-15 15,0 0,-15 35,0 0,-90 -150,0 z" fill="url(#C)" id="Z" stroke-width="0" />
+  </svg:g>
+  <svg:g fill="url(#B)" id="L" transform="matrix(0.69716212,0,0,0.69716212,-152.33153,51.626369)">
+   <svg:rect fill="url(#7)" height="18" id="a" stroke-width="0" width="6" x="265.3" y="5.649" />
+   <svg:rect fill="url(#7)" height="18" id="b" stroke-width="0" width="6" x="277.3" y="5.649" />
+   <svg:rect fill="url(#7)" height="18" id="c" stroke-width="0" width="6" x="289.3" y="5.649" />
+   <svg:rect fill="url(#9)" height="18" id="d" stroke-width="0" width="6" x="301.3" y="5.649" />
+   <svg:rect fill="url(#A)" height="18" id="e" stroke-width="0" width="6" x="313.3" y="5.649" />
+   <svg:rect fill="url(#7)" height="18" id="f" stroke-width="0" width="6" x="325.3" y="5.649" />
+   <svg:rect fill="url(#7)" height="18" id="g" stroke-width="0" width="6" x="337.3" y="5.649" />
+   <svg:rect fill="url(#7)" height="18" id="h" stroke-width="0" width="6" x="349.3" y="5.649" />
+  </svg:g>
+ </svg:g>
+</svg:svg>

@@ -1,323 +1,77 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-<svg
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    xmlns:cc="http://creativecommons.org/ns#"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:ns1="http://sozi.baierouge.fr"
-    id="svg3064"
-    sodipodi:docname="Esfera_glossy_reflejo.svg"
-    viewBox="0 0 299.57 400.52"
-    version="1.1"
-    inkscape:version="0.48.0 r9654"
-  >
-  <title
-      id="title5017"
-    >Glossy sphere w/reflex. Esfera brillante con reflejo.</title
-  >
-  <defs
-      id="defs3066"
-    >
-    <linearGradient
-        id="linearGradient3397"
-        inkscape:collect="always"
-      >
-      <stop
-          id="stop3399"
-          style="stop-color:#ffffff;stop-opacity:0"
-          offset="0"
-      />
-      <stop
-          id="stop3405"
-          style="stop-color:#ffffff;stop-opacity:.49020"
-          offset=".87883"
-      />
-      <stop
-          id="stop3401"
-          style="stop-color:#ffffff"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient3988"
-        inkscape:collect="always"
-      >
-      <stop
-          id="stop3990"
-          style="stop-color:#04c8fc"
-          offset="0"
-      />
-      <stop
-          id="stop3994"
-          style="stop-color:#028fd3"
-          offset=".2"
-      />
-      <stop
-          id="stop3992"
-          style="stop-color:#00006c"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <filter
-        id="filter4251"
-        inkscape:collect="always"
-        color-interpolation-filters="sRGB"
-      >
-      <feGaussianBlur
-          id="feGaussianBlur4253"
-          stdDeviation="3.2607307"
-          inkscape:collect="always"
-      />
-    </filter
-    >
-    <radialGradient
-        id="radialGradient4965"
-        xlink:href="#linearGradient3988"
-        gradientUnits="userSpaceOnUse"
-        cy="420.55"
-        cx="435.01"
-        gradientTransform="matrix(1.4387 -8.6395e-8 -.0000073739 1.9397 -317.66 -233.53)"
-        r="115.13"
-        inkscape:collect="always"
-    />
-    <radialGradient
-        id="radialGradient4967"
-        xlink:href="#linearGradient3397"
-        gradientUnits="userSpaceOnUse"
-        cy="330.37"
-        cx="457.27"
-        gradientTransform="matrix(1.0108 -.022792 .023308 1.0337 -166.74 8.624)"
-        r="211.4"
-        inkscape:collect="always"
-    />
-    <linearGradient
-        id="linearGradient5013"
-        y2="360.75"
-        gradientUnits="userSpaceOnUse"
-        x2="295.74"
-        gradientTransform="matrix(1 0 0 -1.6974 17.068 1252.1)"
-        y1="666.69"
-        x1="298.29"
-        inkscape:collect="always"
-      >
-      <stop
-          id="stop5003"
-          style="stop-color:#000000"
-          offset="0"
-      />
-      <stop
-          id="stop5005"
-          style="stop-color:#ffffff"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <mask
-        id="mask5009"
-        maskUnits="userSpaceOnUse"
-      >
-      <path
-          id="path5011"
-          style="fill:url(#linearGradient5013)"
-          inkscape:connector-curvature="0"
-          d="m25.991 551.09h571.09v-614.49h-571.09z"
-      />
-    </mask
-    >
-  </defs
-  >
-  <sodipodi:namedview
-      id="base"
-      fit-margin-left="0"
-      inkscape:zoom="1.5689358"
-      borderopacity="1.0"
-      inkscape:current-layer="layer1"
-      inkscape:cx="187.53175"
-      inkscape:cy="207.16357"
-      inkscape:window-maximized="1"
-      showgrid="false"
-      fit-margin-right="0"
-      inkscape:guide-bbox="true"
-      showguides="true"
-      bordercolor="#666666"
-      inkscape:window-x="0"
-      inkscape:window-y="25"
-      fit-margin-bottom="0"
-      inkscape:window-width="1280"
-      inkscape:pageopacity="0.0"
-      inkscape:pageshadow="2"
-      pagecolor="#ffffff"
-      inkscape:document-units="px"
-      inkscape:window-height="949"
-      fit-margin-top="0"
-  />
-  <g
-      id="layer1"
-      inkscape:label="Capa 1"
-      inkscape:groupmode="layer"
-      transform="translate(-17.819 -59.795)"
-    >
-    <rect
-        id="rect4963"
-        style="fill:#000000"
-        height="400.52"
-        width="299.57"
-        y="59.795"
-        x="17.819"
-    />
-    <g
-        id="g4929"
-        transform="matrix(.51762 0 0 .51762 8.9849 28.844)"
-      >
-      <path
-          id="path3072"
-          sodipodi:rx="115.13228"
-          sodipodi:ry="115.13228"
-          style="fill:url(#radialGradient4965)"
-          sodipodi:type="arc"
-          d="m424.73 469.93c0 63.586-51.546 115.13-115.13 115.13-63.586 0-115.13-51.546-115.13-115.13 0-63.586 51.546-115.13 115.13-115.13 63.586 0 115.13 51.546 115.13 115.13z"
-          transform="matrix(1.8675 0 0 1.8675 -271.75 -549.64)"
-          sodipodi:cy="469.92831"
-          sodipodi:cx="309.5994"
-      />
-      <path
-          id="path3883"
-          d="m305.49 122.46c-110.53 0-203.59 86.528-203.59 197.06s91.288-27.911 201.82-27.911 208.18 141.27 208.18 30.734c0-110.53-95.885-199.89-206.41-199.89z"
-          sodipodi:nodetypes="sssss"
-          style="filter:url(#filter4251);fill:url(#radialGradient4967)"
-          inkscape:connector-curvature="0"
-      />
-    </g
-    >
-    <g
-        id="g4988"
-        mask="url(#mask5009)"
-        transform="matrix(.51762 0 0 -.24805 8.9849 444.59)"
-      >
-      <path
-          id="path4990"
-          sodipodi:rx="115.13228"
-          sodipodi:ry="115.13228"
-          style="fill:url(#radialGradient4965)"
-          sodipodi:type="arc"
-          d="m424.73 469.93c0 63.586-51.546 115.13-115.13 115.13-63.586 0-115.13-51.546-115.13-115.13 0-63.586 51.546-115.13 115.13-115.13 63.586 0 115.13 51.546 115.13 115.13z"
-          transform="matrix(1.8675 0 0 1.8675 -271.75 -549.64)"
-          sodipodi:cy="469.92831"
-          sodipodi:cx="309.5994"
-      />
-      <path
-          id="path4992"
-          sodipodi:nodetypes="sssss"
-          style="filter:url(#filter4251);fill:url(#radialGradient4967)"
-          inkscape:connector-curvature="0"
-          d="m305.49 122.46c-110.53 0-203.59 86.528-203.59 197.06s91.288-27.911 201.82-27.911 208.18 141.27 208.18 30.734c0-110.53-95.885-199.89-206.41-199.89z"
-      />
-    </g
-    >
-  </g
-  >
-  <metadata
-    >
-    <rdf:RDF
-      >
-      <cc:Work
-        >
-        <dc:format
-          >image/svg+xml</dc:format
-        >
-        <dc:type
-            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-        />
-        <cc:license
-            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
-        />
-        <dc:publisher
-          >
-          <cc:Agent
-              rdf:about="http://openclipart.org/"
-            >
-            <dc:title
-              >Openclipart</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:publisher
-        >
-        <dc:title
-          >Glossy sphere w/reflex. Esfera brillante con reflejo.</dc:title
-        >
-        <dc:date
-          >2011-01-31T19:22:40</dc:date
-        >
-        <dc:description
-          >A glossy sphere with reflen on black background. Esfera brillante con reflejo sobre fondo negro.</dc:description
-        >
-        <dc:source
-          >https://openclipart.org/detail/116683/glossy-sphere-wreflex.-esfera-brillante-con-reflejo.-by-ehecatl1138</dc:source
-        >
-        <dc:creator
-          >
-          <cc:Agent
-            >
-            <dc:title
-              >Ehecatl1138</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:creator
-        >
-        <dc:subject
-          >
-          <rdf:Bag
-            >
-            <rdf:li
-              >brillante</rdf:li
-            >
-            <rdf:li
-              >esfera</rdf:li
-            >
-            <rdf:li
-              >glossy</rdf:li
-            >
-            <rdf:li
-              >reflejo</rdf:li
-            >
-            <rdf:li
-              >reflex</rdf:li
-            >
-            <rdf:li
-              >sphere</rdf:li
-            >
-          </rdf:Bag
-          >
-        </dc:subject
-        >
-      </cc:Work
-      >
-      <cc:License
-          rdf:about="http://creativecommons.org/licenses/publicdomain/"
-        >
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Reproduction"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Distribution"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
-        />
-      </cc:License
-      >
-    </rdf:RDF
-    >
-  </metadata
-  >
-</svg
->
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:ns2="http://www.inkscape.org/namespaces/inkscape" xmlns:ns3="http://www.w3.org/1999/xlink" xmlns:ns5="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="480.624" id="svg3064" version="1.1" viewBox="-90.52699999999999 -40.05199999999999 480.6239999999999 480.624" width="480.6239999999999" ns1:docname="Esfera_glossy_reflejo.svg" ns2:version="0.48.0 r9654">
+  <svg:title id="title5017">Glossy sphere w/reflex. Esfera brillante con reflejo.</svg:title>
+  <svg:defs id="defs3066">
+    <svg:linearGradient id="linearGradient3397" ns2:collect="always">
+      <svg:stop id="stop3399" offset="0" style="stop-color:#ffffff;stop-opacity:0" />
+      <svg:stop id="stop3405" offset=".87883" style="stop-color:#ffffff;stop-opacity:.49020" />
+      <svg:stop id="stop3401" offset="1" style="stop-color:#ffffff" />
+    </svg:linearGradient>
+    <svg:linearGradient id="linearGradient3988" ns2:collect="always">
+      <svg:stop id="stop3990" offset="0" style="stop-color:#04c8fc" />
+      <svg:stop id="stop3994" offset=".2" style="stop-color:#028fd3" />
+      <svg:stop id="stop3992" offset="1" style="stop-color:#00006c" />
+    </svg:linearGradient>
+    <svg:filter color-interpolation-filters="sRGB" id="filter4251" ns2:collect="always">
+      <svg:feGaussianBlur id="feGaussianBlur4253" stdDeviation="3.2607307" ns2:collect="always" />
+    </svg:filter>
+    <svg:radialGradient cx="435.01" cy="420.55" gradientTransform="matrix(1.4387 -8.6395e-8 -.0000073739 1.9397 -317.66 -233.53)" gradientUnits="userSpaceOnUse" id="radialGradient4965" r="115.13" ns2:collect="always" ns3:href="#linearGradient3988" />
+    <svg:radialGradient cx="457.27" cy="330.37" gradientTransform="matrix(1.0108 -.022792 .023308 1.0337 -166.74 8.624)" gradientUnits="userSpaceOnUse" id="radialGradient4967" r="211.4" ns2:collect="always" ns3:href="#linearGradient3397" />
+    <svg:linearGradient gradientTransform="matrix(1 0 0 -1.6974 17.068 1252.1)" gradientUnits="userSpaceOnUse" id="linearGradient5013" x1="298.29" x2="295.74" y1="666.69" y2="360.75" ns2:collect="always">
+      <svg:stop id="stop5003" offset="0" style="stop-color:#000000" />
+      <svg:stop id="stop5005" offset="1" style="stop-color:#ffffff" />
+    </svg:linearGradient>
+    <svg:mask id="mask5009" maskUnits="userSpaceOnUse">
+      <svg:path d="m25.991 551.09h571.09v-614.49h-571.09z" id="path5011" style="fill:url(#linearGradient5013)" ns2:connector-curvature="0" />
+    </svg:mask>
+  </svg:defs>
+  <ns1:namedview bordercolor="#666666" borderopacity="1.0" fit-margin-bottom="0" fit-margin-left="0" fit-margin-right="0" fit-margin-top="0" id="base" pagecolor="#ffffff" showgrid="false" showguides="true" ns2:current-layer="layer1" ns2:cx="187.53175" ns2:cy="207.16357" ns2:document-units="px" ns2:guide-bbox="true" ns2:pageopacity="0.0" ns2:pageshadow="2" ns2:window-height="949" ns2:window-maximized="1" ns2:window-width="1280" ns2:window-x="0" ns2:window-y="25" ns2:zoom="1.5689358" />
+  <svg:g id="layer1" transform="translate(-17.819 -59.795)" ns2:groupmode="layer" ns2:label="Capa 1">
+    <svg:rect height="400.52" id="rect4963" style="fill:#000000" width="299.57" x="17.819" y="59.795" />
+    <svg:g id="g4929" transform="matrix(.51762 0 0 .51762 8.9849 28.844)">
+      <svg:path d="m424.73 469.93c0 63.586-51.546 115.13-115.13 115.13-63.586 0-115.13-51.546-115.13-115.13 0-63.586 51.546-115.13 115.13-115.13 63.586 0 115.13 51.546 115.13 115.13z" id="path3072" style="fill:url(#radialGradient4965)" transform="matrix(1.8675 0 0 1.8675 -271.75 -549.64)" ns1:cx="309.5994" ns1:cy="469.92831" ns1:rx="115.13228" ns1:ry="115.13228" ns1:type="arc" />
+      <svg:path d="m305.49 122.46c-110.53 0-203.59 86.528-203.59 197.06s91.288-27.911 201.82-27.911 208.18 141.27 208.18 30.734c0-110.53-95.885-199.89-206.41-199.89z" id="path3883" style="filter:url(#filter4251);fill:url(#radialGradient4967)" ns1:nodetypes="sssss" ns2:connector-curvature="0" />
+    </svg:g>
+    <svg:g id="g4988" mask="url(#mask5009)" transform="matrix(.51762 0 0 -.24805 8.9849 444.59)">
+      <svg:path d="m424.73 469.93c0 63.586-51.546 115.13-115.13 115.13-63.586 0-115.13-51.546-115.13-115.13 0-63.586 51.546-115.13 115.13-115.13 63.586 0 115.13 51.546 115.13 115.13z" id="path4990" style="fill:url(#radialGradient4965)" transform="matrix(1.8675 0 0 1.8675 -271.75 -549.64)" ns1:cx="309.5994" ns1:cy="469.92831" ns1:rx="115.13228" ns1:ry="115.13228" ns1:type="arc" />
+      <svg:path d="m305.49 122.46c-110.53 0-203.59 86.528-203.59 197.06s91.288-27.911 201.82-27.911 208.18 141.27 208.18 30.734c0-110.53-95.885-199.89-206.41-199.89z" id="path4992" style="filter:url(#filter4251);fill:url(#radialGradient4967)" ns1:nodetypes="sssss" ns2:connector-curvature="0" />
+    </svg:g>
+  </svg:g>
+  <svg:metadata>
+    <rdf:RDF>
+      <ns5:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns5:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <ns5:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </ns5:Agent>
+        </dc:publisher>
+        <dc:title>Glossy sphere w/reflex. Esfera brillante con reflejo.</dc:title>
+        <dc:date>2011-01-31T19:22:40</dc:date>
+        <dc:description>A glossy sphere with reflen on black background. Esfera brillante con reflejo sobre fondo negro.</dc:description>
+        <dc:source>https://openclipart.org/detail/116683/glossy-sphere-wreflex.-esfera-brillante-con-reflejo.-by-ehecatl1138</dc:source>
+        <dc:creator>
+          <ns5:Agent>
+            <dc:title>Ehecatl1138</dc:title>
+          </ns5:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>brillante</rdf:li>
+            <rdf:li>esfera</rdf:li>
+            <rdf:li>glossy</rdf:li>
+            <rdf:li>reflejo</rdf:li>
+            <rdf:li>reflex</rdf:li>
+            <rdf:li>sphere</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </ns5:Work>
+      <ns5:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns5:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns5:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns5:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns5:License>
+    </rdf:RDF>
+  </svg:metadata>
+</svg:svg>

@@ -1,633 +1,138 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="113.5206mm"
-   height="91.821175mm"
-   viewBox="0 0 402.23834 325.35062"
-   id="svg2"
-   version="1.1"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="shoppingcart.svg"
-   inkscape:export-filename="/home/algot/Documents/runeman.org/clipart/shoppingcart.png"
-   inkscape:export-xdpi="67.124382"
-   inkscape:export-ydpi="67.124382">
-  <title
-     id="title4457">Shopping Cart</title>
-  <defs
-     id="defs4">
-    <filter
-       inkscape:label="Raised Border"
-       inkscape:menu="Bevels"
-       inkscape:menu-tooltip="Strongly raised border around a flat surface"
-       height="1.5"
-       width="1.5"
-       y="-0.25"
-       x="-0.25"
-       style="color-interpolation-filters:sRGB"
-       id="filter4296">
-      <feGaussianBlur
-         stdDeviation="4"
-         result="result1"
-         id="feGaussianBlur4298" />
-      <feComposite
-         in="result1"
-         in2="result1"
-         result="result4"
-         operator="in"
-         id="feComposite4300" />
-      <feGaussianBlur
-         stdDeviation="2"
-         result="result6"
-         in="result4"
-         id="feGaussianBlur4302" />
-      <feComposite
-         operator="xor"
-         in="result6"
-         in2="result4"
-         result="result8"
-         id="feComposite4304" />
-      <feComposite
-         operator="atop"
-         result="fbSourceGraphic"
-         in="result4"
-         in2="result8"
-         id="feComposite4306" />
-      <feSpecularLighting
-         specularExponent="10"
-         specularConstant="1.29999995"
-         surfaceScale="3"
-         lighting-color="#ffffff"
-         result="result1"
-         in="fbSourceGraphic"
-         id="feSpecularLighting4308">
-        <feDistantLight
-           azimuth="235"
-           elevation="55"
-           id="feDistantLight4310" />
-      </feSpecularLighting>
-      <feComposite
-         operator="atop"
-         result="result2"
-         in="result1"
-         in2="fbSourceGraphic"
-         id="feComposite4312" />
-      <feComposite
-         k3="1"
-         k2="1"
-         operator="arithmetic"
-         result="result4"
-         in="fbSourceGraphic"
-         in2="result2"
-         id="feComposite4314"
-         k1="0"
-         k4="0" />
-      <feComposite
-         operator="over"
-         in="result4"
-         in2="SourceGraphic"
-         id="feComposite4316" />
-      <feBlend
-         mode="multiply"
-         in2="result2"
-         id="feBlend4318" />
-    </filter>
-    <filter
-       inkscape:collect="always"
-       style="color-interpolation-filters:sRGB"
-       id="filter4352"
-       x="-0.020538462"
-       width="1.0410769"
-       y="-0.028864864"
-       height="1.0577297">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="1.78"
-         id="feGaussianBlur4354" />
-    </filter>
-    <filter
-       inkscape:collect="always"
-       style="color-interpolation-filters:sRGB"
-       id="filter4364"
-       x="-0.014686567"
-       width="1.029373"
-       y="-0.0656"
-       height="1.1312">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="1.64"
-         id="feGaussianBlur4366" />
-    </filter>
-    <filter
-       inkscape:collect="always"
-       style="color-interpolation-filters:sRGB"
-       id="filter4404"
-       x="-0.048329517"
-       width="1.0966589"
-       y="-7.04"
-       height="15.08">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="8.8"
-         id="feGaussianBlur4406" />
-    </filter>
-  </defs>
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="1.2104574"
-     inkscape:cx="166.46851"
-     inkscape:cy="145.3773"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="1366"
-     inkscape:window-height="712"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     showguides="false"
-     fit-margin-top="0"
-     fit-margin-left="0"
-     fit-margin-right="0"
-     fit-margin-bottom="0">
-    <inkscape:grid
-       type="xygrid"
-       id="grid3336"
-       originx="312.96853"
-       originy="-416.6518" />
-  </sodipodi:namedview>
-  <metadata
-     id="metadata7">
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:ns2="http://www.inkscape.org/namespaces/inkscape" xmlns:ns4="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="470.54622796419517" id="svg2" version="1.1" viewBox="-29.637230473870886 -85.34853484946925 470.54622796419517 470.54622796419517" width="470.54622796419517" ns1:docname="shoppingcart.svg" ns2:export-filename="/home/algot/Documents/runeman.org/clipart/shoppingcart.png" ns2:export-xdpi="67.124382" ns2:export-ydpi="67.124382" ns2:version="0.91 r13725">
+  <svg:title id="title4457">Shopping Cart</svg:title>
+  <svg:defs id="defs4">
+    <svg:filter height="1.5" id="filter4296" style="color-interpolation-filters:sRGB" width="1.5" x="-0.25" y="-0.25" ns2:label="Raised Border" ns2:menu="Bevels" ns2:menu-tooltip="Strongly raised border around a flat surface">
+      <svg:feGaussianBlur id="feGaussianBlur4298" result="result1" stdDeviation="4" />
+      <svg:feComposite id="feComposite4300" in="result1" in2="result1" operator="in" result="result4" />
+      <svg:feGaussianBlur id="feGaussianBlur4302" in="result4" result="result6" stdDeviation="2" />
+      <svg:feComposite id="feComposite4304" in="result6" in2="result4" operator="xor" result="result8" />
+      <svg:feComposite id="feComposite4306" in="result4" in2="result8" operator="atop" result="fbSourceGraphic" />
+      <svg:feSpecularLighting id="feSpecularLighting4308" in="fbSourceGraphic" lighting-color="#ffffff" result="result1" specularConstant="1.29999995" specularExponent="10" surfaceScale="3">
+        <svg:feDistantLight azimuth="235" elevation="55" id="feDistantLight4310" />
+      </svg:feSpecularLighting>
+      <svg:feComposite id="feComposite4312" in="result1" in2="fbSourceGraphic" operator="atop" result="result2" />
+      <svg:feComposite id="feComposite4314" in="fbSourceGraphic" in2="result2" k1="0" k2="1" k3="1" k4="0" operator="arithmetic" result="result4" />
+      <svg:feComposite id="feComposite4316" in="result4" in2="SourceGraphic" operator="over" />
+      <svg:feBlend id="feBlend4318" in2="result2" mode="multiply" />
+    </svg:filter>
+    <svg:filter height="1.0577297" id="filter4352" style="color-interpolation-filters:sRGB" width="1.0410769" x="-0.020538462" y="-0.028864864" ns2:collect="always">
+      <svg:feGaussianBlur id="feGaussianBlur4354" stdDeviation="1.78" ns2:collect="always" />
+    </svg:filter>
+    <svg:filter height="1.1312" id="filter4364" style="color-interpolation-filters:sRGB" width="1.029373" x="-0.014686567" y="-0.0656" ns2:collect="always">
+      <svg:feGaussianBlur id="feGaussianBlur4366" stdDeviation="1.64" ns2:collect="always" />
+    </svg:filter>
+    <svg:filter height="15.08" id="filter4404" style="color-interpolation-filters:sRGB" width="1.0966589" x="-0.048329517" y="-7.04" ns2:collect="always">
+      <svg:feGaussianBlur id="feGaussianBlur4406" stdDeviation="8.8" ns2:collect="always" />
+    </svg:filter>
+  </svg:defs>
+  <ns1:namedview bordercolor="#666666" borderopacity="1.0" fit-margin-bottom="0" fit-margin-left="0" fit-margin-right="0" fit-margin-top="0" id="base" pagecolor="#ffffff" showgrid="false" showguides="false" ns2:current-layer="layer1" ns2:cx="166.46851" ns2:cy="145.3773" ns2:document-units="px" ns2:pageopacity="0.0" ns2:pageshadow="2" ns2:window-height="712" ns2:window-maximized="1" ns2:window-width="1366" ns2:window-x="0" ns2:window-y="0" ns2:zoom="1.2104574">
+    <ns2:grid id="grid3336" originx="312.96853" originy="-416.6518" type="xygrid" />
+  </ns1:namedview>
+  <svg:metadata id="metadata7">
     <rdf:RDF>
-      <cc:Work
-         rdf:about="">
+      <ns4:Work rdf:about="">
         <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
         <dc:title>Shopping Cart</dc:title>
         <dc:date>2016-02-17</dc:date>
         <dc:creator>
-          <cc:Agent>
+          <ns4:Agent>
             <dc:title>Algot Runeman</dc:title>
-          </cc:Agent>
+          </ns4:Agent>
         </dc:creator>
         <dc:rights>
-          <cc:Agent>
+          <ns4:Agent>
             <dc:title>Algot Runeman</dc:title>
-          </cc:Agent>
+          </ns4:Agent>
         </dc:rights>
         <dc:publisher>
-          <cc:Agent>
+          <ns4:Agent>
             <dc:title>runeman.org</dc:title>
-          </cc:Agent>
+          </ns4:Agent>
         </dc:publisher>
         <dc:identifier>shoppingcart.svg</dc:identifier>
-        <cc:license
-           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
-      </cc:Work>
-      <cc:License
-         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
-        <cc:permits
-           rdf:resource="http://creativecommons.org/ns#Reproduction" />
-        <cc:permits
-           rdf:resource="http://creativecommons.org/ns#Distribution" />
-        <cc:permits
-           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
-      </cc:License>
+        <ns4:license rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+      </ns4:Work>
+      <ns4:License rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <ns4:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns4:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns4:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns4:License>
     </rdf:RDF>
-  </metadata>
-  <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(312.96853,-310.3598)">
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:6;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4404)"
-       d="m -365,609.3622 437,0 0,-3"
-       id="path4374"
-       inkscape:connector-curvature="0"
-       transform="matrix(0.76884404,0,0,1.231134,-16.102471,-140.49766)" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -260,536.94798 20,8 218,-4 10,-10"
-       id="path4342"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccc" />
-    <path
-       style="fill:#000080;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -40,312.3622 22,98 58,0 c 1.666671,-4 1.666662,-5.33333 0,-8 l -54,0 -20,-90 c -3.23635,-2.4727 -4.735935,-1.47187 -6,0 z"
-       id="path4238"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccccc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#4d4d4d;stroke-width:3;stroke-linecap:butt;stroke-linejoin:bevel;stroke-opacity:1"
-       d="m -300,342.3622 20,140 290,0 30,-150 z"
-       id="path3338"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M -296.70711,352.3622 36,352.3622"
-       id="path3340"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 34,362.3622 -324,0 -6,0"
-       id="path3342"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M -294.35355,372.3622 32,372.3622"
-       id="path3344"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M -293.41421,382.3622 30,382.3622"
-       id="path3346"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M -292.12132,392.3622 28,392.3622"
-       id="path3348"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -290,402.3622 316,0"
-       id="path3350"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -290,412.3622 314,0"
-       id="path3352"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M -288.93934,422.3622 22,422.3622"
-       id="path3354"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M -287.17157,432.3622 20,432.3622"
-       id="path3356"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -285.41421,442.3622 305.41421,0 -2,0"
-       id="path3358"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -284,452.3622 300,0"
-       id="path3360"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path3362"
-       d="m -282,462.3622 296,0"
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -282,472.3622 294,0"
-       id="path3364"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       sodipodi:nodetypes="cc"
-       inkscape:connector-curvature="0"
-       id="path3366"
-       d="M -298.70711,342.3622 38,342.3622"
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    <path
-       style="fill:#cccccc;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -160,482.3622 c -1.9397,3.8389 -3.92804,8.15221 0,10 l 160,0 -8,50 -252,4 c -4.22925,1.20122 -5.29007,7.18873 0,10 l 262,-4 8,-60 c 5.665358,-0.22397 9.956503,-2.28022 10,-10 l 30,-140 30,0 c 0.961902,-4.35638 0.92515,-7.52627 0,-10 l -40,0 -30,150 z"
-       id="path3368"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccccccccccccc" />
-    <path
-       style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:1.08347392px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 52.041786,332.40389 0,9.91662 33.513595,0 c 3.118004,-2.07121 5.215039,-4.96842 0,-9.91662 z"
-       id="path3370"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -280,342.3622 0,130"
-       id="path4172"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -270,342.3622 0,140"
-       id="path4174"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4176"
-       d="m -260,342.3622 0,140"
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -250,342.3622 0,140"
-       id="path4178"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4180"
-       d="m -240,340.3622 0,142"
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -230,340.3622 0,142"
-       id="path4182"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4184"
-       d="m -220,340.3622 0,142"
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -210,340.3622 0,142"
-       id="path4186"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4188"
-       d="m -200,340.3622 0,142"
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -190,338.3622 0,144"
-       id="path4190"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4192"
-       d="m -180,338.3622 0,144"
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -170,338.3622 0,144"
-       id="path4194"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4196"
-       d="m -160,338.3622 0,144"
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -150,338.3622 0,144"
-       id="path4198"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4200"
-       d="m -140,338.3622 0,144"
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -130,338.3622 0,144"
-       id="path4202"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4204"
-       d="m -120,338.3622 0,144"
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -110,336.3622 0,146"
-       id="path4206"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4208"
-       d="m -100,336.3622 0,146"
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -90,336.3622 0,146"
-       id="path4210"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4212"
-       d="m -80,336.3622 0,146"
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -70,336.3622 0,146"
-       id="path4214"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4216"
-       d="m -60,336.3622 0,146"
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -50,334.3622 0,148"
-       id="path4218"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4220"
-       d="m -40,334.3622 0,148"
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -30,332.3622 0,150"
-       id="path4222"
-       inkscape:connector-curvature="0" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4224"
-       d="m -20,333.6122 0,148.75"
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -10,332.3622 0,150"
-       id="path4226"
-       inkscape:connector-curvature="0" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4228"
-       d="m 0,332.3622 0,150"
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 10,332.3622 0,150"
-       id="path4230"
-       inkscape:connector-curvature="0" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4232"
-       d="m 20,332.3622 0,90"
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 30,332.3622 0,40"
-       id="path4234"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4236"
-       d="m -290,342.3622 0,60"
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       sodipodi:nodetypes="cc" />
-    <g
-       id="g4320"
-       transform="translate(0,-10.110895)">
-      <circle
-         r="18.75"
-         cy="593.36218"
-         cx="-241"
-         id="path4244"
-         style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.5;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-      <circle
-         r="14.0625"
-         style="opacity:1;fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:1.87499988;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter4296)"
-         id="circle4246"
-         cx="-241"
-         cy="593.36218" />
-    </g>
-    <path
-       style="fill:#cccccc;fill-rule:evenodd;stroke:#000000;stroke-width:1.04313433px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -245.97843,556.38377 9.95686,0 0,32.78529 -9.95686,0 z"
-       id="path4242"
-       inkscape:connector-curvature="0" />
-    <circle
-       style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="path4324"
-       cx="-241"
-       cy="583.36218"
-       r="2.5" />
-    <path
-       style="fill:#cccccc;fill-rule:evenodd;stroke:#000000;stroke-width:1.28586543px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -255.85707,545.99016 0,6.67743 9.59193,10.01614 9.80516,0 10.31705,-10.01614 0,-6.67743 z"
-       id="path4240"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccccc" />
-    <g
-       transform="matrix(1.2178936,0,0,1.2178936,270.22156,-142.58269)"
-       id="g4326">
-      <circle
-         style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.5;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-         id="circle4328"
-         cx="-241"
-         cy="593.36218"
-         r="18.75" />
-      <circle
-         cy="593.36218"
-         cx="-241"
-         id="circle4330"
-         style="opacity:1;fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:1.87499988;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter4296)"
-         r="14.0625" />
-    </g>
-    <path
-       inkscape:connector-curvature="0"
-       id="path4334"
-       d="m -28.269231,553.09088 9.95686,0 0,32.78529 -9.95686,0 z"
-       style="fill:#cccccc;fill-rule:evenodd;stroke:#000000;stroke-width:1.04313433px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    <circle
-       r="2.5"
-       cy="580.06927"
-       cx="-23.290802"
-       id="circle4336"
-       style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    <path
-       sodipodi:nodetypes="ccccccc"
-       inkscape:connector-curvature="0"
-       id="path4332"
-       d="m -38.147872,542.69727 0,6.67743 9.591928,10.01614 9.805159,0 10.3170546,-10.01614 0,-6.67743 z"
-       style="fill:#cccccc;fill-rule:evenodd;stroke:#000000;stroke-width:1.28586543px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 40,332.3622 -30,152 -170,0"
-       id="path4344"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#666666;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4352)"
-       d="m 48,342.3622 -30,140 c -0.409031,4.9243 -3.854889,6.81178 -8,8 l -170,0"
-       id="path4346"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1.2928932,492.3622 -7.2928932,52 -254,4"
-       id="path4356"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#4d4d4d;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4364)"
-       d="m 8,492.3622 -8,58 -258,2"
-       id="path4358"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 42,333.65509 44,0"
-       id="path4368"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:#cccccc;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -298.17163,340.60178 18.35662,0 -7.16833,14.44577 -11.77246,8 -3.95007,-14.37318 c -0.84234,-6.85612 -2.11101,-8.07259 4.53424,-8.07259 z"
-       id="path4408"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccccc" />
-  </g>
-</svg>
+  </svg:metadata>
+  <svg:g id="layer1" transform="translate(312.96853,-310.3598)" ns2:groupmode="layer" ns2:label="Layer 1">
+    <svg:path d="m -365,609.3622 437,0 0,-3" id="path4374" style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:6;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4404)" transform="matrix(0.76884404,0,0,1.231134,-16.102471,-140.49766)" ns2:connector-curvature="0" />
+    <svg:path d="m -260,536.94798 20,8 218,-4 10,-10" id="path4342" style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cccc" ns2:connector-curvature="0" />
+    <svg:path d="m -40,312.3622 22,98 58,0 c 1.666671,-4 1.666662,-5.33333 0,-8 l -54,0 -20,-90 c -3.23635,-2.4727 -4.735935,-1.47187 -6,0 z" id="path4238" style="fill:#000080;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="ccccccc" ns2:connector-curvature="0" />
+    <svg:path d="m -300,342.3622 20,140 290,0 30,-150 z" id="path3338" style="fill:none;fill-rule:evenodd;stroke:#4d4d4d;stroke-width:3;stroke-linecap:butt;stroke-linejoin:bevel;stroke-opacity:1" ns1:nodetypes="ccccc" ns2:connector-curvature="0" />
+    <svg:path d="M -296.70711,352.3622 36,352.3622" id="path3340" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m 34,362.3622 -324,0 -6,0" id="path3342" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="ccc" ns2:connector-curvature="0" />
+    <svg:path d="M -294.35355,372.3622 32,372.3622" id="path3344" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="M -293.41421,382.3622 30,382.3622" id="path3346" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="M -292.12132,392.3622 28,392.3622" id="path3348" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -290,402.3622 316,0" id="path3350" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -290,412.3622 314,0" id="path3352" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="M -288.93934,422.3622 22,422.3622" id="path3354" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="M -287.17157,432.3622 20,432.3622" id="path3356" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -285.41421,442.3622 305.41421,0 -2,0" id="path3358" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="ccc" ns2:connector-curvature="0" />
+    <svg:path d="m -284,452.3622 300,0" id="path3360" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -282,462.3622 296,0" id="path3362" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -282,472.3622 294,0" id="path3364" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="M -298.70711,342.3622 38,342.3622" id="path3366" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -160,482.3622 c -1.9397,3.8389 -3.92804,8.15221 0,10 l 160,0 -8,50 -252,4 c -4.22925,1.20122 -5.29007,7.18873 0,10 l 262,-4 8,-60 c 5.665358,-0.22397 9.956503,-2.28022 10,-10 l 30,-140 30,0 c 0.961902,-4.35638 0.92515,-7.52627 0,-10 l -40,0 -30,150 z" id="path3368" style="fill:#cccccc;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="ccccccccccccccc" ns2:connector-curvature="0" />
+    <svg:path d="m 52.041786,332.40389 0,9.91662 33.513595,0 c 3.118004,-2.07121 5.215039,-4.96842 0,-9.91662 z" id="path3370" style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:1.08347392px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="ccccc" ns2:connector-curvature="0" />
+    <svg:path d="m -280,342.3622 0,130" id="path4172" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -270,342.3622 0,140" id="path4174" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -260,342.3622 0,140" id="path4176" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -250,342.3622 0,140" id="path4178" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -240,340.3622 0,142" id="path4180" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -230,340.3622 0,142" id="path4182" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -220,340.3622 0,142" id="path4184" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -210,340.3622 0,142" id="path4186" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -200,340.3622 0,142" id="path4188" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -190,338.3622 0,144" id="path4190" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -180,338.3622 0,144" id="path4192" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -170,338.3622 0,144" id="path4194" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -160,338.3622 0,144" id="path4196" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -150,338.3622 0,144" id="path4198" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -140,338.3622 0,144" id="path4200" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -130,338.3622 0,144" id="path4202" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -120,338.3622 0,144" id="path4204" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -110,336.3622 0,146" id="path4206" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -100,336.3622 0,146" id="path4208" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -90,336.3622 0,146" id="path4210" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -80,336.3622 0,146" id="path4212" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -70,336.3622 0,146" id="path4214" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -60,336.3622 0,146" id="path4216" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -50,334.3622 0,148" id="path4218" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -40,334.3622 0,148" id="path4220" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -30,332.3622 0,150" id="path4222" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+    <svg:path d="m -20,333.6122 0,148.75" id="path4224" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -10,332.3622 0,150" id="path4226" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+    <svg:path d="m 0,332.3622 0,150" id="path4228" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+    <svg:path d="m 10,332.3622 0,150" id="path4230" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+    <svg:path d="m 20,332.3622 0,90" id="path4232" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m 30,332.3622 0,40" id="path4234" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -290,342.3622 0,60" id="path4236" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:g id="g4320" transform="translate(0,-10.110895)">
+      <svg:circle cx="-241" cy="593.36218" id="path4244" r="18.75" style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.5;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <svg:circle cx="-241" cy="593.36218" id="circle4246" r="14.0625" style="opacity:1;fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:1.87499988;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter4296)" />
+    </svg:g>
+    <svg:path d="m -245.97843,556.38377 9.95686,0 0,32.78529 -9.95686,0 z" id="path4242" style="fill:#cccccc;fill-rule:evenodd;stroke:#000000;stroke-width:1.04313433px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+    <svg:circle cx="-241" cy="583.36218" id="path4324" r="2.5" style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <svg:path d="m -255.85707,545.99016 0,6.67743 9.59193,10.01614 9.80516,0 10.31705,-10.01614 0,-6.67743 z" id="path4240" style="fill:#cccccc;fill-rule:evenodd;stroke:#000000;stroke-width:1.28586543px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="ccccccc" ns2:connector-curvature="0" />
+    <svg:g id="g4326" transform="matrix(1.2178936,0,0,1.2178936,270.22156,-142.58269)">
+      <svg:circle cx="-241" cy="593.36218" id="circle4328" r="18.75" style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.5;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <svg:circle cx="-241" cy="593.36218" id="circle4330" r="14.0625" style="opacity:1;fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:1.87499988;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter4296)" />
+    </svg:g>
+    <svg:path d="m -28.269231,553.09088 9.95686,0 0,32.78529 -9.95686,0 z" id="path4334" style="fill:#cccccc;fill-rule:evenodd;stroke:#000000;stroke-width:1.04313433px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+    <svg:circle cx="-23.290802" cy="580.06927" id="circle4336" r="2.5" style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <svg:path d="m -38.147872,542.69727 0,6.67743 9.591928,10.01614 9.805159,0 10.3170546,-10.01614 0,-6.67743 z" id="path4332" style="fill:#cccccc;fill-rule:evenodd;stroke:#000000;stroke-width:1.28586543px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="ccccccc" ns2:connector-curvature="0" />
+    <svg:path d="m 40,332.3622 -30,152 -170,0" id="path4344" style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="ccc" ns2:connector-curvature="0" />
+    <svg:path d="m 48,342.3622 -30,140 c -0.409031,4.9243 -3.854889,6.81178 -8,8 l -170,0" id="path4346" style="fill:none;fill-rule:evenodd;stroke:#666666;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4352)" ns1:nodetypes="cccc" ns2:connector-curvature="0" />
+    <svg:path d="m 1.2928932,492.3622 -7.2928932,52 -254,4" id="path4356" style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="ccc" ns2:connector-curvature="0" />
+    <svg:path d="m 8,492.3622 -8,58 -258,2" id="path4358" style="fill:none;fill-rule:evenodd;stroke:#4d4d4d;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4364)" ns1:nodetypes="ccc" ns2:connector-curvature="0" />
+    <svg:path d="m 42,333.65509 44,0" id="path4368" style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cc" ns2:connector-curvature="0" />
+    <svg:path d="m -298.17163,340.60178 18.35662,0 -7.16833,14.44577 -11.77246,8 -3.95007,-14.37318 c -0.84234,-6.85612 -2.11101,-8.07259 4.53424,-8.07259 z" id="path4408" style="fill:#cccccc;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cccccc" ns2:connector-curvature="0" />
+  </svg:g>
+</svg:svg>

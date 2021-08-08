@@ -1,147 +1,148 @@
-<?xml version="1.0"?>
-<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:svg="http://www.w3.org/2000/svg" id="svg2" viewBox="0 0 1621.4 609.28" version="1.1">
-  <defs id="defs4">
-    <filter id="filter3684" height="2" width="1.5" y="-.5" x="-.25" color-interpolation-filters="sRGB">
-      <feGaussianBlur id="feGaussianBlur3686" stdDeviation="5" result="result8"/>
-      <feTurbulence id="feTurbulence3688" baseFrequency="0.02" seed="0" result="result7" numOctaves="1" type="turbulence"/>
-      <feColorMatrix id="feColorMatrix3690" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 4 0 " result="result5"/>
-      <feComposite id="feComposite3692" operator="in" in="result8" in2="result8" result="result6"/>
-      <feDisplacementMap id="feDisplacementMap3694" scale="120" yChannelSelector="A" in2="result6" result="result4" xChannelSelector="A" in="result5"/>
-      <feComposite id="feComposite3696" operator="in" in="result8" in2="result4" result="result2"/>
-      <feComposite id="feComposite3698" operator="in" in="SourceGraphic" in2="result2" result="fbSourceGraphic"/>
-    </filter>
-    <linearGradient id="linearGradient3607-0">
-      <stop id="stop3609-8" stop-color="#fff" offset="0"/>
-      <stop id="stop3611-5" stop-color="#fff" stop-opacity="0" offset="1"/>
-    </linearGradient>
-    <radialGradient id="radialGradient3728" cx="287.14" xlink:href="#linearGradient3607-0" gradientUnits="userSpaceOnUse" cy="536.65" r="138.57"/>
-    <linearGradient id="linearGradient3766" y2="566.12" xlink:href="#linearGradient3607-0" gradientUnits="userSpaceOnUse" y1="256.19" gradientTransform="matrix(.92343 0 0 .76953 95.821 -94.243)" x2="289.1" x1="289.1"/>
-    <radialGradient id="radialGradient3804" gradientUnits="userSpaceOnUse" cy="536.65" cx="287.14" r="138.57">
-      <stop id="stop3592" stop-color="#01b4ff" offset="0"/>
-      <stop id="stop3594" stop-color="#001e40" offset="1"/>
-    </radialGradient>
-    <linearGradient id="linearGradient3843" y2="550.16" gradientUnits="userSpaceOnUse" y1="382.36" x2="393.15" x1="171.29">
-      <stop id="stop3635-1" stop-color="#002044" offset="0"/>
-      <stop id="stop3649-5" stop-color="#a6cae2" offset=".5"/>
-      <stop id="stop3647-6" stop-color="#002044" offset="1"/>
-    </linearGradient>
-    <radialGradient id="radialGradient3911" gradientUnits="userSpaceOnUse" cy="536.65" cx="287.14" r="138.57">
-      <stop id="stop3592-5" stop-color="#01d2ff" offset="0"/>
-      <stop id="stop3594-8" stop-color="#005364" offset="1"/>
-    </radialGradient>
-    <filter id="filter3913" height="2" width="1.5" y="-.5" x="-.25" color-interpolation-filters="sRGB">
-      <feGaussianBlur id="feGaussianBlur3915" stdDeviation="4" result="result8"/>
-      <feTurbulence id="feTurbulence3917" baseFrequency="0.05" seed="1" result="result7" numOctaves="1" type="fractalNoise"/>
-      <feColorMatrix id="feColorMatrix3919" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 2 -0.75 " result="result5"/>
-      <feComposite id="feComposite3921" operator="out" result="result6" in2="result7" in="result8"/>
-      <feDisplacementMap id="feDisplacementMap3923" scale="120" yChannelSelector="A" in2="result6" result="result4" xChannelSelector="A" in="result5"/>
-      <feComposite id="feComposite3925" k4="0" in2="result4" k3="0.5" k2="0" k1="1" result="result2" in="result8" operator="arithmetic"/>
-      <feComposite id="feComposite3927" operator="in" result="fbSourceGraphic" in2="result2" in="SourceGraphic"/>
-    </filter>
-    <linearGradient id="linearGradient3090" y2="566.12" xlink:href="#linearGradient3607-0" gradientUnits="userSpaceOnUse" x2="289.1" gradientTransform="matrix(.92343 0 0 .76953 599.47 -94.243)" y1="256.19" x1="289.1"/>
-    <radialGradient id="radialGradient3092" gradientUnits="userSpaceOnUse" cy="536.65" cx="287.14" r="138.57">
-      <stop id="stop3870" stop-color="#ff1801" offset="0"/>
-      <stop id="stop3872" stop-color="#400000" offset="1"/>
-    </radialGradient>
-    <linearGradient id="linearGradient3094" y2="550.16" gradientUnits="userSpaceOnUse" y1="382.36" x2="393.15" x1="171.29">
-      <stop id="stop3774" stop-color="#fff" offset="0"/>
-      <stop id="stop4165" stop-color="#c5c5c5" offset=".038906"/>
-      <stop id="stop3798" stop-color="#f4f4f4" offset=".077812"/>
-      <stop id="stop3794" stop-color="#0d0d0d" offset=".23616"/>
-      <stop id="stop3796" offset=".30558"/>
-      <stop id="stop3792" stop-color="#e4e4e4" offset=".40635"/>
-      <stop id="stop3790" stop-color="#232323" offset=".61982"/>
-      <stop id="stop3788" stop-color="#e0e0e0" offset=".84985"/>
-      <stop id="stop3776" stop-color="#212121" offset="1"/>
-    </linearGradient>
-    <radialGradient id="radialGradient3130" gradientUnits="userSpaceOnUse" cy="536.65" cx="287.14" r="138.57">
-      <stop id="stop3908" stop-color="#01ff1c" offset="0"/>
-      <stop id="stop3910" stop-color="#004008" offset="1"/>
-    </radialGradient>
-    <linearGradient id="linearGradient3134" y2="566.12" xlink:href="#linearGradient3607-0" gradientUnits="userSpaceOnUse" x2="289.1" gradientTransform="matrix(.92343 0 0 .76953 -407.82 -94.243)" y1="256.19" x1="289.1"/>
-  </defs>
-  <g id="layer3" transform="translate(449.72 -24.844)">
-    <rect id="rect3944" style="color:#000000" height="602.01" width="1614.1" stroke="#01d2ff" y="28.472" x="-446.07" stroke-width="7.284"/>
-  </g>
-  <g id="g3062" transform="translate(449.72 -24.844)">
-    <g id="g3064">
-      <path id="path3066" style="color:#000000" d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" transform="matrix(-1.4208 0 0 1.4208 1272.6 -330.13)" stroke="url(#linearGradient3094)" stroke-width="11.261" fill="none"/>
-    </g>
-    <g id="g3068">
-      <path id="path3070" style="color:#000000" d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" transform="matrix(1.3178 0 0 1.3178 486.24 -282.2)" stroke="url(#linearGradient3094)" stroke-width="12.142" fill="none"/>
-    </g>
-    <g id="g3072">
-      <path id="path3074" d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" style="color:#000000" fill="url(#radialGradient3092)" transform="matrix(1.2652 0 0 1.2652 501.34 -257.73)"/>
-    </g>
-    <g id="g3076">
-      <path id="path3078" opacity=".5" style="color:#000000" d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" transform="matrix(1.2652 0 0 -1.2652 501.34 919.42)" filter="url(#filter3684)" fill="url(#radialGradient3092)"/>
-    </g>
-    <g id="g3080">
-      <path id="path3082" opacity=".8" d="m992.58 263.76c0-58.893-57.29-106.63-127.96-106.63-70.671 0-127.96 47.742-127.96 106.63 0 58.893 57.29 77.717 127.96 77.717 70.671 0 127.96-18.824 127.96-77.717z" style="color:#000000" fill="url(#linearGradient3090)"/>
-    </g>
-    <g id="g3084">
-      <path id="path3086" opacity=".8" style="color:#000000" d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" transform="matrix(-.21508 -.28487 .28487 -.11386 853.99 353.52)" fill="url(#radialGradient3728)"/>
-    </g>
-  </g>
-  <g id="layer1" transform="translate(449.72 -24.844)">
-    <g id="g3701">
-      <path id="path3672" style="color:#000000" d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" transform="matrix(-1.4208 0 0 1.4208 768.95 -330.13)" stroke="url(#linearGradient3843)" stroke-width="11.261" fill="none"/>
-    </g>
-    <g id="layer2">
-      <path id="path3631" style="color:#000000" d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" transform="matrix(1.3178 0 0 1.3178 -17.405 -282.2)" stroke="url(#linearGradient3843)" stroke-width="12.142" fill="none"/>
-    </g>
-    <g id="g3703">
-      <path id="path2816" d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" style="color:#000000" fill="url(#radialGradient3804)" transform="matrix(1.2652 0 0 1.2652 -2.3017 -257.73)"/>
-    </g>
-    <g id="g3907">
-      <path id="path3909" opacity=".5" style="color:#000000" d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" transform="matrix(1.2652 0 0 -1.2652 -2.3017 919.42)" filter="url(#filter3913)" fill="url(#radialGradient3911)"/>
-    </g>
-    <g id="g3705">
-      <path id="path3602" opacity=".8" d="m488.94 263.76c0-58.893-57.29-106.63-127.96-106.63-70.671 0-127.96 47.742-127.96 106.63 0 58.893 57.29 77.717 127.96 77.717 70.671 0 127.96-18.824 127.96-77.717z" style="color:#000000" fill="url(#linearGradient3766)"/>
-    </g>
-    <g id="g3707">
-      <path id="path3621" opacity=".8" style="color:#000000" d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" transform="matrix(-.21508 -.28487 .28487 -.11386 350.34 353.52)" fill="url(#radialGradient3728)"/>
-    </g>
-  </g>
-  <g id="g3100" transform="translate(449.72 -24.844)">
-    <g id="g3102">
-      <path id="path3104" style="color:#000000" d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" transform="matrix(-1.4208 0 0 1.4208 265.3 -330.13)" stroke="url(#linearGradient3094)" stroke-width="11.261" fill="none"/>
-    </g>
-    <g id="g3106">
-      <path id="path3108" style="color:#000000" d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" transform="matrix(1.3178 0 0 1.3178 -521.05 -282.2)" stroke="url(#linearGradient3094)" stroke-width="12.142" fill="none"/>
-    </g>
-    <g id="g3110">
-      <path id="path3112" d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" style="color:#000000" fill="url(#radialGradient3130)" transform="matrix(1.2652 0 0 1.2652 -505.95 -257.73)"/>
-    </g>
-    <g id="g3114">
-      <path id="path3116" opacity=".5" style="color:#000000" d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" transform="matrix(1.2652 0 0 -1.2652 -505.95 919.42)" filter="url(#filter3684)" fill="url(#radialGradient3130)"/>
-    </g>
-    <g id="g3118">
-      <path id="path3120" opacity=".8" d="m-14.705 263.76c0-58.893-57.29-106.63-127.96-106.63-70.671 0-127.96 47.742-127.96 106.63 0 58.893 57.29 77.717 127.96 77.717 70.671 0 127.96-18.824 127.96-77.717z" style="color:#000000" fill="url(#linearGradient3134)"/>
-    </g>
-    <g id="g3122">
-      <path id="path3124" opacity=".8" style="color:#000000" d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" transform="matrix(-.21508 -.28487 .28487 -.11386 -153.3 353.52)" fill="url(#radialGradient3728)"/>
-    </g>
-  </g>
-  <metadata>
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://www.w3.org/1999/xlink" xmlns:ns3="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="1936.9199999999998" id="svg2" version="1.1" viewBox="-157.75999999999993 -663.827 1936.9199999999998 1936.9199999999998" width="1936.9199999999998">
+  <svg:defs id="defs4">
+    <svg:filter color-interpolation-filters="sRGB" height="2" id="filter3684" width="1.5" x="-.25" y="-.5">
+      <svg:feGaussianBlur id="feGaussianBlur3686" result="result8" stdDeviation="5" />
+      <svg:feTurbulence baseFrequency="0.02" id="feTurbulence3688" numOctaves="1" result="result7" seed="0" type="turbulence" />
+      <svg:feColorMatrix id="feColorMatrix3690" result="result5" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 4 0 " />
+      <svg:feComposite id="feComposite3692" in="result8" in2="result8" operator="in" result="result6" />
+      <svg:feDisplacementMap id="feDisplacementMap3694" in="result5" in2="result6" result="result4" scale="120" xChannelSelector="A" yChannelSelector="A" />
+      <svg:feComposite id="feComposite3696" in="result8" in2="result4" operator="in" result="result2" />
+      <svg:feComposite id="feComposite3698" in="SourceGraphic" in2="result2" operator="in" result="fbSourceGraphic" />
+    </svg:filter>
+    <svg:linearGradient id="linearGradient3607-0">
+      <svg:stop id="stop3609-8" offset="0" stop-color="#fff" />
+      <svg:stop id="stop3611-5" offset="1" stop-color="#fff" stop-opacity="0" />
+    </svg:linearGradient>
+    <svg:radialGradient cx="287.14" cy="536.65" gradientUnits="userSpaceOnUse" id="radialGradient3728" r="138.57" ns1:href="#linearGradient3607-0" />
+    <svg:linearGradient gradientTransform="matrix(.92343 0 0 .76953 95.821 -94.243)" gradientUnits="userSpaceOnUse" id="linearGradient3766" x1="289.1" x2="289.1" y1="256.19" y2="566.12" ns1:href="#linearGradient3607-0" />
+    <svg:radialGradient cx="287.14" cy="536.65" gradientUnits="userSpaceOnUse" id="radialGradient3804" r="138.57">
+      <svg:stop id="stop3592" offset="0" stop-color="#01b4ff" />
+      <svg:stop id="stop3594" offset="1" stop-color="#001e40" />
+    </svg:radialGradient>
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="linearGradient3843" x1="171.29" x2="393.15" y1="382.36" y2="550.16">
+      <svg:stop id="stop3635-1" offset="0" stop-color="#002044" />
+      <svg:stop id="stop3649-5" offset=".5" stop-color="#a6cae2" />
+      <svg:stop id="stop3647-6" offset="1" stop-color="#002044" />
+    </svg:linearGradient>
+    <svg:radialGradient cx="287.14" cy="536.65" gradientUnits="userSpaceOnUse" id="radialGradient3911" r="138.57">
+      <svg:stop id="stop3592-5" offset="0" stop-color="#01d2ff" />
+      <svg:stop id="stop3594-8" offset="1" stop-color="#005364" />
+    </svg:radialGradient>
+    <svg:filter color-interpolation-filters="sRGB" height="2" id="filter3913" width="1.5" x="-.25" y="-.5">
+      <svg:feGaussianBlur id="feGaussianBlur3915" result="result8" stdDeviation="4" />
+      <svg:feTurbulence baseFrequency="0.05" id="feTurbulence3917" numOctaves="1" result="result7" seed="1" type="fractalNoise" />
+      <svg:feColorMatrix id="feColorMatrix3919" result="result5" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 2 -0.75 " />
+      <svg:feComposite id="feComposite3921" in="result8" in2="result7" operator="out" result="result6" />
+      <svg:feDisplacementMap id="feDisplacementMap3923" in="result5" in2="result6" result="result4" scale="120" xChannelSelector="A" yChannelSelector="A" />
+      <svg:feComposite id="feComposite3925" in="result8" in2="result4" k1="1" k2="0" k3="0.5" k4="0" operator="arithmetic" result="result2" />
+      <svg:feComposite id="feComposite3927" in="SourceGraphic" in2="result2" operator="in" result="fbSourceGraphic" />
+    </svg:filter>
+    <svg:linearGradient gradientTransform="matrix(.92343 0 0 .76953 599.47 -94.243)" gradientUnits="userSpaceOnUse" id="linearGradient3090" x1="289.1" x2="289.1" y1="256.19" y2="566.12" ns1:href="#linearGradient3607-0" />
+    <svg:radialGradient cx="287.14" cy="536.65" gradientUnits="userSpaceOnUse" id="radialGradient3092" r="138.57">
+      <svg:stop id="stop3870" offset="0" stop-color="#ff1801" />
+      <svg:stop id="stop3872" offset="1" stop-color="#400000" />
+    </svg:radialGradient>
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="linearGradient3094" x1="171.29" x2="393.15" y1="382.36" y2="550.16">
+      <svg:stop id="stop3774" offset="0" stop-color="#fff" />
+      <svg:stop id="stop4165" offset=".038906" stop-color="#c5c5c5" />
+      <svg:stop id="stop3798" offset=".077812" stop-color="#f4f4f4" />
+      <svg:stop id="stop3794" offset=".23616" stop-color="#0d0d0d" />
+      <svg:stop id="stop3796" offset=".30558" />
+      <svg:stop id="stop3792" offset=".40635" stop-color="#e4e4e4" />
+      <svg:stop id="stop3790" offset=".61982" stop-color="#232323" />
+      <svg:stop id="stop3788" offset=".84985" stop-color="#e0e0e0" />
+      <svg:stop id="stop3776" offset="1" stop-color="#212121" />
+    </svg:linearGradient>
+    <svg:radialGradient cx="287.14" cy="536.65" gradientUnits="userSpaceOnUse" id="radialGradient3130" r="138.57">
+      <svg:stop id="stop3908" offset="0" stop-color="#01ff1c" />
+      <svg:stop id="stop3910" offset="1" stop-color="#004008" />
+    </svg:radialGradient>
+    <svg:linearGradient gradientTransform="matrix(.92343 0 0 .76953 -407.82 -94.243)" gradientUnits="userSpaceOnUse" id="linearGradient3134" x1="289.1" x2="289.1" y1="256.19" y2="566.12" ns1:href="#linearGradient3607-0" />
+  </svg:defs>
+  <svg:g id="layer3" transform="translate(449.72 -24.844)">
+    <svg:rect height="602.01" id="rect3944" stroke="#01d2ff" stroke-width="7.284" style="color:#000000" width="1614.1" x="-446.07" y="28.472" />
+  </svg:g>
+  <svg:g id="g3062" transform="translate(449.72 -24.844)">
+    <svg:g id="g3064">
+      <svg:path d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" fill="none" id="path3066" stroke="url(#linearGradient3094)" stroke-width="11.261" style="color:#000000" transform="matrix(-1.4208 0 0 1.4208 1272.6 -330.13)" />
+    </svg:g>
+    <svg:g id="g3068">
+      <svg:path d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" fill="none" id="path3070" stroke="url(#linearGradient3094)" stroke-width="12.142" style="color:#000000" transform="matrix(1.3178 0 0 1.3178 486.24 -282.2)" />
+    </svg:g>
+    <svg:g id="g3072">
+      <svg:path d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" fill="url(#radialGradient3092)" id="path3074" style="color:#000000" transform="matrix(1.2652 0 0 1.2652 501.34 -257.73)" />
+    </svg:g>
+    <svg:g id="g3076">
+      <svg:path d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" fill="url(#radialGradient3092)" filter="url(#filter3684)" id="path3078" opacity=".5" style="color:#000000" transform="matrix(1.2652 0 0 -1.2652 501.34 919.42)" />
+    </svg:g>
+    <svg:g id="g3080">
+      <svg:path d="m992.58 263.76c0-58.893-57.29-106.63-127.96-106.63-70.671 0-127.96 47.742-127.96 106.63 0 58.893 57.29 77.717 127.96 77.717 70.671 0 127.96-18.824 127.96-77.717z" fill="url(#linearGradient3090)" id="path3082" opacity=".8" style="color:#000000" />
+    </svg:g>
+    <svg:g id="g3084">
+      <svg:path d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" fill="url(#radialGradient3728)" id="path3086" opacity=".8" style="color:#000000" transform="matrix(-.21508 -.28487 .28487 -.11386 853.99 353.52)" />
+    </svg:g>
+  </svg:g>
+  <svg:g id="layer1" transform="translate(449.72 -24.844)">
+    <svg:g id="g3701">
+      <svg:path d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" fill="none" id="path3672" stroke="url(#linearGradient3843)" stroke-width="11.261" style="color:#000000" transform="matrix(-1.4208 0 0 1.4208 768.95 -330.13)" />
+    </svg:g>
+    <svg:g id="layer2">
+      <svg:path d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" fill="none" id="path3631" stroke="url(#linearGradient3843)" stroke-width="12.142" style="color:#000000" transform="matrix(1.3178 0 0 1.3178 -17.405 -282.2)" />
+    </svg:g>
+    <svg:g id="g3703">
+      <svg:path d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" fill="url(#radialGradient3804)" id="path2816" style="color:#000000" transform="matrix(1.2652 0 0 1.2652 -2.3017 -257.73)" />
+    </svg:g>
+    <svg:g id="g3907">
+      <svg:path d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" fill="url(#radialGradient3911)" filter="url(#filter3913)" id="path3909" opacity=".5" style="color:#000000" transform="matrix(1.2652 0 0 -1.2652 -2.3017 919.42)" />
+    </svg:g>
+    <svg:g id="g3705">
+      <svg:path d="m488.94 263.76c0-58.893-57.29-106.63-127.96-106.63-70.671 0-127.96 47.742-127.96 106.63 0 58.893 57.29 77.717 127.96 77.717 70.671 0 127.96-18.824 127.96-77.717z" fill="url(#linearGradient3766)" id="path3602" opacity=".8" style="color:#000000" />
+    </svg:g>
+    <svg:g id="g3707">
+      <svg:path d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" fill="url(#radialGradient3728)" id="path3621" opacity=".8" style="color:#000000" transform="matrix(-.21508 -.28487 .28487 -.11386 350.34 353.52)" />
+    </svg:g>
+  </svg:g>
+  <svg:g id="g3100" transform="translate(449.72 -24.844)">
+    <svg:g id="g3102">
+      <svg:path d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" fill="none" id="path3104" stroke="url(#linearGradient3094)" stroke-width="11.261" style="color:#000000" transform="matrix(-1.4208 0 0 1.4208 265.3 -330.13)" />
+    </svg:g>
+    <svg:g id="g3106">
+      <svg:path d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" fill="none" id="path3108" stroke="url(#linearGradient3094)" stroke-width="12.142" style="color:#000000" transform="matrix(1.3178 0 0 1.3178 -521.05 -282.2)" />
+    </svg:g>
+    <svg:g id="g3110">
+      <svg:path d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" fill="url(#radialGradient3130)" id="path3112" style="color:#000000" transform="matrix(1.2652 0 0 1.2652 -505.95 -257.73)" />
+    </svg:g>
+    <svg:g id="g3114">
+      <svg:path d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" fill="url(#radialGradient3130)" filter="url(#filter3684)" id="path3116" opacity=".5" style="color:#000000" transform="matrix(1.2652 0 0 -1.2652 -505.95 919.42)" />
+    </svg:g>
+    <svg:g id="g3118">
+      <svg:path d="m-14.705 263.76c0-58.893-57.29-106.63-127.96-106.63-70.671 0-127.96 47.742-127.96 106.63 0 58.893 57.29 77.717 127.96 77.717 70.671 0 127.96-18.824 127.96-77.717z" fill="url(#linearGradient3134)" id="path3120" opacity=".8" style="color:#000000" />
+    </svg:g>
+    <svg:g id="g3122">
+      <svg:path d="m425.71 465.22c0 76.531-62.041 138.57-138.57 138.57-76.531 0-138.57-62.041-138.57-138.57 0-76.531 62.041-138.57 138.57-138.57 76.531 0 138.57 62.041 138.57 138.57z" fill="url(#radialGradient3728)" id="path3124" opacity=".8" style="color:#000000" transform="matrix(-.21508 -.28487 .28487 -.11386 -153.3 353.52)" />
+    </svg:g>
+  </svg:g>
+  <svg:metadata>
     <rdf:RDF>
-      <cc:Work>
+      <ns3:Work>
         <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns3:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
         <dc:publisher>
-          <cc:Agent rdf:about="http://openclipart.org/">
+          <ns3:Agent rdf:about="http://openclipart.org/">
             <dc:title>Openclipart</dc:title>
-          </cc:Agent>
+          </ns3:Agent>
         </dc:publisher>
         <dc:title>Mana/Energy &amp; Health Orbs</dc:title>
         <dc:date>2013-06-29T10:19:07</dc:date>
-        <dc:description>These are some orbs that could be used as game ui for health, energy and/or rage icons, etc. Of course they could also be used as icons for many other things or for buttons on a website, etc. Could be useful for many things. Just use your imagination and enjoy.&#xD;\n&#xD;\n I made these orbs from a tutorial and they turned out decent enough that I thought I should share them.</dc:description>
+        <dc:description>These are some orbs that could be used as game ui for health, energy and/or rage icons, etc. Of course they could also be used as icons for many other things or for buttons on a website, etc. Could be useful for many things. Just use your imagination and enjoy.
+\n
+\n I made these orbs from a tutorial and they turned out decent enough that I thought I should share them.</dc:description>
         <dc:source>http://openclipart.org/detail/179860/manaenergy--health-orbs-by-mrsmiles-179860</dc:source>
         <dc:creator>
-          <cc:Agent>
+          <ns3:Agent>
             <dc:title>MrSmiles</dc:title>
-          </cc:Agent>
+          </ns3:Agent>
         </dc:creator>
         <dc:subject>
           <rdf:Bag>
@@ -154,12 +155,12 @@
             <rdf:li>mana orbs</rdf:li>
           </rdf:Bag>
         </dc:subject>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
-        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
-        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
-        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
-      </cc:License>
+      </ns3:Work>
+      <ns3:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns3:License>
     </rdf:RDF>
-  </metadata>
-</svg>
+  </svg:metadata>
+</svg:svg>

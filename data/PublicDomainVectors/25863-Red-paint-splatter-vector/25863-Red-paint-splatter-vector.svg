@@ -1,880 +1,237 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:cc="http://web.resource.org/cc/"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    xmlns:ns1="http://sozi.baierouge.fr"
-    viewBox="0 0 561 582"
-  >
-  <defs
-    >
-    <linearGradient
-        id="imagebot_124"
-      >
-      <stop
-          id="imagebot_233"
-          stop-color="#000000"
-          offset="0"
-      />
-      <stop
-          id="imagebot_232"
-          stop-color="#000000"
-          stop-opacity="0"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="imagebot_132"
-      >
-      <stop
-          id="imagebot_230"
-          stop-color="#f2f2f2"
-          offset="0"
-      />
-      <stop
-          id="imagebot_229"
-          stop-color="#b3b3b3"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="imagebot_131"
-      >
-      <stop
-          id="imagebot_227"
-          stop-color="#666666"
-          offset="0"
-      />
-      <stop
-          id="imagebot_226"
-          stop-color="#ffffff"
-          offset=".5"
-      />
-      <stop
-          id="imagebot_225"
-          stop-color="#666666"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="imagebot_130"
-      >
-      <stop
-          id="imagebot_223"
-          stop-color="#ffffff"
-          offset="0"
-      />
-      <stop
-          id="imagebot_222"
-          stop-color="#ffffff"
-          stop-opacity="0"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="imagebot_129"
-      >
-      <stop
-          id="imagebot_220"
-          stop-color="#800000"
-          offset="0"
-      />
-      <stop
-          id="imagebot_219"
-          stop-color="#d40000"
-          offset=".5"
-      />
-      <stop
-          id="imagebot_218"
-          stop-color="#800000"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="imagebot_116"
-        y2=".5443"
-        xlink:href="#imagebot_132"
-        y1=".54193"
-        x2="-1.0804"
-        x1=".73691"
-    />
-    <linearGradient
-        id="imagebot_114"
-        y2=".5"
-        xlink:href="#imagebot_131"
-        y1=".54737"
-        x1=".26821"
-    />
-    <linearGradient
-        id="imagebot_109"
-        y2=".40711"
-        xlink:href="#imagebot_130"
-        y1=".4033"
-        x2=".01658"
-        x1="1.4476"
-    />
-    <linearGradient
-        id="imagebot_107"
-        y2=".5"
-        xlink:href="#imagebot_129"
-        y1=".5"
-    />
-    <linearGradient
-        id="imagebot_101"
-        y2=".50544"
-        xlink:href="#imagebot_129"
-        y1=".50544"
-        x2="1.0216"
-        x1="-.03669"
-    />
-    <radialGradient
-        id="imagebot_25"
-        gradientUnits="userSpaceOnUse"
-        cx=".03183"
-        cy=".00685"
-        r="1"
-        gradientTransform="matrix(321.42 .73891 -.70594 307.08 316.76 741.41)"
-      >
-      <stop
-          id="imagebot_247"
-          stop-color="#e6e6e6"
-          offset="0"
-      />
-      <stop
-          id="imagebot_246"
-          stop-color="#002255"
-          offset=".44289"
-      />
-      <stop
-          id="imagebot_245"
-          stop-color="#00112b"
-          offset=".5"
-      />
-      <stop
-          id="imagebot_244"
-          stop-color="#000501"
-          offset="1"
-      />
-    </radialGradient
-    >
-    <radialGradient
-        id="imagebot_23"
-        gradientUnits="userSpaceOnUse"
-        cx="178.29"
-        cy="-176.78"
-        r="9.6529"
-        gradientTransform="matrix(.96395 -.26609 .32646 1.1827 64.14 78.563)"
-      >
-      <stop
-          id="imagebot_237"
-          stop-color="#000000"
-          offset="0"
-      />
-      <stop
-          id="imagebot_236"
-          stop-color="#333333"
-          offset="1"
-      />
-    </radialGradient
-    >
-    <radialGradient
-        id="imagebot_18"
-        gradientUnits="userSpaceOnUse"
-        cx="209.67"
-        cy="-144.17"
-        r="9.3975"
-        gradientTransform="matrix(1 0 0 .86051 0 -21.053)"
-      >
-      <stop
-          id="imagebot_239"
-          stop-color="#000000"
-          offset="0"
-      />
-      <stop
-          id="imagebot_238"
-          stop-color="#1a1a1a"
-          offset="1"
-      />
-    </radialGradient
-    >
-    <radialGradient
-        id="imagebot_16"
-        gradientUnits="userSpaceOnUse"
-        xlink:href="#imagebot_124"
-        cx="209.91"
-        cy="-150.94"
-        r="9.3975"
-        gradientTransform="matrix(1 0 0 .86051 0 -21.053)"
-    />
-    <radialGradient
-        id="imagebot_10"
-        gradientUnits="userSpaceOnUse"
-        cx="178.58"
-        cy="-147.26"
-        r="10.156"
-        gradientTransform="matrix(1 0 0 .82316 0 -27.134)"
-      >
-      <stop
-          id="imagebot_235"
-          stop-color="#000000"
-          offset="0"
-      />
-      <stop
-          id="imagebot_234"
-          stop-color="#1a1a1a"
-          offset="1"
-      />
-    </radialGradient
-    >
-  </defs
-  >
-  <g
-      id="imagebot_2"
-      label="Ebene 1"
-    >
-    <g
-        id="imagebot_119"
-        transform="matrix(1.7241 0 0 1.7241 782.83 523.9)"
-        label="Ebene 1"
-      >
-      <g
-          id="imagebot_120"
-      />
-    </g
-    >
-    <title
-      >Ebene 1</title
-    >
-    <g
-        id="imagebot_250"
-      >
-      <g
-          id="imagebot_95"
-          transform="matrix(.42755 -.078938 .078938 .42755 -1.1512 39.277)"
-          label="Ebene 1"
-        >
-        <path
-            id="imagebot_115"
-            d="m291.06 206.24c0 17.29 5.34 45.25 11 74.85 6.11 31.97 12.43 65.03 12.43 86.92 0 58.93-21.03 104.4-41.37 148.37-20.25 43.79-41.2 89.06-41.2 147.3 0 115.25 72.06 251.83 72.79 253.19l0.59 1.12 1.25 0.06c0.36 0.02 35.93 1.96 50.33 1.96s52.73-1.93 53.11-1.95c0 0 1.29-0.07 1.29-0.07l0.59-1.15c0.7-1.38 69.97-139.07 69.97-256.51 0-61.69-21.3-110.22-41.9-157.15-19.19-43.72-37.31-85.01-37.31-134.05 0-18.88 4.55-42.59 9.36-67.69 5.55-28.9 11.84-61.66 11.84-91.86 0-54.5-34.58-73.91-66.95-73.91-31.7 0-65.82 22.08-65.82 70.57z"
-            fill="url(#imagebot_116)"
-        />
-        <g
-            id="imagebot_111"
-            transform="matrix(2.2314 0 0 2.2314 230.81 921.13)"
-          >
-          <g
-              id="imagebot_112"
-              transform="translate(.47370 .91590)"
-              fill="#666666"
-            >
-            <path
-                id="imagebot_113"
-                d="m29.75-10.876s18.5 1.625 26.75 1.625 28-1.625 28-1.625-3.167 7.667-4.25 8.5-18.583 1.5-23.75 1.5c-5.001 0.00002-21.5-0.667-22.5-1.5s-4.25-8.5-4.25-8.5z"
-                fill="url(#imagebot_114)"
-            />
-          </g
-          >
-        </g
-        >
-        <path
-            id="imagebot_110"
-            opacity=".6"
-            d="m338.01 147.77s-22.31 2.23-24.55 12.27c-2.23 10.05 7.81 20.09 15.62 14.51s8.93-26.78 8.93-26.78z"
-            fill="#ffffff"
-        />
-        <path
-            id="imagebot_108"
-            d="m356.88 135.67c-5.19 0-10.45 0.58-15.62 1.78 26.6 5.86 50.43 26.91 50.43 72.13 0 30.2-6.28 62.98-11.82 91.88-4.82 25.1-9.37 48.79-9.37 67.67 0 49.04 18.12 90.33 37.32 134.05 20.59 46.93 41.89 95.46 41.89 157.15 0 117.44-69.26 255.12-69.95 256.5l-0.62 1.17-1.28 0.06c-0.28 0.01-20.23 1.05-36.76 1.62 6.08 0.21 11.77 0.33 15.78 0.33 14.4 0 52.73-1.93 53.11-1.95l1.28-0.06 0.62-1.17c0.7-1.38 69.95-139.06 69.95-256.5 0-61.69-21.29-110.22-41.89-157.15-19.19-43.72-37.32-85.01-37.32-134.05 0-18.88 4.55-42.57 9.37-67.67 5.55-28.9 11.83-61.68 11.83-91.88 0-54.49-34.58-73.91-66.95-73.91z"
-            fill="url(#imagebot_109)"
-        />
-        <g
-            id="imagebot_102"
-            transform="matrix(2.5479 0 0 2.0044 212.84 869.91)"
-            fill="#550000"
-          >
-          <g
-              id="imagebot_103"
-              fill="#550000"
-            >
-            <g
-                id="imagebot_104"
-                fill="#550000"
-              >
-              <g
-                  id="imagebot_105"
-                  fill="#550000"
-                >
-                <path
-                    id="imagebot_106"
-                    d="m56.35-244.25c8.164 0 18.322 1.26 18.322 1.26s-0.128 4.11 0.339 7.11 1.866 10 1.866 10-15.862-1.25-20.527-1.37c-4.665-0.13-18.428 1.62-18.428 1.62s0.7-6.5 1.166-9.75c0.467-3.25 0.549-6.88 0.549-6.88s9.248-1.99 16.713-1.99z"
-                    fill="url(#imagebot_107)"
-                />
-              </g
-              >
-            </g
-            >
-          </g
-          >
-        </g
-        >
-        <g
-            id="imagebot_96"
-            transform="matrix(2.4753 0 0 2.2314 216.58 921.13)"
-            fill="#800000"
-          >
-          <g
-              id="imagebot_97"
-              fill="#800000"
-            >
-            <g
-                id="imagebot_98"
-                fill="#800000"
-              >
-              <g
-                  id="imagebot_99"
-                  fill="#800000"
-                >
-                <path
-                    id="imagebot_100"
-                    d="m56.5-279.5c10.25 0 22.572 1.92 22.572 1.92l-2.722 16.76s-9.35-1.18-19.85-1.18c-7.509 0-18.026 1.42-18.026 1.42l-2.396-16.95s11.172-1.97 20.422-1.97z"
-                    fill="url(#imagebot_101)"
-                />
-              </g
-              >
-            </g
-            >
-          </g
-          >
-        </g
-        >
-      </g
-      >
-      <g
-          id="imagebot_73"
-          transform="matrix(.54587 -.14775 .14775 .54587 -146.64 69.007)"
-          label="Ebene 1"
-        >
-        <path
-            id="imagebot_93"
-            d="m291.06 206.24c0 17.29 5.34 45.25 11 74.85 6.11 31.97 12.43 65.03 12.43 86.92 0 58.93-21.03 104.4-41.37 148.37-20.25 43.79-41.2 89.06-41.2 147.3 0 115.25 72.06 251.83 72.79 253.19l0.59 1.12 1.25 0.06c0.36 0.02 35.93 1.96 50.33 1.96s52.73-1.93 53.11-1.95c0 0 1.29-0.07 1.29-0.07l0.59-1.15c0.7-1.38 69.97-139.07 69.97-256.51 0-61.69-21.3-110.22-41.9-157.15-19.19-43.72-37.31-85.01-37.31-134.05 0-18.88 4.55-42.59 9.36-67.69 5.55-28.9 11.84-61.66 11.84-91.86 0-54.5-34.58-73.91-66.95-73.91-31.7 0-65.82 22.08-65.82 70.57z"
-            fill="url(#imagebot_116)"
-        />
-        <g
-            id="imagebot_89"
-            transform="matrix(2.2314 0 0 2.2314 230.81 921.13)"
-          >
-          <g
-              id="imagebot_90"
-              transform="translate(.47370 .91590)"
-              fill="#666666"
-            >
-            <path
-                id="imagebot_91"
-                d="m29.75-10.876s18.5 1.625 26.75 1.625 28-1.625 28-1.625-3.167 7.667-4.25 8.5-18.583 1.5-23.75 1.5c-5.001 0.00002-21.5-0.667-22.5-1.5s-4.25-8.5-4.25-8.5z"
-                fill="url(#imagebot_114)"
-            />
-          </g
-          >
-        </g
-        >
-        <path
-            id="imagebot_88"
-            opacity=".6"
-            d="m338.01 147.77s-22.31 2.23-24.55 12.27c-2.23 10.05 7.81 20.09 15.62 14.51s8.93-26.78 8.93-26.78z"
-            fill="#ffffff"
-        />
-        <path
-            id="imagebot_86"
-            d="m356.88 135.67c-5.19 0-10.45 0.58-15.62 1.78 26.6 5.86 50.43 26.91 50.43 72.13 0 30.2-6.28 62.98-11.82 91.88-4.82 25.1-9.37 48.79-9.37 67.67 0 49.04 18.12 90.33 37.32 134.05 20.59 46.93 41.89 95.46 41.89 157.15 0 117.44-69.26 255.12-69.95 256.5l-0.62 1.17-1.28 0.06c-0.28 0.01-20.23 1.05-36.76 1.62 6.08 0.21 11.77 0.33 15.78 0.33 14.4 0 52.73-1.93 53.11-1.95l1.28-0.06 0.62-1.17c0.7-1.38 69.95-139.06 69.95-256.5 0-61.69-21.29-110.22-41.89-157.15-19.19-43.72-37.32-85.01-37.32-134.05 0-18.88 4.55-42.57 9.37-67.67 5.55-28.9 11.83-61.68 11.83-91.88 0-54.49-34.58-73.91-66.95-73.91z"
-            fill="url(#imagebot_109)"
-        />
-        <g
-            id="imagebot_80"
-            transform="matrix(2.5479 0 0 2.0044 212.84 869.91)"
-            fill="#550000"
-          >
-          <g
-              id="imagebot_81"
-              fill="#550000"
-            >
-            <g
-                id="imagebot_82"
-                fill="#550000"
-              >
-              <g
-                  id="imagebot_83"
-                  fill="#550000"
-                >
-                <path
-                    id="imagebot_84"
-                    d="m56.35-244.25c8.164 0 18.322 1.26 18.322 1.26s-0.128 4.11 0.339 7.11 1.866 10 1.866 10-15.862-1.25-20.527-1.37c-4.665-0.13-18.428 1.62-18.428 1.62s0.7-6.5 1.166-9.75c0.467-3.25 0.549-6.88 0.549-6.88s9.248-1.99 16.713-1.99z"
-                    fill="url(#imagebot_107)"
-                />
-              </g
-              >
-            </g
-            >
-          </g
-          >
-        </g
-        >
-        <g
-            id="imagebot_74"
-            transform="matrix(2.4753 0 0 2.2314 216.58 921.13)"
-            fill="#800000"
-          >
-          <g
-              id="imagebot_75"
-              fill="#800000"
-            >
-            <g
-                id="imagebot_76"
-                fill="#800000"
-              >
-              <g
-                  id="imagebot_77"
-                  fill="#800000"
-                >
-                <path
-                    id="imagebot_78"
-                    d="m56.5-279.5c10.25 0 22.572 1.92 22.572 1.92l-2.722 16.76s-9.35-1.18-19.85-1.18c-7.509 0-18.026 1.42-18.026 1.42l-2.396-16.95s11.172-1.97 20.422-1.97z"
-                    fill="url(#imagebot_101)"
-                />
-              </g
-              >
-            </g
-            >
-          </g
-          >
-        </g
-        >
-      </g
-      >
-      <path
-          id="imagebot_72"
-          d="m573.73 786.66c0 93.27-75.61 168.89-168.88 168.89-93.28 0-168.89-75.62-168.89-168.89s75.61-168.88 168.89-168.88c93.27 0 168.88 75.61 168.88 168.88z"
-          fill="none"
-          transform="matrix(.56551 0 0 .56551 23.714 8.0178)"
-          label="Ebene 1"
-      />
-      <path
-          id="imagebot_71"
-          d="m472.62 658c-1.57 7.14-10.18 11.31-19.23 9.33-9.06-1.99-15.13-9.38-13.57-16.52 1.57-7.13 10.18-11.31 19.24-9.32 9.05 1.98 15.12 9.38 13.56 16.51z"
-          fill="none"
-          transform="matrix(.56551 0 0 .56551 23.714 8.0178)"
-          label="Ebene 1"
-      />
-      <path
-          id="imagebot_70"
-          d="m526.34 716.5c-3.11 6.61-12.43 8.76-20.82 4.81-8.38-3.95-12.66-12.51-9.55-19.12 3.12-6.61 12.44-8.76 20.83-4.81 8.38 3.95 12.66 12.51 9.54 19.12z"
-          fill="none"
-          transform="matrix(.56551 0 0 .56551 23.714 8.0178)"
-          label="Ebene 1"
-      />
-      <g
-          id="imagebot_48"
-          transform="matrix(.54483 .15155 -.15155 .54483 319.51 -109.06)"
-          label="Ebene 1"
-        >
-        <path
-            id="imagebot_68"
-            d="m291.06 206.24c0 17.29 5.34 45.25 11 74.85 6.11 31.97 12.43 65.03 12.43 86.92 0 58.93-21.03 104.4-41.37 148.37-20.25 43.79-41.2 89.06-41.2 147.3 0 115.25 72.06 251.83 72.79 253.19l0.59 1.12 1.25 0.06c0.36 0.02 35.93 1.96 50.33 1.96s52.73-1.93 53.11-1.95c0 0 1.29-0.07 1.29-0.07l0.59-1.15c0.7-1.38 69.97-139.07 69.97-256.51 0-61.69-21.3-110.22-41.9-157.15-19.19-43.72-37.31-85.01-37.31-134.05 0-18.88 4.55-42.59 9.36-67.69 5.55-28.9 11.84-61.66 11.84-91.86 0-54.5-34.58-73.91-66.95-73.91-31.7 0-65.82 22.08-65.82 70.57z"
-            fill="url(#imagebot_116)"
-        />
-        <g
-            id="imagebot_64"
-            transform="matrix(2.2314 0 0 2.2314 230.81 921.13)"
-          >
-          <g
-              id="imagebot_65"
-              transform="translate(.47370 .91590)"
-              fill="#666666"
-            >
-            <path
-                id="imagebot_66"
-                d="m29.75-10.876s18.5 1.625 26.75 1.625 28-1.625 28-1.625-3.167 7.667-4.25 8.5-18.583 1.5-23.75 1.5c-5.001 0.00002-21.5-0.667-22.5-1.5s-4.25-8.5-4.25-8.5z"
-                fill="url(#imagebot_114)"
-            />
-          </g
-          >
-        </g
-        >
-        <path
-            id="imagebot_63"
-            opacity=".6"
-            d="m338.01 147.77s-22.31 2.23-24.55 12.27c-2.23 10.05 7.81 20.09 15.62 14.51s8.93-26.78 8.93-26.78z"
-            fill="#ffffff"
-        />
-        <path
-            id="imagebot_61"
-            d="m356.88 135.67c-5.19 0-10.45 0.58-15.62 1.78 26.6 5.86 50.43 26.91 50.43 72.13 0 30.2-6.28 62.98-11.82 91.88-4.82 25.1-9.37 48.79-9.37 67.67 0 49.04 18.12 90.33 37.32 134.05 20.59 46.93 41.89 95.46 41.89 157.15 0 117.44-69.26 255.12-69.95 256.5l-0.62 1.17-1.28 0.06c-0.28 0.01-20.23 1.05-36.76 1.62 6.08 0.21 11.77 0.33 15.78 0.33 14.4 0 52.73-1.93 53.11-1.95l1.28-0.06 0.62-1.17c0.7-1.38 69.95-139.06 69.95-256.5 0-61.69-21.29-110.22-41.89-157.15-19.19-43.72-37.32-85.01-37.32-134.05 0-18.88 4.55-42.57 9.37-67.67 5.55-28.9 11.83-61.68 11.83-91.88 0-54.49-34.58-73.91-66.95-73.91z"
-            fill="url(#imagebot_109)"
-        />
-        <g
-            id="imagebot_55"
-            transform="matrix(2.5479 0 0 2.0044 212.84 869.91)"
-            fill="#550000"
-          >
-          <g
-              id="imagebot_56"
-              fill="#550000"
-            >
-            <g
-                id="imagebot_57"
-                fill="#550000"
-              >
-              <g
-                  id="imagebot_58"
-                  fill="#550000"
-                >
-                <path
-                    id="imagebot_59"
-                    d="m56.35-244.25c8.164 0 18.322 1.26 18.322 1.26s-0.128 4.11 0.339 7.11 1.866 10 1.866 10-15.862-1.25-20.527-1.37c-4.665-0.13-18.428 1.62-18.428 1.62s0.7-6.5 1.166-9.75c0.467-3.25 0.549-6.88 0.549-6.88s9.248-1.99 16.713-1.99z"
-                    fill="url(#imagebot_107)"
-                />
-              </g
-              >
-            </g
-            >
-          </g
-          >
-        </g
-        >
-        <g
-            id="imagebot_49"
-            transform="matrix(2.4753 0 0 2.2314 216.58 921.13)"
-            fill="#800000"
-          >
-          <g
-              id="imagebot_50"
-              fill="#800000"
-            >
-            <g
-                id="imagebot_51"
-                fill="#800000"
-              >
-              <g
-                  id="imagebot_52"
-                  fill="#800000"
-                >
-                <path
-                    id="imagebot_53"
-                    d="m56.5-279.5c10.25 0 22.572 1.92 22.572 1.92l-2.722 16.76s-9.35-1.18-19.85-1.18c-7.509 0-18.026 1.42-18.026 1.42l-2.396-16.95s11.172-1.97 20.422-1.97z"
-                    fill="url(#imagebot_101)"
-                />
-              </g
-              >
-            </g
-            >
-          </g
-          >
-        </g
-        >
-      </g
-      >
-      <g
-          id="imagebot_26"
-          transform="matrix(.43391 .027419 -.027419 .43391 155 7.5913)"
-          label="Ebene 1"
-        >
-        <path
-            id="imagebot_46"
-            d="m291.06 206.24c0 17.29 5.34 45.25 11 74.85 6.11 31.97 12.43 65.03 12.43 86.92 0 58.93-21.03 104.4-41.37 148.37-20.25 43.79-41.2 89.06-41.2 147.3 0 115.25 72.06 251.83 72.79 253.19l0.59 1.12 1.25 0.06c0.36 0.02 35.93 1.96 50.33 1.96s52.73-1.93 53.11-1.95c0 0 1.29-0.07 1.29-0.07l0.59-1.15c0.7-1.38 69.97-139.07 69.97-256.51 0-61.69-21.3-110.22-41.9-157.15-19.19-43.72-37.31-85.01-37.31-134.05 0-18.88 4.55-42.59 9.36-67.69 5.55-28.9 11.84-61.66 11.84-91.86 0-54.5-34.58-73.91-66.95-73.91-31.7 0-65.82 22.08-65.82 70.57z"
-            fill="url(#imagebot_116)"
-        />
-        <g
-            id="imagebot_42"
-            transform="matrix(2.2314 0 0 2.2314 230.81 921.13)"
-          >
-          <g
-              id="imagebot_43"
-              transform="translate(.47370 .91590)"
-              fill="#666666"
-            >
-            <path
-                id="imagebot_44"
-                d="m29.75-10.876s18.5 1.625 26.75 1.625 28-1.625 28-1.625-3.167 7.667-4.25 8.5-18.583 1.5-23.75 1.5c-5.001 0.00002-21.5-0.667-22.5-1.5s-4.25-8.5-4.25-8.5z"
-                fill="url(#imagebot_114)"
-            />
-          </g
-          >
-        </g
-        >
-        <path
-            id="imagebot_41"
-            opacity=".6"
-            d="m338.01 147.77s-22.31 2.23-24.55 12.27c-2.23 10.05 7.81 20.09 15.62 14.51s8.93-26.78 8.93-26.78z"
-            fill="#ffffff"
-        />
-        <path
-            id="imagebot_39"
-            d="m356.88 135.67c-5.19 0-10.45 0.58-15.62 1.78 26.6 5.86 50.43 26.91 50.43 72.13 0 30.2-6.28 62.98-11.82 91.88-4.82 25.1-9.37 48.79-9.37 67.67 0 49.04 18.12 90.33 37.32 134.05 20.59 46.93 41.89 95.46 41.89 157.15 0 117.44-69.26 255.12-69.95 256.5l-0.62 1.17-1.28 0.06c-0.28 0.01-20.23 1.05-36.76 1.62 6.08 0.21 11.77 0.33 15.78 0.33 14.4 0 52.73-1.93 53.11-1.95l1.28-0.06 0.62-1.17c0.7-1.38 69.95-139.06 69.95-256.5 0-61.69-21.29-110.22-41.89-157.15-19.19-43.72-37.32-85.01-37.32-134.05 0-18.88 4.55-42.57 9.37-67.67 5.55-28.9 11.83-61.68 11.83-91.88 0-54.49-34.58-73.91-66.95-73.91z"
-            fill="url(#imagebot_109)"
-        />
-        <g
-            id="imagebot_33"
-            transform="matrix(2.5479 0 0 2.0044 212.84 869.91)"
-            fill="#550000"
-          >
-          <g
-              id="imagebot_34"
-              fill="#550000"
-            >
-            <g
-                id="imagebot_35"
-                fill="#550000"
-              >
-              <g
-                  id="imagebot_36"
-                  fill="#550000"
-                >
-                <path
-                    id="imagebot_37"
-                    d="m56.35-244.25c8.164 0 18.322 1.26 18.322 1.26s-0.128 4.11 0.339 7.11 1.866 10 1.866 10-15.862-1.25-20.527-1.37c-4.665-0.13-18.428 1.62-18.428 1.62s0.7-6.5 1.166-9.75c0.467-3.25 0.549-6.88 0.549-6.88s9.248-1.99 16.713-1.99z"
-                    fill="url(#imagebot_107)"
-                />
-              </g
-              >
-            </g
-            >
-          </g
-          >
-        </g
-        >
-        <g
-            id="imagebot_27"
-            transform="matrix(2.4753 0 0 2.2314 216.58 921.13)"
-            fill="#800000"
-          >
-          <g
-              id="imagebot_28"
-              fill="#800000"
-            >
-            <g
-                id="imagebot_29"
-                fill="#800000"
-              >
-              <g
-                  id="imagebot_30"
-                  fill="#800000"
-                >
-                <path
-                    id="imagebot_31"
-                    d="m56.5-279.5c10.25 0 22.572 1.92 22.572 1.92l-2.722 16.76s-9.35-1.18-19.85-1.18c-7.509 0-18.026 1.42-18.026 1.42l-2.396-16.95s11.172-1.97 20.422-1.97z"
-                    fill="url(#imagebot_101)"
-                />
-              </g
-              >
-            </g
-            >
-          </g
-          >
-        </g
-        >
-      </g
-      >
-      <g
-          id="imagebot_5"
-          transform="matrix(.68560 0 0 .68560 -4.6212 -106.73)"
-          label="Ebene 1"
-        >
-        <path
-            id="imagebot_24"
-            d="m573.73 786.66c0 93.27-75.61 168.89-168.88 168.89-93.28 0-168.89-75.62-168.89-168.89s75.61-168.88 168.89-168.88c93.27 0 168.88 75.61 168.88 168.88z"
-            fill="url(#imagebot_25)"
-        />
-        <g
-            id="imagebot_19"
-            transform="matrix(1.7241 0 0 1.7241 149.25 969.57)"
-            fill="#000000"
-          >
-          <g
-              id="imagebot_20"
-              fill="#000000"
-            >
-            <g
-                id="imagebot_21"
-                fill="#000000"
-              >
-              <path
-                  id="imagebot_22"
-                  d="m187.56-180.71c-0.91 4.13-5.91 6.56-11.16 5.4-5.25-1.15-8.77-5.44-7.86-9.58 0.9-4.13 5.9-6.55 11.15-5.4s8.77 5.44 7.87 9.58z"
-                  fill="url(#imagebot_23)"
-              />
-            </g
-            >
-          </g
-          >
-        </g
-        >
-        <g
-            id="imagebot_11"
-            transform="matrix(1.7241 0 0 1.7241 149.25 969.57)"
-            fill="url(#imagebot_16)"
-          >
-          <g
-              id="imagebot_13"
-              fill="url(#imagebot_16)"
-            >
-            <g
-                id="imagebot_15"
-                fill="url(#imagebot_16)"
-              >
-              <path
-                  id="imagebot_17"
-                  d="m218.72-146.79c-1.81 3.84-7.22 5.09-12.08 2.79-4.86-2.29-7.34-7.25-5.54-11.09 1.81-3.83 7.22-5.08 12.08-2.78 4.86 2.29 7.34 7.25 5.54 11.08z"
-                  fill="url(#imagebot_18)"
-              />
-            </g
-            >
-          </g
-          >
-        </g
-        >
-        <g
-            id="imagebot_6"
-            transform="matrix(1.7241 0 0 1.7241 149.25 969.57)"
-            fill="#000000"
-          >
-          <g
-              id="imagebot_7"
-              fill="#000000"
-            >
-            <g
-                id="imagebot_8"
-                fill="#000000"
-              >
-              <path
-                  id="imagebot_9"
-                  d="m187.9-148.67c-1.89 3.79-7.71 4.72-12.99 2.09-5.27-2.64-8.02-7.85-6.13-11.64 1.9-3.79 7.71-4.72 12.99-2.09 5.28 2.64 8.02 7.85 6.13 11.64z"
-                  fill="url(#imagebot_10)"
-              />
-            </g
-            >
-          </g
-          >
-        </g
-        >
-      </g
-      >
-      <path
-          id="imagebot_4"
-          d="m473.21 713.25c-3.26 6.53-13.29 8.15-22.39 3.6s-13.83-13.52-10.57-20.06 13.29-8.15 22.39-3.61c9.1 4.55 13.83 13.53 10.57 20.07z"
-          fill="none"
-          transform="matrix(.56551 0 0 .56551 23.714 8.0178)"
-          label="Ebene 1"
-      />
-    </g
-    >
-  </g
-  >
-  <metadata
-    >
-    <rdf:RDF
-      >
-      <cc:Work
-        >
-        <dc:format
-          >image/svg+xml</dc:format
-        >
-        <dc:type
-            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-        />
-        <cc:license
-            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
-        />
-        <dc:publisher
-          >
-          <cc:Agent
-              rdf:about="http://openclipart.org/"
-            >
-            <dc:title
-              >Openclipart</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:publisher
-        >
-        <dc:title
-          >Bowling ns</dc:title
-        >
-        <dc:date
-          >2012-02-07T01:26:13</dc:date
-        >
-        <dc:description
-        />
-        <dc:source
-          >https://openclipart.org/detail/167875/bowling-ns-by-rduris</dc:source
-        >
-        <dc:creator
-          >
-          <cc:Agent
-            >
-            <dc:title
-              >rduris</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:creator
-        >
-        <dc:subject
-          >
-          <rdf:Bag
-            >
-            <rdf:li
-              >bowling</rdf:li
-            >
-            <rdf:li
-              >ball</rdf:li
-            >
-            <rdf:li
-              >pins</rdf:li
-            >
-            <rdf:li
-              >strike</rdf:li
-            >
-            <rdf:li
-              >hit</rdf:li
-            >
-            <rdf:li
-              >play</rdf:li
-            >
-            <rdf:li
-              >sports</rdf:li
-            >
-          </rdf:Bag
-          >
-        </dc:subject
-        >
-      </cc:Work
-      >
-      <cc:License
-          rdf:about="http://creativecommons.org/licenses/publicdomain/"
-        >
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Reproduction"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Distribution"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
-        />
-      </cc:License
-      >
-    </rdf:RDF
-    >
-  </metadata
-  >
-</svg
->
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://www.w3.org/1999/xlink" xmlns:ns3="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="637.0492099461329" viewBox="-37.614661580769656 -35.5666957839553 637.0492099461329 637.0492099461329" width="637.0492099461329">
+  <svg:defs>
+    <svg:linearGradient id="imagebot_124">
+      <svg:stop id="imagebot_233" offset="0" stop-color="#000000" />
+      <svg:stop id="imagebot_232" offset="1" stop-color="#000000" stop-opacity="0" />
+    </svg:linearGradient>
+    <svg:linearGradient id="imagebot_132">
+      <svg:stop id="imagebot_230" offset="0" stop-color="#f2f2f2" />
+      <svg:stop id="imagebot_229" offset="1" stop-color="#b3b3b3" />
+    </svg:linearGradient>
+    <svg:linearGradient id="imagebot_131">
+      <svg:stop id="imagebot_227" offset="0" stop-color="#666666" />
+      <svg:stop id="imagebot_226" offset=".5" stop-color="#ffffff" />
+      <svg:stop id="imagebot_225" offset="1" stop-color="#666666" />
+    </svg:linearGradient>
+    <svg:linearGradient id="imagebot_130">
+      <svg:stop id="imagebot_223" offset="0" stop-color="#ffffff" />
+      <svg:stop id="imagebot_222" offset="1" stop-color="#ffffff" stop-opacity="0" />
+    </svg:linearGradient>
+    <svg:linearGradient id="imagebot_129">
+      <svg:stop id="imagebot_220" offset="0" stop-color="#800000" />
+      <svg:stop id="imagebot_219" offset=".5" stop-color="#d40000" />
+      <svg:stop id="imagebot_218" offset="1" stop-color="#800000" />
+    </svg:linearGradient>
+    <svg:linearGradient id="imagebot_116" x1=".73691" x2="-1.0804" y1=".54193" y2=".5443" ns1:href="#imagebot_132" />
+    <svg:linearGradient id="imagebot_114" x1=".26821" y1=".54737" y2=".5" ns1:href="#imagebot_131" />
+    <svg:linearGradient id="imagebot_109" x1="1.4476" x2=".01658" y1=".4033" y2=".40711" ns1:href="#imagebot_130" />
+    <svg:linearGradient id="imagebot_107" y1=".5" y2=".5" ns1:href="#imagebot_129" />
+    <svg:linearGradient id="imagebot_101" x1="-.03669" x2="1.0216" y1=".50544" y2=".50544" ns1:href="#imagebot_129" />
+    <svg:radialGradient cx=".03183" cy=".00685" gradientTransform="matrix(321.42 .73891 -.70594 307.08 316.76 741.41)" gradientUnits="userSpaceOnUse" id="imagebot_25" r="1">
+      <svg:stop id="imagebot_247" offset="0" stop-color="#e6e6e6" />
+      <svg:stop id="imagebot_246" offset=".44289" stop-color="#002255" />
+      <svg:stop id="imagebot_245" offset=".5" stop-color="#00112b" />
+      <svg:stop id="imagebot_244" offset="1" stop-color="#000501" />
+    </svg:radialGradient>
+    <svg:radialGradient cx="178.29" cy="-176.78" gradientTransform="matrix(.96395 -.26609 .32646 1.1827 64.14 78.563)" gradientUnits="userSpaceOnUse" id="imagebot_23" r="9.6529">
+      <svg:stop id="imagebot_237" offset="0" stop-color="#000000" />
+      <svg:stop id="imagebot_236" offset="1" stop-color="#333333" />
+    </svg:radialGradient>
+    <svg:radialGradient cx="209.67" cy="-144.17" gradientTransform="matrix(1 0 0 .86051 0 -21.053)" gradientUnits="userSpaceOnUse" id="imagebot_18" r="9.3975">
+      <svg:stop id="imagebot_239" offset="0" stop-color="#000000" />
+      <svg:stop id="imagebot_238" offset="1" stop-color="#1a1a1a" />
+    </svg:radialGradient>
+    <svg:radialGradient cx="209.91" cy="-150.94" gradientTransform="matrix(1 0 0 .86051 0 -21.053)" gradientUnits="userSpaceOnUse" id="imagebot_16" r="9.3975" ns1:href="#imagebot_124" />
+    <svg:radialGradient cx="178.58" cy="-147.26" gradientTransform="matrix(1 0 0 .82316 0 -27.134)" gradientUnits="userSpaceOnUse" id="imagebot_10" r="10.156">
+      <svg:stop id="imagebot_235" offset="0" stop-color="#000000" />
+      <svg:stop id="imagebot_234" offset="1" stop-color="#1a1a1a" />
+    </svg:radialGradient>
+  </svg:defs>
+  <svg:g id="imagebot_2" label="Ebene 1">
+    <svg:g id="imagebot_119" label="Ebene 1" transform="matrix(1.7241 0 0 1.7241 782.83 523.9)">
+      <svg:g id="imagebot_120" />
+    </svg:g>
+    <svg:title>Ebene 1</svg:title>
+    <svg:g id="imagebot_250">
+      <svg:g id="imagebot_95" label="Ebene 1" transform="matrix(.42755 -.078938 .078938 .42755 -1.1512 39.277)">
+        <svg:path d="m291.06 206.24c0 17.29 5.34 45.25 11 74.85 6.11 31.97 12.43 65.03 12.43 86.92 0 58.93-21.03 104.4-41.37 148.37-20.25 43.79-41.2 89.06-41.2 147.3 0 115.25 72.06 251.83 72.79 253.19l0.59 1.12 1.25 0.06c0.36 0.02 35.93 1.96 50.33 1.96s52.73-1.93 53.11-1.95c0 0 1.29-0.07 1.29-0.07l0.59-1.15c0.7-1.38 69.97-139.07 69.97-256.51 0-61.69-21.3-110.22-41.9-157.15-19.19-43.72-37.31-85.01-37.31-134.05 0-18.88 4.55-42.59 9.36-67.69 5.55-28.9 11.84-61.66 11.84-91.86 0-54.5-34.58-73.91-66.95-73.91-31.7 0-65.82 22.08-65.82 70.57z" fill="url(#imagebot_116)" id="imagebot_115" />
+        <svg:g id="imagebot_111" transform="matrix(2.2314 0 0 2.2314 230.81 921.13)">
+          <svg:g fill="#666666" id="imagebot_112" transform="translate(.47370 .91590)">
+            <svg:path d="m29.75-10.876s18.5 1.625 26.75 1.625 28-1.625 28-1.625-3.167 7.667-4.25 8.5-18.583 1.5-23.75 1.5c-5.001 0.00002-21.5-0.667-22.5-1.5s-4.25-8.5-4.25-8.5z" fill="url(#imagebot_114)" id="imagebot_113" />
+          </svg:g>
+        </svg:g>
+        <svg:path d="m338.01 147.77s-22.31 2.23-24.55 12.27c-2.23 10.05 7.81 20.09 15.62 14.51s8.93-26.78 8.93-26.78z" fill="#ffffff" id="imagebot_110" opacity=".6" />
+        <svg:path d="m356.88 135.67c-5.19 0-10.45 0.58-15.62 1.78 26.6 5.86 50.43 26.91 50.43 72.13 0 30.2-6.28 62.98-11.82 91.88-4.82 25.1-9.37 48.79-9.37 67.67 0 49.04 18.12 90.33 37.32 134.05 20.59 46.93 41.89 95.46 41.89 157.15 0 117.44-69.26 255.12-69.95 256.5l-0.62 1.17-1.28 0.06c-0.28 0.01-20.23 1.05-36.76 1.62 6.08 0.21 11.77 0.33 15.78 0.33 14.4 0 52.73-1.93 53.11-1.95l1.28-0.06 0.62-1.17c0.7-1.38 69.95-139.06 69.95-256.5 0-61.69-21.29-110.22-41.89-157.15-19.19-43.72-37.32-85.01-37.32-134.05 0-18.88 4.55-42.57 9.37-67.67 5.55-28.9 11.83-61.68 11.83-91.88 0-54.49-34.58-73.91-66.95-73.91z" fill="url(#imagebot_109)" id="imagebot_108" />
+        <svg:g fill="#550000" id="imagebot_102" transform="matrix(2.5479 0 0 2.0044 212.84 869.91)">
+          <svg:g fill="#550000" id="imagebot_103">
+            <svg:g fill="#550000" id="imagebot_104">
+              <svg:g fill="#550000" id="imagebot_105">
+                <svg:path d="m56.35-244.25c8.164 0 18.322 1.26 18.322 1.26s-0.128 4.11 0.339 7.11 1.866 10 1.866 10-15.862-1.25-20.527-1.37c-4.665-0.13-18.428 1.62-18.428 1.62s0.7-6.5 1.166-9.75c0.467-3.25 0.549-6.88 0.549-6.88s9.248-1.99 16.713-1.99z" fill="url(#imagebot_107)" id="imagebot_106" />
+              </svg:g>
+            </svg:g>
+          </svg:g>
+        </svg:g>
+        <svg:g fill="#800000" id="imagebot_96" transform="matrix(2.4753 0 0 2.2314 216.58 921.13)">
+          <svg:g fill="#800000" id="imagebot_97">
+            <svg:g fill="#800000" id="imagebot_98">
+              <svg:g fill="#800000" id="imagebot_99">
+                <svg:path d="m56.5-279.5c10.25 0 22.572 1.92 22.572 1.92l-2.722 16.76s-9.35-1.18-19.85-1.18c-7.509 0-18.026 1.42-18.026 1.42l-2.396-16.95s11.172-1.97 20.422-1.97z" fill="url(#imagebot_101)" id="imagebot_100" />
+              </svg:g>
+            </svg:g>
+          </svg:g>
+        </svg:g>
+      </svg:g>
+      <svg:g id="imagebot_73" label="Ebene 1" transform="matrix(.54587 -.14775 .14775 .54587 -146.64 69.007)">
+        <svg:path d="m291.06 206.24c0 17.29 5.34 45.25 11 74.85 6.11 31.97 12.43 65.03 12.43 86.92 0 58.93-21.03 104.4-41.37 148.37-20.25 43.79-41.2 89.06-41.2 147.3 0 115.25 72.06 251.83 72.79 253.19l0.59 1.12 1.25 0.06c0.36 0.02 35.93 1.96 50.33 1.96s52.73-1.93 53.11-1.95c0 0 1.29-0.07 1.29-0.07l0.59-1.15c0.7-1.38 69.97-139.07 69.97-256.51 0-61.69-21.3-110.22-41.9-157.15-19.19-43.72-37.31-85.01-37.31-134.05 0-18.88 4.55-42.59 9.36-67.69 5.55-28.9 11.84-61.66 11.84-91.86 0-54.5-34.58-73.91-66.95-73.91-31.7 0-65.82 22.08-65.82 70.57z" fill="url(#imagebot_116)" id="imagebot_93" />
+        <svg:g id="imagebot_89" transform="matrix(2.2314 0 0 2.2314 230.81 921.13)">
+          <svg:g fill="#666666" id="imagebot_90" transform="translate(.47370 .91590)">
+            <svg:path d="m29.75-10.876s18.5 1.625 26.75 1.625 28-1.625 28-1.625-3.167 7.667-4.25 8.5-18.583 1.5-23.75 1.5c-5.001 0.00002-21.5-0.667-22.5-1.5s-4.25-8.5-4.25-8.5z" fill="url(#imagebot_114)" id="imagebot_91" />
+          </svg:g>
+        </svg:g>
+        <svg:path d="m338.01 147.77s-22.31 2.23-24.55 12.27c-2.23 10.05 7.81 20.09 15.62 14.51s8.93-26.78 8.93-26.78z" fill="#ffffff" id="imagebot_88" opacity=".6" />
+        <svg:path d="m356.88 135.67c-5.19 0-10.45 0.58-15.62 1.78 26.6 5.86 50.43 26.91 50.43 72.13 0 30.2-6.28 62.98-11.82 91.88-4.82 25.1-9.37 48.79-9.37 67.67 0 49.04 18.12 90.33 37.32 134.05 20.59 46.93 41.89 95.46 41.89 157.15 0 117.44-69.26 255.12-69.95 256.5l-0.62 1.17-1.28 0.06c-0.28 0.01-20.23 1.05-36.76 1.62 6.08 0.21 11.77 0.33 15.78 0.33 14.4 0 52.73-1.93 53.11-1.95l1.28-0.06 0.62-1.17c0.7-1.38 69.95-139.06 69.95-256.5 0-61.69-21.29-110.22-41.89-157.15-19.19-43.72-37.32-85.01-37.32-134.05 0-18.88 4.55-42.57 9.37-67.67 5.55-28.9 11.83-61.68 11.83-91.88 0-54.49-34.58-73.91-66.95-73.91z" fill="url(#imagebot_109)" id="imagebot_86" />
+        <svg:g fill="#550000" id="imagebot_80" transform="matrix(2.5479 0 0 2.0044 212.84 869.91)">
+          <svg:g fill="#550000" id="imagebot_81">
+            <svg:g fill="#550000" id="imagebot_82">
+              <svg:g fill="#550000" id="imagebot_83">
+                <svg:path d="m56.35-244.25c8.164 0 18.322 1.26 18.322 1.26s-0.128 4.11 0.339 7.11 1.866 10 1.866 10-15.862-1.25-20.527-1.37c-4.665-0.13-18.428 1.62-18.428 1.62s0.7-6.5 1.166-9.75c0.467-3.25 0.549-6.88 0.549-6.88s9.248-1.99 16.713-1.99z" fill="url(#imagebot_107)" id="imagebot_84" />
+              </svg:g>
+            </svg:g>
+          </svg:g>
+        </svg:g>
+        <svg:g fill="#800000" id="imagebot_74" transform="matrix(2.4753 0 0 2.2314 216.58 921.13)">
+          <svg:g fill="#800000" id="imagebot_75">
+            <svg:g fill="#800000" id="imagebot_76">
+              <svg:g fill="#800000" id="imagebot_77">
+                <svg:path d="m56.5-279.5c10.25 0 22.572 1.92 22.572 1.92l-2.722 16.76s-9.35-1.18-19.85-1.18c-7.509 0-18.026 1.42-18.026 1.42l-2.396-16.95s11.172-1.97 20.422-1.97z" fill="url(#imagebot_101)" id="imagebot_78" />
+              </svg:g>
+            </svg:g>
+          </svg:g>
+        </svg:g>
+      </svg:g>
+      <svg:path d="m573.73 786.66c0 93.27-75.61 168.89-168.88 168.89-93.28 0-168.89-75.62-168.89-168.89s75.61-168.88 168.89-168.88c93.27 0 168.88 75.61 168.88 168.88z" fill="none" id="imagebot_72" label="Ebene 1" transform="matrix(.56551 0 0 .56551 23.714 8.0178)" />
+      <svg:path d="m472.62 658c-1.57 7.14-10.18 11.31-19.23 9.33-9.06-1.99-15.13-9.38-13.57-16.52 1.57-7.13 10.18-11.31 19.24-9.32 9.05 1.98 15.12 9.38 13.56 16.51z" fill="none" id="imagebot_71" label="Ebene 1" transform="matrix(.56551 0 0 .56551 23.714 8.0178)" />
+      <svg:path d="m526.34 716.5c-3.11 6.61-12.43 8.76-20.82 4.81-8.38-3.95-12.66-12.51-9.55-19.12 3.12-6.61 12.44-8.76 20.83-4.81 8.38 3.95 12.66 12.51 9.54 19.12z" fill="none" id="imagebot_70" label="Ebene 1" transform="matrix(.56551 0 0 .56551 23.714 8.0178)" />
+      <svg:g id="imagebot_48" label="Ebene 1" transform="matrix(.54483 .15155 -.15155 .54483 319.51 -109.06)">
+        <svg:path d="m291.06 206.24c0 17.29 5.34 45.25 11 74.85 6.11 31.97 12.43 65.03 12.43 86.92 0 58.93-21.03 104.4-41.37 148.37-20.25 43.79-41.2 89.06-41.2 147.3 0 115.25 72.06 251.83 72.79 253.19l0.59 1.12 1.25 0.06c0.36 0.02 35.93 1.96 50.33 1.96s52.73-1.93 53.11-1.95c0 0 1.29-0.07 1.29-0.07l0.59-1.15c0.7-1.38 69.97-139.07 69.97-256.51 0-61.69-21.3-110.22-41.9-157.15-19.19-43.72-37.31-85.01-37.31-134.05 0-18.88 4.55-42.59 9.36-67.69 5.55-28.9 11.84-61.66 11.84-91.86 0-54.5-34.58-73.91-66.95-73.91-31.7 0-65.82 22.08-65.82 70.57z" fill="url(#imagebot_116)" id="imagebot_68" />
+        <svg:g id="imagebot_64" transform="matrix(2.2314 0 0 2.2314 230.81 921.13)">
+          <svg:g fill="#666666" id="imagebot_65" transform="translate(.47370 .91590)">
+            <svg:path d="m29.75-10.876s18.5 1.625 26.75 1.625 28-1.625 28-1.625-3.167 7.667-4.25 8.5-18.583 1.5-23.75 1.5c-5.001 0.00002-21.5-0.667-22.5-1.5s-4.25-8.5-4.25-8.5z" fill="url(#imagebot_114)" id="imagebot_66" />
+          </svg:g>
+        </svg:g>
+        <svg:path d="m338.01 147.77s-22.31 2.23-24.55 12.27c-2.23 10.05 7.81 20.09 15.62 14.51s8.93-26.78 8.93-26.78z" fill="#ffffff" id="imagebot_63" opacity=".6" />
+        <svg:path d="m356.88 135.67c-5.19 0-10.45 0.58-15.62 1.78 26.6 5.86 50.43 26.91 50.43 72.13 0 30.2-6.28 62.98-11.82 91.88-4.82 25.1-9.37 48.79-9.37 67.67 0 49.04 18.12 90.33 37.32 134.05 20.59 46.93 41.89 95.46 41.89 157.15 0 117.44-69.26 255.12-69.95 256.5l-0.62 1.17-1.28 0.06c-0.28 0.01-20.23 1.05-36.76 1.62 6.08 0.21 11.77 0.33 15.78 0.33 14.4 0 52.73-1.93 53.11-1.95l1.28-0.06 0.62-1.17c0.7-1.38 69.95-139.06 69.95-256.5 0-61.69-21.29-110.22-41.89-157.15-19.19-43.72-37.32-85.01-37.32-134.05 0-18.88 4.55-42.57 9.37-67.67 5.55-28.9 11.83-61.68 11.83-91.88 0-54.49-34.58-73.91-66.95-73.91z" fill="url(#imagebot_109)" id="imagebot_61" />
+        <svg:g fill="#550000" id="imagebot_55" transform="matrix(2.5479 0 0 2.0044 212.84 869.91)">
+          <svg:g fill="#550000" id="imagebot_56">
+            <svg:g fill="#550000" id="imagebot_57">
+              <svg:g fill="#550000" id="imagebot_58">
+                <svg:path d="m56.35-244.25c8.164 0 18.322 1.26 18.322 1.26s-0.128 4.11 0.339 7.11 1.866 10 1.866 10-15.862-1.25-20.527-1.37c-4.665-0.13-18.428 1.62-18.428 1.62s0.7-6.5 1.166-9.75c0.467-3.25 0.549-6.88 0.549-6.88s9.248-1.99 16.713-1.99z" fill="url(#imagebot_107)" id="imagebot_59" />
+              </svg:g>
+            </svg:g>
+          </svg:g>
+        </svg:g>
+        <svg:g fill="#800000" id="imagebot_49" transform="matrix(2.4753 0 0 2.2314 216.58 921.13)">
+          <svg:g fill="#800000" id="imagebot_50">
+            <svg:g fill="#800000" id="imagebot_51">
+              <svg:g fill="#800000" id="imagebot_52">
+                <svg:path d="m56.5-279.5c10.25 0 22.572 1.92 22.572 1.92l-2.722 16.76s-9.35-1.18-19.85-1.18c-7.509 0-18.026 1.42-18.026 1.42l-2.396-16.95s11.172-1.97 20.422-1.97z" fill="url(#imagebot_101)" id="imagebot_53" />
+              </svg:g>
+            </svg:g>
+          </svg:g>
+        </svg:g>
+      </svg:g>
+      <svg:g id="imagebot_26" label="Ebene 1" transform="matrix(.43391 .027419 -.027419 .43391 155 7.5913)">
+        <svg:path d="m291.06 206.24c0 17.29 5.34 45.25 11 74.85 6.11 31.97 12.43 65.03 12.43 86.92 0 58.93-21.03 104.4-41.37 148.37-20.25 43.79-41.2 89.06-41.2 147.3 0 115.25 72.06 251.83 72.79 253.19l0.59 1.12 1.25 0.06c0.36 0.02 35.93 1.96 50.33 1.96s52.73-1.93 53.11-1.95c0 0 1.29-0.07 1.29-0.07l0.59-1.15c0.7-1.38 69.97-139.07 69.97-256.51 0-61.69-21.3-110.22-41.9-157.15-19.19-43.72-37.31-85.01-37.31-134.05 0-18.88 4.55-42.59 9.36-67.69 5.55-28.9 11.84-61.66 11.84-91.86 0-54.5-34.58-73.91-66.95-73.91-31.7 0-65.82 22.08-65.82 70.57z" fill="url(#imagebot_116)" id="imagebot_46" />
+        <svg:g id="imagebot_42" transform="matrix(2.2314 0 0 2.2314 230.81 921.13)">
+          <svg:g fill="#666666" id="imagebot_43" transform="translate(.47370 .91590)">
+            <svg:path d="m29.75-10.876s18.5 1.625 26.75 1.625 28-1.625 28-1.625-3.167 7.667-4.25 8.5-18.583 1.5-23.75 1.5c-5.001 0.00002-21.5-0.667-22.5-1.5s-4.25-8.5-4.25-8.5z" fill="url(#imagebot_114)" id="imagebot_44" />
+          </svg:g>
+        </svg:g>
+        <svg:path d="m338.01 147.77s-22.31 2.23-24.55 12.27c-2.23 10.05 7.81 20.09 15.62 14.51s8.93-26.78 8.93-26.78z" fill="#ffffff" id="imagebot_41" opacity=".6" />
+        <svg:path d="m356.88 135.67c-5.19 0-10.45 0.58-15.62 1.78 26.6 5.86 50.43 26.91 50.43 72.13 0 30.2-6.28 62.98-11.82 91.88-4.82 25.1-9.37 48.79-9.37 67.67 0 49.04 18.12 90.33 37.32 134.05 20.59 46.93 41.89 95.46 41.89 157.15 0 117.44-69.26 255.12-69.95 256.5l-0.62 1.17-1.28 0.06c-0.28 0.01-20.23 1.05-36.76 1.62 6.08 0.21 11.77 0.33 15.78 0.33 14.4 0 52.73-1.93 53.11-1.95l1.28-0.06 0.62-1.17c0.7-1.38 69.95-139.06 69.95-256.5 0-61.69-21.29-110.22-41.89-157.15-19.19-43.72-37.32-85.01-37.32-134.05 0-18.88 4.55-42.57 9.37-67.67 5.55-28.9 11.83-61.68 11.83-91.88 0-54.49-34.58-73.91-66.95-73.91z" fill="url(#imagebot_109)" id="imagebot_39" />
+        <svg:g fill="#550000" id="imagebot_33" transform="matrix(2.5479 0 0 2.0044 212.84 869.91)">
+          <svg:g fill="#550000" id="imagebot_34">
+            <svg:g fill="#550000" id="imagebot_35">
+              <svg:g fill="#550000" id="imagebot_36">
+                <svg:path d="m56.35-244.25c8.164 0 18.322 1.26 18.322 1.26s-0.128 4.11 0.339 7.11 1.866 10 1.866 10-15.862-1.25-20.527-1.37c-4.665-0.13-18.428 1.62-18.428 1.62s0.7-6.5 1.166-9.75c0.467-3.25 0.549-6.88 0.549-6.88s9.248-1.99 16.713-1.99z" fill="url(#imagebot_107)" id="imagebot_37" />
+              </svg:g>
+            </svg:g>
+          </svg:g>
+        </svg:g>
+        <svg:g fill="#800000" id="imagebot_27" transform="matrix(2.4753 0 0 2.2314 216.58 921.13)">
+          <svg:g fill="#800000" id="imagebot_28">
+            <svg:g fill="#800000" id="imagebot_29">
+              <svg:g fill="#800000" id="imagebot_30">
+                <svg:path d="m56.5-279.5c10.25 0 22.572 1.92 22.572 1.92l-2.722 16.76s-9.35-1.18-19.85-1.18c-7.509 0-18.026 1.42-18.026 1.42l-2.396-16.95s11.172-1.97 20.422-1.97z" fill="url(#imagebot_101)" id="imagebot_31" />
+              </svg:g>
+            </svg:g>
+          </svg:g>
+        </svg:g>
+      </svg:g>
+      <svg:g id="imagebot_5" label="Ebene 1" transform="matrix(.68560 0 0 .68560 -4.6212 -106.73)">
+        <svg:path d="m573.73 786.66c0 93.27-75.61 168.89-168.88 168.89-93.28 0-168.89-75.62-168.89-168.89s75.61-168.88 168.89-168.88c93.27 0 168.88 75.61 168.88 168.88z" fill="url(#imagebot_25)" id="imagebot_24" />
+        <svg:g fill="#000000" id="imagebot_19" transform="matrix(1.7241 0 0 1.7241 149.25 969.57)">
+          <svg:g fill="#000000" id="imagebot_20">
+            <svg:g fill="#000000" id="imagebot_21">
+              <svg:path d="m187.56-180.71c-0.91 4.13-5.91 6.56-11.16 5.4-5.25-1.15-8.77-5.44-7.86-9.58 0.9-4.13 5.9-6.55 11.15-5.4s8.77 5.44 7.87 9.58z" fill="url(#imagebot_23)" id="imagebot_22" />
+            </svg:g>
+          </svg:g>
+        </svg:g>
+        <svg:g fill="url(#imagebot_16)" id="imagebot_11" transform="matrix(1.7241 0 0 1.7241 149.25 969.57)">
+          <svg:g fill="url(#imagebot_16)" id="imagebot_13">
+            <svg:g fill="url(#imagebot_16)" id="imagebot_15">
+              <svg:path d="m218.72-146.79c-1.81 3.84-7.22 5.09-12.08 2.79-4.86-2.29-7.34-7.25-5.54-11.09 1.81-3.83 7.22-5.08 12.08-2.78 4.86 2.29 7.34 7.25 5.54 11.08z" fill="url(#imagebot_18)" id="imagebot_17" />
+            </svg:g>
+          </svg:g>
+        </svg:g>
+        <svg:g fill="#000000" id="imagebot_6" transform="matrix(1.7241 0 0 1.7241 149.25 969.57)">
+          <svg:g fill="#000000" id="imagebot_7">
+            <svg:g fill="#000000" id="imagebot_8">
+              <svg:path d="m187.9-148.67c-1.89 3.79-7.71 4.72-12.99 2.09-5.27-2.64-8.02-7.85-6.13-11.64 1.9-3.79 7.71-4.72 12.99-2.09 5.28 2.64 8.02 7.85 6.13 11.64z" fill="url(#imagebot_10)" id="imagebot_9" />
+            </svg:g>
+          </svg:g>
+        </svg:g>
+      </svg:g>
+      <svg:path d="m473.21 713.25c-3.26 6.53-13.29 8.15-22.39 3.6s-13.83-13.52-10.57-20.06 13.29-8.15 22.39-3.61c9.1 4.55 13.83 13.53 10.57 20.07z" fill="none" id="imagebot_4" label="Ebene 1" transform="matrix(.56551 0 0 .56551 23.714 8.0178)" />
+    </svg:g>
+  </svg:g>
+  <svg:metadata>
+    <rdf:RDF>
+      <ns3:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns3:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <ns3:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </ns3:Agent>
+        </dc:publisher>
+        <dc:title>Bowling ns</dc:title>
+        <dc:date>2012-02-07T01:26:13</dc:date>
+        <dc:description />
+        <dc:source>https://openclipart.org/detail/167875/bowling-ns-by-rduris</dc:source>
+        <dc:creator>
+          <ns3:Agent>
+            <dc:title>rduris</dc:title>
+          </ns3:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>bowling</rdf:li>
+            <rdf:li>ball</rdf:li>
+            <rdf:li>pins</rdf:li>
+            <rdf:li>strike</rdf:li>
+            <rdf:li>hit</rdf:li>
+            <rdf:li>play</rdf:li>
+            <rdf:li>sports</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </ns3:Work>
+      <ns3:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns3:License>
+    </rdf:RDF>
+  </svg:metadata>
+</svg:svg>

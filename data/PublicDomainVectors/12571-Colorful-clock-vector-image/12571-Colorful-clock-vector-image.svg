@@ -1,21 +1,5 @@
-<?xml version="1.0"?>
-<svg
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:cc="http://creativecommons.org/ns#"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    xmlns:ns1="http://sozi.baierouge.fr"
-    id="svg3002"
-    onload="startup(evt)"
-    viewBox="-5 -5 410 410"
-    version="1.1"
-  >
-  <script
-    >var svgDocument=null;
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://www.w3.org/1999/xlink" xmlns:ns3="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="480.0" id="svg3002" onload="startup(evt)" version="1.1" viewBox="-40.0 -40.0 480.0 480.0" width="480.0">
+  <svg:script>var svgDocument=null;
              var H,M,S,T;
              var sInHD = 60*60*12;
              function startup(evt){
@@ -86,1067 +70,172 @@
                S.setAttribute("transform","rotate(" + sAng + " 200 200)");
                S.setAttribute("fill",getAngleColour(sAng));
              }
-             //</script
-  >
-  <path
-      id="path4118"
-      stroke-linejoin="round"
-      d="m400 200a200 200 0 1 1 -400 0 200 200 0 1 1 400 0z"
-      stroke="#000"
-      stroke-linecap="round"
-      fill="#fff"
-  />
-  <path
-      id="path3059"
-      d="m355 200a155 155 0 1 1 -310 0 155 155 0 1 1 310 0z"
-      stroke="#000"
-      fill="#fff"
-  />
-  <path
-      id="path3061"
-      stroke-linejoin="round"
-      d="m350 200h-15"
-      stroke="#000"
-      stroke-linecap="round"
-      stroke-width="3"
-      fill="none"
-  />
-  <path
-      id="path3831"
-      stroke-linejoin="round"
-      d="m200 50v5"
-      stroke="#000"
-      stroke-linecap="round"
-      stroke-width="1px"
-      fill="none"
-  />
-  <use
-      id="use3833"
-      xlink:href="#path3831"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3835"
-      xlink:href="#path3831"
-      transform="matrix(.99452 .10453 -.10453 .99452 22.001 -19.81)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3837"
-      xlink:href="#path3831"
-      transform="matrix(.97815 .20791 -.20791 .97815 45.953 -37.212)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3839"
-      xlink:href="#path3831"
-      transform="matrix(.95106 .30902 -.30902 .95106 71.592 -52.015)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3841"
-      xlink:href="#path3831"
-      transform="matrix(.91355 .40674 -.40674 .91355 98.638 -64.056)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3843"
-      xlink:href="#path3831"
-      transform="matrix(.86603 .5 -.5 .86603 126.79 -73.205)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3845"
-      xlink:href="#path3831"
-      transform="matrix(.80902 .58779 -.58779 .80902 155.75 -79.36)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3847"
-      xlink:href="#path3831"
-      transform="matrix(.74314 .66913 -.66913 .74314 185.2 -82.455)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3849"
-      xlink:href="#path3831"
-      transform="matrix(.66913 .74314 -.74314 .66913 214.8 -82.455)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3851"
-      xlink:href="#path3831"
-      transform="matrix(.58779 .80902 -.80902 .58779 244.25 -79.36)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3853"
-      xlink:href="#path3831"
-      transform="matrix(.5 .86603 -.86603 .5 273.21 -73.205)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3855"
-      xlink:href="#path3831"
-      transform="matrix(.40674 .91355 -.91355 .40674 301.36 -64.056)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3857"
-      xlink:href="#path3831"
-      transform="matrix(.30902 .95106 -.95106 .30902 328.41 -52.015)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3859"
-      xlink:href="#path3831"
-      transform="matrix(.20791 .97815 -.97815 .20791 354.05 -37.212)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3861"
-      xlink:href="#path3831"
-      transform="matrix(.10453 .99452 -.99452 .10453 378 -19.81)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3863"
-      xlink:href="#path3831"
-      transform="matrix(0,1,-1,0,400,0)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3865"
-      xlink:href="#path3831"
-      transform="matrix(-.10453 .99452 -.99452 -.10453 419.81 22.001)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3867"
-      xlink:href="#path3831"
-      transform="matrix(-.20791 .97815 -.97815 -.20791 437.21 45.953)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3869"
-      xlink:href="#path3831"
-      transform="matrix(-.30902 .95106 -.95106 -.30902 452.01 71.592)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3871"
-      xlink:href="#path3831"
-      transform="matrix(-.40674 .91355 -.91355 -.40674 464.06 98.638)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3873"
-      xlink:href="#path3831"
-      transform="matrix(-.5 .86603 -.86603 -.5 473.21 126.79)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3875"
-      xlink:href="#path3831"
-      transform="matrix(-.58779 .80902 -.80902 -.58779 479.36 155.75)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3877"
-      xlink:href="#path3831"
-      transform="matrix(-.66913 .74314 -.74314 -.66913 482.46 185.2)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3879"
-      xlink:href="#path3831"
-      transform="matrix(-.74314 .66913 -.66913 -.74314 482.46 214.8)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3881"
-      xlink:href="#path3831"
-      transform="matrix(-.80902 .58779 -.58779 -.80902 479.36 244.25)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3883"
-      xlink:href="#path3831"
-      transform="matrix(-.86603 .5 -.5 -.86603 473.21 273.21)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3885"
-      xlink:href="#path3831"
-      transform="matrix(-.91355 .40674 -.40674 -.91355 464.06 301.36)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3887"
-      xlink:href="#path3831"
-      transform="matrix(-.95106 .30902 -.30902 -.95106 452.01 328.41)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3889"
-      xlink:href="#path3831"
-      transform="matrix(-.97815 .20791 -.20791 -.97815 437.21 354.05)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3891"
-      xlink:href="#path3831"
-      transform="matrix(-.99452 .10453 -.10453 -.99452 419.81 378)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3893"
-      xlink:href="#path3831"
-      transform="matrix(-1,0,0,-1,400,400)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3895"
-      xlink:href="#path3831"
-      transform="matrix(-.99452 -.10453 .10453 -.99452 378 419.81)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3897"
-      xlink:href="#path3831"
-      transform="matrix(-.97815 -.20791 .20791 -.97815 354.05 437.21)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3899"
-      xlink:href="#path3831"
-      transform="matrix(-.95106 -.30902 .30902 -.95106 328.41 452.01)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3901"
-      xlink:href="#path3831"
-      transform="matrix(-.91355 -.40674 .40674 -.91355 301.36 464.06)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3903"
-      xlink:href="#path3831"
-      transform="matrix(-.86603 -.5 .5 -.86603 273.21 473.21)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3905"
-      xlink:href="#path3831"
-      transform="matrix(-.80902 -.58779 .58779 -.80902 244.25 479.36)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3907"
-      xlink:href="#path3831"
-      transform="matrix(-.74314 -.66913 .66913 -.74314 214.8 482.46)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3909"
-      xlink:href="#path3831"
-      transform="matrix(-.66913 -.74314 .74314 -.66913 185.2 482.46)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3911"
-      xlink:href="#path3831"
-      transform="matrix(-.58779 -.80902 .80902 -.58779 155.75 479.36)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3913"
-      xlink:href="#path3831"
-      transform="matrix(-.5 -.86603 .86603 -.5 126.79 473.21)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3915"
-      xlink:href="#path3831"
-      transform="matrix(-.40674 -.91355 .91355 -.40674 98.638 464.06)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3917"
-      xlink:href="#path3831"
-      transform="matrix(-.30902 -.95106 .95106 -.30902 71.592 452.01)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3919"
-      xlink:href="#path3831"
-      transform="matrix(-.20791 -.97815 .97815 -.20791 45.953 437.21)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3921"
-      xlink:href="#path3831"
-      transform="matrix(-.10453 -.99452 .99452 -.10453 22.001 419.81)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3923"
-      xlink:href="#path3831"
-      transform="matrix(0,-1,1,0,0,400)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3925"
-      xlink:href="#path3831"
-      transform="matrix(.10453 -.99452 .99452 .10453 -19.81 378)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3927"
-      xlink:href="#path3831"
-      transform="matrix(.20791 -.97815 .97815 .20791 -37.212 354.05)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3929"
-      xlink:href="#path3831"
-      transform="matrix(.30902 -.95106 .95106 .30902 -52.015 328.41)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3931"
-      xlink:href="#path3831"
-      transform="matrix(.40674 -.91355 .91355 .40674 -64.056 301.36)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3933"
-      xlink:href="#path3831"
-      transform="matrix(.5 -.86603 .86603 .5 -73.205 273.21)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3935"
-      xlink:href="#path3831"
-      transform="matrix(.58779 -.80902 .80902 .58779 -79.36 244.25)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3937"
-      xlink:href="#path3831"
-      transform="matrix(.66913 -.74314 .74314 .66913 -82.455 214.8)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3939"
-      xlink:href="#path3831"
-      transform="matrix(.74314 -.66913 .66913 .74314 -82.455 185.2)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3941"
-      xlink:href="#path3831"
-      transform="matrix(.80902 -.58779 .58779 .80902 -79.36 155.75)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3943"
-      xlink:href="#path3831"
-      transform="matrix(.86603 -.5 .5 .86603 -73.205 126.79)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3945"
-      xlink:href="#path3831"
-      transform="matrix(.91355 -.40674 .40674 .91355 -64.056 98.638)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3947"
-      xlink:href="#path3831"
-      transform="matrix(.95106 -.30902 .30902 .95106 -52.015 71.592)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3949"
-      xlink:href="#path3831"
-      transform="matrix(.97815 -.20791 .20791 .97815 -37.212 45.953)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3951"
-      xlink:href="#path3831"
-      transform="matrix(.99452 -.10453 .10453 .99452 -19.81 22.001)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3953"
-      xlink:href="#path3061"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3955"
-      xlink:href="#path3061"
-      transform="matrix(.86603 .5 -.5 .86603 126.79 -73.205)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3957"
-      xlink:href="#path3061"
-      transform="matrix(.5 .86603 -.86603 .5 273.21 -73.205)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3959"
-      xlink:href="#path3061"
-      transform="matrix(0,1,-1,0,400,0)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3961"
-      xlink:href="#path3061"
-      transform="matrix(-.5 .86603 -.86603 -.5 473.21 126.79)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3963"
-      xlink:href="#path3061"
-      transform="matrix(-.86603 .5 -.5 -.86603 473.21 273.21)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3965"
-      xlink:href="#path3061"
-      transform="matrix(-1,0,0,-1,400,400)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3967"
-      xlink:href="#path3061"
-      transform="matrix(-.86603 -.5 .5 -.86603 273.21 473.21)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3969"
-      xlink:href="#path3061"
-      transform="matrix(-.5 -.86603 .86603 -.5 126.79 473.21)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3971"
-      xlink:href="#path3061"
-      transform="matrix(0,-1,1,0,0,400)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3973"
-      xlink:href="#path3061"
-      transform="matrix(.5 -.86603 .86603 .5 -73.205 273.21)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <use
-      id="use3975"
-      xlink:href="#path3061"
-      transform="matrix(.86603 -.5 .5 .86603 -73.205 126.79)"
-      height="400"
-      width="400"
-      y="0"
-      x="0"
-  />
-  <text
-      id="text4034"
-      style="word-spacing:0px;letter-spacing:0px"
-      xml:space="preserve"
-      font-size="36px"
-      line-height="125%"
-      y="385.79297"
-      x="191.63281"
-      font-family="Linux Libertine"
-      fill="#000000"
-    >
-    <tspan
-        id="tspan4036"
-        y="385.79297"
-        x="191.63281"
-      >6</tspan
-    >
-  </text
-  >
-  <text
-      id="text4038"
-      style="word-spacing:0px;letter-spacing:0px"
-      xml:space="preserve"
-      font-size="36px"
-      line-height="125%"
-      y="298.30176"
-      x="40.078369"
-      font-family="Linux Libertine"
-      fill="#000000"
-    >
-    <tspan
-        id="tspan4040"
-        y="298.30176"
-        x="40.078369"
-      >8</tspan
-    >
-  </text
-  >
-  <text
-      id="text4042"
-      style="word-spacing:0px;letter-spacing:0px"
-      xml:space="preserve"
-      font-size="36px"
-      line-height="125%"
-      y="362.36499"
-      x="103.95703"
-      font-family="Linux Libertine"
-      fill="#000000"
-    >
-    <tspan
-        id="tspan4044"
-        y="362.36499"
-        x="103.95703"
-      >7</tspan
-    >
-  </text
-  >
-  <text
-      id="text4046"
-      style="word-spacing:0px;letter-spacing:0px"
-      xml:space="preserve"
-      font-size="36px"
-      line-height="125%"
-      y="362.34741"
-      x="279.17676"
-      font-family="Linux Libertine"
-      fill="#000000"
-    >
-    <tspan
-        id="tspan4048"
-        y="362.34741"
-        x="279.17676"
-      >5</tspan
-    >
-  </text
-  >
-  <text
-      id="text4050"
-      style="word-spacing:0px;letter-spacing:0px"
-      xml:space="preserve"
-      font-size="36px"
-      line-height="125%"
-      y="298.45117"
-      x="343.03784"
-      font-family="Linux Libertine"
-      fill="#000000"
-    >
-    <tspan
-        id="tspan4052"
-        y="298.45117"
-        x="343.03784"
-      >4</tspan
-    >
-  </text
-  >
-  <text
-      id="text4054"
-      style="word-spacing:0px;letter-spacing:0px"
-      xml:space="preserve"
-      font-size="36px"
-      line-height="125%"
-      y="210.80176"
-      x="366.77344"
-      font-family="Linux Libertine"
-      fill="#000000"
-    >
-    <tspan
-        id="tspan4056"
-        y="210.80176"
-        x="366.77344"
-      >3</tspan
-    >
-  </text
-  >
-  <text
-      id="text4058"
-      style="word-spacing:0px;letter-spacing:0px"
-      xml:space="preserve"
-      font-size="36px"
-      line-height="125%"
-      y="123.44238"
-      x="343.20483"
-      font-family="Linux Libertine"
-      fill="#000000"
-    >
-    <tspan
-        id="tspan4060"
-        y="123.44238"
-        x="343.20483"
-      >2</tspan
-    >
-  </text
-  >
-  <text
-      id="text4062"
-      style="word-spacing:0px;letter-spacing:0px"
-      xml:space="preserve"
-      font-size="36px"
-      line-height="125%"
-      y="59.352783"
-      x="279.0625"
-      font-family="Linux Libertine"
-      fill="#000000"
-    >
-    <tspan
-        id="tspan4064"
-        y="59.352783"
-        x="279.0625"
-      >1</tspan
-    >
-  </text
-  >
-  <text
-      id="text4066"
-      style="word-spacing:0px;letter-spacing:0px"
-      xml:space="preserve"
-      font-size="36px"
-      line-height="125%"
-      y="210.75781"
-      x="16.421875"
-      font-family="Linux Libertine"
-      fill="#000000"
-    >
-    <tspan
-        id="tspan4068"
-        y="210.75781"
-        x="16.421875"
-      >9</tspan
-    >
-  </text
-  >
-  <text
-      id="text4070"
-      style="word-spacing:0px;letter-spacing:0px"
-      xml:space="preserve"
-      font-size="36px"
-      line-height="125%"
-      y="123.30176"
-      x="30.885008"
-      font-family="Linux Libertine"
-      fill="#000000"
-    >
-    <tspan
-        id="tspan4072"
-        y="123.30176"
-        x="30.885008"
-      >10</tspan
-    >
-  </text
-  >
-  <text
-      id="text4074"
-      style="word-spacing:0px;letter-spacing:0px"
-      xml:space="preserve"
-      font-size="36px"
-      line-height="125%"
-      y="35.942383"
-      x="182.61523"
-      font-family="Linux Libertine"
-      fill="#000000"
-    >
-    <tspan
-        id="tspan4076"
-        y="35.942383"
-        x="182.61523"
-      >12</tspan
-    >
-  </text
-  >
-  <text
-      id="text4086"
-      style="word-spacing:0px;letter-spacing:0px"
-      xml:space="preserve"
-      font-size="36px"
-      line-height="125%"
-      y="59.352783"
-      x="95.695312"
-      font-family="Linux Libertine"
-      fill="#000000"
-    >
-    <tspan
-        id="tspan4088"
-        y="59.352783"
-        x="95.695312"
-      >11</tspan
-    >
-  </text
-  >
-  <g
-      id="gHour"
-      class="hour"
-      stroke="#000"
-      stroke-width="6"
-      fill="blue"
-    >
-    <path
-        id="path4108"
-        d="m210 200h-110"
-        stroke-linecap="round"
-        fill="none"
-    />
-    <path
-        id="path4112"
-        d="m155 200c0 11.046-8.9543 20-20 20s-20-8.9543-20-20 8.9543-20 20-20 20 8.9543 20 20z"
-    />
-  </g
-  >
-  <g
-      id="gMinute"
-      class="minute"
-      stroke="#000"
-      stroke-width="4"
-      fill="#ff0"
-    >
-    <path
-        id="path4102"
-        d="m190 200h140"
-        stroke-linecap="round"
-        fill="none"
-    />
-    <path
-        id="path4100"
-        d="m322.5 200c0 6.9036-5.5964 12.5-12.5 12.5s-12.5-5.5964-12.5-12.5 5.5964-12.5 12.5-12.5 12.5 5.5964 12.5 12.5z"
-    />
-  </g
-  >
-  <g
-      id="gSecond"
-      class="second"
-      stroke="#000"
-      stroke-width="2"
-      fill="red"
-    >
-    <path
-        id="path4092"
-        d="m200 210v-155"
-        stroke-linecap="round"
-        fill="none"
-    />
-    <path
-        id="path4094"
-        d="m207.5 65c0 4.1421-3.3579 7.5-7.5 7.5s-7.5-3.3579-7.5-7.5 3.3579-7.5 7.5-7.5 7.5 3.3579 7.5 7.5z"
-    />
-  </g
-  >
-  <path
-      id="path4090"
-      d="m225 200c0 13.807-11.193 25-25 25s-25-11.193-25-25 11.193-25 25-25 25 11.193 25 25z"
-      stroke="#000"
-      stroke-width="6"
-      fill="#fff"
-  />
-  <metadata
-    >
-    <rdf:RDF
-      >
-      <cc:Work
-        >
-        <dc:format
-          >image/svg+xml</dc:format
-        >
-        <dc:type
-            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-        />
-        <cc:license
-            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
-        />
-        <dc:publisher
-          >
-          <cc:Agent
-              rdf:about="http://openclipart.org/"
-            >
-            <dc:title
-              >Openclipart</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:publisher
-        >
-        <dc:title
-          >Colour Clock 5</dc:title
-        >
-        <dc:date
-          >2013-08-27T05:41:11</dc:date
-        >
-        <dc:description
-          >An animated clock using colours. Blobs at the end of the hour, minute, and second regions change colours over time (red = 12, yellow = 3, green = 6, blue = 9).&#xD;\n&#xD;\nMy idea was that this might help younger children to tell the time without having to know what numbers mean (e.g. it's yellow and orange).&#xD;\n&#xD;\nI have also implemented a sine-wave second "tick", and stuck the minute hand to integer positions (in a somewhat similar fashion to the DB clocks in Germany). This makes the clock a bit more interesting, because each hand tells the time in a different way.&#xD;\n&#xD;\n[Update frequency is 100ms, but can be changed by editing the changeTime timeout at the end of the changeTime function.]</dc:description
-        >
-        <dc:source
-          >https://openclipart.org/detail/182255/colour-clock-5-by-gringer-182255</dc:source
-        >
-        <dc:creator
-          >
-          <cc:Agent
-            >
-            <dc:title
-              >gringer</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:creator
-        >
-        <dc:subject
-          >
-          <rdf:Bag
-            >
-            <rdf:li
-              >animated</rdf:li
-            >
-            <rdf:li
-              >clock</rdf:li
-            >
-            <rdf:li
-              >rotating</rdf:li
-            >
-            <rdf:li
-              >time</rdf:li
-            >
-          </rdf:Bag
-          >
-        </dc:subject
-        >
-      </cc:Work
-      >
-      <cc:License
-          rdf:about="http://creativecommons.org/licenses/publicdomain/"
-        >
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Reproduction"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Distribution"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
-        />
-      </cc:License
-      >
-    </rdf:RDF
-    >
-  </metadata
-  >
-</svg
->
+             //</svg:script>
+  <svg:path d="m400 200a200 200 0 1 1 -400 0 200 200 0 1 1 400 0z" fill="#fff" id="path4118" stroke="#000" stroke-linecap="round" stroke-linejoin="round" />
+  <svg:path d="m355 200a155 155 0 1 1 -310 0 155 155 0 1 1 310 0z" fill="#fff" id="path3059" stroke="#000" />
+  <svg:path d="m350 200h-15" fill="none" id="path3061" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" />
+  <svg:path d="m200 50v5" fill="none" id="path3831" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1px" />
+  <svg:use height="400" id="use3833" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3835" transform="matrix(.99452 .10453 -.10453 .99452 22.001 -19.81)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3837" transform="matrix(.97815 .20791 -.20791 .97815 45.953 -37.212)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3839" transform="matrix(.95106 .30902 -.30902 .95106 71.592 -52.015)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3841" transform="matrix(.91355 .40674 -.40674 .91355 98.638 -64.056)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3843" transform="matrix(.86603 .5 -.5 .86603 126.79 -73.205)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3845" transform="matrix(.80902 .58779 -.58779 .80902 155.75 -79.36)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3847" transform="matrix(.74314 .66913 -.66913 .74314 185.2 -82.455)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3849" transform="matrix(.66913 .74314 -.74314 .66913 214.8 -82.455)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3851" transform="matrix(.58779 .80902 -.80902 .58779 244.25 -79.36)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3853" transform="matrix(.5 .86603 -.86603 .5 273.21 -73.205)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3855" transform="matrix(.40674 .91355 -.91355 .40674 301.36 -64.056)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3857" transform="matrix(.30902 .95106 -.95106 .30902 328.41 -52.015)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3859" transform="matrix(.20791 .97815 -.97815 .20791 354.05 -37.212)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3861" transform="matrix(.10453 .99452 -.99452 .10453 378 -19.81)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3863" transform="matrix(0,1,-1,0,400,0)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3865" transform="matrix(-.10453 .99452 -.99452 -.10453 419.81 22.001)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3867" transform="matrix(-.20791 .97815 -.97815 -.20791 437.21 45.953)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3869" transform="matrix(-.30902 .95106 -.95106 -.30902 452.01 71.592)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3871" transform="matrix(-.40674 .91355 -.91355 -.40674 464.06 98.638)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3873" transform="matrix(-.5 .86603 -.86603 -.5 473.21 126.79)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3875" transform="matrix(-.58779 .80902 -.80902 -.58779 479.36 155.75)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3877" transform="matrix(-.66913 .74314 -.74314 -.66913 482.46 185.2)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3879" transform="matrix(-.74314 .66913 -.66913 -.74314 482.46 214.8)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3881" transform="matrix(-.80902 .58779 -.58779 -.80902 479.36 244.25)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3883" transform="matrix(-.86603 .5 -.5 -.86603 473.21 273.21)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3885" transform="matrix(-.91355 .40674 -.40674 -.91355 464.06 301.36)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3887" transform="matrix(-.95106 .30902 -.30902 -.95106 452.01 328.41)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3889" transform="matrix(-.97815 .20791 -.20791 -.97815 437.21 354.05)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3891" transform="matrix(-.99452 .10453 -.10453 -.99452 419.81 378)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3893" transform="matrix(-1,0,0,-1,400,400)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3895" transform="matrix(-.99452 -.10453 .10453 -.99452 378 419.81)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3897" transform="matrix(-.97815 -.20791 .20791 -.97815 354.05 437.21)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3899" transform="matrix(-.95106 -.30902 .30902 -.95106 328.41 452.01)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3901" transform="matrix(-.91355 -.40674 .40674 -.91355 301.36 464.06)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3903" transform="matrix(-.86603 -.5 .5 -.86603 273.21 473.21)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3905" transform="matrix(-.80902 -.58779 .58779 -.80902 244.25 479.36)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3907" transform="matrix(-.74314 -.66913 .66913 -.74314 214.8 482.46)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3909" transform="matrix(-.66913 -.74314 .74314 -.66913 185.2 482.46)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3911" transform="matrix(-.58779 -.80902 .80902 -.58779 155.75 479.36)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3913" transform="matrix(-.5 -.86603 .86603 -.5 126.79 473.21)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3915" transform="matrix(-.40674 -.91355 .91355 -.40674 98.638 464.06)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3917" transform="matrix(-.30902 -.95106 .95106 -.30902 71.592 452.01)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3919" transform="matrix(-.20791 -.97815 .97815 -.20791 45.953 437.21)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3921" transform="matrix(-.10453 -.99452 .99452 -.10453 22.001 419.81)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3923" transform="matrix(0,-1,1,0,0,400)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3925" transform="matrix(.10453 -.99452 .99452 .10453 -19.81 378)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3927" transform="matrix(.20791 -.97815 .97815 .20791 -37.212 354.05)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3929" transform="matrix(.30902 -.95106 .95106 .30902 -52.015 328.41)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3931" transform="matrix(.40674 -.91355 .91355 .40674 -64.056 301.36)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3933" transform="matrix(.5 -.86603 .86603 .5 -73.205 273.21)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3935" transform="matrix(.58779 -.80902 .80902 .58779 -79.36 244.25)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3937" transform="matrix(.66913 -.74314 .74314 .66913 -82.455 214.8)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3939" transform="matrix(.74314 -.66913 .66913 .74314 -82.455 185.2)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3941" transform="matrix(.80902 -.58779 .58779 .80902 -79.36 155.75)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3943" transform="matrix(.86603 -.5 .5 .86603 -73.205 126.79)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3945" transform="matrix(.91355 -.40674 .40674 .91355 -64.056 98.638)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3947" transform="matrix(.95106 -.30902 .30902 .95106 -52.015 71.592)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3949" transform="matrix(.97815 -.20791 .20791 .97815 -37.212 45.953)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3951" transform="matrix(.99452 -.10453 .10453 .99452 -19.81 22.001)" width="400" x="0" y="0" ns1:href="#path3831" />
+  <svg:use height="400" id="use3953" width="400" x="0" y="0" ns1:href="#path3061" />
+  <svg:use height="400" id="use3955" transform="matrix(.86603 .5 -.5 .86603 126.79 -73.205)" width="400" x="0" y="0" ns1:href="#path3061" />
+  <svg:use height="400" id="use3957" transform="matrix(.5 .86603 -.86603 .5 273.21 -73.205)" width="400" x="0" y="0" ns1:href="#path3061" />
+  <svg:use height="400" id="use3959" transform="matrix(0,1,-1,0,400,0)" width="400" x="0" y="0" ns1:href="#path3061" />
+  <svg:use height="400" id="use3961" transform="matrix(-.5 .86603 -.86603 -.5 473.21 126.79)" width="400" x="0" y="0" ns1:href="#path3061" />
+  <svg:use height="400" id="use3963" transform="matrix(-.86603 .5 -.5 -.86603 473.21 273.21)" width="400" x="0" y="0" ns1:href="#path3061" />
+  <svg:use height="400" id="use3965" transform="matrix(-1,0,0,-1,400,400)" width="400" x="0" y="0" ns1:href="#path3061" />
+  <svg:use height="400" id="use3967" transform="matrix(-.86603 -.5 .5 -.86603 273.21 473.21)" width="400" x="0" y="0" ns1:href="#path3061" />
+  <svg:use height="400" id="use3969" transform="matrix(-.5 -.86603 .86603 -.5 126.79 473.21)" width="400" x="0" y="0" ns1:href="#path3061" />
+  <svg:use height="400" id="use3971" transform="matrix(0,-1,1,0,0,400)" width="400" x="0" y="0" ns1:href="#path3061" />
+  <svg:use height="400" id="use3973" transform="matrix(.5 -.86603 .86603 .5 -73.205 273.21)" width="400" x="0" y="0" ns1:href="#path3061" />
+  <svg:use height="400" id="use3975" transform="matrix(.86603 -.5 .5 .86603 -73.205 126.79)" width="400" x="0" y="0" ns1:href="#path3061" />
+  <svg:text fill="#000000" font-family="Linux Libertine" font-size="36px" id="text4034" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="191.63281" y="385.79297" xml:space="preserve">
+    <svg:tspan id="tspan4036" x="191.63281" y="385.79297">6</svg:tspan>
+  </svg:text>
+  <svg:text fill="#000000" font-family="Linux Libertine" font-size="36px" id="text4038" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="40.078369" y="298.30176" xml:space="preserve">
+    <svg:tspan id="tspan4040" x="40.078369" y="298.30176">8</svg:tspan>
+  </svg:text>
+  <svg:text fill="#000000" font-family="Linux Libertine" font-size="36px" id="text4042" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="103.95703" y="362.36499" xml:space="preserve">
+    <svg:tspan id="tspan4044" x="103.95703" y="362.36499">7</svg:tspan>
+  </svg:text>
+  <svg:text fill="#000000" font-family="Linux Libertine" font-size="36px" id="text4046" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="279.17676" y="362.34741" xml:space="preserve">
+    <svg:tspan id="tspan4048" x="279.17676" y="362.34741">5</svg:tspan>
+  </svg:text>
+  <svg:text fill="#000000" font-family="Linux Libertine" font-size="36px" id="text4050" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="343.03784" y="298.45117" xml:space="preserve">
+    <svg:tspan id="tspan4052" x="343.03784" y="298.45117">4</svg:tspan>
+  </svg:text>
+  <svg:text fill="#000000" font-family="Linux Libertine" font-size="36px" id="text4054" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="366.77344" y="210.80176" xml:space="preserve">
+    <svg:tspan id="tspan4056" x="366.77344" y="210.80176">3</svg:tspan>
+  </svg:text>
+  <svg:text fill="#000000" font-family="Linux Libertine" font-size="36px" id="text4058" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="343.20483" y="123.44238" xml:space="preserve">
+    <svg:tspan id="tspan4060" x="343.20483" y="123.44238">2</svg:tspan>
+  </svg:text>
+  <svg:text fill="#000000" font-family="Linux Libertine" font-size="36px" id="text4062" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="279.0625" y="59.352783" xml:space="preserve">
+    <svg:tspan id="tspan4064" x="279.0625" y="59.352783">1</svg:tspan>
+  </svg:text>
+  <svg:text fill="#000000" font-family="Linux Libertine" font-size="36px" id="text4066" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="16.421875" y="210.75781" xml:space="preserve">
+    <svg:tspan id="tspan4068" x="16.421875" y="210.75781">9</svg:tspan>
+  </svg:text>
+  <svg:text fill="#000000" font-family="Linux Libertine" font-size="36px" id="text4070" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="30.885008" y="123.30176" xml:space="preserve">
+    <svg:tspan id="tspan4072" x="30.885008" y="123.30176">10</svg:tspan>
+  </svg:text>
+  <svg:text fill="#000000" font-family="Linux Libertine" font-size="36px" id="text4074" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="182.61523" y="35.942383" xml:space="preserve">
+    <svg:tspan id="tspan4076" x="182.61523" y="35.942383">12</svg:tspan>
+  </svg:text>
+  <svg:text fill="#000000" font-family="Linux Libertine" font-size="36px" id="text4086" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="95.695312" y="59.352783" xml:space="preserve">
+    <svg:tspan id="tspan4088" x="95.695312" y="59.352783">11</svg:tspan>
+  </svg:text>
+  <svg:g class="hour" fill="blue" id="gHour" stroke="#000" stroke-width="6">
+    <svg:path d="m210 200h-110" fill="none" id="path4108" stroke-linecap="round" />
+    <svg:path d="m155 200c0 11.046-8.9543 20-20 20s-20-8.9543-20-20 8.9543-20 20-20 20 8.9543 20 20z" id="path4112" />
+  </svg:g>
+  <svg:g class="minute" fill="#ff0" id="gMinute" stroke="#000" stroke-width="4">
+    <svg:path d="m190 200h140" fill="none" id="path4102" stroke-linecap="round" />
+    <svg:path d="m322.5 200c0 6.9036-5.5964 12.5-12.5 12.5s-12.5-5.5964-12.5-12.5 5.5964-12.5 12.5-12.5 12.5 5.5964 12.5 12.5z" id="path4100" />
+  </svg:g>
+  <svg:g class="second" fill="red" id="gSecond" stroke="#000" stroke-width="2">
+    <svg:path d="m200 210v-155" fill="none" id="path4092" stroke-linecap="round" />
+    <svg:path d="m207.5 65c0 4.1421-3.3579 7.5-7.5 7.5s-7.5-3.3579-7.5-7.5 3.3579-7.5 7.5-7.5 7.5 3.3579 7.5 7.5z" id="path4094" />
+  </svg:g>
+  <svg:path d="m225 200c0 13.807-11.193 25-25 25s-25-11.193-25-25 11.193-25 25-25 25 11.193 25 25z" fill="#fff" id="path4090" stroke="#000" stroke-width="6" />
+  <svg:metadata>
+    <rdf:RDF>
+      <ns3:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns3:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <ns3:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </ns3:Agent>
+        </dc:publisher>
+        <dc:title>Colour Clock 5</dc:title>
+        <dc:date>2013-08-27T05:41:11</dc:date>
+        <dc:description>An animated clock using colours. Blobs at the end of the hour, minute, and second regions change colours over time (red = 12, yellow = 3, green = 6, blue = 9).
+\n
+\nMy idea was that this might help younger children to tell the time without having to know what numbers mean (e.g. it's yellow and orange).
+\n
+\nI have also implemented a sine-wave second "tick", and stuck the minute hand to integer positions (in a somewhat similar fashion to the DB clocks in Germany). This makes the clock a bit more interesting, because each hand tells the time in a different way.
+\n
+\n[Update frequency is 100ms, but can be changed by editing the changeTime timeout at the end of the changeTime function.]</dc:description>
+        <dc:source>https://openclipart.org/detail/182255/colour-clock-5-by-gringer-182255</dc:source>
+        <dc:creator>
+          <ns3:Agent>
+            <dc:title>gringer</dc:title>
+          </ns3:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>animated</rdf:li>
+            <rdf:li>clock</rdf:li>
+            <rdf:li>rotating</rdf:li>
+            <rdf:li>time</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </ns3:Work>
+      <ns3:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns3:License>
+    </rdf:RDF>
+  </svg:metadata>
+</svg:svg>

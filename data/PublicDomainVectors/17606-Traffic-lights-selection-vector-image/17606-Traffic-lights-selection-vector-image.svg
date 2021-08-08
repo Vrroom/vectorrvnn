@@ -1,594 +1,113 @@
-<?xml version="1.0"?>
-<svg
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:cc="http://creativecommons.org/ns#"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    xmlns:ns1="http://sozi.baierouge.fr"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    id="svg3041"
-    viewBox="0 0 278.97 176.98"
-    version="1.1"
-  >
-  <title
-      id="title4094"
-    >Traffic Light</title
-  >
-  <defs
-      id="defs3043"
-    >
-    <filter
-        id="filter3948"
-        height="2.2"
-        width="2.2"
-        y="-.6"
-        x="-.6"
-        color-interpolation-filters="sRGB"
-      >
-      <feGaussianBlur
-          id="feGaussianBlur3950"
-          stdDeviation="2.375"
-      />
-    </filter
-    >
-    <filter
-        id="filter3975"
-        color-interpolation-filters="sRGB"
-      >
-      <feGaussianBlur
-          id="feGaussianBlur3977"
-          stdDeviation="0.81075"
-      />
-    </filter
-    >
-  </defs
-  >
-  <g
-      id="layer1"
-      transform="translate(-281.52 -330.86)"
-    >
-    <g
-        id="g4115"
-      >
-      <g
-          id="g4085"
-        >
-        <path
-            id="path3053"
-            d="m300 352.36h50v140h-50z"
-            stroke="#000"
-            stroke-width="1px"
-            fill="#333"
-        />
-        <path
-            id="path3055"
-            d="m290 352.36 10-10h50l10 10z"
-            stroke="#000"
-            stroke-width="1px"
-            fill="#4d4d4d"
-        />
-        <path
-            id="path3057"
-            d="m310 492.36v10h30v-10z"
-            stroke="#000"
-            stroke-width="1px"
-            fill="#4d4d4d"
-        />
-        <path
-            id="path3059"
-            d="m309.93 342.43v-7.4243c11.385-4.9495 21.43-4.9495 30.136 0v7.4243z"
-            stroke="#000"
-            stroke-width=".8636px"
-            fill="#808080"
-        />
-        <path
-            id="path3061"
-            stroke-linejoin="round"
-            style="color:#000000"
-            d="m340 302.36c0 11.046-8.9543 20-20 20s-20-8.9543-20-20 8.9543-20 20-20 20 8.9543 20 20z"
-            transform="translate(5,73)"
-            stroke="#fff"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="#f00"
-        />
-        <path
-            id="path3063"
-            stroke-linejoin="round"
-            style="color:#000000"
-            d="m340 302.36c0 11.046-8.9543 20-20 20s-20-8.9543-20-20 8.9543-20 20-20 20 8.9543 20 20z"
-            transform="translate(5,117.5)"
-            stroke="#fff"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="#808080"
-        />
-        <path
-            id="path3065"
-            stroke-linejoin="round"
-            style="color:#000000"
-            d="m340 302.36c0 11.046-8.9543 20-20 20s-20-8.9543-20-20 8.9543-20 20-20 20 8.9543 20 20z"
-            transform="translate(5,162)"
-            stroke="#fff"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="#808080"
-        />
-      </g
-      >
-      <g
-          id="g3960"
-          filter="url(#filter3975)"
-          transform="translate(-111.5,110)"
-        >
-        <path
-            id="path3886"
-            d="m457.82 265.36h19.222"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path3888"
-            d="m451.57 250.29l13.592-13.592"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path3890"
-            d="m436.5 244.05v-19.222"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path3892"
-            d="m421.43 250.29l-13.59-13.59"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path3894"
-            d="m415.18 265.36h-19.222"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path3896"
-            d="m421.43 280.43l-13.592 13.592"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path3898"
-            d="m436.5 286.68v19.222"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path3900"
-            d="m451.57 280.43l13.592 13.592"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path3902"
-            style="color:#000000"
-            d="m523 230.61c0 2.6234-2.1266 4.75-4.75 4.75s-4.75-2.1266-4.75-4.75 2.1266-4.75 4.75-4.75 4.75 2.1266 4.75 4.75z"
-            transform="matrix(2.142 0 0 2.142 -673.58 -228.61)"
-            filter="url(#filter3948)"
-            fill="#fff"
-        />
-      </g
-      >
-    </g
-    >
-    <g
-        id="g4066"
-        transform="translate(-7.4916)"
-      >
-      <path
-          id="path3979"
-          d="m399.5 352.86h50v140h-50z"
-          stroke="#000"
-          stroke-width="1px"
-          fill="#333"
-      />
-      <path
-          id="path3981"
-          d="m389.5 352.86 10-10h50l10 10z"
-          stroke="#000"
-          stroke-width="1px"
-          fill="#4d4d4d"
-      />
-      <path
-          id="path3983"
-          d="m409.5 492.86v10h30v-10z"
-          stroke="#000"
-          stroke-width="1px"
-          fill="#4d4d4d"
-      />
-      <path
-          id="path3985"
-          d="m409.43 342.93v-7.4243c11.385-4.9495 21.43-4.9495 30.136 0v7.4243z"
-          stroke="#000"
-          stroke-width=".8636px"
-          fill="#808080"
-      />
-      <path
-          id="path3987"
-          stroke-linejoin="round"
-          style="color:#000000"
-          d="m340 302.36c0 11.046-8.9543 20-20 20s-20-8.9543-20-20 8.9543-20 20-20 20 8.9543 20 20z"
-          transform="translate(104.5,73.5)"
-          stroke="#fff"
-          stroke-linecap="round"
-          stroke-width="2"
-          fill="#808080"
-      />
-      <path
-          id="path3989"
-          stroke-linejoin="round"
-          style="color:#000000"
-          d="m340 302.36c0 11.046-8.9543 20-20 20s-20-8.9543-20-20 8.9543-20 20-20 20 8.9543 20 20z"
-          transform="translate(104.5,118)"
-          stroke="#fff"
-          stroke-linecap="round"
-          stroke-width="2"
-          fill="#ff0"
-      />
-      <path
-          id="path3991"
-          stroke-linejoin="round"
-          style="color:#000000"
-          d="m340 302.36c0 11.046-8.9543 20-20 20s-20-8.9543-20-20 8.9543-20 20-20 20 8.9543 20 20z"
-          transform="translate(104.5,162.5)"
-          stroke="#fff"
-          stroke-linecap="round"
-          stroke-width="2"
-          fill="#808080"
-      />
-      <g
-          id="g3993"
-          filter="url(#filter3975)"
-          transform="translate(-12,155)"
-        >
-        <path
-            id="path3995"
-            d="m457.82 265.36h19.222"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path3997"
-            d="m451.57 250.29l13.592-13.592"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path3999"
-            d="m436.5 244.05v-19.222"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path4001"
-            d="m421.43 250.29l-13.59-13.59"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path4003"
-            d="m415.18 265.36h-19.222"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path4005"
-            d="m421.43 280.43l-13.592 13.592"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path4007"
-            d="m436.5 286.68v19.222"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path4009"
-            d="m451.57 280.43l13.592 13.592"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path4011"
-            style="color:#000000"
-            d="m523 230.61c0 2.6234-2.1266 4.75-4.75 4.75s-4.75-2.1266-4.75-4.75 2.1266-4.75 4.75-4.75 4.75 2.1266 4.75 4.75z"
-            transform="matrix(2.142 0 0 2.142 -673.58 -228.61)"
-            filter="url(#filter3948)"
-            fill="#fff"
-        />
-      </g
-      >
-    </g
-    >
-    <g
-        id="g4047"
-        transform="translate(.000023651)"
-      >
-      <path
-          id="path4013"
-          d="m492 352.36h50v140h-50z"
-          stroke="#000"
-          stroke-width="1px"
-          fill="#333"
-      />
-      <path
-          id="path4015"
-          d="m482 352.36 10-10h50l10 10z"
-          stroke="#000"
-          stroke-width="1px"
-          fill="#4d4d4d"
-      />
-      <path
-          id="path4017"
-          d="m502 492.36v10h30v-10z"
-          stroke="#000"
-          stroke-width="1px"
-          fill="#4d4d4d"
-      />
-      <path
-          id="path4019"
-          d="m501.93 342.43v-7.4243c11.385-4.9495 21.43-4.9495 30.136 0v7.4243z"
-          stroke="#000"
-          stroke-width=".8636px"
-          fill="#808080"
-      />
-      <path
-          id="path4021"
-          stroke-linejoin="round"
-          style="color:#000000"
-          d="m340 302.36c0 11.046-8.9543 20-20 20s-20-8.9543-20-20 8.9543-20 20-20 20 8.9543 20 20z"
-          transform="translate(197,73)"
-          stroke="#fff"
-          stroke-linecap="round"
-          stroke-width="2"
-          fill="#808080"
-      />
-      <path
-          id="path4023"
-          stroke-linejoin="round"
-          style="color:#000000"
-          d="m340 302.36c0 11.046-8.9543 20-20 20s-20-8.9543-20-20 8.9543-20 20-20 20 8.9543 20 20z"
-          transform="translate(197,117.5)"
-          stroke="#fff"
-          stroke-linecap="round"
-          stroke-width="2"
-          fill="#808080"
-      />
-      <path
-          id="path4025"
-          stroke-linejoin="round"
-          style="color:#000000"
-          d="m340 302.36c0 11.046-8.9543 20-20 20s-20-8.9543-20-20 8.9543-20 20-20 20 8.9543 20 20z"
-          transform="translate(197,162)"
-          stroke="#fff"
-          stroke-linecap="round"
-          stroke-width="2"
-          fill="#0f0"
-      />
-      <g
-          id="g4027"
-          filter="url(#filter3975)"
-          transform="translate(80.5,199)"
-        >
-        <path
-            id="path4029"
-            d="m457.82 265.36h19.222"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path4031"
-            d="m451.57 250.29l13.592-13.592"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path4033"
-            d="m436.5 244.05v-19.222"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path4035"
-            d="m421.43 250.29l-13.59-13.59"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path4037"
-            d="m415.18 265.36h-19.222"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path4039"
-            d="m421.43 280.43l-13.592 13.592"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path4041"
-            d="m436.5 286.68v19.222"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path4043"
-            d="m451.57 280.43l13.592 13.592"
-            stroke="#ff0"
-            stroke-linecap="round"
-            stroke-width="2"
-            fill="none"
-        />
-        <path
-            id="path4045"
-            style="color:#000000"
-            d="m523 230.61c0 2.6234-2.1266 4.75-4.75 4.75s-4.75-2.1266-4.75-4.75 2.1266-4.75 4.75-4.75 4.75 2.1266 4.75 4.75z"
-            transform="matrix(2.142 0 0 2.142 -673.58 -228.61)"
-            filter="url(#filter3948)"
-            fill="#fff"
-        />
-      </g
-      >
-    </g
-    >
-  </g
-  >
-  <metadata
-    >
-    <rdf:RDF
-      >
-      <cc:Work
-        >
-        <dc:format
-          >image/svg+xml</dc:format
-        >
-        <dc:type
-            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-        />
-        <cc:license
-            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
-        />
-        <dc:publisher
-          >
-          <cc:Agent
-              rdf:about="http://openclipart.org/"
-            >
-            <dc:title
-              >Openclipart</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:publisher
-        >
-        <dc:title
-          >Traffic Light (RYG)</dc:title
-        >
-        <dc:date
-          >2013-09-04T18:29:45</dc:date
-        >
-        <dc:description
-          >Icon-ized traffic light with each light emphasized</dc:description
-        >
-        <dc:source
-          >https://openclipart.org/detail/182934/traffic-light-ryg-by-algotruneman-182934</dc:source
-        >
-        <dc:creator
-          >
-          <cc:Agent
-            >
-            <dc:title
-              >algotruneman</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:creator
-        >
-        <dc:subject
-          >
-          <rdf:Bag
-            >
-            <rdf:li
-              >caution</rdf:li
-            >
-            <rdf:li
-              >go</rdf:li
-            >
-            <rdf:li
-              >stop</rdf:li
-            >
-            <rdf:li
-              >traffic</rdf:li
-            >
-            <rdf:li
-              >traffic light</rdf:li
-            >
-            <rdf:li
-              >traffic semaphore</rdf:li
-            >
-          </rdf:Bag
-          >
-        </dc:subject
-        >
-      </cc:Work
-      >
-      <cc:License
-          rdf:about="http://creativecommons.org/licenses/publicdomain/"
-        >
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Reproduction"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Distribution"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
-        />
-      </cc:License
-      >
-    </rdf:RDF
-    >
-  </metadata
-  >
-</svg
->
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="327.70082838119987" id="svg3041" version="1.1" viewBox="-24.37040236509995 -76.61262669059997 327.7008283811999 327.70082838119987" width="327.7008283811999">
+  <svg:title id="title4094">Traffic Light</svg:title>
+  <svg:defs id="defs3043">
+    <svg:filter color-interpolation-filters="sRGB" height="2.2" id="filter3948" width="2.2" x="-.6" y="-.6">
+      <svg:feGaussianBlur id="feGaussianBlur3950" stdDeviation="2.375" />
+    </svg:filter>
+    <svg:filter color-interpolation-filters="sRGB" id="filter3975">
+      <svg:feGaussianBlur id="feGaussianBlur3977" stdDeviation="0.81075" />
+    </svg:filter>
+  </svg:defs>
+  <svg:g id="layer1" transform="translate(-281.52 -330.86)">
+    <svg:g id="g4115">
+      <svg:g id="g4085">
+        <svg:path d="m300 352.36h50v140h-50z" fill="#333" id="path3053" stroke="#000" stroke-width="1px" />
+        <svg:path d="m290 352.36 10-10h50l10 10z" fill="#4d4d4d" id="path3055" stroke="#000" stroke-width="1px" />
+        <svg:path d="m310 492.36v10h30v-10z" fill="#4d4d4d" id="path3057" stroke="#000" stroke-width="1px" />
+        <svg:path d="m309.93 342.43v-7.4243c11.385-4.9495 21.43-4.9495 30.136 0v7.4243z" fill="#808080" id="path3059" stroke="#000" stroke-width=".8636px" />
+        <svg:path d="m340 302.36c0 11.046-8.9543 20-20 20s-20-8.9543-20-20 8.9543-20 20-20 20 8.9543 20 20z" fill="#f00" id="path3061" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="color:#000000" transform="translate(5,73)" />
+        <svg:path d="m340 302.36c0 11.046-8.9543 20-20 20s-20-8.9543-20-20 8.9543-20 20-20 20 8.9543 20 20z" fill="#808080" id="path3063" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="color:#000000" transform="translate(5,117.5)" />
+        <svg:path d="m340 302.36c0 11.046-8.9543 20-20 20s-20-8.9543-20-20 8.9543-20 20-20 20 8.9543 20 20z" fill="#808080" id="path3065" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="color:#000000" transform="translate(5,162)" />
+      </svg:g>
+      <svg:g filter="url(#filter3975)" id="g3960" transform="translate(-111.5,110)">
+        <svg:path d="m457.82 265.36h19.222" fill="none" id="path3886" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m451.57 250.29l13.592-13.592" fill="none" id="path3888" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m436.5 244.05v-19.222" fill="none" id="path3890" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m421.43 250.29l-13.59-13.59" fill="none" id="path3892" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m415.18 265.36h-19.222" fill="none" id="path3894" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m421.43 280.43l-13.592 13.592" fill="none" id="path3896" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m436.5 286.68v19.222" fill="none" id="path3898" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m451.57 280.43l13.592 13.592" fill="none" id="path3900" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m523 230.61c0 2.6234-2.1266 4.75-4.75 4.75s-4.75-2.1266-4.75-4.75 2.1266-4.75 4.75-4.75 4.75 2.1266 4.75 4.75z" fill="#fff" filter="url(#filter3948)" id="path3902" style="color:#000000" transform="matrix(2.142 0 0 2.142 -673.58 -228.61)" />
+      </svg:g>
+    </svg:g>
+    <svg:g id="g4066" transform="translate(-7.4916)">
+      <svg:path d="m399.5 352.86h50v140h-50z" fill="#333" id="path3979" stroke="#000" stroke-width="1px" />
+      <svg:path d="m389.5 352.86 10-10h50l10 10z" fill="#4d4d4d" id="path3981" stroke="#000" stroke-width="1px" />
+      <svg:path d="m409.5 492.86v10h30v-10z" fill="#4d4d4d" id="path3983" stroke="#000" stroke-width="1px" />
+      <svg:path d="m409.43 342.93v-7.4243c11.385-4.9495 21.43-4.9495 30.136 0v7.4243z" fill="#808080" id="path3985" stroke="#000" stroke-width=".8636px" />
+      <svg:path d="m340 302.36c0 11.046-8.9543 20-20 20s-20-8.9543-20-20 8.9543-20 20-20 20 8.9543 20 20z" fill="#808080" id="path3987" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="color:#000000" transform="translate(104.5,73.5)" />
+      <svg:path d="m340 302.36c0 11.046-8.9543 20-20 20s-20-8.9543-20-20 8.9543-20 20-20 20 8.9543 20 20z" fill="#ff0" id="path3989" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="color:#000000" transform="translate(104.5,118)" />
+      <svg:path d="m340 302.36c0 11.046-8.9543 20-20 20s-20-8.9543-20-20 8.9543-20 20-20 20 8.9543 20 20z" fill="#808080" id="path3991" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="color:#000000" transform="translate(104.5,162.5)" />
+      <svg:g filter="url(#filter3975)" id="g3993" transform="translate(-12,155)">
+        <svg:path d="m457.82 265.36h19.222" fill="none" id="path3995" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m451.57 250.29l13.592-13.592" fill="none" id="path3997" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m436.5 244.05v-19.222" fill="none" id="path3999" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m421.43 250.29l-13.59-13.59" fill="none" id="path4001" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m415.18 265.36h-19.222" fill="none" id="path4003" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m421.43 280.43l-13.592 13.592" fill="none" id="path4005" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m436.5 286.68v19.222" fill="none" id="path4007" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m451.57 280.43l13.592 13.592" fill="none" id="path4009" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m523 230.61c0 2.6234-2.1266 4.75-4.75 4.75s-4.75-2.1266-4.75-4.75 2.1266-4.75 4.75-4.75 4.75 2.1266 4.75 4.75z" fill="#fff" filter="url(#filter3948)" id="path4011" style="color:#000000" transform="matrix(2.142 0 0 2.142 -673.58 -228.61)" />
+      </svg:g>
+    </svg:g>
+    <svg:g id="g4047" transform="translate(.000023651)">
+      <svg:path d="m492 352.36h50v140h-50z" fill="#333" id="path4013" stroke="#000" stroke-width="1px" />
+      <svg:path d="m482 352.36 10-10h50l10 10z" fill="#4d4d4d" id="path4015" stroke="#000" stroke-width="1px" />
+      <svg:path d="m502 492.36v10h30v-10z" fill="#4d4d4d" id="path4017" stroke="#000" stroke-width="1px" />
+      <svg:path d="m501.93 342.43v-7.4243c11.385-4.9495 21.43-4.9495 30.136 0v7.4243z" fill="#808080" id="path4019" stroke="#000" stroke-width=".8636px" />
+      <svg:path d="m340 302.36c0 11.046-8.9543 20-20 20s-20-8.9543-20-20 8.9543-20 20-20 20 8.9543 20 20z" fill="#808080" id="path4021" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="color:#000000" transform="translate(197,73)" />
+      <svg:path d="m340 302.36c0 11.046-8.9543 20-20 20s-20-8.9543-20-20 8.9543-20 20-20 20 8.9543 20 20z" fill="#808080" id="path4023" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="color:#000000" transform="translate(197,117.5)" />
+      <svg:path d="m340 302.36c0 11.046-8.9543 20-20 20s-20-8.9543-20-20 8.9543-20 20-20 20 8.9543 20 20z" fill="#0f0" id="path4025" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="color:#000000" transform="translate(197,162)" />
+      <svg:g filter="url(#filter3975)" id="g4027" transform="translate(80.5,199)">
+        <svg:path d="m457.82 265.36h19.222" fill="none" id="path4029" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m451.57 250.29l13.592-13.592" fill="none" id="path4031" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m436.5 244.05v-19.222" fill="none" id="path4033" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m421.43 250.29l-13.59-13.59" fill="none" id="path4035" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m415.18 265.36h-19.222" fill="none" id="path4037" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m421.43 280.43l-13.592 13.592" fill="none" id="path4039" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m436.5 286.68v19.222" fill="none" id="path4041" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m451.57 280.43l13.592 13.592" fill="none" id="path4043" stroke="#ff0" stroke-linecap="round" stroke-width="2" />
+        <svg:path d="m523 230.61c0 2.6234-2.1266 4.75-4.75 4.75s-4.75-2.1266-4.75-4.75 2.1266-4.75 4.75-4.75 4.75 2.1266 4.75 4.75z" fill="#fff" filter="url(#filter3948)" id="path4045" style="color:#000000" transform="matrix(2.142 0 0 2.142 -673.58 -228.61)" />
+      </svg:g>
+    </svg:g>
+  </svg:g>
+  <svg:metadata>
+    <rdf:RDF>
+      <ns2:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns2:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <ns2:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </ns2:Agent>
+        </dc:publisher>
+        <dc:title>Traffic Light (RYG)</dc:title>
+        <dc:date>2013-09-04T18:29:45</dc:date>
+        <dc:description>Icon-ized traffic light with each light emphasized</dc:description>
+        <dc:source>https://openclipart.org/detail/182934/traffic-light-ryg-by-algotruneman-182934</dc:source>
+        <dc:creator>
+          <ns2:Agent>
+            <dc:title>algotruneman</dc:title>
+          </ns2:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>caution</rdf:li>
+            <rdf:li>go</rdf:li>
+            <rdf:li>stop</rdf:li>
+            <rdf:li>traffic</rdf:li>
+            <rdf:li>traffic light</rdf:li>
+            <rdf:li>traffic semaphore</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </ns2:Work>
+      <ns2:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns2:License>
+    </rdf:RDF>
+  </svg:metadata>
+</svg:svg>

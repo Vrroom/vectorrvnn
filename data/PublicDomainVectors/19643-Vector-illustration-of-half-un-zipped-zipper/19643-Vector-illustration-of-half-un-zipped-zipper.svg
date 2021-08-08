@@ -1,654 +1,115 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-<svg
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    xmlns:cc="http://creativecommons.org/ns#"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:ns1="http://sozi.baierouge.fr"
-    id="svg2"
-    sodipodi:docname="zipper_edited.svg"
-    viewBox="0 0 152.46 265.73"
-    sodipodi:version="0.32"
-    version="1.0"
-    inkscape:version="0.47 r22583"
-  >
-  <title
-      id="title3957"
-    >Zipper</title
-  >
-  <defs
-      id="defs5"
-    >
-    <linearGradient
-        id="linearGradient3658"
-      >
-      <stop
-          id="stop3660"
-          style="stop-color:#999999"
-          offset="0"
-      />
-      <stop
-          id="stop3662"
-          style="stop-color:#ffffff"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient3634"
-      >
-      <stop
-          id="stop3636"
-          style="stop-color:#808080"
-          offset="0"
-      />
-      <stop
-          id="stop3638"
-          style="stop-color:#ffffff"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient3640"
-        y2="230.18"
-        xlink:href="#linearGradient3634"
-        gradientUnits="userSpaceOnUse"
-        x2="114.29"
-        y1="230.18"
-        x1="99.833"
-        inkscape:collect="always"
-    />
-    <linearGradient
-        id="linearGradient3648"
-        y2="230.26"
-        xlink:href="#linearGradient3634"
-        gradientUnits="userSpaceOnUse"
-        x2="104.29"
-        y1="230.26"
-        x1="89.833"
-        inkscape:collect="always"
-    />
-    <linearGradient
-        id="linearGradient3664"
-        y2="146.43"
-        xlink:href="#linearGradient3658"
-        gradientUnits="userSpaceOnUse"
-        x2="124.22"
-        y1="146.43"
-        x1="77.409"
-        inkscape:collect="always"
-    />
-    <linearGradient
-        id="linearGradient3726"
-        y2="230.18"
-        xlink:href="#linearGradient3634"
-        gradientUnits="userSpaceOnUse"
-        x2="114.29"
-        gradientTransform="translate(0,-10)"
-        y1="230.18"
-        x1="99.833"
-        inkscape:collect="always"
-    />
-    <linearGradient
-        id="linearGradient3766"
-        y2="230.18"
-        gradientUnits="userSpaceOnUse"
-        y1="230.18"
-        gradientTransform="translate(-.015316 -68.706)"
-        x2="114.29"
-        x1="99.833"
-        inkscape:collect="always"
-      >
-      <stop
-          id="stop3636-8"
-          style="stop-color:#808080"
-          offset="0"
-      />
-      <stop
-          id="stop3638-2"
-          style="stop-color:#ffffff"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient3802"
-        y2="230.26"
-        xlink:href="#linearGradient3634"
-        gradientUnits="userSpaceOnUse"
-        x2="104.29"
-        gradientTransform="translate(0,-10)"
-        y1="230.26"
-        x1="89.833"
-        inkscape:collect="always"
-    />
-    <linearGradient
-        id="linearGradient3839"
-        y2="230.26"
-        gradientUnits="userSpaceOnUse"
-        y1="230.26"
-        gradientTransform="translate(-.085718 -56.347)"
-        x2="104.29"
-        x1="89.833"
-        inkscape:collect="always"
-      >
-      <stop
-          id="stop3636-89"
-          style="stop-color:#808080"
-          offset="0"
-      />
-      <stop
-          id="stop3638-21"
-          style="stop-color:#ffffff"
-          offset="1"
-      />
-    </linearGradient
-    >
-  </defs
-  >
-  <sodipodi:namedview
-      id="base"
-      bordercolor="#666666"
-      inkscape:pageshadow="2"
-      guidetolerance="10.0"
-      pagecolor="#ffffff"
-      gridtolerance="10.0"
-      inkscape:window-maximized="1"
-      inkscape:zoom="1.365942"
-      objecttolerance="10.0"
-      borderopacity="1.0"
-      inkscape:current-layer="layer2"
-      inkscape:cx="123.52068"
-      inkscape:cy="80.40683"
-      inkscape:window-y="0"
-      inkscape:window-x="0"
-      inkscape:window-height="973"
-      showgrid="false"
-      inkscape:pageopacity="0.0"
-      inkscape:window-width="1280"
-  />
-  <g
-      id="layer2"
-      inkscape:label="draw"
-      inkscape:groupmode="layer"
-      transform="translate(-26.391 -4.9164)"
-    >
-    <g
-        id="g3882"
-        style="fill:#6b4d41"
-      >
-      <path
-          id="path3666"
-          sodipodi:nodetypes="ccccsccccc"
-          style="stroke:#000000;stroke-width:1px;fill:#6b4d41"
-          d="m92.78 103.23-19.401-97.373-46.488 13.91 27.454 103.59s10.249 31.114 11.347 39.899c1.0981 8.7852 0.36605 71.745 0.36605 71.745v35.141h36.056v-140.93l-9.3342-25.989z"
-      />
-      <path
-          id="path3666-4"
-          sodipodi:nodetypes="ccccsccccc"
-          style="stroke:#000000;stroke-width:1px;fill:#6b4d41"
-          d="m106.97 96.928 25.99-91.512 45.39 13.91-27.45 103.59s-10.249 31.114-11.347 39.899c-1.0981 8.7852-0.36605 71.745-0.36605 71.745v35.141h-36.056v-140.93l3.8435-31.846z"
-      />
-    </g
-    >
-    <rect
-        id="rect2790-3"
-        style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3839)"
-        ry="0"
-        height="4.9179"
-        width="13.459"
-        y="133.87"
-        x="90.248"
-    />
-    <rect
-        id="rect2805-1"
-        style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3766)"
-        ry="0"
-        height="4.9179"
-        width="13.459"
-        y="140.24"
-        x="100.32"
-    />
-    <g
-        id="g3860"
-      >
-      <rect
-          id="rect1885"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3802)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="217.86"
-          x="90.333"
-      />
-      <rect
-          id="rect2772"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3802)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="205.32"
-          x="90.333"
-      />
-      <rect
-          id="rect2774"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3802)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="230.37"
-          x="90.333"
-      />
-      <rect
-          id="rect2778"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3802)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="242.86"
-          x="90.333"
-      />
-      <rect
-          id="rect2782"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3802)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="255.38"
-          x="90.333"
-      />
-      <rect
-          id="rect2788"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3802)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="192.76"
-          x="90.333"
-      />
-      <rect
-          id="rect2795"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3726)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="224.04"
-          x="100.33"
-      />
-      <rect
-          id="rect2797"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3726)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="211.5"
-          x="100.33"
-      />
-      <rect
-          id="rect2799"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3726)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="236.56"
-          x="100.33"
-      />
-      <rect
-          id="rect2801"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3726)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="249.05"
-          x="100.33"
-      />
-      <rect
-          id="rect2803"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3726)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="261.56"
-          x="100.33"
-      />
-      <rect
-          id="rect2805"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3726)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="198.95"
-          x="100.33"
-      />
-    </g
-    >
-    <rect
-        id="rect2807"
-        style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3726)"
-        ry="0"
-        height="4.9179"
-        width="13.459"
-        y="186.4"
-        x="100.33"
-    />
-    <g
-        id="g3878"
-      >
-      <rect
-          id="rect2790"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3802)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="180.22"
-          x="90.333"
-      />
-      <rect
-          id="rect3714"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3726)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="173.89"
-          x="100.33"
-      />
-    </g
-    >
-    <g
-        id="g3716"
-        style="fill:url(#linearGradient3640)"
-        transform="matrix(.96464 .26359 -.26359 .96464 80.279 -195.17)"
-      >
-      <rect
-          id="rect3718"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3640)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="234.04"
-          x="100.33"
-      />
-      <rect
-          id="rect3720"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3640)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="221.5"
-          x="100.33"
-      />
-      <rect
-          id="rect3722"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3640)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="246.56"
-          x="100.33"
-      />
-      <rect
-          id="rect3724"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3640)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="259.05"
-          x="100.33"
-      />
-      <rect
-          id="rect3726"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3640)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="271.56"
-          x="100.33"
-      />
-      <rect
-          id="rect3728"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3640)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="208.95"
-          x="100.33"
-      />
-      <rect
-          id="rect3730"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3640)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="196.4"
-          x="100.33"
-      />
-      <rect
-          id="rect3732"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3640)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="183.89"
-          x="100.33"
-      />
-    </g
-    >
-    <g
-        id="g3734"
-        style="fill:url(#linearGradient3648)"
-        transform="matrix(.98311 -.18299 .18299 .98311 -57.897 -154.37)"
-      >
-      <rect
-          id="rect3736"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3648)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="227.86"
-          x="90.333"
-      />
-      <rect
-          id="rect3738"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3648)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="215.32"
-          x="90.333"
-      />
-      <rect
-          id="rect3740"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3648)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="240.37"
-          x="90.333"
-      />
-      <rect
-          id="rect3742"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3648)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="252.86"
-          x="90.333"
-      />
-      <rect
-          id="rect3744"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3648)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="265.38"
-          x="90.333"
-      />
-      <rect
-          id="rect3746"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3648)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="202.76"
-          x="90.333"
-      />
-      <rect
-          id="rect3748"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3648)"
-          ry="0"
-          height="4.9179"
-          width="13.459"
-          y="190.22"
-          x="90.333"
-      />
-    </g
-    >
-    <g
-        id="g1877"
-        style="fill:url(#linearGradient3664)"
-        transform="translate(0,-10)"
-      >
-      <path
-          id="path2796"
-          sodipodi:rx="22.906883"
-          sodipodi:ry="15.788925"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3664)"
-          sodipodi:type="arc"
-          d="m124.75 111.01c0.29933 8.7175-9.7109 15.952-22.358 16.158-12.648 0.20632-23.143-6.6934-23.442-15.411-0.29933-8.7175 9.7109-15.952 22.358-16.158 12.628-0.206 23.115 6.6729 23.441 15.377"
-          sodipodi:open="true"
-          transform="translate(-1.0353 -.77650)"
-          sodipodi:cy="111.38104"
-          sodipodi:cx="101.85151"
-          sodipodi:end="12.540534"
-          sodipodi:start="6.2595228"
-      />
-      <rect
-          id="rect2794"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3664)"
-          ry="5"
-          height="22.519"
-          width="28.99"
-          y="120.18"
-          x="85.933"
-      />
-      <path
-          id="rect1876"
-          sodipodi:nodetypes="cccccccccccccccccccccccccccc"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3664)"
-          d="m87.719 118.22c-2.77 0-5 2.23-5 5v74.219c0 2.77 2.23 5 5 5h25.5c2.77 0 5-2.23 5-5v-74.219c0-2.77-2.23-5-5-5h-25.5zm5.99 2.9375h13.437c2.77 0 5 2.23 5 5v23.312c0 2.77-2.23 5-5 5h-13.437c-2.77 0-5-2.23-5-5v-23.312c0-2.77 2.23-5 5-5zm-0.45424 63.25c0.16849-0.017 0.32688 0 0.5 0h13.438c2.77 0 5 2.23 5 5v2.0625c0 2.77-2.23 5-5 5h-13.438c-2.77 0-5-2.23-5-5v-2.0625c0-2.5969 1.9726-4.7449 4.5-5z"
-      />
-      <rect
-          id="rect2770"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3664)"
-          ry="5"
-          height="55.649"
-          width="17.601"
-          y="90.415"
-          x="91.582"
-      />
-      <path
-          id="path2774"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3664)"
-          d="m87.475 179.29h25.883"
-      />
-      <path
-          id="path2801"
-          style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3664)"
-          d="m87.475 162h25.883"
-      />
-    </g
-    >
-  </g
-  >
-  <metadata
-    >
-    <rdf:RDF
-      >
-      <cc:Work
-        >
-        <dc:format
-          >image/svg+xml</dc:format
-        >
-        <dc:type
-            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-        />
-        <cc:license
-            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
-        />
-        <dc:publisher
-          >
-          <cc:Agent
-              rdf:about="http://openclipart.org/"
-            >
-            <dc:title
-              >Openclipart</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:publisher
-        >
-        <dc:title
-          >Zipper</dc:title
-        >
-        <dc:date
-          >2012-05-11T21:42:33</dc:date
-        >
-        <dc:description
-          >&lt;a href="http://www.clker.com/clipart-zipper-1.html"&gt;Original&lt;/a&gt;</dc:description
-        >
-        <dc:source
-          >https://openclipart.org/detail/169991/zipper-by-deluge</dc:source
-        >
-        <dc:creator
-          >
-          <cc:Agent
-            >
-            <dc:title
-              >Deluge</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:creator
-        >
-        <dc:subject
-          >
-          <rdf:Bag
-            >
-            <rdf:li
-              >zip</rdf:li
-            >
-            <rdf:li
-              >zipper</rdf:li
-            >
-          </rdf:Bag
-          >
-        </dc:subject
-        >
-      </cc:Work
-      >
-      <cc:License
-          rdf:about="http://creativecommons.org/licenses/publicdomain/"
-        >
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Reproduction"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Distribution"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
-        />
-      </cc:License
-      >
-    </rdf:RDF
-    >
-  </metadata
-  >
-</svg
->
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:ns2="http://www.inkscape.org/namespaces/inkscape" xmlns:ns3="http://www.w3.org/1999/xlink" xmlns:ns5="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="317.6712" id="svg2" version="1.0" viewBox="-82.60609999999997 -25.973000000000003 317.6712 317.6712" width="317.6712" ns1:docname="zipper_edited.svg" ns1:version="0.32" ns2:version="0.47 r22583">
+  <svg:title id="title3957">Zipper</svg:title>
+  <svg:defs id="defs5">
+    <svg:linearGradient id="linearGradient3658">
+      <svg:stop id="stop3660" offset="0" style="stop-color:#999999" />
+      <svg:stop id="stop3662" offset="1" style="stop-color:#ffffff" />
+    </svg:linearGradient>
+    <svg:linearGradient id="linearGradient3634">
+      <svg:stop id="stop3636" offset="0" style="stop-color:#808080" />
+      <svg:stop id="stop3638" offset="1" style="stop-color:#ffffff" />
+    </svg:linearGradient>
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="linearGradient3640" x1="99.833" x2="114.29" y1="230.18" y2="230.18" ns2:collect="always" ns3:href="#linearGradient3634" />
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="linearGradient3648" x1="89.833" x2="104.29" y1="230.26" y2="230.26" ns2:collect="always" ns3:href="#linearGradient3634" />
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="linearGradient3664" x1="77.409" x2="124.22" y1="146.43" y2="146.43" ns2:collect="always" ns3:href="#linearGradient3658" />
+    <svg:linearGradient gradientTransform="translate(0,-10)" gradientUnits="userSpaceOnUse" id="linearGradient3726" x1="99.833" x2="114.29" y1="230.18" y2="230.18" ns2:collect="always" ns3:href="#linearGradient3634" />
+    <svg:linearGradient gradientTransform="translate(-.015316 -68.706)" gradientUnits="userSpaceOnUse" id="linearGradient3766" x1="99.833" x2="114.29" y1="230.18" y2="230.18" ns2:collect="always">
+      <svg:stop id="stop3636-8" offset="0" style="stop-color:#808080" />
+      <svg:stop id="stop3638-2" offset="1" style="stop-color:#ffffff" />
+    </svg:linearGradient>
+    <svg:linearGradient gradientTransform="translate(0,-10)" gradientUnits="userSpaceOnUse" id="linearGradient3802" x1="89.833" x2="104.29" y1="230.26" y2="230.26" ns2:collect="always" ns3:href="#linearGradient3634" />
+    <svg:linearGradient gradientTransform="translate(-.085718 -56.347)" gradientUnits="userSpaceOnUse" id="linearGradient3839" x1="89.833" x2="104.29" y1="230.26" y2="230.26" ns2:collect="always">
+      <svg:stop id="stop3636-89" offset="0" style="stop-color:#808080" />
+      <svg:stop id="stop3638-21" offset="1" style="stop-color:#ffffff" />
+    </svg:linearGradient>
+  </svg:defs>
+  <ns1:namedview bordercolor="#666666" borderopacity="1.0" gridtolerance="10.0" guidetolerance="10.0" id="base" objecttolerance="10.0" pagecolor="#ffffff" showgrid="false" ns2:current-layer="layer2" ns2:cx="123.52068" ns2:cy="80.40683" ns2:pageopacity="0.0" ns2:pageshadow="2" ns2:window-height="973" ns2:window-maximized="1" ns2:window-width="1280" ns2:window-x="0" ns2:window-y="0" ns2:zoom="1.365942" />
+  <svg:g id="layer2" transform="translate(-26.391 -4.9164)" ns2:groupmode="layer" ns2:label="draw">
+    <svg:g id="g3882" style="fill:#6b4d41">
+      <svg:path d="m92.78 103.23-19.401-97.373-46.488 13.91 27.454 103.59s10.249 31.114 11.347 39.899c1.0981 8.7852 0.36605 71.745 0.36605 71.745v35.141h36.056v-140.93l-9.3342-25.989z" id="path3666" style="stroke:#000000;stroke-width:1px;fill:#6b4d41" ns1:nodetypes="ccccsccccc" />
+      <svg:path d="m106.97 96.928 25.99-91.512 45.39 13.91-27.45 103.59s-10.249 31.114-11.347 39.899c-1.0981 8.7852-0.36605 71.745-0.36605 71.745v35.141h-36.056v-140.93l3.8435-31.846z" id="path3666-4" style="stroke:#000000;stroke-width:1px;fill:#6b4d41" ns1:nodetypes="ccccsccccc" />
+    </svg:g>
+    <svg:rect height="4.9179" id="rect2790-3" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3839)" width="13.459" x="90.248" y="133.87" />
+    <svg:rect height="4.9179" id="rect2805-1" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3766)" width="13.459" x="100.32" y="140.24" />
+    <svg:g id="g3860">
+      <svg:rect height="4.9179" id="rect1885" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3802)" width="13.459" x="90.333" y="217.86" />
+      <svg:rect height="4.9179" id="rect2772" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3802)" width="13.459" x="90.333" y="205.32" />
+      <svg:rect height="4.9179" id="rect2774" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3802)" width="13.459" x="90.333" y="230.37" />
+      <svg:rect height="4.9179" id="rect2778" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3802)" width="13.459" x="90.333" y="242.86" />
+      <svg:rect height="4.9179" id="rect2782" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3802)" width="13.459" x="90.333" y="255.38" />
+      <svg:rect height="4.9179" id="rect2788" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3802)" width="13.459" x="90.333" y="192.76" />
+      <svg:rect height="4.9179" id="rect2795" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3726)" width="13.459" x="100.33" y="224.04" />
+      <svg:rect height="4.9179" id="rect2797" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3726)" width="13.459" x="100.33" y="211.5" />
+      <svg:rect height="4.9179" id="rect2799" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3726)" width="13.459" x="100.33" y="236.56" />
+      <svg:rect height="4.9179" id="rect2801" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3726)" width="13.459" x="100.33" y="249.05" />
+      <svg:rect height="4.9179" id="rect2803" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3726)" width="13.459" x="100.33" y="261.56" />
+      <svg:rect height="4.9179" id="rect2805" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3726)" width="13.459" x="100.33" y="198.95" />
+    </svg:g>
+    <svg:rect height="4.9179" id="rect2807" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3726)" width="13.459" x="100.33" y="186.4" />
+    <svg:g id="g3878">
+      <svg:rect height="4.9179" id="rect2790" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3802)" width="13.459" x="90.333" y="180.22" />
+      <svg:rect height="4.9179" id="rect3714" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3726)" width="13.459" x="100.33" y="173.89" />
+    </svg:g>
+    <svg:g id="g3716" style="fill:url(#linearGradient3640)" transform="matrix(.96464 .26359 -.26359 .96464 80.279 -195.17)">
+      <svg:rect height="4.9179" id="rect3718" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3640)" width="13.459" x="100.33" y="234.04" />
+      <svg:rect height="4.9179" id="rect3720" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3640)" width="13.459" x="100.33" y="221.5" />
+      <svg:rect height="4.9179" id="rect3722" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3640)" width="13.459" x="100.33" y="246.56" />
+      <svg:rect height="4.9179" id="rect3724" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3640)" width="13.459" x="100.33" y="259.05" />
+      <svg:rect height="4.9179" id="rect3726" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3640)" width="13.459" x="100.33" y="271.56" />
+      <svg:rect height="4.9179" id="rect3728" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3640)" width="13.459" x="100.33" y="208.95" />
+      <svg:rect height="4.9179" id="rect3730" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3640)" width="13.459" x="100.33" y="196.4" />
+      <svg:rect height="4.9179" id="rect3732" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3640)" width="13.459" x="100.33" y="183.89" />
+    </svg:g>
+    <svg:g id="g3734" style="fill:url(#linearGradient3648)" transform="matrix(.98311 -.18299 .18299 .98311 -57.897 -154.37)">
+      <svg:rect height="4.9179" id="rect3736" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3648)" width="13.459" x="90.333" y="227.86" />
+      <svg:rect height="4.9179" id="rect3738" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3648)" width="13.459" x="90.333" y="215.32" />
+      <svg:rect height="4.9179" id="rect3740" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3648)" width="13.459" x="90.333" y="240.37" />
+      <svg:rect height="4.9179" id="rect3742" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3648)" width="13.459" x="90.333" y="252.86" />
+      <svg:rect height="4.9179" id="rect3744" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3648)" width="13.459" x="90.333" y="265.38" />
+      <svg:rect height="4.9179" id="rect3746" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3648)" width="13.459" x="90.333" y="202.76" />
+      <svg:rect height="4.9179" id="rect3748" ry="0" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3648)" width="13.459" x="90.333" y="190.22" />
+    </svg:g>
+    <svg:g id="g1877" style="fill:url(#linearGradient3664)" transform="translate(0,-10)">
+      <svg:path d="m124.75 111.01c0.29933 8.7175-9.7109 15.952-22.358 16.158-12.648 0.20632-23.143-6.6934-23.442-15.411-0.29933-8.7175 9.7109-15.952 22.358-16.158 12.628-0.206 23.115 6.6729 23.441 15.377" id="path2796" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3664)" transform="translate(-1.0353 -.77650)" ns1:cx="101.85151" ns1:cy="111.38104" ns1:end="12.540534" ns1:open="true" ns1:rx="22.906883" ns1:ry="15.788925" ns1:start="6.2595228" ns1:type="arc" />
+      <svg:rect height="22.519" id="rect2794" ry="5" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3664)" width="28.99" x="85.933" y="120.18" />
+      <svg:path d="m87.719 118.22c-2.77 0-5 2.23-5 5v74.219c0 2.77 2.23 5 5 5h25.5c2.77 0 5-2.23 5-5v-74.219c0-2.77-2.23-5-5-5h-25.5zm5.99 2.9375h13.437c2.77 0 5 2.23 5 5v23.312c0 2.77-2.23 5-5 5h-13.437c-2.77 0-5-2.23-5-5v-23.312c0-2.77 2.23-5 5-5zm-0.45424 63.25c0.16849-0.017 0.32688 0 0.5 0h13.438c2.77 0 5 2.23 5 5v2.0625c0 2.77-2.23 5-5 5h-13.438c-2.77 0-5-2.23-5-5v-2.0625c0-2.5969 1.9726-4.7449 4.5-5z" id="rect1876" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3664)" ns1:nodetypes="cccccccccccccccccccccccccccc" />
+      <svg:rect height="55.649" id="rect2770" ry="5" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3664)" width="17.601" x="91.582" y="90.415" />
+      <svg:path d="m87.475 179.29h25.883" id="path2774" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3664)" />
+      <svg:path d="m87.475 162h25.883" id="path2801" style="fill-rule:evenodd;stroke:#000000;stroke-width:1px;fill:url(#linearGradient3664)" />
+    </svg:g>
+  </svg:g>
+  <svg:metadata>
+    <rdf:RDF>
+      <ns5:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns5:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <ns5:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </ns5:Agent>
+        </dc:publisher>
+        <dc:title>Zipper</dc:title>
+        <dc:date>2012-05-11T21:42:33</dc:date>
+        <dc:description>&lt;a href="http://www.clker.com/clipart-zipper-1.html"&gt;Original&lt;/a&gt;</dc:description>
+        <dc:source>https://openclipart.org/detail/169991/zipper-by-deluge</dc:source>
+        <dc:creator>
+          <ns5:Agent>
+            <dc:title>Deluge</dc:title>
+          </ns5:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>zip</rdf:li>
+            <rdf:li>zipper</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </ns5:Work>
+      <ns5:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns5:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns5:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns5:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns5:License>
+    </rdf:RDF>
+  </svg:metadata>
+</svg:svg>

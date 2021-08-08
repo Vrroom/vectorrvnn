@@ -1,299 +1,77 @@
-<?xml version="1.0"?>
-<!-- ClipArt created by Arvin61r58 (http://openclipart.org/user-detail/Arvin61r58) -->
-<svg
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:cc="http://creativecommons.org/ns#"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    xmlns:ns1="http://sozi.baierouge.fr"
-    id="svg2"
-    viewBox="0 0 300.01 300.01"
-    version="1.1"
-  >
-  <title
-      id="title4018"
-    >Evil Smiley</title
-  >
-  <defs
-      id="defs4"
-    >
-    <radialGradient
-        id="radialGradient3847"
-        gradientUnits="userSpaceOnUse"
-        cy="385.31"
-        cx="189.48"
-        gradientTransform="matrix(.94349 1.0587 -.71026 .63303 341.41 -44.778)"
-        r="97.997"
-      >
-      <stop
-          id="stop3843"
-          stop-color="#f3f351"
-          offset="0"
-      />
-      <stop
-          id="stop3845"
-          stop-color="#e3d300"
-          offset="1"
-      />
-    </radialGradient
-    >
-    <filter
-        id="filter3861"
-        height="1"
-        width="1"
-        color-interpolation-filters="sRGB"
-        y="0"
-        x="0"
-      >
-      <feTurbulence
-          id="feTurbulence3863"
-          baseFrequency="1"
-          seed="0"
-          result="result0"
-          numOctaves="3"
-          type="fractalNoise"
-      />
-      <feColorMatrix
-          id="feColorMatrix3865"
-          values="0"
-          type="saturate"
-          result="result4"
-      />
-      <feComposite
-          id="feComposite3867"
-          in="SourceGraphic"
-          in2="result4"
-          k3="0.5"
-          k2="0.5"
-          k1="1.25"
-          result="result2"
-          k4="0"
-          operator="arithmetic"
-      />
-      <feBlend
-          id="feBlend3869"
-          result="result5"
-          mode="normal"
-          in2="SourceGraphic"
-          in="result2"
-      />
-      <feComposite
-          id="feComposite3871"
-          operator="in"
-          result="result3"
-          in2="SourceGraphic"
-          in="result5"
-      />
-    </filter
-    >
-    <linearGradient
-        id="linearGradient3894"
-        y2="494.43"
-        gradientUnits="userSpaceOnUse"
-        x2="359.19"
-        y1="362.03"
-        x1="214.07"
-      >
-      <stop
-          id="stop3890"
-          offset="0"
-      />
-      <stop
-          id="stop3892"
-          stop-color="#685a00"
-          offset="1"
-      />
-    </linearGradient
-    >
-  </defs
-  >
-  <g
-      id="layer1"
-      transform="translate(-184.47 -232.71)"
-    >
-    <path
-        id="path3027"
-        d="m383.47 431.71a97.997 97.997 0 1 1 -195.99 0 97.997 97.997 0 1 1 195.99 0z"
-        fill-rule="evenodd"
-        transform="matrix(1.5 0 0 1.5 -93.744 -264.88)"
-        stroke="url(#linearGradient3894)"
-        stroke-width="3.9999"
-        fill="url(#radialGradient3847)"
-    />
-    <g
-        id="g4005"
-      >
-      <path
-          id="path3023"
-          fill="#040402"
-          d="m322.89 481.28c-9.0673-3.125-14.856-11.923-22.216-24.113-12.83-21.251-19.661-25.6-26.376-29.831-4.2777-2.696-4.0392-5.1909-3.6808-6.9039 0.70239-3.3571 4.5387-3.2521 17.138 0.327 15.823 4.4949 33.629 13.128 46.542 13.128 12.914 0 30.72-8.6333 46.542-13.128 12.599-3.5791 16.844-3.6841 17.547-0.327 0.35841 1.713 0.1875 4.2079-4.0901 6.9039-6.7095 4.2287-11.474 7.1046-24.257 28.28-13.016 21.561-29.015 31.914-47.15 25.664z"
-      />
-      <g
-          id="g3997"
-          stroke="#000"
-        >
-        <g
-            id="g3989"
-          >
-          <path
-              id="path3021"
-              d="m270.63 367.84c-8.6477-7.2312-10.891-14.379-11.149-35.532-0.25701-20.998 2.8339-30.151 9.8106-26.188 3.0348 1.724 9.3436 18.79 26.458 18.385 12.324-0.29169 2.9253 35.927-8.7426 44.668-6.1586 4.6136-9.6008 4.3336-16.377-1.3323z"
-              stroke-width="2.5"
-              fill="#fff"
-          />
-          <path
-              id="path3037"
-              stroke-linejoin="round"
-              d="m73.882 721a4.1867 4.5561 0 1 1 -8.3733 0 4.1867 4.5561 0 1 1 8.3733 0z"
-              fill-rule="evenodd"
-              transform="matrix(2.7792 0 0 2.4323 89.229 -1398)"
-              stroke-linecap="round"
-              stroke-width=".38462"
-          />
-        </g
-        >
-        <g
-            id="g3993"
-          >
-          <path
-              id="path2998"
-              d="m381.79 369.1c-11.668-8.741-21.001-43.428-8.7426-44.668 19.654-1.9867 23.849-17.109 26.458-18.385 7.4365-3.6339 10.429 5.5646 9.9148 26.638-0.49778 20.382-2.4113 26.646-10.603 34.706-6.1098 6.0122-10.671 6.4697-17.027 1.7079z"
-              stroke-width="2.5"
-              fill="#fff"
-          />
-          <path
-              id="path3031"
-              stroke-linejoin="round"
-              d="m73.882 721a4.1867 4.5561 0 1 1 -8.3733 0 4.1867 4.5561 0 1 1 8.3733 0z"
-              fill-rule="evenodd"
-              transform="matrix(2.7792 0 0 2.4323 191.98 -1398.1)"
-              stroke-linecap="round"
-              stroke-width=".38462"
-          />
-        </g
-        >
-      </g
-      >
-      <g
-          id="g3907"
-          transform="matrix(1.5077 0 0 1.5077 -95.179 -268.93)"
-          fill="#515151"
-        >
-        <path
-            id="path3853"
-            style="block-progression:tb;text-indent:0;color:#000000;text-transform:none"
-            d="m248.42 365.64c-1.2738 0.0483-2.4784 0.91947-2.923 2.1142-0.44469 1.1947-0.10296 2.6414 0.82929 3.5108 2.2794 9.4569 6.3248 17.81 20.781 19.656 1.2262 1.2156 3.4611 1.1804 4.6484-0.0733s1.1009-3.4872-0.17961-4.6455c-7.9487-2.4655-15.845-5.1405-20.781-19.656-0.62724-0.60372-1.505-0.93866-2.375-0.90625z"
-            filter="url(#filter3861)"
-        />
-        <path
-            id="path3873"
-            style="block-progression:tb;text-indent:0;color:#000000;text-transform:none"
-            d="m289.9 356.95c-1.2738 0.0483-2.4784 0.91947-2.923 2.1142-0.44469 1.1947-0.10296 2.6414 0.82929 3.5108 2.2794 9.4569 6.3248 17.81 20.781 19.656 1.2262 1.2156 3.4611 1.1804 4.6484-0.0733s1.1009-3.4872-0.17961-4.6455c-7.9487-2.4655-15.845-5.1405-20.781-19.656-0.62724-0.60372-1.505-0.93866-2.375-0.90625z"
-            transform="matrix(-1 0 0 1 610.26 8.6959)"
-            filter="url(#filter3861)"
-        />
-      </g
-      >
-    </g
-    >
-  </g
-  >
-  <metadata
-    >
-    <rdf:RDF
-      >
-      <cc:Work
-        >
-        <dc:format
-          >image/svg+xml</dc:format
-        >
-        <dc:type
-            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-        />
-        <cc:license
-            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
-        />
-        <dc:publisher
-          >
-          <cc:Agent
-              rdf:about="http://openclipart.org/"
-            >
-            <dc:title
-              >Openclipart</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:publisher
-        >
-        <dc:title
-          >Evil Smiley</dc:title
-        >
-        <dc:date
-          >2013-11-14T17:48:27</dc:date
-        >
-        <dc:description
-          >Evil Smiley</dc:description
-        >
-        <dc:source
-          >https://openclipart.org/detail/188771/evil-smiley-by-arvin61r58-188771</dc:source
-        >
-        <dc:creator
-          >
-          <cc:Agent
-            >
-            <dc:title
-              >Arvin61r58</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:creator
-        >
-        <dc:subject
-          >
-          <rdf:Bag
-            >
-            <rdf:li
-              >evil</rdf:li
-            >
-            <rdf:li
-              >evil face</rdf:li
-            >
-            <rdf:li
-              >happy face</rdf:li
-            >
-            <rdf:li
-              >smile</rdf:li
-            >
-            <rdf:li
-              >smiley</rdf:li
-            >
-          </rdf:Bag
-          >
-        </dc:subject
-        >
-      </cc:Work
-      >
-      <cc:License
-          rdf:about="http://creativecommons.org/licenses/publicdomain/"
-        >
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Reproduction"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Distribution"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
-        />
-      </cc:License
-      >
-    </rdf:RDF
-    >
-  </metadata
-  >
-</svg
->
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="352.78919999999994" id="svg2" version="1.1" viewBox="-26.39609999999994 -26.419600000000077 352.78919999999994 352.78919999999994" width="352.78919999999994">
+  <svg:title id="title4018">Evil Smiley</svg:title>
+  <svg:defs id="defs4">
+    <svg:radialGradient cx="189.48" cy="385.31" gradientTransform="matrix(.94349 1.0587 -.71026 .63303 341.41 -44.778)" gradientUnits="userSpaceOnUse" id="radialGradient3847" r="97.997">
+      <svg:stop id="stop3843" offset="0" stop-color="#f3f351" />
+      <svg:stop id="stop3845" offset="1" stop-color="#e3d300" />
+    </svg:radialGradient>
+    <svg:filter color-interpolation-filters="sRGB" height="1" id="filter3861" width="1" x="0" y="0">
+      <svg:feTurbulence baseFrequency="1" id="feTurbulence3863" numOctaves="3" result="result0" seed="0" type="fractalNoise" />
+      <svg:feColorMatrix id="feColorMatrix3865" result="result4" type="saturate" values="0" />
+      <svg:feComposite id="feComposite3867" in="SourceGraphic" in2="result4" k1="1.25" k2="0.5" k3="0.5" k4="0" operator="arithmetic" result="result2" />
+      <svg:feBlend id="feBlend3869" in="result2" in2="SourceGraphic" mode="normal" result="result5" />
+      <svg:feComposite id="feComposite3871" in="result5" in2="SourceGraphic" operator="in" result="result3" />
+    </svg:filter>
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="linearGradient3894" x1="214.07" x2="359.19" y1="362.03" y2="494.43">
+      <svg:stop id="stop3890" offset="0" />
+      <svg:stop id="stop3892" offset="1" stop-color="#685a00" />
+    </svg:linearGradient>
+  </svg:defs>
+  <svg:g id="layer1" transform="translate(-184.47 -232.71)">
+    <svg:path d="m383.47 431.71a97.997 97.997 0 1 1 -195.99 0 97.997 97.997 0 1 1 195.99 0z" fill="url(#radialGradient3847)" fill-rule="evenodd" id="path3027" stroke="url(#linearGradient3894)" stroke-width="3.9999" transform="matrix(1.5 0 0 1.5 -93.744 -264.88)" />
+    <svg:g id="g4005">
+      <svg:path d="m322.89 481.28c-9.0673-3.125-14.856-11.923-22.216-24.113-12.83-21.251-19.661-25.6-26.376-29.831-4.2777-2.696-4.0392-5.1909-3.6808-6.9039 0.70239-3.3571 4.5387-3.2521 17.138 0.327 15.823 4.4949 33.629 13.128 46.542 13.128 12.914 0 30.72-8.6333 46.542-13.128 12.599-3.5791 16.844-3.6841 17.547-0.327 0.35841 1.713 0.1875 4.2079-4.0901 6.9039-6.7095 4.2287-11.474 7.1046-24.257 28.28-13.016 21.561-29.015 31.914-47.15 25.664z" fill="#040402" id="path3023" />
+      <svg:g id="g3997" stroke="#000">
+        <svg:g id="g3989">
+          <svg:path d="m270.63 367.84c-8.6477-7.2312-10.891-14.379-11.149-35.532-0.25701-20.998 2.8339-30.151 9.8106-26.188 3.0348 1.724 9.3436 18.79 26.458 18.385 12.324-0.29169 2.9253 35.927-8.7426 44.668-6.1586 4.6136-9.6008 4.3336-16.377-1.3323z" fill="#fff" id="path3021" stroke-width="2.5" />
+          <svg:path d="m73.882 721a4.1867 4.5561 0 1 1 -8.3733 0 4.1867 4.5561 0 1 1 8.3733 0z" fill-rule="evenodd" id="path3037" stroke-linecap="round" stroke-linejoin="round" stroke-width=".38462" transform="matrix(2.7792 0 0 2.4323 89.229 -1398)" />
+        </svg:g>
+        <svg:g id="g3993">
+          <svg:path d="m381.79 369.1c-11.668-8.741-21.001-43.428-8.7426-44.668 19.654-1.9867 23.849-17.109 26.458-18.385 7.4365-3.6339 10.429 5.5646 9.9148 26.638-0.49778 20.382-2.4113 26.646-10.603 34.706-6.1098 6.0122-10.671 6.4697-17.027 1.7079z" fill="#fff" id="path2998" stroke-width="2.5" />
+          <svg:path d="m73.882 721a4.1867 4.5561 0 1 1 -8.3733 0 4.1867 4.5561 0 1 1 8.3733 0z" fill-rule="evenodd" id="path3031" stroke-linecap="round" stroke-linejoin="round" stroke-width=".38462" transform="matrix(2.7792 0 0 2.4323 191.98 -1398.1)" />
+        </svg:g>
+      </svg:g>
+      <svg:g fill="#515151" id="g3907" transform="matrix(1.5077 0 0 1.5077 -95.179 -268.93)">
+        <svg:path d="m248.42 365.64c-1.2738 0.0483-2.4784 0.91947-2.923 2.1142-0.44469 1.1947-0.10296 2.6414 0.82929 3.5108 2.2794 9.4569 6.3248 17.81 20.781 19.656 1.2262 1.2156 3.4611 1.1804 4.6484-0.0733s1.1009-3.4872-0.17961-4.6455c-7.9487-2.4655-15.845-5.1405-20.781-19.656-0.62724-0.60372-1.505-0.93866-2.375-0.90625z" filter="url(#filter3861)" id="path3853" style="block-progression:tb;text-indent:0;color:#000000;text-transform:none" />
+        <svg:path d="m289.9 356.95c-1.2738 0.0483-2.4784 0.91947-2.923 2.1142-0.44469 1.1947-0.10296 2.6414 0.82929 3.5108 2.2794 9.4569 6.3248 17.81 20.781 19.656 1.2262 1.2156 3.4611 1.1804 4.6484-0.0733s1.1009-3.4872-0.17961-4.6455c-7.9487-2.4655-15.845-5.1405-20.781-19.656-0.62724-0.60372-1.505-0.93866-2.375-0.90625z" filter="url(#filter3861)" id="path3873" style="block-progression:tb;text-indent:0;color:#000000;text-transform:none" transform="matrix(-1 0 0 1 610.26 8.6959)" />
+      </svg:g>
+    </svg:g>
+  </svg:g>
+  <svg:metadata>
+    <rdf:RDF>
+      <ns2:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns2:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <ns2:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </ns2:Agent>
+        </dc:publisher>
+        <dc:title>Evil Smiley</dc:title>
+        <dc:date>2013-11-14T17:48:27</dc:date>
+        <dc:description>Evil Smiley</dc:description>
+        <dc:source>https://openclipart.org/detail/188771/evil-smiley-by-arvin61r58-188771</dc:source>
+        <dc:creator>
+          <ns2:Agent>
+            <dc:title>Arvin61r58</dc:title>
+          </ns2:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>evil</rdf:li>
+            <rdf:li>evil face</rdf:li>
+            <rdf:li>happy face</rdf:li>
+            <rdf:li>smile</rdf:li>
+            <rdf:li>smiley</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </ns2:Work>
+      <ns2:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns2:License>
+    </rdf:RDF>
+  </svg:metadata>
+</svg:svg>

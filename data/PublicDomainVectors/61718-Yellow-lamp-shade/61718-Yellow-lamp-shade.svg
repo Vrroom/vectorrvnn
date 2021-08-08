@@ -1,425 +1,82 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="500mm"
-   height="500mm"
-   viewBox="0 0 1771.6535 1771.6535"
-   id="svg2"
-   version="1.1"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="TJ-Openclipart-4-3-color-lamp-31-1-16.svg"
-   inkscape:export-filename="C:\Users\tejasollie\Desktop\TJ-OpenClipArt 30-1-16\TJ-Openclipart-4-3-color-lamp-31-1-16.png"
-   inkscape:export-xdpi="300"
-   inkscape:export-ydpi="300">
-  <defs
-     id="defs4">
-    <filter
-       inkscape:label="Silk Carpet"
-       inkscape:menu="Textures"
-       inkscape:menu-tooltip="Silk carpet texture, horizontal stripes"
-       style="color-interpolation-filters:sRGB;"
-       id="filter4271"
-       height="1.3"
-       width="1.3"
-       y="-0.15"
-       x="-0.15">
-      <feTurbulence
-         baseFrequency="0.1"
-         seed="50"
-         numOctaves="5"
-         result="result1"
-         type="fractalNoise"
-         id="feTurbulence4273" />
-      <feGaussianBlur
-         stdDeviation="4"
-         result="result7"
-         id="feGaussianBlur4275" />
-      <feDisplacementMap
-         result="result5"
-         in="SourceGraphic"
-         scale="20"
-         xChannelSelector="G"
-         in2="result7"
-         id="feDisplacementMap4277" />
-      <feComposite
-         result="result2"
-         operator="in"
-         in2="result1"
-         in="result5"
-         id="feComposite4279" />
-      <feGaussianBlur
-         stdDeviation="1"
-         result="result6"
-         id="feGaussianBlur4281" />
-      <feSpecularLighting
-         surfaceScale="-3"
-         result="result4"
-         specularConstant="3.5"
-         specularExponent="35"
-         in="result6"
-         id="feSpecularLighting4283">
-        <feDistantLight
-           elevation="45"
-           azimuth="225"
-           id="feDistantLight4285" />
-      </feSpecularLighting>
-      <feComposite
-         k1="1.7"
-         k3="0.7"
-         in2="result2"
-         in="result4"
-         operator="arithmetic"
-         result="result91"
-         id="feComposite4287" />
-      <feBlend
-         result="fbSourceGraphic"
-         mode="multiply"
-         in2="result91"
-         id="feBlend4289" />
-      <feComposite
-         in2="fbSourceGraphic"
-         in="fbSourceGraphic"
-         result="result2"
-         operator="arithmetic"
-         id="feComposite4291" />
-      <feComposite
-         in="result2"
-         result="result4"
-         operator="arithmetic"
-         k2="2"
-         k3="2"
-         in2="fbSourceGraphic"
-         id="feComposite4293" />
-      <feBlend
-         mode="screen"
-         in="result4"
-         in2="result4"
-         id="feBlend4295"
-         result="fbSourceGraphic" />
-      <feColorMatrix
-         result="fbSourceGraphicAlpha"
-         in="fbSourceGraphic"
-         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
-         id="feColorMatrix4329" />
-      <feTurbulence
-         id="feTurbulence4331"
-         type="turbulence"
-         numOctaves="2"
-         baseFrequency="0.01 0.11"
-         seed="10"
-         in="fbSourceGraphic" />
-      <feColorMatrix
-         id="feColorMatrix4333"
-         result="result5"
-         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1.3 0 " />
-      <feComposite
-         id="feComposite4335"
-         in2="result5"
-         in="fbSourceGraphic"
-         operator="out" />
-      <feMorphology
-         id="feMorphology4337"
-         operator="dilate"
-         radius="1.3"
-         result="result3" />
-      <feTurbulence
-         id="feTurbulence4339"
-         numOctaves="3"
-         baseFrequency="0.08 0.05"
-         type="fractalNoise"
-         seed="7"
-         result="result6" />
-      <feGaussianBlur
-         id="feGaussianBlur4341"
-         stdDeviation="0.5"
-         result="result7" />
-      <feDisplacementMap
-         id="feDisplacementMap4343"
-         in2="result7"
-         in="result3"
-         xChannelSelector="R"
-         yChannelSelector="G"
-         scale="3"
-         result="result4" />
-      <feComposite
-         id="feComposite4345"
-         in2="result4"
-         in="result4"
-         k1="1"
-         result="result2"
-         operator="arithmetic"
-         k2="1" />
-      <feBlend
-         id="feBlend4347"
-         in2="result4"
-         mode="normal"
-         in="result2" />
-    </filter>
-    <filter
-       style="color-interpolation-filters:sRGB;"
-       inkscape:label="Lighting"
-       id="filter4412">
-      <feComponentTransfer
-         in="blur"
-         result="component"
-         id="feComponentTransfer4414">
-        <feFuncR
-           type="gamma"
-           amplitude="5.05"
-           exponent="0.989583"
-           offset="0"
-           id="feFuncR4416" />
-        <feFuncG
-           type="gamma"
-           amplitude="5.05"
-           exponent="0.989583"
-           offset="0"
-           id="feFuncG4418" />
-        <feFuncB
-           type="gamma"
-           amplitude="5.05"
-           exponent="0.989583"
-           offset="0"
-           id="feFuncB4420" />
-      </feComponentTransfer>
-    </filter>
-    <filter
-       inkscape:collect="always"
-       style="color-interpolation-filters:sRGB"
-       id="filter4510"
-       x="-0.49192755"
-       width="1.9838551"
-       y="-0.3908466"
-       height="1.7816932">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="67.93285"
-         id="feGaussianBlur4512" />
-    </filter>
-  </defs>
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="0.175"
-     inkscape:cx="383.54988"
-     inkscape:cy="1144.5985"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="1366"
-     inkscape:window-height="664"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
-  <metadata
-     id="metadata7">
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:ns2="http://www.inkscape.org/namespaces/inkscape" xmlns:ns4="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="1753.1409792" id="svg2" version="1.1" viewBox="9.256160399999914 17.602348400000096 1753.1409792 1753.1409792" width="1753.1409792" ns1:docname="TJ-Openclipart-4-3-color-lamp-31-1-16.svg" ns2:export-filename="C:\Users\tejasollie\Desktop\TJ-OpenClipArt 30-1-16\TJ-Openclipart-4-3-color-lamp-31-1-16.png" ns2:export-xdpi="300" ns2:export-ydpi="300" ns2:version="0.91 r13725">
+  <svg:defs id="defs4">
+    <svg:filter height="1.3" id="filter4271" style="color-interpolation-filters:sRGB;" width="1.3" x="-0.15" y="-0.15" ns2:label="Silk Carpet" ns2:menu="Textures" ns2:menu-tooltip="Silk carpet texture, horizontal stripes">
+      <svg:feTurbulence baseFrequency="0.1" id="feTurbulence4273" numOctaves="5" result="result1" seed="50" type="fractalNoise" />
+      <svg:feGaussianBlur id="feGaussianBlur4275" result="result7" stdDeviation="4" />
+      <svg:feDisplacementMap id="feDisplacementMap4277" in="SourceGraphic" in2="result7" result="result5" scale="20" xChannelSelector="G" />
+      <svg:feComposite id="feComposite4279" in="result5" in2="result1" operator="in" result="result2" />
+      <svg:feGaussianBlur id="feGaussianBlur4281" result="result6" stdDeviation="1" />
+      <svg:feSpecularLighting id="feSpecularLighting4283" in="result6" result="result4" specularConstant="3.5" specularExponent="35" surfaceScale="-3">
+        <svg:feDistantLight azimuth="225" elevation="45" id="feDistantLight4285" />
+      </svg:feSpecularLighting>
+      <svg:feComposite id="feComposite4287" in="result4" in2="result2" k1="1.7" k3="0.7" operator="arithmetic" result="result91" />
+      <svg:feBlend id="feBlend4289" in2="result91" mode="multiply" result="fbSourceGraphic" />
+      <svg:feComposite id="feComposite4291" in="fbSourceGraphic" in2="fbSourceGraphic" operator="arithmetic" result="result2" />
+      <svg:feComposite id="feComposite4293" in="result2" in2="fbSourceGraphic" k2="2" k3="2" operator="arithmetic" result="result4" />
+      <svg:feBlend id="feBlend4295" in="result4" in2="result4" mode="screen" result="fbSourceGraphic" />
+      <svg:feColorMatrix id="feColorMatrix4329" in="fbSourceGraphic" result="fbSourceGraphicAlpha" values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0" />
+      <svg:feTurbulence baseFrequency="0.01 0.11" id="feTurbulence4331" in="fbSourceGraphic" numOctaves="2" seed="10" type="turbulence" />
+      <svg:feColorMatrix id="feColorMatrix4333" result="result5" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1.3 0 " />
+      <svg:feComposite id="feComposite4335" in="fbSourceGraphic" in2="result5" operator="out" />
+      <svg:feMorphology id="feMorphology4337" operator="dilate" radius="1.3" result="result3" />
+      <svg:feTurbulence baseFrequency="0.08 0.05" id="feTurbulence4339" numOctaves="3" result="result6" seed="7" type="fractalNoise" />
+      <svg:feGaussianBlur id="feGaussianBlur4341" result="result7" stdDeviation="0.5" />
+      <svg:feDisplacementMap id="feDisplacementMap4343" in="result3" in2="result7" result="result4" scale="3" xChannelSelector="R" yChannelSelector="G" />
+      <svg:feComposite id="feComposite4345" in="result4" in2="result4" k1="1" k2="1" operator="arithmetic" result="result2" />
+      <svg:feBlend id="feBlend4347" in="result2" in2="result4" mode="normal" />
+    </svg:filter>
+    <svg:filter id="filter4412" style="color-interpolation-filters:sRGB;" ns2:label="Lighting">
+      <svg:feComponentTransfer id="feComponentTransfer4414" in="blur" result="component">
+        <svg:feFuncR amplitude="5.05" exponent="0.989583" id="feFuncR4416" offset="0" type="gamma" />
+        <svg:feFuncG amplitude="5.05" exponent="0.989583" id="feFuncG4418" offset="0" type="gamma" />
+        <svg:feFuncB amplitude="5.05" exponent="0.989583" id="feFuncB4420" offset="0" type="gamma" />
+      </svg:feComponentTransfer>
+    </svg:filter>
+    <svg:filter height="1.7816932" id="filter4510" style="color-interpolation-filters:sRGB" width="1.9838551" x="-0.49192755" y="-0.3908466" ns2:collect="always">
+      <svg:feGaussianBlur id="feGaussianBlur4512" stdDeviation="67.93285" ns2:collect="always" />
+    </svg:filter>
+  </svg:defs>
+  <ns1:namedview bordercolor="#666666" borderopacity="1.0" id="base" pagecolor="#ffffff" showgrid="false" ns2:current-layer="layer1" ns2:cx="383.54988" ns2:cy="1144.5985" ns2:document-units="px" ns2:pageopacity="0.0" ns2:pageshadow="2" ns2:window-height="664" ns2:window-maximized="1" ns2:window-width="1366" ns2:window-x="-8" ns2:window-y="-8" ns2:zoom="0.175" />
+  <svg:metadata id="metadata7">
     <rdf:RDF>
-      <cc:Work
-         rdf:about="">
+      <ns4:Work rdf:about="">
         <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
         <dc:title />
-      </cc:Work>
+      </ns4:Work>
     </rdf:RDF>
-  </metadata>
-  <g
-     inkscape:label="Lamp Shade"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,719.29134)">
-    <path
-       style="fill:#ffdd55;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4271)"
-       d="m 1471.965,141.64906 -1172.27664,0 414.11326,-684.41247 341.61908,0 z"
-       id="path4186"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccc" />
-  </g>
-  <g
-     inkscape:groupmode="layer"
-     id="layer3"
-     inkscape:label="Lamp Lining"
-     style="display:inline">
-    <rect
-       y="852.55853"
-       x="-1481.635"
-       height="35.099094"
-       width="1191.6167"
-       id="rect4344"
-       style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       transform="scale(-1,1)"
-       ry="17.549547" />
-    <rect
-       y="163.69743"
-       x="-1075.5537"
-       height="25.631357"
-       width="379.45416"
-       id="rect4344-6"
-       style="display:inline;opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       transform="scale(-1,1)"
-       ry="12.815679" />
-  </g>
-  <g
-     inkscape:groupmode="layer"
-     id="layer2"
-     inkscape:label="Lamp Stem">
-    <rect
-       style="opacity:1;fill:#502d16;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect4189"
-       width="121.21829"
-       height="484.22906"
-       x="825.21753"
-       y="884.71344"
-       ry="12.308863" />
-  </g>
-  <g
-     inkscape:groupmode="layer"
-     id="layer4"
-     inkscape:label="Lamp Base">
-    <rect
-       style="opacity:1;fill:#502d16;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect4154"
-       width="533.36047"
-       height="96.974632"
-       x="619.14642"
-       y="1491.3081"
-       ry="11.267759" />
-    <rect
-       style="opacity:1;fill:#502d16;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect4156"
-       width="234.35536"
-       height="145.46194"
-       x="768.64899"
-       y="1353.9274"
-       ry="20.486834" />
-    <rect
-       style="opacity:1;fill:#502d16;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect4158"
-       width="699.02551"
-       height="60.609146"
-       x="536.3139"
-       y="1564.0391"
-       ry="18.779598" />
-  </g>
-  <g
-     inkscape:groupmode="layer"
-     id="layer5"
-     inkscape:label="Lamp Design"
-     style="display:none">
-    <ellipse
-       style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="path4176"
-       cx="759.49103"
-       cy="236.07039"
-       rx="50.507614"
-       ry="47.167927" />
-    <ellipse
-       ry="47.167923"
-       rx="50.507607"
-       cy="237.36778"
-       cx="974.28564"
-       id="ellipse4193"
-       style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    <ellipse
-       ry="47.167923"
-       rx="50.507607"
-       cy="440.22488"
-       cx="617.14282"
-       id="ellipse4195"
-       style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    <ellipse
-       ry="47.167923"
-       rx="50.507607"
-       cy="528.79633"
-       cx="805.71423"
-       id="ellipse4197"
-       style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    <ellipse
-       ry="47.167923"
-       rx="50.507607"
-       cy="463.08203"
-       cx="977.14276"
-       id="ellipse4199"
-       style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    <ellipse
-       ry="47.167923"
-       rx="50.507607"
-       cy="348.79633"
-       cx="1088.5713"
-       id="ellipse4201"
-       style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    <ellipse
-       ry="47.167923"
-       rx="50.507607"
-       cy="497.36774"
-       cx="1157.1427"
-       id="ellipse4203"
-       style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    <ellipse
-       ry="47.167923"
-       rx="50.507607"
-       cy="625.93915"
-       cx="1031.4285"
-       id="ellipse4205"
-       style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    <ellipse
-       ry="47.167923"
-       rx="50.507607"
-       cy="643.08203"
-       cx="1239.9999"
-       id="ellipse4207"
-       style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    <ellipse
-       ry="47.167923"
-       rx="50.507607"
-       cy="660.22485"
-       cx="854.28564"
-       id="ellipse4209"
-       style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    <ellipse
-       ry="47.167923"
-       rx="50.507607"
-       cy="614.51062"
-       cx="537.14276"
-       id="ellipse4211"
-       style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    <ellipse
-       ry="47.167923"
-       rx="50.507607"
-       cy="634.51062"
-       cx="685.71423"
-       id="ellipse4213"
-       style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    <ellipse
-       style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="path4176-4"
-       cx="839.99994"
-       cy="365.93918"
-       rx="50.507607"
-       ry="47.167923" />
-  </g>
-  <g
-     inkscape:groupmode="layer"
-     id="layer6"
-     inkscape:label="Bulb">
-    <ellipse
-       style="opacity:0.81499999;fill:#fff6d5;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter4510)"
-       id="path4350"
-       cx="885.82666"
-       cy="590.79633"
-       rx="165.71428"
-       ry="208.5714" />
-  </g>
-</svg>
+  </svg:metadata>
+  <svg:g id="layer1" transform="translate(0,719.29134)" ns2:groupmode="layer" ns2:label="Lamp Shade">
+    <svg:path d="m 1471.965,141.64906 -1172.27664,0 414.11326,-684.41247 341.61908,0 z" id="path4186" style="fill:#ffdd55;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4271)" ns1:nodetypes="ccccc" ns2:connector-curvature="0" />
+  </svg:g>
+  <svg:g id="layer3" style="display:inline" ns2:groupmode="layer" ns2:label="Lamp Lining">
+    <svg:rect height="35.099094" id="rect4344" ry="17.549547" style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" transform="scale(-1,1)" width="1191.6167" x="-1481.635" y="852.55853" />
+    <svg:rect height="25.631357" id="rect4344-6" ry="12.815679" style="display:inline;opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" transform="scale(-1,1)" width="379.45416" x="-1075.5537" y="163.69743" />
+  </svg:g>
+  <svg:g id="layer2" ns2:groupmode="layer" ns2:label="Lamp Stem">
+    <svg:rect height="484.22906" id="rect4189" ry="12.308863" style="opacity:1;fill:#502d16;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" width="121.21829" x="825.21753" y="884.71344" />
+  </svg:g>
+  <svg:g id="layer4" ns2:groupmode="layer" ns2:label="Lamp Base">
+    <svg:rect height="96.974632" id="rect4154" ry="11.267759" style="opacity:1;fill:#502d16;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" width="533.36047" x="619.14642" y="1491.3081" />
+    <svg:rect height="145.46194" id="rect4156" ry="20.486834" style="opacity:1;fill:#502d16;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" width="234.35536" x="768.64899" y="1353.9274" />
+    <svg:rect height="60.609146" id="rect4158" ry="18.779598" style="opacity:1;fill:#502d16;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" width="699.02551" x="536.3139" y="1564.0391" />
+  </svg:g>
+  <svg:g id="layer5" style="display:none" ns2:groupmode="layer" ns2:label="Lamp Design">
+    <svg:ellipse cx="759.49103" cy="236.07039" id="path4176" rx="50.507614" ry="47.167927" style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <svg:ellipse cx="974.28564" cy="237.36778" id="ellipse4193" rx="50.507607" ry="47.167923" style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <svg:ellipse cx="617.14282" cy="440.22488" id="ellipse4195" rx="50.507607" ry="47.167923" style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <svg:ellipse cx="805.71423" cy="528.79633" id="ellipse4197" rx="50.507607" ry="47.167923" style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <svg:ellipse cx="977.14276" cy="463.08203" id="ellipse4199" rx="50.507607" ry="47.167923" style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <svg:ellipse cx="1088.5713" cy="348.79633" id="ellipse4201" rx="50.507607" ry="47.167923" style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <svg:ellipse cx="1157.1427" cy="497.36774" id="ellipse4203" rx="50.507607" ry="47.167923" style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <svg:ellipse cx="1031.4285" cy="625.93915" id="ellipse4205" rx="50.507607" ry="47.167923" style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <svg:ellipse cx="1239.9999" cy="643.08203" id="ellipse4207" rx="50.507607" ry="47.167923" style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <svg:ellipse cx="854.28564" cy="660.22485" id="ellipse4209" rx="50.507607" ry="47.167923" style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <svg:ellipse cx="537.14276" cy="614.51062" id="ellipse4211" rx="50.507607" ry="47.167923" style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <svg:ellipse cx="685.71423" cy="634.51062" id="ellipse4213" rx="50.507607" ry="47.167923" style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <svg:ellipse cx="839.99994" cy="365.93918" id="path4176-4" rx="50.507607" ry="47.167923" style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+  </svg:g>
+  <svg:g id="layer6" ns2:groupmode="layer" ns2:label="Bulb">
+    <svg:ellipse cx="885.82666" cy="590.79633" id="path4350" rx="165.71428" ry="208.5714" style="opacity:0.81499999;fill:#fff6d5;fill-opacity:1;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter4510)" />
+  </svg:g>
+</svg:svg>

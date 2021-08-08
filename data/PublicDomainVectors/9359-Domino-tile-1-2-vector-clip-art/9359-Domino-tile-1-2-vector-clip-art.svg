@@ -1,33 +1,32 @@
-<?xml version="1.0"?>
-<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:svg="http://www.w3.org/2000/svg" id="svg2" viewBox="0 0 500 1000" version="1.0">
-  <g id="layer1" stroke="#000" transform="translate(0 -52.362)">
-    <rect id="rect1872" stroke-linejoin="round" fill-rule="evenodd" rx="50" ry="50" height="972.48" width="472.48" y="66.121" x="13.759" stroke-width="27.517" fill="#fff"/>
-    <path id="path15666" stroke-width="10px" fill="none" d="m45 552.36h410"/>
-  </g>
-  <g id="layer2" transform="translate(0 -52.362)">
-    <circle id="circle44" cy="312" cx="250" r="50"/>
-    <circle id="circle46" cy="936" cx="110" r="50"/>
-    <circle id="circle48" cy="648" cx="390" r="50"/>
-  </g>
-  <metadata>
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="1166.976" id="svg2" version="1.0" viewBox="-333.48900000000003 -83.489 1166.976 1166.976" width="1166.976">
+  <svg:g id="layer1" stroke="#000" transform="translate(0 -52.362)">
+    <svg:rect fill="#fff" fill-rule="evenodd" height="972.48" id="rect1872" rx="50" ry="50" stroke-linejoin="round" stroke-width="27.517" width="472.48" x="13.759" y="66.121" />
+    <svg:path d="m45 552.36h410" fill="none" id="path15666" stroke-width="10px" />
+  </svg:g>
+  <svg:g id="layer2" transform="translate(0 -52.362)">
+    <svg:circle cx="250" cy="312" id="circle44" r="50" />
+    <svg:circle cx="110" cy="936" id="circle46" r="50" />
+    <svg:circle cx="390" cy="648" id="circle48" r="50" />
+  </svg:g>
+  <svg:metadata>
     <rdf:RDF>
-      <cc:Work>
+      <ns2:Work>
         <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns2:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
         <dc:publisher>
-          <cc:Agent rdf:about="http://openclipart.org/">
+          <ns2:Agent rdf:about="http://openclipart.org/">
             <dc:title>Openclipart</dc:title>
-          </cc:Agent>
+          </ns2:Agent>
         </dc:publisher>
         <dc:title>domino set 8</dc:title>
         <dc:date>2006-12-26T00:00:00</dc:date>
         <dc:description>b_w, clip art, clipart, domino, game, sign, symbol, </dc:description>
         <dc:source>http://openclipart.org/detail/3519/-by--3519</dc:source>
         <dc:creator>
-          <cc:Agent>
+          <ns2:Agent>
             <dc:title>molumen</dc:title>
-          </cc:Agent>
+          </ns2:Agent>
         </dc:creator>
         <dc:subject>
           <rdf:Bag>
@@ -40,12 +39,12 @@
             <rdf:li>symbol</rdf:li>
           </rdf:Bag>
         </dc:subject>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
-        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
-        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
-        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
-      </cc:License>
+      </ns2:Work>
+      <ns2:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns2:License>
     </rdf:RDF>
-  </metadata>
-</svg>
+  </svg:metadata>
+</svg:svg>

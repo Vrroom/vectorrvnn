@@ -1,413 +1,95 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-<svg
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    xmlns:cc="http://web.resource.org/cc/"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:ns1="http://sozi.baierouge.fr"
-    id="svg1"
-    sodipodi:docname="gnome-fs-directory-visiting.svg"
-    height="128pt"
-    sodipodi:version="0.32"
-    width="128pt"
-    inkscape:version="0.39cvs"
-    sodipodi:docbase="/home/andy/Desktop/etiquette-icons-0.4/scalable/filesystems"
-  >
-  <defs
-      id="defs3"
-    >
-    <linearGradient
-        id="linearGradient1499"
-        y2=".54688"
-        y1=".14062"
-        x2=".062992"
-        x1=".85827"
-      >
-      <stop
-          id="stop1502"
-          style="stop-color:#ffffff"
-          offset="0"
-      />
-      <stop
-          id="stop1504"
-          style="stop-color:#ffffff;stop-opacity:0"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient1497"
-        y2="1.3281"
-        xlink:href="#linearGradient1492"
-        y1=".32812"
-        x2="-.37607"
-        x1=".63248"
-    />
-    <linearGradient
-        id="linearGradient1492"
-      >
-      <stop
-          id="stop1493"
-          style="stop-color:#c0c0c0"
-          offset="0"
-      />
-      <stop
-          id="stop1496"
-          style="stop-color:#f1f1f1"
-          offset=".34923"
-      />
-      <stop
-          id="stop1494"
-          style="stop-color:#f0f0f0"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient1495"
-        y2="1.1797"
-        xlink:href="#linearGradient1492"
-        y1=".21094"
-        x2=".085470"
-        x1=".88034"
-    />
-    <radialGradient
-        id="radialGradient1505"
-        fx=".50978"
-        fy=".15801"
-        xlink:href="#linearGradient1806"
-        cy=".50649"
-        cx=".49032"
-        r=".46014"
-    />
-    <linearGradient
-        id="linearGradient1806"
-      >
-      <stop
-          id="stop1807"
-          style="stop-color:#000000;stop-opacity:.40678"
-          offset="0"
-      />
-      <stop
-          id="stop3276"
-          style="stop-color:#000000;stop-opacity:.073446"
-          offset=".64778"
-      />
-      <stop
-          id="stop1808"
-          style="stop-color:#000000;stop-opacity:0"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient1507"
-        y2="191.01"
-        gradientUnits="userSpaceOnUse"
-        y1="111.9"
-        gradientTransform="scale(1.386 .72151)"
-        x2="68.709"
-        x1="68.709"
-      >
-      <stop
-          id="stop1512"
-          style="stop-color:#bab5ab"
-          offset="0"
-      />
-      <stop
-          id="stop1513"
-          style="stop-color:#eae8e3"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient1514"
-        y2=".40625"
-        y1=".053910"
-        x2=".49708"
-        x1=".49708"
-      >
-      <stop
-          id="stop1522"
-          style="stop-color:#bab5ab"
-          offset="0"
-      />
-      <stop
-          id="stop1523"
-          style="stop-color:#807d74"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient1516"
-        y2="-.1"
-        y1=".76667"
-        x2=".53310"
-        x1=".51568"
-      >
-      <stop
-          id="stop1518"
-          style="stop-color:#ffffff;stop-opacity:0"
-          offset="0"
-      />
-      <stop
-          id="stop1519"
-          style="stop-color:#ffffff"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient1506"
-        y2=".36486"
-        xlink:href="#linearGradient1806"
-        y1="1.6216"
-        x2=".63218"
-        x1=".63985"
-    />
-  </defs
-  >
-  <sodipodi:namedview
-      id="base"
-      bordercolor="#666666"
-      inkscape:pageshadow="2"
-      inkscape:window-width="599"
-      gridspacingy="2.5000000mm"
-      gridspacingx="2.5000000mm"
-      pagecolor="#ffffff"
-      snaptogrid="false"
-      inkscape:zoom="1.6987524"
-      inkscape:window-x="277"
-      showgrid="false"
-      borderopacity="1.0"
-      inkscape:cx="128.20889"
-      inkscape:cy="45.077979"
-      inkscape:window-y="206"
-      inkscape:window-height="501"
-      inkscape:pageopacity="0.0"
-  />
-  <path
-      id="path1502"
-      sodipodi:nodetypes="cczzzzzcc"
-      style="stroke-opacity:.33962;fill-rule:evenodd;stroke:#565248;stroke-width:1.25;fill:url(#linearGradient1514)"
-      d="m27.174 101.16v-71.23c0-7.198 3.549-12.395 11.005-12.395h36.448c7.456 0 8.361 12.158 15.817 12.158h41.526c3.36 0 5.93 3.482 5.93 7.484v63.983h-110.73z"
-  />
-  <path
-      id="path1809"
-      sodipodi:rx="56.143108"
-      sodipodi:ry="56.143108"
-      style="fill-rule:evenodd;stroke-width:1pt;fill:url(#radialGradient1505)"
-      sodipodi:type="arc"
-      d="m82.055 175.84a56.143 56.143 0 1 0 -112.29 0 56.143 56.143 0 1 0 112.29 0z"
-      transform="matrix(1.4423 0 0 .35339 43.568 65.055)"
-      sodipodi:cy="175.83524"
-      sodipodi:cx="25.912205"
-  />
-  <g
-      id="g1527"
-      style="fill-opacity:.037736"
-      transform="matrix(.92694 0 0 1.0398 -57.302 -46.137)"
-    >
-    <path
-        id="path2363"
-        sodipodi:nodetypes="czzzzzzzz"
-        style="stroke-width:1.226;stroke-opacity:.28272;fill-rule:evenodd"
-        d="m77.776 171.71l5.825-15.87c0.534-1.46 4.924-3.12 9.314-3.12h114.1c3.87 0 6.34 1.84 6.98 3.12l7.83 15.87c1.41 2.85-3.32 5.71-10.24 5.71h-123.58c-6.912 0-11.285-2.84-10.234-5.71z"
-    />
-    <path
-        id="path1525"
-        sodipodi:nodetypes="czzzzzzzz"
-        style="stroke-width:1.226;stroke-opacity:.28272;fill-rule:evenodd"
-        d="m81.21 170.03l5.547-14.03c0.509-1.29 4.69-2.76 8.871-2.76h108.66c3.69 0 6.05 1.62 6.65 2.76l7.46 14.03c1.34 2.52-3.16 5.05-9.75 5.05h-117.69c-6.586 0-10.751-2.51-9.75-5.05z"
-    />
-    <path
-        id="path1526"
-        sodipodi:nodetypes="czzzzzzzz"
-        style="stroke-width:1.226;stroke-opacity:.28272;fill-rule:evenodd"
-        d="m88.079 168.67l4.992-12.03c0.458-1.1 4.22-2.36 7.979-2.36h97.79c3.33 0 5.45 1.39 5.99 2.36l6.71 12.03c1.21 2.16-2.84 4.33-8.77 4.33h-105.92c-5.924 0-9.672-2.15-8.771-4.33z"
-    />
-  </g
-  >
-  <g
-      id="g2581"
-      transform="matrix(1.1404 .17869 -.17869 1.1404 2.2337 -14.837)"
-    >
-    <path
-        id="path2582"
-        sodipodi:nodetypes="cccccccccccccccc"
-        style="fill-rule:evenodd;stroke-width:.42649;stroke-opacity:.36478;fill:#ffffff"
-        d="m17.159 6.3293v36.74 36.739 36.742 36.74h33.528 33.528 33.525 33.53v-36.74-36.742-36.739l-33.53-36.74-33.525 0.0003h-33.528-33.528z"
-        transform="matrix(.50760 0 0 .50760 40.018 28.88)"
-    />
-    <g
-        id="g2583"
-        style="fill-opacity:.044025"
-        transform="matrix(.15440 0 0 .15105 21.387 -28.22)"
-      >
-      <path
-          id="path2584"
-          sodipodi:nodetypes="cccccccccccccccc"
-          style="stroke-width:.95407pt;fill-rule:evenodd"
-          d="m173.36 408.81v122.26 122.26 122.27 122.26h108.76 108.76 108.77 108.76v-122.26-122.27-122.26l-108.76-122.26h-108.77-108.76-108.76z"
-      />
-      <path
-          id="path2585"
-          style="stroke-width:.95407pt;fill-rule:evenodd"
-          d="m170.12 407.19v493.9h441.54v-371.28c-36.85-41.42-73.68-82.86-110.57-124.25h-330.97v1.63z"
-      />
-      <path
-          id="path2586"
-          style="stroke-width:.95407pt;fill-rule:evenodd"
-          d="m166.88 403.94v500.4h448.03v-375.78c-37.45-42.09-74.89-84.19-112.38-126.25h-335.65v1.63z"
-      />
-    </g
-    >
-    <path
-        id="path2587"
-        sodipodi:nodetypes="cccccccccccccccc"
-        style="stroke-opacity:.36478;fill-rule:evenodd;stroke:#000000;stroke-width:1.4375;fill:url(#linearGradient1495)"
-        d="m297.99 136.74v123.83 123.83 123.83 123.83h113.01 113 113.01 113v-123.83-123.83-123.83l-113-123.83h-113.01-113-113.01z"
-        transform="matrix(.15060 0 0 .15060 3.8787 11.592)"
-    />
-    <path
-        id="path2588"
-        sodipodi:nodetypes="cccc"
-        style="fill-rule:evenodd;stroke-width:.95407pt;fill:url(#linearGradient1497)"
-        d="m750.01 260.57c-34.07-10.08-78.21-8.65-111.56-2.9 5.76-36.95 6.48-83.26-1.44-120.93l113 123.83z"
-        transform="matrix(.15060 0 0 .15060 3.8787 11.592)"
-    />
-    <path
-        id="path2589"
-        sodipodi:nodetypes="cccczc"
-        style="fill-rule:evenodd;stroke-width:1pt;fill:url(#linearGradient1499)"
-        d="m301.31 174.91l-2.04 453.99h443.82l0.25-112.22c-9.92 3.82-110.19-138.19-236.41-132.08-126.34 6.11-93.65-191.37-205.62-209.69z"
-        transform="matrix(.15060 0 0 .15060 3.8787 11.592)"
-    />
-  </g
-  >
-  <path
-      id="path1501"
-      sodipodi:nodetypes="czzzzzzzz"
-      style="fill-rule:evenodd;stroke:#807d74;stroke-width:1.1181;stroke-opacity:.33962;fill:url(#linearGradient1507)"
-      d="m16.34 89.467l5.32 34.703c0.488 3.18 4.498 6.8 8.508 6.8h104.21c3.55 0 5.81-4.01 6.38-6.8l7.16-34.703c1.28-6.227-3.03-12.48-9.35-12.48h-112.88c-6.316 0-10.31 6.217-9.35 12.48z"
-  />
-  <path
-      id="path1503"
-      sodipodi:nodetypes="czzzzzz"
-      style="fill-rule:evenodd;stroke-width:.90416pt;fill:url(#linearGradient1516)"
-      d="m17.364 93.278c-0.219 1.072 3.873-9.441 10.811-9.441h105.98c8.53 0 11.27 10.513 11.48 9.441 0.22-1.071 4.58-15.868-11.31-15.868h-105.66c-13.443 0-11.087 14.797-11.306 15.868z"
-  />
-  <path
-      id="path2521"
-      sodipodi:nodetypes="czzzzcc"
-      style="fill-rule:evenodd;stroke-width:1pt;fill:url(#linearGradient1506)"
-      d="m25.018 88.562l2.576 28.118c0.474 5.18 6.631 11.36 12.877 11.31l77.629-0.61c7.63-0.06 18.31-4.97 18.4-11.31l0.37-27.814-111.85 0.306z"
-  />
-  <metadata
-    >
-    <rdf:RDF
-      >
-      <cc:Work
-        >
-        <dc:format
-          >image/svg+xml</dc:format
-        >
-        <dc:type
-            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-        />
-        <cc:license
-            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
-        />
-        <dc:publisher
-          >
-          <cc:Agent
-              rdf:about="http://openclipart.org/"
-            >
-            <dc:title
-              >Openclipart</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:publisher
-        >
-        <dc:title
-          >Directory Visiting</dc:title
-        >
-        <dc:date
-          >2009-04-27T09:24:53</dc:date
-        >
-        <dc:description
-          >A directory or folder icon by Andrew Fitzsimon. Etiquette Icon set. From 0.18 OCAL database.</dc:description
-        >
-        <dc:source
-          >https://openclipart.org/detail/25346/directory-visiting-by-anonymous-25346</dc:source
-        >
-        <dc:creator
-          >
-          <cc:Agent
-            >
-            <dc:title
-              >Anonymous</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:creator
-        >
-        <dc:subject
-          >
-          <rdf:Bag
-            >
-            <rdf:li
-              >computer</rdf:li
-            >
-            <rdf:li
-              >directory</rdf:li
-            >
-            <rdf:li
-              >etiquette</rdf:li
-            >
-            <rdf:li
-              >filesystem</rdf:li
-            >
-            <rdf:li
-              >folder</rdf:li
-            >
-            <rdf:li
-              >gnome</rdf:li
-            >
-            <rdf:li
-              >icon</rdf:li
-            >
-          </rdf:Bag
-          >
-        </dc:subject
-        >
-      </cc:Work
-      >
-      <cc:License
-          rdf:about="http://creativecommons.org/licenses/publicdomain/"
-        >
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Reproduction"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Distribution"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
-        />
-      </cc:License
-      >
-    </rdf:RDF
-    >
-  </metadata
-  >
-</svg
->
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:ns2="http://www.inkscape.org/namespaces/inkscape" xmlns:ns3="http://www.w3.org/1999/xlink" xmlns:ns5="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="194.3470404" id="svg1" viewBox="-16.2355272 -14.887930625000006 194.34704040000003 194.3470404" width="194.34704040000003" ns1:docbase="/home/andy/Desktop/etiquette-icons-0.4/scalable/filesystems" ns1:docname="gnome-fs-directory-visiting.svg" ns1:version="0.32" ns2:version="0.39cvs">
+  <svg:defs id="defs3">
+    <svg:linearGradient id="linearGradient1499" x1=".85827" x2=".062992" y1=".14062" y2=".54688">
+      <svg:stop id="stop1502" offset="0" style="stop-color:#ffffff" />
+      <svg:stop id="stop1504" offset="1" style="stop-color:#ffffff;stop-opacity:0" />
+    </svg:linearGradient>
+    <svg:linearGradient id="linearGradient1497" x1=".63248" x2="-.37607" y1=".32812" y2="1.3281" ns3:href="#linearGradient1492" />
+    <svg:linearGradient id="linearGradient1492">
+      <svg:stop id="stop1493" offset="0" style="stop-color:#c0c0c0" />
+      <svg:stop id="stop1496" offset=".34923" style="stop-color:#f1f1f1" />
+      <svg:stop id="stop1494" offset="1" style="stop-color:#f0f0f0" />
+    </svg:linearGradient>
+    <svg:linearGradient id="linearGradient1495" x1=".88034" x2=".085470" y1=".21094" y2="1.1797" ns3:href="#linearGradient1492" />
+    <svg:radialGradient cx=".49032" cy=".50649" fx=".50978" fy=".15801" id="radialGradient1505" r=".46014" ns3:href="#linearGradient1806" />
+    <svg:linearGradient id="linearGradient1806">
+      <svg:stop id="stop1807" offset="0" style="stop-color:#000000;stop-opacity:.40678" />
+      <svg:stop id="stop3276" offset=".64778" style="stop-color:#000000;stop-opacity:.073446" />
+      <svg:stop id="stop1808" offset="1" style="stop-color:#000000;stop-opacity:0" />
+    </svg:linearGradient>
+    <svg:linearGradient gradientTransform="scale(1.386 .72151)" gradientUnits="userSpaceOnUse" id="linearGradient1507" x1="68.709" x2="68.709" y1="111.9" y2="191.01">
+      <svg:stop id="stop1512" offset="0" style="stop-color:#bab5ab" />
+      <svg:stop id="stop1513" offset="1" style="stop-color:#eae8e3" />
+    </svg:linearGradient>
+    <svg:linearGradient id="linearGradient1514" x1=".49708" x2=".49708" y1=".053910" y2=".40625">
+      <svg:stop id="stop1522" offset="0" style="stop-color:#bab5ab" />
+      <svg:stop id="stop1523" offset="1" style="stop-color:#807d74" />
+    </svg:linearGradient>
+    <svg:linearGradient id="linearGradient1516" x1=".51568" x2=".53310" y1=".76667" y2="-.1">
+      <svg:stop id="stop1518" offset="0" style="stop-color:#ffffff;stop-opacity:0" />
+      <svg:stop id="stop1519" offset="1" style="stop-color:#ffffff" />
+    </svg:linearGradient>
+    <svg:linearGradient id="linearGradient1506" x1=".63985" x2=".63218" y1="1.6216" y2=".36486" ns3:href="#linearGradient1806" />
+  </svg:defs>
+  <ns1:namedview bordercolor="#666666" borderopacity="1.0" gridspacingx="2.5000000mm" gridspacingy="2.5000000mm" id="base" pagecolor="#ffffff" showgrid="false" snaptogrid="false" ns2:cx="128.20889" ns2:cy="45.077979" ns2:pageopacity="0.0" ns2:pageshadow="2" ns2:window-height="501" ns2:window-width="599" ns2:window-x="277" ns2:window-y="206" ns2:zoom="1.6987524" />
+  <svg:path d="m27.174 101.16v-71.23c0-7.198 3.549-12.395 11.005-12.395h36.448c7.456 0 8.361 12.158 15.817 12.158h41.526c3.36 0 5.93 3.482 5.93 7.484v63.983h-110.73z" id="path1502" style="stroke-opacity:.33962;fill-rule:evenodd;stroke:#565248;stroke-width:1.25;fill:url(#linearGradient1514)" ns1:nodetypes="cczzzzzcc" />
+  <svg:path d="m82.055 175.84a56.143 56.143 0 1 0 -112.29 0 56.143 56.143 0 1 0 112.29 0z" id="path1809" style="fill-rule:evenodd;stroke-width:1pt;fill:url(#radialGradient1505)" transform="matrix(1.4423 0 0 .35339 43.568 65.055)" ns1:cx="25.912205" ns1:cy="175.83524" ns1:rx="56.143108" ns1:ry="56.143108" ns1:type="arc" />
+  <svg:g id="g1527" style="fill-opacity:.037736" transform="matrix(.92694 0 0 1.0398 -57.302 -46.137)">
+    <svg:path d="m77.776 171.71l5.825-15.87c0.534-1.46 4.924-3.12 9.314-3.12h114.1c3.87 0 6.34 1.84 6.98 3.12l7.83 15.87c1.41 2.85-3.32 5.71-10.24 5.71h-123.58c-6.912 0-11.285-2.84-10.234-5.71z" id="path2363" style="stroke-width:1.226;stroke-opacity:.28272;fill-rule:evenodd" ns1:nodetypes="czzzzzzzz" />
+    <svg:path d="m81.21 170.03l5.547-14.03c0.509-1.29 4.69-2.76 8.871-2.76h108.66c3.69 0 6.05 1.62 6.65 2.76l7.46 14.03c1.34 2.52-3.16 5.05-9.75 5.05h-117.69c-6.586 0-10.751-2.51-9.75-5.05z" id="path1525" style="stroke-width:1.226;stroke-opacity:.28272;fill-rule:evenodd" ns1:nodetypes="czzzzzzzz" />
+    <svg:path d="m88.079 168.67l4.992-12.03c0.458-1.1 4.22-2.36 7.979-2.36h97.79c3.33 0 5.45 1.39 5.99 2.36l6.71 12.03c1.21 2.16-2.84 4.33-8.77 4.33h-105.92c-5.924 0-9.672-2.15-8.771-4.33z" id="path1526" style="stroke-width:1.226;stroke-opacity:.28272;fill-rule:evenodd" ns1:nodetypes="czzzzzzzz" />
+  </svg:g>
+  <svg:g id="g2581" transform="matrix(1.1404 .17869 -.17869 1.1404 2.2337 -14.837)">
+    <svg:path d="m17.159 6.3293v36.74 36.739 36.742 36.74h33.528 33.528 33.525 33.53v-36.74-36.742-36.739l-33.53-36.74-33.525 0.0003h-33.528-33.528z" id="path2582" style="fill-rule:evenodd;stroke-width:.42649;stroke-opacity:.36478;fill:#ffffff" transform="matrix(.50760 0 0 .50760 40.018 28.88)" ns1:nodetypes="cccccccccccccccc" />
+    <svg:g id="g2583" style="fill-opacity:.044025" transform="matrix(.15440 0 0 .15105 21.387 -28.22)">
+      <svg:path d="m173.36 408.81v122.26 122.26 122.27 122.26h108.76 108.76 108.77 108.76v-122.26-122.27-122.26l-108.76-122.26h-108.77-108.76-108.76z" id="path2584" style="stroke-width:.95407pt;fill-rule:evenodd" ns1:nodetypes="cccccccccccccccc" />
+      <svg:path d="m170.12 407.19v493.9h441.54v-371.28c-36.85-41.42-73.68-82.86-110.57-124.25h-330.97v1.63z" id="path2585" style="stroke-width:.95407pt;fill-rule:evenodd" />
+      <svg:path d="m166.88 403.94v500.4h448.03v-375.78c-37.45-42.09-74.89-84.19-112.38-126.25h-335.65v1.63z" id="path2586" style="stroke-width:.95407pt;fill-rule:evenodd" />
+    </svg:g>
+    <svg:path d="m297.99 136.74v123.83 123.83 123.83 123.83h113.01 113 113.01 113v-123.83-123.83-123.83l-113-123.83h-113.01-113-113.01z" id="path2587" style="stroke-opacity:.36478;fill-rule:evenodd;stroke:#000000;stroke-width:1.4375;fill:url(#linearGradient1495)" transform="matrix(.15060 0 0 .15060 3.8787 11.592)" ns1:nodetypes="cccccccccccccccc" />
+    <svg:path d="m750.01 260.57c-34.07-10.08-78.21-8.65-111.56-2.9 5.76-36.95 6.48-83.26-1.44-120.93l113 123.83z" id="path2588" style="fill-rule:evenodd;stroke-width:.95407pt;fill:url(#linearGradient1497)" transform="matrix(.15060 0 0 .15060 3.8787 11.592)" ns1:nodetypes="cccc" />
+    <svg:path d="m301.31 174.91l-2.04 453.99h443.82l0.25-112.22c-9.92 3.82-110.19-138.19-236.41-132.08-126.34 6.11-93.65-191.37-205.62-209.69z" id="path2589" style="fill-rule:evenodd;stroke-width:1pt;fill:url(#linearGradient1499)" transform="matrix(.15060 0 0 .15060 3.8787 11.592)" ns1:nodetypes="cccczc" />
+  </svg:g>
+  <svg:path d="m16.34 89.467l5.32 34.703c0.488 3.18 4.498 6.8 8.508 6.8h104.21c3.55 0 5.81-4.01 6.38-6.8l7.16-34.703c1.28-6.227-3.03-12.48-9.35-12.48h-112.88c-6.316 0-10.31 6.217-9.35 12.48z" id="path1501" style="fill-rule:evenodd;stroke:#807d74;stroke-width:1.1181;stroke-opacity:.33962;fill:url(#linearGradient1507)" ns1:nodetypes="czzzzzzzz" />
+  <svg:path d="m17.364 93.278c-0.219 1.072 3.873-9.441 10.811-9.441h105.98c8.53 0 11.27 10.513 11.48 9.441 0.22-1.071 4.58-15.868-11.31-15.868h-105.66c-13.443 0-11.087 14.797-11.306 15.868z" id="path1503" style="fill-rule:evenodd;stroke-width:.90416pt;fill:url(#linearGradient1516)" ns1:nodetypes="czzzzzz" />
+  <svg:path d="m25.018 88.562l2.576 28.118c0.474 5.18 6.631 11.36 12.877 11.31l77.629-0.61c7.63-0.06 18.31-4.97 18.4-11.31l0.37-27.814-111.85 0.306z" id="path2521" style="fill-rule:evenodd;stroke-width:1pt;fill:url(#linearGradient1506)" ns1:nodetypes="czzzzcc" />
+  <svg:metadata>
+    <rdf:RDF>
+      <ns5:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns5:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <ns5:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </ns5:Agent>
+        </dc:publisher>
+        <dc:title>Directory Visiting</dc:title>
+        <dc:date>2009-04-27T09:24:53</dc:date>
+        <dc:description>A directory or folder icon by Andrew Fitzsimon. Etiquette Icon set. From 0.18 OCAL database.</dc:description>
+        <dc:source>https://openclipart.org/detail/25346/directory-visiting-by-anonymous-25346</dc:source>
+        <dc:creator>
+          <ns5:Agent>
+            <dc:title>Anonymous</dc:title>
+          </ns5:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>computer</rdf:li>
+            <rdf:li>directory</rdf:li>
+            <rdf:li>etiquette</rdf:li>
+            <rdf:li>filesystem</rdf:li>
+            <rdf:li>folder</rdf:li>
+            <rdf:li>gnome</rdf:li>
+            <rdf:li>icon</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </ns5:Work>
+      <ns5:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns5:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns5:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns5:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns5:License>
+    </rdf:RDF>
+  </svg:metadata>
+</svg:svg>

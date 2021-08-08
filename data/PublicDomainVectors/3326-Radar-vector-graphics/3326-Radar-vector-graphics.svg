@@ -1,100 +1,99 @@
-<?xml version="1.0"?>
-<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:svg="http://www.w3.org/2000/svg" id="svg2" viewBox="0 0 128 128" version="1.1">
-  <title id="title2883">Radar</title>
-  <defs id="defs4">
-    <filter id="filter3874">
-      <feGaussianBlur id="feGaussianBlur3876" stdDeviation="2.3609854"/>
-    </filter>
-    <linearGradient id="linearGradient3919" y2="29.429" gradientUnits="userSpaceOnUse" y1="66.75" x2="39.286" x1="64.286">
-      <stop id="stop3913" stop-color="#53f100" stop-opacity=".80392" offset="0"/>
-      <stop id="stop3915" stop-color="#70ff09" stop-opacity="0" offset="1"/>
-    </linearGradient>
-    <radialGradient id="radialGradient3927" gradientUnits="userSpaceOnUse" cy="73.452" cx="66.923" gradientTransform="matrix(1 0 0 1.0326 0 -2.3952)" r="46.467">
-      <stop id="stop3848" stop-color="#00b500" offset="0"/>
-      <stop id="stop3993" stop-color="#005800" stop-opacity=".49804" offset=".7069"/>
-      <stop id="stop3850" stop-color="#005900" stop-opacity="0" offset="1"/>
-    </radialGradient>
-    <filter id="filter3939" y="-.35" width="1.7412" height="1.7" x="-.37059">
-      <feGaussianBlur id="feGaussianBlur3941" stdDeviation="0.66291261"/>
-    </filter>
-    <radialGradient id="radialGradient3965" gradientUnits="userSpaceOnUse" cy="39.738" cx="52.78" gradientTransform="matrix(1 0 0 1.0588 0 -2.3375)" r="2.1466">
-      <stop id="stop3945" stop-color="#fff" offset="0"/>
-      <stop id="stop3947" stop-color="#70ff09" stop-opacity="0" offset="1"/>
-    </radialGradient>
-    <filter id="filter4001" y="-.12328" width="1.2338" height="1.2466" x="-.11689">
-      <feGaussianBlur id="feGaussianBlur4003" stdDeviation="2.3482144"/>
-    </filter>
-    <filter id="filter4017">
-      <feGaussianBlur id="feGaussianBlur4019" stdDeviation="0.93928574"/>
-    </filter>
-  </defs>
-  <g id="layer1" transform="translate(0 -924.36)">
-    <path id="path3856" filter="url(#filter3874)" d="m113.39 73.452c0 26.5-20.804 47.982-46.467 47.982s-46.467-21.482-46.467-47.982 20.804-47.982 46.467-47.982 46.467 21.482 46.467 47.982z" transform="matrix(1.2636 0 0 1.2409 -21.554 897.6)"/>
-    <path id="path3895" d="m113.39 73.452c0 26.5-20.804 47.982-46.467 47.982s-46.467-21.482-46.467-47.982 20.804-47.982 46.467-47.982 46.467 21.482 46.467 47.982z" fill="url(#radialGradient3927)" transform="matrix(1.1992 0 0 1.1777 -17.245 902.24)"/>
-    <path id="path3840" opacity=".75794" d="m113.39 73.452c0 26.5-20.804 47.982-46.467 47.982s-46.467-21.482-46.467-47.982 20.804-47.982 46.467-47.982 46.467 21.482 46.467 47.982z" transform="matrix(.89185 0 0 .87584 3.3236 924.41)" stroke="#00ed00" fill="none"/>
-    <path id="path3842" opacity=".75794" d="m113.39 73.452c0 26.5-20.804 47.982-46.467 47.982s-46.467-21.482-46.467-47.982 20.804-47.982 46.467-47.982 46.467 21.482 46.467 47.982z" transform="matrix(.60190 0 0 .59110 22.728 945.33)" stroke="#00ed00" fill="none"/>
-    <path id="path3844" opacity=".75794" d="m113.39 73.452c0 26.5-20.804 47.982-46.467 47.982s-46.467-21.482-46.467-47.982 20.804-47.982 46.467-47.982 46.467 21.482 46.467 47.982z" transform="matrix(.30791 0 0 .30239 42.402 966.53)" stroke="#00ed00" fill="none"/>
-  </g>
-  <g id="layer2">
-    <g id="g3824" stroke="#00bf00" stroke-width=".2" transform="matrix(1.2425 0 0 1.2425 -15.28 -1166.6)">
-      <path id="path2890" d="m31.567 34.561 63.387 63.892" fill="#0f0" transform="translate(0 924.36)"/>
-      <path id="path3028" d="m40.154 27.49 45.204 77.78" fill="#0f0" transform="translate(0 924.36)"/>
-      <path id="path3030" d="m51.013 22.439 23.738 87.381" fill="#0f0" transform="translate(0 924.36)"/>
-      <path id="path3032" d="m62.882 21.176v90.661" fill="none" transform="translate(0 924.36)"/>
-      <path id="path3034" d="m74.625 22.818-22.855 87.252" fill="#0f0" transform="translate(0 924.36)"/>
-      <path id="path3036" d="m85.737 27.49-45.331 78.03" fill="#0f0" transform="translate(0 924.36)"/>
-      <path id="path3040" d="m101.9 43.905c-1.0102 0-77.655 45.204-77.655 45.204" fill="#0f0" transform="translate(0 924.36)"/>
-      <path id="path3042" d="m101.77 88.857-77.526-44.7" fill="#0f0" transform="translate(0 924.36)"/>
-      <path id="path3044" d="m106.57 78.25-86.619-22.981" fill="#0f0" transform="translate(0 924.36)"/>
-      <path id="path3046" d="m106.32 55.016-86.875 22.981" fill="#0f0" transform="translate(0 924.36)"/>
-      <path id="path3048" d="m18.183 66.128 89.146 0.25254" fill="#0f0" transform="translate(0 924.36)"/>
-      <path id="path3050" d="m31.315 97.948 64.144-63.387" fill="#0f0" transform="translate(0 924.36)"/>
-    </g>
-  </g>
-  <g id="layer3">
-    <path id="path3838" d="m113.39 73.452a46.467 47.982 0 1 1 -92.934 0 46.467 47.982 0 1 1 92.934 0z" stroke="#00ed00" fill="none" transform="matrix(1.1992 0 0 1.1777 -17.245 -22.122)"/>
-  </g>
-  <g id="layer5" fill="url(#linearGradient3919)">
-    <path id="path3995" filter="url(#filter4001)" d="m62.679 66.75 41.961-16.786-2.14-5.714-7.321-9.643-10.536-8.393-12.322-4.464-15.892-0.714 6.25 45.714z" transform="matrix(1.2425 0 0 1.2425 -15.28 -18.098)"/>
-    <path id="path3909" opacity=".32906" filter="url(#filter4017)" d="m62.679 66.75 41.961-16.786-2.14-5.714-7.321-9.643-10.536-8.393-12.322-4.464-15.892-0.714 6.25 45.714z" transform="matrix(1.2425 0 0 1.2425 -15.28 -18.098)"/>
-  </g>
-  <g id="layer4">
-    <g id="g3961" transform="matrix(3.0723 0 0 3.0723 -120.33 -93.633)">
-      <path id="path3929" filter="url(#filter3939)" d="m54.927 39.738a2.1466 2.2728 0 1 1 -4.2931 0 2.1466 2.2728 0 1 1 4.2931 0z" fill="#70ff09" transform="matrix(.76471 0 0 .76471 12.419 9.3501)"/>
-      <path id="path3902" d="m54.927 39.738a2.1466 2.2728 0 1 1 -4.2931 0 2.1466 2.2728 0 1 1 4.2931 0z" fill="url(#radialGradient3965)" transform="matrix(.64706 0 0 .64706 18.628 14.025)"/>
-    </g>
-    <g id="g3957" transform="matrix(3.1433 0 0 3.1433 -62.519 -49.738)">
-      <path id="path3951" filter="url(#filter3939)" d="m54.927 39.738a2.1466 2.2728 0 1 1 -4.2931 0 2.1466 2.2728 0 1 1 4.2931 0z" fill="#70ff09" transform="matrix(.76471 0 0 .76471 -8.1629 10.36)"/>
-      <path id="path3953" d="m54.927 39.738a2.1466 2.2728 0 1 1 -4.2931 0 2.1466 2.2728 0 1 1 4.2931 0z" fill="url(#radialGradient3965)" transform="matrix(.64706 0 0 .64706 -1.9535 15.035)"/>
-    </g>
-    <g id="g3967" transform="matrix(3.4321 0 0 3.4321 -27.731 -94.296)">
-      <path id="path3969" filter="url(#filter3939)" d="m54.927 39.738a2.1466 2.2728 0 1 1 -4.2931 0 2.1466 2.2728 0 1 1 4.2931 0z" fill="#70ff09" transform="matrix(.76471 0 0 .76471 -8.1629 10.36)"/>
-      <path id="path3971" d="m54.927 39.738a2.1466 2.2728 0 1 1 -4.2931 0 2.1466 2.2728 0 1 1 4.2931 0z" fill="url(#radialGradient3965)" transform="matrix(.64706 0 0 .64706 -1.9535 15.035)"/>
-    </g>
-    <g id="g4021" transform="matrix(2.1135 0 0 2.1135 -31.558 25.675)">
-      <path id="path4023" filter="url(#filter3939)" d="m54.927 39.738a2.1466 2.2728 0 1 1 -4.2931 0 2.1466 2.2728 0 1 1 4.2931 0z" fill="#70ff09" transform="matrix(.76471 0 0 .76471 12.419 9.3501)"/>
-      <path id="path4025" d="m54.927 39.738a2.1466 2.2728 0 1 1 -4.2931 0 2.1466 2.2728 0 1 1 4.2931 0z" fill="url(#radialGradient3965)" transform="matrix(.64706 0 0 .64706 18.628 14.025)"/>
-    </g>
-  </g>
-  <metadata>
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="142.89807312" id="svg2" version="1.1" viewBox="-8.439133759999999 -7.062449759999985 142.89807312 142.89807312" width="142.89807312">
+  <svg:title id="title2883">Radar</svg:title>
+  <svg:defs id="defs4">
+    <svg:filter id="filter3874">
+      <svg:feGaussianBlur id="feGaussianBlur3876" stdDeviation="2.3609854" />
+    </svg:filter>
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="linearGradient3919" x1="64.286" x2="39.286" y1="66.75" y2="29.429">
+      <svg:stop id="stop3913" offset="0" stop-color="#53f100" stop-opacity=".80392" />
+      <svg:stop id="stop3915" offset="1" stop-color="#70ff09" stop-opacity="0" />
+    </svg:linearGradient>
+    <svg:radialGradient cx="66.923" cy="73.452" gradientTransform="matrix(1 0 0 1.0326 0 -2.3952)" gradientUnits="userSpaceOnUse" id="radialGradient3927" r="46.467">
+      <svg:stop id="stop3848" offset="0" stop-color="#00b500" />
+      <svg:stop id="stop3993" offset=".7069" stop-color="#005800" stop-opacity=".49804" />
+      <svg:stop id="stop3850" offset="1" stop-color="#005900" stop-opacity="0" />
+    </svg:radialGradient>
+    <svg:filter height="1.7" id="filter3939" width="1.7412" x="-.37059" y="-.35">
+      <svg:feGaussianBlur id="feGaussianBlur3941" stdDeviation="0.66291261" />
+    </svg:filter>
+    <svg:radialGradient cx="52.78" cy="39.738" gradientTransform="matrix(1 0 0 1.0588 0 -2.3375)" gradientUnits="userSpaceOnUse" id="radialGradient3965" r="2.1466">
+      <svg:stop id="stop3945" offset="0" stop-color="#fff" />
+      <svg:stop id="stop3947" offset="1" stop-color="#70ff09" stop-opacity="0" />
+    </svg:radialGradient>
+    <svg:filter height="1.2466" id="filter4001" width="1.2338" x="-.11689" y="-.12328">
+      <svg:feGaussianBlur id="feGaussianBlur4003" stdDeviation="2.3482144" />
+    </svg:filter>
+    <svg:filter id="filter4017">
+      <svg:feGaussianBlur id="feGaussianBlur4019" stdDeviation="0.93928574" />
+    </svg:filter>
+  </svg:defs>
+  <svg:g id="layer1" transform="translate(0 -924.36)">
+    <svg:path d="m113.39 73.452c0 26.5-20.804 47.982-46.467 47.982s-46.467-21.482-46.467-47.982 20.804-47.982 46.467-47.982 46.467 21.482 46.467 47.982z" filter="url(#filter3874)" id="path3856" transform="matrix(1.2636 0 0 1.2409 -21.554 897.6)" />
+    <svg:path d="m113.39 73.452c0 26.5-20.804 47.982-46.467 47.982s-46.467-21.482-46.467-47.982 20.804-47.982 46.467-47.982 46.467 21.482 46.467 47.982z" fill="url(#radialGradient3927)" id="path3895" transform="matrix(1.1992 0 0 1.1777 -17.245 902.24)" />
+    <svg:path d="m113.39 73.452c0 26.5-20.804 47.982-46.467 47.982s-46.467-21.482-46.467-47.982 20.804-47.982 46.467-47.982 46.467 21.482 46.467 47.982z" fill="none" id="path3840" opacity=".75794" stroke="#00ed00" transform="matrix(.89185 0 0 .87584 3.3236 924.41)" />
+    <svg:path d="m113.39 73.452c0 26.5-20.804 47.982-46.467 47.982s-46.467-21.482-46.467-47.982 20.804-47.982 46.467-47.982 46.467 21.482 46.467 47.982z" fill="none" id="path3842" opacity=".75794" stroke="#00ed00" transform="matrix(.60190 0 0 .59110 22.728 945.33)" />
+    <svg:path d="m113.39 73.452c0 26.5-20.804 47.982-46.467 47.982s-46.467-21.482-46.467-47.982 20.804-47.982 46.467-47.982 46.467 21.482 46.467 47.982z" fill="none" id="path3844" opacity=".75794" stroke="#00ed00" transform="matrix(.30791 0 0 .30239 42.402 966.53)" />
+  </svg:g>
+  <svg:g id="layer2">
+    <svg:g id="g3824" stroke="#00bf00" stroke-width=".2" transform="matrix(1.2425 0 0 1.2425 -15.28 -1166.6)">
+      <svg:path d="m31.567 34.561 63.387 63.892" fill="#0f0" id="path2890" transform="translate(0 924.36)" />
+      <svg:path d="m40.154 27.49 45.204 77.78" fill="#0f0" id="path3028" transform="translate(0 924.36)" />
+      <svg:path d="m51.013 22.439 23.738 87.381" fill="#0f0" id="path3030" transform="translate(0 924.36)" />
+      <svg:path d="m62.882 21.176v90.661" fill="none" id="path3032" transform="translate(0 924.36)" />
+      <svg:path d="m74.625 22.818-22.855 87.252" fill="#0f0" id="path3034" transform="translate(0 924.36)" />
+      <svg:path d="m85.737 27.49-45.331 78.03" fill="#0f0" id="path3036" transform="translate(0 924.36)" />
+      <svg:path d="m101.9 43.905c-1.0102 0-77.655 45.204-77.655 45.204" fill="#0f0" id="path3040" transform="translate(0 924.36)" />
+      <svg:path d="m101.77 88.857-77.526-44.7" fill="#0f0" id="path3042" transform="translate(0 924.36)" />
+      <svg:path d="m106.57 78.25-86.619-22.981" fill="#0f0" id="path3044" transform="translate(0 924.36)" />
+      <svg:path d="m106.32 55.016-86.875 22.981" fill="#0f0" id="path3046" transform="translate(0 924.36)" />
+      <svg:path d="m18.183 66.128 89.146 0.25254" fill="#0f0" id="path3048" transform="translate(0 924.36)" />
+      <svg:path d="m31.315 97.948 64.144-63.387" fill="#0f0" id="path3050" transform="translate(0 924.36)" />
+    </svg:g>
+  </svg:g>
+  <svg:g id="layer3">
+    <svg:path d="m113.39 73.452a46.467 47.982 0 1 1 -92.934 0 46.467 47.982 0 1 1 92.934 0z" fill="none" id="path3838" stroke="#00ed00" transform="matrix(1.1992 0 0 1.1777 -17.245 -22.122)" />
+  </svg:g>
+  <svg:g fill="url(#linearGradient3919)" id="layer5">
+    <svg:path d="m62.679 66.75 41.961-16.786-2.14-5.714-7.321-9.643-10.536-8.393-12.322-4.464-15.892-0.714 6.25 45.714z" filter="url(#filter4001)" id="path3995" transform="matrix(1.2425 0 0 1.2425 -15.28 -18.098)" />
+    <svg:path d="m62.679 66.75 41.961-16.786-2.14-5.714-7.321-9.643-10.536-8.393-12.322-4.464-15.892-0.714 6.25 45.714z" filter="url(#filter4017)" id="path3909" opacity=".32906" transform="matrix(1.2425 0 0 1.2425 -15.28 -18.098)" />
+  </svg:g>
+  <svg:g id="layer4">
+    <svg:g id="g3961" transform="matrix(3.0723 0 0 3.0723 -120.33 -93.633)">
+      <svg:path d="m54.927 39.738a2.1466 2.2728 0 1 1 -4.2931 0 2.1466 2.2728 0 1 1 4.2931 0z" fill="#70ff09" filter="url(#filter3939)" id="path3929" transform="matrix(.76471 0 0 .76471 12.419 9.3501)" />
+      <svg:path d="m54.927 39.738a2.1466 2.2728 0 1 1 -4.2931 0 2.1466 2.2728 0 1 1 4.2931 0z" fill="url(#radialGradient3965)" id="path3902" transform="matrix(.64706 0 0 .64706 18.628 14.025)" />
+    </svg:g>
+    <svg:g id="g3957" transform="matrix(3.1433 0 0 3.1433 -62.519 -49.738)">
+      <svg:path d="m54.927 39.738a2.1466 2.2728 0 1 1 -4.2931 0 2.1466 2.2728 0 1 1 4.2931 0z" fill="#70ff09" filter="url(#filter3939)" id="path3951" transform="matrix(.76471 0 0 .76471 -8.1629 10.36)" />
+      <svg:path d="m54.927 39.738a2.1466 2.2728 0 1 1 -4.2931 0 2.1466 2.2728 0 1 1 4.2931 0z" fill="url(#radialGradient3965)" id="path3953" transform="matrix(.64706 0 0 .64706 -1.9535 15.035)" />
+    </svg:g>
+    <svg:g id="g3967" transform="matrix(3.4321 0 0 3.4321 -27.731 -94.296)">
+      <svg:path d="m54.927 39.738a2.1466 2.2728 0 1 1 -4.2931 0 2.1466 2.2728 0 1 1 4.2931 0z" fill="#70ff09" filter="url(#filter3939)" id="path3969" transform="matrix(.76471 0 0 .76471 -8.1629 10.36)" />
+      <svg:path d="m54.927 39.738a2.1466 2.2728 0 1 1 -4.2931 0 2.1466 2.2728 0 1 1 4.2931 0z" fill="url(#radialGradient3965)" id="path3971" transform="matrix(.64706 0 0 .64706 -1.9535 15.035)" />
+    </svg:g>
+    <svg:g id="g4021" transform="matrix(2.1135 0 0 2.1135 -31.558 25.675)">
+      <svg:path d="m54.927 39.738a2.1466 2.2728 0 1 1 -4.2931 0 2.1466 2.2728 0 1 1 4.2931 0z" fill="#70ff09" filter="url(#filter3939)" id="path4023" transform="matrix(.76471 0 0 .76471 12.419 9.3501)" />
+      <svg:path d="m54.927 39.738a2.1466 2.2728 0 1 1 -4.2931 0 2.1466 2.2728 0 1 1 4.2931 0z" fill="url(#radialGradient3965)" id="path4025" transform="matrix(.64706 0 0 .64706 18.628 14.025)" />
+    </svg:g>
+  </svg:g>
+  <svg:metadata>
     <rdf:RDF>
-      <cc:Work>
+      <ns2:Work>
         <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns2:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
         <dc:publisher>
-          <cc:Agent rdf:about="http://openclipart.org/">
+          <ns2:Agent rdf:about="http://openclipart.org/">
             <dc:title>Openclipart</dc:title>
-          </cc:Agent>
+          </ns2:Agent>
         </dc:publisher>
         <dc:title>Radar</dc:title>
         <dc:date>2010-08-11T06:32:46</dc:date>
         <dc:description>Radar icon with inkscape</dc:description>
         <dc:source>http://openclipart.org/detail/79399/radar-by-mola</dc:source>
         <dc:creator>
-          <cc:Agent>
+          <ns2:Agent>
             <dc:title>mola</dc:title>
-          </cc:Agent>
+          </ns2:Agent>
         </dc:creator>
         <dc:subject>
           <rdf:Bag>
@@ -110,12 +109,12 @@
             <rdf:li>war</rdf:li>
           </rdf:Bag>
         </dc:subject>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
-        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
-        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
-        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
-      </cc:License>
+      </ns2:Work>
+      <ns2:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns2:License>
     </rdf:RDF>
-  </metadata>
-</svg>
+  </svg:metadata>
+</svg:svg>

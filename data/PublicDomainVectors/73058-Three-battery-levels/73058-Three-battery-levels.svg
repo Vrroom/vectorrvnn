@@ -1,985 +1,205 @@
-<?xml version="1.0"?>
-<svg
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:cc="http://creativecommons.org/ns#"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    xmlns:ns1="http://sozi.baierouge.fr"
-    id="svg2"
-    viewBox="0 0 760 400"
-    version="1.1"
-  >
-  <title
-      id="title4802"
-    >Battery levels. Niveles de bater&#xED;a</title
-  >
-  <defs
-      id="defs4"
-    >
-    <linearGradient
-        id="linearGradient4084"
-      >
-      <stop
-          id="stop4086"
-          offset="0"
-      />
-      <stop
-          id="stop4088"
-          stop-opacity="0"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient4056"
-      >
-      <stop
-          id="stop4058"
-          stop-color="#d40000"
-          offset="0"
-      />
-      <stop
-          id="stop4062"
-          stop-color="#ff2a2a"
-          offset=".12759"
-      />
-      <stop
-          id="stop4064"
-          stop-color="#ff2a2a"
-          offset=".23462"
-      />
-      <stop
-          id="stop4066"
-          stop-color="#f00"
-          offset=".35206"
-      />
-      <stop
-          id="stop4068"
-          stop-color="#f55"
-          offset=".44898"
-      />
-      <stop
-          id="stop4070"
-          stop-color="#f55"
-          offset=".57642"
-      />
-      <stop
-          id="stop4072"
-          stop-color="#a00"
-          offset=".6785"
-      />
-      <stop
-          id="stop4082"
-          stop-color="#a00"
-          offset=".76023"
-      />
-      <stop
-          id="stop4092"
-          stop-color="#d40000"
-          offset=".85211"
-      />
-      <stop
-          id="stop4060"
-          stop-color="#500"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient3994"
-      >
-      <stop
-          id="stop3996"
-          stop-color="#e5ffd5"
-          offset="0"
-      />
-      <stop
-          id="stop3998"
-          stop-color="#e5ffd5"
-          stop-opacity="0"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient3986"
-      >
-      <stop
-          id="stop3988"
-          stop-color="#a80"
-          offset="0"
-      />
-      <stop
-          id="stop4002"
-          stop-color="#fc0"
-          offset=".1081"
-      />
-      <stop
-          id="stop4004"
-          stop-color="#fc0"
-          offset=".22426"
-      />
-      <stop
-          id="stop4006"
-          stop-color="#fd5"
-          offset=".35053"
-      />
-      <stop
-          id="stop4008"
-          stop-color="#fd5"
-          offset=".47175"
-      />
-      <stop
-          id="stop4010"
-          stop-color="#d4aa00"
-          offset=".60307"
-      />
-      <stop
-          id="stop4012"
-          stop-color="#fc0"
-          offset=".73944"
-      />
-      <stop
-          id="stop4014"
-          stop-color="#d4aa00"
-          offset=".84551"
-      />
-      <stop
-          id="stop3990"
-          stop-color="#a80"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient3909"
-      >
-      <stop
-          id="stop3911"
-          stop-color="#fff"
-          offset="0"
-      />
-      <stop
-          id="stop3913"
-          stop-color="#fff"
-          stop-opacity="0"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient3901"
-      >
-      <stop
-          id="stop3903"
-          stop-color="#4a0"
-          offset="0"
-      />
-      <stop
-          id="stop3917"
-          stop-color="#55d400"
-          offset=".10101"
-      />
-      <stop
-          id="stop3919"
-          stop-color="#55d400"
-          offset=".24747"
-      />
-      <stop
-          id="stop3921"
-          stop-color="#9f5"
-          offset=".37879"
-      />
-      <stop
-          id="stop3923"
-          stop-color="#9f5"
-          offset=".43434"
-      />
-      <stop
-          id="stop3925"
-          stop-color="#4a0"
-          offset=".57576"
-      />
-      <stop
-          id="stop3927"
-          stop-color="#4a0"
-          offset=".70707"
-      />
-      <stop
-          id="stop3937"
-          stop-color="#4a0"
-          offset=".79293"
-      />
-      <stop
-          id="stop3905"
-          stop-color="#112b00"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient3863"
-      >
-      <stop
-          id="stop3865"
-          offset="0"
-      />
-      <stop
-          id="stop3867"
-          stop-color="#333"
-          offset=".0714"
-      />
-      <stop
-          id="stop3869"
-          stop-color="#808080"
-          offset=".15816"
-      />
-      <stop
-          id="stop3871"
-          stop-color="#e6e6e6"
-          offset=".25005"
-      />
-      <stop
-          id="stop3873"
-          stop-color="#333"
-          offset=".35198"
-      />
-      <stop
-          id="stop3875"
-          stop-color="#333"
-          offset=".46945"
-      />
-      <stop
-          id="stop3877"
-          stop-color="#999"
-          offset=".56627"
-      />
-      <stop
-          id="stop3879"
-          stop-color="#999"
-          offset=".62756"
-      />
-      <stop
-          id="stop3881"
-          stop-color="#999"
-          offset=".71424"
-      />
-      <stop
-          id="stop3883"
-          stop-color="#1a1a1a"
-          offset=".82665"
-      />
-      <stop
-          id="stop3885"
-          stop-color="#1a1a1a"
-          offset=".89796"
-      />
-      <stop
-          id="stop3887"
-          stop-color="#808080"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient3776"
-      >
-      <stop
-          id="stop3778"
-          offset="0"
-      />
-      <stop
-          id="stop3800"
-          stop-color="#1a1a1a"
-          offset=".11222"
-      />
-      <stop
-          id="stop3784"
-          stop-color="#808080"
-          offset=".15816"
-      />
-      <stop
-          id="stop3786"
-          stop-color="#e6e6e6"
-          offset=".20923"
-      />
-      <stop
-          id="stop3788"
-          stop-color="#e6e6e6"
-          offset=".26527"
-      />
-      <stop
-          id="stop3790"
-          stop-color="#333"
-          offset=".37762"
-      />
-      <stop
-          id="stop3802"
-          stop-color="#1a1a1a"
-          offset=".50509"
-      />
-      <stop
-          id="stop3792"
-          stop-color="#333"
-          offset=".59185"
-      />
-      <stop
-          id="stop3794"
-          stop-color="#b3b3b3"
-          offset=".69383"
-      />
-      <stop
-          id="stop3796"
-          stop-color="#b3b3b3"
-          offset=".72962"
-      />
-      <stop
-          id="stop3798"
-          stop-color="#1a1a1a"
-          offset=".82654"
-      />
-      <stop
-          id="stop3780"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <filter
-        id="filter4272"
-        height="1.6248"
-        width="1.0664"
-        y="-.31241"
-        x="-.033187"
-        color-interpolation-filters="sRGB"
-      >
-      <feGaussianBlur
-          id="feGaussianBlur4274"
-          stdDeviation="3.8133258"
-      />
-    </filter
-    >
-    <linearGradient
-        id="linearGradient4750"
-        y2="615.98"
-        xlink:href="#linearGradient3776"
-        gradientUnits="userSpaceOnUse"
-        x2="238.4"
-        gradientTransform="matrix(-.23228 0 0 -.040355 430.01 467.74)"
-        y1="616.99"
-        x1="40.406"
-    />
-    <linearGradient
-        id="linearGradient4752"
-        y2="615.98"
-        xlink:href="#linearGradient3776"
-        gradientUnits="userSpaceOnUse"
-        x2="238.4"
-        gradientTransform="translate(257.5 -.081602)"
-        y1="616.99"
-        x1="40.406"
-    />
-    <linearGradient
-        id="linearGradient4754"
-        y2="615.98"
-        xlink:href="#linearGradient3863"
-        gradientUnits="userSpaceOnUse"
-        x2="238.4"
-        gradientTransform="matrix(-1 0 0 -.88215 537.5 1180.7)"
-        y1="616.99"
-        x1="40.406"
-    />
-    <linearGradient
-        id="linearGradient4756"
-        y2="645.54"
-        xlink:href="#linearGradient3986"
-        gradientUnits="userSpaceOnUse"
-        x2="496.58"
-        gradientTransform="matrix(1 0 0 .38758 .91627 476.99)"
-        y1="645.54"
-        x1="296.58"
-    />
-    <linearGradient
-        id="linearGradient4758"
-        y2="645.54"
-        xlink:href="#linearGradient3986"
-        gradientUnits="userSpaceOnUse"
-        x2="496.58"
-        gradientTransform="matrix(-1 0 0 -.028386 794.07 693.88)"
-        y1="645.54"
-        x1="296.58"
-    />
-    <linearGradient
-        id="linearGradient4760"
-        y2="487.36"
-        gradientUnits="userSpaceOnUse"
-        x2="302.79"
-        y1="487.36"
-        x1="317.86"
-      >
-      <stop
-          id="stop4650"
-          stop-color="#fff"
-          offset="0"
-      />
-      <stop
-          id="stop4652"
-          stop-color="#fff"
-          stop-opacity="0"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient4762"
-        y2="623.32"
-        xlink:href="#linearGradient3909"
-        gradientUnits="userSpaceOnUse"
-        x2="73.83"
-        gradientTransform="translate(257.5 -.081602)"
-        y1="623.32"
-        x1="68.284"
-    />
-    <linearGradient
-        id="linearGradient4764"
-        y2="643.91"
-        xlink:href="#linearGradient3994"
-        gradientUnits="userSpaceOnUse"
-        x2="459.25"
-        gradientTransform="translate(.91627 -5.8996)"
-        y1="643.91"
-        x1="296.58"
-    />
-    <linearGradient
-        id="linearGradient4766"
-        y2="622.84"
-        xlink:href="#linearGradient4084"
-        gradientUnits="userSpaceOnUse"
-        x2="736.34"
-        gradientTransform="translate(-263.25 -3.5522)"
-        y1="622.84"
-        x1="722.21"
-    />
-    <linearGradient
-        id="linearGradient4768"
-        y2="615.98"
-        xlink:href="#linearGradient3776"
-        gradientUnits="userSpaceOnUse"
-        x2="238.4"
-        gradientTransform="matrix(-.23228 0 0 -.040355 691.64 466.73)"
-        y1="616.99"
-        x1="40.406"
-    />
-    <linearGradient
-        id="linearGradient4770"
-        y2="615.98"
-        xlink:href="#linearGradient3776"
-        gradientUnits="userSpaceOnUse"
-        x2="238.4"
-        gradientTransform="translate(519.12 -1.0917)"
-        y1="616.99"
-        x1="40.406"
-    />
-    <linearGradient
-        id="linearGradient4772"
-        y2="615.98"
-        xlink:href="#linearGradient3863"
-        gradientUnits="userSpaceOnUse"
-        x2="238.4"
-        gradientTransform="matrix(-1 0 0 -.88215 799.12 1179.7)"
-        y1="616.99"
-        x1="40.406"
-    />
-    <linearGradient
-        id="linearGradient4774"
-        y2="705.88"
-        xlink:href="#linearGradient4056"
-        gradientUnits="userSpaceOnUse"
-        x2="759.63"
-        gradientTransform="matrix(1 0 0 .19567 -1.104 628.73)"
-        y1="707.9"
-        x1="561.64"
-    />
-    <linearGradient
-        id="linearGradient4776"
-        y2="705.88"
-        xlink:href="#linearGradient4056"
-        gradientUnits="userSpaceOnUse"
-        x2="759.63"
-        gradientTransform="matrix(-1 0 0 -.039135 1319.4 782.06)"
-        y1="707.9"
-        x1="561.64"
-    />
-    <linearGradient
-        id="linearGradient4778"
-        y2="485.22"
-        gradientUnits="userSpaceOnUse"
-        x2="564.27"
-        y1="485.22"
-        x1="577.86"
-      >
-      <stop
-          id="stop4658"
-          stop-color="#fff"
-          offset="0"
-      />
-      <stop
-          id="stop4660"
-          stop-color="#fff"
-          stop-opacity="0"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient4780"
-        y2="623.32"
-        xlink:href="#linearGradient3909"
-        gradientUnits="userSpaceOnUse"
-        x2="73.83"
-        gradientTransform="translate(519.12 -1.0917)"
-        y1="623.32"
-        x1="68.284"
-    />
-    <linearGradient
-        id="linearGradient4782"
-        y2="622.84"
-        xlink:href="#linearGradient4084"
-        gradientUnits="userSpaceOnUse"
-        x2="736.34"
-        gradientTransform="translate(-1.104 -3.5522)"
-        y1="622.84"
-        x1="722.21"
-    />
-    <linearGradient
-        id="linearGradient4784"
-        y2="641.89"
-        xlink:href="#linearGradient3994"
-        gradientUnits="userSpaceOnUse"
-        x2="722.9"
-        gradientTransform="translate(262.55 -2.1019)"
-        y1="641.89"
-        x1="560.23"
-    />
-    <linearGradient
-        id="linearGradient4786"
-        y2="615.98"
-        xlink:href="#linearGradient3776"
-        gradientUnits="userSpaceOnUse"
-        x2="238.4"
-        gradientTransform="matrix(-.23228 0 0 -.040355 176.47 467.74)"
-        y1="616.99"
-        x1="40.406"
-    />
-    <linearGradient
-        id="linearGradient4788"
-        y2="615.98"
-        xlink:href="#linearGradient3776"
-        gradientUnits="userSpaceOnUse"
-        x2="238.4"
-        gradientTransform="translate(3.9467 -.081604)"
-        y1="616.99"
-        x1="40.406"
-    />
-    <linearGradient
-        id="linearGradient4790"
-        y2="615.98"
-        xlink:href="#linearGradient3863"
-        gradientUnits="userSpaceOnUse"
-        x2="238.4"
-        gradientTransform="matrix(-1 0 0 -.88215 283.95 1180.7)"
-        y1="616.99"
-        x1="40.406"
-    />
-    <linearGradient
-        id="linearGradient4792"
-        y2="623.05"
-        xlink:href="#linearGradient3901"
-        gradientUnits="userSpaceOnUse"
-        x2="240.42"
-        gradientTransform="translate(2.8571 .21320)"
-        y1="623.05"
-        x1="40.406"
-    />
-    <linearGradient
-        id="linearGradient4794"
-        y2="623.05"
-        xlink:href="#linearGradient3901"
-        gradientUnits="userSpaceOnUse"
-        x2="240.42"
-        gradientTransform="matrix(-1 0 0 -.026328 283.95 523.54)"
-        y1="623.05"
-        x1="40.406"
-    />
-    <linearGradient
-        id="linearGradient4796"
-        y2="490.22"
-        gradientUnits="userSpaceOnUse"
-        x2="47.857"
-        y1="490.22"
-        x1="61.429"
-      >
-      <stop
-          id="stop4666"
-          stop-color="#fff"
-          offset="0"
-      />
-      <stop
-          id="stop4668"
-          stop-color="#fff"
-          stop-opacity="0"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient4798"
-        y2="623.32"
-        xlink:href="#linearGradient3909"
-        gradientUnits="userSpaceOnUse"
-        x2="73.83"
-        gradientTransform="translate(3.9467 -.081604)"
-        y1="623.32"
-        x1="68.284"
-    />
-    <linearGradient
-        id="linearGradient4800"
-        y2="622.84"
-        xlink:href="#linearGradient4084"
-        gradientUnits="userSpaceOnUse"
-        x2="736.34"
-        gradientTransform="translate(-521.82 -3.5522)"
-        y1="622.84"
-        x1="722.21"
-    />
-  </defs
-  >
-  <g
-      id="layer1"
-      transform="translate(-25.193 -427.28)"
-    >
-    <g
-        id="g4736"
-        transform="translate(4.0203 -2.9898)"
-      >
-      <path
-          id="path4278"
-          opacity=".62996"
-          d="m281.83 528.12c0 8.0894-61.734 14.647-137.89 14.647-76.152 0-137.89-6.5578-137.89-14.647 0-8.0894 61.734-14.647 137.89-14.647 76.152 0 137.89 6.5578 137.89 14.647z"
-          transform="matrix(.80764 0 0 1 542.87 274.35)"
-          filter="url(#filter4272)"
-          fill="#4d4d4d"
-      />
-      <g
-          id="g4724"
-        >
-        <path
-            id="path4020"
-            d="m682.35 448.47s-15.476 0.20177-23.228 0.20177c-7.7525 0-23.228-0.20177-23.228-0.20177v-14.124s15.476-0.20178 23.228-0.20178c7.7525 0 23.228 0.20178 23.228 0.20178z"
-            fill="url(#linearGradient4768)"
-        />
-        <path
-            id="path4022"
-            d="m559.12 451.27s66.625-5 100-5 100 5 100 5v350s-66.625 5-100 5-100-5-100-5z"
-            fill="url(#linearGradient4770)"
-        />
-        <path
-            id="path4024"
-            d="m559.12 460.12s66.625-4.7615 100-4.7615 100 4.7615 100 4.7615v333.3s-66.625 4.7615-100 4.7615-100-4.7615-100-4.7615z"
-        />
-        <path
-            id="path4026"
-            d="m759.12 780.65s-66.625 4.4108-100 4.4108-100-4.4108-100-4.4108v-308.75s66.625-4.4108 100-4.4108 100 4.4108 100 4.4108z"
-            fill="url(#linearGradient4772)"
-        />
-        <path
-            id="path4028"
-            d="m759.12 781.92s-67.116 4.0213-100.71 4.0117c-33.122-0.009-99.286-4.0117-99.286-4.0117v-30.82s66.625-0.44028 100-0.44028 100 0.44028 100 0.44028z"
-            fill="url(#linearGradient4774)"
-        />
-        <path
-            id="path4094"
-            d="m559.12 751.42s66.625-0.0881 100-0.0881 100 0.0881 100 0.0881v6.1641s-66.625 0.0881-100 0.0881-100-0.0881-100-0.0881z"
-            fill="url(#linearGradient4776)"
-        />
-        <path
-            id="path4030"
-            opacity=".6"
-            d="m578.31 774.59s-4.7077 4.4108-7.066 4.4108-7.066-4.4108-7.066-4.4108v-308.75s4.7077-4.4108 7.066-4.4108 7.066 4.4108 7.066 4.4108z"
-            fill="url(#linearGradient4778)"
-        />
-        <path
-            id="path4032"
-            d="m592.95 776.61s-1.8474 4.4108-2.7728 4.4108c-0.92543 0-2.7728-4.4108-2.7728-4.4108v-308.75s1.8474-4.4108 2.7728-4.4108c0.92542 0 2.7728 4.4108 2.7728 4.4108z"
-            fill="url(#linearGradient4780)"
-        />
-        <path
-            id="path4034"
-            opacity=".6"
-            d="m735.24 773.67s-4.7077 4.4108-7.066 4.4108-7.066-4.4108-7.066-4.4108v-308.75s4.7077-4.4108 7.066-4.4108 7.066 4.4108 7.066 4.4108z"
-            fill="url(#linearGradient4782)"
-        />
-        <path
-            id="path4036"
-            opacity=".25306"
-            d="m659.12 502.84c-33.375 0-99.643-1.1101-99.643-1.1101l-0.35714 280.14c90.564-50.634 181.33-195.87 159.34-279.52-19.587-1.0415-44.114 0.49022-59.344 0.49022z"
-            fill="url(#linearGradient4784)"
-        />
-      </g
-      >
-    </g
-    >
-    <g
-        id="g4710"
-        transform="translate(8.0609 -4)"
-      >
-      <path
-          id="path4276"
-          opacity=".62996"
-          d="m281.83 528.12c0 8.0894-61.734 14.647-137.89 14.647-76.152 0-137.89-6.5578-137.89-14.647 0-8.0894 61.734-14.647 137.89-14.647 76.152 0 137.89 6.5578 137.89 14.647z"
-          transform="matrix(.80764 0 0 1 281.24 275.36)"
-          filter="url(#filter4272)"
-          fill="#4d4d4d"
-      />
-      <g
-          id="g4698"
-        >
-        <path
-            id="path3954"
-            d="m420.72 449.48s-15.476 0.20177-23.228 0.20177c-7.7525 0-23.228-0.20177-23.228-0.20177v-14.124s15.476-0.20178 23.228-0.20178c7.7525 0 23.228 0.20178 23.228 0.20178z"
-            fill="url(#linearGradient4750)"
-        />
-        <path
-            id="path3956"
-            d="m297.5 452.28s66.625-5 100-5 100 5 100 5v350s-66.625 5-100 5-100-5-100-5z"
-            fill="url(#linearGradient4752)"
-        />
-        <path
-            id="path3958"
-            d="m297.5 461.13s66.625-4.7615 100-4.7615 100 4.7615 100 4.7615v333.3s-66.625 4.7615-100 4.7615-100-4.7615-100-4.7615z"
-        />
-        <path
-            id="path3960"
-            d="m497.5 781.66s-66.625 4.4108-100 4.4108-100-4.4108-100-4.4108v-308.75s66.625-4.4108 100-4.4108 100 4.4108 100 4.4108z"
-            fill="url(#linearGradient4754)"
-        />
-        <path
-            id="path3962"
-            d="m497.5 780.55s-66.61 5.8104-100 5.8104-100-5.8104-100-5.8104v-106.73s66.625-1.5246 100-1.5246 100 1.5246 100 1.5246z"
-            fill="url(#linearGradient4756)"
-        />
-        <path
-            id="path4016"
-            d="m297.5 671.65s66.625-0.11166 100-0.11166 100 0.11166 100 0.11166v7.8164s-66.625 0.11166-100 0.11166-100-0.11166-100-0.11166z"
-            fill="url(#linearGradient4758)"
-        />
-        <path
-            id="path3964"
-            opacity=".6"
-            d="m316.68 775.6s-4.7077 4.4108-7.066 4.4108-7.066-4.4108-7.066-4.4108v-308.75s4.7077-4.4108 7.066-4.4108 7.066 4.4108 7.066 4.4108z"
-            fill="url(#linearGradient4760)"
-        />
-        <path
-            id="path3966"
-            d="m331.32 777.62s-1.8474 4.4108-2.7728 4.4108c-0.92543 0-2.7728-4.4108-2.7728-4.4108v-308.75s1.8474-4.4108 2.7728-4.4108c0.92542 0 2.7728 4.4108 2.7728 4.4108z"
-            fill="url(#linearGradient4762)"
-        />
-        <path
-            id="path3972"
-            opacity=".25306"
-            d="m397.5 499.05c-33.375 0-99.643-1.1101-99.643-1.1101l-0.35714 280.14c90.564-50.634 181.33-195.87 159.34-279.52-19.587-1.0415-44.114 0.49022-59.344 0.49022z"
-            fill="url(#linearGradient4764)"
-        />
-        <path
-            id="path4638"
-            opacity=".6"
-            d="m473.1 773.67s-4.7077 4.4108-7.066 4.4108-7.066-4.4108-7.066-4.4108v-308.75s4.7077-4.4108 7.066-4.4108 7.066 4.4108 7.066 4.4108z"
-            fill="url(#linearGradient4766)"
-        />
-      </g
-      >
-    </g
-    >
-    <g
-        id="g4684"
-        transform="translate(4.0203 -4)"
-      >
-      <path
-          id="path4250"
-          opacity=".62996"
-          d="m281.83 528.12c0 8.0894-61.734 14.647-137.89 14.647-76.152 0-137.89-6.5578-137.89-14.647 0-8.0894 61.734-14.647 137.89-14.647 76.152 0 137.89 6.5578 137.89 14.647z"
-          transform="matrix(.80764 0 0 1 27.69 275.36)"
-          filter="url(#filter4272)"
-          fill="#4d4d4d"
-      />
-      <g
-          id="g4672"
-        >
-        <path
-            id="path3946"
-            d="m167.18 449.48s-15.476 0.20177-23.228 0.20177c-7.7525 0-23.228-0.20177-23.228-0.20177v-14.124s15.476-0.20178 23.228-0.20178c7.7525 0 23.228 0.20178 23.228 0.20178z"
-            fill="url(#linearGradient4786)"
-        />
-        <path
-            id="rect2985"
-            d="m43.947 452.28s66.625-5 100-5 100 5 100 5v350s-66.625 5-100 5-100-5-100-5z"
-            fill="url(#linearGradient4788)"
-        />
-        <path
-            id="path3804"
-            d="m43.947 461.13s66.625-4.7615 100-4.7615 100 4.7615 100 4.7615v333.3s-66.625 4.7615-100 4.7615-100-4.7615-100-4.7615z"
-        />
-        <path
-            id="path3814"
-            d="m243.95 781.66s-66.625 4.4108-100 4.4108-100-4.4108-100-4.4108v-308.75s66.625-4.4108 100-4.4108 100 4.4108 100 4.4108z"
-            fill="url(#linearGradient4790)"
-        />
-        <path
-            id="path3897"
-            d="m242.86 782.43s-66.625 3.9337-100 3.9337-100-3.9337-100-3.9337v-275.36s66.625-3.9337 100-3.9337 100 3.9337 100 3.9337z"
-            fill="url(#linearGradient4792)"
-        />
-        <path
-            id="path3950"
-            d="m43.947 502.94s66.625-0.10357 100-0.10357 100 0.10357 100 0.10357v7.2496s-66.625 0.10357-100 0.10357-100-0.10357-100-0.10357z"
-            fill="url(#linearGradient4794)"
-        />
-        <path
-            id="path3889"
-            opacity=".6"
-            d="m63.129 775.6s-4.7077 4.4108-7.066 4.4108-7.066-4.4108-7.066-4.4108v-308.75s4.7077-4.4108 7.066-4.4108 7.066 4.4108 7.066 4.4108z"
-            fill="url(#linearGradient4796)"
-        />
-        <path
-            id="path3893"
-            d="m77.777 777.62s-1.8474 4.4108-2.7728 4.4108c-0.92543 0-2.7728-4.4108-2.7728-4.4108v-308.75s1.8474-4.4108 2.7728-4.4108c0.92543 0 2.7728 4.4108 2.7728 4.4108z"
-            fill="url(#linearGradient4798)"
-        />
-        <path
-            id="path3939"
-            opacity=".25306"
-            d="m143.95 503.85c-33.375 0-99.643-1.1101-99.643-1.1101l-0.36 280.14c90.563-50.63 181.33-195.87 159.34-279.52-19.587-1.0415-44.114 0.49022-59.344 0.49022z"
-            fill="#e5ffd5"
-        />
-        <path
-            id="path4642"
-            opacity=".6"
-            d="m214.52 773.67s-4.7077 4.4108-7.066 4.4108-7.066-4.4108-7.066-4.4108v-308.75s4.7077-4.4108 7.066-4.4108 7.066 4.4108 7.066 4.4108z"
-            fill="url(#linearGradient4800)"
-        />
-      </g
-      >
-    </g
-    >
-  </g
-  >
-  <metadata
-    >
-    <rdf:RDF
-      >
-      <cc:Work
-        >
-        <dc:format
-          >image/svg+xml</dc:format
-        >
-        <dc:type
-            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-        />
-        <cc:license
-            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
-        />
-        <dc:publisher
-          >
-          <cc:Agent
-              rdf:about="http://openclipart.org/"
-            >
-            <dc:title
-              >Openclipart</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:publisher
-        >
-        <dc:title
-          >Battery levels. Niveles de bater&#xC3;&#xAD;a</dc:title
-        >
-        <dc:date
-          >2013-06-17T18:26:55</dc:date
-        >
-        <dc:description
-          >Different levels of the battery. Diferentes niveles de  capacidad de la bater&#xC3;&#xAD;a.</dc:description
-        >
-        <dc:source
-          >https://openclipart.org/detail/179383/battery-levels.-niveles-de-bater&#xC3;&#xAD;a-by-ehecatl1138-179383</dc:source
-        >
-        <dc:creator
-          >
-          <cc:Agent
-            >
-            <dc:title
-              >Ehecatl1138</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:creator
-        >
-        <dc:subject
-          >
-          <rdf:Bag
-            >
-            <rdf:li
-              >aparato</rdf:li
-            >
-            <rdf:li
-              >bater&#xC3;&#xAD;a</rdf:li
-            >
-            <rdf:li
-              >battery</rdf:li
-            >
-            <rdf:li
-              >device</rdf:li
-            >
-            <rdf:li
-              >dispositivo</rdf:li
-            >
-            <rdf:li
-              >level</rdf:li
-            >
-            <rdf:li
-              >life</rdf:li
-            >
-            <rdf:li
-              >nivel</rdf:li
-            >
-            <rdf:li
-              >vida</rdf:li
-            >
-          </rdf:Bag
-          >
-        </dc:subject
-        >
-      </cc:Work
-      >
-      <cc:License
-          rdf:about="http://creativecommons.org/licenses/publicdomain/"
-        >
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Reproduction"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Distribution"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
-        />
-      </cc:License
-      >
-    </rdf:RDF
-    >
-  </metadata
-  >
-</svg
->
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://www.w3.org/1999/xlink" xmlns:ns3="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="885.4931510400002" id="svg2" version="1.1" viewBox="-62.38757391999996 -247.38586551999998 885.4931510399999 885.4931510400002" width="885.4931510399999">
+  <svg:title id="title4802">Battery levels. Niveles de bater&#237;a</svg:title>
+  <svg:defs id="defs4">
+    <svg:linearGradient id="linearGradient4084">
+      <svg:stop id="stop4086" offset="0" />
+      <svg:stop id="stop4088" offset="1" stop-opacity="0" />
+    </svg:linearGradient>
+    <svg:linearGradient id="linearGradient4056">
+      <svg:stop id="stop4058" offset="0" stop-color="#d40000" />
+      <svg:stop id="stop4062" offset=".12759" stop-color="#ff2a2a" />
+      <svg:stop id="stop4064" offset=".23462" stop-color="#ff2a2a" />
+      <svg:stop id="stop4066" offset=".35206" stop-color="#f00" />
+      <svg:stop id="stop4068" offset=".44898" stop-color="#f55" />
+      <svg:stop id="stop4070" offset=".57642" stop-color="#f55" />
+      <svg:stop id="stop4072" offset=".6785" stop-color="#a00" />
+      <svg:stop id="stop4082" offset=".76023" stop-color="#a00" />
+      <svg:stop id="stop4092" offset=".85211" stop-color="#d40000" />
+      <svg:stop id="stop4060" offset="1" stop-color="#500" />
+    </svg:linearGradient>
+    <svg:linearGradient id="linearGradient3994">
+      <svg:stop id="stop3996" offset="0" stop-color="#e5ffd5" />
+      <svg:stop id="stop3998" offset="1" stop-color="#e5ffd5" stop-opacity="0" />
+    </svg:linearGradient>
+    <svg:linearGradient id="linearGradient3986">
+      <svg:stop id="stop3988" offset="0" stop-color="#a80" />
+      <svg:stop id="stop4002" offset=".1081" stop-color="#fc0" />
+      <svg:stop id="stop4004" offset=".22426" stop-color="#fc0" />
+      <svg:stop id="stop4006" offset=".35053" stop-color="#fd5" />
+      <svg:stop id="stop4008" offset=".47175" stop-color="#fd5" />
+      <svg:stop id="stop4010" offset=".60307" stop-color="#d4aa00" />
+      <svg:stop id="stop4012" offset=".73944" stop-color="#fc0" />
+      <svg:stop id="stop4014" offset=".84551" stop-color="#d4aa00" />
+      <svg:stop id="stop3990" offset="1" stop-color="#a80" />
+    </svg:linearGradient>
+    <svg:linearGradient id="linearGradient3909">
+      <svg:stop id="stop3911" offset="0" stop-color="#fff" />
+      <svg:stop id="stop3913" offset="1" stop-color="#fff" stop-opacity="0" />
+    </svg:linearGradient>
+    <svg:linearGradient id="linearGradient3901">
+      <svg:stop id="stop3903" offset="0" stop-color="#4a0" />
+      <svg:stop id="stop3917" offset=".10101" stop-color="#55d400" />
+      <svg:stop id="stop3919" offset=".24747" stop-color="#55d400" />
+      <svg:stop id="stop3921" offset=".37879" stop-color="#9f5" />
+      <svg:stop id="stop3923" offset=".43434" stop-color="#9f5" />
+      <svg:stop id="stop3925" offset=".57576" stop-color="#4a0" />
+      <svg:stop id="stop3927" offset=".70707" stop-color="#4a0" />
+      <svg:stop id="stop3937" offset=".79293" stop-color="#4a0" />
+      <svg:stop id="stop3905" offset="1" stop-color="#112b00" />
+    </svg:linearGradient>
+    <svg:linearGradient id="linearGradient3863">
+      <svg:stop id="stop3865" offset="0" />
+      <svg:stop id="stop3867" offset=".0714" stop-color="#333" />
+      <svg:stop id="stop3869" offset=".15816" stop-color="#808080" />
+      <svg:stop id="stop3871" offset=".25005" stop-color="#e6e6e6" />
+      <svg:stop id="stop3873" offset=".35198" stop-color="#333" />
+      <svg:stop id="stop3875" offset=".46945" stop-color="#333" />
+      <svg:stop id="stop3877" offset=".56627" stop-color="#999" />
+      <svg:stop id="stop3879" offset=".62756" stop-color="#999" />
+      <svg:stop id="stop3881" offset=".71424" stop-color="#999" />
+      <svg:stop id="stop3883" offset=".82665" stop-color="#1a1a1a" />
+      <svg:stop id="stop3885" offset=".89796" stop-color="#1a1a1a" />
+      <svg:stop id="stop3887" offset="1" stop-color="#808080" />
+    </svg:linearGradient>
+    <svg:linearGradient id="linearGradient3776">
+      <svg:stop id="stop3778" offset="0" />
+      <svg:stop id="stop3800" offset=".11222" stop-color="#1a1a1a" />
+      <svg:stop id="stop3784" offset=".15816" stop-color="#808080" />
+      <svg:stop id="stop3786" offset=".20923" stop-color="#e6e6e6" />
+      <svg:stop id="stop3788" offset=".26527" stop-color="#e6e6e6" />
+      <svg:stop id="stop3790" offset=".37762" stop-color="#333" />
+      <svg:stop id="stop3802" offset=".50509" stop-color="#1a1a1a" />
+      <svg:stop id="stop3792" offset=".59185" stop-color="#333" />
+      <svg:stop id="stop3794" offset=".69383" stop-color="#b3b3b3" />
+      <svg:stop id="stop3796" offset=".72962" stop-color="#b3b3b3" />
+      <svg:stop id="stop3798" offset=".82654" stop-color="#1a1a1a" />
+      <svg:stop id="stop3780" offset="1" />
+    </svg:linearGradient>
+    <svg:filter color-interpolation-filters="sRGB" height="1.6248" id="filter4272" width="1.0664" x="-.033187" y="-.31241">
+      <svg:feGaussianBlur id="feGaussianBlur4274" stdDeviation="3.8133258" />
+    </svg:filter>
+    <svg:linearGradient gradientTransform="matrix(-.23228 0 0 -.040355 430.01 467.74)" gradientUnits="userSpaceOnUse" id="linearGradient4750" x1="40.406" x2="238.4" y1="616.99" y2="615.98" ns1:href="#linearGradient3776" />
+    <svg:linearGradient gradientTransform="translate(257.5 -.081602)" gradientUnits="userSpaceOnUse" id="linearGradient4752" x1="40.406" x2="238.4" y1="616.99" y2="615.98" ns1:href="#linearGradient3776" />
+    <svg:linearGradient gradientTransform="matrix(-1 0 0 -.88215 537.5 1180.7)" gradientUnits="userSpaceOnUse" id="linearGradient4754" x1="40.406" x2="238.4" y1="616.99" y2="615.98" ns1:href="#linearGradient3863" />
+    <svg:linearGradient gradientTransform="matrix(1 0 0 .38758 .91627 476.99)" gradientUnits="userSpaceOnUse" id="linearGradient4756" x1="296.58" x2="496.58" y1="645.54" y2="645.54" ns1:href="#linearGradient3986" />
+    <svg:linearGradient gradientTransform="matrix(-1 0 0 -.028386 794.07 693.88)" gradientUnits="userSpaceOnUse" id="linearGradient4758" x1="296.58" x2="496.58" y1="645.54" y2="645.54" ns1:href="#linearGradient3986" />
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="linearGradient4760" x1="317.86" x2="302.79" y1="487.36" y2="487.36">
+      <svg:stop id="stop4650" offset="0" stop-color="#fff" />
+      <svg:stop id="stop4652" offset="1" stop-color="#fff" stop-opacity="0" />
+    </svg:linearGradient>
+    <svg:linearGradient gradientTransform="translate(257.5 -.081602)" gradientUnits="userSpaceOnUse" id="linearGradient4762" x1="68.284" x2="73.83" y1="623.32" y2="623.32" ns1:href="#linearGradient3909" />
+    <svg:linearGradient gradientTransform="translate(.91627 -5.8996)" gradientUnits="userSpaceOnUse" id="linearGradient4764" x1="296.58" x2="459.25" y1="643.91" y2="643.91" ns1:href="#linearGradient3994" />
+    <svg:linearGradient gradientTransform="translate(-263.25 -3.5522)" gradientUnits="userSpaceOnUse" id="linearGradient4766" x1="722.21" x2="736.34" y1="622.84" y2="622.84" ns1:href="#linearGradient4084" />
+    <svg:linearGradient gradientTransform="matrix(-.23228 0 0 -.040355 691.64 466.73)" gradientUnits="userSpaceOnUse" id="linearGradient4768" x1="40.406" x2="238.4" y1="616.99" y2="615.98" ns1:href="#linearGradient3776" />
+    <svg:linearGradient gradientTransform="translate(519.12 -1.0917)" gradientUnits="userSpaceOnUse" id="linearGradient4770" x1="40.406" x2="238.4" y1="616.99" y2="615.98" ns1:href="#linearGradient3776" />
+    <svg:linearGradient gradientTransform="matrix(-1 0 0 -.88215 799.12 1179.7)" gradientUnits="userSpaceOnUse" id="linearGradient4772" x1="40.406" x2="238.4" y1="616.99" y2="615.98" ns1:href="#linearGradient3863" />
+    <svg:linearGradient gradientTransform="matrix(1 0 0 .19567 -1.104 628.73)" gradientUnits="userSpaceOnUse" id="linearGradient4774" x1="561.64" x2="759.63" y1="707.9" y2="705.88" ns1:href="#linearGradient4056" />
+    <svg:linearGradient gradientTransform="matrix(-1 0 0 -.039135 1319.4 782.06)" gradientUnits="userSpaceOnUse" id="linearGradient4776" x1="561.64" x2="759.63" y1="707.9" y2="705.88" ns1:href="#linearGradient4056" />
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="linearGradient4778" x1="577.86" x2="564.27" y1="485.22" y2="485.22">
+      <svg:stop id="stop4658" offset="0" stop-color="#fff" />
+      <svg:stop id="stop4660" offset="1" stop-color="#fff" stop-opacity="0" />
+    </svg:linearGradient>
+    <svg:linearGradient gradientTransform="translate(519.12 -1.0917)" gradientUnits="userSpaceOnUse" id="linearGradient4780" x1="68.284" x2="73.83" y1="623.32" y2="623.32" ns1:href="#linearGradient3909" />
+    <svg:linearGradient gradientTransform="translate(-1.104 -3.5522)" gradientUnits="userSpaceOnUse" id="linearGradient4782" x1="722.21" x2="736.34" y1="622.84" y2="622.84" ns1:href="#linearGradient4084" />
+    <svg:linearGradient gradientTransform="translate(262.55 -2.1019)" gradientUnits="userSpaceOnUse" id="linearGradient4784" x1="560.23" x2="722.9" y1="641.89" y2="641.89" ns1:href="#linearGradient3994" />
+    <svg:linearGradient gradientTransform="matrix(-.23228 0 0 -.040355 176.47 467.74)" gradientUnits="userSpaceOnUse" id="linearGradient4786" x1="40.406" x2="238.4" y1="616.99" y2="615.98" ns1:href="#linearGradient3776" />
+    <svg:linearGradient gradientTransform="translate(3.9467 -.081604)" gradientUnits="userSpaceOnUse" id="linearGradient4788" x1="40.406" x2="238.4" y1="616.99" y2="615.98" ns1:href="#linearGradient3776" />
+    <svg:linearGradient gradientTransform="matrix(-1 0 0 -.88215 283.95 1180.7)" gradientUnits="userSpaceOnUse" id="linearGradient4790" x1="40.406" x2="238.4" y1="616.99" y2="615.98" ns1:href="#linearGradient3863" />
+    <svg:linearGradient gradientTransform="translate(2.8571 .21320)" gradientUnits="userSpaceOnUse" id="linearGradient4792" x1="40.406" x2="240.42" y1="623.05" y2="623.05" ns1:href="#linearGradient3901" />
+    <svg:linearGradient gradientTransform="matrix(-1 0 0 -.026328 283.95 523.54)" gradientUnits="userSpaceOnUse" id="linearGradient4794" x1="40.406" x2="240.42" y1="623.05" y2="623.05" ns1:href="#linearGradient3901" />
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="linearGradient4796" x1="61.429" x2="47.857" y1="490.22" y2="490.22">
+      <svg:stop id="stop4666" offset="0" stop-color="#fff" />
+      <svg:stop id="stop4668" offset="1" stop-color="#fff" stop-opacity="0" />
+    </svg:linearGradient>
+    <svg:linearGradient gradientTransform="translate(3.9467 -.081604)" gradientUnits="userSpaceOnUse" id="linearGradient4798" x1="68.284" x2="73.83" y1="623.32" y2="623.32" ns1:href="#linearGradient3909" />
+    <svg:linearGradient gradientTransform="translate(-521.82 -3.5522)" gradientUnits="userSpaceOnUse" id="linearGradient4800" x1="722.21" x2="736.34" y1="622.84" y2="622.84" ns1:href="#linearGradient4084" />
+  </svg:defs>
+  <svg:g id="layer1" transform="translate(-25.193 -427.28)">
+    <svg:g id="g4736" transform="translate(4.0203 -2.9898)">
+      <svg:path d="m281.83 528.12c0 8.0894-61.734 14.647-137.89 14.647-76.152 0-137.89-6.5578-137.89-14.647 0-8.0894 61.734-14.647 137.89-14.647 76.152 0 137.89 6.5578 137.89 14.647z" fill="#4d4d4d" filter="url(#filter4272)" id="path4278" opacity=".62996" transform="matrix(.80764 0 0 1 542.87 274.35)" />
+      <svg:g id="g4724">
+        <svg:path d="m682.35 448.47s-15.476 0.20177-23.228 0.20177c-7.7525 0-23.228-0.20177-23.228-0.20177v-14.124s15.476-0.20178 23.228-0.20178c7.7525 0 23.228 0.20178 23.228 0.20178z" fill="url(#linearGradient4768)" id="path4020" />
+        <svg:path d="m559.12 451.27s66.625-5 100-5 100 5 100 5v350s-66.625 5-100 5-100-5-100-5z" fill="url(#linearGradient4770)" id="path4022" />
+        <svg:path d="m559.12 460.12s66.625-4.7615 100-4.7615 100 4.7615 100 4.7615v333.3s-66.625 4.7615-100 4.7615-100-4.7615-100-4.7615z" id="path4024" />
+        <svg:path d="m759.12 780.65s-66.625 4.4108-100 4.4108-100-4.4108-100-4.4108v-308.75s66.625-4.4108 100-4.4108 100 4.4108 100 4.4108z" fill="url(#linearGradient4772)" id="path4026" />
+        <svg:path d="m759.12 781.92s-67.116 4.0213-100.71 4.0117c-33.122-0.009-99.286-4.0117-99.286-4.0117v-30.82s66.625-0.44028 100-0.44028 100 0.44028 100 0.44028z" fill="url(#linearGradient4774)" id="path4028" />
+        <svg:path d="m559.12 751.42s66.625-0.0881 100-0.0881 100 0.0881 100 0.0881v6.1641s-66.625 0.0881-100 0.0881-100-0.0881-100-0.0881z" fill="url(#linearGradient4776)" id="path4094" />
+        <svg:path d="m578.31 774.59s-4.7077 4.4108-7.066 4.4108-7.066-4.4108-7.066-4.4108v-308.75s4.7077-4.4108 7.066-4.4108 7.066 4.4108 7.066 4.4108z" fill="url(#linearGradient4778)" id="path4030" opacity=".6" />
+        <svg:path d="m592.95 776.61s-1.8474 4.4108-2.7728 4.4108c-0.92543 0-2.7728-4.4108-2.7728-4.4108v-308.75s1.8474-4.4108 2.7728-4.4108c0.92542 0 2.7728 4.4108 2.7728 4.4108z" fill="url(#linearGradient4780)" id="path4032" />
+        <svg:path d="m735.24 773.67s-4.7077 4.4108-7.066 4.4108-7.066-4.4108-7.066-4.4108v-308.75s4.7077-4.4108 7.066-4.4108 7.066 4.4108 7.066 4.4108z" fill="url(#linearGradient4782)" id="path4034" opacity=".6" />
+        <svg:path d="m659.12 502.84c-33.375 0-99.643-1.1101-99.643-1.1101l-0.35714 280.14c90.564-50.634 181.33-195.87 159.34-279.52-19.587-1.0415-44.114 0.49022-59.344 0.49022z" fill="url(#linearGradient4784)" id="path4036" opacity=".25306" />
+      </svg:g>
+    </svg:g>
+    <svg:g id="g4710" transform="translate(8.0609 -4)">
+      <svg:path d="m281.83 528.12c0 8.0894-61.734 14.647-137.89 14.647-76.152 0-137.89-6.5578-137.89-14.647 0-8.0894 61.734-14.647 137.89-14.647 76.152 0 137.89 6.5578 137.89 14.647z" fill="#4d4d4d" filter="url(#filter4272)" id="path4276" opacity=".62996" transform="matrix(.80764 0 0 1 281.24 275.36)" />
+      <svg:g id="g4698">
+        <svg:path d="m420.72 449.48s-15.476 0.20177-23.228 0.20177c-7.7525 0-23.228-0.20177-23.228-0.20177v-14.124s15.476-0.20178 23.228-0.20178c7.7525 0 23.228 0.20178 23.228 0.20178z" fill="url(#linearGradient4750)" id="path3954" />
+        <svg:path d="m297.5 452.28s66.625-5 100-5 100 5 100 5v350s-66.625 5-100 5-100-5-100-5z" fill="url(#linearGradient4752)" id="path3956" />
+        <svg:path d="m297.5 461.13s66.625-4.7615 100-4.7615 100 4.7615 100 4.7615v333.3s-66.625 4.7615-100 4.7615-100-4.7615-100-4.7615z" id="path3958" />
+        <svg:path d="m497.5 781.66s-66.625 4.4108-100 4.4108-100-4.4108-100-4.4108v-308.75s66.625-4.4108 100-4.4108 100 4.4108 100 4.4108z" fill="url(#linearGradient4754)" id="path3960" />
+        <svg:path d="m497.5 780.55s-66.61 5.8104-100 5.8104-100-5.8104-100-5.8104v-106.73s66.625-1.5246 100-1.5246 100 1.5246 100 1.5246z" fill="url(#linearGradient4756)" id="path3962" />
+        <svg:path d="m297.5 671.65s66.625-0.11166 100-0.11166 100 0.11166 100 0.11166v7.8164s-66.625 0.11166-100 0.11166-100-0.11166-100-0.11166z" fill="url(#linearGradient4758)" id="path4016" />
+        <svg:path d="m316.68 775.6s-4.7077 4.4108-7.066 4.4108-7.066-4.4108-7.066-4.4108v-308.75s4.7077-4.4108 7.066-4.4108 7.066 4.4108 7.066 4.4108z" fill="url(#linearGradient4760)" id="path3964" opacity=".6" />
+        <svg:path d="m331.32 777.62s-1.8474 4.4108-2.7728 4.4108c-0.92543 0-2.7728-4.4108-2.7728-4.4108v-308.75s1.8474-4.4108 2.7728-4.4108c0.92542 0 2.7728 4.4108 2.7728 4.4108z" fill="url(#linearGradient4762)" id="path3966" />
+        <svg:path d="m397.5 499.05c-33.375 0-99.643-1.1101-99.643-1.1101l-0.35714 280.14c90.564-50.634 181.33-195.87 159.34-279.52-19.587-1.0415-44.114 0.49022-59.344 0.49022z" fill="url(#linearGradient4764)" id="path3972" opacity=".25306" />
+        <svg:path d="m473.1 773.67s-4.7077 4.4108-7.066 4.4108-7.066-4.4108-7.066-4.4108v-308.75s4.7077-4.4108 7.066-4.4108 7.066 4.4108 7.066 4.4108z" fill="url(#linearGradient4766)" id="path4638" opacity=".6" />
+      </svg:g>
+    </svg:g>
+    <svg:g id="g4684" transform="translate(4.0203 -4)">
+      <svg:path d="m281.83 528.12c0 8.0894-61.734 14.647-137.89 14.647-76.152 0-137.89-6.5578-137.89-14.647 0-8.0894 61.734-14.647 137.89-14.647 76.152 0 137.89 6.5578 137.89 14.647z" fill="#4d4d4d" filter="url(#filter4272)" id="path4250" opacity=".62996" transform="matrix(.80764 0 0 1 27.69 275.36)" />
+      <svg:g id="g4672">
+        <svg:path d="m167.18 449.48s-15.476 0.20177-23.228 0.20177c-7.7525 0-23.228-0.20177-23.228-0.20177v-14.124s15.476-0.20178 23.228-0.20178c7.7525 0 23.228 0.20178 23.228 0.20178z" fill="url(#linearGradient4786)" id="path3946" />
+        <svg:path d="m43.947 452.28s66.625-5 100-5 100 5 100 5v350s-66.625 5-100 5-100-5-100-5z" fill="url(#linearGradient4788)" id="rect2985" />
+        <svg:path d="m43.947 461.13s66.625-4.7615 100-4.7615 100 4.7615 100 4.7615v333.3s-66.625 4.7615-100 4.7615-100-4.7615-100-4.7615z" id="path3804" />
+        <svg:path d="m243.95 781.66s-66.625 4.4108-100 4.4108-100-4.4108-100-4.4108v-308.75s66.625-4.4108 100-4.4108 100 4.4108 100 4.4108z" fill="url(#linearGradient4790)" id="path3814" />
+        <svg:path d="m242.86 782.43s-66.625 3.9337-100 3.9337-100-3.9337-100-3.9337v-275.36s66.625-3.9337 100-3.9337 100 3.9337 100 3.9337z" fill="url(#linearGradient4792)" id="path3897" />
+        <svg:path d="m43.947 502.94s66.625-0.10357 100-0.10357 100 0.10357 100 0.10357v7.2496s-66.625 0.10357-100 0.10357-100-0.10357-100-0.10357z" fill="url(#linearGradient4794)" id="path3950" />
+        <svg:path d="m63.129 775.6s-4.7077 4.4108-7.066 4.4108-7.066-4.4108-7.066-4.4108v-308.75s4.7077-4.4108 7.066-4.4108 7.066 4.4108 7.066 4.4108z" fill="url(#linearGradient4796)" id="path3889" opacity=".6" />
+        <svg:path d="m77.777 777.62s-1.8474 4.4108-2.7728 4.4108c-0.92543 0-2.7728-4.4108-2.7728-4.4108v-308.75s1.8474-4.4108 2.7728-4.4108c0.92543 0 2.7728 4.4108 2.7728 4.4108z" fill="url(#linearGradient4798)" id="path3893" />
+        <svg:path d="m143.95 503.85c-33.375 0-99.643-1.1101-99.643-1.1101l-0.36 280.14c90.563-50.63 181.33-195.87 159.34-279.52-19.587-1.0415-44.114 0.49022-59.344 0.49022z" fill="#e5ffd5" id="path3939" opacity=".25306" />
+        <svg:path d="m214.52 773.67s-4.7077 4.4108-7.066 4.4108-7.066-4.4108-7.066-4.4108v-308.75s4.7077-4.4108 7.066-4.4108 7.066 4.4108 7.066 4.4108z" fill="url(#linearGradient4800)" id="path4642" opacity=".6" />
+      </svg:g>
+    </svg:g>
+  </svg:g>
+  <svg:metadata>
+    <rdf:RDF>
+      <ns3:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns3:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <ns3:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </ns3:Agent>
+        </dc:publisher>
+        <dc:title>Battery levels. Niveles de bater&#195;&#173;a</dc:title>
+        <dc:date>2013-06-17T18:26:55</dc:date>
+        <dc:description>Different levels of the battery. Diferentes niveles de  capacidad de la bater&#195;&#173;a.</dc:description>
+        <dc:source>https://openclipart.org/detail/179383/battery-levels.-niveles-de-bater&#195;&#173;a-by-ehecatl1138-179383</dc:source>
+        <dc:creator>
+          <ns3:Agent>
+            <dc:title>Ehecatl1138</dc:title>
+          </ns3:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>aparato</rdf:li>
+            <rdf:li>bater&#195;&#173;a</rdf:li>
+            <rdf:li>battery</rdf:li>
+            <rdf:li>device</rdf:li>
+            <rdf:li>dispositivo</rdf:li>
+            <rdf:li>level</rdf:li>
+            <rdf:li>life</rdf:li>
+            <rdf:li>nivel</rdf:li>
+            <rdf:li>vida</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </ns3:Work>
+      <ns3:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns3:License>
+    </rdf:RDF>
+  </svg:metadata>
+</svg:svg>

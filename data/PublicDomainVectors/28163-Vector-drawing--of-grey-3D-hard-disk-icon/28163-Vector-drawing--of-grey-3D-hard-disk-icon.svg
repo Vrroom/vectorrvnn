@@ -1,307 +1,61 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-<svg
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    xmlns:ns1="http://sozi.baierouge.fr"
-    xmlns:cc="http://creativecommons.org/ns#"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    id="svg7594"
-    inkscape:export-ydpi="238.12793"
-    inkscape:export-filename="/home/fabio/Desktop/disk.png"
-    viewBox="0 0 36.54875 29.716534"
-    sodipodi:version="0.32"
-    inkscape:export-xdpi="238.12793"
-    version="1.0"
-    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-    inkscape:version="0.48.3.1 r9886"
-    sodipodi:docname="disk.svg"
-  >
-  <defs
-      id="defs3080"
-    >
-    <linearGradient
-        id="linearGradient5605"
-        y2="-3.7362"
-        gradientUnits="userSpaceOnUse"
-        x2="24.286"
-        y1="-2.1737"
-        x1="23.121"
-        inkscape:collect="always"
-      >
-      <stop
-          id="stop5601"
-          style="stop-color:#a2f8be"
-          offset="0"
-      />
-      <stop
-          id="stop5603"
-          style="stop-color:#ffffff"
-          offset="1"
-      />
-    </linearGradient
-    >
-  </defs
-  >
-  <sodipodi:namedview
-      id="base"
-      fit-margin-left="5"
-      inkscape:zoom="16"
-      borderopacity="1.0"
-      inkscape:current-layer="layer1"
-      inkscape:cx="24.601303"
-      inkscape:cy="15.155604"
-      inkscape:window-maximized="1"
-      showgrid="true"
-      fit-margin-right="5"
-      inkscape:guide-bbox="true"
-      inkscape:document-units="px"
-      bordercolor="#666666"
-      inkscape:window-x="-4"
-      inkscape:window-y="-4"
-      fit-margin-bottom="5"
-      inkscape:window-width="1024"
-      inkscape:pageopacity="0.0"
-      inkscape:pageshadow="2"
-      pagecolor="#ffffff"
-      showguides="true"
-      inkscape:window-height="580"
-      fit-margin-top="5"
-    >
-    <inkscape:grid
-        id="grid3902"
-        originy="-1.206667mm"
-        enabled="false"
-        originx="-0.7315378mm"
-        spacingy="0.2mm"
-        visible="true"
-        snapvisiblegridlinesonly="true"
-        units="mm"
-        type="axonomgrid"
-        empspacing="5"
-    />
-  </sodipodi:namedview
-  >
-  <g
-      id="layer3"
-      style="display:none"
-      inkscape:label="board"
-      transform="translate(-10.523 .71063)"
-      inkscape:groupmode="layer"
-      sodipodi:insensitive="true"
-    >
-    <g
-        id="g3146"
-      >
-      <path
-          id="path4151-1-8"
-          style="fill-rule:evenodd;fill:#078d13"
-          d="m4.296 4.7638v2.126l1.8412 1.063v-2.126z"
-          sodipodi:nodetypes="ccccc"
-          transform="translate(7.9314 13.281)"
-          inkscape:connector-curvature="0"
-      />
-      <path
-          id="path4155"
-          style="fill-rule:evenodd;fill:#2ec02a"
-          d="m3.0686 7.5984 3.0686-1.7716-1.8412-1.063c2.0458-1.1811 4.0915-2.3622 6.137-3.5433l17.184 9.9213-6.1372 3.5433-6.1372-3.5433-3.0686 1.7717z"
-          sodipodi:nodetypes="ccccccccc"
-          transform="translate(7.9314 13.281)"
-          inkscape:connector-curvature="0"
-      />
-      <path
-          id="path4151"
-          style="fill-rule:evenodd;fill:#078d13"
-          d="m3.0686 7.5984v2.126l9.2058 5.315v-2.126z"
-          sodipodi:nodetypes="ccccc"
-          transform="translate(7.9314 13.281)"
-          inkscape:connector-curvature="0"
-      />
-      <path
-          id="path4153-5"
-          style="fill-rule:evenodd;fill:#35ff46"
-          d="m12.274 12.913 3.0686-1.7717v2.126l-3.0686 1.7717z"
-          sodipodi:nodetypes="ccccc"
-          inkscape:connector-curvature="0"
-          transform="translate(7.9314 13.281)"
-      />
-      <path
-          id="path4151-1"
-          style="fill-rule:evenodd;fill:#078d13"
-          d="m15.343 11.142v2.126l6.1372 3.5433v-2.126z"
-          sodipodi:nodetypes="ccccc"
-          transform="translate(7.9314 13.281)"
-          inkscape:connector-curvature="0"
-      />
-      <path
-          id="path4153"
-          style="fill-rule:evenodd;fill:#35ff46"
-          d="m21.48 14.685 6.1372-3.5433v2.126l-6.1372 3.5433z"
-          sodipodi:nodetypes="ccccc"
-          inkscape:connector-curvature="0"
-          transform="translate(7.9314 13.281)"
-      />
-    </g
-    >
-  </g
-  >
-  <g
-      id="layer1"
-      inkscape:label="cpu"
-      inkscape:groupmode="layer"
-      transform="translate(-2.5921 13.992)"
-    >
-    <g
-        id="g3480"
-      >
-      <path
-          id="path4254"
-          style="stroke:#000000;stroke-width:2;fill:none"
-          d="m23.935-7.9921 9.2058 5.315v3.5433l-15.343 8.8583-9.2058-5.315v-3.5433z"
-          sodipodi:nodetypes="ccccccc"
-          inkscape:connector-curvature="0"
-          transform="translate(3.4635e-7 .0000011597)"
-      />
-      <g
-          id="g4812"
-          transform="translate(4.2113e-8 3.5433)"
-        >
-        <path
-            id="path4058"
-            sodipodi:nodetypes="ccccc"
-            style="fill:#4f4f4f"
-            inkscape:connector-curvature="0"
-            d="m23.935-11.535 9.206 5.3145-15.343 8.8583-9.2059-5.315z"
-        />
-        <path
-            id="path4058-6"
-            sodipodi:nodetypes="ccccc"
-            style="fill:#3a3737"
-            inkscape:connector-curvature="0"
-            d="m8.5921-2.6772 9.2059 5.315v3.5433l-9.2059-5.315z"
-        />
-        <path
-            id="path3463"
-            sodipodi:nodetypes="ccccc"
-            inkscape:connector-curvature="0"
-            style="fill:#717171"
-            d="m33.141-6.2205-15.343 8.8583-0.000001 3.5433 15.343-8.8583z"
-        />
-      </g
-      >
-      <path
-          id="path5476"
-          style="fill:#1b18c6"
-          d="m7.5451 11.984 14.116-8.1494 7.978 4.6063-14.116 8.1501z"
-          sodipodi:nodetypes="ccccc"
-          transform="translate(2.2744 -11.118)"
-          inkscape:connector-curvature="0"
-      />
-      <path
-          id="path5476-8"
-          d="m10.433 1.2205 13.502-7.7953 7.365 4.252-13.502 7.7952z"
-          sodipodi:nodetypes="ccccc"
-          style="fill:#7472e5"
-          inkscape:connector-curvature="0"
-      />
-      <g
-          id="g3474"
-        >
-        <path
-            id="path5578"
-            sodipodi:nodetypes="sccssssss"
-            style="fill:url(#linearGradient5605)"
-            inkscape:connector-curvature="0"
-            d="m27.599-1.0898c0 0.41106-0.11163 0.78283-0.31349 1.1031l-2.124 1.2072c-0.47726 0.065848-1.002 0.055917-1.5528-0.041956-1.1016-0.19574-2.0989-0.70619-2.8208-1.3732-0.7219-0.66704-1.1684-1.4907-1.1684-2.3128 0-1.6443 1.786-2.6598 3.9892-2.2683 1.1016 0.19574 2.0989 0.70619 2.8208 1.3732 0.7219 0.66704 1.1684 1.4907 1.1684 2.3128z"
-        />
-        <path
-            id="path5578-1"
-            sodipodi:nodetypes="sccssssss"
-            style="fill:#a4a4a4"
-            inkscape:connector-curvature="0"
-            d="m25.327-1.6495c0 0.16338-0.04705 0.31114-0.13213 0.43846-0.10638 0.23739-0.53298 0.456-0.89478 0.47979-0.20116 0.026172-0.42232 0.022225-0.65447-0.016676-0.4643-0.0778-0.88464-0.28068-1.1889-0.5458-0.30427-0.26512-0.49246-0.59248-0.49246-0.91924 0-0.65352 0.75278-1.0572 1.6814-0.90157 0.4643 0.0778 0.88464 0.28068 1.1889 0.5458 0.30427 0.26512 0.49246 0.59248 0.49246 0.91924z"
-        />
-        <path
-            id="path5578-1-7"
-            sodipodi:nodetypes="sccssssss"
-            style="fill:#2c5d78"
-            inkscape:connector-curvature="0"
-            d="m24.143-1.8688c0 0.054063-0.01557 0.10296-0.04372 0.14509-0.0352 0.078553-0.17637 0.15089-0.29609 0.15876-0.06656 0.00866-0.13975 0.00735-0.21657-0.00552-0.15364-0.025744-0.29273-0.092879-0.39342-0.18061-0.10068-0.08773-0.16296-0.19606-0.16296-0.30418 0-0.21625 0.2491-0.34982 0.55638-0.29833 0.15364 0.025744 0.29273 0.092879 0.39342 0.18061 0.10068 0.08773 0.16296 0.19606 0.16296 0.30418z"
-        />
-      </g
-      >
-      <g
-          id="g3470"
-        >
-        <path
-            id="path5625-3"
-            sodipodi:nodetypes="czaccc"
-            style="fill:#cccccc"
-            inkscape:connector-curvature="0"
-            d="m16.122 2.5453s6.8186-2.1634 6.6875-2.75c-0.13105-0.58661-3.5632 0.83748-5.375 0.8125-0.8254-0.01138-2.4375-0.4375-2.4375-0.4375l-0.875 0.75z"
-        />
-        <path
-            id="path5625"
-            sodipodi:nodetypes="czaccc"
-            style="fill:#ffffff"
-            inkscape:connector-curvature="0"
-            d="m15.962 2.1614s6.8185-2.1634 6.6875-2.75c-0.13105-0.58661-3.5632 0.83748-5.375 0.8125-0.8254-0.01138-2.4375-0.4375-2.4375-0.4375l-0.875 0.75z"
-        />
-      </g
-      >
-    </g
-    >
-  </g
-  >
-  <metadata
-    >
-    <rdf:RDF
-      >
-      <cc:Work
-        >
-        <dc:format
-          >image/svg+xml</dc:format
-        >
-        <dc:type
-            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-        />
-        <cc:license
-            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
-        />
-        <dc:publisher
-          >
-          <cc:Agent
-              rdf:about="http://openclipart.org/"
-            >
-            <dc:title
-              >Openclipart</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:publisher
-        >
-      </cc:Work
-      >
-      <cc:License
-          rdf:about="http://creativecommons.org/licenses/publicdomain/"
-        >
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Reproduction"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Distribution"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
-        />
-      </cc:License
-      >
-    </rdf:RDF
-    >
-  </metadata
-  >
-</svg
->
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:ns2="http://www.inkscape.org/namespaces/inkscape" xmlns:ns4="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="36.08628005053559" id="svg7594" version="1.0" viewBox="-2.5301900042112986 0.3582755545822023 36.08628005053559 36.08628005053559" width="36.08628005053559" ns1:docname="disk.svg" ns1:version="0.32" ns2:export-filename="/home/fabio/Desktop/disk.png" ns2:export-xdpi="238.12793" ns2:export-ydpi="238.12793" ns2:output_extension="org.inkscape.output.svg.inkscape" ns2:version="0.48.3.1 r9886">
+  <svg:defs id="defs3080">
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="linearGradient5605" x1="23.121" x2="24.286" y1="-2.1737" y2="-3.7362" ns2:collect="always">
+      <svg:stop id="stop5601" offset="0" style="stop-color:#a2f8be" />
+      <svg:stop id="stop5603" offset="1" style="stop-color:#ffffff" />
+    </svg:linearGradient>
+  </svg:defs>
+  <ns1:namedview bordercolor="#666666" borderopacity="1.0" fit-margin-bottom="5" fit-margin-left="5" fit-margin-right="5" fit-margin-top="5" id="base" pagecolor="#ffffff" showgrid="true" showguides="true" ns2:current-layer="layer1" ns2:cx="24.601303" ns2:cy="15.155604" ns2:document-units="px" ns2:guide-bbox="true" ns2:pageopacity="0.0" ns2:pageshadow="2" ns2:window-height="580" ns2:window-maximized="1" ns2:window-width="1024" ns2:window-x="-4" ns2:window-y="-4" ns2:zoom="16">
+    <ns2:grid empspacing="5" enabled="false" id="grid3902" originx="-0.7315378mm" originy="-1.206667mm" snapvisiblegridlinesonly="true" spacingy="0.2mm" type="axonomgrid" units="mm" visible="true" />
+  </ns1:namedview>
+  <svg:g id="layer3" style="display:none" transform="translate(-10.523 .71063)" ns1:insensitive="true" ns2:groupmode="layer" ns2:label="board">
+    <svg:g id="g3146">
+      <svg:path d="m4.296 4.7638v2.126l1.8412 1.063v-2.126z" id="path4151-1-8" style="fill-rule:evenodd;fill:#078d13" transform="translate(7.9314 13.281)" ns1:nodetypes="ccccc" ns2:connector-curvature="0" />
+      <svg:path d="m3.0686 7.5984 3.0686-1.7716-1.8412-1.063c2.0458-1.1811 4.0915-2.3622 6.137-3.5433l17.184 9.9213-6.1372 3.5433-6.1372-3.5433-3.0686 1.7717z" id="path4155" style="fill-rule:evenodd;fill:#2ec02a" transform="translate(7.9314 13.281)" ns1:nodetypes="ccccccccc" ns2:connector-curvature="0" />
+      <svg:path d="m3.0686 7.5984v2.126l9.2058 5.315v-2.126z" id="path4151" style="fill-rule:evenodd;fill:#078d13" transform="translate(7.9314 13.281)" ns1:nodetypes="ccccc" ns2:connector-curvature="0" />
+      <svg:path d="m12.274 12.913 3.0686-1.7717v2.126l-3.0686 1.7717z" id="path4153-5" style="fill-rule:evenodd;fill:#35ff46" transform="translate(7.9314 13.281)" ns1:nodetypes="ccccc" ns2:connector-curvature="0" />
+      <svg:path d="m15.343 11.142v2.126l6.1372 3.5433v-2.126z" id="path4151-1" style="fill-rule:evenodd;fill:#078d13" transform="translate(7.9314 13.281)" ns1:nodetypes="ccccc" ns2:connector-curvature="0" />
+      <svg:path d="m21.48 14.685 6.1372-3.5433v2.126l-6.1372 3.5433z" id="path4153" style="fill-rule:evenodd;fill:#35ff46" transform="translate(7.9314 13.281)" ns1:nodetypes="ccccc" ns2:connector-curvature="0" />
+    </svg:g>
+  </svg:g>
+  <svg:g id="layer1" transform="translate(-2.5921 13.992)" ns2:groupmode="layer" ns2:label="cpu">
+    <svg:g id="g3480">
+      <svg:path d="m23.935-7.9921 9.2058 5.315v3.5433l-15.343 8.8583-9.2058-5.315v-3.5433z" id="path4254" style="stroke:#000000;stroke-width:2;fill:none" transform="translate(3.4635e-7 .0000011597)" ns1:nodetypes="ccccccc" ns2:connector-curvature="0" />
+      <svg:g id="g4812" transform="translate(4.2113e-8 3.5433)">
+        <svg:path d="m23.935-11.535 9.206 5.3145-15.343 8.8583-9.2059-5.315z" id="path4058" style="fill:#4f4f4f" ns1:nodetypes="ccccc" ns2:connector-curvature="0" />
+        <svg:path d="m8.5921-2.6772 9.2059 5.315v3.5433l-9.2059-5.315z" id="path4058-6" style="fill:#3a3737" ns1:nodetypes="ccccc" ns2:connector-curvature="0" />
+        <svg:path d="m33.141-6.2205-15.343 8.8583-0.000001 3.5433 15.343-8.8583z" id="path3463" style="fill:#717171" ns1:nodetypes="ccccc" ns2:connector-curvature="0" />
+      </svg:g>
+      <svg:path d="m7.5451 11.984 14.116-8.1494 7.978 4.6063-14.116 8.1501z" id="path5476" style="fill:#1b18c6" transform="translate(2.2744 -11.118)" ns1:nodetypes="ccccc" ns2:connector-curvature="0" />
+      <svg:path d="m10.433 1.2205 13.502-7.7953 7.365 4.252-13.502 7.7952z" id="path5476-8" style="fill:#7472e5" ns1:nodetypes="ccccc" ns2:connector-curvature="0" />
+      <svg:g id="g3474">
+        <svg:path d="m27.599-1.0898c0 0.41106-0.11163 0.78283-0.31349 1.1031l-2.124 1.2072c-0.47726 0.065848-1.002 0.055917-1.5528-0.041956-1.1016-0.19574-2.0989-0.70619-2.8208-1.3732-0.7219-0.66704-1.1684-1.4907-1.1684-2.3128 0-1.6443 1.786-2.6598 3.9892-2.2683 1.1016 0.19574 2.0989 0.70619 2.8208 1.3732 0.7219 0.66704 1.1684 1.4907 1.1684 2.3128z" id="path5578" style="fill:url(#linearGradient5605)" ns1:nodetypes="sccssssss" ns2:connector-curvature="0" />
+        <svg:path d="m25.327-1.6495c0 0.16338-0.04705 0.31114-0.13213 0.43846-0.10638 0.23739-0.53298 0.456-0.89478 0.47979-0.20116 0.026172-0.42232 0.022225-0.65447-0.016676-0.4643-0.0778-0.88464-0.28068-1.1889-0.5458-0.30427-0.26512-0.49246-0.59248-0.49246-0.91924 0-0.65352 0.75278-1.0572 1.6814-0.90157 0.4643 0.0778 0.88464 0.28068 1.1889 0.5458 0.30427 0.26512 0.49246 0.59248 0.49246 0.91924z" id="path5578-1" style="fill:#a4a4a4" ns1:nodetypes="sccssssss" ns2:connector-curvature="0" />
+        <svg:path d="m24.143-1.8688c0 0.054063-0.01557 0.10296-0.04372 0.14509-0.0352 0.078553-0.17637 0.15089-0.29609 0.15876-0.06656 0.00866-0.13975 0.00735-0.21657-0.00552-0.15364-0.025744-0.29273-0.092879-0.39342-0.18061-0.10068-0.08773-0.16296-0.19606-0.16296-0.30418 0-0.21625 0.2491-0.34982 0.55638-0.29833 0.15364 0.025744 0.29273 0.092879 0.39342 0.18061 0.10068 0.08773 0.16296 0.19606 0.16296 0.30418z" id="path5578-1-7" style="fill:#2c5d78" ns1:nodetypes="sccssssss" ns2:connector-curvature="0" />
+      </svg:g>
+      <svg:g id="g3470">
+        <svg:path d="m16.122 2.5453s6.8186-2.1634 6.6875-2.75c-0.13105-0.58661-3.5632 0.83748-5.375 0.8125-0.8254-0.01138-2.4375-0.4375-2.4375-0.4375l-0.875 0.75z" id="path5625-3" style="fill:#cccccc" ns1:nodetypes="czaccc" ns2:connector-curvature="0" />
+        <svg:path d="m15.962 2.1614s6.8185-2.1634 6.6875-2.75c-0.13105-0.58661-3.5632 0.83748-5.375 0.8125-0.8254-0.01138-2.4375-0.4375-2.4375-0.4375l-0.875 0.75z" id="path5625" style="fill:#ffffff" ns1:nodetypes="czaccc" ns2:connector-curvature="0" />
+      </svg:g>
+    </svg:g>
+  </svg:g>
+  <svg:metadata>
+    <rdf:RDF>
+      <ns4:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns4:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <ns4:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </ns4:Agent>
+        </dc:publisher>
+      </ns4:Work>
+      <ns4:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns4:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns4:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns4:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns4:License>
+    </rdf:RDF>
+  </svg:metadata>
+</svg:svg>

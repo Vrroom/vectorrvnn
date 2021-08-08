@@ -1,80 +1,79 @@
-<?xml version="1.0"?>
-<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://web.resource.org/cc/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:svg="http://www.w3.org/2000/svg" id="svg2" viewBox="0 0 48 48" version="1.0">
-  <defs id="defs">
-    <linearGradient id="G1">
-      <stop id="s1" stop-color="#59a40f" offset="0"/>
-      <stop id="s2" stop-color="#306102" offset="1"/>
-    </linearGradient>
-    <linearGradient id="G2">
-      <stop id="s3" stop-color="#fff" offset="0"/>
-      <stop id="s4" stop-color="#fff" stop-opacity="0" offset="1"/>
-    </linearGradient>
-    <linearGradient id="G4">
-      <stop id="s7" stop-color="#d50f0f" offset="0"/>
-      <stop id="s8" stop-color="#860000" offset="1"/>
-    </linearGradient>
-    <linearGradient id="G5">
-      <stop id="s9" offset="0"/>
-      <stop id="s10" stop-opacity="0" offset="1"/>
-    </linearGradient>
-    <radialGradient id="R1" xlink:href="#G4" gradientUnits="userSpaceOnUse" cy="32.026" cx="33.921" gradientTransform="matrix(1.0972 -.060401 .059957 1.0724 -4.7989 -.43954)" r="12.011"/>
-    <radialGradient id="R2" fx="22.506" fy="25.064" xlink:href="#G2" gradientUnits="userSpaceOnUse" cy="30.31" cx="25.346" gradientTransform="matrix(.78931 .49308 -.25971 .41573 13.249 5.1887)" r="12.011"/>
-    <linearGradient id="G6" y2="23.323" xlink:href="#G4" gradientUnits="userSpaceOnUse" x2="22.734" y1="46.026" x1="42.551"/>
-    <radialGradient id="R3" fx="41.772" fy="11.681" xlink:href="#G1" gradientUnits="userSpaceOnUse" cy="11.365" cx="41.247" gradientTransform="matrix(.36505 -.56094 1.4421 .93854 10.519 23.383)" r="4.9179"/>
-    <radialGradient id="R4" fx="13.292" fy="60.044" xlink:href="#G5" gradientUnits="userSpaceOnUse" cy="63.965" cx="15.116" gradientTransform="matrix(1.1014 .0477 -.030844 .70196 15.085 -6.7691)" r="12.289"/>
-    <radialGradient id="R5" xlink:href="#G5" gradientUnits="userSpaceOnUse" cy="63.965" cx="15.116" gradientTransform="matrix(1.0808 .046810 -.030844 .70196 .42347 -14.35)" r="12.289"/>
-    <radialGradient id="R6" gradientUnits="userSpaceOnUse" cy="33.479" cx="23.261" gradientTransform="matrix(1.0945 .0051153 -.0049669 .94337 -.77201 -1.4802)" r="11.057">
-      <stop id="s5" offset="0"/>
-      <stop id="s6" stop-opacity="0" offset="1"/>
-    </radialGradient>
-    <linearGradient id="G7" y2="18.548" xlink:href="#G4" gradientUnits="userSpaceOnUse" x2="7.2131" gradientTransform="matrix(.94565 .040955 -.041715 .94938 3.271 -2.8088)" y1="38.802" x1="25.128"/>
-    <radialGradient id="R7" fx="9.6233" fy="19.022" xlink:href="#G2" gradientUnits="userSpaceOnUse" cy="24.748" cx="9.7957" gradientTransform="matrix(.60566 .55109 -.31326 .34954 13.582 6.0889)" r="11.057"/>
-    <radialGradient id="R8" xlink:href="#G4" gradientUnits="userSpaceOnUse" cy="27.468" cx="16.357" gradientTransform="matrix(1.025 .0083873 -.0087222 .98980 1.2755 -3.4343)" r="11.057"/>
-    <radialGradient id="R9" xlink:href="#G1" gradientUnits="userSpaceOnUse" cy="-3.5974" cx="29.496" gradientTransform="matrix(-.79883 .076678 -.032006 -.33344 53.947 1.6115)" r="9.75"/>
-  </defs>
-  <path id="s1" fill="url(#R5)" d="m28.071 31.834c-0.208 4.765-6.325 8.371-13.662 8.053-7.3368-0.318-13.114-4.439-12.904-9.204 0.2084-4.765 6.3254-8.37 13.662-8.053 7.337 0.318 13.114 4.439 12.904 9.204z"/>
-  <path id="s2" fill="url(#R4)" d="m43.296 39.44c-0.208 4.765-6.438 8.365-13.915 8.042-7.476-0.324-13.366-4.45-13.156-9.215 0.208-4.765 6.438-8.366 13.915-8.042 7.476 0.324 13.367 4.45 13.156 9.215z"/>
-  <g id="cherry1">
-    <path id="p1" stroke="#520000" fill="url(#R8)" d="m23.836 30.313c-3.509 4.432-10.086 7.114-14.632 3.714-5.269-2.203-6.0539-9.086-3.7715-14.219 2.5635-5.764 8.1345-6.618 14.27-3.116 6.134 3.502 8.075 8.643 4.134 13.621z"/>
-    <path id="p2" opacity=".66" d="m23.836 30.313c-3.509 4.432-10.086 7.114-14.632 3.714-5.269-2.203-6.0539-9.086-3.7715-14.219 2.5635-5.764 8.1345-6.618 14.27-3.116 6.134 3.502 8.075 8.643 4.134 13.621z" stroke="#520000" fill="url(#R7)"/>
-    <path id="p3" stroke="url(#G7)" fill="none" d="m12.678 15.596c-4.2958 0.128-6.4037 3.738-7.133 6.981-1.0576 4.704 0.4641 9.229 4.227 10.624 3.364 2.686 8.691 1.057 11.903-2.018 3.106-2.974 4.225-6.053 2.266-9.345-1.656-2.908-6.897-6.262-11.263-6.242z"/>
-    <path id="p4" stroke="#520000" fill="none" d="m15.81 16.255c-0.411 2.183 2.73 4.455 5.521 3.06"/>
-    <path id="s3" fill="url(#R6)" d="m24.555 30.152c-4.224 5.64-11.132 7.647-15.678 4.248-5.2693-2.204-5.7269-9.459-3.4445-14.592 2.5635-5.764 8.3725-7.016 14.53-3.555 6.465 3.625 8.163 9.154 4.593 13.899z"/>
-  </g>
-  <g id="cherry2" transform="matrix(.92007 .039847 -.040743 .92726 3.8008 -2.2928)">
-    <path id="p5" stroke="#520000" fill="url(#R1)" d="m41.738 37.156c-2.28 6.289-8.637 11.671-14.977 9.411-6.706-0.642-10.134-8.201-9.485-14.852 0.729-7.471 6.639-10.416 14.793-8.603 8.154 1.814 12.229 6.98 9.669 14.044z"/>
-    <path id="p6" opacity=".66" d="m41.711 37.145c-2.277 6.296-8.627 11.684-14.96 9.421-6.699-0.642-10.123-8.209-9.475-14.868 0.728-7.479 6.632-10.428 14.777-8.612s12.216 6.987 9.658 14.059z" stroke="#520000" fill="url(#R2)"/>
-    <path id="p7" stroke="url(#G6)" fill="none" d="m26.576 23.697c-3.072 0.156-5.787 1.526-7.161 4.253-2.537 5.036-0.535 11.522 1.706 14.299 2.677 3.324 4.934 3.044 6.227 3.378 4.357 1.42 8.868-1.072 11.727-5.605 4.784-7.585 1.767-12.682-4.479-15.088-2.496-0.962-5.266-1.376-8.02-1.237z"/>
-    <path id="p8" stroke="#520000" fill="none" d="m27.841 23.747c-0.602 3.336 4.888 5.213 6.335 2.001"/>
-  </g>
-  <g id="leaf1" transform="matrix(.92007 .039847 -.046626 1.0611 3.8132 -2.5733)">
-    <path id="p9" stroke="#2d5a00" fill="url(#R9)" d="m24.613 3.4222c4.38-2.7467 13.961 0.2359 13.961 0.2359s-7.194 6.7149-10.797 5.9843c-3.083-0.6309-11.581-5.2339-11.581-5.2339s4.59 1.4036 8.417-0.9863z"/>
-    <path id="p10" d="m20.414 5.5584c3.252 1.6506 6.39 2.9191 6.97 3.1116 2.692 0.8922 7.756-3.3331 9.324-4.625-2.066-0.5117-8.082-1.6513-11.075-0.1602-1.05 0.5236-3.02 1.552-5.219 1.6736z" stroke="#59aa0a" stroke-miterlimit="9" fill="none"/>
-  </g>
-  <path id="stem" stroke="#275000" fill="#4e9a06" d="m39.493 2.2869l-1.664 1.1486c-17.032 5.7593-18.756 14.084-21.04 14.026 0.574 1.141 1.701 1.363 3.205 1.462-1.85-2.01 5.446-9.717 16.533-13.84-4.263 6.055-5.303 17.437-6.801 17.56 1.201 0.812 1.917 1.134 3.176 0.486-1.201-1.319 0.916-12.051 4.912-18.075 0 0.0001 2.724-1.6475 2.724-1.6475l-1.045-1.1206z"/>
-  <g id="leaf2" transform="matrix(.92007 .039847 -.040786 .92824 3.8029 -2.3394)">
-    <path id="p11" stroke="#2d5a00" fill="url(#R3)" d="m39.151 3.4294c-0.232 1.1726-0.738 2.147 5.651 5.6216 2.957 1.608 0.965 5.096 0.411 9.718-5.078-4.748-10.409-10.07-6.062-15.34z"/>
-    <path id="p12" stroke="#59aa0a" fill="none" d="m38.776 5.9607c-0.125 0.25-0.788 2.0598 0.715 4.7893 0.988 1.946 3.284 4.337 5.05 6.019 0.726-3.731 1.518-5.79-0.051-6.749-0.667-0.4084-2.44-1.3297-3.675-2.197-1.65-1.1589-2.039-1.8623-2.039-1.8623z"/>
-  </g>
-  <metadata>
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://www.w3.org/1999/xlink" xmlns:ns3="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="55.80270613934384" id="svg2" version="1.0" viewBox="-4.151680250738875 -3.6503382616974704 55.80270613934384 55.80270613934384" width="55.80270613934384">
+  <svg:defs id="defs">
+    <svg:linearGradient id="G1">
+      <svg:stop id="s1" offset="0" stop-color="#59a40f" />
+      <svg:stop id="s2" offset="1" stop-color="#306102" />
+    </svg:linearGradient>
+    <svg:linearGradient id="G2">
+      <svg:stop id="s3" offset="0" stop-color="#fff" />
+      <svg:stop id="s4" offset="1" stop-color="#fff" stop-opacity="0" />
+    </svg:linearGradient>
+    <svg:linearGradient id="G4">
+      <svg:stop id="s7" offset="0" stop-color="#d50f0f" />
+      <svg:stop id="s8" offset="1" stop-color="#860000" />
+    </svg:linearGradient>
+    <svg:linearGradient id="G5">
+      <svg:stop id="s9" offset="0" />
+      <svg:stop id="s10" offset="1" stop-opacity="0" />
+    </svg:linearGradient>
+    <svg:radialGradient cx="33.921" cy="32.026" gradientTransform="matrix(1.0972 -.060401 .059957 1.0724 -4.7989 -.43954)" gradientUnits="userSpaceOnUse" id="R1" r="12.011" ns1:href="#G4" />
+    <svg:radialGradient cx="25.346" cy="30.31" fx="22.506" fy="25.064" gradientTransform="matrix(.78931 .49308 -.25971 .41573 13.249 5.1887)" gradientUnits="userSpaceOnUse" id="R2" r="12.011" ns1:href="#G2" />
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="G6" x1="42.551" x2="22.734" y1="46.026" y2="23.323" ns1:href="#G4" />
+    <svg:radialGradient cx="41.247" cy="11.365" fx="41.772" fy="11.681" gradientTransform="matrix(.36505 -.56094 1.4421 .93854 10.519 23.383)" gradientUnits="userSpaceOnUse" id="R3" r="4.9179" ns1:href="#G1" />
+    <svg:radialGradient cx="15.116" cy="63.965" fx="13.292" fy="60.044" gradientTransform="matrix(1.1014 .0477 -.030844 .70196 15.085 -6.7691)" gradientUnits="userSpaceOnUse" id="R4" r="12.289" ns1:href="#G5" />
+    <svg:radialGradient cx="15.116" cy="63.965" gradientTransform="matrix(1.0808 .046810 -.030844 .70196 .42347 -14.35)" gradientUnits="userSpaceOnUse" id="R5" r="12.289" ns1:href="#G5" />
+    <svg:radialGradient cx="23.261" cy="33.479" gradientTransform="matrix(1.0945 .0051153 -.0049669 .94337 -.77201 -1.4802)" gradientUnits="userSpaceOnUse" id="R6" r="11.057">
+      <svg:stop id="s5" offset="0" />
+      <svg:stop id="s6" offset="1" stop-opacity="0" />
+    </svg:radialGradient>
+    <svg:linearGradient gradientTransform="matrix(.94565 .040955 -.041715 .94938 3.271 -2.8088)" gradientUnits="userSpaceOnUse" id="G7" x1="25.128" x2="7.2131" y1="38.802" y2="18.548" ns1:href="#G4" />
+    <svg:radialGradient cx="9.7957" cy="24.748" fx="9.6233" fy="19.022" gradientTransform="matrix(.60566 .55109 -.31326 .34954 13.582 6.0889)" gradientUnits="userSpaceOnUse" id="R7" r="11.057" ns1:href="#G2" />
+    <svg:radialGradient cx="16.357" cy="27.468" gradientTransform="matrix(1.025 .0083873 -.0087222 .98980 1.2755 -3.4343)" gradientUnits="userSpaceOnUse" id="R8" r="11.057" ns1:href="#G4" />
+    <svg:radialGradient cx="29.496" cy="-3.5974" gradientTransform="matrix(-.79883 .076678 -.032006 -.33344 53.947 1.6115)" gradientUnits="userSpaceOnUse" id="R9" r="9.75" ns1:href="#G1" />
+  </svg:defs>
+  <svg:path d="m28.071 31.834c-0.208 4.765-6.325 8.371-13.662 8.053-7.3368-0.318-13.114-4.439-12.904-9.204 0.2084-4.765 6.3254-8.37 13.662-8.053 7.337 0.318 13.114 4.439 12.904 9.204z" fill="url(#R5)" id="s1" />
+  <svg:path d="m43.296 39.44c-0.208 4.765-6.438 8.365-13.915 8.042-7.476-0.324-13.366-4.45-13.156-9.215 0.208-4.765 6.438-8.366 13.915-8.042 7.476 0.324 13.367 4.45 13.156 9.215z" fill="url(#R4)" id="s2" />
+  <svg:g id="cherry1">
+    <svg:path d="m23.836 30.313c-3.509 4.432-10.086 7.114-14.632 3.714-5.269-2.203-6.0539-9.086-3.7715-14.219 2.5635-5.764 8.1345-6.618 14.27-3.116 6.134 3.502 8.075 8.643 4.134 13.621z" fill="url(#R8)" id="p1" stroke="#520000" />
+    <svg:path d="m23.836 30.313c-3.509 4.432-10.086 7.114-14.632 3.714-5.269-2.203-6.0539-9.086-3.7715-14.219 2.5635-5.764 8.1345-6.618 14.27-3.116 6.134 3.502 8.075 8.643 4.134 13.621z" fill="url(#R7)" id="p2" opacity=".66" stroke="#520000" />
+    <svg:path d="m12.678 15.596c-4.2958 0.128-6.4037 3.738-7.133 6.981-1.0576 4.704 0.4641 9.229 4.227 10.624 3.364 2.686 8.691 1.057 11.903-2.018 3.106-2.974 4.225-6.053 2.266-9.345-1.656-2.908-6.897-6.262-11.263-6.242z" fill="none" id="p3" stroke="url(#G7)" />
+    <svg:path d="m15.81 16.255c-0.411 2.183 2.73 4.455 5.521 3.06" fill="none" id="p4" stroke="#520000" />
+    <svg:path d="m24.555 30.152c-4.224 5.64-11.132 7.647-15.678 4.248-5.2693-2.204-5.7269-9.459-3.4445-14.592 2.5635-5.764 8.3725-7.016 14.53-3.555 6.465 3.625 8.163 9.154 4.593 13.899z" fill="url(#R6)" id="s3" />
+  </svg:g>
+  <svg:g id="cherry2" transform="matrix(.92007 .039847 -.040743 .92726 3.8008 -2.2928)">
+    <svg:path d="m41.738 37.156c-2.28 6.289-8.637 11.671-14.977 9.411-6.706-0.642-10.134-8.201-9.485-14.852 0.729-7.471 6.639-10.416 14.793-8.603 8.154 1.814 12.229 6.98 9.669 14.044z" fill="url(#R1)" id="p5" stroke="#520000" />
+    <svg:path d="m41.711 37.145c-2.277 6.296-8.627 11.684-14.96 9.421-6.699-0.642-10.123-8.209-9.475-14.868 0.728-7.479 6.632-10.428 14.777-8.612s12.216 6.987 9.658 14.059z" fill="url(#R2)" id="p6" opacity=".66" stroke="#520000" />
+    <svg:path d="m26.576 23.697c-3.072 0.156-5.787 1.526-7.161 4.253-2.537 5.036-0.535 11.522 1.706 14.299 2.677 3.324 4.934 3.044 6.227 3.378 4.357 1.42 8.868-1.072 11.727-5.605 4.784-7.585 1.767-12.682-4.479-15.088-2.496-0.962-5.266-1.376-8.02-1.237z" fill="none" id="p7" stroke="url(#G6)" />
+    <svg:path d="m27.841 23.747c-0.602 3.336 4.888 5.213 6.335 2.001" fill="none" id="p8" stroke="#520000" />
+  </svg:g>
+  <svg:g id="leaf1" transform="matrix(.92007 .039847 -.046626 1.0611 3.8132 -2.5733)">
+    <svg:path d="m24.613 3.4222c4.38-2.7467 13.961 0.2359 13.961 0.2359s-7.194 6.7149-10.797 5.9843c-3.083-0.6309-11.581-5.2339-11.581-5.2339s4.59 1.4036 8.417-0.9863z" fill="url(#R9)" id="p9" stroke="#2d5a00" />
+    <svg:path d="m20.414 5.5584c3.252 1.6506 6.39 2.9191 6.97 3.1116 2.692 0.8922 7.756-3.3331 9.324-4.625-2.066-0.5117-8.082-1.6513-11.075-0.1602-1.05 0.5236-3.02 1.552-5.219 1.6736z" fill="none" id="p10" stroke="#59aa0a" stroke-miterlimit="9" />
+  </svg:g>
+  <svg:path d="m39.493 2.2869l-1.664 1.1486c-17.032 5.7593-18.756 14.084-21.04 14.026 0.574 1.141 1.701 1.363 3.205 1.462-1.85-2.01 5.446-9.717 16.533-13.84-4.263 6.055-5.303 17.437-6.801 17.56 1.201 0.812 1.917 1.134 3.176 0.486-1.201-1.319 0.916-12.051 4.912-18.075 0 0.0001 2.724-1.6475 2.724-1.6475l-1.045-1.1206z" fill="#4e9a06" id="stem" stroke="#275000" />
+  <svg:g id="leaf2" transform="matrix(.92007 .039847 -.040786 .92824 3.8029 -2.3394)">
+    <svg:path d="m39.151 3.4294c-0.232 1.1726-0.738 2.147 5.651 5.6216 2.957 1.608 0.965 5.096 0.411 9.718-5.078-4.748-10.409-10.07-6.062-15.34z" fill="url(#R3)" id="p11" stroke="#2d5a00" />
+    <svg:path d="m38.776 5.9607c-0.125 0.25-0.788 2.0598 0.715 4.7893 0.988 1.946 3.284 4.337 5.05 6.019 0.726-3.731 1.518-5.79-0.051-6.749-0.667-0.4084-2.44-1.3297-3.675-2.197-1.65-1.1589-2.039-1.8623-2.039-1.8623z" fill="none" id="p12" stroke="#59aa0a" />
+  </svg:g>
+  <svg:metadata>
     <rdf:RDF>
-      <cc:Work>
+      <ns3:Work>
         <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns3:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
         <dc:publisher>
-          <cc:Agent rdf:about="http://openclipart.org/">
+          <ns3:Agent rdf:about="http://openclipart.org/">
             <dc:title>Openclipart</dc:title>
-          </cc:Agent>
+          </ns3:Agent>
         </dc:publisher>
         <dc:title>fruit-cherries</dc:title>
         <dc:date>2008-02-22T14:51:18</dc:date>
         <dc:description>Tango-styled cherries icon.</dc:description>
         <dc:source>http://openclipart.org/detail/14695/fruit-cherries-by-rocket000</dc:source>
         <dc:creator>
-          <cc:Agent>
+          <ns3:Agent>
             <dc:title>Rocket000</dc:title>
-          </cc:Agent>
+          </ns3:Agent>
         </dc:creator>
         <dc:subject>
           <rdf:Bag>
@@ -89,12 +88,12 @@
             <rdf:li>tango style</rdf:li>
           </rdf:Bag>
         </dc:subject>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
-        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
-        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
-        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
-      </cc:License>
+      </ns3:Work>
+      <ns3:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns3:License>
     </rdf:RDF>
-  </metadata>
-</svg>
+  </svg:metadata>
+</svg:svg>

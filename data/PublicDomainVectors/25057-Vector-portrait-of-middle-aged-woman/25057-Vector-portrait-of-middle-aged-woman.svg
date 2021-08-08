@@ -1,398 +1,108 @@
-<?xml version="1.0"?>
-<svg
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:cc="http://creativecommons.org/ns#"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    xmlns:ns1="http://sozi.baierouge.fr"
-    id="svg3087"
-    viewBox="0 0 124.28 107.5"
-    version="1.1"
-  >
-  <ref
-      id="dark_top"
-      param="white"
-  />
-  <defs
-      id="defs3089"
-    >
-    <filter
-        id="filter3787"
-        color-interpolation-filters="sRGB"
-      >
-      <feGaussianBlur
-          id="feGaussianBlur3789"
-          stdDeviation="3.1730605"
-      />
-    </filter
-    >
-    <radialGradient
-        id="radialGradient3033"
-        gradientUnits="userSpaceOnUse"
-        cy="-160.86"
-        cx="-103.67"
-        gradientTransform="matrix(.22650 .66587 -1.1573 .39365 240 603.44)"
-        r="46.614"
-      >
-      <stop
-          id="stop3024"
-          stop-color="#fefefe"
-          stop-opacity=".82883"
-          offset="0"
-      />
-      <stop
-          id="stop3026"
-          stop-color="#fefefe"
-          stop-opacity=".65766"
-          offset=".45289"
-      />
-      <stop
-          id="stop3028"
-          stop-color="#fefefe"
-          stop-opacity=".40541"
-          offset=".73005"
-      />
-      <stop
-          id="stop3030"
-          stop-color="#fefefe"
-          stop-opacity=".035294"
-          offset="1"
-      />
-    </radialGradient
-    >
-  </defs
-  >
-  <g
-      id="layer1"
-      transform="translate(-343.72 -420.26)"
-    >
-    <path
-        id="drop_shadow"
-        opacity=".6"
-        filter="url(#filter3787)"
-        d="m356.33 453.28c42.41 0 60.37-20.41 99.05-20.41v61.86c-38.68 0-56.64 20.41-99.05 20.41z"
-        fill="#010101"
-    />
-    <g
-        id="g3054"
-      >
-      <g
-          id="flag"
-          onmousedown="setAttribute('transform','translate(3,3)'), getElementById('feGaussianBlur3789').setAttribute('stdDeviation','1.5'), getElementById('flash').setAttribute('fill-opacity','1')"
-          onmouseout="setAttribute('transform','translate(0,0)'), getElementById('feGaussianBlur3789').setAttribute('stdDeviation','3.1730605'), getElementById('colour_one').setAttribute('style','fill:#black'),    getElementById('colour_two').setAttribute('style','fill:#c21006'),    getElementById('colour_three').setAttribute('style','fill:#17602a'), getElementById('flash').setAttribute('fill-opacity','0'),    getElementById('theSun').setAttribute('style','fill:#c21006')"
-          onmouseup="setAttribute('transform','translate(0,0)'), getElementById('feGaussianBlur3789').setAttribute('stdDeviation','3.1730605'), getElementById('flash').setAttribute('fill-opacity','0')"
-          onmouseover="getElementById('colour_one').setAttribute('style','fill:black'), getElementById('colour_two').setAttribute('style','fill:#f41408'), getElementById('colour_three').setAttribute('style','fill:#21873b'), getElementById('theSun').setAttribute('style','fill:#f41408')"
-        >
-        <path
-            id="colour_three"
-            d="m353.33 490.02c42.41 0 60.37-20.41 99.05-20.41v20.62c-38.68 0-56.64 20.41-99.05 20.41z"
-            fill="#17602a"
-        />
-        <path
-            id="colour_one"
-            d="m353.33 448.78c42.41 0 60.37-20.41 99.05-20.41v20.62c-38.68 0-56.64 20.41-99.05 20.41z"
-            fill="#black"
-        />
-        <path
-            id="colour_two"
-            d="m353.33 469.4c42.41 0 60.37-20.41 99.05-20.41v20.61c-38.68 0-56.64 20.41-99.05 20.41z"
-            fill="#c21006"
-        />
-        <g
-            id="theSun"
-            fill-rule="evenodd"
-            stroke-width="1pt"
-            fill="#c21006"
-            transform="matrix(-.00024618 -.82811 .82811 -.00024618 2189.4 863.38)"
-          >
-          <path
-              id="path3437"
-              d="m486.99-2167.4c8.77 2.6 14.9 9.9 13.68 16.3-0.61 3.2-2.71 5.5-6.28 6.8l-7.4-23.1"
-          />
-          <path
-              id="path3439"
-              d="m484.99-2170.5c-0.63-2.7-0.78-5.7-0.72-6.2 0.07-0.4 0.42-0.5 0.72-0.4 0.29 0.1 0.7 0.4 0.7 0.7-0.01 0.7-0.03 3.4-0.7 5.9"
-          />
-          <path
-              id="path3441"
-              d="m503.51-2155.8c3.22-0.5 6.91-0.7 7.55-0.6 0.65 0 0.85 0.3 0.92 0.5 0.07 0.3-0.11 0.6-0.57 0.6-0.86 0-4.36 0-7.9-0.5"
-          />
-          <path
-              id="path3443"
-              d="m503.86-2154.5c3.34-0.2 7.11-0.1 7.76 0s0.83 0.3 0.88 0.6c0.04 0.2-0.18 0.5-0.65 0.5-0.88-0.1-4.44-0.3-7.99-1.1"
-          />
-          <path
-              id="path3445"
-              d="m504.05-2153.2c3.43-0.1 7.25 0.3 7.9 0.4s0.8 0.4 0.82 0.7c0.03 0.2-0.24 0.5-0.71 0.4-0.88-0.1-4.48-0.6-8.01-1.5"
-          />
-          <path
-              id="path3447"
-              d="m504.1-2151.9c3.5 0.2 7.35 0.8 8 1 0.65 0.1 0.76 0.4 0.76 0.7 0 0.2-0.3 0.4-0.78 0.3-0.88-0.1-4.49-0.9-7.98-2"
-          />
-          <path
-              id="path3449"
-              d="m504.01-2150.7c3.53 0.5 7.38 1.4 8.02 1.6s0.72 0.5 0.69 0.7c-0.02 0.2-0.36 0.5-0.83 0.3-0.88-0.2-4.48-1.2-7.88-2.6"
-          />
-          <path
-              id="path3451"
-              d="m503.77-2149.5c3.55 0.7 7.36 1.8 7.99 2.1 0.63 0.2 0.68 0.5 0.63 0.7-0.06 0.3-0.42 0.5-0.89 0.3-0.87-0.3-4.42-1.5-7.73-3.1"
-          />
-          <path
-              id="path3453"
-              d="m503.38-2148.3c3.54 0.9 7.29 2.3 7.9 2.6s0.63 0.6 0.55 0.8-0.47 0.3-0.93 0.1c-0.86-0.3-4.33-1.7-7.52-3.5"
-          />
-          <path
-              id="path3455"
-              d="m502.85-2147.2c3.5 1.1 7.16 2.7 7.75 3.1 0.59 0.3 0.58 0.6 0.47 0.8-0.1 0.2-0.52 0.3-0.97 0.1-0.83-0.4-4.21-2-7.25-4"
-          />
-          <path
-              id="path3457"
-              d="m502.19-2146.2c3.43 1.4 6.97 3.2 7.53 3.6 0.56 0.3 0.52 0.6 0.39 0.8s-0.57 0.3-1 0c-0.8-0.4-4.06-2.2-6.92-4.4"
-          />
-          <path
-              id="path3459"
-              d="m501.39-2145.2c3.33 1.6 6.73 3.6 7.26 4s0.45 0.6 0.3 0.8-0.61 0.2-1.02 0c-0.76-0.5-3.87-2.5-6.54-4.8"
-          />
-          <path
-              id="path3461"
-              d="m500.46-2144.3c3.21 1.8 6.44 4 6.93 4.4 0.5 0.4 0.39 0.7 0.22 0.8-0.18 0.2-0.66 0.2-1.04-0.1-0.72-0.5-3.66-2.7-6.11-5.1"
-          />
-          <path
-              id="path3463"
-              d="m499.45-2143.5c3.08 1.9 6.12 4.3 6.58 4.7 0.46 0.5 0.32 0.7 0.13 0.8-0.2 0.2-0.69 0.2-1.05-0.1-0.67-0.6-3.42-2.9-5.66-5.4"
-          />
-          <path
-              id="path3465"
-              d="m498.33-2142.8c2.91 2.1 5.74 4.6 6.15 5.1 0.42 0.4 0.25 0.6 0.04 0.7-0.21 0.2-0.71 0.1-1.04-0.2-0.63-0.6-3.16-3-5.15-5.6"
-          />
-          <path
-              id="path3467"
-              d="m496.99-2142.2c2.72 2.3 5.29 4.9 5.66 5.4s0.17 0.7-0.06 0.8-0.74 0-1.04-0.3c-0.56-0.6-2.85-3.2-4.56-5.9"
-          />
-          <path
-              id="path3469"
-              d="m495.66-2141.7c2.51 2.4 4.83 5.2 5.15 5.7s0.09 0.6-0.15 0.7-0.75 0-1.02-0.4c-0.5-0.6-2.54-3.3-3.98-6"
-          />
-          <path
-              id="path3471"
-              d="m494.22-2141.3c2.27 2.5 4.31 5.4 4.58 5.9s0.02 0.6-0.24 0.7-0.76-0.1-0.99-0.4c-0.44-0.7-2.21-3.4-3.35-6.2"
-          />
-          <path
-              id="path3473"
-              d="m503.02-2157.2c3.07-0.7 6.64-1.1 7.27-1.1 0.64 0 0.87 0.2 0.96 0.5 0.1 0.2-0.04 0.5-0.48 0.6-0.84 0-4.24 0.3-7.75 0"
-          />
-          <path
-              id="path3475"
-              d="m502.39-2158.5c2.91-1 6.33-1.6 6.95-1.7 0.62 0 0.87 0.2 0.99 0.5 0.13 0.2 0.03 0.6-0.4 0.6-0.81 0.1-4.09 0.6-7.54 0.6"
-          />
-          <path
-              id="path3477"
-              d="m501.62-2159.8c2.72-1.2 5.97-2.1 6.57-2.2s0.87 0.2 1.02 0.4 0.09 0.6-0.32 0.7c-0.77 0.2-3.91 0.9-7.27 1.1"
-          />
-          <path
-              id="path3479"
-              d="m500.76-2161c2.51-1.4 5.58-2.6 6.15-2.7s0.87 0.1 1.03 0.3c0.17 0.2 0.16 0.6-0.23 0.7-0.73 0.3-3.71 1.2-6.95 1.7"
-          />
-          <path
-              id="path3481"
-              d="m499.77-2162.2c2.28-1.6 5.14-3 5.68-3.2 0.55-0.2 0.86 0.1 1.05 0.3s0.22 0.6-0.15 0.7c-0.68 0.3-3.47 1.5-6.58 2.2"
-          />
-          <path
-              id="path3483"
-              d="m498.61-2163.4c2.03-1.8 4.65-3.4 5.15-3.7 0.51-0.2 0.84 0 1.05 0.2 0.2 0.2 0.28 0.6-0.05 0.8-0.64 0.3-3.21 1.8-6.15 2.7"
-          />
-          <path
-              id="path3485"
-              d="m497.39-2164.5c1.77-2 4.14-3.8 4.6-4.1 0.47-0.2 0.82-0.1 1.04 0.1 0.23 0.2 0.35 0.6 0.04 0.8-0.57 0.4-2.92 2-5.68 3.2"
-          />
-          <path
-              id="path3487"
-              d="m496.1-2165.5c1.5-2.2 3.6-4.2 4.02-4.5 0.43-0.3 0.79-0.1 1.03 0 0.24 0.2 0.4 0.6 0.13 0.8-0.52 0.5-2.62 2.3-5.18 3.7"
-          />
-          <path
-              id="path3489"
-              d="m494.66-2166.5c1.21-2.3 3.01-4.5 3.39-4.9 0.38-0.3 0.75-0.2 1 0 0.26 0.2 0.46 0.5 0.22 0.8-0.45 0.5-2.28 2.5-4.61 4.1"
-          />
-          <path
-              id="path3491"
-              d="m493.23-2167.4c0.93-2.4 2.44-4.8 2.77-5.1 0.34-0.4 0.71-0.3 0.98-0.2 0.26 0.2 0.51 0.6 0.3 0.9-0.38 0.5-1.95 2.7-4.05 4.4"
-          />
-          <path
-              id="path3493"
-              d="m491.66-2168.2c0.62-2.5 1.8-5.1 2.09-5.5 0.28-0.4 0.66-0.3 0.93-0.1 0.28 0.1 0.56 0.5 0.4 0.8-0.32 0.5-1.59 2.8-3.42 4.8"
-          />
-          <path
-              id="path3495"
-              d="m490-2169c0.3-2.6 1.15-5.2 1.38-5.7 0.23-0.4 0.61-0.3 0.89-0.2 0.29 0.1 0.61 0.5 0.48 0.8-0.23 0.6-1.19 3-2.75 5.1"
-          />
-          <path
-              id="path3497"
-              d="m488.36-2169.6c-0.01-2.6 0.52-5.4 0.69-5.9 0.18-0.4 0.55-0.4 0.84-0.3s0.64 0.5 0.55 0.8c-0.16 0.6-0.81 3.2-2.08 5.4"
-          />
-          <path
-              id="path3499"
-              d="m486.76-2170.1c-0.31-2.7-0.11-5.6 0.02-6 0.12-0.5 0.48-0.5 0.78-0.4 0.29 0.1 0.67 0.4 0.63 0.8-0.09 0.6-0.44 3.3-1.43 5.6"
-          />
-          <path
-              id="path3501"
-              d="m484.99-2170.5c-0.63-2.7-0.78-5.7-0.72-6.2 0.07-0.4 0.42-0.5 0.72-0.4 0.29 0.1 0.7 0.4 0.7 0.7-0.01 0.7-0.03 3.4-0.7 5.9"
-          />
-        </g
-        >
-        <path
-            id="flash"
-            d="m423.65 432.07c-18.14 4.89-33.45 12.93-55.37 15.59-6.22 4.37-11.3 9.34-14.94 14.57v33.84c5.76 6.18 15.01 10.17 26.06 11.53 22.13-4.79 38.17-14.34 61.1-16.94 4.78-3.64 8.79-7.68 11.87-11.87v-35.6c-6.4-6.36-16.64-10.25-28.72-11.12z"
-            fill="url(#radialGradient3033)"
-            stroke-opacity="0"
-            fill-opacity="0"
-        />
-        <path
-            id="rim"
-            d="m353.33 448.78c42.41 0 60.37-20.41 99.05-20.41v61.86c-38.68 0-56.64 20.41-99.05 20.41z"
-            stroke="#010101"
-            stroke-width=".94695"
-            fill="none"
-        />
-      </g
-      >
-    </g
-    >
-    <path
-        id="path3057"
-        d="m423.65 432.07c-18.14 4.89-33.45 12.93-55.37 15.59-6.22 4.37-11.3 9.34-14.94 14.57v33.84c5.76 6.18 15.01 10.17 26.06 11.53 22.13-4.79 38.17-14.34 61.1-16.94 4.78-3.64 8.79-7.68 11.87-11.87v-35.6c-6.4-6.36-16.64-10.25-28.72-11.12z"
-        stroke-opacity="0"
-        visibility="hidden"
-        fill="url(#radialGradient3033)"
-    />
-    <g
-        id="light_a"
-      >
-      <path
-          id="normal_three"
-          d="m512.64 490.02c42.41 0 60.37-20.41 99.05-20.41v20.62c-38.68 0-56.64 20.41-99.05 20.41z"
-          fill="#21873b"
-      />
-      <path
-          id="normal_one"
-          d="m512.64 448.78c42.41 0 60.37-20.41 99.05-20.41v20.62c-38.68 0-56.64 20.41-99.05 20.41z"
-      />
-      <path
-          id="normal_two"
-          d="m512.64 469.4c42.41 0 60.37-20.41 99.05-20.41v20.61c-38.68 0-56.64 20.41-99.05 20.41z"
-          fill="#f41408"
-      />
-    </g
-    >
-  </g
-  >
-  <metadata
-    >
-    <rdf:RDF
-      >
-      <cc:Work
-        >
-        <dc:format
-          >image/svg+xml</dc:format
-        >
-        <dc:type
-            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-        />
-        <cc:license
-            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
-        />
-        <dc:publisher
-          >
-          <cc:Agent
-              rdf:about="http://openclipart.org/"
-            >
-            <dc:title
-              >Openclipart</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:publisher
-        >
-        <dc:title
-          >clickable Malawi flag</dc:title
-        >
-        <dc:date
-          >2013-08-31T23:23:14</dc:date
-        >
-        <dc:description
-          >A interactive flag of Malawi - hover and click effects.</dc:description
-        >
-        <dc:source
-          >https://openclipart.org/detail/182792/clickable-malawi-flag-by-gmcglinn-182792</dc:source
-        >
-        <dc:creator
-          >
-          <cc:Agent
-            >
-            <dc:title
-              >GMcGlinn</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:creator
-        >
-        <dc:subject
-          >
-          <rdf:Bag
-            >
-            <rdf:li
-              >Africa</rdf:li
-            >
-            <rdf:li
-              >DOM</rdf:li
-            >
-            <rdf:li
-              >Malawi</rdf:li
-            >
-            <rdf:li
-              >clickable</rdf:li
-            >
-            <rdf:li
-              >flag</rdf:li
-            >
-            <rdf:li
-              >interact</rdf:li
-            >
-            <rdf:li
-              >interactive</rdf:li
-            >
-            <rdf:li
-              >language</rdf:li
-            >
-            <rdf:li
-              >link</rdf:li
-            >
-          </rdf:Bag
-          >
-        </dc:subject
-        >
-      </cc:Work
-      >
-      <cc:License
-          rdf:about="http://creativecommons.org/licenses/publicdomain/"
-        >
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Reproduction"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Distribution"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
-        />
-      </cc:License
-      >
-    </rdf:RDF
-    >
-  </metadata
-  >
-</svg
->
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="310.0319999999999" id="svg3087" version="1.1" viewBox="-16.226000000000035 -103.52099999999999 310.032 310.0319999999999" width="310.032">
+  <svg:ref id="dark_top" param="white" />
+  <svg:defs id="defs3089">
+    <svg:filter color-interpolation-filters="sRGB" id="filter3787">
+      <svg:feGaussianBlur id="feGaussianBlur3789" stdDeviation="3.1730605" />
+    </svg:filter>
+    <svg:radialGradient cx="-103.67" cy="-160.86" gradientTransform="matrix(.22650 .66587 -1.1573 .39365 240 603.44)" gradientUnits="userSpaceOnUse" id="radialGradient3033" r="46.614">
+      <svg:stop id="stop3024" offset="0" stop-color="#fefefe" stop-opacity=".82883" />
+      <svg:stop id="stop3026" offset=".45289" stop-color="#fefefe" stop-opacity=".65766" />
+      <svg:stop id="stop3028" offset=".73005" stop-color="#fefefe" stop-opacity=".40541" />
+      <svg:stop id="stop3030" offset="1" stop-color="#fefefe" stop-opacity=".035294" />
+    </svg:radialGradient>
+  </svg:defs>
+  <svg:g id="layer1" transform="translate(-343.72 -420.26)">
+    <svg:path d="m356.33 453.28c42.41 0 60.37-20.41 99.05-20.41v61.86c-38.68 0-56.64 20.41-99.05 20.41z" fill="#010101" filter="url(#filter3787)" id="drop_shadow" opacity=".6" />
+    <svg:g id="g3054">
+      <svg:g id="flag" onmousedown="setAttribute('transform','translate(3,3)'), getElementById('feGaussianBlur3789').setAttribute('stdDeviation','1.5'), getElementById('flash').setAttribute('fill-opacity','1')" onmouseout="setAttribute('transform','translate(0,0)'), getElementById('feGaussianBlur3789').setAttribute('stdDeviation','3.1730605'), getElementById('colour_one').setAttribute('style','fill:#black'),    getElementById('colour_two').setAttribute('style','fill:#c21006'),    getElementById('colour_three').setAttribute('style','fill:#17602a'), getElementById('flash').setAttribute('fill-opacity','0'),    getElementById('theSun').setAttribute('style','fill:#c21006')" onmouseover="getElementById('colour_one').setAttribute('style','fill:black'), getElementById('colour_two').setAttribute('style','fill:#f41408'), getElementById('colour_three').setAttribute('style','fill:#21873b'), getElementById('theSun').setAttribute('style','fill:#f41408')" onmouseup="setAttribute('transform','translate(0,0)'), getElementById('feGaussianBlur3789').setAttribute('stdDeviation','3.1730605'), getElementById('flash').setAttribute('fill-opacity','0')">
+        <svg:path d="m353.33 490.02c42.41 0 60.37-20.41 99.05-20.41v20.62c-38.68 0-56.64 20.41-99.05 20.41z" fill="#17602a" id="colour_three" />
+        <svg:path d="m353.33 448.78c42.41 0 60.37-20.41 99.05-20.41v20.62c-38.68 0-56.64 20.41-99.05 20.41z" fill="#black" id="colour_one" />
+        <svg:path d="m353.33 469.4c42.41 0 60.37-20.41 99.05-20.41v20.61c-38.68 0-56.64 20.41-99.05 20.41z" fill="#c21006" id="colour_two" />
+        <svg:g fill="#c21006" fill-rule="evenodd" id="theSun" stroke-width="1pt" transform="matrix(-.00024618 -.82811 .82811 -.00024618 2189.4 863.38)">
+          <svg:path d="m486.99-2167.4c8.77 2.6 14.9 9.9 13.68 16.3-0.61 3.2-2.71 5.5-6.28 6.8l-7.4-23.1" id="path3437" />
+          <svg:path d="m484.99-2170.5c-0.63-2.7-0.78-5.7-0.72-6.2 0.07-0.4 0.42-0.5 0.72-0.4 0.29 0.1 0.7 0.4 0.7 0.7-0.01 0.7-0.03 3.4-0.7 5.9" id="path3439" />
+          <svg:path d="m503.51-2155.8c3.22-0.5 6.91-0.7 7.55-0.6 0.65 0 0.85 0.3 0.92 0.5 0.07 0.3-0.11 0.6-0.57 0.6-0.86 0-4.36 0-7.9-0.5" id="path3441" />
+          <svg:path d="m503.86-2154.5c3.34-0.2 7.11-0.1 7.76 0s0.83 0.3 0.88 0.6c0.04 0.2-0.18 0.5-0.65 0.5-0.88-0.1-4.44-0.3-7.99-1.1" id="path3443" />
+          <svg:path d="m504.05-2153.2c3.43-0.1 7.25 0.3 7.9 0.4s0.8 0.4 0.82 0.7c0.03 0.2-0.24 0.5-0.71 0.4-0.88-0.1-4.48-0.6-8.01-1.5" id="path3445" />
+          <svg:path d="m504.1-2151.9c3.5 0.2 7.35 0.8 8 1 0.65 0.1 0.76 0.4 0.76 0.7 0 0.2-0.3 0.4-0.78 0.3-0.88-0.1-4.49-0.9-7.98-2" id="path3447" />
+          <svg:path d="m504.01-2150.7c3.53 0.5 7.38 1.4 8.02 1.6s0.72 0.5 0.69 0.7c-0.02 0.2-0.36 0.5-0.83 0.3-0.88-0.2-4.48-1.2-7.88-2.6" id="path3449" />
+          <svg:path d="m503.77-2149.5c3.55 0.7 7.36 1.8 7.99 2.1 0.63 0.2 0.68 0.5 0.63 0.7-0.06 0.3-0.42 0.5-0.89 0.3-0.87-0.3-4.42-1.5-7.73-3.1" id="path3451" />
+          <svg:path d="m503.38-2148.3c3.54 0.9 7.29 2.3 7.9 2.6s0.63 0.6 0.55 0.8-0.47 0.3-0.93 0.1c-0.86-0.3-4.33-1.7-7.52-3.5" id="path3453" />
+          <svg:path d="m502.85-2147.2c3.5 1.1 7.16 2.7 7.75 3.1 0.59 0.3 0.58 0.6 0.47 0.8-0.1 0.2-0.52 0.3-0.97 0.1-0.83-0.4-4.21-2-7.25-4" id="path3455" />
+          <svg:path d="m502.19-2146.2c3.43 1.4 6.97 3.2 7.53 3.6 0.56 0.3 0.52 0.6 0.39 0.8s-0.57 0.3-1 0c-0.8-0.4-4.06-2.2-6.92-4.4" id="path3457" />
+          <svg:path d="m501.39-2145.2c3.33 1.6 6.73 3.6 7.26 4s0.45 0.6 0.3 0.8-0.61 0.2-1.02 0c-0.76-0.5-3.87-2.5-6.54-4.8" id="path3459" />
+          <svg:path d="m500.46-2144.3c3.21 1.8 6.44 4 6.93 4.4 0.5 0.4 0.39 0.7 0.22 0.8-0.18 0.2-0.66 0.2-1.04-0.1-0.72-0.5-3.66-2.7-6.11-5.1" id="path3461" />
+          <svg:path d="m499.45-2143.5c3.08 1.9 6.12 4.3 6.58 4.7 0.46 0.5 0.32 0.7 0.13 0.8-0.2 0.2-0.69 0.2-1.05-0.1-0.67-0.6-3.42-2.9-5.66-5.4" id="path3463" />
+          <svg:path d="m498.33-2142.8c2.91 2.1 5.74 4.6 6.15 5.1 0.42 0.4 0.25 0.6 0.04 0.7-0.21 0.2-0.71 0.1-1.04-0.2-0.63-0.6-3.16-3-5.15-5.6" id="path3465" />
+          <svg:path d="m496.99-2142.2c2.72 2.3 5.29 4.9 5.66 5.4s0.17 0.7-0.06 0.8-0.74 0-1.04-0.3c-0.56-0.6-2.85-3.2-4.56-5.9" id="path3467" />
+          <svg:path d="m495.66-2141.7c2.51 2.4 4.83 5.2 5.15 5.7s0.09 0.6-0.15 0.7-0.75 0-1.02-0.4c-0.5-0.6-2.54-3.3-3.98-6" id="path3469" />
+          <svg:path d="m494.22-2141.3c2.27 2.5 4.31 5.4 4.58 5.9s0.02 0.6-0.24 0.7-0.76-0.1-0.99-0.4c-0.44-0.7-2.21-3.4-3.35-6.2" id="path3471" />
+          <svg:path d="m503.02-2157.2c3.07-0.7 6.64-1.1 7.27-1.1 0.64 0 0.87 0.2 0.96 0.5 0.1 0.2-0.04 0.5-0.48 0.6-0.84 0-4.24 0.3-7.75 0" id="path3473" />
+          <svg:path d="m502.39-2158.5c2.91-1 6.33-1.6 6.95-1.7 0.62 0 0.87 0.2 0.99 0.5 0.13 0.2 0.03 0.6-0.4 0.6-0.81 0.1-4.09 0.6-7.54 0.6" id="path3475" />
+          <svg:path d="m501.62-2159.8c2.72-1.2 5.97-2.1 6.57-2.2s0.87 0.2 1.02 0.4 0.09 0.6-0.32 0.7c-0.77 0.2-3.91 0.9-7.27 1.1" id="path3477" />
+          <svg:path d="m500.76-2161c2.51-1.4 5.58-2.6 6.15-2.7s0.87 0.1 1.03 0.3c0.17 0.2 0.16 0.6-0.23 0.7-0.73 0.3-3.71 1.2-6.95 1.7" id="path3479" />
+          <svg:path d="m499.77-2162.2c2.28-1.6 5.14-3 5.68-3.2 0.55-0.2 0.86 0.1 1.05 0.3s0.22 0.6-0.15 0.7c-0.68 0.3-3.47 1.5-6.58 2.2" id="path3481" />
+          <svg:path d="m498.61-2163.4c2.03-1.8 4.65-3.4 5.15-3.7 0.51-0.2 0.84 0 1.05 0.2 0.2 0.2 0.28 0.6-0.05 0.8-0.64 0.3-3.21 1.8-6.15 2.7" id="path3483" />
+          <svg:path d="m497.39-2164.5c1.77-2 4.14-3.8 4.6-4.1 0.47-0.2 0.82-0.1 1.04 0.1 0.23 0.2 0.35 0.6 0.04 0.8-0.57 0.4-2.92 2-5.68 3.2" id="path3485" />
+          <svg:path d="m496.1-2165.5c1.5-2.2 3.6-4.2 4.02-4.5 0.43-0.3 0.79-0.1 1.03 0 0.24 0.2 0.4 0.6 0.13 0.8-0.52 0.5-2.62 2.3-5.18 3.7" id="path3487" />
+          <svg:path d="m494.66-2166.5c1.21-2.3 3.01-4.5 3.39-4.9 0.38-0.3 0.75-0.2 1 0 0.26 0.2 0.46 0.5 0.22 0.8-0.45 0.5-2.28 2.5-4.61 4.1" id="path3489" />
+          <svg:path d="m493.23-2167.4c0.93-2.4 2.44-4.8 2.77-5.1 0.34-0.4 0.71-0.3 0.98-0.2 0.26 0.2 0.51 0.6 0.3 0.9-0.38 0.5-1.95 2.7-4.05 4.4" id="path3491" />
+          <svg:path d="m491.66-2168.2c0.62-2.5 1.8-5.1 2.09-5.5 0.28-0.4 0.66-0.3 0.93-0.1 0.28 0.1 0.56 0.5 0.4 0.8-0.32 0.5-1.59 2.8-3.42 4.8" id="path3493" />
+          <svg:path d="m490-2169c0.3-2.6 1.15-5.2 1.38-5.7 0.23-0.4 0.61-0.3 0.89-0.2 0.29 0.1 0.61 0.5 0.48 0.8-0.23 0.6-1.19 3-2.75 5.1" id="path3495" />
+          <svg:path d="m488.36-2169.6c-0.01-2.6 0.52-5.4 0.69-5.9 0.18-0.4 0.55-0.4 0.84-0.3s0.64 0.5 0.55 0.8c-0.16 0.6-0.81 3.2-2.08 5.4" id="path3497" />
+          <svg:path d="m486.76-2170.1c-0.31-2.7-0.11-5.6 0.02-6 0.12-0.5 0.48-0.5 0.78-0.4 0.29 0.1 0.67 0.4 0.63 0.8-0.09 0.6-0.44 3.3-1.43 5.6" id="path3499" />
+          <svg:path d="m484.99-2170.5c-0.63-2.7-0.78-5.7-0.72-6.2 0.07-0.4 0.42-0.5 0.72-0.4 0.29 0.1 0.7 0.4 0.7 0.7-0.01 0.7-0.03 3.4-0.7 5.9" id="path3501" />
+        </svg:g>
+        <svg:path d="m423.65 432.07c-18.14 4.89-33.45 12.93-55.37 15.59-6.22 4.37-11.3 9.34-14.94 14.57v33.84c5.76 6.18 15.01 10.17 26.06 11.53 22.13-4.79 38.17-14.34 61.1-16.94 4.78-3.64 8.79-7.68 11.87-11.87v-35.6c-6.4-6.36-16.64-10.25-28.72-11.12z" fill="url(#radialGradient3033)" fill-opacity="0" id="flash" stroke-opacity="0" />
+        <svg:path d="m353.33 448.78c42.41 0 60.37-20.41 99.05-20.41v61.86c-38.68 0-56.64 20.41-99.05 20.41z" fill="none" id="rim" stroke="#010101" stroke-width=".94695" />
+      </svg:g>
+    </svg:g>
+    <svg:path d="m423.65 432.07c-18.14 4.89-33.45 12.93-55.37 15.59-6.22 4.37-11.3 9.34-14.94 14.57v33.84c5.76 6.18 15.01 10.17 26.06 11.53 22.13-4.79 38.17-14.34 61.1-16.94 4.78-3.64 8.79-7.68 11.87-11.87v-35.6c-6.4-6.36-16.64-10.25-28.72-11.12z" fill="url(#radialGradient3033)" id="path3057" stroke-opacity="0" visibility="hidden" />
+    <svg:g id="light_a">
+      <svg:path d="m512.64 490.02c42.41 0 60.37-20.41 99.05-20.41v20.62c-38.68 0-56.64 20.41-99.05 20.41z" fill="#21873b" id="normal_three" />
+      <svg:path d="m512.64 448.78c42.41 0 60.37-20.41 99.05-20.41v20.62c-38.68 0-56.64 20.41-99.05 20.41z" id="normal_one" />
+      <svg:path d="m512.64 469.4c42.41 0 60.37-20.41 99.05-20.41v20.61c-38.68 0-56.64 20.41-99.05 20.41z" fill="#f41408" id="normal_two" />
+    </svg:g>
+  </svg:g>
+  <svg:metadata>
+    <rdf:RDF>
+      <ns2:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns2:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <ns2:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </ns2:Agent>
+        </dc:publisher>
+        <dc:title>clickable Malawi flag</dc:title>
+        <dc:date>2013-08-31T23:23:14</dc:date>
+        <dc:description>A interactive flag of Malawi - hover and click effects.</dc:description>
+        <dc:source>https://openclipart.org/detail/182792/clickable-malawi-flag-by-gmcglinn-182792</dc:source>
+        <dc:creator>
+          <ns2:Agent>
+            <dc:title>GMcGlinn</dc:title>
+          </ns2:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>Africa</rdf:li>
+            <rdf:li>DOM</rdf:li>
+            <rdf:li>Malawi</rdf:li>
+            <rdf:li>clickable</rdf:li>
+            <rdf:li>flag</rdf:li>
+            <rdf:li>interact</rdf:li>
+            <rdf:li>interactive</rdf:li>
+            <rdf:li>language</rdf:li>
+            <rdf:li>link</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </ns2:Work>
+      <ns2:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns2:License>
+    </rdf:RDF>
+  </svg:metadata>
+</svg:svg>

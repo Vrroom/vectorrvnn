@@ -1,31 +1,30 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-  <defs id="0">
-    <linearGradient y1="4" x2="0" y2="44" id="7" gradientUnits="userSpaceOnUse">
-      <stop id="G" stop-color="#fff"/>
-      <stop id="H" offset="1" stop-color="#fff" stop-opacity="0"/>
-    </linearGradient>
-    <linearGradient y1="46" x2="0" y2="8" id="8" gradientUnits="userSpaceOnUse">
-      <stop id="I" stop-color="#e8e8e8"/>
-      <stop id="J" offset="1" stop-color="#ebebeb"/>
-    </linearGradient>
-    <radialGradient cx="23.14" cy="35.896" r="17" id="9" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0.82623,-0.56334,0.88235,1.29412,-24.793,4.582)">
-      <stop id="K" stop-color="#171717"/>
-      <stop id="L" offset="1" stop-color="#0b0b0b"/>
-    </radialGradient>
-  </defs>
-  <path d="M 3,4 H 45 V 46 H 3 z" id="1" opacity="0.1"/>
-  <path d="M 3,3 H 45 V 45 H 3 z" id="2" fill="url(#8)"/>
-  <path d="M 7,7 H 41 V 36 H 7 z" id="3" fill="url(#9)"/>
-  <g id="4" fill="none">
-    <path d="m 3.53125,3.53125 0,40.9375 40.9375,0 0,-40.9375 -40.9375,0 z" id="A" opacity="0.4" stroke="#000"/>
-    <path d="m 4.5,4.5 0,39 39,0 0,-39 -39,0 z" id="B" stroke="url(#7)"/>
-    <path d="m 7.53125,7.53125 0,27.9375 32.9375,0 0,-27.9375 -32.9375,0 z" id="C" stroke="#000"/>
-  </g>
-  <path d="m 7,36 h 34 v 1 H 7 z" id="5" fill="#fff"/>
-  <g transform="scale(1.01263,0.98752)" id="6" fill="#ebebeb">
-    <path d="m 18.762941,11.138978 c -2.324154,2.873196 -4.937616,6.075807 -4.937616,10.126344 0,5.063172 2.613893,7.616652 4.937616,10.236265 l -2.753878,0 c -2.733133,-2.85132 -5.109125,-6.365271 -5.146307,-10.192468 0.202463,-4.178415 2.621837,-7.587957 5.146307,-10.170141 l 2.753878,0" id="D"/>
-    <path d="m 21.725511,16.202151 14.812849,0 0,3.037903 -14.812849,0 0,-3.037903" id="E"/>
-    <path d="m 21.725511,22.277957 14.812849,0 0,3.037903 -14.812849,0 0,-3.037903" id="F"/>
-  </g>
-</svg>
+<svg:svg xmlns:svg="http://www.w3.org/2000/svg" height="51.599999999999994" viewBox="-1.7999999999999972 -1.299999999999999 51.6 51.599999999999994" width="51.6">
+  <svg:defs id="0">
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="7" x2="0" y1="4" y2="44">
+      <svg:stop id="G" stop-color="#fff" />
+      <svg:stop id="H" offset="1" stop-color="#fff" stop-opacity="0" />
+    </svg:linearGradient>
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="8" x2="0" y1="46" y2="8">
+      <svg:stop id="I" stop-color="#e8e8e8" />
+      <svg:stop id="J" offset="1" stop-color="#ebebeb" />
+    </svg:linearGradient>
+    <svg:radialGradient cx="23.14" cy="35.896" gradientTransform="matrix(0.82623,-0.56334,0.88235,1.29412,-24.793,4.582)" gradientUnits="userSpaceOnUse" id="9" r="17">
+      <svg:stop id="K" stop-color="#171717" />
+      <svg:stop id="L" offset="1" stop-color="#0b0b0b" />
+    </svg:radialGradient>
+  </svg:defs>
+  <svg:path d="M 3,4 H 45 V 46 H 3 z" id="1" opacity="0.1" />
+  <svg:path d="M 3,3 H 45 V 45 H 3 z" fill="url(#8)" id="2" />
+  <svg:path d="M 7,7 H 41 V 36 H 7 z" fill="url(#9)" id="3" />
+  <svg:g fill="none" id="4">
+    <svg:path d="m 3.53125,3.53125 0,40.9375 40.9375,0 0,-40.9375 -40.9375,0 z" id="A" opacity="0.4" stroke="#000" />
+    <svg:path d="m 4.5,4.5 0,39 39,0 0,-39 -39,0 z" id="B" stroke="url(#7)" />
+    <svg:path d="m 7.53125,7.53125 0,27.9375 32.9375,0 0,-27.9375 -32.9375,0 z" id="C" stroke="#000" />
+  </svg:g>
+  <svg:path d="m 7,36 h 34 v 1 H 7 z" fill="#fff" id="5" />
+  <svg:g fill="#ebebeb" id="6" transform="scale(1.01263,0.98752)">
+    <svg:path d="m 18.762941,11.138978 c -2.324154,2.873196 -4.937616,6.075807 -4.937616,10.126344 0,5.063172 2.613893,7.616652 4.937616,10.236265 l -2.753878,0 c -2.733133,-2.85132 -5.109125,-6.365271 -5.146307,-10.192468 0.202463,-4.178415 2.621837,-7.587957 5.146307,-10.170141 l 2.753878,0" id="D" />
+    <svg:path d="m 21.725511,16.202151 14.812849,0 0,3.037903 -14.812849,0 0,-3.037903" id="E" />
+    <svg:path d="m 21.725511,22.277957 14.812849,0 0,3.037903 -14.812849,0 0,-3.037903" id="F" />
+  </svg:g>
+</svg:svg>

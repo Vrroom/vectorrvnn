@@ -1,21 +1,6 @@
-<?xml version="1.0"?>
-<svg
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:cc="http://web.resource.org/cc/"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    xmlns:ns1="http://sozi.baierouge.fr"
-    viewBox="0 0 150 110"
-  >
-  <title
-    >Animated Digital Display</title
-  >
-  <desc
-    >Animated Digital Display - counts down from 99 to 00
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://www.w3.org/1999/xlink" xmlns:ns3="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="180.0" viewBox="-15.0 -35.0 180.0 180.0" width="180.0">
+  <svg:title>Animated Digital Display</svg:title>
+  <svg:desc>Animated Digital Display - counts down from 99 to 00
     Inspired by alex8664's Seven segment displays
     svg animated counter works in browsers that support animation
     Written by Jay Nick
@@ -25,72 +10,26 @@
     Learn SVG Interactively is published by Catto Creations, LLC
     Catto Creations mission is Family, Literacy, and Enrichment
     Visit http://www.cattocreations.com for award winning children's eBooks
-    Learn SVG Interactively and other free ePub3 eBooks at http://www.cattocreations.com/ePub3.html</desc
-  >
-  <defs
-    >
-    <symbol
-        id="ad"
-        viewBox="0 0 51.5 9.6"
-      >
-      <path
-          d="m0 0h51.5l-10.2 9.6h-31.2z"
-      />
-    </symbol
-    >
-    <symbol
-        id="bcef"
-        viewBox="0 0 10 43.7"
-      >
-      <path
-          d="m0 0l10 9.6v28.3l-5 5.2-5-5.2z"
-      />
-    </symbol
-    >
-    <linearGradient
-        id="hg"
-        x2="50%"
-        x1="50%"
-        y2="100%"
-      >
-      <stop
-          stop-color="#c00"
-          offset=".1"
-      />
-      <stop
-          stop-color="#f00"
-          offset=".5"
-      />
-      <stop
-          stop-color="#c00"
-          offset=".9"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="vg"
-        y1="50%"
-        y2="50%"
-      >
-      <stop
-          stop-color="#c00"
-          offset=".1"
-      />
-      <stop
-          stop-color="#f00"
-          offset=".5"
-      />
-      <stop
-          stop-color="#c00"
-          offset=".9"
-      />
-    </linearGradient
-    >
-  </defs
-  >
-  <style
-      type="text/css"
-    >.hg {fill:url(#hg);}
+    Learn SVG Interactively and other free ePub3 eBooks at http://www.cattocreations.com/ePub3.html</svg:desc>
+  <svg:defs>
+    <svg:symbol id="ad" viewBox="0 0 51.5 9.6">
+      <svg:path d="m0 0h51.5l-10.2 9.6h-31.2z" />
+    </svg:symbol>
+    <svg:symbol id="bcef" viewBox="0 0 10 43.7">
+      <svg:path d="m0 0l10 9.6v28.3l-5 5.2-5-5.2z" />
+    </svg:symbol>
+    <svg:linearGradient id="hg" x1="50%" x2="50%" y2="100%">
+      <svg:stop offset=".1" stop-color="#c00" />
+      <svg:stop offset=".5" stop-color="#f00" />
+      <svg:stop offset=".9" stop-color="#c00" />
+    </svg:linearGradient>
+    <svg:linearGradient id="vg" y1="50%" y2="50%">
+      <svg:stop offset=".1" stop-color="#c00" />
+      <svg:stop offset=".5" stop-color="#f00" />
+      <svg:stop offset=".9" stop-color="#c00" />
+    </svg:linearGradient>
+  </svg:defs>
+  <svg:style type="text/css">.hg {fill:url(#hg);}
     .vg {fill:url(#vg);}
     .a {fill:url(#hg);}
     .b {fill:url(#vg);}
@@ -107,397 +46,113 @@
     .e2 {fill:url(#vg);}
     .f2 {fill:url(#vg);}
     .g2 {fill:url(#hg);}
-    .off2 {fill:#333333;}</style
-  >
-  <g
-      transform="translate(0) scale(1)"
-    >
-    <g
-        transform="translate(0)"
-      >
-      <rect
-          height="110"
-          width="75"
-          stroke="#000"
-          y="0"
-          x="0"
-          fill="#282828"
-      />
-      <g
-          class="a2"
-          transform="translate(11.3,10.5)"
-        >
-        <animate
-            repeatCount="1"
-            values="hg;hg;hg;hg;hg;off;hg;hg;off;hg;"
-            dur="100s"
-            attributeName="class"
-            fill="freeze"
-        />
-        <use
-            width="51.5"
-            xlink:href="#ad"
-            height="9.6"
-        />
-      </g
-      >
-      <g
-          class="b2"
-          transform="translate(62.9,11.1) scale(-1,1)"
-        >
-        <animate
-            repeatCount="1"
-            values="vg;vg;vg;off;off;vg;vg;vg;vg;vg;"
-            dur="100s"
-            attributeName="class"
-            fill="freeze"
-        />
-        <use
-            width="10"
-            xlink:href="#bcef"
-            height="43.7"
-        />
-      </g
-      >
-      <g
-          class="c2"
-          transform="translate(62.9,97.5) scale(-1)"
-        >
-        <animate
-            repeatCount="1"
-            values="vg;vg;vg;vg;vg;vg;vg;off;vg;vg;"
-            dur="100s"
-            attributeName="class"
-            fill="freeze"
-        />
-        <use
-            width="10"
-            xlink:href="#bcef"
-            height="43.7"
-        />
-      </g
-      >
-      <g
-          class="d2"
-          transform="translate(11.3,88.5) rotate(180,25.75,4.8)"
-        >
-        <animate
-            repeatCount="1"
-            values="hg;hg;off;hg;hg;off;hg;hg;off;hg;"
-            dur="100s"
-            attributeName="class"
-            fill="freeze"
-        />
-        <use
-            width="51.5"
-            xlink:href="#ad"
-            height="9.6"
-        />
-      </g
-      >
-      <g
-          class="off2"
-          transform="translate(11.2,97.5) scale(1,-1)"
-        >
-        <animate
-            repeatCount="1"
-            values="off;vg;off;vg;off;off;off;vg;off;vg;"
-            dur="100s"
-            attributeName="class"
-            fill="freeze"
-        />
-        <use
-            width="10"
-            xlink:href="#bcef"
-            height="43.7"
-        />
-      </g
-      >
-      <g
-          class="f2"
-          transform="translate(11.2,11.2)"
-        >
-        <animate
-            repeatCount="1"
-            values="vg;vg;off;vg;vg;vg;off;off;off;vg;"
-            dur="100s"
-            attributeName="class"
-            fill="freeze"
-        />
-        <use
-            width="10"
-            xlink:href="#bcef"
-            height="43.7"
-        />
-      </g
-      >
-      <g
-          class="g2"
-          transform="translate(21.9,49)"
-        >
-        <animate
-            repeatCount="1"
-            values="hg;hg;off;hg;hg;hg;hg;hg;off;off;"
-            dur="100s"
-            attributeName="class"
-            fill="freeze"
-        />
-        <path
-            d="m0 0h30.5l5 5.2-5 5.2h-30.5l-5-5.2z"
-        />
-      </g
-      >
-    </g
-    >
-    <g
-        transform="translate(75)"
-      >
-      <rect
-          height="110"
-          width="75"
-          stroke="#000"
-          y="0"
-          x="0"
-          fill="#282828"
-      />
-      <g
-          class="a"
-          transform="translate(11.3,10.5)"
-        >
-        <animate
-            repeatCount="10"
-            values="hg;hg;hg;hg;hg;off;hg;hg;off;hg;"
-            dur="10s"
-            attributeName="class"
-            fill="freeze"
-        />
-        <use
-            width="51.5"
-            xlink:href="#ad"
-            height="9.6"
-        />
-      </g
-      >
-      <g
-          class="b"
-          transform="translate(62.9,11.1) scale(-1,1)"
-        >
-        <animate
-            repeatCount="10"
-            values="vg;vg;vg;off;off;vg;vg;vg;vg;vg;"
-            dur="10s"
-            attributeName="class"
-            fill="freeze"
-        />
-        <use
-            width="10"
-            xlink:href="#bcef"
-            height="43.7"
-        />
-      </g
-      >
-      <g
-          class="c"
-          transform="translate(62.9,97.5) scale(-1)"
-        >
-        <animate
-            repeatCount="10"
-            values="vg;vg;vg;vg;vg;vg;vg;off;vg;vg;"
-            dur="10s"
-            attributeName="class"
-            fill="freeze"
-        />
-        <use
-            width="10"
-            xlink:href="#bcef"
-            height="43.7"
-        />
-      </g
-      >
-      <g
-          class="d"
-          transform="translate(11.3,88.5) rotate(180,25.75,4.8)"
-        >
-        <animate
-            repeatCount="10"
-            values="hg;hg;off;hg;hg;off;hg;hg;off;hg;"
-            dur="10s"
-            attributeName="class"
-            fill="freeze"
-        />
-        <use
-            width="51.5"
-            xlink:href="#ad"
-            height="9.6"
-        />
-      </g
-      >
-      <g
-          class="off"
-          transform="translate(11.2,97.5) scale(1,-1)"
-        >
-        <animate
-            repeatCount="10"
-            values="off;vg;off;vg;off;off;off;vg;off;vg;"
-            dur="10s"
-            attributeName="class"
-            fill="freeze"
-        />
-        <use
-            width="10"
-            xlink:href="#bcef"
-            height="43.7"
-        />
-      </g
-      >
-      <g
-          class="f"
-          transform="translate(11.2,11.2)"
-        >
-        <animate
-            repeatCount="10"
-            values="vg;vg;off;vg;vg;vg;off;off;off;vg;"
-            dur="10s"
-            attributeName="class"
-            fill="freeze"
-        />
-        <use
-            width="10"
-            xlink:href="#bcef"
-            height="43.7"
-        />
-      </g
-      >
-      <g
-          class="g"
-          transform="translate(21.9,49)"
-        >
-        <animate
-            repeatCount="10"
-            values="hg;hg;off;hg;hg;hg;hg;hg;off;off;"
-            dur="10s"
-            attributeName="class"
-            fill="freeze"
-        />
-        <path
-            d="m0 0h30.5l5 5.2-5 5.2h-30.5l-5-5.2z"
-        />
-      </g
-      >
-    </g
-    >
-  </g
-  >
-  <metadata
-    >
-    <rdf:RDF
-      >
-      <cc:Work
-        >
-        <dc:format
-          >image/svg+xml</dc:format
-        >
-        <dc:type
-            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-        />
-        <cc:license
-            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
-        />
-        <dc:publisher
-          >
-          <cc:Agent
-              rdf:about="http://openclipart.org/"
-            >
-            <dc:title
-              >Openclipart</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:publisher
-        >
-        <dc:title
-          >Animated Digital Display</dc:title
-        >
-        <dc:date
-          >2013-11-21T13:43:54</dc:date
-        >
-        <dc:description
-          >Inspired by alex8664's Seven segment displays. Counts down from 99 to 00. SVG code can easily be modified to add/remove a digit. SVG code can be inserted into an SVG image then scaled and positioned where desired. svg animated lights work in browsers that support animation&#xD;\n</dc:description
-        >
-        <dc:source
-          >https://openclipart.org/detail/188970/animated-digital-display-by-jaynick-188970</dc:source
-        >
-        <dc:creator
-          >
-          <cc:Agent
-            >
-            <dc:title
-              >JayNick</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:creator
-        >
-        <dc:subject
-          >
-          <rdf:Bag
-            >
-            <rdf:li
-              >LCD</rdf:li
-            >
-            <rdf:li
-              >LED</rdf:li
-            >
-            <rdf:li
-              >animated</rdf:li
-            >
-            <rdf:li
-              >animation</rdf:li
-            >
-            <rdf:li
-              >clock</rdf:li
-            >
-            <rdf:li
-              >counter</rdf:li
-            >
-            <rdf:li
-              >display</rdf:li
-            >
-            <rdf:li
-              >displays</rdf:li
-            >
-            <rdf:li
-              >handcoded</rdf:li
-            >
-            <rdf:li
-              >segment</rdf:li
-            >
-            <rdf:li
-              >seven</rdf:li
-            >
-          </rdf:Bag
-          >
-        </dc:subject
-        >
-      </cc:Work
-      >
-      <cc:License
-          rdf:about="http://creativecommons.org/licenses/publicdomain/"
-        >
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Reproduction"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Distribution"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
-        />
-      </cc:License
-      >
-    </rdf:RDF
-    >
-  </metadata
-  >
-</svg
->
+    .off2 {fill:#333333;}</svg:style>
+  <svg:g transform="translate(0) scale(1)">
+    <svg:g transform="translate(0)">
+      <svg:rect fill="#282828" height="110" stroke="#000" width="75" x="0" y="0" />
+      <svg:g class="a2" transform="translate(11.3,10.5)">
+        <svg:animate attributeName="class" dur="100s" fill="freeze" repeatCount="1" values="hg;hg;hg;hg;hg;off;hg;hg;off;hg;" />
+        <svg:use height="9.6" width="51.5" ns1:href="#ad" />
+      </svg:g>
+      <svg:g class="b2" transform="translate(62.9,11.1) scale(-1,1)">
+        <svg:animate attributeName="class" dur="100s" fill="freeze" repeatCount="1" values="vg;vg;vg;off;off;vg;vg;vg;vg;vg;" />
+        <svg:use height="43.7" width="10" ns1:href="#bcef" />
+      </svg:g>
+      <svg:g class="c2" transform="translate(62.9,97.5) scale(-1)">
+        <svg:animate attributeName="class" dur="100s" fill="freeze" repeatCount="1" values="vg;vg;vg;vg;vg;vg;vg;off;vg;vg;" />
+        <svg:use height="43.7" width="10" ns1:href="#bcef" />
+      </svg:g>
+      <svg:g class="d2" transform="translate(11.3,88.5) rotate(180,25.75,4.8)">
+        <svg:animate attributeName="class" dur="100s" fill="freeze" repeatCount="1" values="hg;hg;off;hg;hg;off;hg;hg;off;hg;" />
+        <svg:use height="9.6" width="51.5" ns1:href="#ad" />
+      </svg:g>
+      <svg:g class="off2" transform="translate(11.2,97.5) scale(1,-1)">
+        <svg:animate attributeName="class" dur="100s" fill="freeze" repeatCount="1" values="off;vg;off;vg;off;off;off;vg;off;vg;" />
+        <svg:use height="43.7" width="10" ns1:href="#bcef" />
+      </svg:g>
+      <svg:g class="f2" transform="translate(11.2,11.2)">
+        <svg:animate attributeName="class" dur="100s" fill="freeze" repeatCount="1" values="vg;vg;off;vg;vg;vg;off;off;off;vg;" />
+        <svg:use height="43.7" width="10" ns1:href="#bcef" />
+      </svg:g>
+      <svg:g class="g2" transform="translate(21.9,49)">
+        <svg:animate attributeName="class" dur="100s" fill="freeze" repeatCount="1" values="hg;hg;off;hg;hg;hg;hg;hg;off;off;" />
+        <svg:path d="m0 0h30.5l5 5.2-5 5.2h-30.5l-5-5.2z" />
+      </svg:g>
+    </svg:g>
+    <svg:g transform="translate(75)">
+      <svg:rect fill="#282828" height="110" stroke="#000" width="75" x="0" y="0" />
+      <svg:g class="a" transform="translate(11.3,10.5)">
+        <svg:animate attributeName="class" dur="10s" fill="freeze" repeatCount="10" values="hg;hg;hg;hg;hg;off;hg;hg;off;hg;" />
+        <svg:use height="9.6" width="51.5" ns1:href="#ad" />
+      </svg:g>
+      <svg:g class="b" transform="translate(62.9,11.1) scale(-1,1)">
+        <svg:animate attributeName="class" dur="10s" fill="freeze" repeatCount="10" values="vg;vg;vg;off;off;vg;vg;vg;vg;vg;" />
+        <svg:use height="43.7" width="10" ns1:href="#bcef" />
+      </svg:g>
+      <svg:g class="c" transform="translate(62.9,97.5) scale(-1)">
+        <svg:animate attributeName="class" dur="10s" fill="freeze" repeatCount="10" values="vg;vg;vg;vg;vg;vg;vg;off;vg;vg;" />
+        <svg:use height="43.7" width="10" ns1:href="#bcef" />
+      </svg:g>
+      <svg:g class="d" transform="translate(11.3,88.5) rotate(180,25.75,4.8)">
+        <svg:animate attributeName="class" dur="10s" fill="freeze" repeatCount="10" values="hg;hg;off;hg;hg;off;hg;hg;off;hg;" />
+        <svg:use height="9.6" width="51.5" ns1:href="#ad" />
+      </svg:g>
+      <svg:g class="off" transform="translate(11.2,97.5) scale(1,-1)">
+        <svg:animate attributeName="class" dur="10s" fill="freeze" repeatCount="10" values="off;vg;off;vg;off;off;off;vg;off;vg;" />
+        <svg:use height="43.7" width="10" ns1:href="#bcef" />
+      </svg:g>
+      <svg:g class="f" transform="translate(11.2,11.2)">
+        <svg:animate attributeName="class" dur="10s" fill="freeze" repeatCount="10" values="vg;vg;off;vg;vg;vg;off;off;off;vg;" />
+        <svg:use height="43.7" width="10" ns1:href="#bcef" />
+      </svg:g>
+      <svg:g class="g" transform="translate(21.9,49)">
+        <svg:animate attributeName="class" dur="10s" fill="freeze" repeatCount="10" values="hg;hg;off;hg;hg;hg;hg;hg;off;off;" />
+        <svg:path d="m0 0h30.5l5 5.2-5 5.2h-30.5l-5-5.2z" />
+      </svg:g>
+    </svg:g>
+  </svg:g>
+  <svg:metadata>
+    <rdf:RDF>
+      <ns3:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns3:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <ns3:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </ns3:Agent>
+        </dc:publisher>
+        <dc:title>Animated Digital Display</dc:title>
+        <dc:date>2013-11-21T13:43:54</dc:date>
+        <dc:description>Inspired by alex8664's Seven segment displays. Counts down from 99 to 00. SVG code can easily be modified to add/remove a digit. SVG code can be inserted into an SVG image then scaled and positioned where desired. svg animated lights work in browsers that support animation
+\n</dc:description>
+        <dc:source>https://openclipart.org/detail/188970/animated-digital-display-by-jaynick-188970</dc:source>
+        <dc:creator>
+          <ns3:Agent>
+            <dc:title>JayNick</dc:title>
+          </ns3:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>LCD</rdf:li>
+            <rdf:li>LED</rdf:li>
+            <rdf:li>animated</rdf:li>
+            <rdf:li>animation</rdf:li>
+            <rdf:li>clock</rdf:li>
+            <rdf:li>counter</rdf:li>
+            <rdf:li>display</rdf:li>
+            <rdf:li>displays</rdf:li>
+            <rdf:li>handcoded</rdf:li>
+            <rdf:li>segment</rdf:li>
+            <rdf:li>seven</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </ns3:Work>
+      <ns3:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns3:License>
+    </rdf:RDF>
+  </svg:metadata>
+</svg:svg>

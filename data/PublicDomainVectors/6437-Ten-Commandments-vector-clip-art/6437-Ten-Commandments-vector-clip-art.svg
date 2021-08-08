@@ -1,236 +1,235 @@
-<?xml version="1.0"?>
-<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:svg="http://www.w3.org/2000/svg" id="svg2" viewBox="0 0 744.09 1052.4" version="1.1">
-  <defs id="defs4">
-    <filter id="filter4724" width="1" y="0" x="0" height="1" color-interpolation-filters="sRGB">
-      <feGaussianBlur id="feGaussianBlur4726" in="SourceAlpha" stdDeviation="2.3" result="result0"/>
-      <feMorphology id="feMorphology4728" in="SourceAlpha" radius="6.6" result="result1"/>
-      <feGaussianBlur id="feGaussianBlur4730" stdDeviation="8.9" in="result1"/>
-      <feColorMatrix id="feColorMatrix4732" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.3 0" result="result91"/>
-      <feComposite id="feComposite4734" operator="out" in="result0" in2="result91" result="result2"/>
-      <feGaussianBlur id="feGaussianBlur4736" stdDeviation="1.7" result="result4"/>
-      <feDiffuseLighting id="feDiffuseLighting4738" surfaceScale="10" result="result92">
-        <feDistantLight id="feDistantLight4740" elevation="45" azimuth="225"/>
-      </feDiffuseLighting>
-      <feBlend id="feBlend4742" mode="multiply" in2="SourceGraphic" result="result93"/>
-      <feComposite id="feComposite4744" operator="in" in2="SourceAlpha" result="result3"/>
-      <feSpecularLighting id="feSpecularLighting4746" surfaceScale="5" in="result4" specularExponent="17.9" result="result94">
-        <feDistantLight id="feDistantLight4748" elevation="45" azimuth="225"/>
-      </feSpecularLighting>
-      <feComposite id="feComposite4750" operator="atop" in2="result3" result="fbSourceGraphic"/>
-      <feColorMatrix id="feColorMatrix4826" in="fbSourceGraphic" values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0" result="fbSourceGraphicAlpha"/>
-      <feGaussianBlur id="feGaussianBlur4828" in="fbSourceGraphicAlpha" stdDeviation="2.3" result="result0"/>
-      <feMorphology id="feMorphology4830" in="fbSourceGraphicAlpha" radius="6.6" result="result1"/>
-      <feGaussianBlur id="feGaussianBlur4832" stdDeviation="8.9" in="result1"/>
-      <feColorMatrix id="feColorMatrix4834" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.3 0" result="result91"/>
-      <feComposite id="feComposite4836" operator="out" in="result0" in2="result91" result="result2"/>
-      <feGaussianBlur id="feGaussianBlur4838" stdDeviation="1.7" result="result4"/>
-      <feDiffuseLighting id="feDiffuseLighting4840" surfaceScale="10" result="result95">
-        <feDistantLight id="feDistantLight4842" elevation="45" azimuth="225"/>
-      </feDiffuseLighting>
-      <feBlend id="feBlend4844" mode="multiply" in2="fbSourceGraphic" result="result96"/>
-      <feComposite id="feComposite4846" operator="in" in2="fbSourceGraphicAlpha" result="result3"/>
-      <feSpecularLighting id="feSpecularLighting4848" surfaceScale="5" in="result4" specularExponent="17.9" result="result97">
-        <feDistantLight id="feDistantLight4850" elevation="45" azimuth="225"/>
-      </feSpecularLighting>
-      <feComposite id="feComposite4852" operator="atop" in2="result3" result="fbSourceGraphic"/>
-      <feColorMatrix id="feColorMatrix4854" in="fbSourceGraphic" values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0" result="fbSourceGraphicAlpha"/>
-      <feGaussianBlur id="feGaussianBlur4856" in="fbSourceGraphicAlpha" stdDeviation="2.3" result="result0"/>
-      <feMorphology id="feMorphology4858" in="fbSourceGraphicAlpha" radius="6.6" result="result1"/>
-      <feGaussianBlur id="feGaussianBlur4860" stdDeviation="8.9" in="result1"/>
-      <feColorMatrix id="feColorMatrix4862" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.3 0" result="result91"/>
-      <feComposite id="feComposite4864" operator="out" in="result0" in2="result91" result="result2"/>
-      <feGaussianBlur id="feGaussianBlur4866" stdDeviation="1.7" result="result4"/>
-      <feDiffuseLighting id="feDiffuseLighting4868" surfaceScale="10" result="result98">
-        <feDistantLight id="feDistantLight4870" elevation="45" azimuth="225"/>
-      </feDiffuseLighting>
-      <feBlend id="feBlend4872" mode="multiply" in2="fbSourceGraphic" result="result99"/>
-      <feComposite id="feComposite4874" operator="in" in2="fbSourceGraphicAlpha" result="result3"/>
-      <feSpecularLighting id="feSpecularLighting4876" surfaceScale="5" in="result4" specularExponent="17.9" result="result100">
-        <feDistantLight id="feDistantLight4878" elevation="45" azimuth="225"/>
-      </feSpecularLighting>
-      <feComposite id="feComposite4880" operator="atop" in2="result3"/>
-    </filter>
-    <filter id="filter4752" width="1" y="0" x="0" height="1" color-interpolation-filters="sRGB">
-      <feGaussianBlur id="feGaussianBlur4754" in="SourceAlpha" stdDeviation="2.3" result="result0"/>
-      <feMorphology id="feMorphology4756" in="SourceAlpha" radius="6.6" result="result1"/>
-      <feGaussianBlur id="feGaussianBlur4758" stdDeviation="8.9" in="result1"/>
-      <feColorMatrix id="feColorMatrix4760" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.3 0" result="result91"/>
-      <feComposite id="feComposite4762" operator="out" in="result0" in2="result91" result="result2"/>
-      <feGaussianBlur id="feGaussianBlur4764" stdDeviation="1.7" result="result4"/>
-      <feDiffuseLighting id="feDiffuseLighting4766" surfaceScale="10" result="result92">
-        <feDistantLight id="feDistantLight4768" elevation="45" azimuth="225"/>
-      </feDiffuseLighting>
-      <feBlend id="feBlend4770" mode="multiply" in2="SourceGraphic" result="result93"/>
-      <feComposite id="feComposite4772" operator="in" in2="SourceAlpha" result="result3"/>
-      <feSpecularLighting id="feSpecularLighting4774" surfaceScale="5" in="result4" specularExponent="17.9" result="result94">
-        <feDistantLight id="feDistantLight4776" elevation="45" azimuth="225"/>
-      </feSpecularLighting>
-      <feComposite id="feComposite4778" operator="atop" in2="result3" result="fbSourceGraphic"/>
-      <feColorMatrix id="feColorMatrix4798" in="fbSourceGraphic" values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0" result="fbSourceGraphicAlpha"/>
-      <feGaussianBlur id="feGaussianBlur4800" in="fbSourceGraphicAlpha" stdDeviation="2.3" result="result0"/>
-      <feMorphology id="feMorphology4802" in="fbSourceGraphicAlpha" radius="6.6" result="result1"/>
-      <feGaussianBlur id="feGaussianBlur4804" stdDeviation="8.9" in="result1"/>
-      <feColorMatrix id="feColorMatrix4806" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.3 0" result="result91"/>
-      <feComposite id="feComposite4808" operator="out" in="result0" in2="result91" result="result2"/>
-      <feGaussianBlur id="feGaussianBlur4810" stdDeviation="1.7" result="result4"/>
-      <feDiffuseLighting id="feDiffuseLighting4812" surfaceScale="10" result="result95">
-        <feDistantLight id="feDistantLight4814" elevation="45" azimuth="225"/>
-      </feDiffuseLighting>
-      <feBlend id="feBlend4816" mode="multiply" in2="fbSourceGraphic" result="result96"/>
-      <feComposite id="feComposite4818" operator="in" in2="fbSourceGraphicAlpha" result="result3"/>
-      <feSpecularLighting id="feSpecularLighting4820" surfaceScale="5" in="result4" specularExponent="17.9" result="result97">
-        <feDistantLight id="feDistantLight4822" elevation="45" azimuth="225"/>
-      </feSpecularLighting>
-      <feComposite id="feComposite4824" operator="atop" in2="result3" result="fbSourceGraphic"/>
-      <feColorMatrix id="feColorMatrix4882" in="fbSourceGraphic" values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0" result="fbSourceGraphicAlpha"/>
-      <feGaussianBlur id="feGaussianBlur4884" in="fbSourceGraphicAlpha" stdDeviation="2.3" result="result0"/>
-      <feMorphology id="feMorphology4886" in="fbSourceGraphicAlpha" radius="6.6" result="result1"/>
-      <feGaussianBlur id="feGaussianBlur4888" stdDeviation="8.9" in="result1"/>
-      <feColorMatrix id="feColorMatrix4890" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.3 0" result="result91"/>
-      <feComposite id="feComposite4892" operator="out" in="result0" in2="result91" result="result2"/>
-      <feGaussianBlur id="feGaussianBlur4894" stdDeviation="1.7" result="result4"/>
-      <feDiffuseLighting id="feDiffuseLighting4896" surfaceScale="10" result="result98">
-        <feDistantLight id="feDistantLight4898" elevation="45" azimuth="225"/>
-      </feDiffuseLighting>
-      <feBlend id="feBlend4900" mode="multiply" in2="fbSourceGraphic" result="result99"/>
-      <feComposite id="feComposite4902" operator="in" in2="fbSourceGraphicAlpha" result="result3"/>
-      <feSpecularLighting id="feSpecularLighting4904" surfaceScale="5" in="result4" specularExponent="17.9" result="result100">
-        <feDistantLight id="feDistantLight4906" elevation="45" azimuth="225"/>
-      </feSpecularLighting>
-      <feComposite id="feComposite4908" operator="atop" in2="result3"/>
-    </filter>
-    <filter id="filter4914" y="-.25" color-interpolation-filters="sRGB" height="1.5">
-      <feGaussianBlur id="feGaussianBlur4916" stdDeviation="5" result="result6"/>
-      <feComposite id="feComposite4918" operator="atop" result="result8" in2="result6" in="SourceGraphic"/>
-      <feComposite id="feComposite4920" operator="over" result="result9" in2="SourceAlpha" in="result8"/>
-      <feColorMatrix id="feColorMatrix4922" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 " result="result10"/>
-      <feBlend id="feBlend4924" in="result10" in2="result6" mode="normal"/>
-    </filter>
-    <filter id="filter4926" y="-.25" color-interpolation-filters="sRGB" height="1.5">
-      <feGaussianBlur id="feGaussianBlur4928" stdDeviation="5" result="result6"/>
-      <feComposite id="feComposite4930" operator="atop" result="result8" in2="result6" in="SourceGraphic"/>
-      <feComposite id="feComposite4932" operator="over" result="result9" in2="SourceAlpha" in="result8"/>
-      <feColorMatrix id="feColorMatrix4934" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 " result="result10"/>
-      <feBlend id="feBlend4936" in="result10" in2="result6" mode="normal"/>
-    </filter>
-  </defs>
-  <g id="layer1">
-    <g id="g4938" transform="translate(54,-15)">
-      <g id="g2991" stroke="#000" stroke-width="1px" fill="none" transform="translate(107,177)">
-        <path id="path2987" d="m65 337.36v-195c19.304-114.53 169-83.571 169 0v195z"/>
-        <path id="path2989" d="m65 337.36v-195c17.819-114.53 156-83.571 156 0v195z"/>
-      </g>
-      <g id="g2995" stroke="#000" stroke-width="1px" fill="none" transform="translate(276,177)">
-        <path id="path2997" d="m65 337.36v-195c19.304-114.53 169-83.571 169 0v195z"/>
-        <path id="path2999" d="m65 337.36v-195c17.819-114.53 156-83.571 156 0v195z"/>
-      </g>
-      <path id="path4014" filter="url(#filter4914)" fill-rule="evenodd" fill="#d45500" d="m173.92 416.34v-97.391l2.5268-9.7253c9.2144-35.464 33.83-58.152 68.063-62.732 20.945-2.8024 46.098 6.7001 62.91 23.767 8.2234 8.3477 13.505 16.899 17.276 27.972l2.7244 8 0.27681 103.75 0.27681 103.75h-154.05v-97.391z"/>
-      <g id="g3831" font-size="48px" transform="translate(40,171)" filter="url(#filter4752)" font-family="Andalus" fill="#808000">
-        <text id="text3001" style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="125%" y="148.36218" x="201">
-          <tspan id="tspan3003" y="148.36218" x="201">I</tspan>
-        </text>
-        <g id="g3061" transform="translate(0,8)">
-          <text id="text3005" style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="125%" y="184.36218" x="191">
-            <tspan id="tspan3007" y="184.36218" x="191">I</tspan>
-          </text>
-          <text id="text3009" style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="125%" y="184.36218" x="213">
-            <tspan id="tspan3011" y="184.36218" x="213">I</tspan>
-          </text>
-        </g>
-        <g id="g3053" transform="translate(0,4)">
-          <text id="text3013" style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="125%" y="232.36218" x="191">
-            <tspan id="tspan3015" y="232.36218" x="191">I</tspan>
-          </text>
-          <text id="text3017" style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="125%" y="232.36218" x="213">
-            <tspan id="tspan3019" y="232.36218" x="213">I</tspan>
-          </text>
-          <text id="text3021" style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="125%" y="232.36218" x="201">
-            <tspan id="tspan3023" y="232.36218" x="201">I</tspan>
-          </text>
-        </g>
-        <g id="g3067" transform="translate(-2)">
-          <text id="text3025" style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="125%" y="278.36218" x="189">
-            <tspan id="tspan3027" y="278.36218" x="189">I</tspan>
-          </text>
-          <text id="text3045" style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="125%" y="279.36218" x="208">
-            <tspan id="tspan3047" y="279.36218" x="208">V</tspan>
-          </text>
-        </g>
-        <text id="text3049" style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="125%" y="323.36218" x="194">
-          <tspan id="tspan3051" y="323.36218" x="194">V</tspan>
-        </text>
-      </g>
-      <path id="path4016" filter="url(#filter4926)" fill-rule="evenodd" fill="#d45500" d="m341.92 416.34v-97.391l2.5268-9.7253c9.2144-35.464 33.83-58.152 68.063-62.732 20.945-2.8024 46.098 6.7001 62.91 23.767 8.2234 8.3477 13.505 16.899 17.276 27.972l2.7244 8 0.27681 103.75 0.27681 103.75h-154.05v-97.391z"/>
-      <g id="g3854" font-size="48px" transform="translate(40,177)" filter="url(#filter4724)" font-family="Andalus" fill="#808000">
-        <g id="g3067-1" transform="matrix(-1 0 0 1 594.22 -129)">
-          <text id="text3025-7" style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="125%" y="278.36218" x="189">
-            <tspan id="tspan3027-4" y="278.36218" x="189">I</tspan>
-          </text>
-          <text id="text3045-0" style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="125%" y="279.36218" x="208">
-            <tspan id="tspan3047-9" y="279.36218" x="208">V</tspan>
-          </text>
-        </g>
-        <g id="g3762" transform="translate(0,14)">
-          <g id="g3748" transform="matrix(-1 0 0 1 582.22 -97)">
-            <text id="text3750" style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="125%" y="278.36218" x="189">
-              <tspan id="tspan3752" y="278.36218" x="189">I</tspan>
-            </text>
-            <text id="text3754" style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="125%" y="279.36218" x="208">
-              <tspan id="tspan3756" y="279.36218" x="208">V</tspan>
-            </text>
-          </g>
-          <text id="text3758" style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="125%" y="181.36218" x="396">
-            <tspan id="tspan3760" y="181.36218" x="396">I</tspan>
-          </text>
-        </g>
-        <g id="g3791" transform="translate(0,16)">
-          <g id="g3771" transform="translate(-10,42)">
-            <g id="g3773" transform="matrix(-1 0 0 1 582.22 -97)">
-              <text id="text3775" style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="125%" y="278.36218" x="189">
-                <tspan id="tspan3777" y="278.36218" x="189">I</tspan>
-              </text>
-              <text id="text3779" style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="125%" y="279.36218" x="208">
-                <tspan id="tspan3781" y="279.36218" x="208">V</tspan>
-              </text>
-            </g>
-            <text id="text3783" style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="125%" y="181.36218" x="396">
-              <tspan id="tspan3785" y="181.36218" x="396">I</tspan>
-            </text>
-          </g>
-          <text id="text3787" style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="125%" y="223.36218" x="403">
-            <tspan id="tspan3789" y="223.36218" x="403">I</tspan>
-          </text>
-        </g>
-        <text id="text3803" style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" transform="scale(-1,1)" y="278.36218" x="-403.21094" line-height="125%">
-          <tspan id="tspan3805" y="278.36218" x="-403.21094">XI</tspan>
-        </text>
-        <text id="text3807" style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="125%" y="321.36218" x="368">
-          <tspan id="tspan3809" y="321.36218" x="368">X</tspan>
-        </text>
-      </g>
-      <path id="path4910" fill-rule="evenodd" d="m328.69 409.48-0.27669-104.25-3.1347-8.7612c-6.9701-19.481-18.37-32.456-37.807-43.031-9.3912-5.1095-3.9268-3.9331 7.9421 1.7098 20.197 9.6022 34.737 25.158 41.673 44.583l2.321 6.5 0.27962 103.75 0.27962 103.75h-11l-0.27669-104.25z"/>
-      <path id="path4912" fill-rule="evenodd" d="m497.69 409.48-0.27669-104.25-3.1347-8.7612c-6.9701-19.481-18.37-32.456-37.807-43.031-9.3912-5.1095-3.9268-3.9331 7.9421 1.7098 20.197 9.6022 34.737 25.158 41.673 44.583l2.321 6.5 0.27962 103.75 0.27962 103.75h-11l-0.27669-104.25z"/>
-    </g>
-  </g>
-  <metadata>
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="405.60000000000025" id="svg2" version="1.1" viewBox="192.2 161.6919661829577 405.6000000000003 405.60000000000025" width="405.6000000000003">
+  <svg:defs id="defs4">
+    <svg:filter color-interpolation-filters="sRGB" height="1" id="filter4724" width="1" x="0" y="0">
+      <svg:feGaussianBlur id="feGaussianBlur4726" in="SourceAlpha" result="result0" stdDeviation="2.3" />
+      <svg:feMorphology id="feMorphology4728" in="SourceAlpha" radius="6.6" result="result1" />
+      <svg:feGaussianBlur id="feGaussianBlur4730" in="result1" stdDeviation="8.9" />
+      <svg:feColorMatrix id="feColorMatrix4732" result="result91" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.3 0" />
+      <svg:feComposite id="feComposite4734" in="result0" in2="result91" operator="out" result="result2" />
+      <svg:feGaussianBlur id="feGaussianBlur4736" result="result4" stdDeviation="1.7" />
+      <svg:feDiffuseLighting id="feDiffuseLighting4738" result="result92" surfaceScale="10">
+        <svg:feDistantLight azimuth="225" elevation="45" id="feDistantLight4740" />
+      </svg:feDiffuseLighting>
+      <svg:feBlend id="feBlend4742" in2="SourceGraphic" mode="multiply" result="result93" />
+      <svg:feComposite id="feComposite4744" in2="SourceAlpha" operator="in" result="result3" />
+      <svg:feSpecularLighting id="feSpecularLighting4746" in="result4" result="result94" specularExponent="17.9" surfaceScale="5">
+        <svg:feDistantLight azimuth="225" elevation="45" id="feDistantLight4748" />
+      </svg:feSpecularLighting>
+      <svg:feComposite id="feComposite4750" in2="result3" operator="atop" result="fbSourceGraphic" />
+      <svg:feColorMatrix id="feColorMatrix4826" in="fbSourceGraphic" result="fbSourceGraphicAlpha" values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0" />
+      <svg:feGaussianBlur id="feGaussianBlur4828" in="fbSourceGraphicAlpha" result="result0" stdDeviation="2.3" />
+      <svg:feMorphology id="feMorphology4830" in="fbSourceGraphicAlpha" radius="6.6" result="result1" />
+      <svg:feGaussianBlur id="feGaussianBlur4832" in="result1" stdDeviation="8.9" />
+      <svg:feColorMatrix id="feColorMatrix4834" result="result91" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.3 0" />
+      <svg:feComposite id="feComposite4836" in="result0" in2="result91" operator="out" result="result2" />
+      <svg:feGaussianBlur id="feGaussianBlur4838" result="result4" stdDeviation="1.7" />
+      <svg:feDiffuseLighting id="feDiffuseLighting4840" result="result95" surfaceScale="10">
+        <svg:feDistantLight azimuth="225" elevation="45" id="feDistantLight4842" />
+      </svg:feDiffuseLighting>
+      <svg:feBlend id="feBlend4844" in2="fbSourceGraphic" mode="multiply" result="result96" />
+      <svg:feComposite id="feComposite4846" in2="fbSourceGraphicAlpha" operator="in" result="result3" />
+      <svg:feSpecularLighting id="feSpecularLighting4848" in="result4" result="result97" specularExponent="17.9" surfaceScale="5">
+        <svg:feDistantLight azimuth="225" elevation="45" id="feDistantLight4850" />
+      </svg:feSpecularLighting>
+      <svg:feComposite id="feComposite4852" in2="result3" operator="atop" result="fbSourceGraphic" />
+      <svg:feColorMatrix id="feColorMatrix4854" in="fbSourceGraphic" result="fbSourceGraphicAlpha" values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0" />
+      <svg:feGaussianBlur id="feGaussianBlur4856" in="fbSourceGraphicAlpha" result="result0" stdDeviation="2.3" />
+      <svg:feMorphology id="feMorphology4858" in="fbSourceGraphicAlpha" radius="6.6" result="result1" />
+      <svg:feGaussianBlur id="feGaussianBlur4860" in="result1" stdDeviation="8.9" />
+      <svg:feColorMatrix id="feColorMatrix4862" result="result91" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.3 0" />
+      <svg:feComposite id="feComposite4864" in="result0" in2="result91" operator="out" result="result2" />
+      <svg:feGaussianBlur id="feGaussianBlur4866" result="result4" stdDeviation="1.7" />
+      <svg:feDiffuseLighting id="feDiffuseLighting4868" result="result98" surfaceScale="10">
+        <svg:feDistantLight azimuth="225" elevation="45" id="feDistantLight4870" />
+      </svg:feDiffuseLighting>
+      <svg:feBlend id="feBlend4872" in2="fbSourceGraphic" mode="multiply" result="result99" />
+      <svg:feComposite id="feComposite4874" in2="fbSourceGraphicAlpha" operator="in" result="result3" />
+      <svg:feSpecularLighting id="feSpecularLighting4876" in="result4" result="result100" specularExponent="17.9" surfaceScale="5">
+        <svg:feDistantLight azimuth="225" elevation="45" id="feDistantLight4878" />
+      </svg:feSpecularLighting>
+      <svg:feComposite id="feComposite4880" in2="result3" operator="atop" />
+    </svg:filter>
+    <svg:filter color-interpolation-filters="sRGB" height="1" id="filter4752" width="1" x="0" y="0">
+      <svg:feGaussianBlur id="feGaussianBlur4754" in="SourceAlpha" result="result0" stdDeviation="2.3" />
+      <svg:feMorphology id="feMorphology4756" in="SourceAlpha" radius="6.6" result="result1" />
+      <svg:feGaussianBlur id="feGaussianBlur4758" in="result1" stdDeviation="8.9" />
+      <svg:feColorMatrix id="feColorMatrix4760" result="result91" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.3 0" />
+      <svg:feComposite id="feComposite4762" in="result0" in2="result91" operator="out" result="result2" />
+      <svg:feGaussianBlur id="feGaussianBlur4764" result="result4" stdDeviation="1.7" />
+      <svg:feDiffuseLighting id="feDiffuseLighting4766" result="result92" surfaceScale="10">
+        <svg:feDistantLight azimuth="225" elevation="45" id="feDistantLight4768" />
+      </svg:feDiffuseLighting>
+      <svg:feBlend id="feBlend4770" in2="SourceGraphic" mode="multiply" result="result93" />
+      <svg:feComposite id="feComposite4772" in2="SourceAlpha" operator="in" result="result3" />
+      <svg:feSpecularLighting id="feSpecularLighting4774" in="result4" result="result94" specularExponent="17.9" surfaceScale="5">
+        <svg:feDistantLight azimuth="225" elevation="45" id="feDistantLight4776" />
+      </svg:feSpecularLighting>
+      <svg:feComposite id="feComposite4778" in2="result3" operator="atop" result="fbSourceGraphic" />
+      <svg:feColorMatrix id="feColorMatrix4798" in="fbSourceGraphic" result="fbSourceGraphicAlpha" values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0" />
+      <svg:feGaussianBlur id="feGaussianBlur4800" in="fbSourceGraphicAlpha" result="result0" stdDeviation="2.3" />
+      <svg:feMorphology id="feMorphology4802" in="fbSourceGraphicAlpha" radius="6.6" result="result1" />
+      <svg:feGaussianBlur id="feGaussianBlur4804" in="result1" stdDeviation="8.9" />
+      <svg:feColorMatrix id="feColorMatrix4806" result="result91" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.3 0" />
+      <svg:feComposite id="feComposite4808" in="result0" in2="result91" operator="out" result="result2" />
+      <svg:feGaussianBlur id="feGaussianBlur4810" result="result4" stdDeviation="1.7" />
+      <svg:feDiffuseLighting id="feDiffuseLighting4812" result="result95" surfaceScale="10">
+        <svg:feDistantLight azimuth="225" elevation="45" id="feDistantLight4814" />
+      </svg:feDiffuseLighting>
+      <svg:feBlend id="feBlend4816" in2="fbSourceGraphic" mode="multiply" result="result96" />
+      <svg:feComposite id="feComposite4818" in2="fbSourceGraphicAlpha" operator="in" result="result3" />
+      <svg:feSpecularLighting id="feSpecularLighting4820" in="result4" result="result97" specularExponent="17.9" surfaceScale="5">
+        <svg:feDistantLight azimuth="225" elevation="45" id="feDistantLight4822" />
+      </svg:feSpecularLighting>
+      <svg:feComposite id="feComposite4824" in2="result3" operator="atop" result="fbSourceGraphic" />
+      <svg:feColorMatrix id="feColorMatrix4882" in="fbSourceGraphic" result="fbSourceGraphicAlpha" values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0" />
+      <svg:feGaussianBlur id="feGaussianBlur4884" in="fbSourceGraphicAlpha" result="result0" stdDeviation="2.3" />
+      <svg:feMorphology id="feMorphology4886" in="fbSourceGraphicAlpha" radius="6.6" result="result1" />
+      <svg:feGaussianBlur id="feGaussianBlur4888" in="result1" stdDeviation="8.9" />
+      <svg:feColorMatrix id="feColorMatrix4890" result="result91" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.3 0" />
+      <svg:feComposite id="feComposite4892" in="result0" in2="result91" operator="out" result="result2" />
+      <svg:feGaussianBlur id="feGaussianBlur4894" result="result4" stdDeviation="1.7" />
+      <svg:feDiffuseLighting id="feDiffuseLighting4896" result="result98" surfaceScale="10">
+        <svg:feDistantLight azimuth="225" elevation="45" id="feDistantLight4898" />
+      </svg:feDiffuseLighting>
+      <svg:feBlend id="feBlend4900" in2="fbSourceGraphic" mode="multiply" result="result99" />
+      <svg:feComposite id="feComposite4902" in2="fbSourceGraphicAlpha" operator="in" result="result3" />
+      <svg:feSpecularLighting id="feSpecularLighting4904" in="result4" result="result100" specularExponent="17.9" surfaceScale="5">
+        <svg:feDistantLight azimuth="225" elevation="45" id="feDistantLight4906" />
+      </svg:feSpecularLighting>
+      <svg:feComposite id="feComposite4908" in2="result3" operator="atop" />
+    </svg:filter>
+    <svg:filter color-interpolation-filters="sRGB" height="1.5" id="filter4914" y="-.25">
+      <svg:feGaussianBlur id="feGaussianBlur4916" result="result6" stdDeviation="5" />
+      <svg:feComposite id="feComposite4918" in="SourceGraphic" in2="result6" operator="atop" result="result8" />
+      <svg:feComposite id="feComposite4920" in="result8" in2="SourceAlpha" operator="over" result="result9" />
+      <svg:feColorMatrix id="feColorMatrix4922" result="result10" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 " />
+      <svg:feBlend id="feBlend4924" in="result10" in2="result6" mode="normal" />
+    </svg:filter>
+    <svg:filter color-interpolation-filters="sRGB" height="1.5" id="filter4926" y="-.25">
+      <svg:feGaussianBlur id="feGaussianBlur4928" result="result6" stdDeviation="5" />
+      <svg:feComposite id="feComposite4930" in="SourceGraphic" in2="result6" operator="atop" result="result8" />
+      <svg:feComposite id="feComposite4932" in="result8" in2="SourceAlpha" operator="over" result="result9" />
+      <svg:feColorMatrix id="feColorMatrix4934" result="result10" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 " />
+      <svg:feBlend id="feBlend4936" in="result10" in2="result6" mode="normal" />
+    </svg:filter>
+  </svg:defs>
+  <svg:g id="layer1">
+    <svg:g id="g4938" transform="translate(54,-15)">
+      <svg:g fill="none" id="g2991" stroke="#000" stroke-width="1px" transform="translate(107,177)">
+        <svg:path d="m65 337.36v-195c19.304-114.53 169-83.571 169 0v195z" id="path2987" />
+        <svg:path d="m65 337.36v-195c17.819-114.53 156-83.571 156 0v195z" id="path2989" />
+      </svg:g>
+      <svg:g fill="none" id="g2995" stroke="#000" stroke-width="1px" transform="translate(276,177)">
+        <svg:path d="m65 337.36v-195c19.304-114.53 169-83.571 169 0v195z" id="path2997" />
+        <svg:path d="m65 337.36v-195c17.819-114.53 156-83.571 156 0v195z" id="path2999" />
+      </svg:g>
+      <svg:path d="m173.92 416.34v-97.391l2.5268-9.7253c9.2144-35.464 33.83-58.152 68.063-62.732 20.945-2.8024 46.098 6.7001 62.91 23.767 8.2234 8.3477 13.505 16.899 17.276 27.972l2.7244 8 0.27681 103.75 0.27681 103.75h-154.05v-97.391z" fill="#d45500" fill-rule="evenodd" filter="url(#filter4914)" id="path4014" />
+      <svg:g fill="#808000" filter="url(#filter4752)" font-family="Andalus" font-size="48px" id="g3831" transform="translate(40,171)">
+        <svg:text id="text3001" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="201" y="148.36218" xml:space="preserve">
+          <svg:tspan id="tspan3003" x="201" y="148.36218">I</svg:tspan>
+        </svg:text>
+        <svg:g id="g3061" transform="translate(0,8)">
+          <svg:text id="text3005" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="191" y="184.36218" xml:space="preserve">
+            <svg:tspan id="tspan3007" x="191" y="184.36218">I</svg:tspan>
+          </svg:text>
+          <svg:text id="text3009" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="213" y="184.36218" xml:space="preserve">
+            <svg:tspan id="tspan3011" x="213" y="184.36218">I</svg:tspan>
+          </svg:text>
+        </svg:g>
+        <svg:g id="g3053" transform="translate(0,4)">
+          <svg:text id="text3013" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="191" y="232.36218" xml:space="preserve">
+            <svg:tspan id="tspan3015" x="191" y="232.36218">I</svg:tspan>
+          </svg:text>
+          <svg:text id="text3017" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="213" y="232.36218" xml:space="preserve">
+            <svg:tspan id="tspan3019" x="213" y="232.36218">I</svg:tspan>
+          </svg:text>
+          <svg:text id="text3021" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="201" y="232.36218" xml:space="preserve">
+            <svg:tspan id="tspan3023" x="201" y="232.36218">I</svg:tspan>
+          </svg:text>
+        </svg:g>
+        <svg:g id="g3067" transform="translate(-2)">
+          <svg:text id="text3025" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="189" y="278.36218" xml:space="preserve">
+            <svg:tspan id="tspan3027" x="189" y="278.36218">I</svg:tspan>
+          </svg:text>
+          <svg:text id="text3045" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="208" y="279.36218" xml:space="preserve">
+            <svg:tspan id="tspan3047" x="208" y="279.36218">V</svg:tspan>
+          </svg:text>
+        </svg:g>
+        <svg:text id="text3049" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="194" y="323.36218" xml:space="preserve">
+          <svg:tspan id="tspan3051" x="194" y="323.36218">V</svg:tspan>
+        </svg:text>
+      </svg:g>
+      <svg:path d="m341.92 416.34v-97.391l2.5268-9.7253c9.2144-35.464 33.83-58.152 68.063-62.732 20.945-2.8024 46.098 6.7001 62.91 23.767 8.2234 8.3477 13.505 16.899 17.276 27.972l2.7244 8 0.27681 103.75 0.27681 103.75h-154.05v-97.391z" fill="#d45500" fill-rule="evenodd" filter="url(#filter4926)" id="path4016" />
+      <svg:g fill="#808000" filter="url(#filter4724)" font-family="Andalus" font-size="48px" id="g3854" transform="translate(40,177)">
+        <svg:g id="g3067-1" transform="matrix(-1 0 0 1 594.22 -129)">
+          <svg:text id="text3025-7" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="189" y="278.36218" xml:space="preserve">
+            <svg:tspan id="tspan3027-4" x="189" y="278.36218">I</svg:tspan>
+          </svg:text>
+          <svg:text id="text3045-0" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="208" y="279.36218" xml:space="preserve">
+            <svg:tspan id="tspan3047-9" x="208" y="279.36218">V</svg:tspan>
+          </svg:text>
+        </svg:g>
+        <svg:g id="g3762" transform="translate(0,14)">
+          <svg:g id="g3748" transform="matrix(-1 0 0 1 582.22 -97)">
+            <svg:text id="text3750" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="189" y="278.36218" xml:space="preserve">
+              <svg:tspan id="tspan3752" x="189" y="278.36218">I</svg:tspan>
+            </svg:text>
+            <svg:text id="text3754" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="208" y="279.36218" xml:space="preserve">
+              <svg:tspan id="tspan3756" x="208" y="279.36218">V</svg:tspan>
+            </svg:text>
+          </svg:g>
+          <svg:text id="text3758" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="396" y="181.36218" xml:space="preserve">
+            <svg:tspan id="tspan3760" x="396" y="181.36218">I</svg:tspan>
+          </svg:text>
+        </svg:g>
+        <svg:g id="g3791" transform="translate(0,16)">
+          <svg:g id="g3771" transform="translate(-10,42)">
+            <svg:g id="g3773" transform="matrix(-1 0 0 1 582.22 -97)">
+              <svg:text id="text3775" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="189" y="278.36218" xml:space="preserve">
+                <svg:tspan id="tspan3777" x="189" y="278.36218">I</svg:tspan>
+              </svg:text>
+              <svg:text id="text3779" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="208" y="279.36218" xml:space="preserve">
+                <svg:tspan id="tspan3781" x="208" y="279.36218">V</svg:tspan>
+              </svg:text>
+            </svg:g>
+            <svg:text id="text3783" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="396" y="181.36218" xml:space="preserve">
+              <svg:tspan id="tspan3785" x="396" y="181.36218">I</svg:tspan>
+            </svg:text>
+          </svg:g>
+          <svg:text id="text3787" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="403" y="223.36218" xml:space="preserve">
+            <svg:tspan id="tspan3789" x="403" y="223.36218">I</svg:tspan>
+          </svg:text>
+        </svg:g>
+        <svg:text id="text3803" line-height="125%" style="word-spacing:0px;letter-spacing:0px" transform="scale(-1,1)" x="-403.21094" y="278.36218" xml:space="preserve">
+          <svg:tspan id="tspan3805" x="-403.21094" y="278.36218">XI</svg:tspan>
+        </svg:text>
+        <svg:text id="text3807" line-height="125%" style="word-spacing:0px;letter-spacing:0px" x="368" y="321.36218" xml:space="preserve">
+          <svg:tspan id="tspan3809" x="368" y="321.36218">X</svg:tspan>
+        </svg:text>
+      </svg:g>
+      <svg:path d="m328.69 409.48-0.27669-104.25-3.1347-8.7612c-6.9701-19.481-18.37-32.456-37.807-43.031-9.3912-5.1095-3.9268-3.9331 7.9421 1.7098 20.197 9.6022 34.737 25.158 41.673 44.583l2.321 6.5 0.27962 103.75 0.27962 103.75h-11l-0.27669-104.25z" fill-rule="evenodd" id="path4910" />
+      <svg:path d="m497.69 409.48-0.27669-104.25-3.1347-8.7612c-6.9701-19.481-18.37-32.456-37.807-43.031-9.3912-5.1095-3.9268-3.9331 7.9421 1.7098 20.197 9.6022 34.737 25.158 41.673 44.583l2.321 6.5 0.27962 103.75 0.27962 103.75h-11l-0.27669-104.25z" fill-rule="evenodd" id="path4912" />
+    </svg:g>
+  </svg:g>
+  <svg:metadata>
     <rdf:RDF>
-      <cc:Work>
+      <ns2:Work>
         <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns2:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
         <dc:publisher>
-          <cc:Agent rdf:about="http://openclipart.org/">
+          <ns2:Agent rdf:about="http://openclipart.org/">
             <dc:title>Openclipart</dc:title>
-          </cc:Agent>
+          </ns2:Agent>
         </dc:publisher>
         <dc:title>Ten Commandments</dc:title>
         <dc:date>2012-07-06T13:48:25</dc:date>
         <dc:description>christianity, church, clip art, clipart, law, religion, </dc:description>
         <dc:source>http://openclipart.org/detail/171071/ten-commandments-by-siervo-171071</dc:source>
         <dc:creator>
-          <cc:Agent>
+          <ns2:Agent>
             <dc:title>siervo</dc:title>
-          </cc:Agent>
+          </ns2:Agent>
         </dc:creator>
         <dc:subject>
           <rdf:Bag>
@@ -242,12 +241,12 @@
             <rdf:li>religion</rdf:li>
           </rdf:Bag>
         </dc:subject>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
-        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
-        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
-        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
-      </cc:License>
+      </ns2:Work>
+      <ns2:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns2:License>
     </rdf:RDF>
-  </metadata>
-</svg>
+  </svg:metadata>
+</svg:svg>

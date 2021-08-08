@@ -1,1382 +1,278 @@
-<?xml version="1.0"?>
-<svg
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:cc="http://creativecommons.org/ns#"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    xmlns:ns1="http://sozi.baierouge.fr"
-    id="svg2"
-    viewBox="0 0 400 700"
-    version="1.1"
-  >
-  <defs
-      id="defs4"
-    >
-    <linearGradient
-        id="linearGradient4441"
-      >
-      <stop
-          id="stop4443"
-          stop-color="#f63400"
-          offset="0"
-      />
-      <stop
-          id="stop4445"
-          stop-color="#ff8b39"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient4324"
-      >
-      <stop
-          id="stop4326"
-          stop-color="#1e83ff"
-          offset="0"
-      />
-      <stop
-          id="stop4328"
-          stop-color="#46dbff"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient4258"
-      >
-      <stop
-          id="stop4260"
-          stop-color="#00f"
-          offset="0"
-      />
-      <stop
-          id="stop4262"
-          stop-color="#4381ff"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient4192"
-      >
-      <stop
-          id="stop4194"
-          stop-color="#d70000"
-          offset="0"
-      />
-      <stop
-          id="stop4196"
-          stop-color="#ff582c"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient4027"
-      >
-      <stop
-          id="stop4029"
-          stop-color="#008000"
-          offset="0"
-      />
-      <stop
-          id="stop4031"
-          stop-color="#7cfc00"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient3961"
-      >
-      <stop
-          id="stop3963"
-          stop-color="#ed00dd"
-          offset="0"
-      />
-      <stop
-          id="stop3965"
-          stop-color="#ef5c8c"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient3831"
-      >
-      <stop
-          id="stop3833"
-          stop-color="#ff8c00"
-          offset="0"
-      />
-      <stop
-          id="stop3835"
-          stop-color="#ff0"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient3871"
-        y2="-30"
-        xlink:href="#linearGradient4441"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="translate(0,-10)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient3873"
-        y2="-30"
-        xlink:href="#linearGradient4441"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="matrix(-.70711 .70711 -.70711 -.70711 157.07 -113.64)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient3875"
-        y2="-30"
-        xlink:href="#linearGradient4441"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="matrix(0,1,-1,0,210,-100)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient3877"
-        y2="-30"
-        xlink:href="#linearGradient4441"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="matrix(.70711 .70711 -.70711 .70711 286.36 -57.071)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient3885"
-        y2="10"
-        gradientUnits="userSpaceOnUse"
-        y1="90"
-        x2="90"
-        x1="10"
-      >
-      <stop
-          id="stop4437"
-          stop-color="#f69900"
-          stop-opacity=".60784"
-          offset="0"
-      />
-      <stop
-          id="stop4439"
-          stop-color="#ff6209"
-          stop-opacity=".78431"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient3893"
-        y2="-51.951"
-        gradientUnits="userSpaceOnUse"
-        y1="-30"
-        x2="52.683"
-        x1="30.732"
-      >
-      <stop
-          id="stop3813"
-          stop-color="#fff"
-          stop-opacity="0"
-          offset="0"
-      />
-      <stop
-          id="stop3815"
-          stop-color="#fff"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient3931"
-        y2="10"
-        gradientUnits="userSpaceOnUse"
-        y1="90"
-        x2="90"
-        x1="10"
-      >
-      <stop
-          id="stop2979"
-          stop-color="#ffff01"
-          stop-opacity=".60784"
-          offset="0"
-      />
-      <stop
-          id="stop2981"
-          stop-color="#ffcc01"
-          stop-opacity=".78431"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient3939"
-        y2="-30"
-        xlink:href="#linearGradient3831"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="translate(0,-10)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient3941"
-        y2="-30"
-        xlink:href="#linearGradient3831"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="matrix(-.70711 .70711 -.70711 -.70711 157.07 -113.64)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient3943"
-        y2="-30"
-        xlink:href="#linearGradient3831"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="matrix(0,1,-1,0,210,-100)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient3945"
-        y2="-30"
-        xlink:href="#linearGradient3831"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="matrix(.70711 .70711 -.70711 .70711 286.36 -57.071)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient4104"
-        y2="10"
-        gradientUnits="userSpaceOnUse"
-        y1="90"
-        x2="90"
-        x1="10"
-      >
-      <stop
-          id="stop3957"
-          stop-color="#ff00b9"
-          stop-opacity=".60784"
-          offset="0"
-      />
-      <stop
-          id="stop3959"
-          stop-color="#ab00c6"
-          stop-opacity=".78431"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient4112"
-        y2="-30"
-        xlink:href="#linearGradient3961"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="translate(0,-10)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient4114"
-        y2="-30"
-        xlink:href="#linearGradient3961"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="matrix(-.70711 .70711 -.70711 -.70711 157.07 -113.64)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient4116"
-        y2="-30"
-        xlink:href="#linearGradient3961"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="matrix(0,1,-1,0,210,-100)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient4118"
-        y2="-30"
-        xlink:href="#linearGradient3961"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="matrix(.70711 .70711 -.70711 .70711 286.36 -57.071)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient4145"
-        y2="10"
-        gradientUnits="userSpaceOnUse"
-        y1="90"
-        x2="90"
-        x1="10"
-      >
-      <stop
-          id="stop4023"
-          stop-color="#7cfc00"
-          stop-opacity=".60784"
-          offset="0"
-      />
-      <stop
-          id="stop4025"
-          stop-color="#16c646"
-          stop-opacity=".78431"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient4153"
-        y2="-30"
-        xlink:href="#linearGradient4027"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="translate(0,-10)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient4155"
-        y2="-30"
-        xlink:href="#linearGradient4027"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="matrix(-.70711 .70711 -.70711 -.70711 157.07 -113.64)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient4157"
-        y2="-30"
-        xlink:href="#linearGradient4027"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="matrix(0,1,-1,0,210,-100)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient4159"
-        y2="-30"
-        xlink:href="#linearGradient4027"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="matrix(.70711 .70711 -.70711 .70711 286.36 -57.071)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient4228"
-        y2="10"
-        gradientUnits="userSpaceOnUse"
-        y1="90"
-        x2="90"
-        x1="10"
-      >
-      <stop
-          id="stop4188"
-          stop-color="#ff0101"
-          stop-opacity=".60784"
-          offset="0"
-      />
-      <stop
-          id="stop4190"
-          stop-color="#f00"
-          stop-opacity=".78431"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient4236"
-        y2="-30"
-        xlink:href="#linearGradient4192"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="translate(0,-10)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient4238"
-        y2="-30"
-        xlink:href="#linearGradient4192"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="matrix(-.70711 .70711 -.70711 -.70711 157.07 -113.64)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient4240"
-        y2="-30"
-        xlink:href="#linearGradient4192"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="matrix(0,1,-1,0,210,-100)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient4242"
-        y2="-30"
-        xlink:href="#linearGradient4192"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="matrix(.70711 .70711 -.70711 .70711 286.36 -57.071)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient4294"
-        y2="10"
-        gradientUnits="userSpaceOnUse"
-        y1="90"
-        x2="90"
-        x1="10"
-      >
-      <stop
-          id="stop4254"
-          stop-color="#1d90ff"
-          stop-opacity=".60784"
-          offset="0"
-      />
-      <stop
-          id="stop4256"
-          stop-color="#00f"
-          stop-opacity=".78431"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient4302"
-        y2="-30"
-        xlink:href="#linearGradient4258"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="translate(0,-10)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient4304"
-        y2="-30"
-        xlink:href="#linearGradient4258"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="matrix(-.70711 .70711 -.70711 -.70711 157.07 -113.64)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient4306"
-        y2="-30"
-        xlink:href="#linearGradient4258"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="matrix(0,1,-1,0,210,-100)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient4308"
-        y2="-30"
-        xlink:href="#linearGradient4258"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="matrix(.70711 .70711 -.70711 .70711 286.36 -57.071)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient4360"
-        y2="10"
-        gradientUnits="userSpaceOnUse"
-        y1="90"
-        x2="90"
-        x1="10"
-      >
-      <stop
-          id="stop4320"
-          stop-color="#01ffff"
-          stop-opacity=".60784"
-          offset="0"
-      />
-      <stop
-          id="stop4322"
-          stop-color="#0061ff"
-          stop-opacity=".78431"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient4368"
-        y2="-30"
-        xlink:href="#linearGradient4324"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="translate(0,-10)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient4370"
-        y2="-30"
-        xlink:href="#linearGradient4324"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="matrix(-.70711 .70711 -.70711 -.70711 157.07 -113.64)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient4372"
-        y2="-30"
-        xlink:href="#linearGradient4324"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="matrix(0,1,-1,0,210,-100)"
-        y1="-50"
-        x1="70"
-    />
-    <linearGradient
-        id="linearGradient4374"
-        y2="-30"
-        xlink:href="#linearGradient4324"
-        gradientUnits="userSpaceOnUse"
-        x2="30"
-        gradientTransform="matrix(.70711 .70711 -.70711 .70711 286.36 -57.071)"
-        y1="-50"
-        x1="70"
-    />
-  </defs
-  >
-  <g
-      id="g4464"
-    >
-    <g
-        id="g4447"
-        transform="translate(0,700)"
-      >
-      <g
-          id="g3803"
-          stroke="#ff4500"
-          stroke-width="3"
-          transform="translate(0,-100)"
-          fill="url(#linearGradient3885)"
-        >
-        <circle
-            id="circle9"
-            cy="50"
-            cx="50"
-            r="37.5"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-        />
-        <circle
-            id="circle3791"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-            transform="translate(100)"
-            cy="50"
-            cx="50"
-            r="37.5"
-        />
-        <circle
-            id="circle3795"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-            transform="translate(200)"
-            cy="50"
-            cx="50"
-            r="37.5"
-        />
-        <circle
-            id="circle3799"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-            stroke-opacity=".90588"
-            transform="translate(300)"
-            cy="50"
-            cx="50"
-            r="37.5"
-        />
-      </g
-      >
-      <g
-          id="g3865"
-        >
-        <path
-            id="path3757"
-            d="m45-20c10-20 0-40 10-60-10 0-25 0-25 15s40 15 40 30-15 15-25 15z"
-            fill="url(#linearGradient3871)"
-        />
-        <path
-            id="path3853"
-            d="m132.32-74.749c7.0711 21.213 28.284 28.284 35.355 49.497 7.0711-7.0711 17.678-17.678 7.0711-28.284-10.607-10.607-38.891 17.678-49.497 7.0711-10.607-10.607 0-21.213 7.0711-28.284z"
-            fill="url(#linearGradient3873)"
-        />
-        <path
-            id="path3857"
-            d="m220-55c20 10 40-0.000001 60 10 0-10 0-25-15-25-15-0.000006-15 40-30 40-15 0.000001-15-15-15-25z"
-            fill="url(#linearGradient3875)"
-        />
-        <path
-            id="path3861"
-            d="m325.25-32.322c21.213-7.0711 28.284-28.284 49.497-35.355-7.0711-7.0711-17.678-17.678-28.284-7.0711-10.607 10.607 17.678 38.891 7.0711 49.497-10.607 10.607-21.213 0-28.284-7.0711z"
-            fill="url(#linearGradient3877)"
-        />
-      </g
-      >
-      <g
-          id="g3879"
-          fill="url(#linearGradient3893)"
-          transform="translate(0,-100)"
-        >
-        <path
-            id="path3809"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 -2 101)"
-        />
-        <path
-            id="path3819"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 98 101)"
-        />
-        <path
-            id="path3823"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 198 101)"
-        />
-        <path
-            id="path3827"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 298 101)"
-        />
-      </g
-      >
-    </g
-    >
-    <g
-        id="g4169"
-      >
-      <g
-          id="g3901"
-          stroke="#960"
-          stroke-width="3"
-          fill="url(#linearGradient3931)"
-        >
-        <circle
-            id="circle3903"
-            cy="50"
-            cx="50"
-            r="37.5"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-        />
-        <circle
-            id="circle3905"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-            transform="translate(100)"
-            cy="50"
-            cx="50"
-            r="37.5"
-        />
-        <circle
-            id="circle3907"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-            transform="translate(200)"
-            cy="50"
-            cx="50"
-            r="37.5"
-        />
-        <circle
-            id="circle3909"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-            transform="translate(300)"
-            cy="50"
-            cx="50"
-            r="37.5"
-        />
-      </g
-      >
-      <g
-          id="g3911"
-          transform="translate(0,100)"
-        >
-        <path
-            id="path3913"
-            d="m45-20c10-20 0-40 10-60-10 0-25 0-25 15s40 15 40 30-15 15-25 15z"
-            fill="url(#linearGradient3939)"
-        />
-        <path
-            id="path3915"
-            d="m132.32-74.749c7.0711 21.213 28.284 28.284 35.355 49.497 7.0711-7.0711 17.678-17.678 7.0711-28.284-10.607-10.607-38.891 17.678-49.497 7.0711-10.607-10.607 0-21.213 7.0711-28.284z"
-            fill="url(#linearGradient3941)"
-        />
-        <path
-            id="path3917"
-            d="m220-55c20 10 40-0.000001 60 10 0-10 0-25-15-25-15-0.000006-15 40-30 40-15 0.000001-15-15-15-25z"
-            fill="url(#linearGradient3943)"
-        />
-        <path
-            id="path3919"
-            d="m325.25-32.322c21.213-7.0711 28.284-28.284 49.497-35.355-7.0711-7.0711-17.678-17.678-28.284-7.0711-10.607 10.607 17.678 38.891 7.0711 49.497-10.607 10.607-21.213 0-28.284-7.0711z"
-            fill="url(#linearGradient3945)"
-        />
-      </g
-      >
-      <g
-          id="g3921"
-          fill="url(#linearGradient3893)"
-        >
-        <path
-            id="path3923"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 -2 101)"
-        />
-        <path
-            id="path3925"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 98 101)"
-        />
-        <path
-            id="path3927"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 198 101)"
-        />
-        <path
-            id="path3929"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 298 101)"
-        />
-      </g
-      >
-    </g
-    >
-    <g
-        id="g4087"
-      >
-      <g
-          id="g3967"
-          stroke="#9932cc"
-          stroke-width="3"
-          transform="translate(0,100)"
-          fill="url(#linearGradient4104)"
-        >
-        <circle
-            id="circle3969"
-            cy="50"
-            cx="50"
-            r="37.5"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-        />
-        <circle
-            id="circle3971"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-            transform="translate(100)"
-            cy="50"
-            cx="50"
-            r="37.5"
-        />
-        <circle
-            id="circle3973"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-            transform="translate(200)"
-            cy="50"
-            cx="50"
-            r="37.5"
-        />
-        <circle
-            id="circle3975"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-            transform="translate(300)"
-            cy="50"
-            cx="50"
-            r="37.5"
-        />
-      </g
-      >
-      <g
-          id="g3977"
-          transform="translate(0,200)"
-        >
-        <path
-            id="path3979"
-            d="m45-20c10-20 0-40 10-60-10 0-25 0-25 15s40 15 40 30-15 15-25 15z"
-            fill="url(#linearGradient4112)"
-        />
-        <path
-            id="path3981"
-            d="m132.32-74.749c7.0711 21.213 28.284 28.284 35.355 49.497 7.0711-7.0711 17.678-17.678 7.0711-28.284-10.607-10.607-38.891 17.678-49.497 7.0711-10.607-10.607 0-21.213 7.0711-28.284z"
-            fill="url(#linearGradient4114)"
-        />
-        <path
-            id="path3983"
-            d="m220-55c20 10 40-0.000001 60 10 0-10 0-25-15-25-15-0.000006-15 40-30 40-15 0.000001-15-15-15-25z"
-            fill="url(#linearGradient4116)"
-        />
-        <path
-            id="path3985"
-            d="m325.25-32.322c21.213-7.0711 28.284-28.284 49.497-35.355-7.0711-7.0711-17.678-17.678-28.284-7.0711-10.607 10.607 17.678 38.891 7.0711 49.497-10.607 10.607-21.213 0-28.284-7.0711z"
-            fill="url(#linearGradient4118)"
-        />
-      </g
-      >
-      <g
-          id="g3987"
-          fill="url(#linearGradient3893)"
-          transform="translate(0,100)"
-        >
-        <path
-            id="path3989"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 -2 101)"
-        />
-        <path
-            id="path3991"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 98 101)"
-        />
-        <path
-            id="path3993"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 198 101)"
-        />
-        <path
-            id="path3995"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 298 101)"
-        />
-      </g
-      >
-    </g
-    >
-    <g
-        id="g4128"
-      >
-      <g
-          id="g4033"
-          stroke="#6b8e23"
-          stroke-width="3"
-          transform="translate(0,200)"
-          fill="url(#linearGradient4145)"
-        >
-        <circle
-            id="circle4035"
-            cy="50"
-            cx="50"
-            r="37.5"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-        />
-        <circle
-            id="circle4037"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-            transform="translate(100)"
-            cy="50"
-            cx="50"
-            r="37.5"
-        />
-        <circle
-            id="circle4039"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-            transform="translate(200)"
-            cy="50"
-            cx="50"
-            r="37.5"
-        />
-        <circle
-            id="circle4041"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-            transform="translate(300)"
-            cy="50"
-            cx="50"
-            r="37.5"
-        />
-      </g
-      >
-      <g
-          id="g4043"
-          transform="translate(0,300)"
-        >
-        <path
-            id="path4045"
-            d="m45-20c10-20 0-40 10-60-10 0-25 0-25 15s40 15 40 30-15 15-25 15z"
-            fill="url(#linearGradient4153)"
-        />
-        <path
-            id="path4047"
-            d="m132.32-74.749c7.0711 21.213 28.284 28.284 35.355 49.497 7.0711-7.0711 17.678-17.678 7.0711-28.284-10.607-10.607-38.891 17.678-49.497 7.0711-10.607-10.607 0-21.213 7.0711-28.284z"
-            fill="url(#linearGradient4155)"
-        />
-        <path
-            id="path4049"
-            d="m220-55c20 10 40-0.000001 60 10 0-10 0-25-15-25-15-0.000006-15 40-30 40-15 0.000001-15-15-15-25z"
-            fill="url(#linearGradient4157)"
-        />
-        <path
-            id="path4051"
-            d="m325.25-32.322c21.213-7.0711 28.284-28.284 49.497-35.355-7.0711-7.0711-17.678-17.678-28.284-7.0711-10.607 10.607 17.678 38.891 7.0711 49.497-10.607 10.607-21.213 0-28.284-7.0711z"
-            fill="url(#linearGradient4159)"
-        />
-      </g
-      >
-      <g
-          id="g4053"
-          fill="url(#linearGradient3893)"
-          transform="translate(0,200)"
-        >
-        <path
-            id="path4055"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 -2 101)"
-        />
-        <path
-            id="path4057"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 98 101)"
-        />
-        <path
-            id="path4059"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 198 101)"
-        />
-        <path
-            id="path4061"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 298 101)"
-        />
-      </g
-      >
-    </g
-    >
-    <g
-        id="g4418"
-      >
-      <g
-          id="g4198"
-          stroke="#a52a2a"
-          stroke-width="3"
-          transform="translate(0,300)"
-          fill="url(#linearGradient4228)"
-        >
-        <circle
-            id="circle4200"
-            cy="50"
-            cx="50"
-            r="37.5"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-        />
-        <circle
-            id="circle4202"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-            transform="translate(100)"
-            cy="50"
-            cx="50"
-            r="37.5"
-        />
-        <circle
-            id="circle4204"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-            transform="translate(200)"
-            cy="50"
-            cx="50"
-            r="37.5"
-        />
-        <circle
-            id="circle4206"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-            transform="translate(300)"
-            cy="50"
-            cx="50"
-            r="37.5"
-        />
-      </g
-      >
-      <g
-          id="g4208"
-          transform="translate(0,400)"
-        >
-        <path
-            id="path4210"
-            d="m45-20c10-20 0-40 10-60-10 0-25 0-25 15s40 15 40 30-15 15-25 15z"
-            fill="url(#linearGradient4236)"
-        />
-        <path
-            id="path4212"
-            d="m132.32-74.749c7.0711 21.213 28.284 28.284 35.355 49.497 7.0711-7.0711 17.678-17.678 7.0711-28.284-10.607-10.607-38.891 17.678-49.497 7.0711-10.607-10.607 0-21.213 7.0711-28.284z"
-            fill="url(#linearGradient4238)"
-        />
-        <path
-            id="path4214"
-            d="m220-55c20 10 40-0.000001 60 10 0-10 0-25-15-25-15-0.000006-15 40-30 40-15 0.000001-15-15-15-25z"
-            fill="url(#linearGradient4240)"
-        />
-        <path
-            id="path4216"
-            d="m325.25-32.322c21.213-7.0711 28.284-28.284 49.497-35.355-7.0711-7.0711-17.678-17.678-28.284-7.0711-10.607 10.607 17.678 38.891 7.0711 49.497-10.607 10.607-21.213 0-28.284-7.0711z"
-            fill="url(#linearGradient4242)"
-        />
-      </g
-      >
-      <g
-          id="g4218"
-          fill="url(#linearGradient3893)"
-          transform="translate(0,300)"
-        >
-        <path
-            id="path4220"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 -2 101)"
-        />
-        <path
-            id="path4222"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 98 101)"
-        />
-        <path
-            id="path4224"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 198 101)"
-        />
-        <path
-            id="path4226"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 298 101)"
-        />
-      </g
-      >
-    </g
-    >
-    <g
-        id="g4401"
-      >
-      <g
-          id="g4264"
-          stroke="#44b"
-          stroke-width="3"
-          transform="translate(0,400)"
-          fill="url(#linearGradient4294)"
-        >
-        <circle
-            id="circle4266"
-            cy="50"
-            cx="50"
-            r="37.5"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-        />
-        <circle
-            id="circle4268"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-            transform="translate(100)"
-            cy="50"
-            cx="50"
-            r="37.5"
-        />
-        <circle
-            id="circle4270"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-            transform="translate(200)"
-            cy="50"
-            cx="50"
-            r="37.5"
-        />
-        <circle
-            id="circle4272"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-            stroke-opacity=".90588"
-            transform="translate(300)"
-            cy="50"
-            cx="50"
-            r="37.5"
-        />
-      </g
-      >
-      <g
-          id="g4274"
-          transform="translate(0,500)"
-        >
-        <path
-            id="path4276"
-            d="m45-20c10-20 0-40 10-60-10 0-25 0-25 15s40 15 40 30-15 15-25 15z"
-            fill="url(#linearGradient4302)"
-        />
-        <path
-            id="path4278"
-            d="m132.32-74.749c7.0711 21.213 28.284 28.284 35.355 49.497 7.0711-7.0711 17.678-17.678 7.0711-28.284-10.607-10.607-38.891 17.678-49.497 7.0711-10.607-10.607 0-21.213 7.0711-28.284z"
-            fill="url(#linearGradient4304)"
-        />
-        <path
-            id="path4280"
-            d="m220-55c20 10 40-0.000001 60 10 0-10 0-25-15-25-15-0.000006-15 40-30 40-15 0.000001-15-15-15-25z"
-            fill="url(#linearGradient4306)"
-        />
-        <path
-            id="path4282"
-            d="m325.25-32.322c21.213-7.0711 28.284-28.284 49.497-35.355-7.0711-7.0711-17.678-17.678-28.284-7.0711-10.607 10.607 17.678 38.891 7.0711 49.497-10.607 10.607-21.213 0-28.284-7.0711z"
-            fill="url(#linearGradient4308)"
-        />
-      </g
-      >
-      <g
-          id="g4284"
-          fill="url(#linearGradient3893)"
-          transform="translate(0,400)"
-        >
-        <path
-            id="path4286"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 -2 101)"
-        />
-        <path
-            id="path4288"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 98 101)"
-        />
-        <path
-            id="path4290"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 198 101)"
-        />
-        <path
-            id="path4292"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 298 101)"
-        />
-      </g
-      >
-    </g
-    >
-    <g
-        id="g4384"
-      >
-      <g
-          id="g4330"
-          stroke="#008b8b"
-          stroke-width="3"
-          transform="translate(0,500)"
-          fill="url(#linearGradient4360)"
-        >
-        <circle
-            id="circle4332"
-            cy="50"
-            cx="50"
-            r="37.5"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-        />
-        <circle
-            id="circle4334"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-            transform="translate(100)"
-            cy="50"
-            cx="50"
-            r="37.5"
-        />
-        <circle
-            id="circle4336"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-            transform="translate(200)"
-            cy="50"
-            cx="50"
-            r="37.5"
-        />
-        <circle
-            id="circle4338"
-            d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z"
-            stroke-opacity=".90588"
-            transform="translate(300)"
-            cy="50"
-            cx="50"
-            r="37.5"
-        />
-      </g
-      >
-      <g
-          id="g4340"
-          transform="translate(0,600)"
-        >
-        <path
-            id="path4342"
-            d="m45-20c10-20 0-40 10-60-10 0-25 0-25 15s40 15 40 30-15 15-25 15z"
-            fill="url(#linearGradient4368)"
-        />
-        <path
-            id="path4344"
-            d="m132.32-74.749c7.0711 21.213 28.284 28.284 35.355 49.497 7.0711-7.0711 17.678-17.678 7.0711-28.284-10.607-10.607-38.891 17.678-49.497 7.0711-10.607-10.607 0-21.213 7.0711-28.284z"
-            fill="url(#linearGradient4370)"
-        />
-        <path
-            id="path4346"
-            d="m220-55c20 10 40-0.000001 60 10 0-10 0-25-15-25-15-0.000006-15 40-30 40-15 0.000001-15-15-15-25z"
-            fill="url(#linearGradient4372)"
-        />
-        <path
-            id="path4348"
-            d="m325.25-32.322c21.213-7.0711 28.284-28.284 49.497-35.355-7.0711-7.0711-17.678-17.678-28.284-7.0711-10.607 10.607 17.678 38.891 7.0711 49.497-10.607 10.607-21.213 0-28.284-7.0711z"
-            fill="url(#linearGradient4374)"
-        />
-      </g
-      >
-      <g
-          id="g4350"
-          fill="url(#linearGradient3893)"
-          transform="translate(0,500)"
-        >
-        <path
-            id="path4352"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 -2 101)"
-        />
-        <path
-            id="path4354"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 98 101)"
-        />
-        <path
-            id="path4356"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 198 101)"
-        />
-        <path
-            id="path4358"
-            d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z"
-            transform="matrix(1.3667 0 0 1.3667 298 101)"
-        />
-      </g
-      >
-    </g
-    >
-  </g
-  >
-  <metadata
-    >
-    <rdf:RDF
-      >
-      <cc:Work
-        >
-        <dc:format
-          >image/svg+xml</dc:format
-        >
-        <dc:type
-            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-        />
-        <cc:license
-            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
-        />
-        <dc:publisher
-          >
-          <cc:Agent
-              rdf:about="http://openclipart.org/"
-            >
-            <dc:title
-              >Openclipart</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:publisher
-        >
-        <dc:title
-          >Five or More custom image</dc:title
-        >
-        <dc:date
-          >2013-10-01T08:30:43</dc:date
-        >
-        <dc:description
-          >custom image for Five or More Gnome game;&#xD;\nCopy as root into /usr/share/gnome-games/glines/pixmaps&#xD;\nfor a new graphic theme.</dc:description
-        >
-        <dc:source
-          >https://openclipart.org/detail/184476/five-or-more-custom-image-by-crisg-184476</dc:source
-        >
-        <dc:creator
-          >
-          <cc:Agent
-            >
-            <dc:title
-              >crisg</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:creator
-        >
-        <dc:subject
-          >
-          <rdf:Bag
-            >
-            <rdf:li
-              >balls</rdf:li
-            >
-            <rdf:li
-              >custom image</rdf:li
-            >
-            <rdf:li
-              >five or more</rdf:li
-            >
-            <rdf:li
-              >game</rdf:li
-            >
-            <rdf:li
-              >games</rdf:li
-            >
-            <rdf:li
-              >glossy balls</rdf:li
-            >
-            <rdf:li
-              >gnome games</rdf:li
-            >
-            <rdf:li
-              >orbs</rdf:li
-            >
-            <rdf:li
-              >skin</rdf:li
-            >
-            <rdf:li
-              >theme</rdf:li
-            >
-          </rdf:Bag
-          >
-        </dc:subject
-        >
-      </cc:Work
-      >
-      <cc:License
-          rdf:about="http://creativecommons.org/licenses/publicdomain/"
-        >
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Reproduction"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Distribution"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
-        />
-      </cc:License
-      >
-    </rdf:RDF
-    >
-  </metadata
-  >
-</svg
->
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://www.w3.org/1999/xlink" xmlns:ns3="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="810.0" id="svg2" version="1.1" viewBox="-205.0 -55.0 810.0 810.0" width="810.0">
+  <svg:defs id="defs4">
+    <svg:linearGradient id="linearGradient4441">
+      <svg:stop id="stop4443" offset="0" stop-color="#f63400" />
+      <svg:stop id="stop4445" offset="1" stop-color="#ff8b39" />
+    </svg:linearGradient>
+    <svg:linearGradient id="linearGradient4324">
+      <svg:stop id="stop4326" offset="0" stop-color="#1e83ff" />
+      <svg:stop id="stop4328" offset="1" stop-color="#46dbff" />
+    </svg:linearGradient>
+    <svg:linearGradient id="linearGradient4258">
+      <svg:stop id="stop4260" offset="0" stop-color="#00f" />
+      <svg:stop id="stop4262" offset="1" stop-color="#4381ff" />
+    </svg:linearGradient>
+    <svg:linearGradient id="linearGradient4192">
+      <svg:stop id="stop4194" offset="0" stop-color="#d70000" />
+      <svg:stop id="stop4196" offset="1" stop-color="#ff582c" />
+    </svg:linearGradient>
+    <svg:linearGradient id="linearGradient4027">
+      <svg:stop id="stop4029" offset="0" stop-color="#008000" />
+      <svg:stop id="stop4031" offset="1" stop-color="#7cfc00" />
+    </svg:linearGradient>
+    <svg:linearGradient id="linearGradient3961">
+      <svg:stop id="stop3963" offset="0" stop-color="#ed00dd" />
+      <svg:stop id="stop3965" offset="1" stop-color="#ef5c8c" />
+    </svg:linearGradient>
+    <svg:linearGradient id="linearGradient3831">
+      <svg:stop id="stop3833" offset="0" stop-color="#ff8c00" />
+      <svg:stop id="stop3835" offset="1" stop-color="#ff0" />
+    </svg:linearGradient>
+    <svg:linearGradient gradientTransform="translate(0,-10)" gradientUnits="userSpaceOnUse" id="linearGradient3871" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient4441" />
+    <svg:linearGradient gradientTransform="matrix(-.70711 .70711 -.70711 -.70711 157.07 -113.64)" gradientUnits="userSpaceOnUse" id="linearGradient3873" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient4441" />
+    <svg:linearGradient gradientTransform="matrix(0,1,-1,0,210,-100)" gradientUnits="userSpaceOnUse" id="linearGradient3875" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient4441" />
+    <svg:linearGradient gradientTransform="matrix(.70711 .70711 -.70711 .70711 286.36 -57.071)" gradientUnits="userSpaceOnUse" id="linearGradient3877" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient4441" />
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="linearGradient3885" x1="10" x2="90" y1="90" y2="10">
+      <svg:stop id="stop4437" offset="0" stop-color="#f69900" stop-opacity=".60784" />
+      <svg:stop id="stop4439" offset="1" stop-color="#ff6209" stop-opacity=".78431" />
+    </svg:linearGradient>
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="linearGradient3893" x1="30.732" x2="52.683" y1="-30" y2="-51.951">
+      <svg:stop id="stop3813" offset="0" stop-color="#fff" stop-opacity="0" />
+      <svg:stop id="stop3815" offset="1" stop-color="#fff" />
+    </svg:linearGradient>
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="linearGradient3931" x1="10" x2="90" y1="90" y2="10">
+      <svg:stop id="stop2979" offset="0" stop-color="#ffff01" stop-opacity=".60784" />
+      <svg:stop id="stop2981" offset="1" stop-color="#ffcc01" stop-opacity=".78431" />
+    </svg:linearGradient>
+    <svg:linearGradient gradientTransform="translate(0,-10)" gradientUnits="userSpaceOnUse" id="linearGradient3939" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient3831" />
+    <svg:linearGradient gradientTransform="matrix(-.70711 .70711 -.70711 -.70711 157.07 -113.64)" gradientUnits="userSpaceOnUse" id="linearGradient3941" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient3831" />
+    <svg:linearGradient gradientTransform="matrix(0,1,-1,0,210,-100)" gradientUnits="userSpaceOnUse" id="linearGradient3943" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient3831" />
+    <svg:linearGradient gradientTransform="matrix(.70711 .70711 -.70711 .70711 286.36 -57.071)" gradientUnits="userSpaceOnUse" id="linearGradient3945" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient3831" />
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="linearGradient4104" x1="10" x2="90" y1="90" y2="10">
+      <svg:stop id="stop3957" offset="0" stop-color="#ff00b9" stop-opacity=".60784" />
+      <svg:stop id="stop3959" offset="1" stop-color="#ab00c6" stop-opacity=".78431" />
+    </svg:linearGradient>
+    <svg:linearGradient gradientTransform="translate(0,-10)" gradientUnits="userSpaceOnUse" id="linearGradient4112" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient3961" />
+    <svg:linearGradient gradientTransform="matrix(-.70711 .70711 -.70711 -.70711 157.07 -113.64)" gradientUnits="userSpaceOnUse" id="linearGradient4114" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient3961" />
+    <svg:linearGradient gradientTransform="matrix(0,1,-1,0,210,-100)" gradientUnits="userSpaceOnUse" id="linearGradient4116" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient3961" />
+    <svg:linearGradient gradientTransform="matrix(.70711 .70711 -.70711 .70711 286.36 -57.071)" gradientUnits="userSpaceOnUse" id="linearGradient4118" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient3961" />
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="linearGradient4145" x1="10" x2="90" y1="90" y2="10">
+      <svg:stop id="stop4023" offset="0" stop-color="#7cfc00" stop-opacity=".60784" />
+      <svg:stop id="stop4025" offset="1" stop-color="#16c646" stop-opacity=".78431" />
+    </svg:linearGradient>
+    <svg:linearGradient gradientTransform="translate(0,-10)" gradientUnits="userSpaceOnUse" id="linearGradient4153" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient4027" />
+    <svg:linearGradient gradientTransform="matrix(-.70711 .70711 -.70711 -.70711 157.07 -113.64)" gradientUnits="userSpaceOnUse" id="linearGradient4155" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient4027" />
+    <svg:linearGradient gradientTransform="matrix(0,1,-1,0,210,-100)" gradientUnits="userSpaceOnUse" id="linearGradient4157" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient4027" />
+    <svg:linearGradient gradientTransform="matrix(.70711 .70711 -.70711 .70711 286.36 -57.071)" gradientUnits="userSpaceOnUse" id="linearGradient4159" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient4027" />
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="linearGradient4228" x1="10" x2="90" y1="90" y2="10">
+      <svg:stop id="stop4188" offset="0" stop-color="#ff0101" stop-opacity=".60784" />
+      <svg:stop id="stop4190" offset="1" stop-color="#f00" stop-opacity=".78431" />
+    </svg:linearGradient>
+    <svg:linearGradient gradientTransform="translate(0,-10)" gradientUnits="userSpaceOnUse" id="linearGradient4236" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient4192" />
+    <svg:linearGradient gradientTransform="matrix(-.70711 .70711 -.70711 -.70711 157.07 -113.64)" gradientUnits="userSpaceOnUse" id="linearGradient4238" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient4192" />
+    <svg:linearGradient gradientTransform="matrix(0,1,-1,0,210,-100)" gradientUnits="userSpaceOnUse" id="linearGradient4240" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient4192" />
+    <svg:linearGradient gradientTransform="matrix(.70711 .70711 -.70711 .70711 286.36 -57.071)" gradientUnits="userSpaceOnUse" id="linearGradient4242" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient4192" />
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="linearGradient4294" x1="10" x2="90" y1="90" y2="10">
+      <svg:stop id="stop4254" offset="0" stop-color="#1d90ff" stop-opacity=".60784" />
+      <svg:stop id="stop4256" offset="1" stop-color="#00f" stop-opacity=".78431" />
+    </svg:linearGradient>
+    <svg:linearGradient gradientTransform="translate(0,-10)" gradientUnits="userSpaceOnUse" id="linearGradient4302" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient4258" />
+    <svg:linearGradient gradientTransform="matrix(-.70711 .70711 -.70711 -.70711 157.07 -113.64)" gradientUnits="userSpaceOnUse" id="linearGradient4304" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient4258" />
+    <svg:linearGradient gradientTransform="matrix(0,1,-1,0,210,-100)" gradientUnits="userSpaceOnUse" id="linearGradient4306" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient4258" />
+    <svg:linearGradient gradientTransform="matrix(.70711 .70711 -.70711 .70711 286.36 -57.071)" gradientUnits="userSpaceOnUse" id="linearGradient4308" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient4258" />
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="linearGradient4360" x1="10" x2="90" y1="90" y2="10">
+      <svg:stop id="stop4320" offset="0" stop-color="#01ffff" stop-opacity=".60784" />
+      <svg:stop id="stop4322" offset="1" stop-color="#0061ff" stop-opacity=".78431" />
+    </svg:linearGradient>
+    <svg:linearGradient gradientTransform="translate(0,-10)" gradientUnits="userSpaceOnUse" id="linearGradient4368" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient4324" />
+    <svg:linearGradient gradientTransform="matrix(-.70711 .70711 -.70711 -.70711 157.07 -113.64)" gradientUnits="userSpaceOnUse" id="linearGradient4370" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient4324" />
+    <svg:linearGradient gradientTransform="matrix(0,1,-1,0,210,-100)" gradientUnits="userSpaceOnUse" id="linearGradient4372" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient4324" />
+    <svg:linearGradient gradientTransform="matrix(.70711 .70711 -.70711 .70711 286.36 -57.071)" gradientUnits="userSpaceOnUse" id="linearGradient4374" x1="70" x2="30" y1="-50" y2="-30" ns1:href="#linearGradient4324" />
+  </svg:defs>
+  <svg:g id="g4464">
+    <svg:g id="g4447" transform="translate(0,700)">
+      <svg:g fill="url(#linearGradient3885)" id="g3803" stroke="#ff4500" stroke-width="3" transform="translate(0,-100)">
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle9" r="37.5" />
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle3791" r="37.5" transform="translate(100)" />
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle3795" r="37.5" transform="translate(200)" />
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle3799" r="37.5" stroke-opacity=".90588" transform="translate(300)" />
+      </svg:g>
+      <svg:g id="g3865">
+        <svg:path d="m45-20c10-20 0-40 10-60-10 0-25 0-25 15s40 15 40 30-15 15-25 15z" fill="url(#linearGradient3871)" id="path3757" />
+        <svg:path d="m132.32-74.749c7.0711 21.213 28.284 28.284 35.355 49.497 7.0711-7.0711 17.678-17.678 7.0711-28.284-10.607-10.607-38.891 17.678-49.497 7.0711-10.607-10.607 0-21.213 7.0711-28.284z" fill="url(#linearGradient3873)" id="path3853" />
+        <svg:path d="m220-55c20 10 40-0.000001 60 10 0-10 0-25-15-25-15-0.000006-15 40-30 40-15 0.000001-15-15-15-25z" fill="url(#linearGradient3875)" id="path3857" />
+        <svg:path d="m325.25-32.322c21.213-7.0711 28.284-28.284 49.497-35.355-7.0711-7.0711-17.678-17.678-28.284-7.0711-10.607 10.607 17.678 38.891 7.0711 49.497-10.607 10.607-21.213 0-28.284-7.0711z" fill="url(#linearGradient3877)" id="path3861" />
+      </svg:g>
+      <svg:g fill="url(#linearGradient3893)" id="g3879" transform="translate(0,-100)">
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path3809" transform="matrix(1.3667 0 0 1.3667 -2 101)" />
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path3819" transform="matrix(1.3667 0 0 1.3667 98 101)" />
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path3823" transform="matrix(1.3667 0 0 1.3667 198 101)" />
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path3827" transform="matrix(1.3667 0 0 1.3667 298 101)" />
+      </svg:g>
+    </svg:g>
+    <svg:g id="g4169">
+      <svg:g fill="url(#linearGradient3931)" id="g3901" stroke="#960" stroke-width="3">
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle3903" r="37.5" />
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle3905" r="37.5" transform="translate(100)" />
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle3907" r="37.5" transform="translate(200)" />
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle3909" r="37.5" transform="translate(300)" />
+      </svg:g>
+      <svg:g id="g3911" transform="translate(0,100)">
+        <svg:path d="m45-20c10-20 0-40 10-60-10 0-25 0-25 15s40 15 40 30-15 15-25 15z" fill="url(#linearGradient3939)" id="path3913" />
+        <svg:path d="m132.32-74.749c7.0711 21.213 28.284 28.284 35.355 49.497 7.0711-7.0711 17.678-17.678 7.0711-28.284-10.607-10.607-38.891 17.678-49.497 7.0711-10.607-10.607 0-21.213 7.0711-28.284z" fill="url(#linearGradient3941)" id="path3915" />
+        <svg:path d="m220-55c20 10 40-0.000001 60 10 0-10 0-25-15-25-15-0.000006-15 40-30 40-15 0.000001-15-15-15-25z" fill="url(#linearGradient3943)" id="path3917" />
+        <svg:path d="m325.25-32.322c21.213-7.0711 28.284-28.284 49.497-35.355-7.0711-7.0711-17.678-17.678-28.284-7.0711-10.607 10.607 17.678 38.891 7.0711 49.497-10.607 10.607-21.213 0-28.284-7.0711z" fill="url(#linearGradient3945)" id="path3919" />
+      </svg:g>
+      <svg:g fill="url(#linearGradient3893)" id="g3921">
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path3923" transform="matrix(1.3667 0 0 1.3667 -2 101)" />
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path3925" transform="matrix(1.3667 0 0 1.3667 98 101)" />
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path3927" transform="matrix(1.3667 0 0 1.3667 198 101)" />
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path3929" transform="matrix(1.3667 0 0 1.3667 298 101)" />
+      </svg:g>
+    </svg:g>
+    <svg:g id="g4087">
+      <svg:g fill="url(#linearGradient4104)" id="g3967" stroke="#9932cc" stroke-width="3" transform="translate(0,100)">
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle3969" r="37.5" />
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle3971" r="37.5" transform="translate(100)" />
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle3973" r="37.5" transform="translate(200)" />
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle3975" r="37.5" transform="translate(300)" />
+      </svg:g>
+      <svg:g id="g3977" transform="translate(0,200)">
+        <svg:path d="m45-20c10-20 0-40 10-60-10 0-25 0-25 15s40 15 40 30-15 15-25 15z" fill="url(#linearGradient4112)" id="path3979" />
+        <svg:path d="m132.32-74.749c7.0711 21.213 28.284 28.284 35.355 49.497 7.0711-7.0711 17.678-17.678 7.0711-28.284-10.607-10.607-38.891 17.678-49.497 7.0711-10.607-10.607 0-21.213 7.0711-28.284z" fill="url(#linearGradient4114)" id="path3981" />
+        <svg:path d="m220-55c20 10 40-0.000001 60 10 0-10 0-25-15-25-15-0.000006-15 40-30 40-15 0.000001-15-15-15-25z" fill="url(#linearGradient4116)" id="path3983" />
+        <svg:path d="m325.25-32.322c21.213-7.0711 28.284-28.284 49.497-35.355-7.0711-7.0711-17.678-17.678-28.284-7.0711-10.607 10.607 17.678 38.891 7.0711 49.497-10.607 10.607-21.213 0-28.284-7.0711z" fill="url(#linearGradient4118)" id="path3985" />
+      </svg:g>
+      <svg:g fill="url(#linearGradient3893)" id="g3987" transform="translate(0,100)">
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path3989" transform="matrix(1.3667 0 0 1.3667 -2 101)" />
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path3991" transform="matrix(1.3667 0 0 1.3667 98 101)" />
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path3993" transform="matrix(1.3667 0 0 1.3667 198 101)" />
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path3995" transform="matrix(1.3667 0 0 1.3667 298 101)" />
+      </svg:g>
+    </svg:g>
+    <svg:g id="g4128">
+      <svg:g fill="url(#linearGradient4145)" id="g4033" stroke="#6b8e23" stroke-width="3" transform="translate(0,200)">
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle4035" r="37.5" />
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle4037" r="37.5" transform="translate(100)" />
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle4039" r="37.5" transform="translate(200)" />
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle4041" r="37.5" transform="translate(300)" />
+      </svg:g>
+      <svg:g id="g4043" transform="translate(0,300)">
+        <svg:path d="m45-20c10-20 0-40 10-60-10 0-25 0-25 15s40 15 40 30-15 15-25 15z" fill="url(#linearGradient4153)" id="path4045" />
+        <svg:path d="m132.32-74.749c7.0711 21.213 28.284 28.284 35.355 49.497 7.0711-7.0711 17.678-17.678 7.0711-28.284-10.607-10.607-38.891 17.678-49.497 7.0711-10.607-10.607 0-21.213 7.0711-28.284z" fill="url(#linearGradient4155)" id="path4047" />
+        <svg:path d="m220-55c20 10 40-0.000001 60 10 0-10 0-25-15-25-15-0.000006-15 40-30 40-15 0.000001-15-15-15-25z" fill="url(#linearGradient4157)" id="path4049" />
+        <svg:path d="m325.25-32.322c21.213-7.0711 28.284-28.284 49.497-35.355-7.0711-7.0711-17.678-17.678-28.284-7.0711-10.607 10.607 17.678 38.891 7.0711 49.497-10.607 10.607-21.213 0-28.284-7.0711z" fill="url(#linearGradient4159)" id="path4051" />
+      </svg:g>
+      <svg:g fill="url(#linearGradient3893)" id="g4053" transform="translate(0,200)">
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path4055" transform="matrix(1.3667 0 0 1.3667 -2 101)" />
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path4057" transform="matrix(1.3667 0 0 1.3667 98 101)" />
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path4059" transform="matrix(1.3667 0 0 1.3667 198 101)" />
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path4061" transform="matrix(1.3667 0 0 1.3667 298 101)" />
+      </svg:g>
+    </svg:g>
+    <svg:g id="g4418">
+      <svg:g fill="url(#linearGradient4228)" id="g4198" stroke="#a52a2a" stroke-width="3" transform="translate(0,300)">
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle4200" r="37.5" />
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle4202" r="37.5" transform="translate(100)" />
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle4204" r="37.5" transform="translate(200)" />
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle4206" r="37.5" transform="translate(300)" />
+      </svg:g>
+      <svg:g id="g4208" transform="translate(0,400)">
+        <svg:path d="m45-20c10-20 0-40 10-60-10 0-25 0-25 15s40 15 40 30-15 15-25 15z" fill="url(#linearGradient4236)" id="path4210" />
+        <svg:path d="m132.32-74.749c7.0711 21.213 28.284 28.284 35.355 49.497 7.0711-7.0711 17.678-17.678 7.0711-28.284-10.607-10.607-38.891 17.678-49.497 7.0711-10.607-10.607 0-21.213 7.0711-28.284z" fill="url(#linearGradient4238)" id="path4212" />
+        <svg:path d="m220-55c20 10 40-0.000001 60 10 0-10 0-25-15-25-15-0.000006-15 40-30 40-15 0.000001-15-15-15-25z" fill="url(#linearGradient4240)" id="path4214" />
+        <svg:path d="m325.25-32.322c21.213-7.0711 28.284-28.284 49.497-35.355-7.0711-7.0711-17.678-17.678-28.284-7.0711-10.607 10.607 17.678 38.891 7.0711 49.497-10.607 10.607-21.213 0-28.284-7.0711z" fill="url(#linearGradient4242)" id="path4216" />
+      </svg:g>
+      <svg:g fill="url(#linearGradient3893)" id="g4218" transform="translate(0,300)">
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path4220" transform="matrix(1.3667 0 0 1.3667 -2 101)" />
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path4222" transform="matrix(1.3667 0 0 1.3667 98 101)" />
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path4224" transform="matrix(1.3667 0 0 1.3667 198 101)" />
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path4226" transform="matrix(1.3667 0 0 1.3667 298 101)" />
+      </svg:g>
+    </svg:g>
+    <svg:g id="g4401">
+      <svg:g fill="url(#linearGradient4294)" id="g4264" stroke="#44b" stroke-width="3" transform="translate(0,400)">
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle4266" r="37.5" />
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle4268" r="37.5" transform="translate(100)" />
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle4270" r="37.5" transform="translate(200)" />
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle4272" r="37.5" stroke-opacity=".90588" transform="translate(300)" />
+      </svg:g>
+      <svg:g id="g4274" transform="translate(0,500)">
+        <svg:path d="m45-20c10-20 0-40 10-60-10 0-25 0-25 15s40 15 40 30-15 15-25 15z" fill="url(#linearGradient4302)" id="path4276" />
+        <svg:path d="m132.32-74.749c7.0711 21.213 28.284 28.284 35.355 49.497 7.0711-7.0711 17.678-17.678 7.0711-28.284-10.607-10.607-38.891 17.678-49.497 7.0711-10.607-10.607 0-21.213 7.0711-28.284z" fill="url(#linearGradient4304)" id="path4278" />
+        <svg:path d="m220-55c20 10 40-0.000001 60 10 0-10 0-25-15-25-15-0.000006-15 40-30 40-15 0.000001-15-15-15-25z" fill="url(#linearGradient4306)" id="path4280" />
+        <svg:path d="m325.25-32.322c21.213-7.0711 28.284-28.284 49.497-35.355-7.0711-7.0711-17.678-17.678-28.284-7.0711-10.607 10.607 17.678 38.891 7.0711 49.497-10.607 10.607-21.213 0-28.284-7.0711z" fill="url(#linearGradient4308)" id="path4282" />
+      </svg:g>
+      <svg:g fill="url(#linearGradient3893)" id="g4284" transform="translate(0,400)">
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path4286" transform="matrix(1.3667 0 0 1.3667 -2 101)" />
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path4288" transform="matrix(1.3667 0 0 1.3667 98 101)" />
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path4290" transform="matrix(1.3667 0 0 1.3667 198 101)" />
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path4292" transform="matrix(1.3667 0 0 1.3667 298 101)" />
+      </svg:g>
+    </svg:g>
+    <svg:g id="g4384">
+      <svg:g fill="url(#linearGradient4360)" id="g4330" stroke="#008b8b" stroke-width="3" transform="translate(0,500)">
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle4332" r="37.5" />
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle4334" r="37.5" transform="translate(100)" />
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle4336" r="37.5" transform="translate(200)" />
+        <svg:circle cx="50" cy="50" d="M 87.5,50 C 87.5,70.710678 70.710678,87.5 50,87.5 29.289322,87.5 12.5,70.710678 12.5,50 12.5,29.289322 29.289322,12.5 50,12.5 70.710678,12.5 87.5,29.289322 87.5,50 z" id="circle4338" r="37.5" stroke-opacity=".90588" transform="translate(300)" />
+      </svg:g>
+      <svg:g id="g4340" transform="translate(0,600)">
+        <svg:path d="m45-20c10-20 0-40 10-60-10 0-25 0-25 15s40 15 40 30-15 15-25 15z" fill="url(#linearGradient4368)" id="path4342" />
+        <svg:path d="m132.32-74.749c7.0711 21.213 28.284 28.284 35.355 49.497 7.0711-7.0711 17.678-17.678 7.0711-28.284-10.607-10.607-38.891 17.678-49.497 7.0711-10.607-10.607 0-21.213 7.0711-28.284z" fill="url(#linearGradient4370)" id="path4344" />
+        <svg:path d="m220-55c20 10 40-0.000001 60 10 0-10 0-25-15-25-15-0.000006-15 40-30 40-15 0.000001-15-15-15-25z" fill="url(#linearGradient4372)" id="path4346" />
+        <svg:path d="m325.25-32.322c21.213-7.0711 28.284-28.284 49.497-35.355-7.0711-7.0711-17.678-17.678-28.284-7.0711-10.607 10.607 17.678 38.891 7.0711 49.497-10.607 10.607-21.213 0-28.284-7.0711z" fill="url(#linearGradient4374)" id="path4348" />
+      </svg:g>
+      <svg:g fill="url(#linearGradient3893)" id="g4350" transform="translate(0,500)">
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path4352" transform="matrix(1.3667 0 0 1.3667 -2 101)" />
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path4354" transform="matrix(1.3667 0 0 1.3667 98 101)" />
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path4356" transform="matrix(1.3667 0 0 1.3667 198 101)" />
+        <svg:path d="m60-45c0 8.2843-6.7157 15-15 15s-15-6.7157-15-15 6.7157-15 15-15 15 6.7157 15 15z" id="path4358" transform="matrix(1.3667 0 0 1.3667 298 101)" />
+      </svg:g>
+    </svg:g>
+  </svg:g>
+  <svg:metadata>
+    <rdf:RDF>
+      <ns3:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns3:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <ns3:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </ns3:Agent>
+        </dc:publisher>
+        <dc:title>Five or More custom image</dc:title>
+        <dc:date>2013-10-01T08:30:43</dc:date>
+        <dc:description>custom image for Five or More Gnome game;
+\nCopy as root into /usr/share/gnome-games/glines/pixmaps
+\nfor a new graphic theme.</dc:description>
+        <dc:source>https://openclipart.org/detail/184476/five-or-more-custom-image-by-crisg-184476</dc:source>
+        <dc:creator>
+          <ns3:Agent>
+            <dc:title>crisg</dc:title>
+          </ns3:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>balls</rdf:li>
+            <rdf:li>custom image</rdf:li>
+            <rdf:li>five or more</rdf:li>
+            <rdf:li>game</rdf:li>
+            <rdf:li>games</rdf:li>
+            <rdf:li>glossy balls</rdf:li>
+            <rdf:li>gnome games</rdf:li>
+            <rdf:li>orbs</rdf:li>
+            <rdf:li>skin</rdf:li>
+            <rdf:li>theme</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </ns3:Work>
+      <ns3:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns3:License>
+    </rdf:RDF>
+  </svg:metadata>
+</svg:svg>

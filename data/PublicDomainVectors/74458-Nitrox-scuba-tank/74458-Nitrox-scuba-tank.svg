@@ -1,264 +1,53 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-<svg
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:cc="http://creativecommons.org/ns#"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    id="svg1"
-    sodipodi:docname="_svgclean2.svg"
-    viewBox="0 0 56.875 180.44"
-    sodipodi:version="0.32"
-    version="1.1"
-    inkscape:version="0.48.3.1 r9886"
-  >
-  <defs
-      id="defs3"
-    >
-    <linearGradient
-        id="linearGradient579"
-        y2="98.894"
-        gradientUnits="userSpaceOnUse"
-        x2="176.12"
-        gradientTransform="scale(.55955 1.7871)"
-        y1="79.054"
-        x1="62.282"
-      >
-      <stop
-          id="stop577"
-          style="stop-color:#ffca00"
-          offset="0"
-      />
-      <stop
-          id="stop578"
-          style="stop-color:#ffff93"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <radialGradient
-        id="radialGradient623"
-        gradientUnits="userSpaceOnUse"
-        cy="64.468"
-        cx="85.446"
-        gradientTransform="scale(.79713 1.2545)"
-        r="19.145"
-      >
-      <stop
-          id="stop581"
-          style="stop-color:#f5f5f5"
-          offset="0"
-      />
-      <stop
-          id="stop582"
-          style="stop-color:#a7a7a7"
-          offset="1"
-      />
-    </radialGradient
-    >
-  </defs
-  >
-  <sodipodi:namedview
-      id="base"
-      bordercolor="#666666"
-      inkscape:pageshadow="2"
-      inkscape:window-y="0"
-      pagecolor="#ffffff"
-      gridtolerance="2pt"
-      snaptogrid="true"
-      inkscape:window-width="674"
-      inkscape:zoom="2.8284271"
-      inkscape:window-x="0"
-      showgrid="true"
-      borderopacity="1.0"
-      inkscape:current-layer="svg1"
-      inkscape:cx="33.95858"
-      inkscape:cy="-804.63046"
-      vertgrid="false"
-      inkscape:window-height="645"
-      inkscape:window-maximized="0"
-      inkscape:pageopacity="0.0"
-      horizgrid="false"
-    >
-    <inkscape:grid
-        id="GridFromPre046Settings"
-        opacity=".15"
-        color="#3f3fff"
-        originy="-697.20215pt"
-        originx="-0.3124pt"
-        empspacing="5"
-        spacingy="1pt"
-        spacingx="1pt"
-        empopacity="0.38"
-        type="xygrid"
-        empcolor="#3f3fff"
-    />
-  </sodipodi:namedview
-  >
-  <g
-      id="valve"
-      transform="translate(-29.688 -67.375)"
-    >
-    <path
-        id="mainvalve"
-        inkscape:connector-curvature="0"
-        sodipodi:nodetypes="ccccccssccccc"
-        style="stroke-linejoin:round;fill-rule:evenodd;stroke:#000000;stroke-linecap:round;stroke-width:.25;fill:url(#radialGradient623)"
-        d="m61.875 91.25h-7.5v-10h-2.5v-5h2.5v-5c0-5 7.5-5 7.5 0v5h5v5h-5v10z"
-    />
-    <path
-        id="handle"
-        inkscape:connector-curvature="0"
-        sodipodi:nodetypes="ccccc"
-        style="fill-rule:evenodd;stroke:#000000;stroke-width:.25;fill:#000000"
-        d="m66.875 75 15-2.5v12.5l-15-2.5v-7.5z"
-    />
-    <path
-        id="outlet"
-        sodipodi:rx="0.625"
-        sodipodi:ry="0.625"
-        style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;fill:#ff0000;fill-opacity:.75"
-        sodipodi:type="arc"
-        d="m58.75 71.875c0 0.34518-0.27982 0.625-0.625 0.625s-0.625-0.27982-0.625-0.625 0.27982-0.625 0.625-0.625 0.625 0.27982 0.625 0.625z"
-        sodipodi:cy="71.875"
-        sodipodi:cx="58.125"
-    />
-  </g
-  >
-  <g
-      id="tank"
-      transform="translate(-.3905 -.422)"
-    >
-    <path
-        id="maintank"
-        style="stroke-linejoin:round;fill-rule:evenodd;stroke:#000000;stroke-linecap:round;stroke-width:.25;fill:url(#linearGradient579)"
-        d="m33.75 125c0-22.5 11.25-26.25 15-26.25s3.75-2.5 3.75-6.25h11.25c0 3.75 0.413 6.25 3.75 6.25 3.75 0 15 3.75 15 26.25v123.75h-48.75v-123.75z"
-        sodipodi:nodetypes="csccssccs"
-        inkscape:connector-curvature="0"
-        transform="translate(-29.297,-68.203)"
-    />
-    <path
-        id="boot"
-        style="stroke-linejoin:bevel;stroke:#000000;stroke-width:.625;stroke-linecap:round;fill-rule:evenodd"
-        d="m33.75 226.25v22.5h48.75v-22.5h3.75v-3.75h-56.25v3.75h3.75z"
-        sodipodi:nodetypes="ccccccccc"
-        boot="path620"
-        transform="translate(-29.297,-68.203)"
-        inkscape:connector-curvature="0"
-    />
-  </g
-  >
-  <g
-      id="g630"
-      style="font-size:12px"
-      transform="translate(-29.712 -67.71)"
-    >
-    <rect
-        id="rect583"
-        style="fill-rule:evenodd;stroke:#000000;stroke-width:.24043;fill:#ffff00"
-        sodipodi:fill-cmyk="(0 0 1 0)"
-        transform="matrix(.68421 0 0 1 10.658 -7.0866)"
-        height="26.25"
-        width="71.25"
-        y="151.25"
-        x="33.75"
-    />
-    <rect
-        id="rect584"
-        style="fill-rule:evenodd;stroke-width:1pt;fill:#007300"
-        transform="matrix(.68421 0 0 1 10.658 -7.0866)"
-        height="18.75"
-        width="71.25"
-        y="155"
-        x="33.75"
-    />
-    <text
-        id="text585"
-        style="font-size:14px;font-family:Bitstream Charter;line-height:100%;fill:#ffff00"
-        space="preserve"
-        sodipodi:linespacing="100%"
-        transform="scale(.77128 1)"
-        y="162.16005"
-        x="45.002239"
-      >
-      <tspan
-          id="tspan591"
-          sodipodi:role="line"
-          x="45.002239"
-          y="162.16005"
-        >Nitrox</tspan
-      >
-    </text
-    >
-    <text
-        id="text616"
-        style="font-size:14px;font-family:Bitstream Charter;line-height:100%;fill:#ffff00"
-        space="preserve"
-        sodipodi:linespacing="100%"
-        transform="scale(.77128 1)"
-        y="162.16005"
-        x="96.876755"
-      >
-      <tspan
-          id="tspan617"
-          sodipodi:role="line"
-          x="96.876755"
-          y="162.16005"
-        >N</tspan
-      >
-    </text
-    >
-  </g
-  >
-  <metadata
-      id="metadata25"
-    >
-    <rdf:RDF
-      >
-      <cc:Work
-        >
-        <dc:format
-          >image/svg+xml</dc:format
-        >
-        <dc:type
-            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-        />
-        <cc:license
-            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
-        />
-        <dc:publisher
-          >
-          <cc:Agent
-              rdf:about="http://openclipart.org/"
-            >
-            <dc:title
-              >Openclipart</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:publisher
-        >
-      </cc:Work
-      >
-      <cc:License
-          rdf:about="http://creativecommons.org/licenses/publicdomain/"
-        >
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Reproduction"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Distribution"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
-        />
-      </cc:License
-      >
-    </rdf:RDF
-    >
-  </metadata
-  >
-</svg
->
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:ns2="http://www.inkscape.org/namespaces/inkscape" xmlns:ns4="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="216.0" id="svg1" version="1.1" viewBox="-79.5625 -17.874999999999993 216.0 216.0" width="216.0" ns1:docname="_svgclean2.svg" ns1:version="0.32" ns2:version="0.48.3.1 r9886">
+  <svg:defs id="defs3">
+    <svg:linearGradient gradientTransform="scale(.55955 1.7871)" gradientUnits="userSpaceOnUse" id="linearGradient579" x1="62.282" x2="176.12" y1="79.054" y2="98.894">
+      <svg:stop id="stop577" offset="0" style="stop-color:#ffca00" />
+      <svg:stop id="stop578" offset="1" style="stop-color:#ffff93" />
+    </svg:linearGradient>
+    <svg:radialGradient cx="85.446" cy="64.468" gradientTransform="scale(.79713 1.2545)" gradientUnits="userSpaceOnUse" id="radialGradient623" r="19.145">
+      <svg:stop id="stop581" offset="0" style="stop-color:#f5f5f5" />
+      <svg:stop id="stop582" offset="1" style="stop-color:#a7a7a7" />
+    </svg:radialGradient>
+  </svg:defs>
+  <ns1:namedview bordercolor="#666666" borderopacity="1.0" gridtolerance="2pt" horizgrid="false" id="base" pagecolor="#ffffff" showgrid="true" snaptogrid="true" vertgrid="false" ns2:current-layer="svg1" ns2:cx="33.95858" ns2:cy="-804.63046" ns2:pageopacity="0.0" ns2:pageshadow="2" ns2:window-height="645" ns2:window-maximized="0" ns2:window-width="674" ns2:window-x="0" ns2:window-y="0" ns2:zoom="2.8284271">
+    <ns2:grid color="#3f3fff" empcolor="#3f3fff" empopacity="0.38" empspacing="5" id="GridFromPre046Settings" opacity=".15" originx="-0.3124pt" originy="-697.20215pt" spacingx="1pt" spacingy="1pt" type="xygrid" />
+  </ns1:namedview>
+  <svg:g id="valve" transform="translate(-29.688 -67.375)">
+    <svg:path d="m61.875 91.25h-7.5v-10h-2.5v-5h2.5v-5c0-5 7.5-5 7.5 0v5h5v5h-5v10z" id="mainvalve" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#000000;stroke-linecap:round;stroke-width:.25;fill:url(#radialGradient623)" ns1:nodetypes="ccccccssccccc" ns2:connector-curvature="0" />
+    <svg:path d="m66.875 75 15-2.5v12.5l-15-2.5v-7.5z" id="handle" style="fill-rule:evenodd;stroke:#000000;stroke-width:.25;fill:#000000" ns1:nodetypes="ccccc" ns2:connector-curvature="0" />
+    <svg:path d="m58.75 71.875c0 0.34518-0.27982 0.625-0.625 0.625s-0.625-0.27982-0.625-0.625 0.27982-0.625 0.625-0.625 0.625 0.27982 0.625 0.625z" id="outlet" style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;fill:#ff0000;fill-opacity:.75" ns1:cx="58.125" ns1:cy="71.875" ns1:rx="0.625" ns1:ry="0.625" ns1:type="arc" />
+  </svg:g>
+  <svg:g id="tank" transform="translate(-.3905 -.422)">
+    <svg:path d="m33.75 125c0-22.5 11.25-26.25 15-26.25s3.75-2.5 3.75-6.25h11.25c0 3.75 0.413 6.25 3.75 6.25 3.75 0 15 3.75 15 26.25v123.75h-48.75v-123.75z" id="maintank" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#000000;stroke-linecap:round;stroke-width:.25;fill:url(#linearGradient579)" transform="translate(-29.297,-68.203)" ns1:nodetypes="csccssccs" ns2:connector-curvature="0" />
+    <svg:path boot="path620" d="m33.75 226.25v22.5h48.75v-22.5h3.75v-3.75h-56.25v3.75h3.75z" id="boot" style="stroke-linejoin:bevel;stroke:#000000;stroke-width:.625;stroke-linecap:round;fill-rule:evenodd" transform="translate(-29.297,-68.203)" ns1:nodetypes="ccccccccc" ns2:connector-curvature="0" />
+  </svg:g>
+  <svg:g id="g630" style="font-size:12px" transform="translate(-29.712 -67.71)">
+    <svg:rect height="26.25" id="rect583" style="fill-rule:evenodd;stroke:#000000;stroke-width:.24043;fill:#ffff00" transform="matrix(.68421 0 0 1 10.658 -7.0866)" width="71.25" x="33.75" y="151.25" ns1:fill-cmyk="(0 0 1 0)" />
+    <svg:rect height="18.75" id="rect584" style="fill-rule:evenodd;stroke-width:1pt;fill:#007300" transform="matrix(.68421 0 0 1 10.658 -7.0866)" width="71.25" x="33.75" y="155" />
+    <svg:text id="text585" space="preserve" style="font-size:14px;font-family:Bitstream Charter;line-height:100%;fill:#ffff00" transform="scale(.77128 1)" x="45.002239" y="162.16005" ns1:linespacing="100%">
+      <svg:tspan id="tspan591" x="45.002239" y="162.16005" ns1:role="line">Nitrox</svg:tspan>
+    </svg:text>
+    <svg:text id="text616" space="preserve" style="font-size:14px;font-family:Bitstream Charter;line-height:100%;fill:#ffff00" transform="scale(.77128 1)" x="96.876755" y="162.16005" ns1:linespacing="100%">
+      <svg:tspan id="tspan617" x="96.876755" y="162.16005" ns1:role="line">N</svg:tspan>
+    </svg:text>
+  </svg:g>
+  <svg:metadata id="metadata25">
+    <rdf:RDF>
+      <ns4:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns4:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <ns4:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </ns4:Agent>
+        </dc:publisher>
+      </ns4:Work>
+      <ns4:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns4:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns4:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns4:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns4:License>
+    </rdf:RDF>
+  </svg:metadata>
+</svg:svg>

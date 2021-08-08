@@ -1,50 +1,48 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--part of the rodentia icon theme by sixsixfive released under CC0 (https://creativecommons.org/publicdomain/zero/1.0/) on openclipart-->
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48">
- <defs id="0">
-  <linearGradient id="B">
-   <stop id="W" stop-color="#fff" stop-opacity="0.8"/>
-   <stop id="X" offset="1" stop-color="#fff" stop-opacity="0"/>
-  </linearGradient>
-  <linearGradient id="C">
-   <stop id="Y" stop-color="#888a85"/>
-   <stop id="Z" offset="1" stop-color="#555753"/>
-  </linearGradient>
-  <linearGradient id="D">
-   <stop id="a" stop-color="#2e3436"/>
-   <stop id="b" offset="1" stop-color="#2e3436" stop-opacity="0"/>
-  </linearGradient>
-  <radialGradient cx="25.712" cy="48.735" r="21.856" id="E" xlink:href="#D" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1,0,0,0.09243698,0,44.229759)"/>
-  <radialGradient cx="13.559" cy="12.06" r="16.219" id="F" xlink:href="#C" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0.6174379,2.5604989,-3.7886681,0.9135993,49.367351,-37.86865)"/>
-  <linearGradient y1="2.438" x2="0" y2="43.34" id="G" xlink:href="#B" gradientUnits="userSpaceOnUse"/>
-  <radialGradient cx="34.13" cy="8.609" r="3.03" id="H" xlink:href="#C" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.9999999,2.0717464e-7,-2.1678585e-7,2.0927836,-34.124995,-9.2675658)"/>
-  <linearGradient x1="34.13" y1="8.75" x2="36.533" y2="6.363" id="I" xlink:href="#B" gradientUnits="userSpaceOnUse"/>
-  <filter x="-0.16" y="-0.151" width="1.321" height="1.302" color-interpolation-filters="sRGB" id="J">
-   <feGaussianBlur stdDeviation="0.5327" id="c"/>
-  </filter>
- </defs>
- <path d="m 47.568058,48.734642 a 21.855595,2.0202651 0 1 1 -43.7111893,0 21.855595,2.0202651 0 1 1 43.7111893,0 z" transform="matrix(1.0944165,0,0,0.9661277,-4.1401442,-2.4030967)" id="1" opacity="0.54" fill="url(#E)"/>
- <path d="M 9.84375,1.367375 C 8.1263501,1.367375 6.75,2.7437253 6.75,4.461125 l 0,37.15625 c 0,1.7174 1.3763496,3.093751 3.09375,3.09375 l 28.3125,0 c 1.7174,0 3.09375,-1.376351 3.09375,-3.09375 l 0,-33.21875 -6.75,-7.03125 -24.65625,0 z" id="2" fill="#2e3436"/>
- <path d="m 9.84375,2.25 c -1.1586131,0 -2.0625,0.903887 -2.0625,2.0625 l 0,37.15625 c 0,1.158614 0.9038868,2.062501 2.0625,2.0625 l 28.3125,0 c 1.158613,0 2.0625,-0.903888 2.0625,-2.0625 l 0,-32.78125 L 34.0625,2.25 9.84375,2.25 z" transform="translate(4.4958504e-8,0.148625)" id="3" fill="url(#F)"/>
- <path d="m 9.84375,2.75 c -0.8977312,0 -1.5625,0.6647689 -1.5625,1.5625 l 0,37.15625 c 0,0.897732 0.6647689,1.562501 1.5625,1.5625 l 28.3125,0 c 0.897731,0 1.5625,-0.66477 1.5625,-1.5625 l 0,-32.625 -5.875,-6.09375 -24,0 z" transform="translate(4.4958504e-8,0.148625)" id="4" opacity="0.8" fill="none" stroke="url(#G)" stroke-linejoin="round" stroke-linecap="square"/>
- <path d="m 32.25,2.40625 0,6.875 c 0,0.956611 0.676661,1.593751 1.71875,1.59375 l 6.25,0 0,-1.8125 -6.9375,-6.65625 -1.03125,0 z" id="5" opacity="0.16" fill="#2e3436" filter="url(#J)"/>
- <path d="m 33.125,1.375 0,6.3125 c -2e-6,1.158614 0.903887,2.062501 2.0625,2.0625 l 6.0625,0 0,-1.34375 -6.75,-7.03125 -1.375,0 z" id="6" fill="#2e3436"/>
- <path d="m 34.125,2.40625 0,5.28125 c -10e-7,0.6407004 0.421799,1.0625006 1.0625,1.0625 l 5,0 -6.0625,-6.34375 z" id="7" fill="url(#H)"/>
- <path d="m 34.625,3.6875 0,4 c -10e-7,0.3773049 0.185194,0.5625003 0.5625,0.5625 l 3.84375,0 L 34.625,3.6875 z" id="8" opacity="0.8" fill="none" stroke="url(#I)" stroke-linecap="square"/>
- <g transform="translate(0,0.4998759)" id="9" opacity="0.5" fill="#fff">
-  <rect width="21.968" height="3" x="11.5" y="12.539" id="K"/>
-  <rect width="17.353" height="3" x="11.5" y="6.539" id="L"/>
-  <rect width="19.726" height="3" x="11.5" y="18.539" id="M"/>
-  <rect width="23.813" height="3" x="11.5" y="24.539" id="N"/>
-  <rect width="22.363" height="3" x="11.5" y="30.539" id="O"/>
-  <rect width="25" height="3" x="11.5" y="36.539" id="P"/>
- </g>
- <g transform="translate(0,-0.4998747)" id="A" fill="#888a85">
-  <rect width="21.968" height="3" x="11.5" y="12.539" id="Q" fill="#2e3436"/>
-  <rect width="17.353" height="3" x="11.5" y="6.539" id="R" fill="#2e3436"/>
-  <rect width="19.726" height="3" x="11.5" y="18.539" id="S" fill="#2e3436"/>
-  <rect width="23.813" height="3" x="11.5" y="24.539" id="T" fill="#2e3436"/>
-  <rect width="22.363" height="3" x="11.5" y="30.539" id="U" fill="#2e3436"/>
-  <rect width="25" height="3" x="11.5" y="36.539" id="V" fill="#2e3436"/>
- </g>
-</svg>
+<svg:svg xmlns:ns1="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" height="57.40589708476201" viewBox="-4.702948596495726 -4.702948562262668 57.405897084761996 57.40589708476201" width="57.405897084761996">
+ <svg:defs id="0">
+  <svg:linearGradient id="B">
+   <svg:stop id="W" stop-color="#fff" stop-opacity="0.8" />
+   <svg:stop id="X" offset="1" stop-color="#fff" stop-opacity="0" />
+  </svg:linearGradient>
+  <svg:linearGradient id="C">
+   <svg:stop id="Y" stop-color="#888a85" />
+   <svg:stop id="Z" offset="1" stop-color="#555753" />
+  </svg:linearGradient>
+  <svg:linearGradient id="D">
+   <svg:stop id="a" stop-color="#2e3436" />
+   <svg:stop id="b" offset="1" stop-color="#2e3436" stop-opacity="0" />
+  </svg:linearGradient>
+  <svg:radialGradient cx="25.712" cy="48.735" gradientTransform="matrix(1,0,0,0.09243698,0,44.229759)" gradientUnits="userSpaceOnUse" id="E" r="21.856" ns1:href="#D" />
+  <svg:radialGradient cx="13.559" cy="12.06" gradientTransform="matrix(0.6174379,2.5604989,-3.7886681,0.9135993,49.367351,-37.86865)" gradientUnits="userSpaceOnUse" id="F" r="16.219" ns1:href="#C" />
+  <svg:linearGradient gradientUnits="userSpaceOnUse" id="G" x2="0" y1="2.438" y2="43.34" ns1:href="#B" />
+  <svg:radialGradient cx="34.13" cy="8.609" gradientTransform="matrix(1.9999999,2.0717464e-7,-2.1678585e-7,2.0927836,-34.124995,-9.2675658)" gradientUnits="userSpaceOnUse" id="H" r="3.03" ns1:href="#C" />
+  <svg:linearGradient gradientUnits="userSpaceOnUse" id="I" x1="34.13" x2="36.533" y1="8.75" y2="6.363" ns1:href="#B" />
+  <svg:filter color-interpolation-filters="sRGB" height="1.302" id="J" width="1.321" x="-0.16" y="-0.151">
+   <svg:feGaussianBlur id="c" stdDeviation="0.5327" />
+  </svg:filter>
+ </svg:defs>
+ <svg:path d="m 47.568058,48.734642 a 21.855595,2.0202651 0 1 1 -43.7111893,0 21.855595,2.0202651 0 1 1 43.7111893,0 z" fill="url(#E)" id="1" opacity="0.54" transform="matrix(1.0944165,0,0,0.9661277,-4.1401442,-2.4030967)" />
+ <svg:path d="M 9.84375,1.367375 C 8.1263501,1.367375 6.75,2.7437253 6.75,4.461125 l 0,37.15625 c 0,1.7174 1.3763496,3.093751 3.09375,3.09375 l 28.3125,0 c 1.7174,0 3.09375,-1.376351 3.09375,-3.09375 l 0,-33.21875 -6.75,-7.03125 -24.65625,0 z" fill="#2e3436" id="2" />
+ <svg:path d="m 9.84375,2.25 c -1.1586131,0 -2.0625,0.903887 -2.0625,2.0625 l 0,37.15625 c 0,1.158614 0.9038868,2.062501 2.0625,2.0625 l 28.3125,0 c 1.158613,0 2.0625,-0.903888 2.0625,-2.0625 l 0,-32.78125 L 34.0625,2.25 9.84375,2.25 z" fill="url(#F)" id="3" transform="translate(4.4958504e-8,0.148625)" />
+ <svg:path d="m 9.84375,2.75 c -0.8977312,0 -1.5625,0.6647689 -1.5625,1.5625 l 0,37.15625 c 0,0.897732 0.6647689,1.562501 1.5625,1.5625 l 28.3125,0 c 0.897731,0 1.5625,-0.66477 1.5625,-1.5625 l 0,-32.625 -5.875,-6.09375 -24,0 z" fill="none" id="4" opacity="0.8" stroke="url(#G)" stroke-linecap="square" stroke-linejoin="round" transform="translate(4.4958504e-8,0.148625)" />
+ <svg:path d="m 32.25,2.40625 0,6.875 c 0,0.956611 0.676661,1.593751 1.71875,1.59375 l 6.25,0 0,-1.8125 -6.9375,-6.65625 -1.03125,0 z" fill="#2e3436" filter="url(#J)" id="5" opacity="0.16" />
+ <svg:path d="m 33.125,1.375 0,6.3125 c -2e-6,1.158614 0.903887,2.062501 2.0625,2.0625 l 6.0625,0 0,-1.34375 -6.75,-7.03125 -1.375,0 z" fill="#2e3436" id="6" />
+ <svg:path d="m 34.125,2.40625 0,5.28125 c -10e-7,0.6407004 0.421799,1.0625006 1.0625,1.0625 l 5,0 -6.0625,-6.34375 z" fill="url(#H)" id="7" />
+ <svg:path d="m 34.625,3.6875 0,4 c -10e-7,0.3773049 0.185194,0.5625003 0.5625,0.5625 l 3.84375,0 L 34.625,3.6875 z" fill="none" id="8" opacity="0.8" stroke="url(#I)" stroke-linecap="square" />
+ <svg:g fill="#fff" id="9" opacity="0.5" transform="translate(0,0.4998759)">
+  <svg:rect height="3" id="K" width="21.968" x="11.5" y="12.539" />
+  <svg:rect height="3" id="L" width="17.353" x="11.5" y="6.539" />
+  <svg:rect height="3" id="M" width="19.726" x="11.5" y="18.539" />
+  <svg:rect height="3" id="N" width="23.813" x="11.5" y="24.539" />
+  <svg:rect height="3" id="O" width="22.363" x="11.5" y="30.539" />
+  <svg:rect height="3" id="P" width="25" x="11.5" y="36.539" />
+ </svg:g>
+ <svg:g fill="#888a85" id="A" transform="translate(0,-0.4998747)">
+  <svg:rect fill="#2e3436" height="3" id="Q" width="21.968" x="11.5" y="12.539" />
+  <svg:rect fill="#2e3436" height="3" id="R" width="17.353" x="11.5" y="6.539" />
+  <svg:rect fill="#2e3436" height="3" id="S" width="19.726" x="11.5" y="18.539" />
+  <svg:rect fill="#2e3436" height="3" id="T" width="23.813" x="11.5" y="24.539" />
+  <svg:rect fill="#2e3436" height="3" id="U" width="22.363" x="11.5" y="30.539" />
+  <svg:rect fill="#2e3436" height="3" id="V" width="25" x="11.5" y="36.539" />
+ </svg:g>
+</svg:svg>

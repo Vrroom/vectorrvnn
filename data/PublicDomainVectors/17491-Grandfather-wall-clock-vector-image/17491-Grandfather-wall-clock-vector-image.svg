@@ -1,18 +1,5 @@
-<?xml version="1.0"?>
-<svg
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:cc="http://web.resource.org/cc/"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    xmlns:ns1="http://sozi.baierouge.fr"
-    viewBox="0 0 450 1130"
-  >
-  <desc
-    >Scripted Grandfather Clock
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="1220.4" viewBox="-385.2 -43.69999999999996 1220.3999999999999 1220.4" width="1220.3999999999999">
+  <svg:desc>Scripted Grandfather Clock
     Scripted to keep time and move the pendulum.
     Can be inserted into an SVG image then scaled and positioned where desired.
     From the book, A New Day, illustrated by Jay Nick.
@@ -24,11 +11,8 @@
     A New Day is published by Catto Creations, LLC
     Catto Creations mission is Family, Literacy, and Enrichment
     Visit http://www.cattocreations.com for award winning children's eBooks
-    A New Day and other free ePub3 eBooks at http://www.cattocreations.com/ePub3.html</desc
-  >
-  <script
-      type="application/x-javascript"
-    >var Clock = new function()
+    A New Day and other free ePub3 eBooks at http://www.cattocreations.com/ePub3.html</svg:desc>
+  <svg:script type="application/x-javascript">var Clock = new function()
     {
       var dt = new Date();
       var plusminus = true;
@@ -67,11 +51,8 @@
         node.setAttribute("transform","rotate("+deg+",150,150)");
         setTimeout(setClock,(5-dt.getSeconds()%5)*1000);
       }
-    }();</script
-  >
-  <style
-      type="text/css"
-    >#cabinet {fill:none;stroke:brown;stroke-width:100;}
+    }();</svg:script>
+  <svg:style type="text/css">#cabinet {fill:none;stroke:brown;stroke-width:100;}
     #window {fill:#994444;stroke:none;}
     #weights {fill:none;stroke:#999999;stroke-width:5;}
     .weight {stroke-width:30;}
@@ -85,649 +66,156 @@
     .numbers {fill:#999999;font-size:28px;font-weight:bold;text-anchor:middle;}
     .ticks {fill:black;stroke:black;stroke-width:3;}
     .rim {fill:#333333;stroke:#cccccc;stroke-width:4;}
-    .face {fill:#999999;stroke:#cccccc;stroke-width:4;}</style
-  >
-  <g
-      id="grandfatherclock"
-      transform="translate(0) scale(1)"
-    >
-    <g
-        transform="translate(75,75)"
-      >
-      <g
-          id="cabinet"
-        >
-        <circle
-            cy="150"
-            cx="150"
-            r="167"
-        />
-        <rect
-            y="200"
-            x="-17"
-            width="334"
-            height="800"
-        />
-        <rect
-            id="window"
-            y="430"
-            x="33"
-            width="234"
-            height="520"
-        />
-        <g
-            id="weights"
-          >
-          <path
-              d="m75 150v750"
-          />
-          <path
-              d="m100 150v350"
-          />
-          <path
-              d="m100 500v100"
-              class="weight"
-          />
-          <path
-              d="m225 150v700"
-          />
-          <path
-              d="m200 150v400"
-          />
-          <path
-              d="m200 550v100"
-              class="weight"
-          />
-        </g
-        >
-        <g
-            id="pendulum"
-            transform="rotate(0,150,150)"
-          >
-          <path
-              d="m150 150v670"
-              class="arm"
-          />
-          <circle
-              cy="750"
-              cx="150"
-              r="50"
-          />
-        </g
-        >
-        <rect
-            y="200"
-            x="-17"
-            width="334"
-            class="filler"
-            height="180"
-        />
-        <rect
-            y="430"
-            x="33"
-            width="234"
-            class="outline"
-            height="520"
-        />
-      </g
-      >
-      <circle
-          cy="150"
-          cx="150"
-          r="147"
-      />
-      <g
-          class="gf"
-        >
-        <circle
-            cy="150"
-            cx="150"
-            r="147"
-            class="rim"
-        />
-        <circle
-            cy="150"
-            cx="150"
-            r="110"
-            class="face"
-        />
-        <g
-            class="numbers"
-          >
-          <text
-              y="51"
-              x="215"
-            >1</text
-          >
-          <text
-              y="99"
-              x="262"
-            >2</text
-          >
-          <text
-              y="161"
-              x="277"
-            >3</text
-          >
-          <text
-              y="222"
-              x="260"
-            >4</text
-          >
-          <text
-              y="271"
-              x="215"
-            >5</text
-          >
-          <text
-              y="289"
-              x="150"
-            >6</text
-          >
-          <text
-              y="270"
-              x="85"
-            >7</text
-          >
-          <text
-              y="222"
-              x="38"
-            >8</text
-          >
-          <text
-              y="161"
-              x="23"
-            >9</text
-          >
-          <text
-              y="98"
-              x="38"
-            >10</text
-          >
-          <text
-              y="50"
-              x="85"
-            >11</text
-          >
-          <text
-              y="32"
-              x="150"
-            >12</text
-          >
-        </g
-        >
-        <g
-            class="ticks"
-          >
-          <path
-              d="m150 43v7"
-          />
-          <path
-              d="m150 43v7"
-              transform="rotate(30,150,150)"
-          />
-          <path
-              d="m150 43v7"
-              transform="rotate(60,150,150)"
-          />
-          <path
-              d="m150 43v7"
-              transform="rotate(90,150,150)"
-          />
-          <path
-              d="m150 43v7"
-              transform="rotate(120,150,150)"
-          />
-          <path
-              d="m150 43v7"
-              transform="rotate(150,150,150)"
-          />
-          <path
-              d="m150 43v7"
-              transform="rotate(180,150,150)"
-          />
-          <path
-              d="m150 43v7"
-              transform="rotate(210,150,150)"
-          />
-          <path
-              d="m150 43v7"
-              transform="rotate(240,150,150)"
-          />
-          <path
-              d="m150 43v7"
-              transform="rotate(270,150,150)"
-          />
-          <path
-              d="m150 43v7"
-              transform="rotate(300,150,150)"
-          />
-          <path
-              d="m150 43v7"
-              transform="rotate(330,150,150)"
-          />
-        </g
-        >
-        <g
-            stroke-width=".5"
-            class="ticks"
-          >
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(6,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(12,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(18,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(24,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(36,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(42,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(48,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(54,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(66,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(72,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(78,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(84,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(96,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(102,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(108,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(114,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(126,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(132,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(138,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(144,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(156,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(162,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(168,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(174,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(186,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(192,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(198,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(204,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(216,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(222,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(228,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(234,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(246,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(252,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(258,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(264,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(276,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(282,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(288,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(294,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(306,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(312,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(318,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(324,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(336,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(342,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(348,150,150)"
-          />
-          <circle
-              cy="47"
-              cx="150"
-              r="1"
-              transform="rotate(-6 150 150)"
-          />
-        </g
-        >
-        <path
-            id="hours"
-            d="m145 170h10l-5-85z"
-            transform="rotate(270,150,150)"
-        />
-        <path
-            id="minutes"
-            d="m146 180h8l-4-128z"
-            transform="rotate(0,150,150)"
-        />
-      </g
-      >
-    </g
-    >
-  </g
-  >
-  <metadata
-    >
-    <rdf:RDF
-      >
-      <cc:Work
-        >
-        <dc:format
-          >image/svg+xml</dc:format
-        >
-        <dc:type
-            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-        />
-        <cc:license
-            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
-        />
-        <dc:publisher
-          >
-          <cc:Agent
-              rdf:about="http://openclipart.org/"
-            >
-            <dc:title
-              >Openclipart</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:publisher
-        >
-        <dc:title
-          >Scripted Grandfather Clock</dc:title
-        >
-        <dc:date
-          >2013-10-14T02:40:57</dc:date
-        >
-        <dc:description
-          >From the eBook, A New Day. Script moves the pendulum and sets the time. SVG code can be inserted into an SVG image then scaled and positioned where desired.</dc:description
-        >
-        <dc:source
-          >https://openclipart.org/detail/184881/scripted-grandfather-clock-by-jaynick-184881</dc:source
-        >
-        <dc:creator
-          >
-          <cc:Agent
-            >
-            <dc:title
-              >JayNick</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:creator
-        >
-        <dc:subject
-          >
-          <rdf:Bag
-            >
-            <rdf:li
-              >clock</rdf:li
-            >
-            <rdf:li
-              >grandfather</rdf:li
-            >
-            <rdf:li
-              >handcoded</rdf:li
-            >
-            <rdf:li
-              >hour</rdf:li
-            >
-            <rdf:li
-              >icon</rdf:li
-            >
-            <rdf:li
-              >javascript</rdf:li
-            >
-            <rdf:li
-              >minute</rdf:li
-            >
-            <rdf:li
-              >pendulum</rdf:li
-            >
-            <rdf:li
-              >scripted</rdf:li
-            >
-            <rdf:li
-              >second</rdf:li
-            >
-            <rdf:li
-              >time</rdf:li
-            >
-          </rdf:Bag
-          >
-        </dc:subject
-        >
-      </cc:Work
-      >
-      <cc:License
-          rdf:about="http://creativecommons.org/licenses/publicdomain/"
-        >
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Reproduction"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Distribution"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
-        />
-      </cc:License
-      >
-    </rdf:RDF
-    >
-  </metadata
-  >
-</svg
->
+    .face {fill:#999999;stroke:#cccccc;stroke-width:4;}</svg:style>
+  <svg:g id="grandfatherclock" transform="translate(0) scale(1)">
+    <svg:g transform="translate(75,75)">
+      <svg:g id="cabinet">
+        <svg:circle cx="150" cy="150" r="167" />
+        <svg:rect height="800" width="334" x="-17" y="200" />
+        <svg:rect height="520" id="window" width="234" x="33" y="430" />
+        <svg:g id="weights">
+          <svg:path d="m75 150v750" />
+          <svg:path d="m100 150v350" />
+          <svg:path class="weight" d="m100 500v100" />
+          <svg:path d="m225 150v700" />
+          <svg:path d="m200 150v400" />
+          <svg:path class="weight" d="m200 550v100" />
+        </svg:g>
+        <svg:g id="pendulum" transform="rotate(0,150,150)">
+          <svg:path class="arm" d="m150 150v670" />
+          <svg:circle cx="150" cy="750" r="50" />
+        </svg:g>
+        <svg:rect class="filler" height="180" width="334" x="-17" y="200" />
+        <svg:rect class="outline" height="520" width="234" x="33" y="430" />
+      </svg:g>
+      <svg:circle cx="150" cy="150" r="147" />
+      <svg:g class="gf">
+        <svg:circle class="rim" cx="150" cy="150" r="147" />
+        <svg:circle class="face" cx="150" cy="150" r="110" />
+        <svg:g class="numbers">
+          <svg:text x="215" y="51">1</svg:text>
+          <svg:text x="262" y="99">2</svg:text>
+          <svg:text x="277" y="161">3</svg:text>
+          <svg:text x="260" y="222">4</svg:text>
+          <svg:text x="215" y="271">5</svg:text>
+          <svg:text x="150" y="289">6</svg:text>
+          <svg:text x="85" y="270">7</svg:text>
+          <svg:text x="38" y="222">8</svg:text>
+          <svg:text x="23" y="161">9</svg:text>
+          <svg:text x="38" y="98">10</svg:text>
+          <svg:text x="85" y="50">11</svg:text>
+          <svg:text x="150" y="32">12</svg:text>
+        </svg:g>
+        <svg:g class="ticks">
+          <svg:path d="m150 43v7" />
+          <svg:path d="m150 43v7" transform="rotate(30,150,150)" />
+          <svg:path d="m150 43v7" transform="rotate(60,150,150)" />
+          <svg:path d="m150 43v7" transform="rotate(90,150,150)" />
+          <svg:path d="m150 43v7" transform="rotate(120,150,150)" />
+          <svg:path d="m150 43v7" transform="rotate(150,150,150)" />
+          <svg:path d="m150 43v7" transform="rotate(180,150,150)" />
+          <svg:path d="m150 43v7" transform="rotate(210,150,150)" />
+          <svg:path d="m150 43v7" transform="rotate(240,150,150)" />
+          <svg:path d="m150 43v7" transform="rotate(270,150,150)" />
+          <svg:path d="m150 43v7" transform="rotate(300,150,150)" />
+          <svg:path d="m150 43v7" transform="rotate(330,150,150)" />
+        </svg:g>
+        <svg:g class="ticks" stroke-width=".5">
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(6,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(12,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(18,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(24,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(36,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(42,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(48,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(54,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(66,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(72,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(78,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(84,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(96,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(102,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(108,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(114,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(126,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(132,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(138,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(144,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(156,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(162,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(168,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(174,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(186,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(192,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(198,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(204,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(216,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(222,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(228,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(234,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(246,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(252,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(258,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(264,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(276,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(282,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(288,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(294,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(306,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(312,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(318,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(324,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(336,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(342,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(348,150,150)" />
+          <svg:circle cx="150" cy="47" r="1" transform="rotate(-6 150 150)" />
+        </svg:g>
+        <svg:path d="m145 170h10l-5-85z" id="hours" transform="rotate(270,150,150)" />
+        <svg:path d="m146 180h8l-4-128z" id="minutes" transform="rotate(0,150,150)" />
+      </svg:g>
+    </svg:g>
+  </svg:g>
+  <svg:metadata>
+    <rdf:RDF>
+      <ns2:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns2:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <ns2:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </ns2:Agent>
+        </dc:publisher>
+        <dc:title>Scripted Grandfather Clock</dc:title>
+        <dc:date>2013-10-14T02:40:57</dc:date>
+        <dc:description>From the eBook, A New Day. Script moves the pendulum and sets the time. SVG code can be inserted into an SVG image then scaled and positioned where desired.</dc:description>
+        <dc:source>https://openclipart.org/detail/184881/scripted-grandfather-clock-by-jaynick-184881</dc:source>
+        <dc:creator>
+          <ns2:Agent>
+            <dc:title>JayNick</dc:title>
+          </ns2:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>clock</rdf:li>
+            <rdf:li>grandfather</rdf:li>
+            <rdf:li>handcoded</rdf:li>
+            <rdf:li>hour</rdf:li>
+            <rdf:li>icon</rdf:li>
+            <rdf:li>javascript</rdf:li>
+            <rdf:li>minute</rdf:li>
+            <rdf:li>pendulum</rdf:li>
+            <rdf:li>scripted</rdf:li>
+            <rdf:li>second</rdf:li>
+            <rdf:li>time</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </ns2:Work>
+      <ns2:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns2:License>
+    </rdf:RDF>
+  </svg:metadata>
+</svg:svg>

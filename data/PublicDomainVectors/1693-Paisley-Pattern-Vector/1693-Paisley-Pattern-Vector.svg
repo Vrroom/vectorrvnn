@@ -1,18 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:cc="http://web.resource.org/cc/"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    xmlns:ns1="http://sozi.baierouge.fr"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    viewBox="0 0 280 280"
-  >
-  <script
-    >var p_seg, p_min, p_hor;
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="314.41437683400716" viewBox="-17.70718841700357 -18.213178764506566 314.4143768340071 314.41437683400716" width="314.4143768340071">
+  <svg:script>var p_seg, p_min, p_hor;
 var i;
 function $(id) { return document.getElementById(id); }
 function inic() {
@@ -30,334 +17,96 @@ function atualizar() {
 	if(i &gt; 86400) i = 0;
 	i++;
 }
-window.onload = inic;</script
-  >
-  <defs
-    >
-    <filter
-        id="sombra"
-      >
-      <feGaussianBlur
-          stdDeviation="4"
-      />
-    </filter
-    >
-    <linearGradient
-        id="metal1"
-        y2=".8"
-        x2=".8"
-        y1=".2"
-        x1=".2"
-      >
-      <stop
-          style="stop-color:#F5F5F5"
-          offset="0"
-      />
-      <stop
-          style="stop-color:#DDD"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="metal2"
-        y2=".8"
-        x2=".8"
-        y1=".2"
-        x1=".2"
-      >
-      <stop
-          style="stop-color:#DDD"
-          offset="0"
-      />
-      <stop
-          style="stop-color:#F5F5F5"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <radialGradient
-        id="fundo"
-      >
-      <stop
-          offset="0"
-      />
-      <stop
-          style="stop-color:#444"
-          offset="1"
-      />
-    </radialGradient
-    >
-    <linearGradient
-        id="ref1"
-        y2="1"
-        x2="0"
-      >
-      <stop
-          style="stop-color:#FFF;stop-opacity:.4"
-          offset="0"
-      />
-      <stop
-          style="stop-color:#FFF;stop-opacity:0"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="ref2"
-        y2="1"
-        x2="0"
-      >
-      <stop
-          style="stop-color:#FFF;stop-opacity:0"
-          offset="0"
-      />
-      <stop
-          style="stop-color:#FFF;stop-opacity:.5"
-          offset="1"
-      />
-    </linearGradient
-    >
-  </defs
-  >
-  <circle
-      cy="140"
-      cx="140"
-      r="130"
-      style="filter:url(#sombra)"
-  />
-  <circle
-      cy="138"
-      cx="139"
-      r="130"
-      style="stroke:#CCC;fill:url(#metal1)"
-  />
-  <circle
-      cy="138"
-      cx="139"
-      r="120"
-      style="stroke:#CCC;fill:url(#metal2)"
-  />
-  <circle
-      cy="138"
-      cx="139"
-      r="117"
-      style="fill:url(#fundo)"
-  />
-  <g
-      style="fill:#FFF"
-    >
-    <circle
-        cy="239"
-        cx="139"
-        r="5"
-    />
-    <circle
-        cy="37"
-        cx="139"
-        r="5"
-    />
-    <circle
-        cy="138"
-        cx="38"
-        r="5"
-    />
-    <circle
-        cy="138"
-        cx="240"
-        r="5"
-    />
-    <g
-        style="fill-opacity:.8"
-      >
-      <circle
-          cy="88"
-          cx="51"
-          r="3"
-      />
-      <circle
-          cy="188"
-          cx="51"
-          r="3"
-      />
-      <circle
-          cy="50"
-          cx="89"
-          r="3"
-      />
-      <circle
-          cy="226"
-          cx="89"
-          r="3"
-      />
-      <circle
-          cy="50"
-          cx="189"
-          r="3"
-      />
-      <circle
-          cy="226"
-          cx="189"
-          r="3"
-      />
-      <circle
-          cy="188"
-          cx="227"
-          r="3"
-      />
-      <circle
-          cy="82"
-          cx="227"
-          r="3"
-      />
-    </g
-    >
-  </g
-  >
-  <rect
-      id="horas"
-      style="stroke:#FFF"
-      rx="5"
-      height="70"
-      width="10"
-      y="73"
-      x="134"
-  />
-  <rect
-      id="minutos"
-      style="stroke:#FFF;fill:#0C5987"
-      rx="4"
-      height="100"
-      width="8"
-      y="42"
-      x="135"
-  />
-  <rect
-      id="segundos"
-      style="stroke:#FFF;fill:#138AD1"
-      rx="3"
-      height="110"
-      width="6"
-      y="31"
-      x="136"
-  />
-  <circle
-      cy="138"
-      cx="139"
-      r="8"
-      style="stroke:#FFF;fill:#138AD1"
-  />
-  <path
-      style="fill:url(#ref1)"
-      d="m139 8c-65 0-119 48-128 110 37-16 81-25 128-25s91 9 128 25c-9-62-63-110-128-110z"
-      transform="rotate(-15 139 138)"
-  />
-  <path
-      style="fill:url(#ref2)"
-      d="m39 196c21 35 58 58 101 58s80-28 101-58c-24 17-60 28-101 28s-77-11-101-28z"
-      transform="rotate(-15 139 138)"
-  />
-  <metadata
-    >
-    <rdf:RDF
-      >
-      <cc:Work
-        >
-        <dc:format
-          >image/svg+xml</dc:format
-        >
-        <dc:type
-            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-        />
-        <cc:license
-            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
-        />
-        <dc:publisher
-          >
-          <cc:Agent
-              rdf:about="http://openclipart.org/"
-            >
-            <dc:title
-              >Openclipart</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:publisher
-        >
-        <dc:title
-          >Relógio Analógico</dc:title
-        >
-        <dc:date
-          >2010-12-22T15:14:17</dc:date
-        >
-        <dc:description
-          >Relógio analógico que marca a hora com javascript.\nVocê precisa abrir o SVG para ver o relógio funcionanado.\n\n* Alguns dos pontos estão com a localização errada!</dc:description
-        >
-        <dc:source
-          >https://openclipart.org/detail/101581/relógio-analógico-by-guerreiro</dc:source
-        >
-        <dc:creator
-          >
-          <cc:Agent
-            >
-            <dc:title
-              >Guerreiro</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:creator
-        >
-        <dc:subject
-          >
-          <rdf:Bag
-            >
-            <rdf:li
-              >analog</rdf:li
-            >
-            <rdf:li
-              >analógico</rdf:li
-            >
-            <rdf:li
-              >animation</rdf:li
-            >
-            <rdf:li
-              >animação</rdf:li
-            >
-            <rdf:li
-              >clock</rdf:li
-            >
-            <rdf:li
-              >javascript</rdf:li
-            >
-            <rdf:li
-              >relogio</rdf:li
-            >
-            <rdf:li
-              >watch</rdf:li
-            >
-          </rdf:Bag
-          >
-        </dc:subject
-        >
-      </cc:Work
-      >
-      <cc:License
-          rdf:about="http://creativecommons.org/licenses/publicdomain/"
-        >
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Reproduction"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Distribution"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
-        />
-      </cc:License
-      >
-    </rdf:RDF
-    >
-  </metadata
-  >
-</svg
->
+window.onload = inic;</svg:script>
+  <svg:defs>
+    <svg:filter id="sombra">
+      <svg:feGaussianBlur stdDeviation="4" />
+    </svg:filter>
+    <svg:linearGradient id="metal1" x1=".2" x2=".8" y1=".2" y2=".8">
+      <svg:stop offset="0" style="stop-color:#F5F5F5" />
+      <svg:stop offset="1" style="stop-color:#DDD" />
+    </svg:linearGradient>
+    <svg:linearGradient id="metal2" x1=".2" x2=".8" y1=".2" y2=".8">
+      <svg:stop offset="0" style="stop-color:#DDD" />
+      <svg:stop offset="1" style="stop-color:#F5F5F5" />
+    </svg:linearGradient>
+    <svg:radialGradient id="fundo">
+      <svg:stop offset="0" />
+      <svg:stop offset="1" style="stop-color:#444" />
+    </svg:radialGradient>
+    <svg:linearGradient id="ref1" x2="0" y2="1">
+      <svg:stop offset="0" style="stop-color:#FFF;stop-opacity:.4" />
+      <svg:stop offset="1" style="stop-color:#FFF;stop-opacity:0" />
+    </svg:linearGradient>
+    <svg:linearGradient id="ref2" x2="0" y2="1">
+      <svg:stop offset="0" style="stop-color:#FFF;stop-opacity:0" />
+      <svg:stop offset="1" style="stop-color:#FFF;stop-opacity:.5" />
+    </svg:linearGradient>
+  </svg:defs>
+  <svg:circle cx="140" cy="140" r="130" style="filter:url(#sombra)" />
+  <svg:circle cx="139" cy="138" r="130" style="stroke:#CCC;fill:url(#metal1)" />
+  <svg:circle cx="139" cy="138" r="120" style="stroke:#CCC;fill:url(#metal2)" />
+  <svg:circle cx="139" cy="138" r="117" style="fill:url(#fundo)" />
+  <svg:g style="fill:#FFF">
+    <svg:circle cx="139" cy="239" r="5" />
+    <svg:circle cx="139" cy="37" r="5" />
+    <svg:circle cx="38" cy="138" r="5" />
+    <svg:circle cx="240" cy="138" r="5" />
+    <svg:g style="fill-opacity:.8">
+      <svg:circle cx="51" cy="88" r="3" />
+      <svg:circle cx="51" cy="188" r="3" />
+      <svg:circle cx="89" cy="50" r="3" />
+      <svg:circle cx="89" cy="226" r="3" />
+      <svg:circle cx="189" cy="50" r="3" />
+      <svg:circle cx="189" cy="226" r="3" />
+      <svg:circle cx="227" cy="188" r="3" />
+      <svg:circle cx="227" cy="82" r="3" />
+    </svg:g>
+  </svg:g>
+  <svg:rect height="70" id="horas" rx="5" style="stroke:#FFF" width="10" x="134" y="73" />
+  <svg:rect height="100" id="minutos" rx="4" style="stroke:#FFF;fill:#0C5987" width="8" x="135" y="42" />
+  <svg:rect height="110" id="segundos" rx="3" style="stroke:#FFF;fill:#138AD1" width="6" x="136" y="31" />
+  <svg:circle cx="139" cy="138" r="8" style="stroke:#FFF;fill:#138AD1" />
+  <svg:path d="m139 8c-65 0-119 48-128 110 37-16 81-25 128-25s91 9 128 25c-9-62-63-110-128-110z" style="fill:url(#ref1)" transform="rotate(-15 139 138)" />
+  <svg:path d="m39 196c21 35 58 58 101 58s80-28 101-58c-24 17-60 28-101 28s-77-11-101-28z" style="fill:url(#ref2)" transform="rotate(-15 139 138)" />
+  <svg:metadata>
+    <rdf:RDF>
+      <ns2:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns2:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <ns2:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </ns2:Agent>
+        </dc:publisher>
+        <dc:title>Rel&#243;gio Anal&#243;gico</dc:title>
+        <dc:date>2010-12-22T15:14:17</dc:date>
+        <dc:description>Rel&#243;gio anal&#243;gico que marca a hora com javascript.\nVoc&#234; precisa abrir o SVG para ver o rel&#243;gio funcionanado.\n\n* Alguns dos pontos est&#227;o com a localiza&#231;&#227;o errada!</dc:description>
+        <dc:source>https://openclipart.org/detail/101581/rel&#243;gio-anal&#243;gico-by-guerreiro</dc:source>
+        <dc:creator>
+          <ns2:Agent>
+            <dc:title>Guerreiro</dc:title>
+          </ns2:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>analog</rdf:li>
+            <rdf:li>anal&#243;gico</rdf:li>
+            <rdf:li>animation</rdf:li>
+            <rdf:li>anima&#231;&#227;o</rdf:li>
+            <rdf:li>clock</rdf:li>
+            <rdf:li>javascript</rdf:li>
+            <rdf:li>relogio</rdf:li>
+            <rdf:li>watch</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </ns2:Work>
+      <ns2:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns2:License>
+    </rdf:RDF>
+  </svg:metadata>
+</svg:svg>

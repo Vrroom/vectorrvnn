@@ -1,18 +1,5 @@
-<?xml version="1.0"?>
-<svg
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:cc="http://web.resource.org/cc/"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    xmlns:ns1="http://sozi.baierouge.fr"
-    viewBox="0 0 647 500"
-  >
-  <desc
-    >Picture Cube Activity
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://www.w3.org/1999/xlink" xmlns:ns3="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="762.0" viewBox="-57.499999999999986 -131.0 762.0 762.0" width="762.0">
+  <svg:desc>Picture Cube Activity
     Print, Cutout, Fold, and Glue your picture cube. A fun activity for kids.
     Edit SVG source code to insert your own square pictures, SVG or bitmap. 
     Written by Jay Nick
@@ -23,11 +10,8 @@
     http://www.cattocreations.com/FreeStuff.html
     Catto Creations mission is Family, Literacy, and Enrichment
     Visit http://www.cattocreations.com for award winning children's eBooks
-    Free ePub3 eBooks at http://www.cattocreations.com/ePub3.html</desc
-  >
-  <style
-      type="text/css"
-    >#picturecube {font-family:Arial;}
+    Free ePub3 eBooks at http://www.cattocreations.com/ePub3.html</svg:desc>
+  <svg:style type="text/css">#picturecube {font-family:Arial;}
     .box {fill:white;stroke:black;stroke-width:1px;}
     .align {stroke:gray;stroke-width:0.25px;}
     .instruction {fill:lightgray;font-size:8px;text-anchor:middle;}
@@ -36,542 +20,149 @@
     #Heart text {fill:yellow;stroke:none;stroke-width:0.5px;font-size:30px;font-weight:bold;text-anchor:middle;}
     #svgimages {fill:red;stroke:black;stroke-width:1px;}
     #svgimages {display:default;}
-    #bitmapimages {display:none;}</style
-  >
-  <defs
-    >
-    <symbol
-        id="Heart"
-        viewBox="0 0 280 270"
-      >
-      <path
-          d="m140 58c30-60 110-60 130 0 30 100-110 150-130 210m0-210c-30-60-110-60-130 0-30 100 110 150 130 210"
-      />
-      <text
-          y="102"
-          x="142"
-          opacity=".2"
-          fill="#333333"
-        >I Love</text
-      >
-      <text
-          y="100"
-          x="140"
-        >I Love</text
-      >
-      <text
-          y="137"
-          x="142"
-          opacity=".2"
-          fill="#333333"
-        >openclipart.org</text
-      >
-      <text
-          y="135"
-          x="140"
-        >openclipart.org</text
-      >
-    </symbol
-    >
-  </defs
-  >
-  <g
-      id="picturecube"
-      transform="translate(-59)"
-    >
-    <text
-        y="50"
-        x="275"
-        class="directions"
-      >1. Print landscape</text
-    >
-    <text
-        y="62"
-        x="275"
-        class="directions"
-      >2. Cut out along edges</text
-    >
-    <text
-        y="74"
-        x="275"
-        class="directions"
-      >3. Fold along lines</text
-    >
-    <text
-        y="86"
-        x="275"
-        class="directions"
-      >4. Tape or glue together</text
-    >
-    <rect
-        rx="30"
-        height="150"
-        width="70"
-        y="175"
-        x="65"
-        class="box"
-    />
-    <g
-        transform="rotate(-90,85,250)"
-      >
-      <text
-          y="250"
-          x="85"
-          class="instruction"
-        >glue here</text
-      >
-    </g
-    >
-    <rect
-        y="175"
-        x="100"
-        width="150"
-        class="box"
-        height="150"
-    />
-    <rect
-        y="175"
-        x="250"
-        width="150"
-        class="box"
-        height="150"
-    />
-    <rect
-        y="175"
-        x="400"
-        width="150"
-        class="box"
-        height="150"
-    />
-    <rect
-        y="175"
-        x="550"
-        width="150"
-        class="box"
-        height="150"
-    />
-    <rect
-        rx="30"
-        height="50"
-        width="150"
-        y="450"
-        x="250"
-        class="box"
-    />
-    <g
-        transform="rotate(180,325,485)"
-      >
-      <text
-          y="485"
-          x="325"
-          class="instruction"
-        >glue here</text
-      >
-    </g
-    >
-    <rect
-        y="325"
-        x="250"
-        width="150"
-        class="box"
-        height="150"
-    />
-    <rect
-        rx="30"
-        height="50"
-        width="150"
-        y="0"
-        x="550"
-        class="box"
-    />
-    <text
-        y="15"
-        x="625"
-        class="instruction"
-      >glue here</text
-    >
-    <rect
-        y="25"
-        x="550"
-        width="150"
-        class="box"
-        height="150"
-    />
-    <g
-        transform="translate(0)"
-      >
-      <path
-          d="m100 175l30-135h90l30 135z"
-          class="box"
-      />
-      <path
-          d="m117 100h116"
-          class="align"
-      />
-      <text
-          y="97"
-          x="175"
-          class="instruction"
-        >Align</text
-      >
-      <text
-          y="110"
-          x="175"
-          class="instruction"
-        >Tape or Glue</text
-      >
-    </g
-    >
-    <g
-        transform="translate(300)"
-      >
-      <path
-          d="m100 175l30-135h90l30 135z"
-          class="box"
-      />
-      <path
-          d="m117 100h116"
-          class="align"
-      />
-      <text
-          y="97"
-          x="175"
-          class="instruction"
-        >Align</text
-      >
-      <text
-          y="110"
-          x="175"
-          class="instruction"
-        >Tape or Glue</text
-      >
-    </g
-    >
-    <g
-        transform="translate(0)"
-      >
-      <path
-          d="m100 325l30 135h90l30-135z"
-          class="box"
-      />
-      <path
-          d="m117 400h116"
-          class="align"
-      />
-      <text
-          y="397"
-          x="175"
-          class="instruction"
-        >Align</text
-      >
-      <text
-          y="410"
-          x="175"
-          class="instruction"
-        >Tape or Glue</text
-      >
-    </g
-    >
-    <g
-        transform="translate(300)"
-      >
-      <path
-          d="m100 325l30 135h90l30-135z"
-          class="box"
-      />
-      <path
-          d="m117 400h116"
-          class="align"
-      />
-      <text
-          y="397"
-          x="175"
-          class="instruction"
-        >Align</text
-      >
-      <text
-          y="410"
-          x="175"
-          class="instruction"
-        >Tape or Glue</text
-      >
-    </g
-    >
-    <g
-        id="svgimages"
-      >
-      <g
-          transform="rotate(90,175,250)"
-        >
-        <g
-            transform="translate(101 173) scale(.529 .548)"
-          >
-          <use
-              y="0"
-              x="0"
-              xlink:href="#Heart"
-              width="280"
-              height="270"
-          />
-        </g
-        >
-      </g
-      >
-      <g
-          transform="translate(251 173) scale(.529 .548)"
-        >
-        <use
-            y="0"
-            x="0"
-            xlink:href="#Heart"
-            width="280"
-            height="270"
-        />
-      </g
-      >
-      <g
-          transform="translate(251 323) scale(.529 .548)"
-        >
-        <use
-            y="0"
-            x="0"
-            xlink:href="#Heart"
-            width="280"
-            height="270"
-        />
-      </g
-      >
-      <g
-          transform="rotate(-90,475,250)"
-        >
-        <g
-            transform="translate(401 173) scale(.529 .548)"
-          >
-          <use
-              y="0"
-              x="0"
-              xlink:href="#Heart"
-              width="280"
-              height="270"
-          />
-        </g
-        >
-      </g
-      >
-      <g
-          transform="rotate(180,625,250)"
-        >
-        <g
-            transform="translate(551 173) scale(.529 .548)"
-          >
-          <use
-              y="0"
-              x="0"
-              xlink:href="#Heart"
-              width="280"
-              height="270"
-          />
-        </g
-        >
-      </g
-      >
-      <g
-          transform="translate(551 23) scale(.529 .548)"
-        >
-        <use
-            y="0"
-            x="0"
-            xlink:href="#Heart"
-            width="280"
-            height="270"
-        />
-      </g
-      >
-    </g
-    >
-  </g
-  >
-  <g
-      id="info"
-    >
-    <g
-        transform="translate(116,155)"
-      >
-      <text
-          y="0"
-          x="0"
-        >Catto Creations, LLC</text
-      >
-      <text
-          y="13"
-          x="0"
-        >Family, Literacy, &amp; Enrichment</text
-      >
-    </g
-    >
-    <g
-        transform="translate(116,345) rotate(180)"
-      >
-      <text
-          y="0"
-          x="0"
-        >Catto Creations, LLC</text
-      >
-      <text
-          y="13"
-          x="0"
-        >http://www.cattocreations.com</text
-      >
-    </g
-    >
-    <g
-        transform="translate(416,155)"
-      >
-      <text
-          y="0"
-          x="0"
-        >Catto Creations, LLC</text
-      >
-      <text
-          y="13"
-          x="0"
-        >http://www.cattocreations.com</text
-      >
-    </g
-    >
-    <g
-        transform="translate(416,345) rotate(180)"
-      >
-      <text
-          y="0"
-          x="0"
-        >Catto Creations, LLC</text
-      >
-      <text
-          y="13"
-          x="0"
-        >Family, Literacy, &amp; Enrichment</text
-      >
-    </g
-    >
-  </g
-  >
-  <metadata
-    >
-    <rdf:RDF
-      >
-      <cc:Work
-        >
-        <dc:format
-          >image/svg+xml</dc:format
-        >
-        <dc:type
-            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-        />
-        <cc:license
-            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
-        />
-        <dc:publisher
-          >
-          <cc:Agent
-              rdf:about="http://openclipart.org/"
-            >
-            <dc:title
-              >Openclipart</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:publisher
-        >
-        <dc:title
-          >Picture Cube Activity</dc:title
-        >
-        <dc:date
-          >2013-10-13T02:42:40</dc:date
-        >
-        <dc:description
-          >Print, Cutout, Fold, &amp; Glue your picture cube.  Edit SVG source code to insert your own square pictures, SVG or bitmap. A fun activity for kids.</dc:description
-        >
-        <dc:source
-          >https://openclipart.org/detail/184825/picture-cube-activity-by-jaynick-184825</dc:source
-        >
-        <dc:creator
-          >
-          <cc:Agent
-            >
-            <dc:title
-              >JayNick</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:creator
-        >
-        <dc:subject
-          >
-          <rdf:Bag
-            >
-            <rdf:li
-              >activity</rdf:li
-            >
-            <rdf:li
-              >children</rdf:li
-            >
-            <rdf:li
-              >cube</rdf:li
-            >
-            <rdf:li
-              >cut</rdf:li
-            >
-            <rdf:li
-              >fold</rdf:li
-            >
-            <rdf:li
-              >fun</rdf:li
-            >
-            <rdf:li
-              >glue</rdf:li
-            >
-            <rdf:li
-              >handcoded</rdf:li
-            >
-            <rdf:li
-              >images</rdf:li
-            >
-            <rdf:li
-              >kids</rdf:li
-            >
-            <rdf:li
-              >picture</rdf:li
-            >
-            <rdf:li
-              >pictures</rdf:li
-            >
-            <rdf:li
-              >print</rdf:li
-            >
-          </rdf:Bag
-          >
-        </dc:subject
-        >
-      </cc:Work
-      >
-      <cc:License
-          rdf:about="http://creativecommons.org/licenses/publicdomain/"
-        >
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Reproduction"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Distribution"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
-        />
-      </cc:License
-      >
-    </rdf:RDF
-    >
-  </metadata
-  >
-</svg
->
+    #bitmapimages {display:none;}</svg:style>
+  <svg:defs>
+    <svg:symbol id="Heart" viewBox="0 0 280 270">
+      <svg:path d="m140 58c30-60 110-60 130 0 30 100-110 150-130 210m0-210c-30-60-110-60-130 0-30 100 110 150 130 210" />
+      <svg:text fill="#333333" opacity=".2" x="142" y="102">I Love</svg:text>
+      <svg:text x="140" y="100">I Love</svg:text>
+      <svg:text fill="#333333" opacity=".2" x="142" y="137">openclipart.org</svg:text>
+      <svg:text x="140" y="135">openclipart.org</svg:text>
+    </svg:symbol>
+  </svg:defs>
+  <svg:g id="picturecube" transform="translate(-59)">
+    <svg:text class="directions" x="275" y="50">1. Print landscape</svg:text>
+    <svg:text class="directions" x="275" y="62">2. Cut out along edges</svg:text>
+    <svg:text class="directions" x="275" y="74">3. Fold along lines</svg:text>
+    <svg:text class="directions" x="275" y="86">4. Tape or glue together</svg:text>
+    <svg:rect class="box" height="150" rx="30" width="70" x="65" y="175" />
+    <svg:g transform="rotate(-90,85,250)">
+      <svg:text class="instruction" x="85" y="250">glue here</svg:text>
+    </svg:g>
+    <svg:rect class="box" height="150" width="150" x="100" y="175" />
+    <svg:rect class="box" height="150" width="150" x="250" y="175" />
+    <svg:rect class="box" height="150" width="150" x="400" y="175" />
+    <svg:rect class="box" height="150" width="150" x="550" y="175" />
+    <svg:rect class="box" height="50" rx="30" width="150" x="250" y="450" />
+    <svg:g transform="rotate(180,325,485)">
+      <svg:text class="instruction" x="325" y="485">glue here</svg:text>
+    </svg:g>
+    <svg:rect class="box" height="150" width="150" x="250" y="325" />
+    <svg:rect class="box" height="50" rx="30" width="150" x="550" y="0" />
+    <svg:text class="instruction" x="625" y="15">glue here</svg:text>
+    <svg:rect class="box" height="150" width="150" x="550" y="25" />
+    <svg:g transform="translate(0)">
+      <svg:path class="box" d="m100 175l30-135h90l30 135z" />
+      <svg:path class="align" d="m117 100h116" />
+      <svg:text class="instruction" x="175" y="97">Align</svg:text>
+      <svg:text class="instruction" x="175" y="110">Tape or Glue</svg:text>
+    </svg:g>
+    <svg:g transform="translate(300)">
+      <svg:path class="box" d="m100 175l30-135h90l30 135z" />
+      <svg:path class="align" d="m117 100h116" />
+      <svg:text class="instruction" x="175" y="97">Align</svg:text>
+      <svg:text class="instruction" x="175" y="110">Tape or Glue</svg:text>
+    </svg:g>
+    <svg:g transform="translate(0)">
+      <svg:path class="box" d="m100 325l30 135h90l30-135z" />
+      <svg:path class="align" d="m117 400h116" />
+      <svg:text class="instruction" x="175" y="397">Align</svg:text>
+      <svg:text class="instruction" x="175" y="410">Tape or Glue</svg:text>
+    </svg:g>
+    <svg:g transform="translate(300)">
+      <svg:path class="box" d="m100 325l30 135h90l30-135z" />
+      <svg:path class="align" d="m117 400h116" />
+      <svg:text class="instruction" x="175" y="397">Align</svg:text>
+      <svg:text class="instruction" x="175" y="410">Tape or Glue</svg:text>
+    </svg:g>
+    <svg:g id="svgimages">
+      <svg:g transform="rotate(90,175,250)">
+        <svg:g transform="translate(101 173) scale(.529 .548)">
+          <svg:use height="270" width="280" x="0" y="0" ns1:href="#Heart" />
+        </svg:g>
+      </svg:g>
+      <svg:g transform="translate(251 173) scale(.529 .548)">
+        <svg:use height="270" width="280" x="0" y="0" ns1:href="#Heart" />
+      </svg:g>
+      <svg:g transform="translate(251 323) scale(.529 .548)">
+        <svg:use height="270" width="280" x="0" y="0" ns1:href="#Heart" />
+      </svg:g>
+      <svg:g transform="rotate(-90,475,250)">
+        <svg:g transform="translate(401 173) scale(.529 .548)">
+          <svg:use height="270" width="280" x="0" y="0" ns1:href="#Heart" />
+        </svg:g>
+      </svg:g>
+      <svg:g transform="rotate(180,625,250)">
+        <svg:g transform="translate(551 173) scale(.529 .548)">
+          <svg:use height="270" width="280" x="0" y="0" ns1:href="#Heart" />
+        </svg:g>
+      </svg:g>
+      <svg:g transform="translate(551 23) scale(.529 .548)">
+        <svg:use height="270" width="280" x="0" y="0" ns1:href="#Heart" />
+      </svg:g>
+    </svg:g>
+  </svg:g>
+  <svg:g id="info">
+    <svg:g transform="translate(116,155)">
+      <svg:text x="0" y="0">Catto Creations, LLC</svg:text>
+      <svg:text x="0" y="13">Family, Literacy, &amp; Enrichment</svg:text>
+    </svg:g>
+    <svg:g transform="translate(116,345) rotate(180)">
+      <svg:text x="0" y="0">Catto Creations, LLC</svg:text>
+      <svg:text x="0" y="13">http://www.cattocreations.com</svg:text>
+    </svg:g>
+    <svg:g transform="translate(416,155)">
+      <svg:text x="0" y="0">Catto Creations, LLC</svg:text>
+      <svg:text x="0" y="13">http://www.cattocreations.com</svg:text>
+    </svg:g>
+    <svg:g transform="translate(416,345) rotate(180)">
+      <svg:text x="0" y="0">Catto Creations, LLC</svg:text>
+      <svg:text x="0" y="13">Family, Literacy, &amp; Enrichment</svg:text>
+    </svg:g>
+  </svg:g>
+  <svg:metadata>
+    <rdf:RDF>
+      <ns3:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns3:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <ns3:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </ns3:Agent>
+        </dc:publisher>
+        <dc:title>Picture Cube Activity</dc:title>
+        <dc:date>2013-10-13T02:42:40</dc:date>
+        <dc:description>Print, Cutout, Fold, &amp; Glue your picture cube.  Edit SVG source code to insert your own square pictures, SVG or bitmap. A fun activity for kids.</dc:description>
+        <dc:source>https://openclipart.org/detail/184825/picture-cube-activity-by-jaynick-184825</dc:source>
+        <dc:creator>
+          <ns3:Agent>
+            <dc:title>JayNick</dc:title>
+          </ns3:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>activity</rdf:li>
+            <rdf:li>children</rdf:li>
+            <rdf:li>cube</rdf:li>
+            <rdf:li>cut</rdf:li>
+            <rdf:li>fold</rdf:li>
+            <rdf:li>fun</rdf:li>
+            <rdf:li>glue</rdf:li>
+            <rdf:li>handcoded</rdf:li>
+            <rdf:li>images</rdf:li>
+            <rdf:li>kids</rdf:li>
+            <rdf:li>picture</rdf:li>
+            <rdf:li>pictures</rdf:li>
+            <rdf:li>print</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </ns3:Work>
+      <ns3:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns3:License>
+    </rdf:RDF>
+  </svg:metadata>
+</svg:svg>

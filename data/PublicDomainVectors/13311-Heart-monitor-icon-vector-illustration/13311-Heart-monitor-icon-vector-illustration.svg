@@ -1,530 +1,115 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:cc="http://web.resource.org/cc/"
-    xmlns:undefined="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    xmlns:ns1="http://sozi.baierouge.fr"
-    viewBox="0 0 41 53"
-  >
-  <defs
-    >
-    <linearGradient
-        id="imagebot_58"
-      >
-      <stop
-          id="imagebot_68"
-          stop-color="#f9f9f9"
-          stop-opacity=".98519"
-          offset="0"
-      />
-      <stop
-          id="imagebot_67"
-          stop-color="#d5d5d5"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="imagebot_59"
-      >
-      <stop
-          id="imagebot_66"
-          stop-color="#555555"
-          offset="0"
-      />
-      <stop
-          id="imagebot_65"
-          stop-color="#000000"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="imagebot_57"
-      >
-      <stop
-          id="imagebot_64"
-          stop-color="#ffea00"
-          offset="0"
-      />
-      <stop
-          id="imagebot_63"
-          stop-color="#ffffa4"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="imagebot_60"
-      >
-      <stop
-          id="imagebot_62"
-          stop-color="#003e8c"
-          offset="0"
-      />
-      <stop
-          id="imagebot_61"
-          stop-color="#0062db"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="imagebot_48"
-        y2=".57653"
-        xlink:href="#imagebot_60"
-        y1=".09662"
-        x2="-.07257"
-        x1=".73785"
-    />
-    <linearGradient
-        id="imagebot_46"
-        y2="1.0491"
-        xlink:href="#imagebot_60"
-        y1=".226"
-        x2=".93718"
-        x1=".25361"
-    />
-    <radialGradient
-        id="imagebot_44"
-        gradientUnits="userSpaceOnUse"
-        xlink:href="#imagebot_58"
-        cx="20.613"
-        cy="21.628"
-        r="16"
-        gradientTransform="matrix(.88649 1.0425 -.80006 .68035 20.693 -16.22)"
-    />
-    <linearGradient
-        id="imagebot_42"
-        y2=".32261"
-        xlink:href="#imagebot_59"
-        y1=".31615"
-        x2="0"
-        x1="1"
-    />
-    <linearGradient
-        id="imagebot_40"
-        y2=".5"
-        xlink:href="#imagebot_59"
-        y1=".30189"
-        x2="0"
-        x1="1"
-    />
-    <linearGradient
-        id="imagebot_38"
-        xlink:href="#imagebot_59"
-        y1="1"
-        x2="0"
-        x1="1"
-    />
-    <linearGradient
-        id="imagebot_36"
-        y2=".50001"
-        xlink:href="#imagebot_59"
-        y1=".50001"
-        x2="-1.3684"
-        x1=".5"
-    />
-    <linearGradient
-        id="imagebot_32"
-        y2="9.5454"
-        xlink:href="#imagebot_59"
-        y1="9.6061"
-        x2="2.9473"
-        x1="-.26319"
-    />
-    <linearGradient
-        id="imagebot_29"
-        y2=".5"
-        xlink:href="#imagebot_59"
-        y1=".5"
-        x2="-1.4473"
-        x1="2.3158"
-    />
-    <linearGradient
-        id="imagebot_26"
-        y2=".26141"
-        xlink:href="#imagebot_58"
-        y1=".73484"
-        x2=".5"
-        x1=".51787"
-    />
-    <radialGradient
-        id="imagebot_24"
-        gradientUnits="userSpaceOnUse"
-        xlink:href="#imagebot_58"
-        cx="49.838"
-        cy="29.105"
-        r="9"
-        gradientTransform="matrix(1.6843 .059715 -.018037 .50876 -33.579 12.795)"
-    />
-    <linearGradient
-        id="imagebot_22"
-        y2=".60701"
-        xlink:href="#imagebot_58"
-        y1=".49379"
-        x2="-.77778"
-        x1=".5"
-    />
-    <linearGradient
-        id="imagebot_20"
-        y2=".39848"
-        xlink:href="#imagebot_58"
-        y1=".11292"
-        x2="-.07143"
-        x1=".61562"
-    />
-    <linearGradient
-        id="imagebot_18"
-        y2=".38402"
-        xlink:href="#imagebot_58"
-        y1=".60892"
-        x2="-.07143"
-        x1=".85714"
-    />
-    <linearGradient
-        id="imagebot_16"
-        y2=".35946"
-        xlink:href="#imagebot_57"
-        y1="-.02153"
-        x2=".5"
-    />
-    <linearGradient
-        id="imagebot_14"
-        y2=".78222"
-        xlink:href="#imagebot_57"
-        y1="-.35178"
-        x1="-.98507"
-    />
-    <filter
-        id="imagebot_7"
-        y="-.03861"
-        width="1.2626"
-        x="-.13129"
-        height="1.0772"
-      >
-      <feGaussianBlur
-          id="imagebot_56"
-          stdDeviation="0.27351"
-      />
-    </filter
-    >
-    <filter
-        id="imagebot_5"
-        y="-.19093"
-        width="1.2489"
-        x="-.12443"
-        height="1.3818"
-      >
-      <feGaussianBlur
-          id="imagebot_55"
-          stdDeviation="0.27351"
-      />
-    </filter
-    >
-    <filter
-        id="imagebot_9"
-      >
-      <feGaussianBlur
-          id="imagebot_54"
-          stdDeviation="0.24812"
-      />
-    </filter
-    >
-    <filter
-        id="imagebot_11"
-      >
-      <feGaussianBlur
-          id="imagebot_53"
-          stdDeviation="0.36349"
-      />
-    </filter
-    >
-  </defs
-  >
-  <g
-      id="imagebot_2"
-      label="Layer 1"
-    >
-    <g
-        id="imagebot_27"
-        transform="matrix(.85294 .26154 0 .85294 -2.2518 -859.5)"
-        label="Layer 1"
-      >
-      <path
-          id="imagebot_47"
-          d="m41.44 1026.2c0.134 9-7.394 16.1-15.327 18.7-3.432 1.1 1.313-1.6-1.218-1.6-9.609-0.2-17.698-6.4-17.5-17.5 0.1138-6.4 3.569-9.2 6.508-13.1-0.332-0.1 3.211-2.3 10.037-4 6.99-1.8 17.325 5.6 17.5 17.5z"
-          fill-rule="evenodd"
-          fill="url(#imagebot_48)"
-      />
-      <path
-          id="imagebot_45"
-          fill-rule="evenodd"
-          d="m37.838 1028.3c0.181 10-8.894 17.7-17.5 17.5-9.609-0.2-17.698-6.4-17.5-17.5 0.1577-8.9 9.057-17 17.5-17.5 9.805-0.6 17.574 6.6 17.5 17.5z"
-          fill="url(#imagebot_46)"
-      />
-      <path
-          id="imagebot_43"
-          d="m44 23c0 8.837-7.163 16-16 16s-16-7.163-16-16 7.163-16 16-16 16 7.163 16 16z"
-          fill-rule="evenodd"
-          transform="matrix(.79687 0 0 .79687 -1.9744 1010)"
-          fill="url(#imagebot_44)"
-      />
-      <path
-          id="imagebot_41"
-          d="m20.588 1017.7l-1.559 2.7 1.559 8.6 1.412-8.8-1.412-2.5z"
-          stroke-width="1px"
-          fill="url(#imagebot_42)"
-      />
-      <path
-          id="imagebot_39"
-          d="m15.029 1018.7l-0.082 3.2 5.493 7.7-2.623-8.6-2.788-2.3z"
-          stroke-width="1px"
-          fill="url(#imagebot_40)"
-      />
-      <path
-          id="imagebot_37"
-          fill-rule="evenodd"
-          d="m22.102 1029.1c0 1-0.757 1.7-1.69 1.7-0.934 0-1.691-0.7-1.691-1.7 0-0.9 0.757-1.7 1.691-1.7 0.933 0 1.69 0.8 1.69 1.7z"
-          fill="url(#imagebot_38)"
-      />
-      <rect
-          id="imagebot_35"
-          height="2.4257"
-          width="1.3966"
-          y="1038.4"
-          x="19.625"
-          fill="url(#imagebot_36)"
-      />
-      <rect
-          id="imagebot_33"
-          height="2.4257"
-          width="1.3966"
-          y="1015.6"
-          x="20.139"
-          fill="url(#imagebot_36)"
-      />
-      <rect
-          id="imagebot_31"
-          transform="rotate(90)"
-          height="2.4257"
-          width="1.3966"
-          y="-32.783"
-          x="1028.5"
-          fill="url(#imagebot_32)"
-      />
-      <rect
-          id="imagebot_30"
-          transform="rotate(90)"
-          height="2.4257"
-          width="1.3966"
-          y="-10.51"
-          x="1027.9"
-          fill="#000000"
-      />
-      <rect
-          id="imagebot_28"
-          transform="rotate(90)"
-          height="2.4257"
-          width="1.3966"
-          y="-10.51"
-          x="1027.9"
-          fill="url(#imagebot_29)"
-      />
-    </g
-    >
-    <g
-        id="imagebot_12"
-        transform="matrix(1 .30663 0 1 -20.11 -1012.8)"
-        label="Layer 1"
-      >
-      <path
-          id="imagebot_25"
-          fill-rule="evenodd"
-          d="m60.582 1033.7c0 1.2-4.211 3.4-9.404 5-5.194 1.6-9.405 2-9.405 0.8 0-0.1 0.2-0.7 0.302-0.9 0.802-1.2 4.491-2.6 9.103-4.1 4.264-1.3 7.572-2.1 8.724-1.6 0.251 0.1 0.68 0.6 0.68 0.8z"
-          fill="url(#imagebot_26)"
-      />
-      <path
-          id="imagebot_23"
-          d="m63 31c0 1.105-4.029 2-9 2s-9-0.895-9-2 4.029-2 9-2 9 0.895 9 2z"
-          fill-rule="evenodd"
-          transform="matrix(1 -.30663 0 1 -2.8959 1021.4)"
-          fill="url(#imagebot_24)"
-      />
-      <path
-          id="imagebot_21"
-          stroke-width="1px"
-          d="m49 1027.9l0.956 8c0.205 0.4 1.371 0.1 1.653-0.6l0.037-8.1-2.646 0.7z"
-          fill="url(#imagebot_22)"
-      />
-      <path
-          id="imagebot_19"
-          d="m43.604 1012c-0.081 1-0.125 2-0.125 3.1 0 8.8 3.134 15 7 13.8s7-9.3 7-18.1c0-1.1-0.044-2.1-0.125-3-6.058-0.5-10.222 2.1-13.75 4.2z"
-          fill-rule="evenodd"
-          fill="url(#imagebot_20)"
-      />
-      <path
-          id="imagebot_17"
-          fill-rule="evenodd"
-          d="m43.604 1012c-0.081 1-0.125 2-0.125 3.1 0 8.8 3.134 15 7 13.8s7-9.3 7-18.1c0-1.1-0.044-2.1-0.125-3-4.779 3-9.364 4.4-13.75 4.2z"
-          fill="url(#imagebot_18)"
-      />
-      <path
-          id="imagebot_15"
-          d="m43.822 1019.9c0.912 6.1 3.546 10 6.657 9 3.048-0.9 5.633-6.2 6.593-12.7-6.284-0.5-11.701 2.3-13.25 3.7z"
-          fill-rule="evenodd"
-          fill="url(#imagebot_16)"
-      />
-      <path
-          id="imagebot_13"
-          fill-rule="evenodd"
-          d="m43.822 1019.9c0.912 6.1 3.546 10 6.657 9 3.048-0.9 5.633-6.2 6.593-12.7-2.989 3.1-8.929 5.3-13.25 3.7z"
-          fill="url(#imagebot_14)"
-      />
-    </g
-    >
-    <path
-        id="imagebot_10"
-        transform="translate(-3.2875 -.85984)"
-        fill-opacity=".30357"
-        label="Layer 1"
-        filter="url(#imagebot_11)"
-        d="m19 9c-7.818 1.639-10.815 6.68-12 13 0 0-2.2741-12.285 12-13z"
-        stroke-width="1px"
-        fill="#ffffff"
-    />
-    <path
-        id="imagebot_8"
-        transform="translate(-3.2875 -.85984)"
-        label="Layer 1"
-        filter="url(#imagebot_9)"
-        d="m18 13c-3.877 0.937-5.677 3.59-7 7-0.441-4.528 4.482-7.716 7-7z"
-        stroke-width="1px"
-        fill="#ffffff"
-    />
-    <path
-        id="imagebot_6"
-        d="m30 14c0.976 7.739 2.46 13.952 5 17 0 0-5-3-5-17z"
-        transform="translate(-3.2875 -.49229)"
-        label="Layer 1"
-        filter="url(#imagebot_7)"
-        stroke-width="1px"
-        fill="#ffffff"
-    />
-    <path
-        id="imagebot_4"
-        transform="translate(-3.2875 -.85984)"
-        label="Layer 1"
-        filter="url(#imagebot_5)"
-        d="m34.181 37.562c-3.843 0.736-5.747 1.727-2.181 3.438-0.94 0.024-7.62-2.87 2.181-3.438z"
-        stroke-width="1px"
-        fill="#ffffff"
-    />
-    <title
-      >Layer 1</title
-    >
-  </g
-  >
-  <metadata
-    >
-    <rdf:RDF
-      >
-      <cc:Work
-        >
-        <dc:format
-          >image/svg+xml</dc:format
-        >
-        <dc:type
-            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-        />
-        <cc:license
-            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
-        />
-        <dc:publisher
-          >
-          <cc:Agent
-              rdf:about="http://openclipart.org/"
-            >
-            <dc:title
-              >Openclipart</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:publisher
-        >
-        <dc:title
-          >Clock ns</dc:title
-        >
-        <dc:date
-          >2012-02-07T20:25:47</dc:date
-        >
-        <dc:description
-        />
-        <dc:source
-          >https://openclipart.org/detail/167948/clock-ns-by-rduris</dc:source
-        >
-        <dc:creator
-          >
-          <cc:Agent
-            >
-            <dc:title
-              >rduris</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:creator
-        >
-        <dc:subject
-          >
-          <rdf:Bag
-            >
-            <rdf:li
-              >clock</rdf:li
-            >
-            <rdf:li
-              >wine</rdf:li
-            >
-            <rdf:li
-              >glass</rdf:li
-            >
-            <rdf:li
-              >champagne</rdf:li
-            >
-            <rdf:li
-              >new years</rdf:li
-            >
-            <rdf:li
-              >time</rdf:li
-            >
-          </rdf:Bag
-          >
-        </dc:subject
-        >
-      </cc:Work
-      >
-      <cc:License
-          rdf:about="http://creativecommons.org/licenses/publicdomain/"
-        >
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Reproduction"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Distribution"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
-        />
-      </cc:License
-      >
-    </rdf:RDF
-    >
-  </metadata
-  >
-</svg
->
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://www.w3.org/1999/xlink" xmlns:ns3="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="48.367430998917364" viewBox="-3.8648117490075378 0.13803401437021545 48.36743099891735 48.367430998917364" width="48.36743099891735">
+  <svg:defs>
+    <svg:linearGradient id="imagebot_58">
+      <svg:stop id="imagebot_68" offset="0" stop-color="#f9f9f9" stop-opacity=".98519" />
+      <svg:stop id="imagebot_67" offset="1" stop-color="#d5d5d5" />
+    </svg:linearGradient>
+    <svg:linearGradient id="imagebot_59">
+      <svg:stop id="imagebot_66" offset="0" stop-color="#555555" />
+      <svg:stop id="imagebot_65" offset="1" stop-color="#000000" />
+    </svg:linearGradient>
+    <svg:linearGradient id="imagebot_57">
+      <svg:stop id="imagebot_64" offset="0" stop-color="#ffea00" />
+      <svg:stop id="imagebot_63" offset="1" stop-color="#ffffa4" />
+    </svg:linearGradient>
+    <svg:linearGradient id="imagebot_60">
+      <svg:stop id="imagebot_62" offset="0" stop-color="#003e8c" />
+      <svg:stop id="imagebot_61" offset="1" stop-color="#0062db" />
+    </svg:linearGradient>
+    <svg:linearGradient id="imagebot_48" x1=".73785" x2="-.07257" y1=".09662" y2=".57653" ns1:href="#imagebot_60" />
+    <svg:linearGradient id="imagebot_46" x1=".25361" x2=".93718" y1=".226" y2="1.0491" ns1:href="#imagebot_60" />
+    <svg:radialGradient cx="20.613" cy="21.628" gradientTransform="matrix(.88649 1.0425 -.80006 .68035 20.693 -16.22)" gradientUnits="userSpaceOnUse" id="imagebot_44" r="16" ns1:href="#imagebot_58" />
+    <svg:linearGradient id="imagebot_42" x1="1" x2="0" y1=".31615" y2=".32261" ns1:href="#imagebot_59" />
+    <svg:linearGradient id="imagebot_40" x1="1" x2="0" y1=".30189" y2=".5" ns1:href="#imagebot_59" />
+    <svg:linearGradient id="imagebot_38" x1="1" x2="0" y1="1" ns1:href="#imagebot_59" />
+    <svg:linearGradient id="imagebot_36" x1=".5" x2="-1.3684" y1=".50001" y2=".50001" ns1:href="#imagebot_59" />
+    <svg:linearGradient id="imagebot_32" x1="-.26319" x2="2.9473" y1="9.6061" y2="9.5454" ns1:href="#imagebot_59" />
+    <svg:linearGradient id="imagebot_29" x1="2.3158" x2="-1.4473" y1=".5" y2=".5" ns1:href="#imagebot_59" />
+    <svg:linearGradient id="imagebot_26" x1=".51787" x2=".5" y1=".73484" y2=".26141" ns1:href="#imagebot_58" />
+    <svg:radialGradient cx="49.838" cy="29.105" gradientTransform="matrix(1.6843 .059715 -.018037 .50876 -33.579 12.795)" gradientUnits="userSpaceOnUse" id="imagebot_24" r="9" ns1:href="#imagebot_58" />
+    <svg:linearGradient id="imagebot_22" x1=".5" x2="-.77778" y1=".49379" y2=".60701" ns1:href="#imagebot_58" />
+    <svg:linearGradient id="imagebot_20" x1=".61562" x2="-.07143" y1=".11292" y2=".39848" ns1:href="#imagebot_58" />
+    <svg:linearGradient id="imagebot_18" x1=".85714" x2="-.07143" y1=".60892" y2=".38402" ns1:href="#imagebot_58" />
+    <svg:linearGradient id="imagebot_16" x2=".5" y1="-.02153" y2=".35946" ns1:href="#imagebot_57" />
+    <svg:linearGradient id="imagebot_14" x1="-.98507" y1="-.35178" y2=".78222" ns1:href="#imagebot_57" />
+    <svg:filter height="1.0772" id="imagebot_7" width="1.2626" x="-.13129" y="-.03861">
+      <svg:feGaussianBlur id="imagebot_56" stdDeviation="0.27351" />
+    </svg:filter>
+    <svg:filter height="1.3818" id="imagebot_5" width="1.2489" x="-.12443" y="-.19093">
+      <svg:feGaussianBlur id="imagebot_55" stdDeviation="0.27351" />
+    </svg:filter>
+    <svg:filter id="imagebot_9">
+      <svg:feGaussianBlur id="imagebot_54" stdDeviation="0.24812" />
+    </svg:filter>
+    <svg:filter id="imagebot_11">
+      <svg:feGaussianBlur id="imagebot_53" stdDeviation="0.36349" />
+    </svg:filter>
+  </svg:defs>
+  <svg:g id="imagebot_2" label="Layer 1">
+    <svg:g id="imagebot_27" label="Layer 1" transform="matrix(.85294 .26154 0 .85294 -2.2518 -859.5)">
+      <svg:path d="m41.44 1026.2c0.134 9-7.394 16.1-15.327 18.7-3.432 1.1 1.313-1.6-1.218-1.6-9.609-0.2-17.698-6.4-17.5-17.5 0.1138-6.4 3.569-9.2 6.508-13.1-0.332-0.1 3.211-2.3 10.037-4 6.99-1.8 17.325 5.6 17.5 17.5z" fill="url(#imagebot_48)" fill-rule="evenodd" id="imagebot_47" />
+      <svg:path d="m37.838 1028.3c0.181 10-8.894 17.7-17.5 17.5-9.609-0.2-17.698-6.4-17.5-17.5 0.1577-8.9 9.057-17 17.5-17.5 9.805-0.6 17.574 6.6 17.5 17.5z" fill="url(#imagebot_46)" fill-rule="evenodd" id="imagebot_45" />
+      <svg:path d="m44 23c0 8.837-7.163 16-16 16s-16-7.163-16-16 7.163-16 16-16 16 7.163 16 16z" fill="url(#imagebot_44)" fill-rule="evenodd" id="imagebot_43" transform="matrix(.79687 0 0 .79687 -1.9744 1010)" />
+      <svg:path d="m20.588 1017.7l-1.559 2.7 1.559 8.6 1.412-8.8-1.412-2.5z" fill="url(#imagebot_42)" id="imagebot_41" stroke-width="1px" />
+      <svg:path d="m15.029 1018.7l-0.082 3.2 5.493 7.7-2.623-8.6-2.788-2.3z" fill="url(#imagebot_40)" id="imagebot_39" stroke-width="1px" />
+      <svg:path d="m22.102 1029.1c0 1-0.757 1.7-1.69 1.7-0.934 0-1.691-0.7-1.691-1.7 0-0.9 0.757-1.7 1.691-1.7 0.933 0 1.69 0.8 1.69 1.7z" fill="url(#imagebot_38)" fill-rule="evenodd" id="imagebot_37" />
+      <svg:rect fill="url(#imagebot_36)" height="2.4257" id="imagebot_35" width="1.3966" x="19.625" y="1038.4" />
+      <svg:rect fill="url(#imagebot_36)" height="2.4257" id="imagebot_33" width="1.3966" x="20.139" y="1015.6" />
+      <svg:rect fill="url(#imagebot_32)" height="2.4257" id="imagebot_31" transform="rotate(90)" width="1.3966" x="1028.5" y="-32.783" />
+      <svg:rect fill="#000000" height="2.4257" id="imagebot_30" transform="rotate(90)" width="1.3966" x="1027.9" y="-10.51" />
+      <svg:rect fill="url(#imagebot_29)" height="2.4257" id="imagebot_28" transform="rotate(90)" width="1.3966" x="1027.9" y="-10.51" />
+    </svg:g>
+    <svg:g id="imagebot_12" label="Layer 1" transform="matrix(1 .30663 0 1 -20.11 -1012.8)">
+      <svg:path d="m60.582 1033.7c0 1.2-4.211 3.4-9.404 5-5.194 1.6-9.405 2-9.405 0.8 0-0.1 0.2-0.7 0.302-0.9 0.802-1.2 4.491-2.6 9.103-4.1 4.264-1.3 7.572-2.1 8.724-1.6 0.251 0.1 0.68 0.6 0.68 0.8z" fill="url(#imagebot_26)" fill-rule="evenodd" id="imagebot_25" />
+      <svg:path d="m63 31c0 1.105-4.029 2-9 2s-9-0.895-9-2 4.029-2 9-2 9 0.895 9 2z" fill="url(#imagebot_24)" fill-rule="evenodd" id="imagebot_23" transform="matrix(1 -.30663 0 1 -2.8959 1021.4)" />
+      <svg:path d="m49 1027.9l0.956 8c0.205 0.4 1.371 0.1 1.653-0.6l0.037-8.1-2.646 0.7z" fill="url(#imagebot_22)" id="imagebot_21" stroke-width="1px" />
+      <svg:path d="m43.604 1012c-0.081 1-0.125 2-0.125 3.1 0 8.8 3.134 15 7 13.8s7-9.3 7-18.1c0-1.1-0.044-2.1-0.125-3-6.058-0.5-10.222 2.1-13.75 4.2z" fill="url(#imagebot_20)" fill-rule="evenodd" id="imagebot_19" />
+      <svg:path d="m43.604 1012c-0.081 1-0.125 2-0.125 3.1 0 8.8 3.134 15 7 13.8s7-9.3 7-18.1c0-1.1-0.044-2.1-0.125-3-4.779 3-9.364 4.4-13.75 4.2z" fill="url(#imagebot_18)" fill-rule="evenodd" id="imagebot_17" />
+      <svg:path d="m43.822 1019.9c0.912 6.1 3.546 10 6.657 9 3.048-0.9 5.633-6.2 6.593-12.7-6.284-0.5-11.701 2.3-13.25 3.7z" fill="url(#imagebot_16)" fill-rule="evenodd" id="imagebot_15" />
+      <svg:path d="m43.822 1019.9c0.912 6.1 3.546 10 6.657 9 3.048-0.9 5.633-6.2 6.593-12.7-2.989 3.1-8.929 5.3-13.25 3.7z" fill="url(#imagebot_14)" fill-rule="evenodd" id="imagebot_13" />
+    </svg:g>
+    <svg:path d="m19 9c-7.818 1.639-10.815 6.68-12 13 0 0-2.2741-12.285 12-13z" fill="#ffffff" fill-opacity=".30357" filter="url(#imagebot_11)" id="imagebot_10" label="Layer 1" stroke-width="1px" transform="translate(-3.2875 -.85984)" />
+    <svg:path d="m18 13c-3.877 0.937-5.677 3.59-7 7-0.441-4.528 4.482-7.716 7-7z" fill="#ffffff" filter="url(#imagebot_9)" id="imagebot_8" label="Layer 1" stroke-width="1px" transform="translate(-3.2875 -.85984)" />
+    <svg:path d="m30 14c0.976 7.739 2.46 13.952 5 17 0 0-5-3-5-17z" fill="#ffffff" filter="url(#imagebot_7)" id="imagebot_6" label="Layer 1" stroke-width="1px" transform="translate(-3.2875 -.49229)" />
+    <svg:path d="m34.181 37.562c-3.843 0.736-5.747 1.727-2.181 3.438-0.94 0.024-7.62-2.87 2.181-3.438z" fill="#ffffff" filter="url(#imagebot_5)" id="imagebot_4" label="Layer 1" stroke-width="1px" transform="translate(-3.2875 -.85984)" />
+    <svg:title>Layer 1</svg:title>
+  </svg:g>
+  <svg:metadata>
+    <rdf:RDF>
+      <ns3:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns3:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <ns3:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </ns3:Agent>
+        </dc:publisher>
+        <dc:title>Clock ns</dc:title>
+        <dc:date>2012-02-07T20:25:47</dc:date>
+        <dc:description />
+        <dc:source>https://openclipart.org/detail/167948/clock-ns-by-rduris</dc:source>
+        <dc:creator>
+          <ns3:Agent>
+            <dc:title>rduris</dc:title>
+          </ns3:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>clock</rdf:li>
+            <rdf:li>wine</rdf:li>
+            <rdf:li>glass</rdf:li>
+            <rdf:li>champagne</rdf:li>
+            <rdf:li>new years</rdf:li>
+            <rdf:li>time</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </ns3:Work>
+      <ns3:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns3:License>
+    </rdf:RDF>
+  </svg:metadata>
+</svg:svg>

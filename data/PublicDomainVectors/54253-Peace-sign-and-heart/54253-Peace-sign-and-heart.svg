@@ -1,972 +1,193 @@
-<?xml version="1.0"?>
-<svg
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:cc="http://web.resource.org/cc/"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    xmlns:ns1="http://sozi.baierouge.fr"
-    viewBox="0 0 647 322"
-  >
-  <defs
-    >
-    <linearGradient
-        id="imagebot_155"
-      >
-      <stop
-          id="imagebot_398"
-          stop-color="#a00"
-          offset="0"
-      />
-      <stop
-          id="imagebot_397"
-          stop-color="#f00"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="imagebot_158"
-      >
-      <stop
-          id="imagebot_396"
-          stop-color="#0f0"
-          offset="0"
-      />
-      <stop
-          id="imagebot_395"
-          stop-color="#008000"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="imagebot_153"
-      >
-      <stop
-          id="imagebot_392"
-          stop-color="#fff"
-          offset="0"
-      />
-      <stop
-          id="imagebot_391"
-          stop-color="#fff"
-          stop-opacity="0"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <clipPath
-        id="imagebot_149"
-        clipPathUnits="userSpaceOnUse"
-      >
-      <rect
-          id="imagebot_331"
-          height="387.9"
-          width="662.66"
-          y="76.323"
-          x="42.426"
-          fill="#80e5ff"
-      />
-    </clipPath
-    >
-    <clipPath
-        id="imagebot_144"
-        clipPathUnits="userSpaceOnUse"
-      >
-      <rect
-          id="imagebot_330"
-          height="387.9"
-          width="662.66"
-          y="76.323"
-          x="42.426"
-          fill="#80e5ff"
-      />
-    </clipPath
-    >
-    <linearGradient
-        id="imagebot_91"
-        y2="1.1432"
-        xlink:href="#imagebot_158"
-        y1="-.13211"
-        x2=".52264"
-        x1=".53927"
-    />
-    <linearGradient
-        id="imagebot_93"
-        y2="1.1429"
-        xlink:href="#imagebot_158"
-        y1="-.13183"
-        x2=".52268"
-        x1=".53931"
-    />
-    <linearGradient
-        id="imagebot_95"
-        y2="1.1432"
-        xlink:href="#imagebot_158"
-        y1="-.13205"
-        x2=".52267"
-        x1=".5393"
-    />
-    <linearGradient
-        id="imagebot_97"
-        y2="1.1431"
-        xlink:href="#imagebot_158"
-        y1="-.13208"
-        x2=".52262"
-        x1=".53925"
-    />
-    <linearGradient
-        id="imagebot_99"
-        y2="1.1431"
-        xlink:href="#imagebot_158"
-        y1="-.13207"
-        x2=".52261"
-        x1=".53924"
-    />
-    <linearGradient
-        id="imagebot_101"
-        y2="1.1431"
-        xlink:href="#imagebot_158"
-        y1="-.132"
-        x2=".52264"
-        x1=".53927"
-    />
-    <linearGradient
-        id="imagebot_138"
-        y2="1.0493"
-        xlink:href="#imagebot_153"
-        y1=".09855"
-        x2=".50455"
-        x1=".49847"
-    />
-    <linearGradient
-        id="imagebot_140"
-        y2="1.0493"
-        xlink:href="#imagebot_153"
-        y1=".09858"
-        x2=".50455"
-        x1=".49847"
-    />
-    <linearGradient
-        id="imagebot_142"
-        y1=".81592"
-        x2=".69882"
-        x1=".70845"
-        y2=".09571"
-      >
-      <stop
-          id="imagebot_390"
-          stop-color="#00d400"
-          offset="0"
-      />
-      <stop
-          id="imagebot_389"
-          stop-color="#0f0"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="imagebot_147"
-        y1=".96123"
-        x2=".49802"
-        x1=".4568"
-        y2=".06082"
-      >
-      <stop
-          id="imagebot_388"
-          stop-color="#00d400"
-          offset="0"
-      />
-      <stop
-          id="imagebot_387"
-          stop-color="#0f0"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="imagebot_19"
-        y2=".09675"
-        xlink:href="#imagebot_155"
-        y1=".98416"
-        x2=".61454"
-        x1=".44924"
-    />
-    <linearGradient
-        id="imagebot_17"
-        y2=".4823"
-        xlink:href="#imagebot_155"
-        y1=".85021"
-        x2=".80344"
-        x1=".05643"
-    />
-    <linearGradient
-        id="imagebot_15"
-        y2=".64482"
-        xlink:href="#imagebot_155"
-        y1=".19958"
-        x2=".81835"
-        x1=".03347"
-    />
-    <linearGradient
-        id="imagebot_13"
-        y2=".86924"
-        xlink:href="#imagebot_155"
-        y1=".03024"
-        x2=".39919"
-        x1=".29713"
-    />
-    <linearGradient
-        id="imagebot_11"
-        y2=".71064"
-        xlink:href="#imagebot_155"
-        y1=".07477"
-        x2=".30278"
-        x1=".89753"
-    />
-    <linearGradient
-        id="imagebot_9"
-        y2=".37342"
-        xlink:href="#imagebot_155"
-        y1=".68669"
-        x2=".1009"
-        x1=".98314"
-    />
-    <linearGradient
-        id="imagebot_104"
-        y2="1.3221"
-        xlink:href="#imagebot_158"
-        y1=".01453"
-        x2=".50769"
-        x1=".52801"
-    />
-    <linearGradient
-        id="imagebot_145"
-        y2="1.0493"
-        xlink:href="#imagebot_153"
-        y1=".09856"
-        x2=".50454"
-        x1=".49846"
-    />
-    <linearGradient
-        id="imagebot_150"
-        y2="1.0493"
-        xlink:href="#imagebot_153"
-        y1=".09854"
-        x2=".50455"
-        x1=".49847"
-    />
-  </defs
-  >
-  <g
-      id="imagebot_2"
-      label="Layer 1"
-    >
-    <rect
-        id="imagebot_151"
-        transform="translate(-194.76 -209.38) matrix(1 0 0 1 0 -308.27)"
-        height="321.92"
-        width="549.95"
-        y="517.65"
-        x="254.28"
-        label="Layer 1"
-        fill="#80e5ff"
-    />
-    <path
-        id="imagebot_148"
-        d="m139.9 197.78c-28.94 0-52.983 20.81-58.067 48.28-7.601-4.32-16.818-6.87-26.781-6.87-25.942 0-46.969 17.17-46.969 38.37 0.0001 3.61 0.614 7.1 1.7501 10.41-23.272 4.75-39.125 14.15-39.125 24.97 0 15.62 33.024 28.28 73.75 28.28 16.532 0 31.764-2.1 44.063-5.63 12.399 3.5 28.139 5.63 45.309 5.63 27.7 0 51.76-5.47 63.88-13.47 11.18 3.96 26.42 6.41 43.22 6.41 34.31 0 62.12-10.2 62.12-22.75 0-10.41-19.13-19.15-45.22-21.85 1.8-5.01 2.78-10.4 2.78-16.03 0-26.22-21.24-47.47-47.46-47.47-7.26 0-14.13 1.65-20.29 4.56-9.66-19.46-29.75-32.84-52.96-32.84z"
-        clip-path="url(#imagebot_149)"
-        transform="translate(-194.76 -209.38) matrix(.82991 0 0 .82991 219.07 146.04)"
-        label="Layer 1"
-        fill="url(#imagebot_150)"
-    />
-    <path
-        id="imagebot_146"
-        d="m254.95 778.13c0-48.73 0.22-61.62 1.05-61.62 0.58-0.01 4.25-0.38 8.17-0.84 17.67-2.07 53.32-4.23 81.75-4.97 121.26-3.14 236.08 13.64 348.74 50.95 31.8 10.53 75.94 28.59 102.49 41.95l6.91 3.47v32.68h-549.11v-61.62z"
-        fill="url(#imagebot_147)"
-        transform="translate(-194.76 -209.38) matrix(1 0 0 1 0 -308.27)"
-        label="Layer 1"
-    />
-    <path
-        id="imagebot_143"
-        d="m635.34 208.89c-20.38 0-37.31 14.66-40.89 34-5.36-3.04-11.85-4.84-18.86-4.84-18.27 0-33.08 12.1-33.08 27.03 0 2.53 0.43 5 1.23 7.32-16.39 3.35-27.55 9.97-27.55 17.59 0 11 23.26 19.91 51.94 19.91 11.64 0 22.37-1.48 31.03-3.96 8.72 2.47 19.81 3.96 31.91 3.96 19.5 0 36.44-3.85 44.98-9.48 7.87 2.79 18.6 4.51 30.43 4.51 24.16 0 43.75-7.18 43.75-16.02 0-7.33-13.47-13.49-31.84-15.38 1.27-3.53 1.96-7.33 1.96-11.29 0-18.47-14.97-33.43-33.43-33.43-5.11 0-9.95 1.16-14.28 3.21-6.81-13.71-20.96-23.13-37.3-23.13z"
-        clip-path="url(#imagebot_144)"
-        transform="translate(-194.76 -209.38) matrix(.82991 0 0 .82991 219.07 146.04)"
-        label="Layer 1"
-        fill="url(#imagebot_145)"
-    />
-    <path
-        id="imagebot_141"
-        d="m786.24 796.51c-66.75-31.64-145.94-56.57-226.13-71.18-8.99-1.64-16.69-3.09-17.11-3.22-1.31-0.41 36.56-11.56 61.78-18.19 49.17-12.93 99.5-22.68 140.6-27.23 14.02-1.55 44.73-3.73 53.02-3.75l5.66-0.02v65.81c0 36.19-0.28 65.77-0.63 65.72-0.34-0.05-8.08-3.62-17.19-7.94z"
-        fill="url(#imagebot_142)"
-        transform="translate(-194.76 -209.38) matrix(1 0 0 1 0 -308.27)"
-        label="Layer 1"
-    />
-    <path
-        id="imagebot_139"
-        d="m637.46 548.86c-7.61 0-13.93 5.48-15.26 12.7-2-1.13-4.43-1.81-7.05-1.81-6.82 0-12.35 4.52-12.35 10.1 0 0.94 0.16 1.86 0.46 2.73-6.12 1.25-10.29 3.72-10.29 6.57 0 4.11 8.69 7.44 19.4 7.44 4.34 0 8.35-0.56 11.58-1.48 3.26 0.92 7.41 1.48 11.92 1.48 7.28 0 13.61-1.44 16.8-3.55 2.94 1.05 6.95 1.69 11.36 1.69 9.03 0 16.34-2.68 16.34-5.98 0-2.74-5.03-5.04-11.89-5.75 0.47-1.32 0.73-2.73 0.73-4.21 0-6.9-5.59-12.49-12.48-12.49-1.91 0-3.72 0.44-5.34 1.2-2.54-5.12-7.82-8.64-13.93-8.64z"
-        fill="url(#imagebot_140)"
-        transform="translate(-194.76 -209.38) matrix(1 0 0 1 0 -308.27)"
-        label="Layer 1"
-    />
-    <path
-        id="imagebot_137"
-        d="m434.72 538.8c-9.64 0-17.65 6.94-19.35 16.09-2.53-1.44-5.6-2.29-8.92-2.29-8.64 0-15.64 5.72-15.64 12.78 0 1.2 0.2 2.37 0.58 3.47-7.75 1.58-13.03 4.71-13.03 8.32 0 5.2 11 9.42 24.56 9.42 5.51 0 10.59-0.7 14.68-1.88 4.13 1.17 9.38 1.88 15.1 1.88 9.22 0 17.24-1.82 21.27-4.49 3.73 1.32 8.81 2.13 14.4 2.13 11.43 0 20.7-3.39 20.7-7.57 0-3.47-6.38-6.38-15.07-7.28 0.6-1.67 0.93-3.47 0.93-5.34 0-8.74-7.08-15.81-15.81-15.81-2.42 0-4.71 0.55-6.76 1.52-3.22-6.49-9.91-10.95-17.64-10.95z"
-        fill="url(#imagebot_138)"
-        transform="translate(-194.76 -209.38) matrix(1 0 0 1 0 -308.27)"
-        label="Layer 1"
-    />
-    <g
-        id="imagebot_132"
-        transform="translate(-194.76 -209.38) matrix(.82991 0 0 .82991 115.12 94.749)"
-        label="Layer 1"
-      >
-      <path
-          id="imagebot_136"
-          opacity=".27434"
-          d="m245.97 413.75c0 2.38-9.31 4.32-20.81 4.32-11.49 0-20.8-1.94-20.8-4.32 0-2.39 9.31-4.33 20.8-4.33 11.5 0 20.81 1.94 20.81 4.33z"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_135"
-          d="m222.28 356.66v57.37h3.78v-32.72l5.19-7.43-0.94-1.35s-0.69 0.74-4.25 5.03v-20.9h-3.78z"
-          fill="#a40"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_133"
-          d="m211.75 358.09c-12.05-13.25-3.61-24.1-3.61-24.1s-9.24-6.82-4.02-16.46-6.02-20.49 0.8-27.72c6.83-7.23 9.24-25.31 9.24-25.31s-5.62-3.61-2.01-12.05c3.62-8.43 14.06-18.07 14.06-20.88s9.64-2.81 9.64 1.2c0 4.02-9.64 20.09-4.82 24.1 4.82 4.02 9.24 22.5 6.03 31.33-3.22 8.84 3.61 25.31 3.61 25.31s4.02 15.66-1.6 23.7c-5.63 8.03-5.23 22.49-5.23 22.49s1.21 14.46-22.09-1.61z"
-          label="Layer 1"
-          stroke="#008000"
-          stroke-width=".68936px"
-          fill="url(#imagebot_104)"
-      />
-    </g
-    >
-    <g
-        id="imagebot_127"
-        transform="translate(-194.76 -209.38) matrix(.82991 0 0 .82991 214.28 142.62)"
-        label="Layer 1"
-      >
-      <path
-          id="imagebot_131"
-          opacity=".27434"
-          d="m245.97 413.75c0 2.38-9.31 4.32-20.81 4.32-11.49 0-20.8-1.94-20.8-4.32 0-2.39 9.31-4.33 20.8-4.33 11.5 0 20.81 1.94 20.81 4.33z"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_130"
-          label="Layer 1"
-          fill="#a40"
-          d="m222.28 356.66v57.37h3.78v-32.72l5.19-7.43-0.94-1.35s-0.69 0.74-4.25 5.03v-20.9h-3.78z"
-      />
-      <path
-          id="imagebot_128"
-          d="m211.75 358.09c-12.05-13.25-3.61-24.1-3.61-24.1s-9.24-6.82-4.02-16.46-6.02-20.49 0.8-27.72c6.83-7.23 9.24-25.31 9.24-25.31s-5.62-3.61-2.01-12.05c3.62-8.43 14.06-18.07 14.06-20.88s9.64-2.81 9.64 1.2c0 4.02-9.64 20.09-4.82 24.1 4.82 4.02 9.24 22.5 6.03 31.33-3.22 8.84 3.61 25.31 3.61 25.31s4.02 15.66-1.6 23.7c-5.63 8.03-5.23 22.49-5.23 22.49s1.21 14.46-22.09-1.61z"
-          label="Layer 1"
-          stroke="#008000"
-          stroke-width=".68936px"
-          fill="url(#imagebot_104)"
-      />
-    </g
-    >
-    <g
-        id="imagebot_122"
-        transform="translate(-194.76 -209.38) matrix(.66694 0 0 .66694 353.23 153.31)"
-        label="Layer 1"
-      >
-      <path
-          id="imagebot_126"
-          opacity=".27434"
-          d="m245.97 413.75c0 2.38-9.31 4.32-20.81 4.32-11.49 0-20.8-1.94-20.8-4.32 0-2.39 9.31-4.33 20.8-4.33 11.5 0 20.81 1.94 20.81 4.33z"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_125"
-          d="m222.28 356.66v57.37h3.78v-32.72l5.19-7.43-0.94-1.35s-0.69 0.74-4.25 5.03v-20.9h-3.78z"
-          fill="#a40"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_123"
-          d="m211.75 358.09c-12.05-13.25-3.61-24.1-3.61-24.1s-9.24-6.82-4.02-16.46-6.02-20.49 0.8-27.72c6.83-7.23 9.24-25.31 9.24-25.31s-5.62-3.61-2.01-12.05c3.62-8.43 14.06-18.07 14.06-20.88s9.64-2.81 9.64 1.2c0 4.02-9.64 20.09-4.82 24.1 4.82 4.02 9.24 22.5 6.03 31.33-3.22 8.84 3.61 25.31 3.61 25.31s4.02 15.66-1.6 23.7c-5.63 8.03-5.23 22.49-5.23 22.49s1.21 14.46-22.09-1.61z"
-          label="Layer 1"
-          stroke="#008000"
-          stroke-width=".68936px"
-          fill="url(#imagebot_104)"
-      />
-    </g
-    >
-    <g
-        id="imagebot_117"
-        transform="translate(-194.76 -209.38) matrix(.55763 0 0 .55763 524.42 255.08)"
-        label="Layer 1"
-      >
-      <path
-          id="imagebot_121"
-          opacity=".27434"
-          d="m245.97 413.75c0 2.38-9.31 4.32-20.81 4.32-11.49 0-20.8-1.94-20.8-4.32 0-2.39 9.31-4.33 20.8-4.33 11.5 0 20.81 1.94 20.81 4.33z"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_120"
-          label="Layer 1"
-          fill="#a40"
-          d="m222.28 356.66v57.37h3.78v-32.72l5.19-7.43-0.94-1.35s-0.69 0.74-4.25 5.03v-20.9h-3.78z"
-      />
-      <path
-          id="imagebot_118"
-          d="m211.75 358.09c-12.05-13.25-3.61-24.1-3.61-24.1s-9.24-6.82-4.02-16.46-6.02-20.49 0.8-27.72c6.83-7.23 9.24-25.31 9.24-25.31s-5.62-3.61-2.01-12.05c3.62-8.43 14.06-18.07 14.06-20.88s9.64-2.81 9.64 1.2c0 4.02-9.64 20.09-4.82 24.1 4.82 4.02 9.24 22.5 6.03 31.33-3.22 8.84 3.61 25.31 3.61 25.31s4.02 15.66-1.6 23.7c-5.63 8.03-5.23 22.49-5.23 22.49s1.21 14.46-22.09-1.61z"
-          label="Layer 1"
-          stroke="#008000"
-          stroke-width=".68936px"
-          fill="url(#imagebot_104)"
-      />
-    </g
-    >
-    <g
-        id="imagebot_112"
-        transform="translate(-194.76 -209.38) matrix(.32340 0 0 .32340 698.29 255.22)"
-        label="Layer 1"
-      >
-      <path
-          id="imagebot_116"
-          opacity=".27434"
-          d="m245.97 413.75c0 2.38-9.31 4.32-20.81 4.32-11.49 0-20.8-1.94-20.8-4.32 0-2.39 9.31-4.33 20.8-4.33 11.5 0 20.81 1.94 20.81 4.33z"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_115"
-          d="m222.28 356.66v57.37h3.78v-32.72l5.19-7.43-0.94-1.35s-0.69 0.74-4.25 5.03v-20.9h-3.78z"
-          fill="#a40"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_113"
-          d="m211.75 358.09c-12.05-13.25-3.61-24.1-3.61-24.1s-9.24-6.82-4.02-16.46-6.02-20.49 0.8-27.72c6.83-7.23 9.24-25.31 9.24-25.31s-5.62-3.61-2.01-12.05c3.62-8.43 14.06-18.07 14.06-20.88s9.64-2.81 9.64 1.2c0 4.02-9.64 20.09-4.82 24.1 4.82 4.02 9.24 22.5 6.03 31.33-3.22 8.84 3.61 25.31 3.61 25.31s4.02 15.66-1.6 23.7c-5.63 8.03-5.23 22.49-5.23 22.49s1.21 14.46-22.09-1.61z"
-          label="Layer 1"
-          stroke="#008000"
-          stroke-width=".68936px"
-          fill="url(#imagebot_104)"
-      />
-    </g
-    >
-    <g
-        id="imagebot_107"
-        transform="translate(-194.76 -209.38) matrix(.32340 0 0 .32340 647.68 269.58)"
-        label="Layer 1"
-      >
-      <path
-          id="imagebot_111"
-          opacity=".27434"
-          d="m245.97 413.75c0 2.38-9.31 4.32-20.81 4.32-11.49 0-20.8-1.94-20.8-4.32 0-2.39 9.31-4.33 20.8-4.33 11.5 0 20.81 1.94 20.81 4.33z"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_110"
-          label="Layer 1"
-          fill="#a40"
-          d="m222.28 356.66v57.37h3.78v-32.72l5.19-7.43-0.94-1.35s-0.69 0.74-4.25 5.03v-20.9h-3.78z"
-      />
-      <path
-          id="imagebot_108"
-          d="m211.75 358.09c-12.05-13.25-3.61-24.1-3.61-24.1s-9.24-6.82-4.02-16.46-6.02-20.49 0.8-27.72c6.83-7.23 9.24-25.31 9.24-25.31s-5.62-3.61-2.01-12.05c3.62-8.43 14.06-18.07 14.06-20.88s9.64-2.81 9.64 1.2c0 4.02-9.64 20.09-4.82 24.1 4.82 4.02 9.24 22.5 6.03 31.33-3.22 8.84 3.61 25.31 3.61 25.31s4.02 15.66-1.6 23.7c-5.63 8.03-5.23 22.49-5.23 22.49s1.21 14.46-22.09-1.61z"
-          label="Layer 1"
-          stroke="#008000"
-          stroke-width=".68936px"
-          fill="url(#imagebot_104)"
-      />
-    </g
-    >
-    <g
-        id="imagebot_102"
-        transform="translate(-194.76 -209.38) matrix(.32340 0 0 .32340 715.38 314.72)"
-        label="Layer 1"
-      >
-      <path
-          id="imagebot_106"
-          opacity=".27434"
-          d="m245.97 413.75c0 2.38-9.31 4.32-20.81 4.32-11.49 0-20.8-1.94-20.8-4.32 0-2.39 9.31-4.33 20.8-4.33 11.5 0 20.81 1.94 20.81 4.33z"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_105"
-          d="m222.28 356.66v57.37h3.78v-32.72l5.19-7.43-0.94-1.35s-0.69 0.74-4.25 5.03v-20.9h-3.78z"
-          fill="#a40"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_103"
-          d="m211.75 358.09c-12.05-13.25-3.61-24.1-3.61-24.1s-9.24-6.82-4.02-16.46-6.02-20.49 0.8-27.72c6.83-7.23 9.24-25.31 9.24-25.31s-5.62-3.61-2.01-12.05c3.62-8.43 14.06-18.07 14.06-20.88s9.64-2.81 9.64 1.2c0 4.02-9.64 20.09-4.82 24.1 4.82 4.02 9.24 22.5 6.03 31.33-3.22 8.84 3.61 25.31 3.61 25.31s4.02 15.66-1.6 23.7c-5.63 8.03-5.23 22.49-5.23 22.49s1.21 14.46-22.09-1.61z"
-          label="Layer 1"
-          stroke="#008000"
-          stroke-width=".68936px"
-          fill="url(#imagebot_104)"
-      />
-    </g
-    >
-    <path
-        id="imagebot_100"
-        d="m504.62 740.4c-6.78-7.5-4.24-15.48-0.73-15 3.51 0.49 5.8 4.24 5.8 4.24s0.49-7.74 5.2-6.9c4.72 0.85 5.8 6.17 5.8 6.17s2.06-7.49 5.32-6.53c3.27 0.97 2.54 7.38 2.54 7.38s5.56-5.08 7.74-0.37c2.17 4.72-4.72 11.49-4.72 11.49l-26.95-0.48z"
-        transform="translate(-194.76 -209.38) matrix(1 0 0 1 0 -308.27)"
-        label="Layer 1"
-        stroke="#008000"
-        stroke-width=".82991px"
-        fill="url(#imagebot_101)"
-    />
-    <path
-        id="imagebot_98"
-        d="m404.09 795.79c-6.77-7.5-4.23-15.47-0.73-14.99 3.51 0.48 5.8 4.23 5.8 4.23s0.49-7.74 5.2-6.89c4.72 0.84 5.8 6.16 5.8 6.16s2.06-7.49 5.32-6.52c3.27 0.96 2.54 7.37 2.54 7.37s5.56-5.08 7.74-0.36c2.18 4.71-4.71 11.48-4.71 11.48l-26.96-0.48z"
-        transform="translate(-194.76 -209.38) matrix(1 0 0 1 0 -308.27)"
-        label="Layer 1"
-        stroke="#008000"
-        stroke-width=".82991px"
-        fill="url(#imagebot_99)"
-    />
-    <path
-        id="imagebot_96"
-        d="m635.23 805.36c-6.77-7.49-4.23-15.47-0.72-14.99 3.5 0.49 5.8 4.23 5.8 4.23s0.48-7.73 5.2-6.89c4.71 0.85 5.8 6.17 5.8 6.17s2.06-7.5 5.32-6.53c3.27 0.97 2.54 7.37 2.54 7.37s5.56-5.07 7.74-0.36c2.17 4.72-4.72 11.49-4.72 11.49l-26.96-0.49z"
-        transform="translate(-194.76 -209.38) matrix(1 0 0 1 0 -308.27)"
-        label="Layer 1"
-        stroke="#008000"
-        stroke-width=".82991px"
-        fill="url(#imagebot_97)"
-    />
-    <path
-        id="imagebot_94"
-        d="m713.62 714.17c-3.41-3.77-2.14-7.79-0.37-7.54 1.76 0.24 2.92 2.13 2.92 2.13s0.24-3.9 2.62-3.47c2.37 0.42 2.92 3.1 2.92 3.1s1.03-3.77 2.67-3.29c1.65 0.49 1.28 3.72 1.28 3.72s2.8-2.56 3.9-0.19c1.09 2.38-2.38 5.78-2.38 5.78l-13.56-0.24z"
-        transform="translate(-194.76 -209.38) matrix(1 0 0 1 0 -308.27)"
-        label="Layer 1"
-        stroke="#008000"
-        stroke-width=".41769px"
-        fill="url(#imagebot_95)"
-    />
-    <path
-        id="imagebot_92"
-        d="m674.63 698.44c-3.4-3.77-2.13-7.79-0.36-7.54 1.76 0.24 2.92 2.13 2.92 2.13s0.24-3.9 2.62-3.47c2.37 0.42 2.92 3.1 2.92 3.1s1.03-3.77 2.67-3.28c1.65 0.48 1.28 3.71 1.28 3.71s2.8-2.56 3.9-0.19c1.09 2.38-2.38 5.79-2.38 5.79l-13.57-0.25z"
-        transform="translate(-194.76 -209.38) matrix(1 0 0 1 0 -308.27)"
-        label="Layer 1"
-        stroke="#008000"
-        stroke-width=".41769px"
-        fill="url(#imagebot_93)"
-    />
-    <path
-        id="imagebot_90"
-        d="m315.28 756.95c-10.88-12.05-6.8-24.87-1.17-24.09 5.64 0.77 9.33 6.8 9.33 6.8s0.78-12.44 8.35-11.08c7.58 1.36 9.33 9.91 9.33 9.91s3.3-12.05 8.55-10.49c5.24 1.55 4.08 11.85 4.08 11.85s8.93-8.16 12.43-0.58c3.5 7.57-7.58 18.45-7.58 18.45l-43.32-0.77z"
-        transform="translate(-194.76 -209.38) matrix(1 0 0 1 0 -308.27)"
-        label="Layer 1"
-        stroke="#008000"
-        stroke-width="1.3337px"
-        fill="url(#imagebot_91)"
-    />
-    <g
-        id="imagebot_76"
-        transform="translate(-194.76 -209.38) matrix(.82991 0 0 .68495 216.41 174.02)"
-        label="Layer 1"
-      >
-      <path
-          id="imagebot_88"
-          d="m371.13 361.44c-1.3-2.03-1.15-3.22-0.64-2.95s0.96 0.11 1.35-0.19c0.38-0.31 1.53-0.07 1.56 0.2 0.04 0.27-1.14 2.88-1.14 2.88s-0.82 0.34-1.13 0.06z"
-          fill="url(#imagebot_19)"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_86"
-          label="Layer 1"
-          fill="url(#imagebot_17)"
-          d="m372.22 361.32c0.98-2.21 2.06-2.74 2.11-2.16 0.06 0.57 0.45 0.86 0.91 1.02 0.47 0.15 0.9 1.24 0.7 1.41-0.21 0.18-3.04 0.64-3.04 0.64s-0.74-0.51-0.68-0.91z"
-      />
-      <path
-          id="imagebot_84"
-          d="m372.92 362.09c2.34-0.57 3.42-0.04 3 0.36-0.42 0.39-0.42 0.87-0.26 1.34 0.16 0.46-0.43 1.47-0.7 1.41s-2.35-2.02-2.35-2.02-0.05-0.89 0.31-1.09z"
-          fill="url(#imagebot_15)"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_82"
-          label="Layer 1"
-          fill="url(#imagebot_13)"
-          d="m372.49 362.89c1.82 1.59 2 2.78 1.44 2.66-0.57-0.12-0.96 0.17-1.25 0.56-0.28 0.4-1.45 0.5-1.55 0.24-0.11-0.25 0.29-3.09 0.29-3.09s0.7-0.55 1.07-0.37z"
-      />
-      <path
-          id="imagebot_80"
-          d="m371.49 363.04c-0.01 2.4-0.78 3.32-1.06 2.82s-0.75-0.61-1.24-0.57-1.33-0.77-1.21-1.02c0.12-0.24 2.53-1.8 2.53-1.8s0.87 0.17 0.98 0.56v0.01z"
-          fill="url(#imagebot_11)"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_78"
-          label="Layer 1"
-          fill="url(#imagebot_9)"
-          d="m370.92 362.34c-2.21 0.94-3.36 0.58-3.01 0.13 0.35-0.46 0.27-0.93 0.03-1.37-0.23-0.43 0.19-1.52 0.47-1.5 0.27 0.01 2.65 1.61 2.65 1.61s0.19 0.87-0.13 1.13h-0.01z"
-      />
-      <path
-          id="imagebot_77"
-          label="Layer 1"
-          fill="#f00"
-          d="m372.91 362.3c0 0.66-0.54 1.2-1.2 1.2-0.67 0-1.2-0.54-1.2-1.2 0-0.67 0.53-1.2 1.2-1.2 0.66 0 1.2 0.53 1.2 1.2z"
-      />
-    </g
-    >
-    <g
-        id="imagebot_62"
-        transform="translate(-194.76 -209.38) matrix(.82991 0 0 .68495 118.28 229.76)"
-        label="Layer 1"
-      >
-      <path
-          id="imagebot_74"
-          label="Layer 1"
-          fill="url(#imagebot_19)"
-          d="m371.13 361.44c-1.3-2.03-1.15-3.22-0.64-2.95s0.96 0.11 1.35-0.19c0.38-0.31 1.53-0.07 1.56 0.2 0.04 0.27-1.14 2.88-1.14 2.88s-0.82 0.34-1.13 0.06z"
-      />
-      <path
-          id="imagebot_72"
-          d="m372.22 361.32c0.98-2.21 2.06-2.74 2.11-2.16 0.06 0.57 0.45 0.86 0.91 1.02 0.47 0.15 0.9 1.24 0.7 1.41-0.21 0.18-3.04 0.64-3.04 0.64s-0.74-0.51-0.68-0.91z"
-          fill="url(#imagebot_17)"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_70"
-          label="Layer 1"
-          fill="url(#imagebot_15)"
-          d="m372.92 362.09c2.34-0.57 3.42-0.04 3 0.36-0.42 0.39-0.42 0.87-0.26 1.34 0.16 0.46-0.43 1.47-0.7 1.41s-2.35-2.02-2.35-2.02-0.05-0.89 0.31-1.09z"
-      />
-      <path
-          id="imagebot_68"
-          d="m372.49 362.89c1.82 1.59 2 2.78 1.44 2.66-0.57-0.12-0.96 0.17-1.25 0.56-0.28 0.4-1.45 0.5-1.55 0.24-0.11-0.25 0.29-3.09 0.29-3.09s0.7-0.55 1.07-0.37z"
-          fill="url(#imagebot_13)"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_66"
-          label="Layer 1"
-          fill="url(#imagebot_11)"
-          d="m371.49 363.04c-0.01 2.4-0.78 3.32-1.06 2.82s-0.75-0.61-1.24-0.57-1.33-0.77-1.21-1.02c0.12-0.24 2.53-1.8 2.53-1.8s0.87 0.17 0.98 0.56v0.01z"
-      />
-      <path
-          id="imagebot_64"
-          d="m370.92 362.34c-2.21 0.94-3.36 0.58-3.01 0.13 0.35-0.46 0.27-0.93 0.03-1.37-0.23-0.43 0.19-1.52 0.47-1.5 0.27 0.01 2.65 1.61 2.65 1.61s0.19 0.87-0.13 1.13h-0.01z"
-          fill="url(#imagebot_9)"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_63"
-          d="m372.91 362.3c0 0.66-0.54 1.2-1.2 1.2-0.67 0-1.2-0.54-1.2-1.2 0-0.67 0.53-1.2 1.2-1.2 0.66 0 1.2 0.53 1.2 1.2z"
-          fill="#f00"
-          label="Layer 1"
-      />
-    </g
-    >
-    <g
-        id="imagebot_48"
-        transform="translate(-194.76 -209.38) matrix(.82991 0 0 .68495 351.8 239.98)"
-        label="Layer 1"
-      >
-      <path
-          id="imagebot_60"
-          d="m371.13 361.44c-1.3-2.03-1.15-3.22-0.64-2.95s0.96 0.11 1.35-0.19c0.38-0.31 1.53-0.07 1.56 0.2 0.04 0.27-1.14 2.88-1.14 2.88s-0.82 0.34-1.13 0.06z"
-          fill="url(#imagebot_19)"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_58"
-          label="Layer 1"
-          fill="url(#imagebot_17)"
-          d="m372.22 361.32c0.98-2.21 2.06-2.74 2.11-2.16 0.06 0.57 0.45 0.86 0.91 1.02 0.47 0.15 0.9 1.24 0.7 1.41-0.21 0.18-3.04 0.64-3.04 0.64s-0.74-0.51-0.68-0.91z"
-      />
-      <path
-          id="imagebot_56"
-          d="m372.92 362.09c2.34-0.57 3.42-0.04 3 0.36-0.42 0.39-0.42 0.87-0.26 1.34 0.16 0.46-0.43 1.47-0.7 1.41s-2.35-2.02-2.35-2.02-0.05-0.89 0.31-1.09z"
-          fill="url(#imagebot_15)"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_54"
-          label="Layer 1"
-          fill="url(#imagebot_13)"
-          d="m372.49 362.89c1.82 1.59 2 2.78 1.44 2.66-0.57-0.12-0.96 0.17-1.25 0.56-0.28 0.4-1.45 0.5-1.55 0.24-0.11-0.25 0.29-3.09 0.29-3.09s0.7-0.55 1.07-0.37z"
-      />
-      <path
-          id="imagebot_52"
-          d="m371.49 363.04c-0.01 2.4-0.78 3.32-1.06 2.82s-0.75-0.61-1.24-0.57-1.33-0.77-1.21-1.02c0.12-0.24 2.53-1.8 2.53-1.8s0.87 0.17 0.98 0.56v0.01z"
-          fill="url(#imagebot_11)"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_50"
-          label="Layer 1"
-          fill="url(#imagebot_9)"
-          d="m370.92 362.34c-2.21 0.94-3.36 0.58-3.01 0.13 0.35-0.46 0.27-0.93 0.03-1.37-0.23-0.43 0.19-1.52 0.47-1.5 0.27 0.01 2.65 1.61 2.65 1.61s0.19 0.87-0.13 1.13h-0.01z"
-      />
-      <path
-          id="imagebot_49"
-          label="Layer 1"
-          fill="#f00"
-          d="m372.91 362.3c0 0.66-0.54 1.2-1.2 1.2-0.67 0-1.2-0.54-1.2-1.2 0-0.67 0.53-1.2 1.2-1.2 0.66 0 1.2 0.53 1.2 1.2z"
-      />
-    </g
-    >
-    <g
-        id="imagebot_34"
-        transform="translate(-194.76 -209.38) matrix(.82991 0 0 .68495 376.94 140.37)"
-        label="Layer 1"
-      >
-      <path
-          id="imagebot_46"
-          label="Layer 1"
-          fill="url(#imagebot_19)"
-          d="m371.13 361.44c-1.3-2.03-1.15-3.22-0.64-2.95s0.96 0.11 1.35-0.19c0.38-0.31 1.53-0.07 1.56 0.2 0.04 0.27-1.14 2.88-1.14 2.88s-0.82 0.34-1.13 0.06z"
-      />
-      <path
-          id="imagebot_44"
-          d="m372.22 361.32c0.98-2.21 2.06-2.74 2.11-2.16 0.06 0.57 0.45 0.86 0.91 1.02 0.47 0.15 0.9 1.24 0.7 1.41-0.21 0.18-3.04 0.64-3.04 0.64s-0.74-0.51-0.68-0.91z"
-          fill="url(#imagebot_17)"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_42"
-          label="Layer 1"
-          fill="url(#imagebot_15)"
-          d="m372.92 362.09c2.34-0.57 3.42-0.04 3 0.36-0.42 0.39-0.42 0.87-0.26 1.34 0.16 0.46-0.43 1.47-0.7 1.41s-2.35-2.02-2.35-2.02-0.05-0.89 0.31-1.09z"
-      />
-      <path
-          id="imagebot_40"
-          d="m372.49 362.89c1.82 1.59 2 2.78 1.44 2.66-0.57-0.12-0.96 0.17-1.25 0.56-0.28 0.4-1.45 0.5-1.55 0.24-0.11-0.25 0.29-3.09 0.29-3.09s0.7-0.55 1.07-0.37z"
-          fill="url(#imagebot_13)"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_38"
-          label="Layer 1"
-          fill="url(#imagebot_11)"
-          d="m371.49 363.04c-0.01 2.4-0.78 3.32-1.06 2.82s-0.75-0.61-1.24-0.57-1.33-0.77-1.21-1.02c0.12-0.24 2.53-1.8 2.53-1.8s0.87 0.17 0.98 0.56v0.01z"
-      />
-      <path
-          id="imagebot_36"
-          d="m370.92 362.34c-2.21 0.94-3.36 0.58-3.01 0.13 0.35-0.46 0.27-0.93 0.03-1.37-0.23-0.43 0.19-1.52 0.47-1.5 0.27 0.01 2.65 1.61 2.65 1.61s0.19 0.87-0.13 1.13h-0.01z"
-          fill="url(#imagebot_9)"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_35"
-          d="m372.91 362.3c0 0.66-0.54 1.2-1.2 1.2-0.67 0-1.2-0.54-1.2-1.2 0-0.67 0.53-1.2 1.2-1.2 0.66 0 1.2 0.53 1.2 1.2z"
-          fill="#f00"
-          label="Layer 1"
-      />
-    </g
-    >
-    <g
-        id="imagebot_20"
-        transform="translate(-194.76 -209.38) matrix(.82991 0 0 .68495 413.7 151.01)"
-        label="Layer 1"
-      >
-      <path
-          id="imagebot_32"
-          d="m371.13 361.44c-1.3-2.03-1.15-3.22-0.64-2.95s0.96 0.11 1.35-0.19c0.38-0.31 1.53-0.07 1.56 0.2 0.04 0.27-1.14 2.88-1.14 2.88s-0.82 0.34-1.13 0.06z"
-          fill="url(#imagebot_19)"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_30"
-          label="Layer 1"
-          fill="url(#imagebot_17)"
-          d="m372.22 361.32c0.98-2.21 2.06-2.74 2.11-2.16 0.06 0.57 0.45 0.86 0.91 1.02 0.47 0.15 0.9 1.24 0.7 1.41-0.21 0.18-3.04 0.64-3.04 0.64s-0.74-0.51-0.68-0.91z"
-      />
-      <path
-          id="imagebot_28"
-          d="m372.92 362.09c2.34-0.57 3.42-0.04 3 0.36-0.42 0.39-0.42 0.87-0.26 1.34 0.16 0.46-0.43 1.47-0.7 1.41s-2.35-2.02-2.35-2.02-0.05-0.89 0.31-1.09z"
-          fill="url(#imagebot_15)"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_26"
-          label="Layer 1"
-          fill="url(#imagebot_13)"
-          d="m372.49 362.89c1.82 1.59 2 2.78 1.44 2.66-0.57-0.12-0.96 0.17-1.25 0.56-0.28 0.4-1.45 0.5-1.55 0.24-0.11-0.25 0.29-3.09 0.29-3.09s0.7-0.55 1.07-0.37z"
-      />
-      <path
-          id="imagebot_24"
-          d="m371.49 363.04c-0.01 2.4-0.78 3.32-1.06 2.82s-0.75-0.61-1.24-0.57-1.33-0.77-1.21-1.02c0.12-0.24 2.53-1.8 2.53-1.8s0.87 0.17 0.98 0.56v0.01z"
-          fill="url(#imagebot_11)"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_22"
-          label="Layer 1"
-          fill="url(#imagebot_9)"
-          d="m370.92 362.34c-2.21 0.94-3.36 0.58-3.01 0.13 0.35-0.46 0.27-0.93 0.03-1.37-0.23-0.43 0.19-1.52 0.47-1.5 0.27 0.01 2.65 1.61 2.65 1.61s0.19 0.87-0.13 1.13h-0.01z"
-      />
-      <path
-          id="imagebot_21"
-          label="Layer 1"
-          fill="#f00"
-          d="m372.91 362.3c0 0.66-0.54 1.2-1.2 1.2-0.67 0-1.2-0.54-1.2-1.2 0-0.67 0.53-1.2 1.2-1.2 0.66 0 1.2 0.53 1.2 1.2z"
-      />
-    </g
-    >
-    <g
-        id="imagebot_6"
-        transform="translate(-194.76 -209.38) matrix(.82991 0 0 .68495 16.204 186.79)"
-        label="Layer 1"
-      >
-      <path
-          id="imagebot_18"
-          label="Layer 1"
-          fill="url(#imagebot_19)"
-          d="m371.13 361.44c-1.3-2.03-1.15-3.22-0.64-2.95s0.96 0.11 1.35-0.19c0.38-0.31 1.53-0.07 1.56 0.2 0.04 0.27-1.14 2.88-1.14 2.88s-0.82 0.34-1.13 0.06z"
-      />
-      <path
-          id="imagebot_16"
-          d="m372.22 361.32c0.98-2.21 2.06-2.74 2.11-2.16 0.06 0.57 0.45 0.86 0.91 1.02 0.47 0.15 0.9 1.24 0.7 1.41-0.21 0.18-3.04 0.64-3.04 0.64s-0.74-0.51-0.68-0.91z"
-          fill="url(#imagebot_17)"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_14"
-          label="Layer 1"
-          fill="url(#imagebot_15)"
-          d="m372.92 362.09c2.34-0.57 3.42-0.04 3 0.36-0.42 0.39-0.42 0.87-0.26 1.34 0.16 0.46-0.43 1.47-0.7 1.41s-2.35-2.02-2.35-2.02-0.05-0.89 0.31-1.09z"
-      />
-      <path
-          id="imagebot_12"
-          d="m372.49 362.89c1.82 1.59 2 2.78 1.44 2.66-0.57-0.12-0.96 0.17-1.25 0.56-0.28 0.4-1.45 0.5-1.55 0.24-0.11-0.25 0.29-3.09 0.29-3.09s0.7-0.55 1.07-0.37z"
-          fill="url(#imagebot_13)"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_10"
-          label="Layer 1"
-          fill="url(#imagebot_11)"
-          d="m371.49 363.04c-0.01 2.4-0.78 3.32-1.06 2.82s-0.75-0.61-1.24-0.57-1.33-0.77-1.21-1.02c0.12-0.24 2.53-1.8 2.53-1.8s0.87 0.17 0.98 0.56v0.01z"
-      />
-      <path
-          id="imagebot_8"
-          d="m370.92 362.34c-2.21 0.94-3.36 0.58-3.01 0.13 0.35-0.46 0.27-0.93 0.03-1.37-0.23-0.43 0.19-1.52 0.47-1.5 0.27 0.01 2.65 1.61 2.65 1.61s0.19 0.87-0.13 1.13h-0.01z"
-          fill="url(#imagebot_9)"
-          label="Layer 1"
-      />
-      <path
-          id="imagebot_7"
-          d="m372.91 362.3c0 0.66-0.54 1.2-1.2 1.2-0.67 0-1.2-0.54-1.2-1.2 0-0.67 0.53-1.2 1.2-1.2 0.66 0 1.2 0.53 1.2 1.2z"
-          fill="#f00"
-          label="Layer 1"
-      />
-    </g
-    >
-    <title
-      >Layer 1</title
-    >
-  </g
-  >
-  <metadata
-    >
-    <rdf:RDF
-      >
-      <cc:Work
-        >
-        <dc:format
-          >image/svg+xml</dc:format
-        >
-        <dc:type
-            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-        />
-        <cc:license
-            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
-        />
-        <dc:publisher
-          >
-          <cc:Agent
-              rdf:about="http://openclipart.org/"
-            >
-            <dc:title
-              >Openclipart</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:publisher
-        >
-        <dc:title
-          >Beautiful Hil - without text</dc:title
-        >
-        <dc:date
-          >2013-11-06T06:01:18</dc:date
-        >
-        <dc:description
-          >Arya's "beautiful hill" but with the text removed</dc:description
-        >
-        <dc:source
-          >https://openclipart.org/detail/188353/beautiful-hil---without-text-by-bumble_ball-188353</dc:source
-        >
-        <dc:creator
-          >
-          <cc:Agent
-            >
-            <dc:title
-              >Bumble_Ball</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:creator
-        >
-        <dc:subject
-          >
-          <rdf:Bag
-            >
-            <rdf:li
-              >beautiful hill</rdf:li
-            >
-            <rdf:li
-              >countryside</rdf:li
-            >
-            <rdf:li
-              >green</rdf:li
-            >
-            <rdf:li
-              >green hill</rdf:li
-            >
-            <rdf:li
-              >greens</rdf:li
-            >
-            <rdf:li
-              >hill</rdf:li
-            >
-            <rdf:li
-              >hill green</rdf:li
-            >
-            <rdf:li
-              >hills greens</rdf:li
-            >
-            <rdf:li
-              >landscape</rdf:li
-            >
-          </rdf:Bag
-          >
-        </dc:subject
-        >
-      </cc:Work
-      >
-      <cc:License
-          rdf:about="http://creativecommons.org/licenses/publicdomain/"
-        >
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Reproduction"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Distribution"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
-        />
-      </cc:License
-      >
-    </rdf:RDF
-    >
-  </metadata
-  >
-</svg
->
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://www.w3.org/1999/xlink" xmlns:ns3="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="776.3196240348003" viewBox="-64.69294273190003 -227.10981201740017 776.3196240348004 776.3196240348003" width="776.3196240348004">
+  <svg:defs>
+    <svg:linearGradient id="imagebot_155">
+      <svg:stop id="imagebot_398" offset="0" stop-color="#a00" />
+      <svg:stop id="imagebot_397" offset="1" stop-color="#f00" />
+    </svg:linearGradient>
+    <svg:linearGradient id="imagebot_158">
+      <svg:stop id="imagebot_396" offset="0" stop-color="#0f0" />
+      <svg:stop id="imagebot_395" offset="1" stop-color="#008000" />
+    </svg:linearGradient>
+    <svg:linearGradient id="imagebot_153">
+      <svg:stop id="imagebot_392" offset="0" stop-color="#fff" />
+      <svg:stop id="imagebot_391" offset="1" stop-color="#fff" stop-opacity="0" />
+    </svg:linearGradient>
+    <svg:clipPath clipPathUnits="userSpaceOnUse" id="imagebot_149">
+      <svg:rect fill="#80e5ff" height="387.9" id="imagebot_331" width="662.66" x="42.426" y="76.323" />
+    </svg:clipPath>
+    <svg:clipPath clipPathUnits="userSpaceOnUse" id="imagebot_144">
+      <svg:rect fill="#80e5ff" height="387.9" id="imagebot_330" width="662.66" x="42.426" y="76.323" />
+    </svg:clipPath>
+    <svg:linearGradient id="imagebot_91" x1=".53927" x2=".52264" y1="-.13211" y2="1.1432" ns1:href="#imagebot_158" />
+    <svg:linearGradient id="imagebot_93" x1=".53931" x2=".52268" y1="-.13183" y2="1.1429" ns1:href="#imagebot_158" />
+    <svg:linearGradient id="imagebot_95" x1=".5393" x2=".52267" y1="-.13205" y2="1.1432" ns1:href="#imagebot_158" />
+    <svg:linearGradient id="imagebot_97" x1=".53925" x2=".52262" y1="-.13208" y2="1.1431" ns1:href="#imagebot_158" />
+    <svg:linearGradient id="imagebot_99" x1=".53924" x2=".52261" y1="-.13207" y2="1.1431" ns1:href="#imagebot_158" />
+    <svg:linearGradient id="imagebot_101" x1=".53927" x2=".52264" y1="-.132" y2="1.1431" ns1:href="#imagebot_158" />
+    <svg:linearGradient id="imagebot_138" x1=".49847" x2=".50455" y1=".09855" y2="1.0493" ns1:href="#imagebot_153" />
+    <svg:linearGradient id="imagebot_140" x1=".49847" x2=".50455" y1=".09858" y2="1.0493" ns1:href="#imagebot_153" />
+    <svg:linearGradient id="imagebot_142" x1=".70845" x2=".69882" y1=".81592" y2=".09571">
+      <svg:stop id="imagebot_390" offset="0" stop-color="#00d400" />
+      <svg:stop id="imagebot_389" offset="1" stop-color="#0f0" />
+    </svg:linearGradient>
+    <svg:linearGradient id="imagebot_147" x1=".4568" x2=".49802" y1=".96123" y2=".06082">
+      <svg:stop id="imagebot_388" offset="0" stop-color="#00d400" />
+      <svg:stop id="imagebot_387" offset="1" stop-color="#0f0" />
+    </svg:linearGradient>
+    <svg:linearGradient id="imagebot_19" x1=".44924" x2=".61454" y1=".98416" y2=".09675" ns1:href="#imagebot_155" />
+    <svg:linearGradient id="imagebot_17" x1=".05643" x2=".80344" y1=".85021" y2=".4823" ns1:href="#imagebot_155" />
+    <svg:linearGradient id="imagebot_15" x1=".03347" x2=".81835" y1=".19958" y2=".64482" ns1:href="#imagebot_155" />
+    <svg:linearGradient id="imagebot_13" x1=".29713" x2=".39919" y1=".03024" y2=".86924" ns1:href="#imagebot_155" />
+    <svg:linearGradient id="imagebot_11" x1=".89753" x2=".30278" y1=".07477" y2=".71064" ns1:href="#imagebot_155" />
+    <svg:linearGradient id="imagebot_9" x1=".98314" x2=".1009" y1=".68669" y2=".37342" ns1:href="#imagebot_155" />
+    <svg:linearGradient id="imagebot_104" x1=".52801" x2=".50769" y1=".01453" y2="1.3221" ns1:href="#imagebot_158" />
+    <svg:linearGradient id="imagebot_145" x1=".49846" x2=".50454" y1=".09856" y2="1.0493" ns1:href="#imagebot_153" />
+    <svg:linearGradient id="imagebot_150" x1=".49847" x2=".50455" y1=".09854" y2="1.0493" ns1:href="#imagebot_153" />
+  </svg:defs>
+  <svg:g id="imagebot_2" label="Layer 1">
+    <svg:rect fill="#80e5ff" height="321.92" id="imagebot_151" label="Layer 1" transform="translate(-194.76 -209.38) matrix(1 0 0 1 0 -308.27)" width="549.95" x="254.28" y="517.65" />
+    <svg:path clip-path="url(#imagebot_149)" d="m139.9 197.78c-28.94 0-52.983 20.81-58.067 48.28-7.601-4.32-16.818-6.87-26.781-6.87-25.942 0-46.969 17.17-46.969 38.37 0.0001 3.61 0.614 7.1 1.7501 10.41-23.272 4.75-39.125 14.15-39.125 24.97 0 15.62 33.024 28.28 73.75 28.28 16.532 0 31.764-2.1 44.063-5.63 12.399 3.5 28.139 5.63 45.309 5.63 27.7 0 51.76-5.47 63.88-13.47 11.18 3.96 26.42 6.41 43.22 6.41 34.31 0 62.12-10.2 62.12-22.75 0-10.41-19.13-19.15-45.22-21.85 1.8-5.01 2.78-10.4 2.78-16.03 0-26.22-21.24-47.47-47.46-47.47-7.26 0-14.13 1.65-20.29 4.56-9.66-19.46-29.75-32.84-52.96-32.84z" fill="url(#imagebot_150)" id="imagebot_148" label="Layer 1" transform="translate(-194.76 -209.38) matrix(.82991 0 0 .82991 219.07 146.04)" />
+    <svg:path d="m254.95 778.13c0-48.73 0.22-61.62 1.05-61.62 0.58-0.01 4.25-0.38 8.17-0.84 17.67-2.07 53.32-4.23 81.75-4.97 121.26-3.14 236.08 13.64 348.74 50.95 31.8 10.53 75.94 28.59 102.49 41.95l6.91 3.47v32.68h-549.11v-61.62z" fill="url(#imagebot_147)" id="imagebot_146" label="Layer 1" transform="translate(-194.76 -209.38) matrix(1 0 0 1 0 -308.27)" />
+    <svg:path clip-path="url(#imagebot_144)" d="m635.34 208.89c-20.38 0-37.31 14.66-40.89 34-5.36-3.04-11.85-4.84-18.86-4.84-18.27 0-33.08 12.1-33.08 27.03 0 2.53 0.43 5 1.23 7.32-16.39 3.35-27.55 9.97-27.55 17.59 0 11 23.26 19.91 51.94 19.91 11.64 0 22.37-1.48 31.03-3.96 8.72 2.47 19.81 3.96 31.91 3.96 19.5 0 36.44-3.85 44.98-9.48 7.87 2.79 18.6 4.51 30.43 4.51 24.16 0 43.75-7.18 43.75-16.02 0-7.33-13.47-13.49-31.84-15.38 1.27-3.53 1.96-7.33 1.96-11.29 0-18.47-14.97-33.43-33.43-33.43-5.11 0-9.95 1.16-14.28 3.21-6.81-13.71-20.96-23.13-37.3-23.13z" fill="url(#imagebot_145)" id="imagebot_143" label="Layer 1" transform="translate(-194.76 -209.38) matrix(.82991 0 0 .82991 219.07 146.04)" />
+    <svg:path d="m786.24 796.51c-66.75-31.64-145.94-56.57-226.13-71.18-8.99-1.64-16.69-3.09-17.11-3.22-1.31-0.41 36.56-11.56 61.78-18.19 49.17-12.93 99.5-22.68 140.6-27.23 14.02-1.55 44.73-3.73 53.02-3.75l5.66-0.02v65.81c0 36.19-0.28 65.77-0.63 65.72-0.34-0.05-8.08-3.62-17.19-7.94z" fill="url(#imagebot_142)" id="imagebot_141" label="Layer 1" transform="translate(-194.76 -209.38) matrix(1 0 0 1 0 -308.27)" />
+    <svg:path d="m637.46 548.86c-7.61 0-13.93 5.48-15.26 12.7-2-1.13-4.43-1.81-7.05-1.81-6.82 0-12.35 4.52-12.35 10.1 0 0.94 0.16 1.86 0.46 2.73-6.12 1.25-10.29 3.72-10.29 6.57 0 4.11 8.69 7.44 19.4 7.44 4.34 0 8.35-0.56 11.58-1.48 3.26 0.92 7.41 1.48 11.92 1.48 7.28 0 13.61-1.44 16.8-3.55 2.94 1.05 6.95 1.69 11.36 1.69 9.03 0 16.34-2.68 16.34-5.98 0-2.74-5.03-5.04-11.89-5.75 0.47-1.32 0.73-2.73 0.73-4.21 0-6.9-5.59-12.49-12.48-12.49-1.91 0-3.72 0.44-5.34 1.2-2.54-5.12-7.82-8.64-13.93-8.64z" fill="url(#imagebot_140)" id="imagebot_139" label="Layer 1" transform="translate(-194.76 -209.38) matrix(1 0 0 1 0 -308.27)" />
+    <svg:path d="m434.72 538.8c-9.64 0-17.65 6.94-19.35 16.09-2.53-1.44-5.6-2.29-8.92-2.29-8.64 0-15.64 5.72-15.64 12.78 0 1.2 0.2 2.37 0.58 3.47-7.75 1.58-13.03 4.71-13.03 8.32 0 5.2 11 9.42 24.56 9.42 5.51 0 10.59-0.7 14.68-1.88 4.13 1.17 9.38 1.88 15.1 1.88 9.22 0 17.24-1.82 21.27-4.49 3.73 1.32 8.81 2.13 14.4 2.13 11.43 0 20.7-3.39 20.7-7.57 0-3.47-6.38-6.38-15.07-7.28 0.6-1.67 0.93-3.47 0.93-5.34 0-8.74-7.08-15.81-15.81-15.81-2.42 0-4.71 0.55-6.76 1.52-3.22-6.49-9.91-10.95-17.64-10.95z" fill="url(#imagebot_138)" id="imagebot_137" label="Layer 1" transform="translate(-194.76 -209.38) matrix(1 0 0 1 0 -308.27)" />
+    <svg:g id="imagebot_132" label="Layer 1" transform="translate(-194.76 -209.38) matrix(.82991 0 0 .82991 115.12 94.749)">
+      <svg:path d="m245.97 413.75c0 2.38-9.31 4.32-20.81 4.32-11.49 0-20.8-1.94-20.8-4.32 0-2.39 9.31-4.33 20.8-4.33 11.5 0 20.81 1.94 20.81 4.33z" id="imagebot_136" label="Layer 1" opacity=".27434" />
+      <svg:path d="m222.28 356.66v57.37h3.78v-32.72l5.19-7.43-0.94-1.35s-0.69 0.74-4.25 5.03v-20.9h-3.78z" fill="#a40" id="imagebot_135" label="Layer 1" />
+      <svg:path d="m211.75 358.09c-12.05-13.25-3.61-24.1-3.61-24.1s-9.24-6.82-4.02-16.46-6.02-20.49 0.8-27.72c6.83-7.23 9.24-25.31 9.24-25.31s-5.62-3.61-2.01-12.05c3.62-8.43 14.06-18.07 14.06-20.88s9.64-2.81 9.64 1.2c0 4.02-9.64 20.09-4.82 24.1 4.82 4.02 9.24 22.5 6.03 31.33-3.22 8.84 3.61 25.31 3.61 25.31s4.02 15.66-1.6 23.7c-5.63 8.03-5.23 22.49-5.23 22.49s1.21 14.46-22.09-1.61z" fill="url(#imagebot_104)" id="imagebot_133" label="Layer 1" stroke="#008000" stroke-width=".68936px" />
+    </svg:g>
+    <svg:g id="imagebot_127" label="Layer 1" transform="translate(-194.76 -209.38) matrix(.82991 0 0 .82991 214.28 142.62)">
+      <svg:path d="m245.97 413.75c0 2.38-9.31 4.32-20.81 4.32-11.49 0-20.8-1.94-20.8-4.32 0-2.39 9.31-4.33 20.8-4.33 11.5 0 20.81 1.94 20.81 4.33z" id="imagebot_131" label="Layer 1" opacity=".27434" />
+      <svg:path d="m222.28 356.66v57.37h3.78v-32.72l5.19-7.43-0.94-1.35s-0.69 0.74-4.25 5.03v-20.9h-3.78z" fill="#a40" id="imagebot_130" label="Layer 1" />
+      <svg:path d="m211.75 358.09c-12.05-13.25-3.61-24.1-3.61-24.1s-9.24-6.82-4.02-16.46-6.02-20.49 0.8-27.72c6.83-7.23 9.24-25.31 9.24-25.31s-5.62-3.61-2.01-12.05c3.62-8.43 14.06-18.07 14.06-20.88s9.64-2.81 9.64 1.2c0 4.02-9.64 20.09-4.82 24.1 4.82 4.02 9.24 22.5 6.03 31.33-3.22 8.84 3.61 25.31 3.61 25.31s4.02 15.66-1.6 23.7c-5.63 8.03-5.23 22.49-5.23 22.49s1.21 14.46-22.09-1.61z" fill="url(#imagebot_104)" id="imagebot_128" label="Layer 1" stroke="#008000" stroke-width=".68936px" />
+    </svg:g>
+    <svg:g id="imagebot_122" label="Layer 1" transform="translate(-194.76 -209.38) matrix(.66694 0 0 .66694 353.23 153.31)">
+      <svg:path d="m245.97 413.75c0 2.38-9.31 4.32-20.81 4.32-11.49 0-20.8-1.94-20.8-4.32 0-2.39 9.31-4.33 20.8-4.33 11.5 0 20.81 1.94 20.81 4.33z" id="imagebot_126" label="Layer 1" opacity=".27434" />
+      <svg:path d="m222.28 356.66v57.37h3.78v-32.72l5.19-7.43-0.94-1.35s-0.69 0.74-4.25 5.03v-20.9h-3.78z" fill="#a40" id="imagebot_125" label="Layer 1" />
+      <svg:path d="m211.75 358.09c-12.05-13.25-3.61-24.1-3.61-24.1s-9.24-6.82-4.02-16.46-6.02-20.49 0.8-27.72c6.83-7.23 9.24-25.31 9.24-25.31s-5.62-3.61-2.01-12.05c3.62-8.43 14.06-18.07 14.06-20.88s9.64-2.81 9.64 1.2c0 4.02-9.64 20.09-4.82 24.1 4.82 4.02 9.24 22.5 6.03 31.33-3.22 8.84 3.61 25.31 3.61 25.31s4.02 15.66-1.6 23.7c-5.63 8.03-5.23 22.49-5.23 22.49s1.21 14.46-22.09-1.61z" fill="url(#imagebot_104)" id="imagebot_123" label="Layer 1" stroke="#008000" stroke-width=".68936px" />
+    </svg:g>
+    <svg:g id="imagebot_117" label="Layer 1" transform="translate(-194.76 -209.38) matrix(.55763 0 0 .55763 524.42 255.08)">
+      <svg:path d="m245.97 413.75c0 2.38-9.31 4.32-20.81 4.32-11.49 0-20.8-1.94-20.8-4.32 0-2.39 9.31-4.33 20.8-4.33 11.5 0 20.81 1.94 20.81 4.33z" id="imagebot_121" label="Layer 1" opacity=".27434" />
+      <svg:path d="m222.28 356.66v57.37h3.78v-32.72l5.19-7.43-0.94-1.35s-0.69 0.74-4.25 5.03v-20.9h-3.78z" fill="#a40" id="imagebot_120" label="Layer 1" />
+      <svg:path d="m211.75 358.09c-12.05-13.25-3.61-24.1-3.61-24.1s-9.24-6.82-4.02-16.46-6.02-20.49 0.8-27.72c6.83-7.23 9.24-25.31 9.24-25.31s-5.62-3.61-2.01-12.05c3.62-8.43 14.06-18.07 14.06-20.88s9.64-2.81 9.64 1.2c0 4.02-9.64 20.09-4.82 24.1 4.82 4.02 9.24 22.5 6.03 31.33-3.22 8.84 3.61 25.31 3.61 25.31s4.02 15.66-1.6 23.7c-5.63 8.03-5.23 22.49-5.23 22.49s1.21 14.46-22.09-1.61z" fill="url(#imagebot_104)" id="imagebot_118" label="Layer 1" stroke="#008000" stroke-width=".68936px" />
+    </svg:g>
+    <svg:g id="imagebot_112" label="Layer 1" transform="translate(-194.76 -209.38) matrix(.32340 0 0 .32340 698.29 255.22)">
+      <svg:path d="m245.97 413.75c0 2.38-9.31 4.32-20.81 4.32-11.49 0-20.8-1.94-20.8-4.32 0-2.39 9.31-4.33 20.8-4.33 11.5 0 20.81 1.94 20.81 4.33z" id="imagebot_116" label="Layer 1" opacity=".27434" />
+      <svg:path d="m222.28 356.66v57.37h3.78v-32.72l5.19-7.43-0.94-1.35s-0.69 0.74-4.25 5.03v-20.9h-3.78z" fill="#a40" id="imagebot_115" label="Layer 1" />
+      <svg:path d="m211.75 358.09c-12.05-13.25-3.61-24.1-3.61-24.1s-9.24-6.82-4.02-16.46-6.02-20.49 0.8-27.72c6.83-7.23 9.24-25.31 9.24-25.31s-5.62-3.61-2.01-12.05c3.62-8.43 14.06-18.07 14.06-20.88s9.64-2.81 9.64 1.2c0 4.02-9.64 20.09-4.82 24.1 4.82 4.02 9.24 22.5 6.03 31.33-3.22 8.84 3.61 25.31 3.61 25.31s4.02 15.66-1.6 23.7c-5.63 8.03-5.23 22.49-5.23 22.49s1.21 14.46-22.09-1.61z" fill="url(#imagebot_104)" id="imagebot_113" label="Layer 1" stroke="#008000" stroke-width=".68936px" />
+    </svg:g>
+    <svg:g id="imagebot_107" label="Layer 1" transform="translate(-194.76 -209.38) matrix(.32340 0 0 .32340 647.68 269.58)">
+      <svg:path d="m245.97 413.75c0 2.38-9.31 4.32-20.81 4.32-11.49 0-20.8-1.94-20.8-4.32 0-2.39 9.31-4.33 20.8-4.33 11.5 0 20.81 1.94 20.81 4.33z" id="imagebot_111" label="Layer 1" opacity=".27434" />
+      <svg:path d="m222.28 356.66v57.37h3.78v-32.72l5.19-7.43-0.94-1.35s-0.69 0.74-4.25 5.03v-20.9h-3.78z" fill="#a40" id="imagebot_110" label="Layer 1" />
+      <svg:path d="m211.75 358.09c-12.05-13.25-3.61-24.1-3.61-24.1s-9.24-6.82-4.02-16.46-6.02-20.49 0.8-27.72c6.83-7.23 9.24-25.31 9.24-25.31s-5.62-3.61-2.01-12.05c3.62-8.43 14.06-18.07 14.06-20.88s9.64-2.81 9.64 1.2c0 4.02-9.64 20.09-4.82 24.1 4.82 4.02 9.24 22.5 6.03 31.33-3.22 8.84 3.61 25.31 3.61 25.31s4.02 15.66-1.6 23.7c-5.63 8.03-5.23 22.49-5.23 22.49s1.21 14.46-22.09-1.61z" fill="url(#imagebot_104)" id="imagebot_108" label="Layer 1" stroke="#008000" stroke-width=".68936px" />
+    </svg:g>
+    <svg:g id="imagebot_102" label="Layer 1" transform="translate(-194.76 -209.38) matrix(.32340 0 0 .32340 715.38 314.72)">
+      <svg:path d="m245.97 413.75c0 2.38-9.31 4.32-20.81 4.32-11.49 0-20.8-1.94-20.8-4.32 0-2.39 9.31-4.33 20.8-4.33 11.5 0 20.81 1.94 20.81 4.33z" id="imagebot_106" label="Layer 1" opacity=".27434" />
+      <svg:path d="m222.28 356.66v57.37h3.78v-32.72l5.19-7.43-0.94-1.35s-0.69 0.74-4.25 5.03v-20.9h-3.78z" fill="#a40" id="imagebot_105" label="Layer 1" />
+      <svg:path d="m211.75 358.09c-12.05-13.25-3.61-24.1-3.61-24.1s-9.24-6.82-4.02-16.46-6.02-20.49 0.8-27.72c6.83-7.23 9.24-25.31 9.24-25.31s-5.62-3.61-2.01-12.05c3.62-8.43 14.06-18.07 14.06-20.88s9.64-2.81 9.64 1.2c0 4.02-9.64 20.09-4.82 24.1 4.82 4.02 9.24 22.5 6.03 31.33-3.22 8.84 3.61 25.31 3.61 25.31s4.02 15.66-1.6 23.7c-5.63 8.03-5.23 22.49-5.23 22.49s1.21 14.46-22.09-1.61z" fill="url(#imagebot_104)" id="imagebot_103" label="Layer 1" stroke="#008000" stroke-width=".68936px" />
+    </svg:g>
+    <svg:path d="m504.62 740.4c-6.78-7.5-4.24-15.48-0.73-15 3.51 0.49 5.8 4.24 5.8 4.24s0.49-7.74 5.2-6.9c4.72 0.85 5.8 6.17 5.8 6.17s2.06-7.49 5.32-6.53c3.27 0.97 2.54 7.38 2.54 7.38s5.56-5.08 7.74-0.37c2.17 4.72-4.72 11.49-4.72 11.49l-26.95-0.48z" fill="url(#imagebot_101)" id="imagebot_100" label="Layer 1" stroke="#008000" stroke-width=".82991px" transform="translate(-194.76 -209.38) matrix(1 0 0 1 0 -308.27)" />
+    <svg:path d="m404.09 795.79c-6.77-7.5-4.23-15.47-0.73-14.99 3.51 0.48 5.8 4.23 5.8 4.23s0.49-7.74 5.2-6.89c4.72 0.84 5.8 6.16 5.8 6.16s2.06-7.49 5.32-6.52c3.27 0.96 2.54 7.37 2.54 7.37s5.56-5.08 7.74-0.36c2.18 4.71-4.71 11.48-4.71 11.48l-26.96-0.48z" fill="url(#imagebot_99)" id="imagebot_98" label="Layer 1" stroke="#008000" stroke-width=".82991px" transform="translate(-194.76 -209.38) matrix(1 0 0 1 0 -308.27)" />
+    <svg:path d="m635.23 805.36c-6.77-7.49-4.23-15.47-0.72-14.99 3.5 0.49 5.8 4.23 5.8 4.23s0.48-7.73 5.2-6.89c4.71 0.85 5.8 6.17 5.8 6.17s2.06-7.5 5.32-6.53c3.27 0.97 2.54 7.37 2.54 7.37s5.56-5.07 7.74-0.36c2.17 4.72-4.72 11.49-4.72 11.49l-26.96-0.49z" fill="url(#imagebot_97)" id="imagebot_96" label="Layer 1" stroke="#008000" stroke-width=".82991px" transform="translate(-194.76 -209.38) matrix(1 0 0 1 0 -308.27)" />
+    <svg:path d="m713.62 714.17c-3.41-3.77-2.14-7.79-0.37-7.54 1.76 0.24 2.92 2.13 2.92 2.13s0.24-3.9 2.62-3.47c2.37 0.42 2.92 3.1 2.92 3.1s1.03-3.77 2.67-3.29c1.65 0.49 1.28 3.72 1.28 3.72s2.8-2.56 3.9-0.19c1.09 2.38-2.38 5.78-2.38 5.78l-13.56-0.24z" fill="url(#imagebot_95)" id="imagebot_94" label="Layer 1" stroke="#008000" stroke-width=".41769px" transform="translate(-194.76 -209.38) matrix(1 0 0 1 0 -308.27)" />
+    <svg:path d="m674.63 698.44c-3.4-3.77-2.13-7.79-0.36-7.54 1.76 0.24 2.92 2.13 2.92 2.13s0.24-3.9 2.62-3.47c2.37 0.42 2.92 3.1 2.92 3.1s1.03-3.77 2.67-3.28c1.65 0.48 1.28 3.71 1.28 3.71s2.8-2.56 3.9-0.19c1.09 2.38-2.38 5.79-2.38 5.79l-13.57-0.25z" fill="url(#imagebot_93)" id="imagebot_92" label="Layer 1" stroke="#008000" stroke-width=".41769px" transform="translate(-194.76 -209.38) matrix(1 0 0 1 0 -308.27)" />
+    <svg:path d="m315.28 756.95c-10.88-12.05-6.8-24.87-1.17-24.09 5.64 0.77 9.33 6.8 9.33 6.8s0.78-12.44 8.35-11.08c7.58 1.36 9.33 9.91 9.33 9.91s3.3-12.05 8.55-10.49c5.24 1.55 4.08 11.85 4.08 11.85s8.93-8.16 12.43-0.58c3.5 7.57-7.58 18.45-7.58 18.45l-43.32-0.77z" fill="url(#imagebot_91)" id="imagebot_90" label="Layer 1" stroke="#008000" stroke-width="1.3337px" transform="translate(-194.76 -209.38) matrix(1 0 0 1 0 -308.27)" />
+    <svg:g id="imagebot_76" label="Layer 1" transform="translate(-194.76 -209.38) matrix(.82991 0 0 .68495 216.41 174.02)">
+      <svg:path d="m371.13 361.44c-1.3-2.03-1.15-3.22-0.64-2.95s0.96 0.11 1.35-0.19c0.38-0.31 1.53-0.07 1.56 0.2 0.04 0.27-1.14 2.88-1.14 2.88s-0.82 0.34-1.13 0.06z" fill="url(#imagebot_19)" id="imagebot_88" label="Layer 1" />
+      <svg:path d="m372.22 361.32c0.98-2.21 2.06-2.74 2.11-2.16 0.06 0.57 0.45 0.86 0.91 1.02 0.47 0.15 0.9 1.24 0.7 1.41-0.21 0.18-3.04 0.64-3.04 0.64s-0.74-0.51-0.68-0.91z" fill="url(#imagebot_17)" id="imagebot_86" label="Layer 1" />
+      <svg:path d="m372.92 362.09c2.34-0.57 3.42-0.04 3 0.36-0.42 0.39-0.42 0.87-0.26 1.34 0.16 0.46-0.43 1.47-0.7 1.41s-2.35-2.02-2.35-2.02-0.05-0.89 0.31-1.09z" fill="url(#imagebot_15)" id="imagebot_84" label="Layer 1" />
+      <svg:path d="m372.49 362.89c1.82 1.59 2 2.78 1.44 2.66-0.57-0.12-0.96 0.17-1.25 0.56-0.28 0.4-1.45 0.5-1.55 0.24-0.11-0.25 0.29-3.09 0.29-3.09s0.7-0.55 1.07-0.37z" fill="url(#imagebot_13)" id="imagebot_82" label="Layer 1" />
+      <svg:path d="m371.49 363.04c-0.01 2.4-0.78 3.32-1.06 2.82s-0.75-0.61-1.24-0.57-1.33-0.77-1.21-1.02c0.12-0.24 2.53-1.8 2.53-1.8s0.87 0.17 0.98 0.56v0.01z" fill="url(#imagebot_11)" id="imagebot_80" label="Layer 1" />
+      <svg:path d="m370.92 362.34c-2.21 0.94-3.36 0.58-3.01 0.13 0.35-0.46 0.27-0.93 0.03-1.37-0.23-0.43 0.19-1.52 0.47-1.5 0.27 0.01 2.65 1.61 2.65 1.61s0.19 0.87-0.13 1.13h-0.01z" fill="url(#imagebot_9)" id="imagebot_78" label="Layer 1" />
+      <svg:path d="m372.91 362.3c0 0.66-0.54 1.2-1.2 1.2-0.67 0-1.2-0.54-1.2-1.2 0-0.67 0.53-1.2 1.2-1.2 0.66 0 1.2 0.53 1.2 1.2z" fill="#f00" id="imagebot_77" label="Layer 1" />
+    </svg:g>
+    <svg:g id="imagebot_62" label="Layer 1" transform="translate(-194.76 -209.38) matrix(.82991 0 0 .68495 118.28 229.76)">
+      <svg:path d="m371.13 361.44c-1.3-2.03-1.15-3.22-0.64-2.95s0.96 0.11 1.35-0.19c0.38-0.31 1.53-0.07 1.56 0.2 0.04 0.27-1.14 2.88-1.14 2.88s-0.82 0.34-1.13 0.06z" fill="url(#imagebot_19)" id="imagebot_74" label="Layer 1" />
+      <svg:path d="m372.22 361.32c0.98-2.21 2.06-2.74 2.11-2.16 0.06 0.57 0.45 0.86 0.91 1.02 0.47 0.15 0.9 1.24 0.7 1.41-0.21 0.18-3.04 0.64-3.04 0.64s-0.74-0.51-0.68-0.91z" fill="url(#imagebot_17)" id="imagebot_72" label="Layer 1" />
+      <svg:path d="m372.92 362.09c2.34-0.57 3.42-0.04 3 0.36-0.42 0.39-0.42 0.87-0.26 1.34 0.16 0.46-0.43 1.47-0.7 1.41s-2.35-2.02-2.35-2.02-0.05-0.89 0.31-1.09z" fill="url(#imagebot_15)" id="imagebot_70" label="Layer 1" />
+      <svg:path d="m372.49 362.89c1.82 1.59 2 2.78 1.44 2.66-0.57-0.12-0.96 0.17-1.25 0.56-0.28 0.4-1.45 0.5-1.55 0.24-0.11-0.25 0.29-3.09 0.29-3.09s0.7-0.55 1.07-0.37z" fill="url(#imagebot_13)" id="imagebot_68" label="Layer 1" />
+      <svg:path d="m371.49 363.04c-0.01 2.4-0.78 3.32-1.06 2.82s-0.75-0.61-1.24-0.57-1.33-0.77-1.21-1.02c0.12-0.24 2.53-1.8 2.53-1.8s0.87 0.17 0.98 0.56v0.01z" fill="url(#imagebot_11)" id="imagebot_66" label="Layer 1" />
+      <svg:path d="m370.92 362.34c-2.21 0.94-3.36 0.58-3.01 0.13 0.35-0.46 0.27-0.93 0.03-1.37-0.23-0.43 0.19-1.52 0.47-1.5 0.27 0.01 2.65 1.61 2.65 1.61s0.19 0.87-0.13 1.13h-0.01z" fill="url(#imagebot_9)" id="imagebot_64" label="Layer 1" />
+      <svg:path d="m372.91 362.3c0 0.66-0.54 1.2-1.2 1.2-0.67 0-1.2-0.54-1.2-1.2 0-0.67 0.53-1.2 1.2-1.2 0.66 0 1.2 0.53 1.2 1.2z" fill="#f00" id="imagebot_63" label="Layer 1" />
+    </svg:g>
+    <svg:g id="imagebot_48" label="Layer 1" transform="translate(-194.76 -209.38) matrix(.82991 0 0 .68495 351.8 239.98)">
+      <svg:path d="m371.13 361.44c-1.3-2.03-1.15-3.22-0.64-2.95s0.96 0.11 1.35-0.19c0.38-0.31 1.53-0.07 1.56 0.2 0.04 0.27-1.14 2.88-1.14 2.88s-0.82 0.34-1.13 0.06z" fill="url(#imagebot_19)" id="imagebot_60" label="Layer 1" />
+      <svg:path d="m372.22 361.32c0.98-2.21 2.06-2.74 2.11-2.16 0.06 0.57 0.45 0.86 0.91 1.02 0.47 0.15 0.9 1.24 0.7 1.41-0.21 0.18-3.04 0.64-3.04 0.64s-0.74-0.51-0.68-0.91z" fill="url(#imagebot_17)" id="imagebot_58" label="Layer 1" />
+      <svg:path d="m372.92 362.09c2.34-0.57 3.42-0.04 3 0.36-0.42 0.39-0.42 0.87-0.26 1.34 0.16 0.46-0.43 1.47-0.7 1.41s-2.35-2.02-2.35-2.02-0.05-0.89 0.31-1.09z" fill="url(#imagebot_15)" id="imagebot_56" label="Layer 1" />
+      <svg:path d="m372.49 362.89c1.82 1.59 2 2.78 1.44 2.66-0.57-0.12-0.96 0.17-1.25 0.56-0.28 0.4-1.45 0.5-1.55 0.24-0.11-0.25 0.29-3.09 0.29-3.09s0.7-0.55 1.07-0.37z" fill="url(#imagebot_13)" id="imagebot_54" label="Layer 1" />
+      <svg:path d="m371.49 363.04c-0.01 2.4-0.78 3.32-1.06 2.82s-0.75-0.61-1.24-0.57-1.33-0.77-1.21-1.02c0.12-0.24 2.53-1.8 2.53-1.8s0.87 0.17 0.98 0.56v0.01z" fill="url(#imagebot_11)" id="imagebot_52" label="Layer 1" />
+      <svg:path d="m370.92 362.34c-2.21 0.94-3.36 0.58-3.01 0.13 0.35-0.46 0.27-0.93 0.03-1.37-0.23-0.43 0.19-1.52 0.47-1.5 0.27 0.01 2.65 1.61 2.65 1.61s0.19 0.87-0.13 1.13h-0.01z" fill="url(#imagebot_9)" id="imagebot_50" label="Layer 1" />
+      <svg:path d="m372.91 362.3c0 0.66-0.54 1.2-1.2 1.2-0.67 0-1.2-0.54-1.2-1.2 0-0.67 0.53-1.2 1.2-1.2 0.66 0 1.2 0.53 1.2 1.2z" fill="#f00" id="imagebot_49" label="Layer 1" />
+    </svg:g>
+    <svg:g id="imagebot_34" label="Layer 1" transform="translate(-194.76 -209.38) matrix(.82991 0 0 .68495 376.94 140.37)">
+      <svg:path d="m371.13 361.44c-1.3-2.03-1.15-3.22-0.64-2.95s0.96 0.11 1.35-0.19c0.38-0.31 1.53-0.07 1.56 0.2 0.04 0.27-1.14 2.88-1.14 2.88s-0.82 0.34-1.13 0.06z" fill="url(#imagebot_19)" id="imagebot_46" label="Layer 1" />
+      <svg:path d="m372.22 361.32c0.98-2.21 2.06-2.74 2.11-2.16 0.06 0.57 0.45 0.86 0.91 1.02 0.47 0.15 0.9 1.24 0.7 1.41-0.21 0.18-3.04 0.64-3.04 0.64s-0.74-0.51-0.68-0.91z" fill="url(#imagebot_17)" id="imagebot_44" label="Layer 1" />
+      <svg:path d="m372.92 362.09c2.34-0.57 3.42-0.04 3 0.36-0.42 0.39-0.42 0.87-0.26 1.34 0.16 0.46-0.43 1.47-0.7 1.41s-2.35-2.02-2.35-2.02-0.05-0.89 0.31-1.09z" fill="url(#imagebot_15)" id="imagebot_42" label="Layer 1" />
+      <svg:path d="m372.49 362.89c1.82 1.59 2 2.78 1.44 2.66-0.57-0.12-0.96 0.17-1.25 0.56-0.28 0.4-1.45 0.5-1.55 0.24-0.11-0.25 0.29-3.09 0.29-3.09s0.7-0.55 1.07-0.37z" fill="url(#imagebot_13)" id="imagebot_40" label="Layer 1" />
+      <svg:path d="m371.49 363.04c-0.01 2.4-0.78 3.32-1.06 2.82s-0.75-0.61-1.24-0.57-1.33-0.77-1.21-1.02c0.12-0.24 2.53-1.8 2.53-1.8s0.87 0.17 0.98 0.56v0.01z" fill="url(#imagebot_11)" id="imagebot_38" label="Layer 1" />
+      <svg:path d="m370.92 362.34c-2.21 0.94-3.36 0.58-3.01 0.13 0.35-0.46 0.27-0.93 0.03-1.37-0.23-0.43 0.19-1.52 0.47-1.5 0.27 0.01 2.65 1.61 2.65 1.61s0.19 0.87-0.13 1.13h-0.01z" fill="url(#imagebot_9)" id="imagebot_36" label="Layer 1" />
+      <svg:path d="m372.91 362.3c0 0.66-0.54 1.2-1.2 1.2-0.67 0-1.2-0.54-1.2-1.2 0-0.67 0.53-1.2 1.2-1.2 0.66 0 1.2 0.53 1.2 1.2z" fill="#f00" id="imagebot_35" label="Layer 1" />
+    </svg:g>
+    <svg:g id="imagebot_20" label="Layer 1" transform="translate(-194.76 -209.38) matrix(.82991 0 0 .68495 413.7 151.01)">
+      <svg:path d="m371.13 361.44c-1.3-2.03-1.15-3.22-0.64-2.95s0.96 0.11 1.35-0.19c0.38-0.31 1.53-0.07 1.56 0.2 0.04 0.27-1.14 2.88-1.14 2.88s-0.82 0.34-1.13 0.06z" fill="url(#imagebot_19)" id="imagebot_32" label="Layer 1" />
+      <svg:path d="m372.22 361.32c0.98-2.21 2.06-2.74 2.11-2.16 0.06 0.57 0.45 0.86 0.91 1.02 0.47 0.15 0.9 1.24 0.7 1.41-0.21 0.18-3.04 0.64-3.04 0.64s-0.74-0.51-0.68-0.91z" fill="url(#imagebot_17)" id="imagebot_30" label="Layer 1" />
+      <svg:path d="m372.92 362.09c2.34-0.57 3.42-0.04 3 0.36-0.42 0.39-0.42 0.87-0.26 1.34 0.16 0.46-0.43 1.47-0.7 1.41s-2.35-2.02-2.35-2.02-0.05-0.89 0.31-1.09z" fill="url(#imagebot_15)" id="imagebot_28" label="Layer 1" />
+      <svg:path d="m372.49 362.89c1.82 1.59 2 2.78 1.44 2.66-0.57-0.12-0.96 0.17-1.25 0.56-0.28 0.4-1.45 0.5-1.55 0.24-0.11-0.25 0.29-3.09 0.29-3.09s0.7-0.55 1.07-0.37z" fill="url(#imagebot_13)" id="imagebot_26" label="Layer 1" />
+      <svg:path d="m371.49 363.04c-0.01 2.4-0.78 3.32-1.06 2.82s-0.75-0.61-1.24-0.57-1.33-0.77-1.21-1.02c0.12-0.24 2.53-1.8 2.53-1.8s0.87 0.17 0.98 0.56v0.01z" fill="url(#imagebot_11)" id="imagebot_24" label="Layer 1" />
+      <svg:path d="m370.92 362.34c-2.21 0.94-3.36 0.58-3.01 0.13 0.35-0.46 0.27-0.93 0.03-1.37-0.23-0.43 0.19-1.52 0.47-1.5 0.27 0.01 2.65 1.61 2.65 1.61s0.19 0.87-0.13 1.13h-0.01z" fill="url(#imagebot_9)" id="imagebot_22" label="Layer 1" />
+      <svg:path d="m372.91 362.3c0 0.66-0.54 1.2-1.2 1.2-0.67 0-1.2-0.54-1.2-1.2 0-0.67 0.53-1.2 1.2-1.2 0.66 0 1.2 0.53 1.2 1.2z" fill="#f00" id="imagebot_21" label="Layer 1" />
+    </svg:g>
+    <svg:g id="imagebot_6" label="Layer 1" transform="translate(-194.76 -209.38) matrix(.82991 0 0 .68495 16.204 186.79)">
+      <svg:path d="m371.13 361.44c-1.3-2.03-1.15-3.22-0.64-2.95s0.96 0.11 1.35-0.19c0.38-0.31 1.53-0.07 1.56 0.2 0.04 0.27-1.14 2.88-1.14 2.88s-0.82 0.34-1.13 0.06z" fill="url(#imagebot_19)" id="imagebot_18" label="Layer 1" />
+      <svg:path d="m372.22 361.32c0.98-2.21 2.06-2.74 2.11-2.16 0.06 0.57 0.45 0.86 0.91 1.02 0.47 0.15 0.9 1.24 0.7 1.41-0.21 0.18-3.04 0.64-3.04 0.64s-0.74-0.51-0.68-0.91z" fill="url(#imagebot_17)" id="imagebot_16" label="Layer 1" />
+      <svg:path d="m372.92 362.09c2.34-0.57 3.42-0.04 3 0.36-0.42 0.39-0.42 0.87-0.26 1.34 0.16 0.46-0.43 1.47-0.7 1.41s-2.35-2.02-2.35-2.02-0.05-0.89 0.31-1.09z" fill="url(#imagebot_15)" id="imagebot_14" label="Layer 1" />
+      <svg:path d="m372.49 362.89c1.82 1.59 2 2.78 1.44 2.66-0.57-0.12-0.96 0.17-1.25 0.56-0.28 0.4-1.45 0.5-1.55 0.24-0.11-0.25 0.29-3.09 0.29-3.09s0.7-0.55 1.07-0.37z" fill="url(#imagebot_13)" id="imagebot_12" label="Layer 1" />
+      <svg:path d="m371.49 363.04c-0.01 2.4-0.78 3.32-1.06 2.82s-0.75-0.61-1.24-0.57-1.33-0.77-1.21-1.02c0.12-0.24 2.53-1.8 2.53-1.8s0.87 0.17 0.98 0.56v0.01z" fill="url(#imagebot_11)" id="imagebot_10" label="Layer 1" />
+      <svg:path d="m370.92 362.34c-2.21 0.94-3.36 0.58-3.01 0.13 0.35-0.46 0.27-0.93 0.03-1.37-0.23-0.43 0.19-1.52 0.47-1.5 0.27 0.01 2.65 1.61 2.65 1.61s0.19 0.87-0.13 1.13h-0.01z" fill="url(#imagebot_9)" id="imagebot_8" label="Layer 1" />
+      <svg:path d="m372.91 362.3c0 0.66-0.54 1.2-1.2 1.2-0.67 0-1.2-0.54-1.2-1.2 0-0.67 0.53-1.2 1.2-1.2 0.66 0 1.2 0.53 1.2 1.2z" fill="#f00" id="imagebot_7" label="Layer 1" />
+    </svg:g>
+    <svg:title>Layer 1</svg:title>
+  </svg:g>
+  <svg:metadata>
+    <rdf:RDF>
+      <ns3:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns3:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <ns3:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </ns3:Agent>
+        </dc:publisher>
+        <dc:title>Beautiful Hil - without text</dc:title>
+        <dc:date>2013-11-06T06:01:18</dc:date>
+        <dc:description>Arya's "beautiful hill" but with the text removed</dc:description>
+        <dc:source>https://openclipart.org/detail/188353/beautiful-hil---without-text-by-bumble_ball-188353</dc:source>
+        <dc:creator>
+          <ns3:Agent>
+            <dc:title>Bumble_Ball</dc:title>
+          </ns3:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>beautiful hill</rdf:li>
+            <rdf:li>countryside</rdf:li>
+            <rdf:li>green</rdf:li>
+            <rdf:li>green hill</rdf:li>
+            <rdf:li>greens</rdf:li>
+            <rdf:li>hill</rdf:li>
+            <rdf:li>hill green</rdf:li>
+            <rdf:li>hills greens</rdf:li>
+            <rdf:li>landscape</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </ns3:Work>
+      <ns3:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns3:License>
+    </rdf:RDF>
+  </svg:metadata>
+</svg:svg>

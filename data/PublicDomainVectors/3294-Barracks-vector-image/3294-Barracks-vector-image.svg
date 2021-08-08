@@ -1,95 +1,94 @@
-<?xml version="1.0"?>
-<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:svg="http://www.w3.org/2000/svg" id="svg2" viewBox="0 0 480 480" version="1.1">
-  <title id="title4134">Barracks</title>
-  <defs id="defs4">
-    <rect id="stripe" height="50" width="1235" y="0" x="0" fill="#b22234"/>
-    <g id="u">
-      <use id="use3906" xlink:href="#x4" height="1052.3622" width="744.09448" y="-0.21600001" x="0"/>
-      <use id="use3908" xlink:href="#x4" height="1052.3622" width="744.09448" y="0" x="0"/>
-      <use id="use3910" xlink:href="#s6" height="1052.3622" width="744.09448" y="0.21600001" x="0"/>
-    </g>
-    <g id="x4">
-      <use id="use3897" xlink:href="#s6" height="1052.3622" width="744.09448" y="0" x="0"/>
-      <use id="use3899" xlink:href="#s5" height="1052.3622" width="744.09448" y="0.054000001" x="0"/>
-      <use id="use3901" xlink:href="#s6" height="1052.3622" width="744.09448" y="0.108" x="0"/>
-      <use id="use3903" xlink:href="#s5" height="1052.3622" width="744.09448" y="0.162" x="0"/>
-    </g>
-    <g id="s6">
-      <use id="use3892" xlink:href="#s5" height="1052.3622" width="744.09448" y="0" x="-0.063000001"/>
-      <use id="use3894" xlink:href="#star" height="1052.3622" width="744.09448" y="0" x="0.315"/>
-    </g>
-    <g id="s5">
-      <use id="use3881" xlink:href="#star" height="1052.3622" width="744.09448" y="0" x="-0.252"/>
-      <use id="use3883" xlink:href="#star" height="1052.3622" width="744.09448" y="0" x="-0.126"/>
-      <use id="use3885" xlink:href="#star" height="1052.3622" width="744.09448" y="0" x="0"/>
-      <use id="use3887" xlink:href="#star" height="1052.3622" width="744.09448" y="0" x="0.126"/>
-      <use id="use3889" xlink:href="#star" height="1052.3622" width="744.09448" y="0" x="0.252"/>
-    </g>
-    <g id="star">
-      <use id="use3870" xlink:href="#pt" transform="rotate(216)" height="1052.3622" width="744.09448" y="0" x="0"/>
-      <use id="use3872" xlink:href="#pt" transform="rotate(-72.001)" height="1052.3622" width="744.09448" y="0" x="0"/>
-      <use id="use3874" xlink:href="#pt" height="1052.3622" width="744.09448" y="0" x="0"/>
-      <use id="use3876" xlink:href="#pt" transform="rotate(72.001)" height="1052.3622" width="744.09448" y="0" x="0"/>
-      <use id="use3878" xlink:href="#pt" transform="rotate(144)" height="1052.3622" width="744.09448" y="0" x="0"/>
-    </g>
-    <polygon id="pt" points="-0.16246 0 0 -0.5 0.16246 0" fill="#fff" transform="scale(.0616)"/>
-    <linearGradient id="linearGradient4107" y2="408.69" gradientUnits="userSpaceOnUse" x2="-30.929" y1="408.69" x1="-760.5">
-      <stop id="stop3788-7" stop-color="#ccc" offset="0"/>
-      <stop id="stop3790-1" stop-color="#fff" offset="1"/>
-    </linearGradient>
-    <linearGradient id="linearGradient4109" y2="519.45" gradientUnits="userSpaceOnUse" x2="71.929" gradientTransform="matrix(1.0131 0 0 1.0127 4.1114 -8.6151)" y1="519.45" x1="-314.79">
-      <stop id="stop3796-8" stop-color="#b3b3b3" offset="0"/>
-      <stop id="stop3798-0" stop-color="#e5e5e5" offset="1"/>
-    </linearGradient>
-  </defs>
-  <g id="layer1" transform="translate(0 -572.36)">
-    <path id="path4079" d="m-3733.5 1739.3c356.29-719.52 1143.7-594.88 1503.1-307.09" stroke-width="0" fill="none"/>
-    <g id="g4084" transform="matrix(.40761 0 0 .40761 1172.1 829.13)">
-      <rect id="rect3975" height="155.85" width="290.15" stroke="#000" y="-428.38" x="-2598.1" stroke-width="1.3131"/>
-      <g id="g3808-4" stroke="#000" transform="translate(-1840.4 -501.47)">
-        <path id="path3016-1" d="m-314.28 678.07-445.72-314.28c7.2722-97.727 60.375-271.13 260-217.14l484.73 225.05c-163.44-51.976-257.25 172.11-299.01 306.37z" stroke-width="1.6" fill="url(#linearGradient4107)"/>
-        <path id="path2996-5" d="m76.473 521.83-390.75 156.24c7.44-271.2 310.65-481.12 390.75-156.24z" stroke-width="1.813" fill="url(#linearGradient4109)"/>
-        <path id="path3802-4" d="m-58.571 565.22v-129.29l-69.286 26.429-0.71429 131.43z" stroke-width="1px" fill="#999"/>
-      </g>
-      <g id="g3808" stroke="#000" transform="translate(-2085 -363.65)">
-        <path id="path3016" d="m-314.28 678.07-445.72-314.28c7.2722-97.727 60.375-271.13 260-217.14l484.73 225.05c-163.44-51.976-257.25 172.11-299.01 306.37z" stroke-width="1.6" fill="url(#linearGradient4107)"/>
-        <path id="path2996" d="m76.473 521.83-390.75 156.24c7.44-271.2 310.65-481.12 390.75-156.24z" stroke-width="1.813" fill="url(#linearGradient4109)"/>
-        <path id="path3802" d="m-58.571 565.22v-129.29l-69.286 26.429-0.71429 131.43z" stroke-width="1px" fill="#999"/>
-      </g>
-      <rect id="rect3806" height="771.58" width="17.298" stroke="#000" y="-465.66" x="-2616.5" stroke-width="1.4452" fill="#999"/>
-      <g id="g3963" transform="matrix(.23277 0 0 .23277 -2596.1 -425.84)">
-        <rect id="rect3913" height="650" width="1235" y="0" x="0" fill="#fff"/>
-        <use id="use3915" xlink:href="#stripe" height="1" width="1" y="0" x="0"/>
-        <use id="use3917" xlink:href="#stripe" height="1" width="1" y="100" x="0"/>
-        <use id="use3919" xlink:href="#stripe" height="1" width="1" y="200" x="0"/>
-        <use id="use3921" xlink:href="#stripe" height="1" width="1" y="300" x="0"/>
-        <use id="use3923" xlink:href="#stripe" height="1" width="1" y="400" x="0"/>
-        <use id="use3925" xlink:href="#stripe" height="1" width="1" y="500" x="0"/>
-        <use id="use3927" xlink:href="#stripe" height="1" width="1" y="600" x="0"/>
-        <rect id="rect3929" height="350" width="494" y="0" x="0" fill="#3c3b6e"/>
-        <use id="use3931" xlink:href="#u" transform="matrix(650,0,0,650,247,175)" height="1" width="1" y="0" x="0"/>
-      </g>
-    </g>
-  </g>
-  <metadata>
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://www.w3.org/1999/xlink" xmlns:ns3="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="5023.926858636" id="svg2" version="1.1" viewBox="-4152.160571553 -1895.0122656180001 5023.926858636001 5023.926858636" width="5023.926858636001">
+  <svg:title id="title4134">Barracks</svg:title>
+  <svg:defs id="defs4">
+    <svg:rect fill="#b22234" height="50" id="stripe" width="1235" x="0" y="0" />
+    <svg:g id="u">
+      <svg:use height="1052.3622" id="use3906" width="744.09448" x="0" y="-0.21600001" ns1:href="#x4" />
+      <svg:use height="1052.3622" id="use3908" width="744.09448" x="0" y="0" ns1:href="#x4" />
+      <svg:use height="1052.3622" id="use3910" width="744.09448" x="0" y="0.21600001" ns1:href="#s6" />
+    </svg:g>
+    <svg:g id="x4">
+      <svg:use height="1052.3622" id="use3897" width="744.09448" x="0" y="0" ns1:href="#s6" />
+      <svg:use height="1052.3622" id="use3899" width="744.09448" x="0" y="0.054000001" ns1:href="#s5" />
+      <svg:use height="1052.3622" id="use3901" width="744.09448" x="0" y="0.108" ns1:href="#s6" />
+      <svg:use height="1052.3622" id="use3903" width="744.09448" x="0" y="0.162" ns1:href="#s5" />
+    </svg:g>
+    <svg:g id="s6">
+      <svg:use height="1052.3622" id="use3892" width="744.09448" x="-0.063000001" y="0" ns1:href="#s5" />
+      <svg:use height="1052.3622" id="use3894" width="744.09448" x="0.315" y="0" ns1:href="#star" />
+    </svg:g>
+    <svg:g id="s5">
+      <svg:use height="1052.3622" id="use3881" width="744.09448" x="-0.252" y="0" ns1:href="#star" />
+      <svg:use height="1052.3622" id="use3883" width="744.09448" x="-0.126" y="0" ns1:href="#star" />
+      <svg:use height="1052.3622" id="use3885" width="744.09448" x="0" y="0" ns1:href="#star" />
+      <svg:use height="1052.3622" id="use3887" width="744.09448" x="0.126" y="0" ns1:href="#star" />
+      <svg:use height="1052.3622" id="use3889" width="744.09448" x="0.252" y="0" ns1:href="#star" />
+    </svg:g>
+    <svg:g id="star">
+      <svg:use height="1052.3622" id="use3870" transform="rotate(216)" width="744.09448" x="0" y="0" ns1:href="#pt" />
+      <svg:use height="1052.3622" id="use3872" transform="rotate(-72.001)" width="744.09448" x="0" y="0" ns1:href="#pt" />
+      <svg:use height="1052.3622" id="use3874" width="744.09448" x="0" y="0" ns1:href="#pt" />
+      <svg:use height="1052.3622" id="use3876" transform="rotate(72.001)" width="744.09448" x="0" y="0" ns1:href="#pt" />
+      <svg:use height="1052.3622" id="use3878" transform="rotate(144)" width="744.09448" x="0" y="0" ns1:href="#pt" />
+    </svg:g>
+    <svg:polygon fill="#fff" id="pt" points="-0.16246 0 0 -0.5 0.16246 0" transform="scale(.0616)" />
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="linearGradient4107" x1="-760.5" x2="-30.929" y1="408.69" y2="408.69">
+      <svg:stop id="stop3788-7" offset="0" stop-color="#ccc" />
+      <svg:stop id="stop3790-1" offset="1" stop-color="#fff" />
+    </svg:linearGradient>
+    <svg:linearGradient gradientTransform="matrix(1.0131 0 0 1.0127 4.1114 -8.6151)" gradientUnits="userSpaceOnUse" id="linearGradient4109" x1="-314.79" x2="71.929" y1="519.45" y2="519.45">
+      <svg:stop id="stop3796-8" offset="0" stop-color="#b3b3b3" />
+      <svg:stop id="stop3798-0" offset="1" stop-color="#e5e5e5" />
+    </svg:linearGradient>
+  </svg:defs>
+  <svg:g id="layer1" transform="translate(0 -572.36)">
+    <svg:path d="m-3733.5 1739.3c356.29-719.52 1143.7-594.88 1503.1-307.09" fill="none" id="path4079" stroke-width="0" />
+    <svg:g id="g4084" transform="matrix(.40761 0 0 .40761 1172.1 829.13)">
+      <svg:rect height="155.85" id="rect3975" stroke="#000" stroke-width="1.3131" width="290.15" x="-2598.1" y="-428.38" />
+      <svg:g id="g3808-4" stroke="#000" transform="translate(-1840.4 -501.47)">
+        <svg:path d="m-314.28 678.07-445.72-314.28c7.2722-97.727 60.375-271.13 260-217.14l484.73 225.05c-163.44-51.976-257.25 172.11-299.01 306.37z" fill="url(#linearGradient4107)" id="path3016-1" stroke-width="1.6" />
+        <svg:path d="m76.473 521.83-390.75 156.24c7.44-271.2 310.65-481.12 390.75-156.24z" fill="url(#linearGradient4109)" id="path2996-5" stroke-width="1.813" />
+        <svg:path d="m-58.571 565.22v-129.29l-69.286 26.429-0.71429 131.43z" fill="#999" id="path3802-4" stroke-width="1px" />
+      </svg:g>
+      <svg:g id="g3808" stroke="#000" transform="translate(-2085 -363.65)">
+        <svg:path d="m-314.28 678.07-445.72-314.28c7.2722-97.727 60.375-271.13 260-217.14l484.73 225.05c-163.44-51.976-257.25 172.11-299.01 306.37z" fill="url(#linearGradient4107)" id="path3016" stroke-width="1.6" />
+        <svg:path d="m76.473 521.83-390.75 156.24c7.44-271.2 310.65-481.12 390.75-156.24z" fill="url(#linearGradient4109)" id="path2996" stroke-width="1.813" />
+        <svg:path d="m-58.571 565.22v-129.29l-69.286 26.429-0.71429 131.43z" fill="#999" id="path3802" stroke-width="1px" />
+      </svg:g>
+      <svg:rect fill="#999" height="771.58" id="rect3806" stroke="#000" stroke-width="1.4452" width="17.298" x="-2616.5" y="-465.66" />
+      <svg:g id="g3963" transform="matrix(.23277 0 0 .23277 -2596.1 -425.84)">
+        <svg:rect fill="#fff" height="650" id="rect3913" width="1235" x="0" y="0" />
+        <svg:use height="1" id="use3915" width="1" x="0" y="0" ns1:href="#stripe" />
+        <svg:use height="1" id="use3917" width="1" x="0" y="100" ns1:href="#stripe" />
+        <svg:use height="1" id="use3919" width="1" x="0" y="200" ns1:href="#stripe" />
+        <svg:use height="1" id="use3921" width="1" x="0" y="300" ns1:href="#stripe" />
+        <svg:use height="1" id="use3923" width="1" x="0" y="400" ns1:href="#stripe" />
+        <svg:use height="1" id="use3925" width="1" x="0" y="500" ns1:href="#stripe" />
+        <svg:use height="1" id="use3927" width="1" x="0" y="600" ns1:href="#stripe" />
+        <svg:rect fill="#3c3b6e" height="350" id="rect3929" width="494" x="0" y="0" />
+        <svg:use height="1" id="use3931" transform="matrix(650,0,0,650,247,175)" width="1" x="0" y="0" ns1:href="#u" />
+      </svg:g>
+    </svg:g>
+  </svg:g>
+  <svg:metadata>
     <rdf:RDF>
-      <cc:Work>
+      <ns3:Work>
         <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns3:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
         <dc:publisher>
-          <cc:Agent rdf:about="http://openclipart.org/">
+          <ns3:Agent rdf:about="http://openclipart.org/">
             <dc:title>Openclipart</dc:title>
-          </cc:Agent>
+          </ns3:Agent>
         </dc:publisher>
         <dc:title>Barracks</dc:title>
         <dc:date>2012-10-13T07:49:55</dc:date>
         <dc:description>A simple Clipart of US Barracks</dc:description>
         <dc:source>http://openclipart.org/detail/172730/barracks-by-tavin-172730</dc:source>
         <dc:creator>
-          <cc:Agent>
+          <ns3:Agent>
             <dc:title>Tavin</dc:title>
-          </cc:Agent>
+          </ns3:Agent>
         </dc:creator>
         <dc:subject>
           <rdf:Bag>
@@ -105,12 +104,12 @@
             <rdf:li>simple</rdf:li>
           </rdf:Bag>
         </dc:subject>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
-        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
-        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
-        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
-      </cc:License>
+      </ns3:Work>
+      <ns3:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns3:License>
     </rdf:RDF>
-  </metadata>
-</svg>
+  </svg:metadata>
+</svg:svg>

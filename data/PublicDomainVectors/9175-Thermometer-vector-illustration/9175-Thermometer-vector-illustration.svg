@@ -1,57 +1,65 @@
-<?xml version="1.0"?>
-<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:svg="http://www.w3.org/2000/svg" id="svg2" viewBox="0 0 256 512" version="1.0">
-  <g id="layer1">
-    <g id="g3030">
-      <g id="g2984" stroke="#000" stroke-width="4" fill="none">
-        <path id="path2931" d="m80 64h48"/>
-        <path id="path2935" d="m80 384h48"/>
-        <path id="path2937" d="m80 224h48"/>
-        <path id="path2939" d="m80 192h16"/>
-        <path id="path2941" d="m80 160h16"/>
-        <path id="path2943" d="m80 128h16"/>
-        <path id="path2945" d="m80 96h16"/>
-        <path id="path2947" d="m80 256h16"/>
-        <path id="path2949" d="m80 288h16"/>
-        <path id="path2951" d="m80 320h16"/>
-        <path id="path2953" d="m80 352h16"/>
-      </g>
-      <g id="g3023">
-        <rect id="rect2922" rx="16" ry="16" height="416" width="32" y="32" x="48" fill="#eeeeec"/>
-        <rect id="rect3021" rx="0" ry="0" height="64" width="32" y="384" x="48" fill="#c00"/>
-        <path id="path2924" fill="#c00" d="m96 448a32 32 0 1 1 -64 0 32 32 0 1 1 64 0z"/>
-        <rect id="mercury" transform="scale(-1 -32)" rx="0" ry="0" height="10" width="32" y="-12" x="-80" fill="#c00"/>
-        <path id="rect2968" stroke-linejoin="round" d="m64 32c-8.864 0-16 7.136-16 16v372.28c-9.564 5.54-16 15.88-16 27.72 0 17.66 14.336 32 32 32s32-14.34 32-32c0-11.84-6.436-22.18-16-27.72v-372.28c0-8.864-7.136-16-16-16z" stroke="#000" stroke-linecap="round" stroke-width="4" fill="none"/>
-      </g>
-      <text id="low" font-size="20px" xml:space="preserve" transform="scale(.99840 1.0016)" y="383.38419" x="136.21846" font-family="Bitstream Vera Sans" line-height="125%" fill="black">
-        <tspan id="tspan3003" y="383.38419" x="136.21846">Foo</tspan>
-      </text>
-      <text id="middle" font-size="20px" xml:space="preserve" line-height="125%" y="224" x="136" font-family="Bitstream Vera Sans" fill="black">
-        <tspan id="tspan3011" y="224" x="136">Bar</tspan>
-      </text>
-      <text id="high" font-size="20px" xml:space="preserve" line-height="125%" y="63.830078" x="135.32617" font-family="Bitstream Vera Sans" fill="black">
-        <tspan id="tspan3007" y="63.830078" x="135.32617">Baz</tspan>
-      </text>
-    </g>
-  </g>
-  <metadata>
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="537.6000000000001" id="svg2" version="1.0" viewBox="-188.80000000000007 -12.79999999999999 537.6000000000001 537.6000000000001" width="537.6000000000001">
+  <svg:g id="layer1">
+    <svg:g id="g3030">
+      <svg:g fill="none" id="g2984" stroke="#000" stroke-width="4">
+        <svg:path d="m80 64h48" id="path2931" />
+        <svg:path d="m80 384h48" id="path2935" />
+        <svg:path d="m80 224h48" id="path2937" />
+        <svg:path d="m80 192h16" id="path2939" />
+        <svg:path d="m80 160h16" id="path2941" />
+        <svg:path d="m80 128h16" id="path2943" />
+        <svg:path d="m80 96h16" id="path2945" />
+        <svg:path d="m80 256h16" id="path2947" />
+        <svg:path d="m80 288h16" id="path2949" />
+        <svg:path d="m80 320h16" id="path2951" />
+        <svg:path d="m80 352h16" id="path2953" />
+      </svg:g>
+      <svg:g id="g3023">
+        <svg:rect fill="#eeeeec" height="416" id="rect2922" rx="16" ry="16" width="32" x="48" y="32" />
+        <svg:rect fill="#c00" height="64" id="rect3021" rx="0" ry="0" width="32" x="48" y="384" />
+        <svg:path d="m96 448a32 32 0 1 1 -64 0 32 32 0 1 1 64 0z" fill="#c00" id="path2924" />
+        <svg:rect fill="#c00" height="10" id="mercury" rx="0" ry="0" transform="scale(-1 -32)" width="32" x="-80" y="-12" />
+        <svg:path d="m64 32c-8.864 0-16 7.136-16 16v372.28c-9.564 5.54-16 15.88-16 27.72 0 17.66 14.336 32 32 32s32-14.34 32-32c0-11.84-6.436-22.18-16-27.72v-372.28c0-8.864-7.136-16-16-16z" fill="none" id="rect2968" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" />
+      </svg:g>
+      <svg:text fill="black" font-family="Bitstream Vera Sans" font-size="20px" id="low" line-height="125%" transform="scale(.99840 1.0016)" x="136.21846" y="383.38419" xml:space="preserve">
+        <svg:tspan id="tspan3003" x="136.21846" y="383.38419">Foo</svg:tspan>
+      </svg:text>
+      <svg:text fill="black" font-family="Bitstream Vera Sans" font-size="20px" id="middle" line-height="125%" x="136" y="224" xml:space="preserve">
+        <svg:tspan id="tspan3011" x="136" y="224">Bar</svg:tspan>
+      </svg:text>
+      <svg:text fill="black" font-family="Bitstream Vera Sans" font-size="20px" id="high" line-height="125%" x="135.32617" y="63.830078" xml:space="preserve">
+        <svg:tspan id="tspan3007" x="135.32617" y="63.830078">Baz</svg:tspan>
+      </svg:text>
+    </svg:g>
+  </svg:g>
+  <svg:metadata>
     <rdf:RDF>
-      <cc:Work>
+      <ns2:Work>
         <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns2:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
         <dc:publisher>
-          <cc:Agent rdf:about="http://openclipart.org/">
+          <ns2:Agent rdf:about="http://openclipart.org/">
             <dc:title>Openclipart</dc:title>
-          </cc:Agent>
+          </ns2:Agent>
         </dc:publisher>
         <dc:title>thermometer</dc:title>
         <dc:date>2006-11-05T22:51:06</dc:date>
-        <dc:description>A simple thermometer image suitable for generating different version programmatically.  Here's an example generator in sh script:&#xD;\n&#xD;\nf () {&#xD;\n  sed -e "s/height=\\"10\\"/height=\\"$1\\"/" \\&#xD;\n      -e "s/Foo/$2/" \\&#xD;\n      -e "s/Bar/$3/" \\&#xD;\n      -e "s/Baz/$4/" \\&#xD;\n      thermometer.svg |&#xD;\n  rsvg-convert -o thermometer.png&#xD;\n}</dc:description>
+        <dc:description>A simple thermometer image suitable for generating different version programmatically.  Here's an example generator in sh script:
+\n
+\nf () {
+\n  sed -e "s/height=\\"10\\"/height=\\"$1\\"/" \\
+\n      -e "s/Foo/$2/" \\
+\n      -e "s/Bar/$3/" \\
+\n      -e "s/Baz/$4/" \\
+\n      thermometer.svg |
+\n  rsvg-convert -o thermometer.png
+\n}</dc:description>
         <dc:source>http://openclipart.org/detail/1309/thermometer-by-twb</dc:source>
         <dc:creator>
-          <cc:Agent>
+          <ns2:Agent>
             <dc:title>twb</dc:title>
-          </cc:Agent>
+          </ns2:Agent>
         </dc:creator>
         <dc:subject>
           <rdf:Bag>
@@ -65,12 +73,12 @@
             <rdf:li>tool</rdf:li>
           </rdf:Bag>
         </dc:subject>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
-        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
-        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
-        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
-      </cc:License>
+      </ns2:Work>
+      <ns2:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns2:License>
     </rdf:RDF>
-  </metadata>
-</svg>
+  </svg:metadata>
+</svg:svg>

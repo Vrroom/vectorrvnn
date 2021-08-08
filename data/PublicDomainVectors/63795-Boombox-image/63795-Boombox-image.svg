@@ -1,806 +1,218 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   height="50.308323mm"
-   width="88.067116mm"
-   viewBox="0 0 312.04883 178.25783"
-   id="svg4008"
-   version="1.1"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="boombox.svg"
-   inkscape:export-filename="/home/algot/Documents/runeman.org/clipart/boombox.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
-  <title
-     id="title4195">Boom Box</title>
-  <defs
-     id="defs4014">
-    <filter
-       inkscape:label="Button"
-       inkscape:menu="Bevels"
-       inkscape:menu-tooltip="Soft bevel, slightly depressed middle"
-       style="color-interpolation-filters:sRGB"
-       id="filter4048">
-      <feGaussianBlur
-         stdDeviation="2.3"
-         in="SourceAlpha"
-         result="result0"
-         id="feGaussianBlur4050" />
-      <feMorphology
-         in="SourceAlpha"
-         radius="6.6"
-         result="result1"
-         id="feMorphology4052" />
-      <feGaussianBlur
-         stdDeviation="8.9"
-         in="result1"
-         id="feGaussianBlur4054" />
-      <feColorMatrix
-         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.3 0"
-         result="result91"
-         id="feColorMatrix4056" />
-      <feComposite
-         in="result0"
-         operator="out"
-         result="result2"
-         in2="result91"
-         id="feComposite4058" />
-      <feGaussianBlur
-         stdDeviation="1.7"
-         result="result4"
-         id="feGaussianBlur4060" />
-      <feDiffuseLighting
-         surfaceScale="10"
-         id="feDiffuseLighting4062">
-        <feDistantLight
-           azimuth="225"
-           elevation="45"
-           id="feDistantLight4064" />
-      </feDiffuseLighting>
-      <feBlend
-         in2="SourceGraphic"
-         mode="multiply"
-         id="feBlend4066" />
-      <feComposite
-         in2="SourceAlpha"
-         operator="in"
-         result="result3"
-         id="feComposite4068" />
-      <feSpecularLighting
-         in="result4"
-         surfaceScale="5"
-         specularExponent="17.89999962"
-         id="feSpecularLighting4070">
-        <feDistantLight
-           azimuth="225"
-           elevation="45"
-           id="feDistantLight4072" />
-      </feSpecularLighting>
-      <feComposite
-         in2="result3"
-         operator="atop"
-         id="feComposite4074" />
-    </filter>
-    <filter
-       inkscape:label="Button"
-       inkscape:menu="Bevels"
-       inkscape:menu-tooltip="Soft bevel, slightly depressed middle"
-       style="color-interpolation-filters:sRGB"
-       id="filter4076">
-      <feGaussianBlur
-         stdDeviation="2.3"
-         in="SourceAlpha"
-         result="result0"
-         id="feGaussianBlur4078" />
-      <feMorphology
-         in="SourceAlpha"
-         radius="6.6"
-         result="result1"
-         id="feMorphology4080" />
-      <feGaussianBlur
-         stdDeviation="8.9"
-         in="result1"
-         id="feGaussianBlur4082" />
-      <feColorMatrix
-         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.3 0"
-         result="result91"
-         id="feColorMatrix4084" />
-      <feComposite
-         in="result0"
-         operator="out"
-         result="result2"
-         in2="result91"
-         id="feComposite4086" />
-      <feGaussianBlur
-         stdDeviation="1.7"
-         result="result4"
-         id="feGaussianBlur4088" />
-      <feDiffuseLighting
-         surfaceScale="10"
-         id="feDiffuseLighting4090">
-        <feDistantLight
-           azimuth="225"
-           elevation="45"
-           id="feDistantLight4092" />
-      </feDiffuseLighting>
-      <feBlend
-         in2="SourceGraphic"
-         mode="multiply"
-         id="feBlend4094" />
-      <feComposite
-         in2="SourceAlpha"
-         operator="in"
-         result="result3"
-         id="feComposite4096" />
-      <feSpecularLighting
-         in="result4"
-         surfaceScale="5"
-         specularExponent="17.89999962"
-         id="feSpecularLighting4098">
-        <feDistantLight
-           azimuth="225"
-           elevation="45"
-           id="feDistantLight4100" />
-      </feSpecularLighting>
-      <feComposite
-         in2="result3"
-         operator="atop"
-         id="feComposite4102" />
-    </filter>
-    <filter
-       inkscape:label="Button"
-       inkscape:menu="Bevels"
-       inkscape:menu-tooltip="Soft bevel, slightly depressed middle"
-       style="color-interpolation-filters:sRGB"
-       id="filter4104">
-      <feGaussianBlur
-         stdDeviation="2.3"
-         in="SourceAlpha"
-         result="result0"
-         id="feGaussianBlur4106" />
-      <feMorphology
-         in="SourceAlpha"
-         radius="6.6"
-         result="result1"
-         id="feMorphology4108" />
-      <feGaussianBlur
-         stdDeviation="8.9"
-         in="result1"
-         id="feGaussianBlur4110" />
-      <feColorMatrix
-         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.3 0"
-         result="result91"
-         id="feColorMatrix4112" />
-      <feComposite
-         in="result0"
-         operator="out"
-         result="result2"
-         in2="result91"
-         id="feComposite4114" />
-      <feGaussianBlur
-         stdDeviation="1.7"
-         result="result4"
-         id="feGaussianBlur4116" />
-      <feDiffuseLighting
-         surfaceScale="10"
-         id="feDiffuseLighting4118">
-        <feDistantLight
-           azimuth="225"
-           elevation="45"
-           id="feDistantLight4120" />
-      </feDiffuseLighting>
-      <feBlend
-         in2="SourceGraphic"
-         mode="multiply"
-         id="feBlend4122" />
-      <feComposite
-         in2="SourceAlpha"
-         operator="in"
-         result="result3"
-         id="feComposite4124" />
-      <feSpecularLighting
-         in="result4"
-         surfaceScale="5"
-         specularExponent="17.89999962"
-         id="feSpecularLighting4126">
-        <feDistantLight
-           azimuth="225"
-           elevation="45"
-           id="feDistantLight4128" />
-      </feSpecularLighting>
-      <feComposite
-         in2="result3"
-         operator="atop"
-         id="feComposite4130" />
-    </filter>
-    <filter
-       inkscape:label="Button"
-       inkscape:menu="Bevels"
-       inkscape:menu-tooltip="Soft bevel, slightly depressed middle"
-       style="color-interpolation-filters:sRGB"
-       id="filter4132">
-      <feGaussianBlur
-         stdDeviation="2.3"
-         in="SourceAlpha"
-         result="result0"
-         id="feGaussianBlur4134" />
-      <feMorphology
-         in="SourceAlpha"
-         radius="6.6"
-         result="result1"
-         id="feMorphology4136" />
-      <feGaussianBlur
-         stdDeviation="8.9"
-         in="result1"
-         id="feGaussianBlur4138" />
-      <feColorMatrix
-         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.3 0"
-         result="result91"
-         id="feColorMatrix4140" />
-      <feComposite
-         in="result0"
-         operator="out"
-         result="result2"
-         in2="result91"
-         id="feComposite4142" />
-      <feGaussianBlur
-         stdDeviation="1.7"
-         result="result4"
-         id="feGaussianBlur4144" />
-      <feDiffuseLighting
-         surfaceScale="10"
-         id="feDiffuseLighting4146">
-        <feDistantLight
-           azimuth="225"
-           elevation="45"
-           id="feDistantLight4148" />
-      </feDiffuseLighting>
-      <feBlend
-         in2="SourceGraphic"
-         mode="multiply"
-         id="feBlend4150" />
-      <feComposite
-         in2="SourceAlpha"
-         operator="in"
-         result="result3"
-         id="feComposite4152" />
-      <feSpecularLighting
-         in="result4"
-         surfaceScale="5"
-         specularExponent="17.89999962"
-         id="feSpecularLighting4154">
-        <feDistantLight
-           azimuth="225"
-           elevation="45"
-           id="feDistantLight4156" />
-      </feSpecularLighting>
-      <feComposite
-         in2="result3"
-         operator="atop"
-         id="feComposite4158" />
-    </filter>
-    <filter
-       inkscape:label="Ridged Border"
-       inkscape:menu="Bevels"
-       inkscape:menu-tooltip="Ridged border with inner bevel"
-       style="color-interpolation-filters:sRGB"
-       id="filter4269">
-      <feMorphology
-         radius="4.3"
-         in="SourceAlpha"
-         result="result91"
-         id="feMorphology4271" />
-      <feComposite
-         operator="out"
-         in="SourceGraphic"
-         in2="result91"
-         id="feComposite4273" />
-      <feGaussianBlur
-         result="result0"
-         stdDeviation="1.2"
-         id="feGaussianBlur4275" />
-      <feDiffuseLighting
-         diffuseConstant="1"
-         id="feDiffuseLighting4277">
-        <feDistantLight
-           elevation="66"
-           azimuth="225"
-           id="feDistantLight4279" />
-      </feDiffuseLighting>
-      <feBlend
-         mode="multiply"
-         in2="SourceGraphic"
-         id="feBlend4281" />
-      <feComposite
-         operator="in"
-         in2="SourceAlpha"
-         id="feComposite4283" />
-    </filter>
-    <filter
-       inkscape:label="Ridged Border"
-       inkscape:menu="Bevels"
-       inkscape:menu-tooltip="Ridged border with inner bevel"
-       style="color-interpolation-filters:sRGB"
-       id="filter4285">
-      <feMorphology
-         radius="4.3"
-         in="SourceAlpha"
-         result="result91"
-         id="feMorphology4287" />
-      <feComposite
-         operator="out"
-         in="SourceGraphic"
-         in2="result91"
-         id="feComposite4289" />
-      <feGaussianBlur
-         result="result0"
-         stdDeviation="1.2"
-         id="feGaussianBlur4291" />
-      <feDiffuseLighting
-         diffuseConstant="1"
-         id="feDiffuseLighting4293">
-        <feDistantLight
-           elevation="66"
-           azimuth="225"
-           id="feDistantLight4295" />
-      </feDiffuseLighting>
-      <feBlend
-         mode="multiply"
-         in2="SourceGraphic"
-         id="feBlend4297" />
-      <feComposite
-         operator="in"
-         in2="SourceAlpha"
-         id="feComposite4299" />
-    </filter>
-    <filter
-       inkscape:label="Ridged Border"
-       inkscape:menu="Bevels"
-       inkscape:menu-tooltip="Ridged border with inner bevel"
-       style="color-interpolation-filters:sRGB"
-       id="filter4301">
-      <feMorphology
-         radius="4.3"
-         in="SourceAlpha"
-         result="result91"
-         id="feMorphology4303" />
-      <feComposite
-         operator="out"
-         in="SourceGraphic"
-         in2="result91"
-         id="feComposite4305" />
-      <feGaussianBlur
-         result="result0"
-         stdDeviation="1.2"
-         id="feGaussianBlur4307" />
-      <feDiffuseLighting
-         diffuseConstant="1"
-         id="feDiffuseLighting4309">
-        <feDistantLight
-           elevation="66"
-           azimuth="225"
-           id="feDistantLight4311" />
-      </feDiffuseLighting>
-      <feBlend
-         mode="multiply"
-         in2="SourceGraphic"
-         id="feBlend4313" />
-      <feComposite
-         operator="in"
-         in2="SourceAlpha"
-         id="feComposite4315" />
-    </filter>
-    <filter
-       inkscape:label="Ridged Border"
-       inkscape:menu="Bevels"
-       inkscape:menu-tooltip="Ridged border with inner bevel"
-       style="color-interpolation-filters:sRGB"
-       id="filter4317">
-      <feMorphology
-         radius="4.3"
-         in="SourceAlpha"
-         result="result91"
-         id="feMorphology4319" />
-      <feComposite
-         operator="out"
-         in="SourceGraphic"
-         in2="result91"
-         id="feComposite4321" />
-      <feGaussianBlur
-         result="result0"
-         stdDeviation="1.2"
-         id="feGaussianBlur4323" />
-      <feDiffuseLighting
-         diffuseConstant="1"
-         id="feDiffuseLighting4325">
-        <feDistantLight
-           elevation="66"
-           azimuth="225"
-           id="feDistantLight4327" />
-      </feDiffuseLighting>
-      <feBlend
-         mode="multiply"
-         in2="SourceGraphic"
-         id="feBlend4329" />
-      <feComposite
-         operator="in"
-         in2="SourceAlpha"
-         id="feComposite4331" />
-    </filter>
-    <filter
-       inkscape:label="Ridged Border"
-       inkscape:menu="Bevels"
-       inkscape:menu-tooltip="Ridged border with inner bevel"
-       style="color-interpolation-filters:sRGB"
-       id="filter4333">
-      <feMorphology
-         radius="4.3"
-         in="SourceAlpha"
-         result="result91"
-         id="feMorphology4335" />
-      <feComposite
-         operator="out"
-         in="SourceGraphic"
-         in2="result91"
-         id="feComposite4337" />
-      <feGaussianBlur
-         result="result0"
-         stdDeviation="1.2"
-         id="feGaussianBlur4339" />
-      <feDiffuseLighting
-         diffuseConstant="1"
-         id="feDiffuseLighting4341">
-        <feDistantLight
-           elevation="66"
-           azimuth="225"
-           id="feDistantLight4343" />
-      </feDiffuseLighting>
-      <feBlend
-         mode="multiply"
-         in2="SourceGraphic"
-         id="feBlend4345" />
-      <feComposite
-         operator="in"
-         in2="SourceAlpha"
-         id="feComposite4347" />
-    </filter>
-  </defs>
-  <sodipodi:namedview
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1"
-     objecttolerance="10"
-     gridtolerance="10"
-     guidetolerance="10"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:window-width="1366"
-     inkscape:window-height="712"
-     id="namedview4012"
-     showgrid="false"
-     inkscape:zoom="2"
-     inkscape:cx="121.11796"
-     inkscape:cy="57.181096"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg4008"
-     fit-margin-top="0"
-     fit-margin-left="0"
-     fit-margin-right="0"
-     fit-margin-bottom="0"
-     showguides="false">
-    <inkscape:grid
-       type="xygrid"
-       id="grid4016"
-       originx="-103.99593"
-       originy="-581.99996" />
-  </sodipodi:namedview>
-  <metadata
-     id="metadata4010">
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:ns2="http://www.inkscape.org/namespaces/inkscape" xmlns:ns4="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="312.04880624681766" id="svg4008" version="1.1" viewBox="-1.1872348153474377e-06 -70.86068180605892 312.04880624681766 312.04880624681766" width="312.04880624681766" ns1:docname="boombox.svg" ns2:export-filename="/home/algot/Documents/runeman.org/clipart/boombox.png" ns2:export-xdpi="90" ns2:export-ydpi="90" ns2:version="0.91 r13725">
+  <svg:title id="title4195">Boom Box</svg:title>
+  <svg:defs id="defs4014">
+    <svg:filter id="filter4048" style="color-interpolation-filters:sRGB" ns2:label="Button" ns2:menu="Bevels" ns2:menu-tooltip="Soft bevel, slightly depressed middle">
+      <svg:feGaussianBlur id="feGaussianBlur4050" in="SourceAlpha" result="result0" stdDeviation="2.3" />
+      <svg:feMorphology id="feMorphology4052" in="SourceAlpha" radius="6.6" result="result1" />
+      <svg:feGaussianBlur id="feGaussianBlur4054" in="result1" stdDeviation="8.9" />
+      <svg:feColorMatrix id="feColorMatrix4056" result="result91" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.3 0" />
+      <svg:feComposite id="feComposite4058" in="result0" in2="result91" operator="out" result="result2" />
+      <svg:feGaussianBlur id="feGaussianBlur4060" result="result4" stdDeviation="1.7" />
+      <svg:feDiffuseLighting id="feDiffuseLighting4062" surfaceScale="10">
+        <svg:feDistantLight azimuth="225" elevation="45" id="feDistantLight4064" />
+      </svg:feDiffuseLighting>
+      <svg:feBlend id="feBlend4066" in2="SourceGraphic" mode="multiply" />
+      <svg:feComposite id="feComposite4068" in2="SourceAlpha" operator="in" result="result3" />
+      <svg:feSpecularLighting id="feSpecularLighting4070" in="result4" specularExponent="17.89999962" surfaceScale="5">
+        <svg:feDistantLight azimuth="225" elevation="45" id="feDistantLight4072" />
+      </svg:feSpecularLighting>
+      <svg:feComposite id="feComposite4074" in2="result3" operator="atop" />
+    </svg:filter>
+    <svg:filter id="filter4076" style="color-interpolation-filters:sRGB" ns2:label="Button" ns2:menu="Bevels" ns2:menu-tooltip="Soft bevel, slightly depressed middle">
+      <svg:feGaussianBlur id="feGaussianBlur4078" in="SourceAlpha" result="result0" stdDeviation="2.3" />
+      <svg:feMorphology id="feMorphology4080" in="SourceAlpha" radius="6.6" result="result1" />
+      <svg:feGaussianBlur id="feGaussianBlur4082" in="result1" stdDeviation="8.9" />
+      <svg:feColorMatrix id="feColorMatrix4084" result="result91" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.3 0" />
+      <svg:feComposite id="feComposite4086" in="result0" in2="result91" operator="out" result="result2" />
+      <svg:feGaussianBlur id="feGaussianBlur4088" result="result4" stdDeviation="1.7" />
+      <svg:feDiffuseLighting id="feDiffuseLighting4090" surfaceScale="10">
+        <svg:feDistantLight azimuth="225" elevation="45" id="feDistantLight4092" />
+      </svg:feDiffuseLighting>
+      <svg:feBlend id="feBlend4094" in2="SourceGraphic" mode="multiply" />
+      <svg:feComposite id="feComposite4096" in2="SourceAlpha" operator="in" result="result3" />
+      <svg:feSpecularLighting id="feSpecularLighting4098" in="result4" specularExponent="17.89999962" surfaceScale="5">
+        <svg:feDistantLight azimuth="225" elevation="45" id="feDistantLight4100" />
+      </svg:feSpecularLighting>
+      <svg:feComposite id="feComposite4102" in2="result3" operator="atop" />
+    </svg:filter>
+    <svg:filter id="filter4104" style="color-interpolation-filters:sRGB" ns2:label="Button" ns2:menu="Bevels" ns2:menu-tooltip="Soft bevel, slightly depressed middle">
+      <svg:feGaussianBlur id="feGaussianBlur4106" in="SourceAlpha" result="result0" stdDeviation="2.3" />
+      <svg:feMorphology id="feMorphology4108" in="SourceAlpha" radius="6.6" result="result1" />
+      <svg:feGaussianBlur id="feGaussianBlur4110" in="result1" stdDeviation="8.9" />
+      <svg:feColorMatrix id="feColorMatrix4112" result="result91" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.3 0" />
+      <svg:feComposite id="feComposite4114" in="result0" in2="result91" operator="out" result="result2" />
+      <svg:feGaussianBlur id="feGaussianBlur4116" result="result4" stdDeviation="1.7" />
+      <svg:feDiffuseLighting id="feDiffuseLighting4118" surfaceScale="10">
+        <svg:feDistantLight azimuth="225" elevation="45" id="feDistantLight4120" />
+      </svg:feDiffuseLighting>
+      <svg:feBlend id="feBlend4122" in2="SourceGraphic" mode="multiply" />
+      <svg:feComposite id="feComposite4124" in2="SourceAlpha" operator="in" result="result3" />
+      <svg:feSpecularLighting id="feSpecularLighting4126" in="result4" specularExponent="17.89999962" surfaceScale="5">
+        <svg:feDistantLight azimuth="225" elevation="45" id="feDistantLight4128" />
+      </svg:feSpecularLighting>
+      <svg:feComposite id="feComposite4130" in2="result3" operator="atop" />
+    </svg:filter>
+    <svg:filter id="filter4132" style="color-interpolation-filters:sRGB" ns2:label="Button" ns2:menu="Bevels" ns2:menu-tooltip="Soft bevel, slightly depressed middle">
+      <svg:feGaussianBlur id="feGaussianBlur4134" in="SourceAlpha" result="result0" stdDeviation="2.3" />
+      <svg:feMorphology id="feMorphology4136" in="SourceAlpha" radius="6.6" result="result1" />
+      <svg:feGaussianBlur id="feGaussianBlur4138" in="result1" stdDeviation="8.9" />
+      <svg:feColorMatrix id="feColorMatrix4140" result="result91" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.3 0" />
+      <svg:feComposite id="feComposite4142" in="result0" in2="result91" operator="out" result="result2" />
+      <svg:feGaussianBlur id="feGaussianBlur4144" result="result4" stdDeviation="1.7" />
+      <svg:feDiffuseLighting id="feDiffuseLighting4146" surfaceScale="10">
+        <svg:feDistantLight azimuth="225" elevation="45" id="feDistantLight4148" />
+      </svg:feDiffuseLighting>
+      <svg:feBlend id="feBlend4150" in2="SourceGraphic" mode="multiply" />
+      <svg:feComposite id="feComposite4152" in2="SourceAlpha" operator="in" result="result3" />
+      <svg:feSpecularLighting id="feSpecularLighting4154" in="result4" specularExponent="17.89999962" surfaceScale="5">
+        <svg:feDistantLight azimuth="225" elevation="45" id="feDistantLight4156" />
+      </svg:feSpecularLighting>
+      <svg:feComposite id="feComposite4158" in2="result3" operator="atop" />
+    </svg:filter>
+    <svg:filter id="filter4269" style="color-interpolation-filters:sRGB" ns2:label="Ridged Border" ns2:menu="Bevels" ns2:menu-tooltip="Ridged border with inner bevel">
+      <svg:feMorphology id="feMorphology4271" in="SourceAlpha" radius="4.3" result="result91" />
+      <svg:feComposite id="feComposite4273" in="SourceGraphic" in2="result91" operator="out" />
+      <svg:feGaussianBlur id="feGaussianBlur4275" result="result0" stdDeviation="1.2" />
+      <svg:feDiffuseLighting diffuseConstant="1" id="feDiffuseLighting4277">
+        <svg:feDistantLight azimuth="225" elevation="66" id="feDistantLight4279" />
+      </svg:feDiffuseLighting>
+      <svg:feBlend id="feBlend4281" in2="SourceGraphic" mode="multiply" />
+      <svg:feComposite id="feComposite4283" in2="SourceAlpha" operator="in" />
+    </svg:filter>
+    <svg:filter id="filter4285" style="color-interpolation-filters:sRGB" ns2:label="Ridged Border" ns2:menu="Bevels" ns2:menu-tooltip="Ridged border with inner bevel">
+      <svg:feMorphology id="feMorphology4287" in="SourceAlpha" radius="4.3" result="result91" />
+      <svg:feComposite id="feComposite4289" in="SourceGraphic" in2="result91" operator="out" />
+      <svg:feGaussianBlur id="feGaussianBlur4291" result="result0" stdDeviation="1.2" />
+      <svg:feDiffuseLighting diffuseConstant="1" id="feDiffuseLighting4293">
+        <svg:feDistantLight azimuth="225" elevation="66" id="feDistantLight4295" />
+      </svg:feDiffuseLighting>
+      <svg:feBlend id="feBlend4297" in2="SourceGraphic" mode="multiply" />
+      <svg:feComposite id="feComposite4299" in2="SourceAlpha" operator="in" />
+    </svg:filter>
+    <svg:filter id="filter4301" style="color-interpolation-filters:sRGB" ns2:label="Ridged Border" ns2:menu="Bevels" ns2:menu-tooltip="Ridged border with inner bevel">
+      <svg:feMorphology id="feMorphology4303" in="SourceAlpha" radius="4.3" result="result91" />
+      <svg:feComposite id="feComposite4305" in="SourceGraphic" in2="result91" operator="out" />
+      <svg:feGaussianBlur id="feGaussianBlur4307" result="result0" stdDeviation="1.2" />
+      <svg:feDiffuseLighting diffuseConstant="1" id="feDiffuseLighting4309">
+        <svg:feDistantLight azimuth="225" elevation="66" id="feDistantLight4311" />
+      </svg:feDiffuseLighting>
+      <svg:feBlend id="feBlend4313" in2="SourceGraphic" mode="multiply" />
+      <svg:feComposite id="feComposite4315" in2="SourceAlpha" operator="in" />
+    </svg:filter>
+    <svg:filter id="filter4317" style="color-interpolation-filters:sRGB" ns2:label="Ridged Border" ns2:menu="Bevels" ns2:menu-tooltip="Ridged border with inner bevel">
+      <svg:feMorphology id="feMorphology4319" in="SourceAlpha" radius="4.3" result="result91" />
+      <svg:feComposite id="feComposite4321" in="SourceGraphic" in2="result91" operator="out" />
+      <svg:feGaussianBlur id="feGaussianBlur4323" result="result0" stdDeviation="1.2" />
+      <svg:feDiffuseLighting diffuseConstant="1" id="feDiffuseLighting4325">
+        <svg:feDistantLight azimuth="225" elevation="66" id="feDistantLight4327" />
+      </svg:feDiffuseLighting>
+      <svg:feBlend id="feBlend4329" in2="SourceGraphic" mode="multiply" />
+      <svg:feComposite id="feComposite4331" in2="SourceAlpha" operator="in" />
+    </svg:filter>
+    <svg:filter id="filter4333" style="color-interpolation-filters:sRGB" ns2:label="Ridged Border" ns2:menu="Bevels" ns2:menu-tooltip="Ridged border with inner bevel">
+      <svg:feMorphology id="feMorphology4335" in="SourceAlpha" radius="4.3" result="result91" />
+      <svg:feComposite id="feComposite4337" in="SourceGraphic" in2="result91" operator="out" />
+      <svg:feGaussianBlur id="feGaussianBlur4339" result="result0" stdDeviation="1.2" />
+      <svg:feDiffuseLighting diffuseConstant="1" id="feDiffuseLighting4341">
+        <svg:feDistantLight azimuth="225" elevation="66" id="feDistantLight4343" />
+      </svg:feDiffuseLighting>
+      <svg:feBlend id="feBlend4345" in2="SourceGraphic" mode="multiply" />
+      <svg:feComposite id="feComposite4347" in2="SourceAlpha" operator="in" />
+    </svg:filter>
+  </svg:defs>
+  <ns1:namedview bordercolor="#666666" borderopacity="1" fit-margin-bottom="0" fit-margin-left="0" fit-margin-right="0" fit-margin-top="0" gridtolerance="10" guidetolerance="10" id="namedview4012" objecttolerance="10" pagecolor="#ffffff" showgrid="false" showguides="false" ns2:current-layer="svg4008" ns2:cx="121.11796" ns2:cy="57.181096" ns2:pageopacity="0" ns2:pageshadow="2" ns2:window-height="712" ns2:window-maximized="1" ns2:window-width="1366" ns2:window-x="0" ns2:window-y="0" ns2:zoom="2">
+    <ns2:grid id="grid4016" originx="-103.99593" originy="-581.99996" type="xygrid" />
+  </ns1:namedview>
+  <svg:metadata id="metadata4010">
     <rdf:RDF>
-      <cc:Work
-         rdf:about="">
+      <ns4:Work rdf:about="">
         <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
         <dc:title>Boom Box</dc:title>
         <dc:date>2016-11-06</dc:date>
         <dc:creator>
-          <cc:Agent>
+          <ns4:Agent>
             <dc:title>Algot Runeman</dc:title>
-          </cc:Agent>
+          </ns4:Agent>
         </dc:creator>
         <dc:rights>
-          <cc:Agent>
+          <ns4:Agent>
             <dc:title>Algot Runeman</dc:title>
-          </cc:Agent>
+          </ns4:Agent>
         </dc:rights>
         <dc:publisher>
-          <cc:Agent>
+          <ns4:Agent>
             <dc:title>runeman.org</dc:title>
-          </cc:Agent>
+          </ns4:Agent>
         </dc:publisher>
         <dc:identifier>boombox.svg</dc:identifier>
-        <cc:license
-           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
-      </cc:Work>
-      <cc:License
-         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
-        <cc:permits
-           rdf:resource="http://creativecommons.org/ns#Reproduction" />
-        <cc:permits
-           rdf:resource="http://creativecommons.org/ns#Distribution" />
-        <cc:permits
-           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
-      </cc:License>
+        <ns4:license rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+      </ns4:Work>
+      <ns4:License rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <ns4:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns4:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns4:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns4:License>
     </rdf:RDF>
-  </metadata>
-  <path
-     style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4104)"
-     d="m 36.004066,90.257841 c -5.333333,0 -8.666667,3.333333 -10,9.999999 l 0,60 c 1.02557,7.17961 4.996274,9.45066 10,10 l 240.000004,0 c 5.56052,-0.54935 9.74368,-2.82039 10,-10 l 0,-60 c 0.51294,-5.641096 -3.88268,-8.337059 -10,-9.999999 z"
-     id="path4018"
-     inkscape:connector-curvature="0"
-     sodipodi:nodetypes="ccccccccc" />
-  <path
-     style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4132)"
-     d="m 116.00407,90.257841 0,-20 80,0 0,20 -10,0 0,-10 -60,0 0,10 z"
-     id="path4020"
-     inkscape:connector-curvature="0"
-     sodipodi:nodetypes="ccccccccc" />
-  <circle
-     style="opacity:1;fill:#666666;fill-opacity:1;stroke:none;stroke-width:0.25;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter4048)"
-     id="path4022"
-     cx="66.004066"
-     cy="130.25786"
-     r="30" />
-  <circle
-     r="30"
-     cy="130.25786"
-     cx="248.00406"
-     id="circle4024"
-     style="opacity:1;fill:#666666;fill-opacity:1;stroke:none;stroke-width:0.25;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter4076)" />
-  <path
-     style="fill:none;fill-rule:evenodd;stroke:#cccccc;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     d="m 126.00407,100.25784 0,42 60,0 0,-42 z"
-     id="path4026"
-     inkscape:connector-curvature="0"
-     sodipodi:nodetypes="ccccc" />
-  <g
-     id="g4032"
-     transform="translate(-110.99593,-291.47938)"
-     style="filter:url(#filter4333)">
-    <circle
-       r="5"
-       cy="447.36221"
-       cx="226"
-       id="path4028"
-       style="opacity:1;fill:#666666;fill-opacity:1;stroke:#cccccc;stroke-width:0.25;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    <circle
-       style="opacity:1;fill:#666666;fill-opacity:1;stroke:#cccccc;stroke-width:0.25;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="circle4030"
-       cx="308"
-       cy="448.36221"
-       r="5" />
-  </g>
-  <path
-     style="fill:#666666;fill-rule:evenodd;stroke:#000000;stroke-width:0.71428573px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4317)"
-     d="m 124.86121,151.11498 14.28572,0 0,7.14286 -14.28572,0 z"
-     id="path4036"
-     inkscape:connector-curvature="0" />
-  <path
-     inkscape:connector-curvature="0"
-     id="path4038"
-     d="m 140.86121,151.11498 14.28572,0 0,7.14286 -14.28572,0 z"
-     style="fill:#666666;fill-rule:evenodd;stroke:#000000;stroke-width:0.71428573px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4301)" />
-  <path
-     style="fill:#666666;fill-rule:evenodd;stroke:#000000;stroke-width:0.71428573px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4285)"
-     d="m 158.86121,151.11498 14.28572,0 0,7.14286 -14.28572,0 z"
-     id="path4040"
-     inkscape:connector-curvature="0" />
-  <path
-     inkscape:connector-curvature="0"
-     id="path4042"
-     d="m 174.86121,151.11498 14.28572,0 0,7.14286 -14.28572,0 z"
-     style="fill:#666666;fill-rule:evenodd;stroke:#000000;stroke-width:0.71428573px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4269)" />
-  <circle
-     style="opacity:1;fill:#b3b3b3;fill-opacity:1;stroke:#ffffff;stroke-width:0.25;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-     id="path4355"
-     cx="24.038952"
-     cy="196.58411"
-     r="20.5"
-     transform="matrix(0.70710678,-0.70710679,0.70710679,0.70710678,0,0)" />
-  <circle
-     r="6.3363638"
-     cy="196.58411"
-     cx="24.038952"
-     id="circle4357"
-     style="opacity:1;fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:0.07727273;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-     transform="matrix(0.70710678,-0.70710679,0.70710679,0.70710678,0,0)" />
-  <g
-     id="g4365"
-     transform="matrix(0.19422996,-0.24990646,0.24990646,0.19422996,118.26728,66.894739)"
-     style="fill:#000000;stroke:#000000;stroke-width:1.57972942">
-    <path
-       inkscape:connector-curvature="0"
-       id="path4363"
-       d="m -89.5,161.75783 7,1 0,1.5 -7,0 z"
-       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972942;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4359"
-       d="m -88.5,154.25783 -2.5,10 1.5,-1.5 -3,11 7,-18.5 z"
-       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972942;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    <path
-       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972942;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -83.457643,154.25783 2.5,10 -1.5,-1.5 3,11 -7,-18.5 z"
-       id="path4361"
-       inkscape:connector-curvature="0" />
-  </g>
-  <g
-     id="g4401"
-     transform="matrix(0.23165801,-0.21566891,0.21566891,0.23165801,127.17381,63.313004)"
-     style="fill:#000000;stroke:#000000;stroke-width:1.57972944">
-    <path
-       inkscape:connector-curvature="0"
-       id="path4370"
-       d="m -78.078949,153.08899 5.795555,1.55292 -1.707708,0.5777 5.924965,1.06995 -11.496376,-1.52753 z"
-       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972944;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    <path
-       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972944;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -78.078952,173.45604 5.795555,-1.55292 -1.707708,-0.5777 5.924965,-1.06995 -11.496376,1.52753 z"
-       id="path4372"
-       inkscape:connector-curvature="0" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4374"
-       d="m -78.771222,169.59296 0,-8.33021 -0.979085,2.08255 0.489543,-8.33021 -1.468628,15.96624 z"
-       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972944;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-  </g>
-  <g
-     id="g4395"
-     transform="matrix(0.2590073,-0.18191683,0.18191683,0.2590073,132.14086,61.200887)"
-     style="fill:#000000;stroke:#000000;stroke-width:1.57972944">
-    <path
-       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972944;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -42.271222,171.59296 0,-8.33021 -0.979085,2.08255 0.489543,-8.33021 -1.468628,15.96624 z"
-       id="path4376"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972944;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -53.078949,154.58899 5.795555,1.55292 -1.707708,0.5777 5.924965,1.06995 -11.496376,-1.52753 z"
-       id="path4378"
-       inkscape:connector-curvature="0" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4380"
-       d="m -53.078952,174.95604 5.795555,-1.55292 -1.707708,-0.5777 5.924965,-1.06995 -11.496376,1.52753 z"
-       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972944;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    <path
-       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972944;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -53.771222,171.09296 0,-8.33021 -0.979085,2.08255 0.489543,-8.33021 -1.468628,15.96624 z"
-       id="path4382"
-       inkscape:connector-curvature="0" />
-  </g>
-  <g
-     id="g4390"
-     transform="matrix(0.27410561,-0.15825495,0.15825495,0.27410561,136.12914,58.753564)"
-     style="fill:#000000;stroke:#000000;stroke-width:1.57972943">
-    <path
-       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972943;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -37.078949,156.58899 5.795555,1.55292 -1.707708,0.5777 5.924965,1.06995 -11.496376,-1.52753 z"
-       id="path4384"
-       inkscape:connector-curvature="0" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4386"
-       d="m -37.078952,176.95604 5.795555,-1.55292 -1.707708,-0.5777 5.924965,-1.06995 -11.496376,1.52753 z"
-       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972943;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    <path
-       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972943;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -37.771222,173.09296 0,-8.33021 -0.979085,2.08255 0.489543,-8.33021 -1.468628,15.96624 z"
-       id="path4388"
-       inkscape:connector-curvature="0" />
-  </g>
-  <g
-     style="font-style:normal;font-weight:normal;font-size:7.21142673px;line-height:125%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     id="text4211">
-    <path
-       d="m 131.78107,102.98051 0,0.75002 q -0.35916,-0.33451 -0.76762,-0.50001 -0.40494,-0.1655 -0.8627,-0.1655 -0.90142,0 -1.38031,0.55283 -0.47888,0.54931 -0.47888,1.59159 0,1.03875 0.47888,1.59158 0.47889,0.54931 1.38031,0.54931 0.45776,0 0.8627,-0.1655 0.40846,-0.1655 0.76762,-0.50001 l 0,0.74297 q -0.37325,0.25353 -0.79227,0.38029 -0.4155,0.12677 -0.8803,0.12677 -1.19369,0 -1.88032,-0.72889 -0.68664,-0.73241 -0.68664,-1.99652 0,-1.26764 0.68664,-1.99653 0.68663,-0.73241 1.88032,-0.73241 0.47184,0 0.88734,0.12677 0.41903,0.12324 0.78523,0.37324 z"
-       style=""
-       id="path4458" />
-    <path
-       d="m 133.59801,103.16009 0,4.08812 0.85918,0 q 1.08805,0 1.59158,-0.49297 0.50706,-0.49296 0.50706,-1.55637 0,-1.05636 -0.50706,-1.54581 -0.50353,-0.49297 -1.59158,-0.49297 l -0.85918,0 z m -0.71128,-0.58452 1.4613,0 q 1.5282,0 2.24301,0.63734 0.7148,0.63382 0.7148,1.98596 0,1.35919 -0.71832,1.99653 -0.71833,0.63733 -2.23949,0.63733 l -1.4613,0 0,-5.25716 z"
-       style=""
-       id="path4460" />
-  </g>
-  <g
-     id="g4233"
-     transform="matrix(0.86602541,-0.50000001,0.50000001,0.86602541,70.334718,129.40504)">
-    <g
-       transform="translate(0,0.5000005)"
-       id="g4227">
-      <path
-         style="fill:#e6e6e6;fill-rule:evenodd;stroke:#000000;stroke-width:0.13532127;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         d="m 109.94267,-48.973702 58.8839,0 0,2.114679 -58.8839,0 z"
-         id="path4223"
-         inkscape:connector-curvature="0" />
-      <path
-         style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:0.5412851px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         d="m 109.94267,-48.60867 58.8839,0"
-         id="path4225"
-         inkscape:connector-curvature="0" />
-    </g>
-    <path
-       style="fill:#e6e6e6;fill-rule:evenodd;stroke:#000000;stroke-width:0.19546406;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 62.972735,-48.94363 85.054535,0 0,3.054536 -85.054535,0 z"
-       id="path4219"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:0.78185624px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 62.972735,-48.416362 85.054535,0"
-       id="path4221"
-       inkscape:connector-curvature="0" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4215"
-       d="m 1.0000033,-49.916362 84.9999997,0 0,5 -84.9999997,0 z"
-       style="fill:#e6e6e6;fill-rule:evenodd;stroke:#000000;stroke-width:0.25;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4217"
-       d="m 1.0000033,-48.416362 84.9999997,0"
-       style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    <path
-       sodipodi:nodetypes="cccccc"
-       inkscape:connector-curvature="0"
-       id="path4231"
-       d="m 169.03593,-50.574048 -0.61144,3.057185 0.61144,3.057185 2.03812,0 0,-6.11437 z"
-       style="fill:#b3b3b3;fill-rule:evenodd;stroke:#000000;stroke-width:0.10190617;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-  </g>
-  <path
-     style="fill:#808080;fill-rule:evenodd;stroke:#000000;stroke-width:0.56024176;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     d="m 46.232098,84.306013 4.939758,0 0,6.353972 -4.939758,0 z"
-     id="path4243"
-     inkscape:connector-curvature="0" />
-  <path
-     style="fill:#999999;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     d="m 192.50407,98.757838 0,15.000002 25,0 0,-15.000002 z"
-     id="path4349"
-     inkscape:connector-curvature="0" />
-  <g
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.125px;line-height:125%;font-family:LCD;-inkscape-font-specification:LCD;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     id="text4351"
-     transform="matrix(0.88672165,0,0,0.88672165,22.972524,11.668559)">
-    <path
-       d="m 193.96931,105.93284 0.325,0.325 0.325,0.325 1.3,0 0.325,-0.325 -0.325,-0.325 -1.3,0 0,-2.275 1.3,0 0.325,-0.325 0.325,0.325 1.3,0 0,2.275 -1.3,0 -0.325,0.325 0.325,0.325 1.3,0 0,2.275 -1.3,0 -0.325,0.325 -0.325,-0.325 -1.3,0 -0.325,0.325 0.325,0.325 3.25,0 0.325,-0.325 0.325,-0.325 0,-2.275 -0.325,-0.325 0.325,-0.325 0,-2.275 -0.325,-0.325 -0.325,-0.325 -3.25,0 -0.325,0.325 -0.325,0.325 0,2.275 z"
-       id="path4447"
-       inkscape:connector-curvature="0" />
-    <path
-       d="m 199.80916,108.85784 0.325,0.325 0.325,0.325 3.25,0 0.325,-0.325 0.325,-0.325 0,-2.275 -0.325,-0.325 -0.325,0.325 0,2.275 -1.3,0 -0.325,0.325 -0.325,-0.325 -0.975,0 0.975,-1.625 0,-0.65 -0.325,0 -0.975,1.625 0,-1.625 -0.325,-0.325 -0.325,0.325 0,2.275 z m 0,-2.925 0.325,0.325 0.325,-0.325 0,-2.275 1.3,0 0.325,-0.325 0.325,0.325 0.975,0 -0.975,1.625 0,0.65 0.325,0 0.975,-1.625 0,1.625 0.325,0.325 0.325,-0.325 0,-2.275 -0.325,-0.325 -0.325,-0.325 -3.25,0 -0.325,0.325 -0.325,0.325 0,2.275 z"
-       id="path4449"
-       inkscape:connector-curvature="0" />
-    <path
-       d="m 205.649,108.85784 0.325,0.325 0.325,-0.325 0,-2.275 -0.325,-0.325 -0.325,0.325 0,2.275 z"
-       id="path4451"
-       inkscape:connector-curvature="0" />
-    <path
-       d="m 211.48884,105.93284 0.325,0.325 0.325,0.325 1.3,0 0.325,-0.325 -0.325,-0.325 -1.3,0 0,-2.275 1.3,0 0.325,-0.325 0.325,0.325 1.3,0 0,2.275 -1.3,0 -0.325,0.325 0.325,0.325 1.3,0 0,2.275 -1.3,0 -0.325,0.325 -0.325,-0.325 -1.3,0 -0.325,0.325 0.325,0.325 3.25,0 0.325,-0.325 0.325,-0.325 0,-2.275 -0.325,-0.325 0.325,-0.325 0,-2.275 -0.325,-0.325 -0.325,-0.325 -3.25,0 -0.325,0.325 -0.325,0.325 0,2.275 z"
-       id="path4453"
-       inkscape:connector-curvature="0" />
-  </g>
-  <circle
-     style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-     id="path4455"
-     cx="48.701977"
-     cy="86.775894"
-     r="1.3258252" />
-</svg>
+  </svg:metadata>
+  <svg:path d="m 36.004066,90.257841 c -5.333333,0 -8.666667,3.333333 -10,9.999999 l 0,60 c 1.02557,7.17961 4.996274,9.45066 10,10 l 240.000004,0 c 5.56052,-0.54935 9.74368,-2.82039 10,-10 l 0,-60 c 0.51294,-5.641096 -3.88268,-8.337059 -10,-9.999999 z" id="path4018" style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4104)" ns1:nodetypes="ccccccccc" ns2:connector-curvature="0" />
+  <svg:path d="m 116.00407,90.257841 0,-20 80,0 0,20 -10,0 0,-10 -60,0 0,10 z" id="path4020" style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4132)" ns1:nodetypes="ccccccccc" ns2:connector-curvature="0" />
+  <svg:circle cx="66.004066" cy="130.25786" id="path4022" r="30" style="opacity:1;fill:#666666;fill-opacity:1;stroke:none;stroke-width:0.25;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter4048)" />
+  <svg:circle cx="248.00406" cy="130.25786" id="circle4024" r="30" style="opacity:1;fill:#666666;fill-opacity:1;stroke:none;stroke-width:0.25;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter4076)" />
+  <svg:path d="m 126.00407,100.25784 0,42 60,0 0,-42 z" id="path4026" style="fill:none;fill-rule:evenodd;stroke:#cccccc;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="ccccc" ns2:connector-curvature="0" />
+  <svg:g id="g4032" style="filter:url(#filter4333)" transform="translate(-110.99593,-291.47938)">
+    <svg:circle cx="226" cy="447.36221" id="path4028" r="5" style="opacity:1;fill:#666666;fill-opacity:1;stroke:#cccccc;stroke-width:0.25;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <svg:circle cx="308" cy="448.36221" id="circle4030" r="5" style="opacity:1;fill:#666666;fill-opacity:1;stroke:#cccccc;stroke-width:0.25;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+  </svg:g>
+  <svg:path d="m 124.86121,151.11498 14.28572,0 0,7.14286 -14.28572,0 z" id="path4036" style="fill:#666666;fill-rule:evenodd;stroke:#000000;stroke-width:0.71428573px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4317)" ns2:connector-curvature="0" />
+  <svg:path d="m 140.86121,151.11498 14.28572,0 0,7.14286 -14.28572,0 z" id="path4038" style="fill:#666666;fill-rule:evenodd;stroke:#000000;stroke-width:0.71428573px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4301)" ns2:connector-curvature="0" />
+  <svg:path d="m 158.86121,151.11498 14.28572,0 0,7.14286 -14.28572,0 z" id="path4040" style="fill:#666666;fill-rule:evenodd;stroke:#000000;stroke-width:0.71428573px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4285)" ns2:connector-curvature="0" />
+  <svg:path d="m 174.86121,151.11498 14.28572,0 0,7.14286 -14.28572,0 z" id="path4042" style="fill:#666666;fill-rule:evenodd;stroke:#000000;stroke-width:0.71428573px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4269)" ns2:connector-curvature="0" />
+  <svg:circle cx="24.038952" cy="196.58411" id="path4355" r="20.5" style="opacity:1;fill:#b3b3b3;fill-opacity:1;stroke:#ffffff;stroke-width:0.25;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" transform="matrix(0.70710678,-0.70710679,0.70710679,0.70710678,0,0)" />
+  <svg:circle cx="24.038952" cy="196.58411" id="circle4357" r="6.3363638" style="opacity:1;fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:0.07727273;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" transform="matrix(0.70710678,-0.70710679,0.70710679,0.70710678,0,0)" />
+  <svg:g id="g4365" style="fill:#000000;stroke:#000000;stroke-width:1.57972942" transform="matrix(0.19422996,-0.24990646,0.24990646,0.19422996,118.26728,66.894739)">
+    <svg:path d="m -89.5,161.75783 7,1 0,1.5 -7,0 z" id="path4363" style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972942;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+    <svg:path d="m -88.5,154.25783 -2.5,10 1.5,-1.5 -3,11 7,-18.5 z" id="path4359" style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972942;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+    <svg:path d="m -83.457643,154.25783 2.5,10 -1.5,-1.5 3,11 -7,-18.5 z" id="path4361" style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972942;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+  </svg:g>
+  <svg:g id="g4401" style="fill:#000000;stroke:#000000;stroke-width:1.57972944" transform="matrix(0.23165801,-0.21566891,0.21566891,0.23165801,127.17381,63.313004)">
+    <svg:path d="m -78.078949,153.08899 5.795555,1.55292 -1.707708,0.5777 5.924965,1.06995 -11.496376,-1.52753 z" id="path4370" style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972944;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+    <svg:path d="m -78.078952,173.45604 5.795555,-1.55292 -1.707708,-0.5777 5.924965,-1.06995 -11.496376,1.52753 z" id="path4372" style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972944;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+    <svg:path d="m -78.771222,169.59296 0,-8.33021 -0.979085,2.08255 0.489543,-8.33021 -1.468628,15.96624 z" id="path4374" style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972944;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+  </svg:g>
+  <svg:g id="g4395" style="fill:#000000;stroke:#000000;stroke-width:1.57972944" transform="matrix(0.2590073,-0.18191683,0.18191683,0.2590073,132.14086,61.200887)">
+    <svg:path d="m -42.271222,171.59296 0,-8.33021 -0.979085,2.08255 0.489543,-8.33021 -1.468628,15.96624 z" id="path4376" style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972944;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+    <svg:path d="m -53.078949,154.58899 5.795555,1.55292 -1.707708,0.5777 5.924965,1.06995 -11.496376,-1.52753 z" id="path4378" style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972944;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+    <svg:path d="m -53.078952,174.95604 5.795555,-1.55292 -1.707708,-0.5777 5.924965,-1.06995 -11.496376,1.52753 z" id="path4380" style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972944;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+    <svg:path d="m -53.771222,171.09296 0,-8.33021 -0.979085,2.08255 0.489543,-8.33021 -1.468628,15.96624 z" id="path4382" style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972944;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+  </svg:g>
+  <svg:g id="g4390" style="fill:#000000;stroke:#000000;stroke-width:1.57972943" transform="matrix(0.27410561,-0.15825495,0.15825495,0.27410561,136.12914,58.753564)">
+    <svg:path d="m -37.078949,156.58899 5.795555,1.55292 -1.707708,0.5777 5.924965,1.06995 -11.496376,-1.52753 z" id="path4384" style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972943;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+    <svg:path d="m -37.078952,176.95604 5.795555,-1.55292 -1.707708,-0.5777 5.924965,-1.06995 -11.496376,1.52753 z" id="path4386" style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972943;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+    <svg:path d="m -37.771222,173.09296 0,-8.33021 -0.979085,2.08255 0.489543,-8.33021 -1.468628,15.96624 z" id="path4388" style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.57972943;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+  </svg:g>
+  <svg:g id="text4211" style="font-style:normal;font-weight:normal;font-size:7.21142673px;line-height:125%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1">
+    <svg:path d="m 131.78107,102.98051 0,0.75002 q -0.35916,-0.33451 -0.76762,-0.50001 -0.40494,-0.1655 -0.8627,-0.1655 -0.90142,0 -1.38031,0.55283 -0.47888,0.54931 -0.47888,1.59159 0,1.03875 0.47888,1.59158 0.47889,0.54931 1.38031,0.54931 0.45776,0 0.8627,-0.1655 0.40846,-0.1655 0.76762,-0.50001 l 0,0.74297 q -0.37325,0.25353 -0.79227,0.38029 -0.4155,0.12677 -0.8803,0.12677 -1.19369,0 -1.88032,-0.72889 -0.68664,-0.73241 -0.68664,-1.99652 0,-1.26764 0.68664,-1.99653 0.68663,-0.73241 1.88032,-0.73241 0.47184,0 0.88734,0.12677 0.41903,0.12324 0.78523,0.37324 z" id="path4458" style="" />
+    <svg:path d="m 133.59801,103.16009 0,4.08812 0.85918,0 q 1.08805,0 1.59158,-0.49297 0.50706,-0.49296 0.50706,-1.55637 0,-1.05636 -0.50706,-1.54581 -0.50353,-0.49297 -1.59158,-0.49297 l -0.85918,0 z m -0.71128,-0.58452 1.4613,0 q 1.5282,0 2.24301,0.63734 0.7148,0.63382 0.7148,1.98596 0,1.35919 -0.71832,1.99653 -0.71833,0.63733 -2.23949,0.63733 l -1.4613,0 0,-5.25716 z" id="path4460" style="" />
+  </svg:g>
+  <svg:g id="g4233" transform="matrix(0.86602541,-0.50000001,0.50000001,0.86602541,70.334718,129.40504)">
+    <svg:g id="g4227" transform="translate(0,0.5000005)">
+      <svg:path d="m 109.94267,-48.973702 58.8839,0 0,2.114679 -58.8839,0 z" id="path4223" style="fill:#e6e6e6;fill-rule:evenodd;stroke:#000000;stroke-width:0.13532127;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+      <svg:path d="m 109.94267,-48.60867 58.8839,0" id="path4225" style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:0.5412851px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+    </svg:g>
+    <svg:path d="m 62.972735,-48.94363 85.054535,0 0,3.054536 -85.054535,0 z" id="path4219" style="fill:#e6e6e6;fill-rule:evenodd;stroke:#000000;stroke-width:0.19546406;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+    <svg:path d="m 62.972735,-48.416362 85.054535,0" id="path4221" style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:0.78185624px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+    <svg:path d="m 1.0000033,-49.916362 84.9999997,0 0,5 -84.9999997,0 z" id="path4215" style="fill:#e6e6e6;fill-rule:evenodd;stroke:#000000;stroke-width:0.25;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+    <svg:path d="m 1.0000033,-48.416362 84.9999997,0" id="path4217" style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+    <svg:path d="m 169.03593,-50.574048 -0.61144,3.057185 0.61144,3.057185 2.03812,0 0,-6.11437 z" id="path4231" style="fill:#b3b3b3;fill-rule:evenodd;stroke:#000000;stroke-width:0.10190617;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns1:nodetypes="cccccc" ns2:connector-curvature="0" />
+  </svg:g>
+  <svg:path d="m 46.232098,84.306013 4.939758,0 0,6.353972 -4.939758,0 z" id="path4243" style="fill:#808080;fill-rule:evenodd;stroke:#000000;stroke-width:0.56024176;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+  <svg:path d="m 192.50407,98.757838 0,15.000002 25,0 0,-15.000002 z" id="path4349" style="fill:#999999;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ns2:connector-curvature="0" />
+  <svg:g id="text4351" style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.125px;line-height:125%;font-family:LCD;-inkscape-font-specification:LCD;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" transform="matrix(0.88672165,0,0,0.88672165,22.972524,11.668559)">
+    <svg:path d="m 193.96931,105.93284 0.325,0.325 0.325,0.325 1.3,0 0.325,-0.325 -0.325,-0.325 -1.3,0 0,-2.275 1.3,0 0.325,-0.325 0.325,0.325 1.3,0 0,2.275 -1.3,0 -0.325,0.325 0.325,0.325 1.3,0 0,2.275 -1.3,0 -0.325,0.325 -0.325,-0.325 -1.3,0 -0.325,0.325 0.325,0.325 3.25,0 0.325,-0.325 0.325,-0.325 0,-2.275 -0.325,-0.325 0.325,-0.325 0,-2.275 -0.325,-0.325 -0.325,-0.325 -3.25,0 -0.325,0.325 -0.325,0.325 0,2.275 z" id="path4447" ns2:connector-curvature="0" />
+    <svg:path d="m 199.80916,108.85784 0.325,0.325 0.325,0.325 3.25,0 0.325,-0.325 0.325,-0.325 0,-2.275 -0.325,-0.325 -0.325,0.325 0,2.275 -1.3,0 -0.325,0.325 -0.325,-0.325 -0.975,0 0.975,-1.625 0,-0.65 -0.325,0 -0.975,1.625 0,-1.625 -0.325,-0.325 -0.325,0.325 0,2.275 z m 0,-2.925 0.325,0.325 0.325,-0.325 0,-2.275 1.3,0 0.325,-0.325 0.325,0.325 0.975,0 -0.975,1.625 0,0.65 0.325,0 0.975,-1.625 0,1.625 0.325,0.325 0.325,-0.325 0,-2.275 -0.325,-0.325 -0.325,-0.325 -3.25,0 -0.325,0.325 -0.325,0.325 0,2.275 z" id="path4449" ns2:connector-curvature="0" />
+    <svg:path d="m 205.649,108.85784 0.325,0.325 0.325,-0.325 0,-2.275 -0.325,-0.325 -0.325,0.325 0,2.275 z" id="path4451" ns2:connector-curvature="0" />
+    <svg:path d="m 211.48884,105.93284 0.325,0.325 0.325,0.325 1.3,0 0.325,-0.325 -0.325,-0.325 -1.3,0 0,-2.275 1.3,0 0.325,-0.325 0.325,0.325 1.3,0 0,2.275 -1.3,0 -0.325,0.325 0.325,0.325 1.3,0 0,2.275 -1.3,0 -0.325,0.325 -0.325,-0.325 -1.3,0 -0.325,0.325 0.325,0.325 3.25,0 0.325,-0.325 0.325,-0.325 0,-2.275 -0.325,-0.325 0.325,-0.325 0,-2.275 -0.325,-0.325 -0.325,-0.325 -3.25,0 -0.325,0.325 -0.325,0.325 0,2.275 z" id="path4453" ns2:connector-curvature="0" />
+  </svg:g>
+  <svg:circle cx="48.701977" cy="86.775894" id="path4455" r="1.3258252" style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+</svg:svg>

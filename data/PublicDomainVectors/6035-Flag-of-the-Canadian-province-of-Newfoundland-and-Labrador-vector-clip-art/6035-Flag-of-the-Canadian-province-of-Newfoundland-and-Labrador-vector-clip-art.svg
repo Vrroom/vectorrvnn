@@ -1,42 +1,41 @@
-<?xml version="1.0"?>
-<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://web.resource.org/cc/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:svg="http://www.w3.org/2000/svg" id="svg1" viewBox="0 0 1000 500">
-  <rect id="rect565" fill-rule="evenodd" height="500" width="1e3" y="-.000005" x="0" stroke-width="1pt" fill="#fff"/>
-  <g id="NFLD_flag">
-    <rect id="rect564" height="500" width="1e3" stroke="#000" y="0" x="0" stroke-width="1.25" fill="none"/>
-    <g id="past" stroke="#21219c" fill-rule="evenodd" fill="#21219c">
-      <path id="path568" d="m30 50v170h310l-310-170z"/>
-      <path id="path569" stroke-width="1pt" d="m400 190v-160h-290l290 160z"/>
-      <path id="path570" d="m30 280v170l310-170h-310z"/>
-      <path id="path571" d="m400 310v160h-290l290-160z"/>
-    </g>
-    <g id="future" fill-rule="evenodd">
-      <path id="path572" d="m460 30v170l510-170h-510z" stroke="#c00" fill="#c00"/>
-      <path id="path576" d="m480 50v125l370-125h-370z" stroke="#fff" fill="#fff"/>
-      <path id="path573" d="m460 300v170h510l-510-170z" stroke="#d62929" fill="#c00"/>
-      <path id="path577" d="m480 330v120h370l-370-120z" stroke="#fff" fill="#fff"/>
-      <path id="path574" d="m460 220h490l25 30-25 30h-490l30-30-30-30z" stroke="#c00" fill="#c00"/>
-      <path id="path575" d="m490 230h450l20 20-20 20h-450l20-20-20-20z" stroke="#ff0" fill="#ff0"/>
-    </g>
-  </g>
-  <metadata>
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="1200.0" id="svg1" viewBox="-100.0 -350.00000249999994 1200.0 1200.0" width="1200.0">
+  <svg:rect fill="#fff" fill-rule="evenodd" height="500" id="rect565" stroke-width="1pt" width="1e3" x="0" y="-.000005" />
+  <svg:g id="NFLD_flag">
+    <svg:rect fill="none" height="500" id="rect564" stroke="#000" stroke-width="1.25" width="1e3" x="0" y="0" />
+    <svg:g fill="#21219c" fill-rule="evenodd" id="past" stroke="#21219c">
+      <svg:path d="m30 50v170h310l-310-170z" id="path568" />
+      <svg:path d="m400 190v-160h-290l290 160z" id="path569" stroke-width="1pt" />
+      <svg:path d="m30 280v170l310-170h-310z" id="path570" />
+      <svg:path d="m400 310v160h-290l290-160z" id="path571" />
+    </svg:g>
+    <svg:g fill-rule="evenodd" id="future">
+      <svg:path d="m460 30v170l510-170h-510z" fill="#c00" id="path572" stroke="#c00" />
+      <svg:path d="m480 50v125l370-125h-370z" fill="#fff" id="path576" stroke="#fff" />
+      <svg:path d="m460 300v170h510l-510-170z" fill="#c00" id="path573" stroke="#d62929" />
+      <svg:path d="m480 330v120h370l-370-120z" fill="#fff" id="path577" stroke="#fff" />
+      <svg:path d="m460 220h490l25 30-25 30h-490l30-30-30-30z" fill="#c00" id="path574" stroke="#c00" />
+      <svg:path d="m490 230h450l20 20-20 20h-450l20-20-20-20z" fill="#ff0" id="path575" stroke="#ff0" />
+    </svg:g>
+  </svg:g>
+  <svg:metadata>
     <rdf:RDF>
-      <cc:Work>
+      <ns2:Work>
         <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns2:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
         <dc:publisher>
-          <cc:Agent rdf:about="http://openclipart.org/">
+          <ns2:Agent rdf:about="http://openclipart.org/">
             <dc:title>Openclipart</dc:title>
-          </cc:Agent>
+          </ns2:Agent>
         </dc:publisher>
         <dc:title>flag of newfoundland canada</dc:title>
         <dc:date>2008-02-05T00:18:51</dc:date>
         <dc:description>canada, canada, clip art, clipart, flag, flag, image, media, newfoundland, newfoundland, north america, north america, png, public domain, svg, </dc:description>
         <dc:source>http://openclipart.org/detail/12688/flag-of-newfoundland-canada-by-anonymous-12688</dc:source>
         <dc:creator>
-          <cc:Agent>
+          <ns2:Agent>
             <dc:title>Anonymous</dc:title>
-          </cc:Agent>
+          </ns2:Agent>
         </dc:creator>
         <dc:subject>
           <rdf:Bag>
@@ -53,12 +52,12 @@
             <rdf:li>svg</rdf:li>
           </rdf:Bag>
         </dc:subject>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
-        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
-        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
-        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
-      </cc:License>
+      </ns2:Work>
+      <ns2:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns2:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns2:License>
     </rdf:RDF>
-  </metadata>
-</svg>
+  </svg:metadata>
+</svg:svg>

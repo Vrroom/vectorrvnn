@@ -1,8 +1,6 @@
-<svg width="100%" height="100%" viewBox="500 0 500 700"
-     xmlns="http://www.w3.org/2000/svg"
-     xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg:svg xmlns:ns1="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" height="840.0" viewBox="330.0 -70.0 840.0 840.0" width="840.0">
      
-  <desc><![CDATA[
+  <svg:desc>
     Animated Halloween Card
     
     Animated card links to many openclipart images which are referenced in the remix tags for this image
@@ -10,10 +8,10 @@
     
     written by Jay Nick
     STEAMcoded.org
-  ]]>
-  </desc>
+  
+  </svg:desc>
      
-  <style type="text/css"><![CDATA[
+  <svg:style type="text/css">
      @import 'https://fonts.googleapis.com/css?family=Kalam';
     .t1 {font-family:'Kalam',cursive;font-size:50px;text-anchor:middle;fill:#eb4b9b;stroke:none;}
     .t2 {font-family:'Kalam',cursive;font-size:30px;text-anchor:middle;fill:orange;stroke:none;stroke-width:0.5px;;}
@@ -23,61 +21,61 @@
     
     .show {visibility:visible;}
     .hide {visibility:hidden;}
-  ]]>
-  </style>
   
-  <defs>
-    <clipPath id="cp1">
-      <rect x="0" y="0" width="500" height="700" />
-    </clipPath>
-  </defs>
+  </svg:style>
+  
+  <svg:defs>
+    <svg:clipPath id="cp1">
+      <svg:rect height="700" width="500" x="0" y="0" />
+    </svg:clipPath>
+  </svg:defs>
 
-  <animate attributeName="viewBox" values="500 0 500 700;0 0 1000 700;" begin="3s" dur="1s" fill="freeze" />
+  <svg:animate attributeName="viewBox" begin="3s" dur="1s" fill="freeze" values="500 0 500 700;0 0 1000 700;" />
 
-  <g id="insideRight">     
-    <rect x="500" y="0" width="500" height="700" class="c2" />
+  <svg:g id="insideRight">     
+    <svg:rect class="c2" height="700" width="500" x="500" y="0" />
 
-    <image id="insideRightImage" x="607" y="10" width="285" height="320" xlink:href="https://openclipart.org/download/77035/haunted-house.svg" />
-    <g transform="translate(0,50)">
-      <image x="540" y="140" width="250" height="350" xlink:href="https://openclipart.org/download/47167/witch.svg" />
-      <image x="800" y="250" width="178" height="250" xlink:href="https://openclipart.org/download/189101/trick-or-treat.svg" />
-    </g>
+    <svg:image height="320" id="insideRightImage" width="285" x="607" y="10" ns1:href="https://openclipart.org/download/77035/haunted-house.svg" />
+    <svg:g transform="translate(0,50)">
+      <svg:image height="350" width="250" x="540" y="140" ns1:href="https://openclipart.org/download/47167/witch.svg" />
+      <svg:image height="250" width="178" x="800" y="250" ns1:href="https://openclipart.org/download/189101/trick-or-treat.svg" />
+    </svg:g>
 
-    <g transform="translate(1850,0) scale(-1,1)">
-      <image x="840" y="150" width="138" height="45" xlink:href="https://openclipart.org/download/241278/Vampire-Bat.svg" />
-      <image x="870" y="100" width="100" height="40" xlink:href="https://openclipart.org/download/241278/Vampire-Bat.svg" />
-      <image x="870" y="50" width="75" height="30" xlink:href="https://openclipart.org/download/241278/Vampire-Bat.svg" />
-    </g>
-    <image x="500" y="150" width="138" height="45" xlink:href="https://openclipart.org/download/241278/Vampire-Bat.svg" />
-    <image x="540" y="100" width="100" height="40" xlink:href="https://openclipart.org/download/241278/Vampire-Bat.svg" />
-    <image x="520" y="50" width="75" height="30" xlink:href="https://openclipart.org/download/241278/Vampire-Bat.svg" />
+    <svg:g transform="translate(1850,0) scale(-1,1)">
+      <svg:image height="45" width="138" x="840" y="150" ns1:href="https://openclipart.org/download/241278/Vampire-Bat.svg" />
+      <svg:image height="40" width="100" x="870" y="100" ns1:href="https://openclipart.org/download/241278/Vampire-Bat.svg" />
+      <svg:image height="30" width="75" x="870" y="50" ns1:href="https://openclipart.org/download/241278/Vampire-Bat.svg" />
+    </svg:g>
+    <svg:image height="45" width="138" x="500" y="150" ns1:href="https://openclipart.org/download/241278/Vampire-Bat.svg" />
+    <svg:image height="40" width="100" x="540" y="100" ns1:href="https://openclipart.org/download/241278/Vampire-Bat.svg" />
+    <svg:image height="30" width="75" x="520" y="50" ns1:href="https://openclipart.org/download/241278/Vampire-Bat.svg" />
 
-    <g transform="translate(750,100)" class="t2">
-      <text x="13" y="-34">Trick or Treat!</text>
-      <text x="0" y="480">Hope you have fun today!</text>
-      <text x="230" y="540" style="text-anchor:end;fill:#ccc;">- Grandma &amp; Grandpa</text>
-    </g>
-  </g>
+    <svg:g class="t2" transform="translate(750,100)">
+      <svg:text x="13" y="-34">Trick or Treat!</svg:text>
+      <svg:text x="0" y="480">Hope you have fun today!</svg:text>
+      <svg:text style="text-anchor:end;fill:#ccc;" x="230" y="540">- Grandma &amp; Grandpa</svg:text>
+    </svg:g>
+  </svg:g>
       
 
-  <g id="coverPage" transform="translate(500,0)" class="c1">
-    <animate attributeName="class" values="c1;c2;" begin="3s" dur="1s" calcMode="discrete" fill="freeze" />
-    <g id="openCardAnimation">
-      <animateTransform attributeType="XML" attributeName="transform" type="scale" values="1,1;-1,1;" dur="1s" begin="3s" fill="freeze" />
-      <rect x="0" y="0" width="500" height="700" style="fill:black;" />
-      <g id="coverFront" class="show">
-        <animate attributeName="class" values="show;hide;" begin="3s" dur="1s" calcMode="discrete" fill="freeze" />
-        <image id="coverImage" style="clip-path:url(#cp1);" x="-183.9" y="0" width="867.8" height="700" xlink:href="https://openclipart.org/download/227118/Halloween-Background.svg" />
-      </g>
+  <svg:g class="c1" id="coverPage" transform="translate(500,0)">
+    <svg:animate attributeName="class" begin="3s" calcMode="discrete" dur="1s" fill="freeze" values="c1;c2;" />
+    <svg:g id="openCardAnimation">
+      <svg:animateTransform attributeName="transform" attributeType="XML" begin="3s" dur="1s" fill="freeze" type="scale" values="1,1;-1,1;" />
+      <svg:rect height="700" style="fill:black;" width="500" x="0" y="0" />
+      <svg:g class="show" id="coverFront">
+        <svg:animate attributeName="class" begin="3s" calcMode="discrete" dur="1s" fill="freeze" values="show;hide;" />
+        <svg:image height="700" id="coverImage" style="clip-path:url(#cp1);" width="867.8" x="-183.9" y="0" ns1:href="https://openclipart.org/download/227118/Halloween-Background.svg" />
+      </svg:g>
 
-      <g id="coverBack" transform="translate(500,0) scale(-1,1)" class="hide" style="fill:red;">
-        <rect x="0" y="0" width="500" height="700" style="fill:black;" />
-        <animate attributeName="class" values="hide;show;" begin="3s" dur="1s" fill="freeze" />
-        <image id="insideLeftImage" x="0" y="17" width="500" height="666" xlink:href="https://openclipart.org/download/263549/skeleton-1.svg" />
-        <image x="350" y="30" width="148" height="100" xlink:href="https://openclipart.org/download/228101/Flying-Witch.svg" />
-        <image x="270" y="510" width="154.5" height="165" xlink:href="https://openclipart.org/download/202024/citrouille.svg" />
-      </g>
-    </g>
-  </g>
+      <svg:g class="hide" id="coverBack" style="fill:red;" transform="translate(500,0) scale(-1,1)">
+        <svg:rect height="700" style="fill:black;" width="500" x="0" y="0" />
+        <svg:animate attributeName="class" begin="3s" dur="1s" fill="freeze" values="hide;show;" />
+        <svg:image height="666" id="insideLeftImage" width="500" x="0" y="17" ns1:href="https://openclipart.org/download/263549/skeleton-1.svg" />
+        <svg:image height="100" width="148" x="350" y="30" ns1:href="https://openclipart.org/download/228101/Flying-Witch.svg" />
+        <svg:image height="165" width="154.5" x="270" y="510" ns1:href="https://openclipart.org/download/202024/citrouille.svg" />
+      </svg:g>
+    </svg:g>
+  </svg:g>
 
-</svg>
+</svg:svg>

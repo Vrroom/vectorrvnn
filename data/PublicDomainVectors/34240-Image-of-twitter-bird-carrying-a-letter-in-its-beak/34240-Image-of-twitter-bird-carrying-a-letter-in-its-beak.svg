@@ -1,137 +1,136 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:cc="http://creativecommons.org/ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" id="svg2" sodipodi:docname="_svgclean2.svg" viewBox="0 0 872.37 668.7" version="1.1" inkscape:version="0.48.3.1 r9886">
-  <sodipodi:namedview id="namedview140" bordercolor="#666666" inkscape:pageshadow="2" guidetolerance="10" pagecolor="#ffffff" gridtolerance="10" inkscape:window-maximized="0" inkscape:zoom="0.22425739" objecttolerance="10" borderopacity="1" inkscape:current-layer="svg2" inkscape:cx="341.42004" inkscape:cy="152.93239" inkscape:window-y="0" inkscape:window-x="0" inkscape:window-width="743" showgrid="false" inkscape:pageopacity="0" inkscape:window-height="484"/>
-  <title id="title4">A Twitterbird</title>
-  <desc id="desc6">made with Inkscape by Andreas Fritsch, http://www.batik-gbr.de</desc>
-  <defs id="defs8">
-    <radialGradient id="rGstrokeenvelope" gradientUnits="userSpaceOnUse" cy="200" cx="330" gradientTransform="matrix(1 0 0 .6655 0 67.96)" r="110">
-      <stop id="stop11" stop-color="#000080" offset="0"/>
-      <stop id="stop13" stop-color="#e4e4ff" offset="1"/>
-    </radialGradient>
-    <linearGradient id="linearGradient3948" x1="34" gradientUnits="userSpaceOnUse" y1="380" gradientTransform="translate(-1.01,1.515)" x2="190" y2="380">
-      <stop id="stop16" stop-color="#fafaff" offset="0"/>
-      <stop id="stop18" stop-color="#fcfcff" offset="1"/>
-    </linearGradient>
-    <filter id="filter3954" color-interpolation-filters="sRGB">
-      <feGaussianBlur id="feGaussianBlur17" stdDeviation="1.197"/>
-    </filter>
-    <radialGradient id="radialGradient3972" gradientUnits="userSpaceOnUse" cy="310" cx="200" gradientTransform="matrix(1 0 0 .49 .5051 158.6)" r="88">
-      <stop id="stop23" stop-color="#00F" offset="0"/>
-      <stop id="stop25" stop-color="#f7f7ff" offset="1"/>
-    </radialGradient>
-    <linearGradient id="linearGradient3980" x1="110" gradientUnits="userSpaceOnUse" y1="310" gradientTransform="translate(.5051 -1.515)" x2="290" y2="310">
-      <stop id="stop28" stop-color="#f4f4ff" offset="0"/>
-      <stop id="stop30" stop-color="#f7f7ff" offset="1"/>
-    </linearGradient>
-    <radialGradient id="radialGradient3988" gradientUnits="userSpaceOnUse" cy="380" cx="110" gradientTransform="matrix(1 0 0 .5822 0 159.5)" r="80">
-      <stop id="stop33" stop-color="#000080" offset="0"/>
-      <stop id="stop35" stop-color="#000080" stop-opacity="0" offset="1"/>
-    </radialGradient>
-    <radialGradient id="radialGradient4082" gradientUnits="userSpaceOnUse" cy="450" cx="360" gradientTransform="matrix(1.328 -.1818 0 .5182 -155.33 224.09)" r="260">
-      <stop id="stop38" stop-color="#5b5bff" offset="0"/>
-      <stop id="stop40" stop-color="#0000c5" offset="1"/>
-    </radialGradient>
-    <filter id="fblur1" color-interpolation-filters="sRGB">
-      <feGaussianBlur id="feGaussianBlur38" stdDeviation="1"/>
-    </filter>
-    <filter id="fblur3" color-interpolation-filters="sRGB">
-      <feGaussianBlur id="feGaussianBlur45" stdDeviation="3"/>
-    </filter>
-    <filter id="fsprings" color-interpolation-filters="sRGB">
-      <feTurbulence id="feTurbulence48" numOctaves="5" type="fractalNoise" result="result7" baseFrequency="0.04"/>
-      <feColorMatrix id="feColorMatrix50" values="0" type="luminanceToAlpha" result="result8"/>
-      <feColorMatrix id="feColorMatrix52" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 20 -12 " type="matrix" result="result6"/>
-      <feGaussianBlur id="feGaussianBlur54" stdDeviation="2" result="result5" in="result6"/>
-      <feColorMatrix id="feColorMatrix56" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 10 -0.1 " type="matrix" result="result0" in="result5"/>
-      <feComposite id="feComposite58" k4="0" in2="SourceGraphic" k3="0" k2="1" k1="0.8" result="result3" in="result0" operator="arithmetic"/>
-      <feComposite id="feComposite60" operator="xor" result="result9" in2="result8"/>
-      <feBlend id="feBlend62" result="result9" in2="SourceGraphic" mode="normal"/>
-      <feComposite id="feComposite64" operator="atop" result="result2" in2="SourceGraphic" in="result9"/>
-    </filter>
-    <filter id="fblur20" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-      <feGaussianBlur id="feGaussianBlur72" stdDeviation="20"/>
-    </filter>
-    <radialGradient id="rGhighlight">
-      <stop id="stop75" stop-color="#FFF" offset="0"/>
-      <stop id="stop77" stop-color="#FFF" stop-opacity=".7" offset="1"/>
-    </radialGradient>
-    <radialGradient id="rGhead" gradientUnits="userSpaceOnUse" cy="240" cx="240" gradientTransform="matrix(1.405 -.2995 .276 1.295 -183.73 -7.4019)" r="150">
-      <stop id="stop87" stop-color="#7373ff" offset="0"/>
-      <stop id="stop89" stop-color="#22F" offset=".53"/>
-      <stop id="stop91" stop-color="#000058" offset="1"/>
-    </radialGradient>
-    <radialGradient id="rGbeaktop" gradientUnits="userSpaceOnUse" cy="280" cx="220" gradientTransform="matrix(-.2135 -.2307 .8952 -.8284 -33.74 575.79)" r="63">
-      <stop id="stop94" stop-color="#ffd275" offset="0"/>
-      <stop id="stop96" stop-color="#ffa800" offset="1"/>
-    </radialGradient>
-    <radialGradient id="rGbeakbottom" gradientUnits="userSpaceOnUse" cy="370" cx="200" gradientTransform="matrix(.9236 -.7039 .1713 .2245 -70.737 376.79)" r="68">
-      <stop id="stop99" stop-color="#ff7300" offset="0"/>
-      <stop id="stop101" stop-color="#ffa800" offset="1"/>
-    </radialGradient>
-    <radialGradient id="radialGradient3119" gradientUnits="userSpaceOnUse" cy="240" cx="480" gradientTransform="matrix(1.294 -.2092 .1129 .7044 -214.43 268.19)" r="99" inkscape:collect="always">
-      <stop id="stop67" stop-color="#5050ff" offset="0"/>
-      <stop id="stop69" stop-color="#000084" offset="1"/>
-    </radialGradient>
-    <radialGradient id="radialGradient3121" gradientUnits="userSpaceOnUse" cy="210" cx="310" gradientTransform="matrix(.9486 .3164 -.3794 1.137 75.9 -117.9)" r="31" inkscape:collect="always">
-      <stop id="stop80" stop-color="#FFF" offset="0"/>
-      <stop id="stop82" stop-color="#fdfdfd" offset=".76"/>
-      <stop id="stop84" stop-color="#cecece" offset="1"/>
-    </radialGradient>
-    <radialGradient id="radialGradient3123" gradientUnits="userSpaceOnUse" cy="220" cx="380" gradientTransform="matrix(1.305 .5795 -.6973 1.449 -52.92 -315.3)" r="13" inkscape:collect="always">
-      <stop id="stop104" stop-color="#00007a" offset="0"/>
-      <stop id="stop106" stop-color="#00003a" offset="1"/>
-    </radialGradient>
-    <radialGradient id="radialGradient3125" xlink:href="#rGhighlight" gradientUnits="userSpaceOnUse" cy="369.04" cx="498.39" gradientTransform="matrix(1.0618 0 0 .94180 -30.627 -10.41)" r="352.05" inkscape:collect="always"/>
-    <radialGradient id="radialGradient3127" xlink:href="#rGhighlight" gradientUnits="userSpaceOnUse" cy="472.85" cx="348.95" gradientTransform="matrix(1.4329 0 0 .69789 -30.627 -10.41)" r="96.309" inkscape:collect="always"/>
-  </defs>
-  <use id="footR" style="opacity:.7;filter:url(#fblur1)" xlink:href="#gfootL" transform="matrix(.935 .152 -.1508 .9428 24.469 -49.57)" height="1052.3622" width="744.09448" y="0" x="0"/>
-  <g id="gfootL" transform="matrix(.8433 0 0 .954 54.823 11.62)">
-    <path id="footbg" style="fill:#ff7c10" inkscape:connector-curvature="0" d="m480 480c-44 18-100 23-150 12-30 5-49 23-48 31 0.8 5.3 34-10 52-10-20 10-51 25-48 31 2.8 7.3 25-3 54-14 2.6-1.1 60-22 10 4.4-4.6 5.3-4.6 20-4.6 20 0.9 2.4 30-2.6 55-23 14-7.9 26-14 33-21 10 3.4 29-8.2 47-5.5 31 4.6 54 12 54 4.1 0-7.8-28-27-59-27z"/>
-    <path id="footstripes" style="opacity:.5;stroke:#cc5000;stroke-width:.87450px;fill:#e15b00" inkscape:connector-curvature="0" d="m500 490c-1.7-0.1-4.7 1-11 5l13-3.1s0.3-1.9-1.8-1.9zm9.8 5.2c-1.6 0-4.6 1-11 5l12-3.1s0.4-1.8-1.7-1.9zm6.8 4.7c-1.6 0-4.6 1-11 5l12-3.1s0.4-1.8-1.7-1.9zm-200 1.7c-2.1 0.1-1.7 1.9-1.7 1.9l13 3.1c-5.9-4-8.9-5-11-5zm-9.9 6c-2 0.1-1.7 2-1.7 2l13 3.1c-5.8-4-8.9-5.1-11-5.1zm29 8.1c-2 0.1-1.7 2-1.7 2l13 3.1c-5.8-4-8.9-5.1-11-5.1zm43 2.8c-2.1 0-1.7 1.9-1.7 1.9l12 3.1c-5.8-4-8.8-5.1-11-5zm-53 2.4c-2.1 0.1-1.7 2-1.7 2l12 3.1c-5.8-4-8.9-5.1-11-5.1zm46 3.6c-1.7 0.3-1.3 2-1.3 2l12 3c-5.8-4-8.8-5.1-11-5h-8zm-56 3.3c-2.1 0-1.7 2-1.7 2l13 3.1c-5.9-4-8.9-5.1-11-5.1zm48 0.1c-1.7 0.3-1.3 2-1.3 2l13 3.1c-5.9-4-8.9-5.2-11-5.1h-0.4z"/>
-    <path id="foothighlight" style="opacity:.5;filter:url(#fblur3);fill:#ffffff" inkscape:connector-curvature="0" d="m510 490c-2.6 0-4.2 1-4.2 2.9 0 3.7 6.5 9.7 14 13 7.9 3.6 14 3.5 14-0.3 0-3.7-6.5-9.8-14-13-4-1.8-7.6-2.7-10-2.6zm-140 2.3c-6 0-23 3.9-42 9.9-24 7.5-43 15-42 18 0.7 2.4 21-1.8 45-9.3 24-7.4 43-15 42-18-0.2-0.4-1-0.6-2.4-0.6zm65 11h-0.5c-5 0.4-23 8.5-43 20-23 13-41 25-40 27 1.2 2.1 21-6.6 45-20 23-13 41-25 40-27-0.2-0.2-0.4-0.3-0.8-0.3zm-60 10h-0.9c-6 0.5-22 5.6-41 13-23 9.2-42 19-41 21 0.9 2.3 20-3.4 44-13 23-9.3 42-19 41-21-0.1-0.3-0.6-0.5-1.5-0.5z"/>
-  </g>
-  <path id="body" style="filter:url(#fsprings);fill:url(#radialGradient4082)" inkscape:connector-curvature="0" d="m549.37 109.59c-0.4 0-0.8 0-1.2 0.2-5.3 2.2-3.6 19 3.3 40-20-17-39-25-47-18-10 8.9 39 32 25 64-16 53-100 48-140 40-99 57-27 78-190 97 57 250 340 170 400 0.4 23-37 23-85 5-130 14-21 66-32 58-39-6-5.4-31-4.9-56 2.2 9.6-25 12-46 6.5-48-6.2-2.5-20 16-30 42l-0.1 0.1c-1-3-2.2-6.1-3.5-9.2-9.6-24-22-42-29-42z"/>
-  <path id="wing" style="filter:url(#fsprings);fill:url(#radialGradient3119)" inkscape:connector-curvature="0" d="m469.37 289.59c-35 5-80-10-95-1.3 0 0-14 17-11 25 22 24 58 46 83 60 45 24 86 34 94 20 2.7-5 0-12-6.9-21 14-1.4 23-5.3 24-12 2-8.2-8.8-18-27-28 19-4.9 31-12 31-20 0-15-42-30-92-23z"/>
-  <path id="head" style="filter:url(#fsprings);fill:url(#rGhead)" inkscape:connector-curvature="0" d="m249.37 31.59c-0.7 0-1.2 0-1.8 0.22-8.4 2.7-8.5 26-0.7 54-10-6-20-13-30-18-30-12-60-15-60-6-3.2 7.8 13 22 38 34-9-3.7-20-7.1-33-9.4-32-6-58-3.3-60 6-1.5 8.3 17 19 44 26-2.2 0.7-4.4 1.4-6.7 2.2-30 11-52 27-49 36 2.8 7.7 23 7.4 48 0.3-0.8 1.2-1.7 2.5-2.5 3.9-39 61-18 140 46 170 64 35 150 13 190-48 39-61 18-140-46-170-10-5.5-21-9.6-32-12-1.1-5.4-2.7-11-4.5-17-9.2-29-23-50-32-50zm-53 66c1.4 0.6 2.7 1.2 4.1 1.8 2.4 0.9 4.7 1.8 7.1 2.6-0.8 0.3-1.5 0.5-2.3 0.8-2.4-1.8-5.4-3.5-8.9-5.2z"/>
-  <path id="beakbottom" style="fill:url(#rGbeakbottom)" inkscape:connector-curvature="0" d="m239.37 259.59c-50 30-80 80-130 90 50-10 90-30 130-50 6.8-8 6.7-25-1.1-34z"/>
-  <g id="genvelope" style="opacity:.9" transform="translate(-30.627 -10.41)">
-    <path id="base" d="m250 160 180-32c3.6-0.7 7.8 3.2 6.6 6.6-13 36-32 73-34 110-0.2 3.7-3.1 5.8-6.6 6.6-51 12-100 21-160 13-3.7-0.4-7.8-3.1-6.6-6.6 9.1-27 16-58 19-93 0.4-3.6 3-5.9 6.6-6.6z" style="stroke:url(#rGstrokeenvelope);fill:#ffffff" inkscape:connector-curvature="0" transform="matrix(.8402 .5422 -.5939 .8046 0 0)"/>
-    <path id="envelopebottom" style="filter:url(#filter3954);stroke:url(#radialGradient3988);stroke-width:1px;fill:url(#linearGradient3948)" inkscape:connector-curvature="0" d="m34 340c4.6-0.5 130-2.5 130-2.5l28 84-2.5 2.5"/>
-    <path id="envelopetop" style="stroke:url(#radialGradient3972);stroke-width:1px;fill:url(#linearGradient3980)" inkscape:connector-curvature="0" d="m110 270 11 85 160-9.6"/>
-  </g>
-  <path id="beaktop" style="fill:url(#rGbeaktop)" inkscape:connector-curvature="0" d="m239.37 269.59c-44 29-70 77-130 85 9.7-31 36-87 56-100 20-19 84-1.1 74 15z"/>
-  <g id="eyeL" transform="translate(-30.627 -10.41)">
-    <path id="eyebg" style="fill:url(#radialGradient3121)" inkscape:connector-curvature="0" d="m320 230a30.516 37.637 18 1 1 -58 -19 30.516 37.637 18 0 1 58 19z"/>
-    <path id="iris" style="fill:url(#radialGradient3123)" inkscape:connector-curvature="0" d="m300 230a19 21 33 0 1 -34 -15 19 21 33 1 1 34 15z"/>
-    <path id="pupill" style="stroke:#0000ad;stroke-width:0.6" inkscape:connector-curvature="0" d="m290 220a9 10 0 1 1 -18 0 9 10 0 1 1 18 0z"/>
-  </g>
-  <g id="eyeR" transform="translate(-30.627 -10.41)">
-    <use id="use127" xlink:href="#eyebg" transform="matrix(.8492 -.3845 .4075 .8012 -121.1 147)" height="1052.3622" width="744.09448" y="0" x="0"/>
-    <use id="use129" xlink:href="#iris" transform="matrix(.8041 -.4613 .4613 .8041 -121.2 167.4)" height="1052.3622" width="744.09448" y="0" x="0"/>
-    <use id="use131" xlink:href="#pupill" transform="matrix(.9262 0 0 .9262 -53.83 9.38)" height="1052.3622" width="744.09448" y="0" x="0"/>
-  </g>
-  <path id="eyehighlight" inkscape:connector-curvature="0" style="opacity:.9;filter:url(#fblur1);fill:#ffffff" transform="matrix(.3934 .6432 -.6593 .3838 260.57 -114.01)" d="m380 210a14 17 0 1 1 -28 0 14 17 0 1 1 28 0z"/>
-  <use id="use3845" xlink:href="#eyehighlight" transform="translate(-77.28,-8.081)" height="1052.3622" width="744.09448" y="0" x="0"/>
-  <path id="highlight" style="opacity:.7;filter:url(#fblur20);fill:url(#radialGradient3125)" inkscape:connector-curvature="0" d="m269.37 53.59c-0.6 0-1.1 0-1.5 0.16-6.9 2.3-7 22-0.6 46-7-5.4-17-11-28-16-1.7-0.71-3.2-1.3-4.8-2 2.5 5.6 4.9 12 7.1 19 1.5 4.9 2.8 9.8 3.7 14 9 2.3 18 5.7 26 10 53 29 70 95 38 150-15 24-14 39-39 47 45 7.1 69-11 94-51 32-52 15-120-38-150-8.4-4.6-17-8.1-26-10-1-4.6-2.3-9.4-3.8-14-7.5-24-19-42-26-43zm290 67c-0.1 0-0.2 0-0.3 0.1-3 0.8-1.8 14 2.8 29s11 27 14 26c3-0.8 1.8-14-2.8-29-4.5-15-10-26-14-26zm48 4.9c-3.2 0.3-9.2 11-14 25-5.1 15-6.8 28-3.8 29 2.9 1.1 9.4-10 14-25 5.1-15 6.7-28 3.8-29-0.2 0-0.4-0.1-0.6 0zm-83 11c-0.2 0-0.4 0.1-0.6 0.2-2.7 1.6 2.1 14 11 27 4.7 7.3 9.6 13 14 17 33 59 20 140-37 200-63 64-160 76-220 29 4.2 5.9 9.2 12 14 17 59 58 160 49 230-19 65-67 73-170 19-220-0.2-4.4-4.6-14-11-25-8.1-12-17-21-20-21zm120 25c-5.6-0.2-16 2.9-28 8.3-15 7.1-25 16-23 19 2.3 3.2 16 0.1 31-7 15-7.2 25-16 23-19-0.6-0.8-1.9-1.2-3.8-1.2zm-410 110c-11-0.1-29 7.8-43 20-17 14-24 29-14 33 9.4 3.8 31-4.7 48-19s24-29 14-33c-1.4-0.6-3.2-0.8-5.2-0.8zm590 330a90 19.213 0 0 1 -180 0 90 19.213 0 1 1 180 0z"/>
-  <use id="wingtop" style="opacity:.3" xlink:href="#wing" transform="translate(2 -1)" height="1052.3622" width="744.09448" y="0" x="0"/>
-  <path id="highlightwing" style="opacity:.7;filter:url(#fblur20);fill:url(#radialGradient3127)" inkscape:connector-curvature="0" d="m559.37 319.59a90 19.213 0 0 1 -180 0 90 19.213 0 1 1 180 0z"/>
-  <metadata id="metadata138">
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:ns2="http://www.inkscape.org/namespaces/inkscape" xmlns:ns3="http://www.w3.org/1999/xlink" xmlns:ns5="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="985.1963999999999" id="svg2" version="1.1" viewBox="-78.72669999999998 -166.45169999999996 985.1963999999998 985.1963999999999" width="985.1963999999998" ns1:docname="_svgclean2.svg" ns2:version="0.48.3.1 r9886">
+  <ns1:namedview bordercolor="#666666" borderopacity="1" gridtolerance="10" guidetolerance="10" id="namedview140" objecttolerance="10" pagecolor="#ffffff" showgrid="false" ns2:current-layer="svg2" ns2:cx="341.42004" ns2:cy="152.93239" ns2:pageopacity="0" ns2:pageshadow="2" ns2:window-height="484" ns2:window-maximized="0" ns2:window-width="743" ns2:window-x="0" ns2:window-y="0" ns2:zoom="0.22425739" />
+  <svg:title id="title4">A Twitterbird</svg:title>
+  <svg:desc id="desc6">made with Inkscape by Andreas Fritsch, http://www.batik-gbr.de</svg:desc>
+  <svg:defs id="defs8">
+    <svg:radialGradient cx="330" cy="200" gradientTransform="matrix(1 0 0 .6655 0 67.96)" gradientUnits="userSpaceOnUse" id="rGstrokeenvelope" r="110">
+      <svg:stop id="stop11" offset="0" stop-color="#000080" />
+      <svg:stop id="stop13" offset="1" stop-color="#e4e4ff" />
+    </svg:radialGradient>
+    <svg:linearGradient gradientTransform="translate(-1.01,1.515)" gradientUnits="userSpaceOnUse" id="linearGradient3948" x1="34" x2="190" y1="380" y2="380">
+      <svg:stop id="stop16" offset="0" stop-color="#fafaff" />
+      <svg:stop id="stop18" offset="1" stop-color="#fcfcff" />
+    </svg:linearGradient>
+    <svg:filter color-interpolation-filters="sRGB" id="filter3954">
+      <svg:feGaussianBlur id="feGaussianBlur17" stdDeviation="1.197" />
+    </svg:filter>
+    <svg:radialGradient cx="200" cy="310" gradientTransform="matrix(1 0 0 .49 .5051 158.6)" gradientUnits="userSpaceOnUse" id="radialGradient3972" r="88">
+      <svg:stop id="stop23" offset="0" stop-color="#00F" />
+      <svg:stop id="stop25" offset="1" stop-color="#f7f7ff" />
+    </svg:radialGradient>
+    <svg:linearGradient gradientTransform="translate(.5051 -1.515)" gradientUnits="userSpaceOnUse" id="linearGradient3980" x1="110" x2="290" y1="310" y2="310">
+      <svg:stop id="stop28" offset="0" stop-color="#f4f4ff" />
+      <svg:stop id="stop30" offset="1" stop-color="#f7f7ff" />
+    </svg:linearGradient>
+    <svg:radialGradient cx="110" cy="380" gradientTransform="matrix(1 0 0 .5822 0 159.5)" gradientUnits="userSpaceOnUse" id="radialGradient3988" r="80">
+      <svg:stop id="stop33" offset="0" stop-color="#000080" />
+      <svg:stop id="stop35" offset="1" stop-color="#000080" stop-opacity="0" />
+    </svg:radialGradient>
+    <svg:radialGradient cx="360" cy="450" gradientTransform="matrix(1.328 -.1818 0 .5182 -155.33 224.09)" gradientUnits="userSpaceOnUse" id="radialGradient4082" r="260">
+      <svg:stop id="stop38" offset="0" stop-color="#5b5bff" />
+      <svg:stop id="stop40" offset="1" stop-color="#0000c5" />
+    </svg:radialGradient>
+    <svg:filter color-interpolation-filters="sRGB" id="fblur1">
+      <svg:feGaussianBlur id="feGaussianBlur38" stdDeviation="1" />
+    </svg:filter>
+    <svg:filter color-interpolation-filters="sRGB" id="fblur3">
+      <svg:feGaussianBlur id="feGaussianBlur45" stdDeviation="3" />
+    </svg:filter>
+    <svg:filter color-interpolation-filters="sRGB" id="fsprings">
+      <svg:feTurbulence baseFrequency="0.04" id="feTurbulence48" numOctaves="5" result="result7" type="fractalNoise" />
+      <svg:feColorMatrix id="feColorMatrix50" result="result8" type="luminanceToAlpha" values="0" />
+      <svg:feColorMatrix id="feColorMatrix52" result="result6" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 20 -12 " />
+      <svg:feGaussianBlur id="feGaussianBlur54" in="result6" result="result5" stdDeviation="2" />
+      <svg:feColorMatrix id="feColorMatrix56" in="result5" result="result0" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 10 -0.1 " />
+      <svg:feComposite id="feComposite58" in="result0" in2="SourceGraphic" k1="0.8" k2="1" k3="0" k4="0" operator="arithmetic" result="result3" />
+      <svg:feComposite id="feComposite60" in2="result8" operator="xor" result="result9" />
+      <svg:feBlend id="feBlend62" in2="SourceGraphic" mode="normal" result="result9" />
+      <svg:feComposite id="feComposite64" in="result9" in2="SourceGraphic" operator="atop" result="result2" />
+    </svg:filter>
+    <svg:filter color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse" id="fblur20">
+      <svg:feGaussianBlur id="feGaussianBlur72" stdDeviation="20" />
+    </svg:filter>
+    <svg:radialGradient id="rGhighlight">
+      <svg:stop id="stop75" offset="0" stop-color="#FFF" />
+      <svg:stop id="stop77" offset="1" stop-color="#FFF" stop-opacity=".7" />
+    </svg:radialGradient>
+    <svg:radialGradient cx="240" cy="240" gradientTransform="matrix(1.405 -.2995 .276 1.295 -183.73 -7.4019)" gradientUnits="userSpaceOnUse" id="rGhead" r="150">
+      <svg:stop id="stop87" offset="0" stop-color="#7373ff" />
+      <svg:stop id="stop89" offset=".53" stop-color="#22F" />
+      <svg:stop id="stop91" offset="1" stop-color="#000058" />
+    </svg:radialGradient>
+    <svg:radialGradient cx="220" cy="280" gradientTransform="matrix(-.2135 -.2307 .8952 -.8284 -33.74 575.79)" gradientUnits="userSpaceOnUse" id="rGbeaktop" r="63">
+      <svg:stop id="stop94" offset="0" stop-color="#ffd275" />
+      <svg:stop id="stop96" offset="1" stop-color="#ffa800" />
+    </svg:radialGradient>
+    <svg:radialGradient cx="200" cy="370" gradientTransform="matrix(.9236 -.7039 .1713 .2245 -70.737 376.79)" gradientUnits="userSpaceOnUse" id="rGbeakbottom" r="68">
+      <svg:stop id="stop99" offset="0" stop-color="#ff7300" />
+      <svg:stop id="stop101" offset="1" stop-color="#ffa800" />
+    </svg:radialGradient>
+    <svg:radialGradient cx="480" cy="240" gradientTransform="matrix(1.294 -.2092 .1129 .7044 -214.43 268.19)" gradientUnits="userSpaceOnUse" id="radialGradient3119" r="99" ns2:collect="always">
+      <svg:stop id="stop67" offset="0" stop-color="#5050ff" />
+      <svg:stop id="stop69" offset="1" stop-color="#000084" />
+    </svg:radialGradient>
+    <svg:radialGradient cx="310" cy="210" gradientTransform="matrix(.9486 .3164 -.3794 1.137 75.9 -117.9)" gradientUnits="userSpaceOnUse" id="radialGradient3121" r="31" ns2:collect="always">
+      <svg:stop id="stop80" offset="0" stop-color="#FFF" />
+      <svg:stop id="stop82" offset=".76" stop-color="#fdfdfd" />
+      <svg:stop id="stop84" offset="1" stop-color="#cecece" />
+    </svg:radialGradient>
+    <svg:radialGradient cx="380" cy="220" gradientTransform="matrix(1.305 .5795 -.6973 1.449 -52.92 -315.3)" gradientUnits="userSpaceOnUse" id="radialGradient3123" r="13" ns2:collect="always">
+      <svg:stop id="stop104" offset="0" stop-color="#00007a" />
+      <svg:stop id="stop106" offset="1" stop-color="#00003a" />
+    </svg:radialGradient>
+    <svg:radialGradient cx="498.39" cy="369.04" gradientTransform="matrix(1.0618 0 0 .94180 -30.627 -10.41)" gradientUnits="userSpaceOnUse" id="radialGradient3125" r="352.05" ns2:collect="always" ns3:href="#rGhighlight" />
+    <svg:radialGradient cx="348.95" cy="472.85" gradientTransform="matrix(1.4329 0 0 .69789 -30.627 -10.41)" gradientUnits="userSpaceOnUse" id="radialGradient3127" r="96.309" ns2:collect="always" ns3:href="#rGhighlight" />
+  </svg:defs>
+  <svg:use height="1052.3622" id="footR" style="opacity:.7;filter:url(#fblur1)" transform="matrix(.935 .152 -.1508 .9428 24.469 -49.57)" width="744.09448" x="0" y="0" ns3:href="#gfootL" />
+  <svg:g id="gfootL" transform="matrix(.8433 0 0 .954 54.823 11.62)">
+    <svg:path d="m480 480c-44 18-100 23-150 12-30 5-49 23-48 31 0.8 5.3 34-10 52-10-20 10-51 25-48 31 2.8 7.3 25-3 54-14 2.6-1.1 60-22 10 4.4-4.6 5.3-4.6 20-4.6 20 0.9 2.4 30-2.6 55-23 14-7.9 26-14 33-21 10 3.4 29-8.2 47-5.5 31 4.6 54 12 54 4.1 0-7.8-28-27-59-27z" id="footbg" style="fill:#ff7c10" ns2:connector-curvature="0" />
+    <svg:path d="m500 490c-1.7-0.1-4.7 1-11 5l13-3.1s0.3-1.9-1.8-1.9zm9.8 5.2c-1.6 0-4.6 1-11 5l12-3.1s0.4-1.8-1.7-1.9zm6.8 4.7c-1.6 0-4.6 1-11 5l12-3.1s0.4-1.8-1.7-1.9zm-200 1.7c-2.1 0.1-1.7 1.9-1.7 1.9l13 3.1c-5.9-4-8.9-5-11-5zm-9.9 6c-2 0.1-1.7 2-1.7 2l13 3.1c-5.8-4-8.9-5.1-11-5.1zm29 8.1c-2 0.1-1.7 2-1.7 2l13 3.1c-5.8-4-8.9-5.1-11-5.1zm43 2.8c-2.1 0-1.7 1.9-1.7 1.9l12 3.1c-5.8-4-8.8-5.1-11-5zm-53 2.4c-2.1 0.1-1.7 2-1.7 2l12 3.1c-5.8-4-8.9-5.1-11-5.1zm46 3.6c-1.7 0.3-1.3 2-1.3 2l12 3c-5.8-4-8.8-5.1-11-5h-8zm-56 3.3c-2.1 0-1.7 2-1.7 2l13 3.1c-5.9-4-8.9-5.1-11-5.1zm48 0.1c-1.7 0.3-1.3 2-1.3 2l13 3.1c-5.9-4-8.9-5.2-11-5.1h-0.4z" id="footstripes" style="opacity:.5;stroke:#cc5000;stroke-width:.87450px;fill:#e15b00" ns2:connector-curvature="0" />
+    <svg:path d="m510 490c-2.6 0-4.2 1-4.2 2.9 0 3.7 6.5 9.7 14 13 7.9 3.6 14 3.5 14-0.3 0-3.7-6.5-9.8-14-13-4-1.8-7.6-2.7-10-2.6zm-140 2.3c-6 0-23 3.9-42 9.9-24 7.5-43 15-42 18 0.7 2.4 21-1.8 45-9.3 24-7.4 43-15 42-18-0.2-0.4-1-0.6-2.4-0.6zm65 11h-0.5c-5 0.4-23 8.5-43 20-23 13-41 25-40 27 1.2 2.1 21-6.6 45-20 23-13 41-25 40-27-0.2-0.2-0.4-0.3-0.8-0.3zm-60 10h-0.9c-6 0.5-22 5.6-41 13-23 9.2-42 19-41 21 0.9 2.3 20-3.4 44-13 23-9.3 42-19 41-21-0.1-0.3-0.6-0.5-1.5-0.5z" id="foothighlight" style="opacity:.5;filter:url(#fblur3);fill:#ffffff" ns2:connector-curvature="0" />
+  </svg:g>
+  <svg:path d="m549.37 109.59c-0.4 0-0.8 0-1.2 0.2-5.3 2.2-3.6 19 3.3 40-20-17-39-25-47-18-10 8.9 39 32 25 64-16 53-100 48-140 40-99 57-27 78-190 97 57 250 340 170 400 0.4 23-37 23-85 5-130 14-21 66-32 58-39-6-5.4-31-4.9-56 2.2 9.6-25 12-46 6.5-48-6.2-2.5-20 16-30 42l-0.1 0.1c-1-3-2.2-6.1-3.5-9.2-9.6-24-22-42-29-42z" id="body" style="filter:url(#fsprings);fill:url(#radialGradient4082)" ns2:connector-curvature="0" />
+  <svg:path d="m469.37 289.59c-35 5-80-10-95-1.3 0 0-14 17-11 25 22 24 58 46 83 60 45 24 86 34 94 20 2.7-5 0-12-6.9-21 14-1.4 23-5.3 24-12 2-8.2-8.8-18-27-28 19-4.9 31-12 31-20 0-15-42-30-92-23z" id="wing" style="filter:url(#fsprings);fill:url(#radialGradient3119)" ns2:connector-curvature="0" />
+  <svg:path d="m249.37 31.59c-0.7 0-1.2 0-1.8 0.22-8.4 2.7-8.5 26-0.7 54-10-6-20-13-30-18-30-12-60-15-60-6-3.2 7.8 13 22 38 34-9-3.7-20-7.1-33-9.4-32-6-58-3.3-60 6-1.5 8.3 17 19 44 26-2.2 0.7-4.4 1.4-6.7 2.2-30 11-52 27-49 36 2.8 7.7 23 7.4 48 0.3-0.8 1.2-1.7 2.5-2.5 3.9-39 61-18 140 46 170 64 35 150 13 190-48 39-61 18-140-46-170-10-5.5-21-9.6-32-12-1.1-5.4-2.7-11-4.5-17-9.2-29-23-50-32-50zm-53 66c1.4 0.6 2.7 1.2 4.1 1.8 2.4 0.9 4.7 1.8 7.1 2.6-0.8 0.3-1.5 0.5-2.3 0.8-2.4-1.8-5.4-3.5-8.9-5.2z" id="head" style="filter:url(#fsprings);fill:url(#rGhead)" ns2:connector-curvature="0" />
+  <svg:path d="m239.37 259.59c-50 30-80 80-130 90 50-10 90-30 130-50 6.8-8 6.7-25-1.1-34z" id="beakbottom" style="fill:url(#rGbeakbottom)" ns2:connector-curvature="0" />
+  <svg:g id="genvelope" style="opacity:.9" transform="translate(-30.627 -10.41)">
+    <svg:path d="m250 160 180-32c3.6-0.7 7.8 3.2 6.6 6.6-13 36-32 73-34 110-0.2 3.7-3.1 5.8-6.6 6.6-51 12-100 21-160 13-3.7-0.4-7.8-3.1-6.6-6.6 9.1-27 16-58 19-93 0.4-3.6 3-5.9 6.6-6.6z" id="base" style="stroke:url(#rGstrokeenvelope);fill:#ffffff" transform="matrix(.8402 .5422 -.5939 .8046 0 0)" ns2:connector-curvature="0" />
+    <svg:path d="m34 340c4.6-0.5 130-2.5 130-2.5l28 84-2.5 2.5" id="envelopebottom" style="filter:url(#filter3954);stroke:url(#radialGradient3988);stroke-width:1px;fill:url(#linearGradient3948)" ns2:connector-curvature="0" />
+    <svg:path d="m110 270 11 85 160-9.6" id="envelopetop" style="stroke:url(#radialGradient3972);stroke-width:1px;fill:url(#linearGradient3980)" ns2:connector-curvature="0" />
+  </svg:g>
+  <svg:path d="m239.37 269.59c-44 29-70 77-130 85 9.7-31 36-87 56-100 20-19 84-1.1 74 15z" id="beaktop" style="fill:url(#rGbeaktop)" ns2:connector-curvature="0" />
+  <svg:g id="eyeL" transform="translate(-30.627 -10.41)">
+    <svg:path d="m320 230a30.516 37.637 18 1 1 -58 -19 30.516 37.637 18 0 1 58 19z" id="eyebg" style="fill:url(#radialGradient3121)" ns2:connector-curvature="0" />
+    <svg:path d="m300 230a19 21 33 0 1 -34 -15 19 21 33 1 1 34 15z" id="iris" style="fill:url(#radialGradient3123)" ns2:connector-curvature="0" />
+    <svg:path d="m290 220a9 10 0 1 1 -18 0 9 10 0 1 1 18 0z" id="pupill" style="stroke:#0000ad;stroke-width:0.6" ns2:connector-curvature="0" />
+  </svg:g>
+  <svg:g id="eyeR" transform="translate(-30.627 -10.41)">
+    <svg:use height="1052.3622" id="use127" transform="matrix(.8492 -.3845 .4075 .8012 -121.1 147)" width="744.09448" x="0" y="0" ns3:href="#eyebg" />
+    <svg:use height="1052.3622" id="use129" transform="matrix(.8041 -.4613 .4613 .8041 -121.2 167.4)" width="744.09448" x="0" y="0" ns3:href="#iris" />
+    <svg:use height="1052.3622" id="use131" transform="matrix(.9262 0 0 .9262 -53.83 9.38)" width="744.09448" x="0" y="0" ns3:href="#pupill" />
+  </svg:g>
+  <svg:path d="m380 210a14 17 0 1 1 -28 0 14 17 0 1 1 28 0z" id="eyehighlight" style="opacity:.9;filter:url(#fblur1);fill:#ffffff" transform="matrix(.3934 .6432 -.6593 .3838 260.57 -114.01)" ns2:connector-curvature="0" />
+  <svg:use height="1052.3622" id="use3845" transform="translate(-77.28,-8.081)" width="744.09448" x="0" y="0" ns3:href="#eyehighlight" />
+  <svg:path d="m269.37 53.59c-0.6 0-1.1 0-1.5 0.16-6.9 2.3-7 22-0.6 46-7-5.4-17-11-28-16-1.7-0.71-3.2-1.3-4.8-2 2.5 5.6 4.9 12 7.1 19 1.5 4.9 2.8 9.8 3.7 14 9 2.3 18 5.7 26 10 53 29 70 95 38 150-15 24-14 39-39 47 45 7.1 69-11 94-51 32-52 15-120-38-150-8.4-4.6-17-8.1-26-10-1-4.6-2.3-9.4-3.8-14-7.5-24-19-42-26-43zm290 67c-0.1 0-0.2 0-0.3 0.1-3 0.8-1.8 14 2.8 29s11 27 14 26c3-0.8 1.8-14-2.8-29-4.5-15-10-26-14-26zm48 4.9c-3.2 0.3-9.2 11-14 25-5.1 15-6.8 28-3.8 29 2.9 1.1 9.4-10 14-25 5.1-15 6.7-28 3.8-29-0.2 0-0.4-0.1-0.6 0zm-83 11c-0.2 0-0.4 0.1-0.6 0.2-2.7 1.6 2.1 14 11 27 4.7 7.3 9.6 13 14 17 33 59 20 140-37 200-63 64-160 76-220 29 4.2 5.9 9.2 12 14 17 59 58 160 49 230-19 65-67 73-170 19-220-0.2-4.4-4.6-14-11-25-8.1-12-17-21-20-21zm120 25c-5.6-0.2-16 2.9-28 8.3-15 7.1-25 16-23 19 2.3 3.2 16 0.1 31-7 15-7.2 25-16 23-19-0.6-0.8-1.9-1.2-3.8-1.2zm-410 110c-11-0.1-29 7.8-43 20-17 14-24 29-14 33 9.4 3.8 31-4.7 48-19s24-29 14-33c-1.4-0.6-3.2-0.8-5.2-0.8zm590 330a90 19.213 0 0 1 -180 0 90 19.213 0 1 1 180 0z" id="highlight" style="opacity:.7;filter:url(#fblur20);fill:url(#radialGradient3125)" ns2:connector-curvature="0" />
+  <svg:use height="1052.3622" id="wingtop" style="opacity:.3" transform="translate(2 -1)" width="744.09448" x="0" y="0" ns3:href="#wing" />
+  <svg:path d="m559.37 319.59a90 19.213 0 0 1 -180 0 90 19.213 0 1 1 180 0z" id="highlightwing" style="opacity:.7;filter:url(#fblur20);fill:url(#radialGradient3127)" ns2:connector-curvature="0" />
+  <svg:metadata id="metadata138">
     <rdf:RDF>
-      <cc:Work>
+      <ns5:Work>
         <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns5:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
         <dc:publisher>
-          <cc:Agent rdf:about="http://openclipart.org/">
+          <ns5:Agent rdf:about="http://openclipart.org/">
             <dc:title>Openclipart</dc:title>
-          </cc:Agent>
+          </ns5:Agent>
         </dc:publisher>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
-        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
-        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
-        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
-      </cc:License>
+      </ns5:Work>
+      <ns5:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns5:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns5:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns5:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns5:License>
     </rdf:RDF>
-  </metadata>
-</svg>
+  </svg:metadata>
+</svg:svg>

@@ -1,552 +1,103 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-<svg
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    xmlns:ns1="http://sozi.baierouge.fr"
-    xmlns:cc="http://creativecommons.org/ns#"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    id="svg2"
-    sodipodi:docname="medicaments.svg"
-    inkscape:export-filename="/home/olivier/Images/Creations/medicaments.png"
-    viewBox="0 0 344.9 279.77"
-    inkscape:export-xdpi="330"
-    version="1.1"
-    inkscape:export-ydpi="330"
-    inkscape:version="0.48.0 r9654"
-  >
-  <title
-      id="title4076"
-    >Médicaments</title
-  >
-  <defs
-      id="defs4"
-    >
-    <linearGradient
-        id="linearGradient3693"
-      >
-      <stop
-          id="stop3695"
-          style="stop-color:#ffffff"
-          offset="0"
-      />
-      <stop
-          id="stop3697"
-          style="stop-color:#e8e8e8"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient3675"
-        inkscape:collect="always"
-      >
-      <stop
-          id="stop3677"
-          style="stop-color:#ffffff"
-          offset="0"
-      />
-      <stop
-          id="stop3679"
-          style="stop-color:#ffffff;stop-opacity:0"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <linearGradient
-        id="linearGradient3659"
-        inkscape:collect="always"
-      >
-      <stop
-          id="stop3661"
-          style="stop-color:#000000"
-          offset="0"
-      />
-      <stop
-          id="stop3663"
-          style="stop-color:#000000;stop-opacity:0"
-          offset="1"
-      />
-    </linearGradient
-    >
-    <radialGradient
-        id="radialGradient3665"
-        xlink:href="#linearGradient3659"
-        gradientUnits="userSpaceOnUse"
-        cy="333.89"
-        cx="176.52"
-        gradientTransform="matrix(1 0 0 1.2703 0 -90.241)"
-        r="9.3439"
-        inkscape:collect="always"
-    />
-    <radialGradient
-        id="radialGradient3673"
-        xlink:href="#linearGradient3675"
-        gradientUnits="userSpaceOnUse"
-        cy="333.89"
-        cx="176.52"
-        gradientTransform="matrix(1 0 0 1.2565 0 -85.657)"
-        r="9.8439"
-        inkscape:collect="always"
-    />
-    <radialGradient
-        id="radialGradient3681"
-        xlink:href="#linearGradient3675"
-        gradientUnits="userSpaceOnUse"
-        cy="163.18"
-        cx="115.16"
-        gradientTransform="matrix(1 0 0 .12179 0 143.3)"
-        r="39.396"
-        inkscape:collect="always"
-    />
-    <radialGradient
-        id="radialGradient3699"
-        xlink:href="#linearGradient3693"
-        gradientUnits="userSpaceOnUse"
-        cy="342.01"
-        cx="385.18"
-        gradientTransform="matrix(1 0 0 .37938 0 212.26)"
-        r="35.679"
-        inkscape:collect="always"
-    />
-    <linearGradient
-        id="linearGradient3707"
-        y2="341.65"
-        xlink:href="#linearGradient3693"
-        gradientUnits="userSpaceOnUse"
-        x2="419.56"
-        y1="341.65"
-        x1="344.65"
-        inkscape:collect="always"
-    />
-    <filter
-        id="filter3725"
-        inkscape:menu="Shadows and Glows"
-        color-interpolation-filters="sRGB"
-        width="1.5"
-        y="-.25"
-        x="-.25"
-        inkscape:menu-tooltip="Adds a colorizable drop shadow inside"
-        height="1.5"
-        inkscape:label="Drop shadow"
-      >
-      <feGaussianBlur
-          id="feGaussianBlur3727"
-          stdDeviation="4"
-          result="result8"
-      />
-      <feOffset
-          id="feOffset3729"
-          result="result11"
-          dx="4"
-          dy="4"
-      />
-      <feComposite
-          id="feComposite3731"
-          operator="in"
-          in="SourceGraphic"
-          in2="result11"
-          result="result6"
-      />
-      <feFlood
-          id="feFlood3733"
-          flood-color="rgb(0,0,0)"
-          in="result6"
-          result="result10"
-      />
-      <feBlend
-          id="feBlend3735"
-          result="result12"
-          in="result6"
-          in2="result10"
-          mode="normal"
-      />
-      <feComposite
-          id="feComposite3737"
-          operator="in"
-          in2="SourceGraphic"
-          result="fbSourceGraphic"
-      />
-      <feColorMatrix
-          id="feColorMatrix3935"
-          values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
-          result="fbSourceGraphicAlpha"
-          in="fbSourceGraphic"
-      />
-      <feGaussianBlur
-          id="feGaussianBlur3937"
-          result="blur"
-          stdDeviation="2,000000"
-          in="fbSourceGraphicAlpha"
-      />
-      <feColorMatrix
-          id="feColorMatrix3939"
-          values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0,500000 0 "
-          type="matrix"
-          result="bluralpha"
-      />
-      <feOffset
-          id="feOffset3941"
-          result="offsetBlur"
-          dy="6,000000"
-          dx="4,000000"
-          in="bluralpha"
-      />
-      <feMerge
-          id="feMerge3943"
-        >
-        <feMergeNode
-            id="feMergeNode3945"
-            in="offsetBlur"
-        />
-        <feMergeNode
-            id="feMergeNode3947"
-            in="fbSourceGraphic"
-        />
-      </feMerge
-      >
-    </filter
-    >
-    <filter
-        id="filter3739"
-        inkscape:menu="Shadows and Glows"
-        color-interpolation-filters="sRGB"
-        width="1.5"
-        y="-.25"
-        x="-.25"
-        inkscape:menu-tooltip="Adds a colorizable drop shadow inside"
-        height="1.5"
-        inkscape:label="Drop shadow"
-      >
-      <feGaussianBlur
-          id="feGaussianBlur3741"
-          stdDeviation="4"
-          result="result8"
-      />
-      <feOffset
-          id="feOffset3743"
-          result="result11"
-          dx="4"
-          dy="4"
-      />
-      <feComposite
-          id="feComposite3745"
-          operator="in"
-          in="SourceGraphic"
-          in2="result11"
-          result="result6"
-      />
-      <feFlood
-          id="feFlood3747"
-          flood-color="rgb(0,0,0)"
-          in="result6"
-          result="result10"
-      />
-      <feBlend
-          id="feBlend3749"
-          result="result12"
-          in="result6"
-          in2="result10"
-          mode="normal"
-      />
-      <feComposite
-          id="feComposite3751"
-          operator="in"
-          in2="SourceGraphic"
-          result="fbSourceGraphic"
-      />
-      <feColorMatrix
-          id="feColorMatrix3921"
-          values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
-          result="fbSourceGraphicAlpha"
-          in="fbSourceGraphic"
-      />
-      <feGaussianBlur
-          id="feGaussianBlur3923"
-          result="blur"
-          stdDeviation="2,000000"
-          in="fbSourceGraphicAlpha"
-      />
-      <feColorMatrix
-          id="feColorMatrix3925"
-          values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0,500000 0 "
-          type="matrix"
-          result="bluralpha"
-      />
-      <feOffset
-          id="feOffset3927"
-          result="offsetBlur"
-          dy="6,000000"
-          dx="4,000000"
-          in="bluralpha"
-      />
-      <feMerge
-          id="feMerge3929"
-        >
-        <feMergeNode
-            id="feMergeNode3931"
-            in="offsetBlur"
-        />
-        <feMergeNode
-            id="feMergeNode3933"
-            in="fbSourceGraphic"
-        />
-      </feMerge
-      >
-    </filter
-    >
-    <filter
-        id="filter4047"
-        height="1.5"
-        width="1.5"
-        color-interpolation-filters="sRGB"
-        y="-.25"
-        x="-.25"
-        inkscape:label="Drop shadow"
-      >
-      <feGaussianBlur
-          id="feGaussianBlur4049"
-          result="blur"
-          stdDeviation="2,000000"
-          in="SourceAlpha"
-      />
-      <feColorMatrix
-          id="feColorMatrix4051"
-          values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0,500000 0 "
-          type="matrix"
-          result="bluralpha"
-      />
-      <feOffset
-          id="feOffset4053"
-          result="offsetBlur"
-          dy="1,000000"
-          dx="0,000000"
-          in="bluralpha"
-      />
-      <feMerge
-          id="feMerge4055"
-        >
-        <feMergeNode
-            id="feMergeNode4057"
-            in="offsetBlur"
-        />
-        <feMergeNode
-            id="feMergeNode4059"
-            in="SourceGraphic"
-        />
-      </feMerge
-      >
-    </filter
-    >
-  </defs
-  >
-  <sodipodi:namedview
-      id="base"
-      fit-margin-left="1"
-      inkscape:showpageshadow="false"
-      inkscape:zoom="0.49497475"
-      borderopacity="1.0"
-      inkscape:current-layer="layer1"
-      inkscape:cx="61.109483"
-      inkscape:cy="-6.7643255"
-      inkscape:window-maximized="1"
-      showgrid="false"
-      fit-margin-right="1"
-      units="cm"
-      inkscape:document-units="px"
-      bordercolor="#666666"
-      inkscape:window-x="0"
-      inkscape:window-y="24"
-      fit-margin-bottom="1"
-      inkscape:window-width="1680"
-      inkscape:pageopacity="0.0"
-      inkscape:pageshadow="2"
-      pagecolor="#ffffff"
-      inkscape:window-height="970"
-      fit-margin-top="1"
-  />
-  <g
-      id="layer1"
-      inkscape:label="Calque 1"
-      inkscape:groupmode="layer"
-      transform="translate(-179.39 -8.6873)"
-    >
-    <g
-        id="g4061"
-        transform="translate(50.508 -115.16)"
-      >
-      <g
-          id="g3721"
-          style="filter:url(#filter4047)"
-        >
-        <path
-            id="path2831"
-            style="stroke-linejoin:round;color:#000000;stroke:#000000;stroke-linecap:round;fill:url(#linearGradient3707)"
-            inkscape:connector-curvature="0"
-            d="m345.18 343.5c-0.007 0.10646-0.0312 0.20542-0.0312 0.3125 0 7.1927 16.561 13.031 36.969 13.031s36.938-5.8386 36.938-13.031c0-0.10708-0.024-0.20604-0.0312-0.3125m-73.844 0h-0.0001m0.004 0.0509v-17.097h73.839v17.097"
-        />
-        <path
-            id="path2829"
-            sodipodi:rx="35.17857"
-            sodipodi:ry="13.035714"
-            style="stroke-linejoin:round;color:#000000;stroke:#000000;stroke-linecap:round;fill:url(#radialGradient3699)"
-            sodipodi:type="arc"
-            d="m420.36 342.01c0 7.1994-15.75 13.036-35.179 13.036s-35.179-5.8363-35.179-13.036c0-7.1994 15.75-13.036 35.179-13.036s35.179 5.8363 35.179 13.036z"
-            transform="matrix(1.0504 0 0 .99906 -22.454 -14.144)"
-            sodipodi:cy="342.00504"
-            sodipodi:cx="385.17856"
-        />
-      </g
-      >
-      <g
-          id="g3709"
-          style="filter:url(#filter3739)"
-        >
-        <rect
-            id="rect2816"
-            style="stroke-linejoin:round;color:#000000;stroke:#000000;stroke-linecap:round;stroke-width:.94184;fill:#008000"
-            transform="rotate(-65.73)"
-            rx="25"
-            ry="35.553"
-            height="105.06"
-            width="50.058"
-            y="271.54"
-            x="-161.61"
-        />
-        <path
-            id="path3647"
-            sodipodi:rx="39.39595"
-            sodipodi:ry="4.7982244"
-            style="opacity:.65343;color:#000000;fill:url(#radialGradient3681)"
-            sodipodi:type="arc"
-            d="m154.55 163.18c0 2.65-17.638 4.7982-39.396 4.7982s-39.396-2.1482-39.396-4.7982 17.638-4.7982 39.396-4.7982 39.396 2.1482 39.396 4.7982z"
-            transform="matrix(.90928 .41618 -.41618 .90928 196.54 55.77)"
-            sodipodi:cy="163.1754"
-            sodipodi:cx="115.15739"
-        />
-        <path
-            id="path3639"
-            style="stroke:#000000;fill:none"
-            d="m250.65 235.07c-7.268 4.1962-13.623 10.019-18.249 17.022-5.0712 7.6778-7.8662 16.843-7.8662 26.045"
-            sodipodi:nodetypes="cc"
-            inkscape:path-effect="#path-effect3641"
-            inkscape:connector-curvature="0"
-            inkscape:original-d="m 250.65301,235.07138 c -13.84322,7.99239 -26.11476,23.04334 -26.11476,43.06636"
-        />
-        <path
-            id="path3657"
-            sodipodi:rx="9.3439112"
-            sodipodi:ry="11.869292"
-            style="opacity:.65343;color:#000000;stroke:url(#radialGradient3665);fill:url(#radialGradient3673)"
-            sodipodi:type="arc"
-            d="m185.87 333.89c0 6.5552-4.1834 11.869-9.3439 11.869s-9.3439-5.3141-9.3439-11.869c0-6.5552 4.1834-11.869 9.3439-11.869s9.3439 5.3141 9.3439 11.869z"
-            transform="matrix(.84634 .17806 -.18398 .87447 191.34 -49.371)"
-            sodipodi:cy="333.89117"
-            sodipodi:cx="176.52415"
-        />
-      </g
-      >
-      <g
-          id="g3715"
-          style="filter:url(#filter3725)"
-        >
-        <rect
-            id="rect2818"
-            ry="35.553"
-            style="stroke-linejoin:round;color:#000000;stroke:#000000;stroke-linecap:round;stroke-width:.94184;fill:#aa0000"
-            rx="25"
-            transform="rotate(61.033)"
-            height="105.06"
-            width="50.058"
-            y="-259.4"
-            x="334.26"
-        />
-        <path
-            id="path3643"
-            style="stroke:#000000;fill:none"
-            d="m343.99 191.63c7.268 4.1962 13.623 10.019 18.249 17.022 5.0712 7.6778 7.8662 16.843 7.8662 26.045"
-            sodipodi:nodetypes="cc"
-            inkscape:path-effect="#path-effect3645"
-            inkscape:connector-curvature="0"
-            inkscape:original-d="m 343.98879,191.63482 c 13.84322,7.99239 26.11476,23.04334 26.11476,43.06636"
-        />
-        <path
-            id="path3683"
-            sodipodi:rx="9.3439112"
-            sodipodi:ry="11.869292"
-            style="opacity:.65343;color:#000000;stroke:url(#radialGradient3665);fill:url(#radialGradient3673)"
-            sodipodi:type="arc"
-            d="m185.87 333.89c0 6.5552-4.1834 11.869-9.3439 11.869s-9.3439-5.3141-9.3439-11.869c0-6.5552 4.1834-11.869 9.3439-11.869s9.3439 5.3141 9.3439 11.869z"
-            transform="matrix(.84634 .17806 -.18398 .87447 230.73 -92.302)"
-            sodipodi:cy="333.89117"
-            sodipodi:cx="176.52415"
-        />
-        <path
-            id="path3689"
-            sodipodi:rx="39.39595"
-            sodipodi:ry="4.7982244"
-            style="opacity:.65343;color:#000000;fill:url(#radialGradient3681)"
-            sodipodi:type="arc"
-            d="m154.55 163.18c0 2.65-17.638 4.7982-39.396 4.7982s-39.396-2.1482-39.396-4.7982 17.638-4.7982 39.396-4.7982 39.396 2.1482 39.396 4.7982z"
-            transform="matrix(-.87758 .47943 .47943 .87758 390.02 6.1821)"
-            sodipodi:cy="163.1754"
-            sodipodi:cx="115.15739"
-        />
-      </g
-      >
-    </g
-    >
-  </g
-  >
-  <metadata
-    >
-    <rdf:RDF
-      >
-      <cc:Work
-        >
-        <dc:format
-          >image/svg+xml</dc:format
-        >
-        <dc:type
-            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-        />
-        <cc:license
-            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
-        />
-        <dc:publisher
-          >
-          <cc:Agent
-              rdf:about="http://openclipart.org/"
-            >
-            <dc:title
-              >Openclipart</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:publisher
-        >
-      </cc:Work
-      >
-      <cc:License
-          rdf:about="http://creativecommons.org/licenses/publicdomain/"
-        >
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Reproduction"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Distribution"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
-        />
-      </cc:License
-      >
-    </rdf:RDF
-    >
-  </metadata
-  >
-</svg
->
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:ns2="http://www.inkscape.org/namespaces/inkscape" xmlns:ns3="http://www.w3.org/1999/xlink" xmlns:ns5="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="285.5747141132433" id="svg2" version="1.1" viewBox="28.433322729526942 -4.805533511846221 285.5747141132433 285.5747141132433" width="285.5747141132433" ns1:docname="medicaments.svg" ns2:export-filename="/home/olivier/Images/Creations/medicaments.png" ns2:export-xdpi="330" ns2:export-ydpi="330" ns2:version="0.48.0 r9654">
+  <svg:title id="title4076">M&#233;dicaments</svg:title>
+  <svg:defs id="defs4">
+    <svg:linearGradient id="linearGradient3693">
+      <svg:stop id="stop3695" offset="0" style="stop-color:#ffffff" />
+      <svg:stop id="stop3697" offset="1" style="stop-color:#e8e8e8" />
+    </svg:linearGradient>
+    <svg:linearGradient id="linearGradient3675" ns2:collect="always">
+      <svg:stop id="stop3677" offset="0" style="stop-color:#ffffff" />
+      <svg:stop id="stop3679" offset="1" style="stop-color:#ffffff;stop-opacity:0" />
+    </svg:linearGradient>
+    <svg:linearGradient id="linearGradient3659" ns2:collect="always">
+      <svg:stop id="stop3661" offset="0" style="stop-color:#000000" />
+      <svg:stop id="stop3663" offset="1" style="stop-color:#000000;stop-opacity:0" />
+    </svg:linearGradient>
+    <svg:radialGradient cx="176.52" cy="333.89" gradientTransform="matrix(1 0 0 1.2703 0 -90.241)" gradientUnits="userSpaceOnUse" id="radialGradient3665" r="9.3439" ns2:collect="always" ns3:href="#linearGradient3659" />
+    <svg:radialGradient cx="176.52" cy="333.89" gradientTransform="matrix(1 0 0 1.2565 0 -85.657)" gradientUnits="userSpaceOnUse" id="radialGradient3673" r="9.8439" ns2:collect="always" ns3:href="#linearGradient3675" />
+    <svg:radialGradient cx="115.16" cy="163.18" gradientTransform="matrix(1 0 0 .12179 0 143.3)" gradientUnits="userSpaceOnUse" id="radialGradient3681" r="39.396" ns2:collect="always" ns3:href="#linearGradient3675" />
+    <svg:radialGradient cx="385.18" cy="342.01" gradientTransform="matrix(1 0 0 .37938 0 212.26)" gradientUnits="userSpaceOnUse" id="radialGradient3699" r="35.679" ns2:collect="always" ns3:href="#linearGradient3693" />
+    <svg:linearGradient gradientUnits="userSpaceOnUse" id="linearGradient3707" x1="344.65" x2="419.56" y1="341.65" y2="341.65" ns2:collect="always" ns3:href="#linearGradient3693" />
+    <svg:filter color-interpolation-filters="sRGB" height="1.5" id="filter3725" width="1.5" x="-.25" y="-.25" ns2:label="Drop shadow" ns2:menu="Shadows and Glows" ns2:menu-tooltip="Adds a colorizable drop shadow inside">
+      <svg:feGaussianBlur id="feGaussianBlur3727" result="result8" stdDeviation="4" />
+      <svg:feOffset dx="4" dy="4" id="feOffset3729" result="result11" />
+      <svg:feComposite id="feComposite3731" in="SourceGraphic" in2="result11" operator="in" result="result6" />
+      <svg:feFlood flood-color="rgb(0,0,0)" id="feFlood3733" in="result6" result="result10" />
+      <svg:feBlend id="feBlend3735" in="result6" in2="result10" mode="normal" result="result12" />
+      <svg:feComposite id="feComposite3737" in2="SourceGraphic" operator="in" result="fbSourceGraphic" />
+      <svg:feColorMatrix id="feColorMatrix3935" in="fbSourceGraphic" result="fbSourceGraphicAlpha" values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0" />
+      <svg:feGaussianBlur id="feGaussianBlur3937" in="fbSourceGraphicAlpha" result="blur" stdDeviation="2,000000" />
+      <svg:feColorMatrix id="feColorMatrix3939" result="bluralpha" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0,500000 0 " />
+      <svg:feOffset dx="4,000000" dy="6,000000" id="feOffset3941" in="bluralpha" result="offsetBlur" />
+      <svg:feMerge id="feMerge3943">
+        <svg:feMergeNode id="feMergeNode3945" in="offsetBlur" />
+        <svg:feMergeNode id="feMergeNode3947" in="fbSourceGraphic" />
+      </svg:feMerge>
+    </svg:filter>
+    <svg:filter color-interpolation-filters="sRGB" height="1.5" id="filter3739" width="1.5" x="-.25" y="-.25" ns2:label="Drop shadow" ns2:menu="Shadows and Glows" ns2:menu-tooltip="Adds a colorizable drop shadow inside">
+      <svg:feGaussianBlur id="feGaussianBlur3741" result="result8" stdDeviation="4" />
+      <svg:feOffset dx="4" dy="4" id="feOffset3743" result="result11" />
+      <svg:feComposite id="feComposite3745" in="SourceGraphic" in2="result11" operator="in" result="result6" />
+      <svg:feFlood flood-color="rgb(0,0,0)" id="feFlood3747" in="result6" result="result10" />
+      <svg:feBlend id="feBlend3749" in="result6" in2="result10" mode="normal" result="result12" />
+      <svg:feComposite id="feComposite3751" in2="SourceGraphic" operator="in" result="fbSourceGraphic" />
+      <svg:feColorMatrix id="feColorMatrix3921" in="fbSourceGraphic" result="fbSourceGraphicAlpha" values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0" />
+      <svg:feGaussianBlur id="feGaussianBlur3923" in="fbSourceGraphicAlpha" result="blur" stdDeviation="2,000000" />
+      <svg:feColorMatrix id="feColorMatrix3925" result="bluralpha" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0,500000 0 " />
+      <svg:feOffset dx="4,000000" dy="6,000000" id="feOffset3927" in="bluralpha" result="offsetBlur" />
+      <svg:feMerge id="feMerge3929">
+        <svg:feMergeNode id="feMergeNode3931" in="offsetBlur" />
+        <svg:feMergeNode id="feMergeNode3933" in="fbSourceGraphic" />
+      </svg:feMerge>
+    </svg:filter>
+    <svg:filter color-interpolation-filters="sRGB" height="1.5" id="filter4047" width="1.5" x="-.25" y="-.25" ns2:label="Drop shadow">
+      <svg:feGaussianBlur id="feGaussianBlur4049" in="SourceAlpha" result="blur" stdDeviation="2,000000" />
+      <svg:feColorMatrix id="feColorMatrix4051" result="bluralpha" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0,500000 0 " />
+      <svg:feOffset dx="0,000000" dy="1,000000" id="feOffset4053" in="bluralpha" result="offsetBlur" />
+      <svg:feMerge id="feMerge4055">
+        <svg:feMergeNode id="feMergeNode4057" in="offsetBlur" />
+        <svg:feMergeNode id="feMergeNode4059" in="SourceGraphic" />
+      </svg:feMerge>
+    </svg:filter>
+  </svg:defs>
+  <ns1:namedview bordercolor="#666666" borderopacity="1.0" fit-margin-bottom="1" fit-margin-left="1" fit-margin-right="1" fit-margin-top="1" id="base" pagecolor="#ffffff" showgrid="false" units="cm" ns2:current-layer="layer1" ns2:cx="61.109483" ns2:cy="-6.7643255" ns2:document-units="px" ns2:pageopacity="0.0" ns2:pageshadow="2" ns2:showpageshadow="false" ns2:window-height="970" ns2:window-maximized="1" ns2:window-width="1680" ns2:window-x="0" ns2:window-y="24" ns2:zoom="0.49497475" />
+  <svg:g id="layer1" transform="translate(-179.39 -8.6873)" ns2:groupmode="layer" ns2:label="Calque 1">
+    <svg:g id="g4061" transform="translate(50.508 -115.16)">
+      <svg:g id="g3721" style="filter:url(#filter4047)">
+        <svg:path d="m345.18 343.5c-0.007 0.10646-0.0312 0.20542-0.0312 0.3125 0 7.1927 16.561 13.031 36.969 13.031s36.938-5.8386 36.938-13.031c0-0.10708-0.024-0.20604-0.0312-0.3125m-73.844 0h-0.0001m0.004 0.0509v-17.097h73.839v17.097" id="path2831" style="stroke-linejoin:round;color:#000000;stroke:#000000;stroke-linecap:round;fill:url(#linearGradient3707)" ns2:connector-curvature="0" />
+        <svg:path d="m420.36 342.01c0 7.1994-15.75 13.036-35.179 13.036s-35.179-5.8363-35.179-13.036c0-7.1994 15.75-13.036 35.179-13.036s35.179 5.8363 35.179 13.036z" id="path2829" style="stroke-linejoin:round;color:#000000;stroke:#000000;stroke-linecap:round;fill:url(#radialGradient3699)" transform="matrix(1.0504 0 0 .99906 -22.454 -14.144)" ns1:cx="385.17856" ns1:cy="342.00504" ns1:rx="35.17857" ns1:ry="13.035714" ns1:type="arc" />
+      </svg:g>
+      <svg:g id="g3709" style="filter:url(#filter3739)">
+        <svg:rect height="105.06" id="rect2816" rx="25" ry="35.553" style="stroke-linejoin:round;color:#000000;stroke:#000000;stroke-linecap:round;stroke-width:.94184;fill:#008000" transform="rotate(-65.73)" width="50.058" x="-161.61" y="271.54" />
+        <svg:path d="m154.55 163.18c0 2.65-17.638 4.7982-39.396 4.7982s-39.396-2.1482-39.396-4.7982 17.638-4.7982 39.396-4.7982 39.396 2.1482 39.396 4.7982z" id="path3647" style="opacity:.65343;color:#000000;fill:url(#radialGradient3681)" transform="matrix(.90928 .41618 -.41618 .90928 196.54 55.77)" ns1:cx="115.15739" ns1:cy="163.1754" ns1:rx="39.39595" ns1:ry="4.7982244" ns1:type="arc" />
+        <svg:path d="m250.65 235.07c-7.268 4.1962-13.623 10.019-18.249 17.022-5.0712 7.6778-7.8662 16.843-7.8662 26.045" id="path3639" style="stroke:#000000;fill:none" ns1:nodetypes="cc" ns2:connector-curvature="0" ns2:original-d="m 250.65301,235.07138 c -13.84322,7.99239 -26.11476,23.04334 -26.11476,43.06636" ns2:path-effect="#path-effect3641" />
+        <svg:path d="m185.87 333.89c0 6.5552-4.1834 11.869-9.3439 11.869s-9.3439-5.3141-9.3439-11.869c0-6.5552 4.1834-11.869 9.3439-11.869s9.3439 5.3141 9.3439 11.869z" id="path3657" style="opacity:.65343;color:#000000;stroke:url(#radialGradient3665);fill:url(#radialGradient3673)" transform="matrix(.84634 .17806 -.18398 .87447 191.34 -49.371)" ns1:cx="176.52415" ns1:cy="333.89117" ns1:rx="9.3439112" ns1:ry="11.869292" ns1:type="arc" />
+      </svg:g>
+      <svg:g id="g3715" style="filter:url(#filter3725)">
+        <svg:rect height="105.06" id="rect2818" rx="25" ry="35.553" style="stroke-linejoin:round;color:#000000;stroke:#000000;stroke-linecap:round;stroke-width:.94184;fill:#aa0000" transform="rotate(61.033)" width="50.058" x="334.26" y="-259.4" />
+        <svg:path d="m343.99 191.63c7.268 4.1962 13.623 10.019 18.249 17.022 5.0712 7.6778 7.8662 16.843 7.8662 26.045" id="path3643" style="stroke:#000000;fill:none" ns1:nodetypes="cc" ns2:connector-curvature="0" ns2:original-d="m 343.98879,191.63482 c 13.84322,7.99239 26.11476,23.04334 26.11476,43.06636" ns2:path-effect="#path-effect3645" />
+        <svg:path d="m185.87 333.89c0 6.5552-4.1834 11.869-9.3439 11.869s-9.3439-5.3141-9.3439-11.869c0-6.5552 4.1834-11.869 9.3439-11.869s9.3439 5.3141 9.3439 11.869z" id="path3683" style="opacity:.65343;color:#000000;stroke:url(#radialGradient3665);fill:url(#radialGradient3673)" transform="matrix(.84634 .17806 -.18398 .87447 230.73 -92.302)" ns1:cx="176.52415" ns1:cy="333.89117" ns1:rx="9.3439112" ns1:ry="11.869292" ns1:type="arc" />
+        <svg:path d="m154.55 163.18c0 2.65-17.638 4.7982-39.396 4.7982s-39.396-2.1482-39.396-4.7982 17.638-4.7982 39.396-4.7982 39.396 2.1482 39.396 4.7982z" id="path3689" style="opacity:.65343;color:#000000;fill:url(#radialGradient3681)" transform="matrix(-.87758 .47943 .47943 .87758 390.02 6.1821)" ns1:cx="115.15739" ns1:cy="163.1754" ns1:rx="39.39595" ns1:ry="4.7982244" ns1:type="arc" />
+      </svg:g>
+    </svg:g>
+  </svg:g>
+  <svg:metadata>
+    <rdf:RDF>
+      <ns5:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns5:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <ns5:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </ns5:Agent>
+        </dc:publisher>
+      </ns5:Work>
+      <ns5:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns5:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns5:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns5:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns5:License>
+    </rdf:RDF>
+  </svg:metadata>
+</svg:svg>

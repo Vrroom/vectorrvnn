@@ -1,139 +1,41 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-<!-- ClipArt by Arvin61r58 (https://openclipart.org/user-detail/Arvin61r58) -->
-
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   version="1.1"
-   width="615.01471"
-   height="360.00076"
-   id="svg2">
-  <title
-     id="title4188">American Football</title>
-  <defs
-     id="defs4">
-    <inkscape:path-effect
-       effect="spiro"
-       id="path-effect4078" />
-    <inkscape:path-effect
-       effect="spiro"
-       id="path-effect3894" />
-    <inkscape:path-effect
-       effect="spiro"
-       id="path-effect3037" />
-    <inkscape:path-effect
-       effect="spiro"
-       id="path-effect3033" />
-    <filter
-       x="0"
-       y="0"
-       width="1"
-       height="1"
-       color-interpolation-filters="sRGB"
-       id="filter3863">
-      <feTurbulence
-         result="result0"
-         seed="0"
-         baseFrequency="1"
-         numOctaves="3"
-         type="fractalNoise"
-         id="feTurbulence3865" />
-      <feColorMatrix
-         type="saturate"
-         values="0"
-         result="result4"
-         id="feColorMatrix3867" />
-      <feComposite
-         in2="result4"
-         operator="arithmetic"
-         k1="0.15"
-         k2="0.2"
-         k3="0.5"
-         k4="0"
-         in="SourceGraphic"
-         result="result2"
-         id="feComposite3869" />
-      <feBlend
-         in2="SourceGraphic"
-         mode="normal"
-         in="result2"
-         result="result5"
-         id="feBlend3871" />
-      <feComposite
-         in2="SourceGraphic"
-         operator="in"
-         in="result5"
-         result="result3"
-         id="feComposite3873" />
-    </filter>
-    <filter
-       x="0"
-       y="0"
-       width="1"
-       height="1"
-       color-interpolation-filters="sRGB"
-       id="filter3863-1">
-      <feTurbulence
-         result="result0"
-         seed="0"
-         baseFrequency="1"
-         numOctaves="3"
-         type="fractalNoise"
-         id="feTurbulence3865-1" />
-      <feColorMatrix
-         type="saturate"
-         values="0"
-         result="result4"
-         id="feColorMatrix3867-5" />
-      <feComposite
-         in2="result4"
-         operator="arithmetic"
-         k1="0.15"
-         k2="0.2"
-         k3="0.5"
-         k4="0"
-         in="SourceGraphic"
-         result="result2"
-         id="feComposite3869-2" />
-      <feBlend
-         in2="SourceGraphic"
-         mode="normal"
-         in="result2"
-         result="result5"
-         id="feBlend3871-7" />
-      <feComposite
-         in2="SourceGraphic"
-         operator="in"
-         in="result5"
-         result="result3"
-         id="feComposite3873-6" />
-    </filter>
-  </defs>
-  <metadata
-     id="metadata7">
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://www.inkscape.org/namespaces/inkscape" xmlns:ns3="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="715.1999837849999" id="svg2" version="1.1" viewBox="-52.59263142875001 -177.59959655501356 715.1999837849999 715.1999837849999" width="715.1999837849999">
+  <svg:title id="title4188">American Football</svg:title>
+  <svg:defs id="defs4">
+    <ns1:path-effect effect="spiro" id="path-effect4078" />
+    <ns1:path-effect effect="spiro" id="path-effect3894" />
+    <ns1:path-effect effect="spiro" id="path-effect3037" />
+    <ns1:path-effect effect="spiro" id="path-effect3033" />
+    <svg:filter color-interpolation-filters="sRGB" height="1" id="filter3863" width="1" x="0" y="0">
+      <svg:feTurbulence baseFrequency="1" id="feTurbulence3865" numOctaves="3" result="result0" seed="0" type="fractalNoise" />
+      <svg:feColorMatrix id="feColorMatrix3867" result="result4" type="saturate" values="0" />
+      <svg:feComposite id="feComposite3869" in="SourceGraphic" in2="result4" k1="0.15" k2="0.2" k3="0.5" k4="0" operator="arithmetic" result="result2" />
+      <svg:feBlend id="feBlend3871" in="result2" in2="SourceGraphic" mode="normal" result="result5" />
+      <svg:feComposite id="feComposite3873" in="result5" in2="SourceGraphic" operator="in" result="result3" />
+    </svg:filter>
+    <svg:filter color-interpolation-filters="sRGB" height="1" id="filter3863-1" width="1" x="0" y="0">
+      <svg:feTurbulence baseFrequency="1" id="feTurbulence3865-1" numOctaves="3" result="result0" seed="0" type="fractalNoise" />
+      <svg:feColorMatrix id="feColorMatrix3867-5" result="result4" type="saturate" values="0" />
+      <svg:feComposite id="feComposite3869-2" in="SourceGraphic" in2="result4" k1="0.15" k2="0.2" k3="0.5" k4="0" operator="arithmetic" result="result2" />
+      <svg:feBlend id="feBlend3871-7" in="result2" in2="SourceGraphic" mode="normal" result="result5" />
+      <svg:feComposite id="feComposite3873-6" in="result5" in2="SourceGraphic" operator="in" result="result3" />
+    </svg:filter>
+  </svg:defs>
+  <svg:metadata id="metadata7">
     <rdf:RDF>
-      <cc:Work
-         rdf:about="">
+      <ns3:Work rdf:about="">
         <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
         <dc:title>American Football</dc:title>
-        <cc:license
-           rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <ns3:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
         <dc:creator>
-          <cc:Agent>
+          <ns3:Agent>
             <dc:title>Arvin61r58</dc:title>
-          </cc:Agent>
+          </ns3:Agent>
         </dc:creator>
         <dc:publisher>
-          <cc:Agent>
+          <ns3:Agent>
             <dc:title>Openclipart.org</dc:title>
-          </cc:Agent>
+          </ns3:Agent>
         </dc:publisher>
         <dc:subject>
           <rdf:Bag>
@@ -146,65 +48,29 @@
         </dc:subject>
         <dc:source>https://openclipart.org/user-detail/Arvin61r58</dc:source>
         <dc:identifier>https://openclipart.org/</dc:identifier>
-      </cc:Work>
-      <cc:License
-         rdf:about="http://creativecommons.org/licenses/publicdomain/">
-        <cc:permits
-           rdf:resource="http://creativecommons.org/ns#Reproduction" />
-        <cc:permits
-           rdf:resource="http://creativecommons.org/ns#Distribution" />
-        <cc:permits
-           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
-      </cc:License>
+      </ns3:Work>
+      <ns3:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns3:License>
     </rdf:RDF>
-  </metadata>
-  <g
-     transform="translate(57.864242,-435.2817)"
-     id="layer1">
-    <g
-       transform="matrix(2,0,0,2,-247.14313,-615.28211)"
-       id="g4109">
-      <path
-         d="m 243.9375,528.8125 c -16.08617,0.11848 -21.63526,0.75527 -31.96875,3.0625 -37.31915,8.33251 -71.20114,26.10668 -94.90625,49.8125 C 105.55098,593.19936 98,605.70855 98,613.28125 c 0,2.32716 2.1756,8.58775 4.84375,13.90625 5.65103,11.26437 21.84482,28.29733 36.84375,38.75 26.17954,18.24437 59.50813,31.38942 88.6875,34.96875 4.68909,0.5752 10.85938,0.84399 17.53125,0.875 0.36885,0.002 0.72189,-2.9e-4 1.09375,0 6.67187,-0.031 12.84216,-0.2998 17.53125,-0.875 29.17937,-3.57933 62.50796,-16.72438 88.6875,-34.96875 14.99893,-10.45267 31.19272,-27.48563 36.84375,-38.75 2.66815,-5.3185 4.84375,-11.57909 4.84375,-13.90625 0,-7.5727 -7.55098,-20.08189 -19.0625,-31.59375 -23.70511,-23.70582 -57.5871,-41.47999 -94.90625,-49.8125 -10.33349,-2.30723 -15.88258,-2.94402 -31.96875,-3.0625 -0.59577,-0.005 -1.29182,-0.002 -1.96875,0 -0.35703,10e-4 -0.71768,8.9e-4 -1.09375,0 -0.67693,-0.002 -1.37298,-0.005 -1.96875,0 z"
-         transform="matrix(1.0036838,0,0,1.0001601,-0.21788479,-0.112327)"
-         id="path3002"
-         style="fill:#713020;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.99616659;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;filter:url(#filter3863)" />
-      <g
-         transform="translate(2.3431237,-0.64893871)"
-         id="g4084">
-        <path
-           d="m 96.228571,615.04215 297.142859,0"
-           id="path4076"
-           style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-        <g
-           transform="matrix(1.0636221,0,0,1.05,-15.574687,-30.752105)"
-           id="g3878">
-          <path
-             d="m 242.99231,601.54215 c -12.31309,0 -18.00666,8.45865 -26.51276,7.71875 -7.43136,-0.6464 -17.97273,1.20171 -18.07688,5.28125 -0.005,0.17103 0.0192,0.33057 0.0376,0.5 -0.0186,0.16943 -0.0421,0.32897 -0.0376,0.5 0.10412,4.07954 10.64552,5.92765 18.07688,5.28125 8.5061,-0.7399 14.19967,7.71875 26.51276,7.71875 0.61062,0 1.20308,-0.0242 1.80769,-0.0312 0.60461,0.007 1.19708,0.0312 1.80769,0.0312 12.31309,0 18.00666,-8.45865 26.51276,-7.71875 7.43136,0.6464 17.97276,-1.20171 18.07688,-5.28125 0.005,-0.17103 -0.0193,-0.33057 -0.0376,-0.5 0.0184,-0.16943 0.0424,-0.32897 0.0376,-0.5 -0.10412,-4.07954 -10.64552,-5.92765 -18.07688,-5.28125 -8.5061,0.7399 -14.19967,-7.71875 -26.51276,-7.71875 -0.61061,0 -1.20308,0.0242 -1.80769,0.0312 -0.60461,-0.007 -1.19707,-0.0312 -1.80769,-0.0312 z"
-             id="path3004"
-             style="fill:none;stroke:#000000;stroke-width:0.94626266;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dashoffset:0" />
-          <path
-             d="m 202.69593,615.04215 84.20814,0"
-             id="path3031"
-             style="fill:none;stroke:#ffffff;stroke-width:1.4193939;stroke-linecap:square;stroke-linejoin:miter;stroke-opacity:1" />
-          <path
-             d="m 202.69593,612.91715 c 0,0 0,4.25 0,4.25 0,0 2.33911,0 2.33911,0 0,0 0,-4.25 0,-4.25 0,0 -2.33911,0 -2.33911,0 0,0 0,0 0,0 m 8.1869,0 c 0,0 0,4.25 0,4.25 0,0 2.33912,0 2.33912,0 0,0 0,-4.25 0,-4.25 0,0 -2.33912,0 -2.33912,0 0,0 0,0 0,0 m 8.18691,0 c 0,0 0,4.25 0,4.25 0,0 2.33911,0 2.33911,0 0,0 0,-4.25 0,-4.25 0,0 -2.33911,0 -2.33911,0 0,0 0,0 0,0 m 8.1869,0 c 0,0 0,4.25 0,4.25 0,0 2.33911,0 2.33911,0 0,0 0,-4.25 0,-4.25 0,0 -2.33911,0 -2.33911,0 0,0 0,0 0,0 m 8.1869,0 c 0,0 0,4.25 0,4.25 0,0 2.33912,0 2.33912,0 0,0 0,-4.25 0,-4.25 0,0 -2.33912,0 -2.33912,0 0,0 0,0 0,0 m 8.18691,0 c 0,0 0,4.25 0,4.25 0,0 2.33911,0 2.33911,0 0,0 0,-4.25 0,-4.25 0,0 -2.33911,0 -2.33911,0 0,0 0,0 0,0 m 8.1869,0 c 0,0 0,4.25 0,4.25 0,0 2.33911,0 2.33911,0 0,0 0,-4.25 0,-4.25 0,0 -2.33911,0 -2.33911,0 0,0 0,0 0,0 m 8.1869,0 c 0,0 0,4.25 0,4.25 0,0 2.33911,0 2.33911,0 0,0 0,-4.25 0,-4.25 0,0 -2.33911,0 -2.33911,0 0,0 0,0 0,0 m 8.1869,0 c 0,0 0,4.25 0,4.25 0,0 2.33913,0 2.33913,0 0,0 0,-4.25 0,-4.25 0,0 -2.33913,0 -2.33913,0 0,0 0,0 0,0 m 8.18691,0 c 0,0 0,4.25 0,4.25 0,0 2.33911,0 2.33911,0 0,0 0,-4.25 0,-4.25 0,0 -2.33911,0 -2.33911,0 0,0 0,0 0,0 m 8.1869,0 c 0,0 0,4.25 0,4.25 0,0 2.33911,0 2.33911,0 0,0 0,-4.25 0,-4.25 0,0 -2.33911,0 -2.33911,0 0,0 0,0 0,0"
-             id="path8916"
-             style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans" />
-        </g>
-      </g>
-      <g
-         transform="translate(0.49709923,0.44443323)"
-         id="g4105">
-        <path
-           d="m 155.74082,674.47135 c -0.32601,-2.02093 -0.66825,-4.03297 -0.90625,-6.0625 -0.71178,-6.06968 -1.04152,-12.19235 -1.1875,-18.34375 -0.14598,-6.1514 -0.088,-12.3221 0,-18.5625 0.088,-6.2404 0.19732,-12.53833 0.1875,-18.875 -0.01,-6.24508 -0.14051,-12.42184 -0.25,-18.5625 -0.10949,-6.14066 -0.19909,-12.2355 -0.0625,-18.28125 0.13659,-6.04575 0.49018,-12.07091 1.21875,-18.03125 0.14053,-1.14965 0.36102,-2.29082 0.53125,-3.4375 -3.7463,2.14542 -7.3798,4.39679 -10.90625,6.75 -0.15727,1.65652 -0.35906,3.31792 -0.46875,4.96875 -0.21037,3.16596 -0.36574,6.32468 -0.4375,9.46875 -0.14352,6.28813 -0.0304,12.52594 0.0937,18.71875 0.12415,6.19281 0.27183,12.35035 0.28125,18.4375 0.01,6.18824 -0.11808,12.43296 -0.21875,18.71875 -0.10067,6.28579 -0.18439,12.62479 -0.0312,19 0.0766,3.1876 0.22922,6.38531 0.4375,9.59375 0.16446,2.53342 0.41554,5.07916 0.6875,7.625 3.57177,2.39193 7.24531,4.68262 11.03125,6.875 z"
-           id="path4015"
-           style="fill:#dfdfdf;fill-opacity:1;fill-rule:nonzero;stroke:none" />
-        <path
-           d="m 337.55123,674.47135 c 0.32601,-2.02093 0.66825,-4.03297 0.90625,-6.0625 0.71178,-6.06968 1.04152,-12.19235 1.1875,-18.34375 0.14598,-6.1514 0.088,-12.3221 0,-18.5625 -0.088,-6.2404 -0.19732,-12.53833 -0.1875,-18.875 0.01,-6.24508 0.14051,-12.42184 0.25,-18.5625 0.10949,-6.14066 0.19909,-12.2355 0.0625,-18.28125 -0.13659,-6.04575 -0.49018,-12.07091 -1.21875,-18.03125 -0.14053,-1.14965 -0.36102,-2.29082 -0.53125,-3.4375 3.7463,2.14542 7.3798,4.39679 10.90625,6.75 0.15727,1.65652 0.35906,3.31792 0.46875,4.96875 0.21037,3.16596 0.36574,6.32468 0.4375,9.46875 0.14352,6.28813 0.0304,12.52594 -0.0937,18.71875 -0.12415,6.19281 -0.27183,12.35035 -0.28125,18.4375 -0.01,6.18824 0.11808,12.43296 0.21875,18.71875 0.10067,6.28579 0.18439,12.62479 0.0312,19 -0.0766,3.1876 -0.22922,6.38531 -0.4375,9.59375 -0.16446,2.53342 -0.41554,5.07916 -0.6875,7.625 -3.57177,2.39193 -7.24531,4.68262 -11.03125,6.875 z"
-           id="path4103"
-           style="fill:#dfdfdf;fill-opacity:1;fill-rule:nonzero;stroke:none" />
-      </g>
-    </g>
-  </g>
-</svg>
+  </svg:metadata>
+  <svg:g id="layer1" transform="translate(57.864242,-435.2817)">
+    <svg:g id="g4109" transform="matrix(2,0,0,2,-247.14313,-615.28211)">
+      <svg:path d="m 243.9375,528.8125 c -16.08617,0.11848 -21.63526,0.75527 -31.96875,3.0625 -37.31915,8.33251 -71.20114,26.10668 -94.90625,49.8125 C 105.55098,593.19936 98,605.70855 98,613.28125 c 0,2.32716 2.1756,8.58775 4.84375,13.90625 5.65103,11.26437 21.84482,28.29733 36.84375,38.75 26.17954,18.24437 59.50813,31.38942 88.6875,34.96875 4.68909,0.5752 10.85938,0.84399 17.53125,0.875 0.36885,0.002 0.72189,-2.9e-4 1.09375,0 6.67187,-0.031 12.84216,-0.2998 17.53125,-0.875 29.17937,-3.57933 62.50796,-16.72438 88.6875,-34.96875 14.99893,-10.45267 31.19272,-27.48563 36.84375,-38.75 2.66815,-5.3185 4.84375,-11.57909 4.84375,-13.90625 0,-7.5727 -7.55098,-20.08189 -19.0625,-31.59375 -23.70511,-23.70582 -57.5871,-41.47999 -94.90625,-49.8125 -10.33349,-2.30723 -15.88258,-2.94402 -31.96875,-3.0625 -0.59577,-0.005 -1.29182,-0.002 -1.96875,0 -0.35703,10e-4 -0.71768,8.9e-4 -1.09375,0 -0.67693,-0.002 -1.37298,-0.005 -1.96875,0 z" id="path3002" style="fill:#713020;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.99616659;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;filter:url(#filter3863)" transform="matrix(1.0036838,0,0,1.0001601,-0.21788479,-0.112327)" />
+      <svg:g id="g4084" transform="translate(2.3431237,-0.64893871)">
+        <svg:path d="m 96.228571,615.04215 297.142859,0" id="path4076" style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+        <svg:g id="g3878" transform="matrix(1.0636221,0,0,1.05,-15.574687,-30.752105)">
+          <svg:path d="m 242.99231,601.54215 c -12.31309,0 -18.00666,8.45865 -26.51276,7.71875 -7.43136,-0.6464 -17.97273,1.20171 -18.07688,5.28125 -0.005,0.17103 0.0192,0.33057 0.0376,0.5 -0.0186,0.16943 -0.0421,0.32897 -0.0376,0.5 0.10412,4.07954 10.64552,5.92765 18.07688,5.28125 8.5061,-0.7399 14.19967,7.71875 26.51276,7.71875 0.61062,0 1.20308,-0.0242 1.80769,-0.0312 0.60461,0.007 1.19708,0.0312 1.80769,0.0312 12.31309,0 18.00666,-8.45865 26.51276,-7.71875 7.43136,0.6464 17.97276,-1.20171 18.07688,-5.28125 0.005,-0.17103 -0.0193,-0.33057 -0.0376,-0.5 0.0184,-0.16943 0.0424,-0.32897 0.0376,-0.5 -0.10412,-4.07954 -10.64552,-5.92765 -18.07688,-5.28125 -8.5061,0.7399 -14.19967,-7.71875 -26.51276,-7.71875 -0.61061,0 -1.20308,0.0242 -1.80769,0.0312 -0.60461,-0.007 -1.19707,-0.0312 -1.80769,-0.0312 z" id="path3004" style="fill:none;stroke:#000000;stroke-width:0.94626266;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dashoffset:0" />
+          <svg:path d="m 202.69593,615.04215 84.20814,0" id="path3031" style="fill:none;stroke:#ffffff;stroke-width:1.4193939;stroke-linecap:square;stroke-linejoin:miter;stroke-opacity:1" />
+          <svg:path d="m 202.69593,612.91715 c 0,0 0,4.25 0,4.25 0,0 2.33911,0 2.33911,0 0,0 0,-4.25 0,-4.25 0,0 -2.33911,0 -2.33911,0 0,0 0,0 0,0 m 8.1869,0 c 0,0 0,4.25 0,4.25 0,0 2.33912,0 2.33912,0 0,0 0,-4.25 0,-4.25 0,0 -2.33912,0 -2.33912,0 0,0 0,0 0,0 m 8.18691,0 c 0,0 0,4.25 0,4.25 0,0 2.33911,0 2.33911,0 0,0 0,-4.25 0,-4.25 0,0 -2.33911,0 -2.33911,0 0,0 0,0 0,0 m 8.1869,0 c 0,0 0,4.25 0,4.25 0,0 2.33911,0 2.33911,0 0,0 0,-4.25 0,-4.25 0,0 -2.33911,0 -2.33911,0 0,0 0,0 0,0 m 8.1869,0 c 0,0 0,4.25 0,4.25 0,0 2.33912,0 2.33912,0 0,0 0,-4.25 0,-4.25 0,0 -2.33912,0 -2.33912,0 0,0 0,0 0,0 m 8.18691,0 c 0,0 0,4.25 0,4.25 0,0 2.33911,0 2.33911,0 0,0 0,-4.25 0,-4.25 0,0 -2.33911,0 -2.33911,0 0,0 0,0 0,0 m 8.1869,0 c 0,0 0,4.25 0,4.25 0,0 2.33911,0 2.33911,0 0,0 0,-4.25 0,-4.25 0,0 -2.33911,0 -2.33911,0 0,0 0,0 0,0 m 8.1869,0 c 0,0 0,4.25 0,4.25 0,0 2.33911,0 2.33911,0 0,0 0,-4.25 0,-4.25 0,0 -2.33911,0 -2.33911,0 0,0 0,0 0,0 m 8.1869,0 c 0,0 0,4.25 0,4.25 0,0 2.33913,0 2.33913,0 0,0 0,-4.25 0,-4.25 0,0 -2.33913,0 -2.33913,0 0,0 0,0 0,0 m 8.18691,0 c 0,0 0,4.25 0,4.25 0,0 2.33911,0 2.33911,0 0,0 0,-4.25 0,-4.25 0,0 -2.33911,0 -2.33911,0 0,0 0,0 0,0 m 8.1869,0 c 0,0 0,4.25 0,4.25 0,0 2.33911,0 2.33911,0 0,0 0,-4.25 0,-4.25 0,0 -2.33911,0 -2.33911,0 0,0 0,0 0,0" id="path8916" style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans" />
+        </svg:g>
+      </svg:g>
+      <svg:g id="g4105" transform="translate(0.49709923,0.44443323)">
+        <svg:path d="m 155.74082,674.47135 c -0.32601,-2.02093 -0.66825,-4.03297 -0.90625,-6.0625 -0.71178,-6.06968 -1.04152,-12.19235 -1.1875,-18.34375 -0.14598,-6.1514 -0.088,-12.3221 0,-18.5625 0.088,-6.2404 0.19732,-12.53833 0.1875,-18.875 -0.01,-6.24508 -0.14051,-12.42184 -0.25,-18.5625 -0.10949,-6.14066 -0.19909,-12.2355 -0.0625,-18.28125 0.13659,-6.04575 0.49018,-12.07091 1.21875,-18.03125 0.14053,-1.14965 0.36102,-2.29082 0.53125,-3.4375 -3.7463,2.14542 -7.3798,4.39679 -10.90625,6.75 -0.15727,1.65652 -0.35906,3.31792 -0.46875,4.96875 -0.21037,3.16596 -0.36574,6.32468 -0.4375,9.46875 -0.14352,6.28813 -0.0304,12.52594 0.0937,18.71875 0.12415,6.19281 0.27183,12.35035 0.28125,18.4375 0.01,6.18824 -0.11808,12.43296 -0.21875,18.71875 -0.10067,6.28579 -0.18439,12.62479 -0.0312,19 0.0766,3.1876 0.22922,6.38531 0.4375,9.59375 0.16446,2.53342 0.41554,5.07916 0.6875,7.625 3.57177,2.39193 7.24531,4.68262 11.03125,6.875 z" id="path4015" style="fill:#dfdfdf;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+        <svg:path d="m 337.55123,674.47135 c 0.32601,-2.02093 0.66825,-4.03297 0.90625,-6.0625 0.71178,-6.06968 1.04152,-12.19235 1.1875,-18.34375 0.14598,-6.1514 0.088,-12.3221 0,-18.5625 -0.088,-6.2404 -0.19732,-12.53833 -0.1875,-18.875 0.01,-6.24508 0.14051,-12.42184 0.25,-18.5625 0.10949,-6.14066 0.19909,-12.2355 0.0625,-18.28125 -0.13659,-6.04575 -0.49018,-12.07091 -1.21875,-18.03125 -0.14053,-1.14965 -0.36102,-2.29082 -0.53125,-3.4375 3.7463,2.14542 7.3798,4.39679 10.90625,6.75 0.15727,1.65652 0.35906,3.31792 0.46875,4.96875 0.21037,3.16596 0.36574,6.32468 0.4375,9.46875 0.14352,6.28813 0.0304,12.52594 -0.0937,18.71875 -0.12415,6.19281 -0.27183,12.35035 -0.28125,18.4375 -0.01,6.18824 0.11808,12.43296 0.21875,18.71875 0.10067,6.28579 0.18439,12.62479 0.0312,19 -0.0766,3.1876 -0.22922,6.38531 -0.4375,9.59375 -0.16446,2.53342 -0.41554,5.07916 -0.6875,7.625 -3.57177,2.39193 -7.24531,4.68262 -11.03125,6.875 z" id="path4103" style="fill:#dfdfdf;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+      </svg:g>
+    </svg:g>
+  </svg:g>
+</svg:svg>

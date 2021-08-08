@@ -1,18 +1,5 @@
-<?xml version="1.0"?>
-<svg
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:cc="http://web.resource.org/cc/"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    xmlns:ns1="http://sozi.baierouge.fr"
-    viewBox="0 0 647 500"
-  >
-  <desc
-    >Picture Cube Activity
+<svg:svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns1="http://www.w3.org/1999/xlink" xmlns:ns3="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" height="775.7240564442034" viewBox="-58.64367137035025 -137.86202822210169 775.7240564442035 775.7240564442034" width="775.7240564442035">
+  <svg:desc>Picture Cube Activity
     Print, Cutout, Fold, and Glue your picture cube. A fun activity for kids.
     Edit SVG source code to insert your own square pictures, SVG or bitmap. 
     Written by Jay Nick
@@ -23,11 +10,8 @@
     http://www.cattocreations.com/FreeStuff.html
     Catto Creations mission is Family, Literacy, and Enrichment
     Visit http://www.cattocreations.com for award winning children's eBooks
-    Free ePub3 eBooks at http://www.cattocreations.com/ePub3.html</desc
-  >
-  <style
-      type="text/css"
-    >#picturecube {font-family:Arial;}
+    Free ePub3 eBooks at http://www.cattocreations.com/ePub3.html</svg:desc>
+  <svg:style type="text/css">#picturecube {font-family:Arial;}
     .box {fill:white;stroke:black;stroke-width:1px;}
     .align {stroke:gray;stroke-width:0.25px;}
     .instruction {fill:lightgray;font-size:8px;text-anchor:middle;}
@@ -36,1162 +20,304 @@
     #Heart text {fill:yellow;stroke:none;stroke-width:0.5px;font-size:30px;font-weight:bold;text-anchor:middle;}
     #svgimages {fill:red;stroke:black;stroke-width:1px;}
     #svgimages {display:default;}
-    #bitmapimages {display:none;}</style
-  >
-  <defs
-    >
-    <symbol
-        id="Heart"
-        viewBox="0 0 280 270"
-      >
-      <path
-          d="m140 58c30-60 110-60 130 0 30 100-110 150-130 210m0-210c-30-60-110-60-130 0-30 100 110 150 130 210"
-      />
-    </symbol
-    >
-  </defs
-  >
-  <g
-      id="picturecube"
-      transform="translate(-59)"
-    >
-    <text
-        y="50"
-        x="275"
-        class="directions"
-      >1. Print landscape</text
-    >
-    <text
-        y="62"
-        x="275"
-        class="directions"
-      >2. Cut out along edges</text
-    >
-    <text
-        y="74"
-        x="275"
-        class="directions"
-      >3. Fold along lines</text
-    >
-    <text
-        y="86"
-        x="275"
-        class="directions"
-      >4. Tape or glue together</text
-    >
-    <rect
-        rx="30"
-        height="150"
-        width="70"
-        y="175"
-        x="65"
-        class="box"
-    />
-    <g
-        transform="rotate(-90,85,250)"
-      >
-      <text
-          y="250"
-          x="85"
-          class="instruction"
-        >glue here</text
-      >
-    </g
-    >
-    <rect
-        y="175"
-        x="100"
-        width="150"
-        class="box"
-        height="150"
-    />
-    <rect
-        y="175"
-        x="250"
-        width="150"
-        class="box"
-        height="150"
-    />
-    <rect
-        y="175"
-        x="400"
-        width="150"
-        class="box"
-        height="150"
-    />
-    <rect
-        y="175"
-        x="550"
-        width="150"
-        class="box"
-        height="150"
-    />
-    <rect
-        rx="30"
-        height="50"
-        width="150"
-        y="450"
-        x="250"
-        class="box"
-    />
-    <g
-        transform="rotate(180,325,485)"
-      >
-      <text
-          y="485"
-          x="325"
-          class="instruction"
-        >glue here</text
-      >
-    </g
-    >
-    <rect
-        y="325"
-        x="250"
-        width="150"
-        class="box"
-        height="150"
-    />
-    <rect
-        rx="30"
-        height="50"
-        width="150"
-        y="0"
-        x="550"
-        class="box"
-    />
-    <text
-        y="15"
-        x="625"
-        class="instruction"
-      >glue here</text
-    >
-    <rect
-        y="25"
-        x="550"
-        width="150"
-        class="box"
-        height="150"
-    />
-    <g
-        transform="translate(0)"
-      >
-      <path
-          d="m100 175l30-135h90l30 135z"
-          class="box"
-      />
-      <path
-          d="m117 100h116"
-          class="align"
-      />
-      <text
-          y="97"
-          x="175"
-          class="instruction"
-        >Align</text
-      >
-      <text
-          y="110"
-          x="175"
-          class="instruction"
-        >Tape or Glue</text
-      >
-    </g
-    >
-    <g
-        transform="translate(300)"
-      >
-      <path
-          d="m100 175l30-135h90l30 135z"
-          class="box"
-      />
-      <path
-          d="m117 100h116"
-          class="align"
-      />
-      <text
-          y="97"
-          x="175"
-          class="instruction"
-        >Align</text
-      >
-      <text
-          y="110"
-          x="175"
-          class="instruction"
-        >Tape or Glue</text
-      >
-    </g
-    >
-    <g
-        transform="translate(0)"
-      >
-      <path
-          d="m100 325l30 135h90l30-135z"
-          class="box"
-      />
-      <path
-          d="m117 400h116"
-          class="align"
-      />
-      <text
-          y="397"
-          x="175"
-          class="instruction"
-        >Align</text
-      >
-      <text
-          y="410"
-          x="175"
-          class="instruction"
-        >Tape or Glue</text
-      >
-    </g
-    >
-    <g
-        transform="translate(300)"
-      >
-      <path
-          d="m100 325l30 135h90l30-135z"
-          class="box"
-      />
-      <path
-          d="m117 400h116"
-          class="align"
-      />
-      <text
-          y="397"
-          x="175"
-          class="instruction"
-        >Align</text
-      >
-      <text
-          y="410"
-          x="175"
-          class="instruction"
-        >Tape or Glue</text
-      >
-    </g
-    >
-    <g
-        id="svgimages"
-      >
-      <g
-          transform="rotate(90,175,250)"
-        >
-        <g
-            transform="translate(101 191) scale(.59)"
-          >
-          <defs
-            >
-            <style
-                type="text/css"
-              >#snail {fill:none;stroke:black;stroke-width:3px;}
+    #bitmapimages {display:none;}</svg:style>
+  <svg:defs>
+    <svg:symbol id="Heart" viewBox="0 0 280 270">
+      <svg:path d="m140 58c30-60 110-60 130 0 30 100-110 150-130 210m0-210c-30-60-110-60-130 0-30 100 110 150 130 210" />
+    </svg:symbol>
+  </svg:defs>
+  <svg:g id="picturecube" transform="translate(-59)">
+    <svg:text class="directions" x="275" y="50">1. Print landscape</svg:text>
+    <svg:text class="directions" x="275" y="62">2. Cut out along edges</svg:text>
+    <svg:text class="directions" x="275" y="74">3. Fold along lines</svg:text>
+    <svg:text class="directions" x="275" y="86">4. Tape or glue together</svg:text>
+    <svg:rect class="box" height="150" rx="30" width="70" x="65" y="175" />
+    <svg:g transform="rotate(-90,85,250)">
+      <svg:text class="instruction" x="85" y="250">glue here</svg:text>
+    </svg:g>
+    <svg:rect class="box" height="150" width="150" x="100" y="175" />
+    <svg:rect class="box" height="150" width="150" x="250" y="175" />
+    <svg:rect class="box" height="150" width="150" x="400" y="175" />
+    <svg:rect class="box" height="150" width="150" x="550" y="175" />
+    <svg:rect class="box" height="50" rx="30" width="150" x="250" y="450" />
+    <svg:g transform="rotate(180,325,485)">
+      <svg:text class="instruction" x="325" y="485">glue here</svg:text>
+    </svg:g>
+    <svg:rect class="box" height="150" width="150" x="250" y="325" />
+    <svg:rect class="box" height="50" rx="30" width="150" x="550" y="0" />
+    <svg:text class="instruction" x="625" y="15">glue here</svg:text>
+    <svg:rect class="box" height="150" width="150" x="550" y="25" />
+    <svg:g transform="translate(0)">
+      <svg:path class="box" d="m100 175l30-135h90l30 135z" />
+      <svg:path class="align" d="m117 100h116" />
+      <svg:text class="instruction" x="175" y="97">Align</svg:text>
+      <svg:text class="instruction" x="175" y="110">Tape or Glue</svg:text>
+    </svg:g>
+    <svg:g transform="translate(300)">
+      <svg:path class="box" d="m100 175l30-135h90l30 135z" />
+      <svg:path class="align" d="m117 100h116" />
+      <svg:text class="instruction" x="175" y="97">Align</svg:text>
+      <svg:text class="instruction" x="175" y="110">Tape or Glue</svg:text>
+    </svg:g>
+    <svg:g transform="translate(0)">
+      <svg:path class="box" d="m100 325l30 135h90l30-135z" />
+      <svg:path class="align" d="m117 400h116" />
+      <svg:text class="instruction" x="175" y="397">Align</svg:text>
+      <svg:text class="instruction" x="175" y="410">Tape or Glue</svg:text>
+    </svg:g>
+    <svg:g transform="translate(300)">
+      <svg:path class="box" d="m100 325l30 135h90l30-135z" />
+      <svg:path class="align" d="m117 400h116" />
+      <svg:text class="instruction" x="175" y="397">Align</svg:text>
+      <svg:text class="instruction" x="175" y="410">Tape or Glue</svg:text>
+    </svg:g>
+    <svg:g id="svgimages">
+      <svg:g transform="rotate(90,175,250)">
+        <svg:g transform="translate(101 191) scale(.59)">
+          <svg:defs>
+            <svg:style type="text/css">#snail {fill:none;stroke:black;stroke-width:3px;}
               #shell {fill:#1e58bb;}
-              #body {fill:#0090cc;}</style
-            >
-            <symbol
-                id="Antenea"
-                viewBox="-100 -83 170 180"
-              >
-              <path
-                  d="m0 0c-5-10-20-10-25 0-5 30 40 30 40 0-5-40-60-40-60 0-5 60 75 60 85 0 5-70-105-80-110 0-5 90 120 90 135 0 5-100-155-110-160 0"
-              />
-            </symbol
-            >
-          </defs
-          >
-          <g
-              transform="translate(0) scale(1)"
-            >
-            <g
-                id="snail"
-                transform="translate(100,85)"
-              >
-              <path
-                  id="body"
-                  d="m-71 69l-19 21c5 20 120 30 170-20 70 60 90-120-24-40l-109 21"
-              />
-              <path
-                  id="shell"
-                  d="m0 0c-5-10-20-10-25 0-5 30 40 30 40 0-5-40-60-40-60 0-5 60 75 60 85 0 5-70-105-80-110 0-5 90 120 90 135 0 5-100-155-110-160 0-2 40 10 60 25 70"
-              />
-              <use
-                  y="-70"
-                  x="89.93"
-                  xlink:href="#Antenea"
-                  width="50"
-                  height="50"
-              />
-              <path
-                  d="m92.65-47l7.35 57"
-              />
-              <use
-                  y="-30"
-                  x="119.26"
-                  xlink:href="#Antenea"
-                  width="30"
-                  height="30"
-              />
-              <path
-                  stroke-width=".5"
-                  d="m121-17v29"
-              />
-              <circle
-                  cy="30"
-                  cx="110"
-                  r="8"
-              />
-              <circle
-                  cy="32"
-                  cx="112"
-                  r="6"
-                  fill="#fff"
-              />
-              <path
-                  d="m125 76c-15-5-15-16-15-20l6-4-15 10"
-              />
-            </g
-            >
-          </g
-          >
-        </g
-        >
-      </g
-      >
-      <g
-          transform="translate(251 176) scale(.529 .528)"
-        >
-        <g
-            stroke="#000"
-            stroke-width="1px"
-            transform="translate(0) scale(1)"
-            fill="red"
-          >
-          <use
-              y="0"
-              x="0"
-              xlink:href="#Heart"
-              width="280"
-              height="270"
-          />
-          <defs
-            >
-            <style
-                type="text/css"
-              >#face {stroke:black;stroke-width:4px;}
-              #face circle {stroke:black;stroke-width:2px;}</style
-            >
-          </defs
-          >
-          <g
-              transform="translate(18.2) scale(.7)"
-            >
-            <g
-                id="face"
-                transform="translate(-200,-200) rotate(0,375,375)"
-              >
-              <line
-                  y1="300"
-                  x2="325"
-                  x1="325"
-                  y2="375"
-              />
-              <line
-                  y1="300"
-                  x2="425"
-                  x1="425"
-                  y2="375"
-              />
-              <path
-                  d="m300 450s75 100 150 0"
-                  fill="none"
-              />
-              <rect
-                  y="275"
-                  width="50"
-                  fill="none"
-                  x="300"
-                  height="125"
-              />
-              <rect
-                  y="275"
-                  width="50"
-                  fill="none"
-                  x="400"
-                  height="125"
-              />
-              <line
-                  y1="390"
-                  x2="400"
-                  x1="350"
-                  y2="390"
-              />
-              <path
-                  d="m450 340h70l20 30"
-                  fill="none"
-              />
-              <path
-                  d="m300 340h-70l-20 30"
-                  fill="none"
-              />
-              <circle
-                  cy="400"
-                  cx="366"
-                  r="3"
-                  fill="none"
-              />
-              <circle
-                  cy="400"
-                  cx="382"
-                  r="3"
-                  fill="none"
-              />
-              <circle
-                  cy="420"
-                  cx="310"
-                  r="1"
-                  fill="none"
-              />
-              <circle
-                  cy="420"
-                  cx="330"
-                  r="1"
-                  fill="none"
-              />
-              <circle
-                  cy="430"
-                  cx="320"
-                  r="1"
-                  fill="none"
-              />
-              <circle
-                  cy="420"
-                  cx="440"
-                  r="1"
-                  fill="none"
-              />
-              <circle
-                  cy="420"
-                  cx="420"
-                  r="1"
-                  fill="none"
-              />
-              <circle
-                  cy="430"
-                  cx="430"
-                  r="1"
-                  fill="none"
-              />
-            </g
-            >
-          </g
-          >
-        </g
-        >
-      </g
-      >
-      <g
-          transform="translate(251 326) scale(.36)"
-        >
-        <defs
-          >
-          <style
-              type="text/css"
-            >#gem {stroke:black;stroke-width:3px;}
+              #body {fill:#0090cc;}</svg:style>
+            <svg:symbol id="Antenea" viewBox="-100 -83 170 180">
+              <svg:path d="m0 0c-5-10-20-10-25 0-5 30 40 30 40 0-5-40-60-40-60 0-5 60 75 60 85 0 5-70-105-80-110 0-5 90 120 90 135 0 5-100-155-110-160 0" />
+            </svg:symbol>
+          </svg:defs>
+          <svg:g transform="translate(0) scale(1)">
+            <svg:g id="snail" transform="translate(100,85)">
+              <svg:path d="m-71 69l-19 21c5 20 120 30 170-20 70 60 90-120-24-40l-109 21" id="body" />
+              <svg:path d="m0 0c-5-10-20-10-25 0-5 30 40 30 40 0-5-40-60-40-60 0-5 60 75 60 85 0 5-70-105-80-110 0-5 90 120 90 135 0 5-100-155-110-160 0-2 40 10 60 25 70" id="shell" />
+              <svg:use height="50" width="50" x="89.93" y="-70" ns1:href="#Antenea" />
+              <svg:path d="m92.65-47l7.35 57" />
+              <svg:use height="30" width="30" x="119.26" y="-30" ns1:href="#Antenea" />
+              <svg:path d="m121-17v29" stroke-width=".5" />
+              <svg:circle cx="110" cy="30" r="8" />
+              <svg:circle cx="112" cy="32" fill="#fff" r="6" />
+              <svg:path d="m125 76c-15-5-15-16-15-20l6-4-15 10" />
+            </svg:g>
+          </svg:g>
+        </svg:g>
+      </svg:g>
+      <svg:g transform="translate(251 176) scale(.529 .528)">
+        <svg:g fill="red" stroke="#000" stroke-width="1px" transform="translate(0) scale(1)">
+          <svg:use height="270" width="280" x="0" y="0" ns1:href="#Heart" />
+          <svg:defs>
+            <svg:style type="text/css">#face {stroke:black;stroke-width:4px;}
+              #face circle {stroke:black;stroke-width:2px;}</svg:style>
+          </svg:defs>
+          <svg:g transform="translate(18.2) scale(.7)">
+            <svg:g id="face" transform="translate(-200,-200) rotate(0,375,375)">
+              <svg:line x1="325" x2="325" y1="300" y2="375" />
+              <svg:line x1="425" x2="425" y1="300" y2="375" />
+              <svg:path d="m300 450s75 100 150 0" fill="none" />
+              <svg:rect fill="none" height="125" width="50" x="300" y="275" />
+              <svg:rect fill="none" height="125" width="50" x="400" y="275" />
+              <svg:line x1="350" x2="400" y1="390" y2="390" />
+              <svg:path d="m450 340h70l20 30" fill="none" />
+              <svg:path d="m300 340h-70l-20 30" fill="none" />
+              <svg:circle cx="366" cy="400" fill="none" r="3" />
+              <svg:circle cx="382" cy="400" fill="none" r="3" />
+              <svg:circle cx="310" cy="420" fill="none" r="1" />
+              <svg:circle cx="330" cy="420" fill="none" r="1" />
+              <svg:circle cx="320" cy="430" fill="none" r="1" />
+              <svg:circle cx="440" cy="420" fill="none" r="1" />
+              <svg:circle cx="420" cy="420" fill="none" r="1" />
+              <svg:circle cx="430" cy="430" fill="none" r="1" />
+            </svg:g>
+          </svg:g>
+        </svg:g>
+      </svg:g>
+      <svg:g transform="translate(251 326) scale(.36)">
+        <svg:defs>
+          <svg:style type="text/css">#gem {stroke:black;stroke-width:3px;}
             #gemstep1 {fill:#007236;}
             #gemstep2 {fill:#00a652;}
-            #gemstep3 {fill:#a2d59a;}</style
-          >
-        </defs
-        >
-        <g
-            transform="translate(0) scale(1)"
-          >
-          <g
-              id="gem"
-              transform="translate(-170,-170) rotate(0,375,375)"
-            >
-            <g
-                id="gemstep3"
-              >
-              <path
-                  d="m375 174l-201 201 201 201 201-201z"
-              />
-            </g
-            >
-            <g
-                id="gemstep2"
-              >
-              <path
-                  d="m300 300l75-125 75 125z"
-              />
-              <path
-                  d="m300 300l-125 75 125 75z"
-              />
-              <path
-                  d="m300 450l75 125 75-125z"
-              />
-              <path
-                  d="m450 300l125 75-125 75z"
-              />
-            </g
-            >
-            <g
-                id="gemstep1"
-              >
-              <rect
-                  y="300"
-                  x="300"
-                  width="150"
-                  height="150"
-              />
-            </g
-            >
-          </g
-          >
-        </g
-        >
-      </g
-      >
-      <g
-          transform="rotate(-90,475,250)"
-        >
-        <g
-            transform="translate(401 176) scale(.36)"
-          >
-          <defs
-            >
-            <style
-                type="text/css"
-              >#flower {stroke:black;stroke-width:4px;}
+            #gemstep3 {fill:#a2d59a;}</svg:style>
+        </svg:defs>
+        <svg:g transform="translate(0) scale(1)">
+          <svg:g id="gem" transform="translate(-170,-170) rotate(0,375,375)">
+            <svg:g id="gemstep3">
+              <svg:path d="m375 174l-201 201 201 201 201-201z" />
+            </svg:g>
+            <svg:g id="gemstep2">
+              <svg:path d="m300 300l75-125 75 125z" />
+              <svg:path d="m300 300l-125 75 125 75z" />
+              <svg:path d="m300 450l75 125 75-125z" />
+              <svg:path d="m450 300l125 75-125 75z" />
+            </svg:g>
+            <svg:g id="gemstep1">
+              <svg:rect height="150" width="150" x="300" y="300" />
+            </svg:g>
+          </svg:g>
+        </svg:g>
+      </svg:g>
+      <svg:g transform="rotate(-90,475,250)">
+        <svg:g transform="translate(401 176) scale(.36)">
+          <svg:defs>
+            <svg:style type="text/css">#flower {stroke:black;stroke-width:4px;}
               #fstep1 {fill:#fff99b;}
               #fstep2 {fill:#ed008c;}
-              #fstep3 {fill:#a3d49d;}</style
-            >
-          </defs
-          >
-          <g
-              transform="translate(0) scale(1)"
-            >
-            <g
-                id="flower"
-                transform="translate(-170,-270) rotate(-65,375,475)"
-              >
-              <g
-                  id="fstep3"
-                >
-                <ellipse
-                    cy="370"
-                    cx="320"
-                    rx="65"
-                    ry="90"
-                    transform="rotate(65,320,370)"
-                />
-                <g
-                    transform="rotate(90,375,475)"
-                  >
-                  <ellipse
-                      cy="370"
-                      cx="320"
-                      rx="65"
-                      ry="90"
-                      transform="rotate(65,320,370)"
-                  />
-                </g
-                >
-                <g
-                    transform="rotate(180,375,475)"
-                  >
-                  <ellipse
-                      cy="370"
-                      cx="320"
-                      rx="65"
-                      ry="90"
-                      transform="rotate(65,320,370)"
-                  />
-                </g
-                >
-                <g
-                    transform="rotate(270,375,475)"
-                  >
-                  <ellipse
-                      cy="370"
-                      cx="320"
-                      rx="65"
-                      ry="90"
-                      transform="rotate(65,320,370)"
-                  />
-                </g
-                >
-              </g
-              >
-              <g
-                  id="fstep2"
-                >
-                <ellipse
-                    cy="375"
-                    cx="375"
-                    rx="50"
-                    ry="100"
-                    transform="rotate(20,375,475)"
-                />
-                <ellipse
-                    cy="375"
-                    cx="375"
-                    rx="50"
-                    ry="100"
-                    transform="rotate(200,375,475)"
-                />
-                <ellipse
-                    cy="375"
-                    cx="375"
-                    rx="50"
-                    ry="100"
-                    transform="rotate(110,375,475)"
-                />
-                <ellipse
-                    cy="375"
-                    cx="375"
-                    rx="50"
-                    ry="100"
-                    transform="rotate(290,375,475)"
-                />
-              </g
-              >
-              <g
-                  id="fstep1"
-                >
-                <circle
-                    cy="475"
-                    cx="375"
-                    r="50"
-                />
-              </g
-              >
-            </g
-            >
-          </g
-          >
-        </g
-        >
-      </g
-      >
-      <g
-          transform="rotate(180,625,250)"
-        >
-        <g
-            transform="translate(551 173) scale(.529 .548)"
-          >
-          <use
-              y="0"
-              x="0"
-              xlink:href="#Heart"
-              width="280"
-              height="270"
-          />
-        </g
-        >
-      </g
-      >
-      <g
-          transform="translate(551 26) scale(.192)"
-        >
-        <defs
-          >
-          <style
-              type="text/css"
-            >#tripleflower {stroke:black;stroke-width:4px;}
+              #fstep3 {fill:#a3d49d;}</svg:style>
+          </svg:defs>
+          <svg:g transform="translate(0) scale(1)">
+            <svg:g id="flower" transform="translate(-170,-270) rotate(-65,375,475)">
+              <svg:g id="fstep3">
+                <svg:ellipse cx="320" cy="370" rx="65" ry="90" transform="rotate(65,320,370)" />
+                <svg:g transform="rotate(90,375,475)">
+                  <svg:ellipse cx="320" cy="370" rx="65" ry="90" transform="rotate(65,320,370)" />
+                </svg:g>
+                <svg:g transform="rotate(180,375,475)">
+                  <svg:ellipse cx="320" cy="370" rx="65" ry="90" transform="rotate(65,320,370)" />
+                </svg:g>
+                <svg:g transform="rotate(270,375,475)">
+                  <svg:ellipse cx="320" cy="370" rx="65" ry="90" transform="rotate(65,320,370)" />
+                </svg:g>
+              </svg:g>
+              <svg:g id="fstep2">
+                <svg:ellipse cx="375" cy="375" rx="50" ry="100" transform="rotate(20,375,475)" />
+                <svg:ellipse cx="375" cy="375" rx="50" ry="100" transform="rotate(200,375,475)" />
+                <svg:ellipse cx="375" cy="375" rx="50" ry="100" transform="rotate(110,375,475)" />
+                <svg:ellipse cx="375" cy="375" rx="50" ry="100" transform="rotate(290,375,475)" />
+              </svg:g>
+              <svg:g id="fstep1">
+                <svg:circle cx="375" cy="475" r="50" />
+              </svg:g>
+            </svg:g>
+          </svg:g>
+        </svg:g>
+      </svg:g>
+      <svg:g transform="rotate(180,625,250)">
+        <svg:g transform="translate(551 173) scale(.529 .548)">
+          <svg:use height="270" width="280" x="0" y="0" ns1:href="#Heart" />
+        </svg:g>
+      </svg:g>
+      <svg:g transform="translate(551 26) scale(.192)">
+        <svg:defs>
+          <svg:style type="text/css">#tripleflower {stroke:black;stroke-width:4px;}
             #center {fill:#01aef2;}
             #step1 {fill:#3ab54b;}
             #step2 {fill:#000000;}
             #step3 {fill:#ffff01;}
             #step4 {fill:#f9941e;}
-            #step5 {fill:#ef1c25;}</style
-          >
-        </defs
-        >
-        <g
-            transform="translate(0) scale(1)"
-          >
-          <g
-              id="tripleflower"
-              transform="translate(10,-140) rotate(18,375,525)"
-            >
-            <g
-                id="step5"
-              >
-              <ellipse
-                  cy="360"
-                  cx="375"
-                  rx="65"
-                  ry="215"
-              />
-              <ellipse
-                  cy="360"
-                  cx="375"
-                  rx="65"
-                  ry="215"
-                  transform="rotate(36,375,525)"
-              />
-              <ellipse
-                  cy="360"
-                  cx="375"
-                  rx="65"
-                  ry="215"
-                  transform="rotate(-36,375,525)"
-              />
-              <ellipse
-                  cy="360"
-                  cx="375"
-                  rx="65"
-                  ry="215"
-                  transform="rotate(72,375,525)"
-              />
-              <ellipse
-                  cy="360"
-                  cx="375"
-                  rx="65"
-                  ry="215"
-                  transform="rotate(-72,375,525)"
-              />
-              <ellipse
-                  cy="360"
-                  cx="375"
-                  rx="65"
-                  ry="215"
-                  transform="rotate(108,375,525)"
-              />
-              <ellipse
-                  cy="360"
-                  cx="375"
-                  rx="65"
-                  ry="215"
-                  transform="rotate(252 375 525)"
-              />
-              <ellipse
-                  cy="360"
-                  cx="375"
-                  rx="65"
-                  ry="215"
-                  transform="rotate(144,375,525)"
-              />
-              <ellipse
-                  cy="360"
-                  cx="375"
-                  rx="65"
-                  ry="215"
-                  transform="rotate(216 375 525)"
-              />
-              <ellipse
-                  cy="360"
-                  cx="375"
-                  rx="65"
-                  ry="215"
-                  transform="rotate(180,375,525)"
-              />
-            </g
-            >
-            <g
-                id="step4"
-              >
-              <ellipse
-                  cy="445"
-                  cx="375"
-                  rx="80"
-                  ry="180"
-              />
-              <ellipse
-                  cy="445"
-                  cx="375"
-                  rx="80"
-                  ry="180"
-                  transform="rotate(36,375,525)"
-              />
-              <ellipse
-                  cy="445"
-                  cx="375"
-                  rx="80"
-                  ry="180"
-                  transform="rotate(-36,375,525)"
-              />
-              <ellipse
-                  cy="445"
-                  cx="375"
-                  rx="80"
-                  ry="180"
-                  transform="rotate(72,375,525)"
-              />
-              <ellipse
-                  cy="445"
-                  cx="375"
-                  rx="80"
-                  ry="180"
-                  transform="rotate(-72,375,525)"
-              />
-              <ellipse
-                  cy="445"
-                  cx="375"
-                  rx="80"
-                  ry="180"
-                  transform="rotate(108,375,525)"
-              />
-              <ellipse
-                  cy="445"
-                  cx="375"
-                  rx="80"
-                  ry="180"
-                  transform="rotate(252 375 525)"
-              />
-              <ellipse
-                  cy="445"
-                  cx="375"
-                  rx="80"
-                  ry="180"
-                  transform="rotate(144,375,525)"
-              />
-              <ellipse
-                  cy="445"
-                  cx="375"
-                  rx="80"
-                  ry="180"
-                  transform="rotate(216 375 525)"
-              />
-              <ellipse
-                  cy="445"
-                  cx="375"
-                  rx="80"
-                  ry="180"
-                  transform="rotate(180,375,525)"
-              />
-            </g
-            >
-            <g
-                id="step3"
-              >
-              <circle
-                  cy="525"
-                  cx="375"
-                  r="200"
-              />
-            </g
-            >
-            <g
-                id="step2"
-              >
-              <circle
-                  cy="350"
-                  cx="375"
-                  r="8"
-              />
-              <circle
-                  cy="350"
-                  cx="375"
-                  r="8"
-                  transform="rotate(30,375,525)"
-              />
-              <circle
-                  cy="350"
-                  cx="375"
-                  r="8"
-                  transform="rotate(-30,375,525)"
-              />
-              <circle
-                  cy="350"
-                  cx="375"
-                  r="8"
-                  transform="rotate(60,375,525)"
-              />
-              <circle
-                  cy="350"
-                  cx="375"
-                  r="8"
-                  transform="rotate(-60,375,525)"
-              />
-              <circle
-                  cy="350"
-                  cx="375"
-                  r="8"
-                  transform="rotate(90,375,525)"
-              />
-              <circle
-                  cy="350"
-                  cx="375"
-                  r="8"
-                  transform="rotate(-90,375,525)"
-              />
-              <circle
-                  cy="350"
-                  cx="375"
-                  r="8"
-                  transform="rotate(120,375,525)"
-              />
-              <circle
-                  cy="350"
-                  cx="375"
-                  r="8"
-                  transform="rotate(240 375 525)"
-              />
-              <circle
-                  cy="350"
-                  cx="375"
-                  r="8"
-                  transform="rotate(150,375,525)"
-              />
-              <circle
-                  cy="350"
-                  cx="375"
-                  r="8"
-                  transform="rotate(210 375 525)"
-              />
-              <circle
-                  cy="350"
-                  cx="375"
-                  r="8"
-                  transform="rotate(180,375,525)"
-              />
-            </g
-            >
-            <g
-                id="step1"
-              >
-              <ellipse
-                  cy="450"
-                  cx="375"
-                  rx="35"
-                  ry="75"
-                  transform="rotate(36,375,525)"
-              />
-              <ellipse
-                  cy="450"
-                  cx="375"
-                  rx="35"
-                  ry="75"
-                  transform="rotate(-36,375,525)"
-              />
-              <ellipse
-                  cy="450"
-                  cx="375"
-                  rx="35"
-                  ry="75"
-                  transform="rotate(108,375,525)"
-              />
-              <ellipse
-                  cy="450"
-                  cx="375"
-                  rx="35"
-                  ry="75"
-                  transform="rotate(252 375 525)"
-              />
-              <ellipse
-                  cy="450"
-                  cx="375"
-                  rx="35"
-                  ry="75"
-                  transform="rotate(180,375,525)"
-              />
-            </g
-            >
-            <circle
-                id="center"
-                cy="525"
-                cx="375"
-                r="60"
-            />
-          </g
-          >
-        </g
-        >
-      </g
-      >
-    </g
-    >
-  </g
-  >
-  <g
-      id="info"
-    >
-    <g
-        transform="translate(116,155)"
-      >
-      <text
-          y="0"
-          x="0"
-        >Catto Creations, LLC</text
-      >
-      <text
-          y="13"
-          x="0"
-        >Family, Literacy, &amp; Enrichment</text
-      >
-    </g
-    >
-    <g
-        transform="translate(116,345) rotate(180)"
-      >
-      <text
-          y="0"
-          x="0"
-        >Catto Creations, LLC</text
-      >
-      <text
-          y="13"
-          x="0"
-        >http://www.cattocreations.com</text
-      >
-    </g
-    >
-    <g
-        transform="translate(416,155)"
-      >
-      <text
-          y="0"
-          x="0"
-        >Catto Creations, LLC</text
-      >
-      <text
-          y="13"
-          x="0"
-        >http://www.cattocreations.com</text
-      >
-    </g
-    >
-    <g
-        transform="translate(416,345) rotate(180)"
-      >
-      <text
-          y="0"
-          x="0"
-        >Catto Creations, LLC</text
-      >
-      <text
-          y="13"
-          x="0"
-        >Family, Literacy, &amp; Enrichment</text
-      >
-    </g
-    >
-  </g
-  >
-  <metadata
-    >
-    <rdf:RDF
-      >
-      <cc:Work
-        >
-        <dc:format
-          >image/svg+xml</dc:format
-        >
-        <dc:type
-            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-        />
-        <cc:license
-            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
-        />
-        <dc:publisher
-          >
-          <cc:Agent
-              rdf:about="http://openclipart.org/"
-            >
-            <dc:title
-              >Openclipart</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:publisher
-        >
-        <dc:title
-          >Picture Cube Activity 2</dc:title
-        >
-        <dc:date
-          >2013-11-03T10:04:43</dc:date
-        >
-        <dc:description
-          >Print, Cutout, Fold, &amp; Glue your picture cube.  Edit SVG source code to insert your own square pictures, SVG or bitmap. A fun activity for kids.</dc:description
-        >
-        <dc:source
-          >https://openclipart.org/detail/188281/picture-cube-activity-2-by-jaynick-188281</dc:source
-        >
-        <dc:creator
-          >
-          <cc:Agent
-            >
-            <dc:title
-              >JayNick</dc:title
-            >
-          </cc:Agent
-          >
-        </dc:creator
-        >
-        <dc:subject
-          >
-          <rdf:Bag
-            >
-            <rdf:li
-              >activity</rdf:li
-            >
-            <rdf:li
-              >children</rdf:li
-            >
-            <rdf:li
-              >cube</rdf:li
-            >
-            <rdf:li
-              >cut</rdf:li
-            >
-            <rdf:li
-              >doodles</rdf:li
-            >
-            <rdf:li
-              >fold</rdf:li
-            >
-            <rdf:li
-              >fun</rdf:li
-            >
-            <rdf:li
-              >glue</rdf:li
-            >
-            <rdf:li
-              >handcoded</rdf:li
-            >
-            <rdf:li
-              >images</rdf:li
-            >
-            <rdf:li
-              >kids</rdf:li
-            >
-            <rdf:li
-              >picture</rdf:li
-            >
-            <rdf:li
-              >pictures</rdf:li
-            >
-            <rdf:li
-              >print</rdf:li
-            >
-          </rdf:Bag
-          >
-        </dc:subject
-        >
-      </cc:Work
-      >
-      <cc:License
-          rdf:about="http://creativecommons.org/licenses/publicdomain/"
-        >
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Reproduction"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#Distribution"
-        />
-        <cc:permits
-            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
-        />
-      </cc:License
-      >
-    </rdf:RDF
-    >
-  </metadata
-  >
-</svg
->
+            #step5 {fill:#ef1c25;}</svg:style>
+        </svg:defs>
+        <svg:g transform="translate(0) scale(1)">
+          <svg:g id="tripleflower" transform="translate(10,-140) rotate(18,375,525)">
+            <svg:g id="step5">
+              <svg:ellipse cx="375" cy="360" rx="65" ry="215" />
+              <svg:ellipse cx="375" cy="360" rx="65" ry="215" transform="rotate(36,375,525)" />
+              <svg:ellipse cx="375" cy="360" rx="65" ry="215" transform="rotate(-36,375,525)" />
+              <svg:ellipse cx="375" cy="360" rx="65" ry="215" transform="rotate(72,375,525)" />
+              <svg:ellipse cx="375" cy="360" rx="65" ry="215" transform="rotate(-72,375,525)" />
+              <svg:ellipse cx="375" cy="360" rx="65" ry="215" transform="rotate(108,375,525)" />
+              <svg:ellipse cx="375" cy="360" rx="65" ry="215" transform="rotate(252 375 525)" />
+              <svg:ellipse cx="375" cy="360" rx="65" ry="215" transform="rotate(144,375,525)" />
+              <svg:ellipse cx="375" cy="360" rx="65" ry="215" transform="rotate(216 375 525)" />
+              <svg:ellipse cx="375" cy="360" rx="65" ry="215" transform="rotate(180,375,525)" />
+            </svg:g>
+            <svg:g id="step4">
+              <svg:ellipse cx="375" cy="445" rx="80" ry="180" />
+              <svg:ellipse cx="375" cy="445" rx="80" ry="180" transform="rotate(36,375,525)" />
+              <svg:ellipse cx="375" cy="445" rx="80" ry="180" transform="rotate(-36,375,525)" />
+              <svg:ellipse cx="375" cy="445" rx="80" ry="180" transform="rotate(72,375,525)" />
+              <svg:ellipse cx="375" cy="445" rx="80" ry="180" transform="rotate(-72,375,525)" />
+              <svg:ellipse cx="375" cy="445" rx="80" ry="180" transform="rotate(108,375,525)" />
+              <svg:ellipse cx="375" cy="445" rx="80" ry="180" transform="rotate(252 375 525)" />
+              <svg:ellipse cx="375" cy="445" rx="80" ry="180" transform="rotate(144,375,525)" />
+              <svg:ellipse cx="375" cy="445" rx="80" ry="180" transform="rotate(216 375 525)" />
+              <svg:ellipse cx="375" cy="445" rx="80" ry="180" transform="rotate(180,375,525)" />
+            </svg:g>
+            <svg:g id="step3">
+              <svg:circle cx="375" cy="525" r="200" />
+            </svg:g>
+            <svg:g id="step2">
+              <svg:circle cx="375" cy="350" r="8" />
+              <svg:circle cx="375" cy="350" r="8" transform="rotate(30,375,525)" />
+              <svg:circle cx="375" cy="350" r="8" transform="rotate(-30,375,525)" />
+              <svg:circle cx="375" cy="350" r="8" transform="rotate(60,375,525)" />
+              <svg:circle cx="375" cy="350" r="8" transform="rotate(-60,375,525)" />
+              <svg:circle cx="375" cy="350" r="8" transform="rotate(90,375,525)" />
+              <svg:circle cx="375" cy="350" r="8" transform="rotate(-90,375,525)" />
+              <svg:circle cx="375" cy="350" r="8" transform="rotate(120,375,525)" />
+              <svg:circle cx="375" cy="350" r="8" transform="rotate(240 375 525)" />
+              <svg:circle cx="375" cy="350" r="8" transform="rotate(150,375,525)" />
+              <svg:circle cx="375" cy="350" r="8" transform="rotate(210 375 525)" />
+              <svg:circle cx="375" cy="350" r="8" transform="rotate(180,375,525)" />
+            </svg:g>
+            <svg:g id="step1">
+              <svg:ellipse cx="375" cy="450" rx="35" ry="75" transform="rotate(36,375,525)" />
+              <svg:ellipse cx="375" cy="450" rx="35" ry="75" transform="rotate(-36,375,525)" />
+              <svg:ellipse cx="375" cy="450" rx="35" ry="75" transform="rotate(108,375,525)" />
+              <svg:ellipse cx="375" cy="450" rx="35" ry="75" transform="rotate(252 375 525)" />
+              <svg:ellipse cx="375" cy="450" rx="35" ry="75" transform="rotate(180,375,525)" />
+            </svg:g>
+            <svg:circle cx="375" cy="525" id="center" r="60" />
+          </svg:g>
+        </svg:g>
+      </svg:g>
+    </svg:g>
+  </svg:g>
+  <svg:g id="info">
+    <svg:g transform="translate(116,155)">
+      <svg:text x="0" y="0">Catto Creations, LLC</svg:text>
+      <svg:text x="0" y="13">Family, Literacy, &amp; Enrichment</svg:text>
+    </svg:g>
+    <svg:g transform="translate(116,345) rotate(180)">
+      <svg:text x="0" y="0">Catto Creations, LLC</svg:text>
+      <svg:text x="0" y="13">http://www.cattocreations.com</svg:text>
+    </svg:g>
+    <svg:g transform="translate(416,155)">
+      <svg:text x="0" y="0">Catto Creations, LLC</svg:text>
+      <svg:text x="0" y="13">http://www.cattocreations.com</svg:text>
+    </svg:g>
+    <svg:g transform="translate(416,345) rotate(180)">
+      <svg:text x="0" y="0">Catto Creations, LLC</svg:text>
+      <svg:text x="0" y="13">Family, Literacy, &amp; Enrichment</svg:text>
+    </svg:g>
+  </svg:g>
+  <svg:metadata>
+    <rdf:RDF>
+      <ns3:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <ns3:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <ns3:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </ns3:Agent>
+        </dc:publisher>
+        <dc:title>Picture Cube Activity 2</dc:title>
+        <dc:date>2013-11-03T10:04:43</dc:date>
+        <dc:description>Print, Cutout, Fold, &amp; Glue your picture cube.  Edit SVG source code to insert your own square pictures, SVG or bitmap. A fun activity for kids.</dc:description>
+        <dc:source>https://openclipart.org/detail/188281/picture-cube-activity-2-by-jaynick-188281</dc:source>
+        <dc:creator>
+          <ns3:Agent>
+            <dc:title>JayNick</dc:title>
+          </ns3:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>activity</rdf:li>
+            <rdf:li>children</rdf:li>
+            <rdf:li>cube</rdf:li>
+            <rdf:li>cut</rdf:li>
+            <rdf:li>doodles</rdf:li>
+            <rdf:li>fold</rdf:li>
+            <rdf:li>fun</rdf:li>
+            <rdf:li>glue</rdf:li>
+            <rdf:li>handcoded</rdf:li>
+            <rdf:li>images</rdf:li>
+            <rdf:li>kids</rdf:li>
+            <rdf:li>picture</rdf:li>
+            <rdf:li>pictures</rdf:li>
+            <rdf:li>print</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </ns3:Work>
+      <ns3:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <ns3:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </ns3:License>
+    </rdf:RDF>
+  </svg:metadata>
+</svg:svg>
