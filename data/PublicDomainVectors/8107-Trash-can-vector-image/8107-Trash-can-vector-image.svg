@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:svg="http://www.w3.org/2000/svg" id="svg2" viewBox="0 0 128 128" version="1.0">
+  <defs id="defs4">
+    <linearGradient id="linearGradient2299" x1="76" xlink:href="#BlackTransparent" gradientUnits="userSpaceOnUse" y1="105.3" gradientTransform="matrix(.9 0 0 .9 3.5 9)" x2="76" y2="86"/>
+    <linearGradient id="BlackTransparent">
+      <stop id="stop8" offset="0"/>
+      <stop id="stop10" stop-opacity="0" offset="1"/>
+    </linearGradient>
+    <linearGradient id="WhiteTransparent">
+      <stop id="stop13" stop-color="#fff" offset="0"/>
+      <stop id="stop15" stop-color="#fff" stop-opacity="0" offset="1"/>
+    </linearGradient>
+    <linearGradient id="linearGradient6182" xlink:href="#WhiteTransparent" gradientUnits="userSpaceOnUse" x2="0" y1="21" y2="30"/>
+    <linearGradient id="linearGradient6185" xlink:href="#WhiteTransparent" gradientUnits="userSpaceOnUse" x2="0" y1="71" y2="59"/>
+    <linearGradient id="linearGradient6188" xlink:href="#WhiteTransparent" gradientUnits="userSpaceOnUse" x2="0" y1="52" y2="16"/>
+    <linearGradient id="linearGradient6192" xlink:href="#BlackTransparent" gradientUnits="userSpaceOnUse" x2="0" y1="35" y2="48"/>
+    <linearGradient id="linearGradient6197" x1="13" xlink:href="#BlackTransparent" gradientUnits="userSpaceOnUse" x2="13" y1="56" y2="102"/>
+    <linearGradient id="linearGradient6213" gradientUnits="userSpaceOnUse" x2="46" x1="22" xlink:href="#WhiteTransparent"/>
+    <linearGradient id="linearGradient6216" gradientUnits="userSpaceOnUse" x2="60" x1="96" xlink:href="#WhiteTransparent"/>
+    <clipPath id="clipoutline1" clipPathUnits="userSpaceOnUse">
+      <path id="outline1" d="m60.3 27.4c-19.9 0-35.9 7.6-35.9 16.6v56.8c0 9.2 16 16.5 35.9 16.5 19.7 0 35.7-7.3 35.7-16.5v-56.8c0-9-16-16.6-35.7-16.6z"/>
+    </clipPath>
+    <clipPath id="clipoutline2" clipPathUnits="userSpaceOnUse">
+      <path id="outline2" d="m59.6 18c-23.3 0-42 9.8-42.6 21.7v9.8c0 12.5 19.5 22.5 43.7 22.5 24.3 0 43.7-10 43.7-22.5v-9.7c0-12.2-19.8-21.8-43.7-21.8h-1.1z"/>
+    </clipPath>
+    <filter id="ShadowBlur" y="0" x="0" filterUnits="userSpaceOnUse">
+      <feGaussianBlur id="feGaussianBlur31" in="SourceAlpha" stdDeviation="3" result="blur"/>
+    </filter>
+  </defs>
+  <style id="style33" type="text/css">.specularity {opacity:0.5;}
+	.high-specularity {opacity:0.75;}
+	.low-specularity {opacity:0.25;}
+	.full-specularity {opacity:1;}
+	.shade{opacity:0.5;}
+	.black {fill:#000000;}
+	.white {fill:#ffffff;}
+	.outline-big {stroke-width:16;stroke:none;opacity:0.;fill:none;}
+	.outline-small {stroke-width:8px;stroke:black;opacity:1;fill:none;}
+	.stroke-highlight {fill:none;stroke:white;opacity:0.3;stroke-width:9px;stroke-linejoin:round;}
+				.base-shadow 	{fill:black;opacity:0.4;}
+	.stroke-aluminium5	{stroke:#555753;}
+	.aluminium1	{fill:#eeeeec;}
+	.aluminium2	{fill:#d3d7cf;}
+	.aluminium3	{fill:#babdb6;}
+	.aluminium4	{fill:#888a85;}
+	.aluminium5	{fill:#555753;}
+	.aluminium6	{fill:#2e3436;}</style>
+  <g id="g35">
+    <g id="g37">
+      <path id="path39" filter="url(#ShadowBlur)" d="m105.87 105c0 10.76-20.021 19.49-44.69 19.49-24.67 0-44.692-8.73-44.692-19.49 0-10.753 20.022-19.483 44.692-19.483 24.669 0 44.69 8.73 44.69 19.483z" class="filter base-shadow"/>
+      <g id="g41">
+        <use id="use43" xlink:href="#outline1" class="outline-big"/>
+        <use id="use45" xlink:href="#outline1" class="outline-small stroke-aluminium5"/>
+      </g>
+      <path id="path47" d="m60.4 30c-19.8 0-35.7 7.6-35.7 16.7v54c0 9.1 15.9 16.3 35.7 16.3 19.6 0 35.6-7.2 35.6-16.3v-54c0-9.1-16-16.7-35.6-16.7z" fill="#888a85"/>
+      <path id="path49" d="m60.4 27.6c-19.9 0-19.9 89.4 0 89.4 19.6 0 35.6-7.1 35.6-16.3v-56.7c0-9-16-16.4-35.6-16.4z" fill="url(#linearGradient6216)" class="specularity"/>
+      <path id="path51" d="m42.4 58l-17.7-8.3v51.3c0 5 7.3 11.7 17.8 13.7l-0.1-56.7z" fill="url(#linearGradient6213)" class="high-specularity"/>
+      <path id="path53" d="m24.6 57.7v17.7c20.9 15.1 50.9 15.6 71.4 0v-17.7c-20 16.3-51 14.8-71.4 0z" fill="url(#linearGradient6197)" class="shade"/>
+      <use id="use55" clip-path="url(#clipoutline1)" xlink:href="#outline1" class="stroke-highlight"/>
+    </g>
+    <g id="g57">
+      <g id="g59">
+        <use id="use61" xlink:href="#outline2" class="outline-big"/>
+        <use id="use63" xlink:href="#outline2" class="outline-small stroke-aluminium5"/>
+      </g>
+      <path id="path65" class="aluminium2" d="m60.7 18c24.3 0 43.7 10 43.7 22v3.5c0 12.5-19.4 22.5-43.7 22.5-24.2 0-43.7-10-43.7-22.5v-3.5c0-12 19.5-22 43.7-22z"/>
+      <path id="path67" class="aluminium4" d="m60.7 59c24.3 0 43.7-6.4 43.7-19.6v10.1c0 12.5-19.4 22.5-43.7 22.5-24.2 0-43.7-10-43.7-22.5v-10.1c0 7.9 19.5 19.6 43.7 19.6z"/>
+      <path id="path69" opacity=".5" d="m16.473 36.525c0 11.4 27.282 17.545 44.227 17.545 17.652 0 43.7-3.745 43.7-17.545v3.359c0 16.05-29.4 19.25-43.7 19.25-13.8 0-44.319-8.339-44.319-20.339" fill="url(#linearGradient6188)"/>
+      <path id="path71" d="m61 59c-27.3 0-56.5-12.4-34.5 3.7 8.2 6 20.2 9 34.5 9 14.4 0 26-3 34.7-9 21.3-15.2-7.7-3.7-34.7-3.7z" fill="url(#linearGradient6185)" class="specularity"/>
+      <use id="use73" clip-path="url(#clipoutline2)" xlink:href="#outline2" class="stroke-highlight"/>
+      <g id="g75">
+        <path id="path77" d="m41.4 35.6h40.1c4.5 0 4.5 6.9 0 6.9h-40.1c-4.4 0-4.6-6.9 0-6.9z" fill="url(#linearGradient6192)" class="shade"/>
+        <path id="path79" d="m61.6 19.3c-18.6 0-20.1 6-20.1 12.3v6.8c0 2.9 7.5 2.3 7.5 0v-2.4c0-4.4 4.5-5.5 12.6-5.5s12.4 1.1 12.4 5.5v2.4c0 2.3 7.6 2.3 7.6 0v-6.8c0-6.3-1.6-12.3-20-12.3z"/>
+        <path id="path81" d="m61.6 21.3c-8.2 0-14.6 1.2-14.6 6.1h29c0-4.9-6.3-6.1-14.4-6.1z" fill="url(#linearGradient6182)" class="specularity"/>
+      </g>
+    </g>
+    <g id="g83">
+      <path id="path85" opacity=".5" d="m32 83.6v15.4c0 6.9 8 7 8 0v-15.4c0-5.3-8-5.7-8 0zm48 0v15.4c1.9 5.9 7.5 4.7 8 0v-15.4c0-5-7.8-4.9-8 0zm-32.6 4.1v18.3c0 6.3 8.5 5.7 8.6 0v-18.3c0-5.4-8.5-5.7-8.6 0zm16.6 0v18.3c0 6.5 8.9 5.8 9 0v-18.3c-1.4-6.1-8.2-5.5-9 0z"/>
+      <path id="path87" opacity=".5" d="m88 91c0 4.2-8 4-8 0v7.4c0 5.6 8 6.3 8 0v-7.4zm-56 0v7.4c0 8 8 7.6 8 0v-7.4c0 4.9-8 4.6-8 0zm24 6.8c0 5.1-8.6 4.2-8.6 0v7.9c0 6.9 8.5 5.9 8.6 0v-7.9zm17 0c0 5.8-9 4.9-9 0v7.9c0 7.1 9 6.3 9 0v-7.9z" fill="url(#linearGradient2299)"/>
+    </g>
+  </g>
+  <metadata>
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+        <dc:publisher>
+          <cc:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>Trash Can</dc:title>
+        <dc:date>2006-08-29T17:30:49</dc:date>
+        <dc:description>Trans can. Not as clean as it could be ( pun intended ) but clean enough to publish and make useful.&#xD;\n&#xD;\n[b]This illustration uses clean SVG with a separated  area to theme elements in the design. Open it up in a plain text editor before loading into your favorite SVG editor for a world of fun[/b]</dc:description>
+        <dc:source>http://openclipart.org/detail/68/trash-can-by-andy</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Andy</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>bin</rdf:li>
+            <rdf:li>can</rdf:li>
+            <rdf:li>clip art</rdf:li>
+            <rdf:li>clipart</rdf:li>
+            <rdf:li>colour</rdf:li>
+            <rdf:li>contour</rdf:li>
+            <rdf:li>desktop</rdf:li>
+            <rdf:li>garbage</rdf:li>
+            <rdf:li>grey</rdf:li>
+            <rdf:li>icon</rdf:li>
+            <rdf:li>logo</rdf:li>
+            <rdf:li>metal</rdf:li>
+            <rdf:li>metallic</rdf:li>
+            <rdf:li>recycle</rdf:li>
+            <rdf:li>shiny</rdf:li>
+            <rdf:li>trash</rdf:li>
+            <rdf:li>waste</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>

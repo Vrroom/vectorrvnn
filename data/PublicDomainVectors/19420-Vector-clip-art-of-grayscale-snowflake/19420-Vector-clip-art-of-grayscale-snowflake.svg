@@ -1,0 +1,1351 @@
+<?xml version="1.0"?>
+<svg
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:cc="http://creativecommons.org/ns#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    xmlns:ns1="http://sozi.baierouge.fr"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    id="svg2"
+    viewBox="0 0 231.85 309.36"
+    version="1.1"
+  >
+  <title
+      id="title7002"
+    >Snowflake 2013</title
+  >
+  <defs
+      id="defs4"
+    >
+    <filter
+        id="filter5364"
+        color-interpolation-filters="sRGB"
+      >
+      <feGaussianBlur
+          id="feGaussianBlur5366"
+          result="result0"
+          stdDeviation="2"
+          in="SourceAlpha"
+      />
+      <feComposite
+          id="feComposite5368"
+          k4="0"
+          in2="result0"
+          k3="10"
+          k2="1"
+          k1="0"
+          result="result3"
+          in="SourceGraphic"
+          operator="arithmetic"
+      />
+      <feComposite
+          id="feComposite5370"
+          operator="in"
+          result="result4"
+          in2="result3"
+          in="result3"
+      />
+    </filter
+    >
+    <filter
+        id="filter5372"
+        color-interpolation-filters="sRGB"
+      >
+      <feGaussianBlur
+          id="feGaussianBlur5374"
+          result="result0"
+          stdDeviation="2"
+          in="SourceAlpha"
+      />
+      <feComposite
+          id="feComposite5376"
+          k4="0"
+          in2="result0"
+          k3="10"
+          k2="1"
+          k1="0"
+          result="result3"
+          in="SourceGraphic"
+          operator="arithmetic"
+      />
+      <feComposite
+          id="feComposite5378"
+          operator="in"
+          result="result4"
+          in2="result3"
+          in="result3"
+      />
+    </filter
+    >
+    <filter
+        id="filter5380"
+        color-interpolation-filters="sRGB"
+      >
+      <feGaussianBlur
+          id="feGaussianBlur5382"
+          result="result0"
+          stdDeviation="2"
+          in="SourceAlpha"
+      />
+      <feComposite
+          id="feComposite5384"
+          k4="0"
+          in2="result0"
+          k3="10"
+          k2="1"
+          k1="0"
+          result="result3"
+          in="SourceGraphic"
+          operator="arithmetic"
+      />
+      <feComposite
+          id="feComposite5386"
+          operator="in"
+          result="result4"
+          in2="result3"
+          in="result3"
+      />
+    </filter
+    >
+    <filter
+        id="filter5388"
+        color-interpolation-filters="sRGB"
+      >
+      <feGaussianBlur
+          id="feGaussianBlur5390"
+          result="result0"
+          stdDeviation="2"
+          in="SourceAlpha"
+      />
+      <feComposite
+          id="feComposite5392"
+          k4="0"
+          in2="result0"
+          k3="10"
+          k2="1"
+          k1="0"
+          result="result3"
+          in="SourceGraphic"
+          operator="arithmetic"
+      />
+      <feComposite
+          id="feComposite5394"
+          operator="in"
+          result="result4"
+          in2="result3"
+          in="result3"
+      />
+    </filter
+    >
+    <filter
+        id="filter5396"
+        color-interpolation-filters="sRGB"
+      >
+      <feGaussianBlur
+          id="feGaussianBlur5398"
+          result="result0"
+          stdDeviation="2"
+          in="SourceAlpha"
+      />
+      <feComposite
+          id="feComposite5400"
+          k4="0"
+          in2="result0"
+          k3="10"
+          k2="1"
+          k1="0"
+          result="result3"
+          in="SourceGraphic"
+          operator="arithmetic"
+      />
+      <feComposite
+          id="feComposite5402"
+          operator="in"
+          result="result4"
+          in2="result3"
+          in="result3"
+      />
+    </filter
+    >
+    <filter
+        id="filter5404"
+        color-interpolation-filters="sRGB"
+      >
+      <feGaussianBlur
+          id="feGaussianBlur5406"
+          result="result0"
+          stdDeviation="2"
+          in="SourceAlpha"
+      />
+      <feComposite
+          id="feComposite5408"
+          k4="0"
+          in2="result0"
+          k3="10"
+          k2="1"
+          k1="0"
+          result="result3"
+          in="SourceGraphic"
+          operator="arithmetic"
+      />
+      <feComposite
+          id="feComposite5410"
+          operator="in"
+          result="result4"
+          in2="result3"
+          in="result3"
+      />
+    </filter
+    >
+    <filter
+        id="filter6932"
+        height="1.4"
+        color-interpolation-filters="sRGB"
+        y="-.2"
+      >
+      <feMorphology
+          id="feMorphology6934"
+          operator="dilate"
+          in="SourceGraphic"
+          radius="7"
+          result="result8"
+      />
+      <feComposite
+          id="feComposite6936"
+          k4="0"
+          in2="result8"
+          k3="0.5"
+          k2="0"
+          k1="0.5"
+          result="result10"
+          in="SourceGraphic"
+          operator="arithmetic"
+      />
+      <feTurbulence
+          id="feTurbulence6938"
+          numOctaves="3"
+          type="fractalNoise"
+          baseFrequency="0.07"
+          result="result11"
+      />
+      <feDisplacementMap
+          id="feDisplacementMap6940"
+          scale="10"
+          yChannelSelector="A"
+          in2="result11"
+          result="result12"
+          xChannelSelector="R"
+          in="result10"
+      />
+      <feComposite
+          id="feComposite6942"
+          k4="0"
+          in2="result12"
+          k3="0.75"
+          k2="0.25"
+          k1="0.25"
+          result="result13"
+          in="SourceGraphic"
+          operator="arithmetic"
+      />
+    </filter
+    >
+  </defs
+  >
+  <g
+      id="layer1"
+      transform="translate(-123.57 -298.18)"
+    >
+    <g
+        id="g5868"
+        filter="url(#filter6932)"
+        stroke="#f9f9f9"
+        stroke-width="1px"
+        fill="#fff"
+      >
+      <g
+          id="g4770"
+          filter="url(#filter5404)"
+        >
+        <g
+            id="g3702"
+          >
+          <path
+              id="path3025"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path3031"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path3033"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path3069"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path3071"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path3073"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path3093"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path3095"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path3097"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path3294"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path3296"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path3298"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path3300"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path3302"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path3304"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path3306"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path3308"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path3310"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <g
+              id="g3312"
+              transform="translate(0,-22)"
+            >
+            <g
+                id="g3314"
+                transform="translate(0,28)"
+              >
+              <path
+                  id="path3316"
+                  d="m205.18 373.05 34.641 20"
+              />
+              <path
+                  id="path3318"
+                  d="m205.49 383.39 8.6603-5"
+              />
+              <path
+                  id="path3320"
+                  d="m214.84 368.63v10"
+              />
+            </g
+            >
+            <g
+                id="g3322"
+                transform="matrix(-1 0 0 1 478.99 28)"
+              >
+              <path
+                  id="path3324"
+                  d="m205.18 373.05 34.641 20"
+              />
+              <path
+                  id="path3326"
+                  d="m205.49 383.39 8.6603-5"
+              />
+              <path
+                  id="path3328"
+                  d="m214.84 368.63v10"
+              />
+            </g
+            >
+          </g
+          >
+        </g
+        >
+        <g
+            id="g4387"
+            transform="matrix(.5 .86603 -.86603 .5 479.94 -31.836)"
+          >
+          <path
+              id="path4381"
+              d="m270 412.36v20"
+          />
+          <path
+              id="path4383"
+              d="m278.64 417.71-8.6603 5"
+          />
+          <path
+              id="path4385"
+              d="m261.16 418.05 8.6603 5"
+          />
+        </g
+        >
+        <g
+            id="g4392"
+            transform="matrix(-.5 .86603 .86603 .5 .38986 -31.836)"
+          >
+          <path
+              id="path4394"
+              d="m270 412.36v20"
+          />
+          <path
+              id="path4396"
+              d="m278.64 417.71-8.6603 5"
+          />
+          <path
+              id="path4398"
+              d="m261.16 418.05 8.6603 5"
+          />
+        </g
+        >
+      </g
+      >
+      <g
+          id="g4808"
+          transform="matrix(.5 -.86603 .86603 .5 -272.44 433.84)"
+          filter="url(#filter5396)"
+        >
+        <g
+            id="g4810"
+          >
+          <path
+              id="path4812"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path4814"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path4816"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path4818"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path4820"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path4822"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path4824"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path4826"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path4828"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path4830"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path4832"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path4834"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path4836"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path4838"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path4840"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path4842"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path4844"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path4846"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <g
+              id="g4848"
+              transform="translate(0,-22)"
+            >
+            <g
+                id="g4850"
+                transform="translate(0,28)"
+              >
+              <path
+                  id="path4852"
+                  d="m205.18 373.05 34.641 20"
+              />
+              <path
+                  id="path4854"
+                  d="m205.49 383.39 8.6603-5"
+              />
+              <path
+                  id="path4856"
+                  d="m214.84 368.63v10"
+              />
+            </g
+            >
+            <g
+                id="g4858"
+                transform="matrix(-1 0 0 1 478.99 28)"
+              >
+              <path
+                  id="path4860"
+                  d="m205.18 373.05 34.641 20"
+              />
+              <path
+                  id="path4862"
+                  d="m205.49 383.39 8.6603-5"
+              />
+              <path
+                  id="path4864"
+                  d="m214.84 368.63v10"
+              />
+            </g
+            >
+          </g
+          >
+        </g
+        >
+        <g
+            id="g4866"
+            transform="matrix(.5 .86603 -.86603 .5 479.94 -31.836)"
+          >
+          <path
+              id="path4868"
+              d="m270 412.36v20"
+          />
+          <path
+              id="path4870"
+              d="m278.64 417.71-8.6603 5"
+          />
+          <path
+              id="path4872"
+              d="m261.16 418.05 8.6603 5"
+          />
+        </g
+        >
+        <g
+            id="g4874"
+            transform="matrix(-.5 .86603 .86603 .5 .38986 -31.836)"
+          >
+          <path
+              id="path4876"
+              d="m270 412.36v20"
+          />
+          <path
+              id="path4878"
+              d="m278.64 417.71-8.6603 5"
+          />
+          <path
+              id="path4880"
+              d="m261.16 418.05 8.6603 5"
+          />
+        </g
+        >
+      </g
+      >
+      <g
+          id="g4882"
+          transform="matrix(-.5 -.86603 .86603 -.5 -32.945 886.7)"
+          filter="url(#filter5388)"
+        >
+        <g
+            id="g4884"
+          >
+          <path
+              id="path4886"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path4888"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path4890"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path4892"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path4894"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path4896"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path4898"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path4900"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path4902"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path4904"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path4906"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path4908"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path4910"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path4912"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path4914"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path4916"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path4918"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path4920"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <g
+              id="g4922"
+              transform="translate(0,-22)"
+            >
+            <g
+                id="g4924"
+                transform="translate(0,28)"
+              >
+              <path
+                  id="path4926"
+                  d="m205.18 373.05 34.641 20"
+              />
+              <path
+                  id="path4928"
+                  d="m205.49 383.39 8.6603-5"
+              />
+              <path
+                  id="path4930"
+                  d="m214.84 368.63v10"
+              />
+            </g
+            >
+            <g
+                id="g4932"
+                transform="matrix(-1 0 0 1 478.99 28)"
+              >
+              <path
+                  id="path4934"
+                  d="m205.18 373.05 34.641 20"
+              />
+              <path
+                  id="path4936"
+                  d="m205.49 383.39 8.6603-5"
+              />
+              <path
+                  id="path4938"
+                  d="m214.84 368.63v10"
+              />
+            </g
+            >
+          </g
+          >
+        </g
+        >
+        <g
+            id="g4940"
+            transform="matrix(.5 .86603 -.86603 .5 479.94 -31.836)"
+          >
+          <path
+              id="path4942"
+              d="m270 412.36v20"
+          />
+          <path
+              id="path4944"
+              d="m278.64 417.71-8.6603 5"
+          />
+          <path
+              id="path4946"
+              d="m261.16 418.05 8.6603 5"
+          />
+        </g
+        >
+        <g
+            id="g4948"
+            transform="matrix(-.5 .86603 .86603 .5 .38986 -31.836)"
+          >
+          <path
+              id="path4950"
+              d="m270 412.36v20"
+          />
+          <path
+              id="path4952"
+              d="m278.64 417.71-8.6603 5"
+          />
+          <path
+              id="path4954"
+              d="m261.16 418.05 8.6603 5"
+          />
+        </g
+        >
+      </g
+      >
+      <g
+          id="g4956"
+          transform="matrix(-1 0 0 -1 478.99 905.72)"
+          filter="url(#filter5380)"
+        >
+        <g
+            id="g4958"
+          >
+          <path
+              id="path4960"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path4962"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path4964"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path4966"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path4968"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path4970"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path4972"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path4974"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path4976"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path4978"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path4980"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path4982"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path4984"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path4986"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path4988"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path4990"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path4992"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path4994"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <g
+              id="g4996"
+              transform="translate(0,-22)"
+            >
+            <g
+                id="g4998"
+                transform="translate(0,28)"
+              >
+              <path
+                  id="path5000"
+                  d="m205.18 373.05 34.641 20"
+              />
+              <path
+                  id="path5002"
+                  d="m205.49 383.39 8.6603-5"
+              />
+              <path
+                  id="path5004"
+                  d="m214.84 368.63v10"
+              />
+            </g
+            >
+            <g
+                id="g5006"
+                transform="matrix(-1 0 0 1 478.99 28)"
+              >
+              <path
+                  id="path5008"
+                  d="m205.18 373.05 34.641 20"
+              />
+              <path
+                  id="path5010"
+                  d="m205.49 383.39 8.6603-5"
+              />
+              <path
+                  id="path5012"
+                  d="m214.84 368.63v10"
+              />
+            </g
+            >
+          </g
+          >
+        </g
+        >
+        <g
+            id="g5014"
+            transform="matrix(.5 .86603 -.86603 .5 479.94 -31.836)"
+          >
+          <path
+              id="path5016"
+              d="m270 412.36v20"
+          />
+          <path
+              id="path5018"
+              d="m278.64 417.71-8.6603 5"
+          />
+          <path
+              id="path5020"
+              d="m261.16 418.05 8.6603 5"
+          />
+        </g
+        >
+        <g
+            id="g5022"
+            transform="matrix(-.5 .86603 .86603 .5 .38986 -31.836)"
+          >
+          <path
+              id="path5024"
+              d="m270 412.36v20"
+          />
+          <path
+              id="path5026"
+              d="m278.64 417.71-8.6603 5"
+          />
+          <path
+              id="path5028"
+              d="m261.16 418.05 8.6603 5"
+          />
+        </g
+        >
+      </g
+      >
+      <g
+          id="g5030"
+          transform="matrix(-.5 .86603 -.86603 -.5 751.43 471.88)"
+          filter="url(#filter5372)"
+        >
+        <g
+            id="g5032"
+          >
+          <path
+              id="path5034"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path5036"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path5038"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path5040"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path5042"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path5044"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path5046"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path5048"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path5050"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path5052"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path5054"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path5056"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path5058"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path5060"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path5062"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path5064"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path5066"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path5068"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <g
+              id="g5070"
+              transform="translate(0,-22)"
+            >
+            <g
+                id="g5072"
+                transform="translate(0,28)"
+              >
+              <path
+                  id="path5074"
+                  d="m205.18 373.05 34.641 20"
+              />
+              <path
+                  id="path5076"
+                  d="m205.49 383.39 8.6603-5"
+              />
+              <path
+                  id="path5078"
+                  d="m214.84 368.63v10"
+              />
+            </g
+            >
+            <g
+                id="g5080"
+                transform="matrix(-1 0 0 1 478.99 28)"
+              >
+              <path
+                  id="path5082"
+                  d="m205.18 373.05 34.641 20"
+              />
+              <path
+                  id="path5084"
+                  d="m205.49 383.39 8.6603-5"
+              />
+              <path
+                  id="path5086"
+                  d="m214.84 368.63v10"
+              />
+            </g
+            >
+          </g
+          >
+        </g
+        >
+        <g
+            id="g5088"
+            transform="matrix(.5 .86603 -.86603 .5 479.94 -31.836)"
+          >
+          <path
+              id="path5090"
+              d="m270 412.36v20"
+          />
+          <path
+              id="path5092"
+              d="m278.64 417.71-8.6603 5"
+          />
+          <path
+              id="path5094"
+              d="m261.16 418.05 8.6603 5"
+          />
+        </g
+        >
+        <g
+            id="g5096"
+            transform="matrix(-.5 .86603 .86603 .5 .38986 -31.836)"
+          >
+          <path
+              id="path5098"
+              d="m270 412.36v20"
+          />
+          <path
+              id="path5100"
+              d="m278.64 417.71-8.6603 5"
+          />
+          <path
+              id="path5102"
+              d="m261.16 418.05 8.6603 5"
+          />
+        </g
+        >
+      </g
+      >
+      <g
+          id="g5104"
+          transform="matrix(.5 .86603 -.86603 .5 511.94 19.021)"
+          filter="url(#filter5364)"
+        >
+        <g
+            id="g5106"
+          >
+          <path
+              id="path5108"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path5110"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path5112"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path5114"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path5116"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path5118"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path5120"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path5122"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path5124"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path5126"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path5128"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path5130"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path5132"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path5134"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path5136"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <path
+              id="path5138"
+              d="m240 352.36v100"
+          />
+          <path
+              id="path5140"
+              d="m231.16 358.05 8.6603 5"
+          />
+          <path
+              id="path5142"
+              d="m248.99 357.18-8.6603 5"
+          />
+          <g
+              id="g5144"
+              transform="translate(0,-22)"
+            >
+            <g
+                id="g5146"
+                transform="translate(0,28)"
+              >
+              <path
+                  id="path5148"
+                  d="m205.18 373.05 34.641 20"
+              />
+              <path
+                  id="path5150"
+                  d="m205.49 383.39 8.6603-5"
+              />
+              <path
+                  id="path5152"
+                  d="m214.84 368.63v10"
+              />
+            </g
+            >
+            <g
+                id="g5154"
+                transform="matrix(-1 0 0 1 478.99 28)"
+              >
+              <path
+                  id="path5156"
+                  d="m205.18 373.05 34.641 20"
+              />
+              <path
+                  id="path5158"
+                  d="m205.49 383.39 8.6603-5"
+              />
+              <path
+                  id="path5160"
+                  d="m214.84 368.63v10"
+              />
+            </g
+            >
+          </g
+          >
+        </g
+        >
+        <g
+            id="g5162"
+            transform="matrix(.5 .86603 -.86603 .5 479.94 -31.836)"
+          >
+          <path
+              id="path5164"
+              d="m270 412.36v20"
+          />
+          <path
+              id="path5166"
+              d="m278.64 417.71-8.6603 5"
+          />
+          <path
+              id="path5168"
+              d="m261.16 418.05 8.6603 5"
+          />
+        </g
+        >
+        <g
+            id="g5170"
+            transform="matrix(-.5 .86603 .86603 .5 .38986 -31.836)"
+          >
+          <path
+              id="path5172"
+              d="m270 412.36v20"
+          />
+          <path
+              id="path5174"
+              d="m278.64 417.71-8.6603 5"
+          />
+          <path
+              id="path5176"
+              d="m261.16 418.05 8.6603 5"
+          />
+        </g
+        >
+      </g
+      >
+    </g
+    >
+    <text
+        id="text6954"
+        style="word-spacing:0px;letter-spacing:0.6px"
+        xml:space="preserve"
+        transform="translate(123.57 298.18)"
+        font-size="18px"
+        y="43.364105"
+        x="-179"
+        font-family="FreeSans"
+        line-height="125%"
+        fill="#000000"
+      >
+      <tspan
+          id="tspan6956"
+          x="-179"
+          y="43.364105"
+      />
+    </text
+    >
+  </g
+  >
+  <metadata
+    >
+    <rdf:RDF
+      >
+      <cc:Work
+        >
+        <dc:format
+          >image/svg+xml</dc:format
+        >
+        <dc:type
+            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+        />
+        <cc:license
+            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
+        />
+        <dc:publisher
+          >
+          <cc:Agent
+              rdf:about="http://openclipart.org/"
+            >
+            <dc:title
+              >Openclipart</dc:title
+            >
+          </cc:Agent
+          >
+        </dc:publisher
+        >
+        <dc:title
+          >Snowflake</dc:title
+        >
+        <dc:date
+          >2013-11-12T09:01:50</dc:date
+        >
+        <dc:description
+          >Snowflake</dc:description
+        >
+        <dc:source
+          >https://openclipart.org/detail/188662/snowflake-by-algotruneman-188662</dc:source
+        >
+        <dc:creator
+          >
+          <cc:Agent
+            >
+            <dc:title
+              >algotruneman</dc:title
+            >
+          </cc:Agent
+          >
+        </dc:creator
+        >
+        <dc:subject
+          >
+          <rdf:Bag
+            >
+            <rdf:li
+              >snow</rdf:li
+            >
+            <rdf:li
+              >snowflake</rdf:li
+            >
+            <rdf:li
+              >winter</rdf:li
+            >
+          </rdf:Bag
+          >
+        </dc:subject
+        >
+      </cc:Work
+      >
+      <cc:License
+          rdf:about="http://creativecommons.org/licenses/publicdomain/"
+        >
+        <cc:permits
+            rdf:resource="http://creativecommons.org/ns#Reproduction"
+        />
+        <cc:permits
+            rdf:resource="http://creativecommons.org/ns#Distribution"
+        />
+        <cc:permits
+            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
+        />
+      </cc:License
+      >
+    </rdf:RDF
+    >
+  </metadata
+  >
+</svg
+>

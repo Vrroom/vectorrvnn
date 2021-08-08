@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:svg="http://www.w3.org/2000/svg" id="svg2" viewBox="0 0 314.71 342.92" version="1.1">
+  <title id="title4350">Archery Target</title>
+  <defs id="defs4">
+    <filter id="filter3122" color-interpolation-filters="sRGB">
+      <feFlood id="feFlood3124" result="flood" flood-opacity=".8" flood-color="rgb(0,0,0)"/>
+      <feComposite id="feComposite3126" operator="in" result="composite1" in2="SourceGraphic" in="flood"/>
+      <feGaussianBlur id="feGaussianBlur3128" stdDeviation="1" result="blur"/>
+      <feOffset id="feOffset3130" result="offset" dx="2" dy="4"/>
+      <feComposite id="feComposite3132" operator="over" result="composite2" in2="offset" in="SourceGraphic"/>
+    </filter>
+    <filter id="filter3912" color-interpolation-filters="sRGB">
+      <feGaussianBlur id="feGaussianBlur3914" stdDeviation="4.528925"/>
+    </filter>
+    <filter id="filter3956" color-interpolation-filters="sRGB">
+      <feGaussianBlur id="feGaussianBlur3958" stdDeviation="4.2809735"/>
+    </filter>
+    <filter id="filter4091" color-interpolation-filters="sRGB">
+      <feFlood id="feFlood4093" result="flood" flood-opacity=".8" flood-color="rgb(0,0,0)"/>
+      <feComposite id="feComposite4095" operator="in" result="composite1" in2="SourceGraphic" in="flood"/>
+      <feGaussianBlur id="feGaussianBlur4097" stdDeviation="1" result="blur"/>
+      <feOffset id="feOffset4099" result="offset" dx="4" dy="4"/>
+      <feComposite id="feComposite4101" operator="over" result="fbSourceGraphic" in2="offset" in="SourceGraphic"/>
+      <feColorMatrix id="feColorMatrix4268" result="fbSourceGraphicAlpha" values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0" in="fbSourceGraphic"/>
+      <feFlood id="feFlood4270" result="flood" in="fbSourceGraphic" flood-opacity=".8" flood-color="rgb(0,0,0)"/>
+      <feComposite id="feComposite4272" operator="in" result="composite1" in2="fbSourceGraphic" in="flood"/>
+      <feGaussianBlur id="feGaussianBlur4274" stdDeviation="1" result="blur"/>
+      <feOffset id="feOffset4276" result="offset" dx="4" dy="4"/>
+      <feComposite id="feComposite4278" operator="over" result="composite2" in2="offset" in="fbSourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="layer1" transform="translate(-88.281 -313.06)">
+    <g id="g4530">
+      <g id="g3916" transform="matrix(.99999 0 0 .48857 2.102 324.7)" filter="url(#filter3956)" stroke="#000" stroke-width="1px" fill="#808080">
+        <path id="path3918" d="m290 402.36 21 190h-10l-21-190z"/>
+        <path id="path3920" d="m261 402.36-81 220h10l81-220z"/>
+        <path id="path3922" d="m300 402.36 80 230h-10l-80-230z"/>
+      </g>
+      <path id="path3134" style="color:#000000" d="m384.67 592.04a76.368 60.104 0 1 1 -152.74 0 76.368 60.104 0 1 1 152.74 0z" transform="matrix(.80547 0 0 1.0498 42.862 -54.241)" filter="url(#filter3912)" fill="#808080"/>
+      <g id="g4280" filter="url(#filter4091)" transform="matrix(.99173 0 0 1 1.4517 -1.4173)" fill="#1a1a1a">
+        <path id="path4282" stroke-linejoin="round" style="color:#000000" d="m300 427.36c0 52.467-24.624 95-55 95s-55-42.533-55-95 24.624-95 55-95 55 42.533 55 95z" transform="matrix(1 0 0 .92651 32 24.407)" stroke="#000" stroke-linecap="round" stroke-width=".5"/>
+        <rect id="rect4284" style="color:#000000" height="176.04" width="40" y="332.34" x="240"/>
+        <path id="path4286" stroke-linejoin="round" style="color:#000000" d="m300 427.36c0 52.467-24.624 95-55 95s-55-42.533-55-95 24.624-95 55-95 55 42.533 55 95z" transform="matrix(1 0 0 .92651 0 24.407)" stroke="#000" stroke-linecap="round" stroke-width=".5"/>
+        <path id="path4288" stroke-linejoin="round" style="color:#000000" d="m300 427.36c0 52.467-24.624 95-55 95s-55-42.533-55-95 24.624-95 55-95 55 42.533 55 95z" transform="matrix(.81908 0 0 .71502 40.325 115.79)" stroke="#000" stroke-linecap="round" stroke-width=".5"/>
+        <path id="path4290" stroke-linejoin="round" style="color:#000000" d="m300 427.36c0 52.467-24.624 95-55 95s-55-42.533-55-95 24.624-95 55-95 55 42.533 55 95z" transform="matrix(.61109 0 0 .46806 87.783 221.33)" stroke="#000" stroke-linecap="round" stroke-width=".5"/>
+        <path id="path4292" stroke-linejoin="round" style="color:#000000" d="m300 427.36c0 52.467-24.624 95-55 95s-55-42.533-55-95 24.624-95 55-95 55 42.533 55 95z" transform="matrix(.41194 0 0 .30970 136.58 289.01)" stroke="#000" stroke-linecap="round" stroke-width=".5"/>
+        <path id="path4294" stroke-linejoin="round" style="color:#000000" d="m300 427.36c0 52.467-24.624 95-55 95s-55-42.533-55-95 24.624-95 55-95 55 42.533 55 95z" transform="matrix(.25809 0 0 .16995 172.77 348.73)" stroke="#000" stroke-linecap="round" stroke-width=".5"/>
+        <path id="path4296" stroke-linejoin="round" style="color:#000000" d="m243.5 415.36c0 0.55229-0.33579 1-0.75 1s-0.75-0.44771-0.75-1c0-0.55228 0.33579-1 0.75-1s0.75 0.44772 0.75 1z" transform="matrix(1.1557 0 0 .61678 -46.799 164.42)" stroke="#000" stroke-linecap="round" stroke-width="1.5"/>
+        <path id="path4298" stroke-linejoin="round" style="color:#000000" d="m153.25 470.86c0 0.41422-0.22386 0.75-0.5 0.75s-0.5-0.33578-0.5-0.75c0-0.41421 0.22386-0.75 0.5-0.75s0.5 0.33579 0.5 0.75z" transform="translate(79.75,-39.75)" stroke="#000" stroke-linecap="round" stroke-width="1.5"/>
+        <path id="path4300" stroke-linejoin="round" style="color:#000000" d="m243.5 415.36c0 0.55229-0.33579 1-0.75 1s-0.75-0.44771-0.75-1c0-0.55228 0.33579-1 0.75-1s0.75 0.44772 0.75 1z" transform="matrix(1.1557 0 0 .61678 -37.549 159.67)" stroke="#000" stroke-linecap="round" stroke-width="1.5"/>
+      </g>
+      <g id="g3117" filter="url(#filter3122)" stroke="#000" stroke-width="1px">
+        <path id="path3003" d="m290 402.36 21 190h-10l-21-190z"/>
+        <path id="path3001" d="m261 402.36-81 220h10l81-220z"/>
+        <path id="path2999" d="m300 402.36 80 230h-10l-80-230z"/>
+      </g>
+      <g id="g4030" filter="url(#filter4091)">
+        <path id="path2995" stroke-linejoin="round" style="color:#000000" d="m300 427.36a55 95 0 1 1 -110 0 55 95 0 1 1 110 0z" transform="matrix(1 0 0 .92651 32 24.407)" stroke="#000" stroke-linecap="round" stroke-width=".5" fill="#ececec"/>
+        <rect id="rect2997" style="color:#000000" height="176.04" width="40" y="332.34" x="240" fill="#e6e6e6"/>
+        <path id="path2987" stroke-linejoin="round" style="color:#000000" d="m300 427.36a55 95 0 1 1 -110 0 55 95 0 1 1 110 0z" transform="matrix(1 0 0 .92651 0 24.407)" stroke="#000" stroke-linecap="round" stroke-width=".5" fill="#fff"/>
+        <path id="path2989" stroke-linejoin="round" style="color:#000000" d="m300 427.36a55 95 0 1 1 -110 0 55 95 0 1 1 110 0z" transform="matrix(.81908 0 0 .71502 40.325 115.79)" stroke="#000" stroke-linecap="round" stroke-width=".5"/>
+        <path id="path2991" stroke-linejoin="round" style="color:#000000" d="m300 427.36a55 95 0 1 1 -110 0 55 95 0 1 1 110 0z" transform="matrix(.61109 0 0 .46806 87.783 221.33)" stroke="#000" stroke-linecap="round" stroke-width=".5" fill="#00f"/>
+        <path id="path2993" stroke-linejoin="round" style="color:#000000" d="m300 427.36a55 95 0 1 1 -110 0 55 95 0 1 1 110 0z" transform="matrix(.41194 0 0 .30970 136.58 289.01)" stroke="#000" stroke-linecap="round" stroke-width=".5" fill="#f00"/>
+        <path id="path3005" stroke-linejoin="round" style="color:#000000" d="m300 427.36a55 95 0 1 1 -110 0 55 95 0 1 1 110 0z" transform="matrix(.25809 0 0 .16995 172.77 348.73)" stroke="#000" stroke-linecap="round" stroke-width=".5" fill="#ff0"/>
+        <path id="path3059" stroke-linejoin="round" style="color:#000000" d="m243.5 415.36a0.75 1 0 1 1 -1.5 0 0.75 1 0 1 1 1.5 0z" transform="matrix(1.1557 0 0 .61678 -46.799 164.42)" stroke="#000" stroke-linecap="round" stroke-width="1.5" fill="none"/>
+        <path id="path3091" stroke-linejoin="round" style="color:#000000" d="m153.25 470.86a0.5 0.75 0 1 1 -1 0 0.5 0.75 0 1 1 1 0z" transform="translate(79.75,-39.75)" stroke="#000" stroke-linecap="round" stroke-width="1.5" fill="none"/>
+        <path id="path3057" stroke-linejoin="round" style="color:#000000" d="m243.5 415.36a0.75 1 0 1 1 -1.5 0 0.75 1 0 1 1 1.5 0z" transform="matrix(1.1557 0 0 .61678 -37.549 159.67)" stroke="#000" stroke-linecap="round" stroke-width="1.5" fill="none"/>
+      </g>
+      <g id="g3047" transform="matrix(.94898 .095238 0 -1 224.6 846.3)">
+        <path id="path3049" d="m-90 432.36-5 5h-30l5-5z" stroke="#000" stroke-width="1px" fill="#f00"/>
+        <path id="path3051" d="m-90 432.36-5-5h-30l5 5z" stroke="#000" stroke-width="1px" fill="#f00"/>
+        <path id="path3053" d="m-120 432.36h140" stroke="#000" stroke-width="3" fill="none"/>
+        <path id="path3055" d="m-120 432.36h140" stroke="#fff" stroke-width="1.5" fill="#fff"/>
+      </g>
+      <g id="g3031" transform="translate(214.5,-11.5)">
+        <path id="path3029" d="m-90 432.36-5 5h-30l5-5z" stroke="#000" stroke-width="1px" fill="#f00"/>
+        <path id="path3027" d="m-90 432.36-5-5h-30l5 5z" stroke="#000" stroke-width="1px" fill="#f00"/>
+        <path id="path3023" d="m-120 432.36h140" stroke="#000" stroke-width="3" fill="none"/>
+        <path id="path3025" d="m-120 432.36h140" stroke="#fff" stroke-width="1.5" fill="#fff"/>
+      </g>
+      <g id="g3037" transform="matrix(.94898 -.095238 0 1 214.1 .54762)">
+        <path id="path3039" d="m-90 432.36-5 5h-30l5-5z" stroke="#000" stroke-width="1px" fill="#f00"/>
+        <path id="path3041" d="m-90 432.36-5-5h-30l5 5z" stroke="#000" stroke-width="1px" fill="#f00"/>
+        <path id="path3043" d="m-120 432.36h140" stroke="#000" stroke-width="3" fill="none"/>
+        <path id="path3045" d="m-120 432.36h140" stroke="#fff" stroke-width="1.5" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+  <metadata>
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+        <dc:publisher>
+          <cc:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>Archery Target</dc:title>
+        <dc:date>2013-09-08T12:35:49</dc:date>
+        <dc:description/>
+        <dc:source>http://openclipart.org/detail/183214/archery-target-by-algotruneman-183214</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>algotruneman</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>archery</rdf:li>
+            <rdf:li>arrow</rdf:li>
+            <rdf:li>bullseye</rdf:li>
+            <rdf:li>sport</rdf:li>
+            <rdf:li>target</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>

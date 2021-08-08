@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" id="svg2" viewBox="0 0 768 768" version="1.1">
+ <defs id="defs4">
+  <clipPath id="clipPathFlag" clipPathUnits="userSpaceOnUse">
+   <rect id="rect3918" fill-opacity="0.67" ry="57" height="511" width="511" y=".5" x=".5"/>
+  </clipPath>
+  <linearGradient id="linearGradient3852-0">
+   <stop id="stop3854-6" stop-color="#dbe3db" offset="0"/>
+   <stop id="stop3856-1" stop-color="#dbe3db" stop-opacity="0" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient5122" y2="523.41" xlink:href="#linearGradient3852-0" gradientUnits="userSpaceOnUse" x2="358.08" gradientTransform="matrix(1.1571 0 0 1.3167 -91.204 -253.99)" y1="705.76" x1="342.19"/>
+  <linearGradient id="linearGradient5125" y2="360.92" xlink:href="#linearGradient3852-0" gradientUnits="userSpaceOnUse" x2="405.75" gradientTransform="matrix(.95303 0 0 .86647 11.575 -4.5016)" y1="118.06" x1="405.26"/>
+  <filter id="filter5740">
+   <feGaussianBlur id="feGaussianBlur5742" stdDeviation="5.12"/>
+  </filter>
+  <clipPath id="clipPath5796" clipPathUnits="userSpaceOnUse">
+   <rect id="rect5798" ry="57" height="512" width="512" stroke="#00fa00" y="0" x="0" stroke-width="20" fill="none"/>
+  </clipPath>
+  <filter id="filter5912">
+   <feGaussianBlur id="feGaussianBlur5914" stdDeviation="17.92"/>
+  </filter>
+ </defs>
+ <g id="template-button">&gt;
+  <g id="00" transform="translate(90,90)">
+   <rect id="shadow" ry="57" height="512" filter="url(#filter5912)" width="512" stroke="#a8a8a8" y="56" x="38" stroke-width="5"/>
+  </g>
+  <g id="01" clip-path="url(#clipPathFlag)" transform="translate(128,128)">
+   <rect id="mask" ry="57" height="512" width="512" y="0" x="0" fill="#00f"/>
+   <g id="flag" clip-path="url(#clipPath3053)" transform="matrix(.85333 0 0 .85333 -128 .000002)">
+    <rect id="red bg" height="600" width="900" y="0" x="0" fill="#dc171d"/>
+    <path id="ul blue" d="m20 20h418v128l-250 140h-168v-268" fill="#012a87"/>
+    <path id="ur blue" d="m880 20h-418v128l250 140h168v-268" fill="#012a87"/>
+    <path id="ll blue" d="m20 580h418v-128l-250-140h-168v268" fill="#012a87"/>
+    <path id="lr blue" d="m880 580h-418v-128l250-140h168v268" fill="#012a87"/>
+    <path id="white diamond" d="m450 168.79-234.31 131.21 234.31 131.21 234.31-131.21-234.31-131.21z" fill="#fff"/>
+    <path id="star" d="m450 199.5 8.0678 24.827 26.105 0.00099-21.119 15.345l8.06 24.82-21.12-15.34-21.12 15.34 8.0659-24.827-21.119-15.345 26.105-0.00099 8.07-24.83z" fill="#f9d90f"/>
+    <path id="island" d="m281.48 336.85c2.7113-8.8482 8.6142-12.769 16.594-10.995 4.9387-18.731 27.738-22.071 36.786-12.857l22.273 22.37c4.8377 2.2507 12.207 3.0948 17.327 3.0948 6.3291 0.0995 5.6212 3.0054 10.91 3.1064 14.096 0.26936 51.143 0.4577 57.857 0 2.7491-0.1874 64.134-67.857 64.134-67.857 5.119-6.3095 18.452-8.3333 25.714-3.2143 6.7857 6.4286 13.929 7.1429 18.929 2.8571 4.4048-6.5476 14.392-7.3091 20.714-3.5714l69.45 53.81-93.66 52.4h-197.06l-69.96-39.15z" fill="#008830"/>
+   </g>
+  </g>
+  <g id="02" transform="translate(0,38)">
+   <path id="path3862-8" style="color:#000000" d="m214.21 111.21c-45.245 0.18809-68.716 7.7308-64.094 83.553l2.8252 46.345c47.474 5.5124 56.664 18.445 104.36 21.914 68.073 4.9513 67.937 5.4209 130.56-14.384 62.628-19.805 5.8248-65.247 207.32-57.82 4.6033 0.16968 17.314-3.0527 27.462-12.15 5.5817-46.524-2.7842-69.143-66.934-68.876z" fill="url(#linearGradient5125)"/>
+   <path id="path3079-9" style="color:#000000" d="m531.03 495.17c-31.605 19.022-27.601 31.26-37.913 32.573-94.704 12.053-145.98-0.72701-165.8-12.061-59.588-34.078-68.468-13.014-100.22-16.574-20.115-2.2551-59.245 12.984-73.388 44.344 3.4722 27.608 18.111 32.098 44.281 31.986l356.06-1.5268c69.692-0.29885 56.335-8.4926 65.543-56.039-14.772-21.671-13.157 9.109-44.224-30.717z" fill="url(#linearGradient5122)"/>
+   <rect id="rect5734" transform="translate(128,90)" clip-path="url(#clipPath5796)" ry="57" height="512" filter="url(#filter5740)" width="512" stroke="#000" y="0" x="0" stroke-width="20" fill="none"/>
+  </g>
+ </g>
+ <metadata>
+  <rdf:RDF>
+   <cc:Work>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+    <dc:publisher>
+     <cc:Agent rdf:about="http://openclipart.org/">
+      <dc:title>Openclipart</dc:title>
+     </cc:Agent>
+    </dc:publisher>
+   </cc:Work>
+   <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+    <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
+    <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
+    <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
+   </cc:License>
+  </rdf:RDF>
+ </metadata>
+</svg>
