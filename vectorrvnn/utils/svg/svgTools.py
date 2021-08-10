@@ -100,6 +100,10 @@ def getTreeStructureFromSVG (svgFile) :
     r = 0
     buildTreeGraph (root)
     T = removeOneOutDegreeNodesFromTree(T)
+    n = len(leaves(T))
+    leafLabels = dict(map(reversed, enumerate(leaves(T))))
+    nonLeafLabels = dict([(_, n + i) for i, _ in enumerate(nonLeaves(T))])
+    T = nx.relabel_nodes(T, mapping={**leafLabels, **nonLeafLabels})
     return T
 
 @lru_cache(maxsize=1024)

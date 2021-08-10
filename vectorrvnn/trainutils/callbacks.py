@@ -148,20 +148,22 @@ class DistanceHistogramCallback (Callback) :
 
 class HierarchyVisCallback (Callback) : 
     """ show inferred hierarchies """
-    def __init__ (self, model, valData, frequency=100, env="main") : 
+    def __init__ (self, model, data, frequency=100, env="main") : 
         super(HierarchyVisCallback, self).__init__() 
         self._api = visdom.Visdom(env=env)
         self.nWindows = 10
         for i in range(self.nWindows) : 
             closeWindow(self._api, f'hierarchies-{i}')
         self.model = model
-        self.valData = valData
+        trainData, valData, _, _  = data
+        trainGraphics = [t.svgFile for t in trainData]
+        self.valData = [v for v in valData if v.svgFile not in trainGraphics]
         self.frequency = frequency
         self.rng = random.Random(0)
 
     def validation_start (self, dataloader) : 
         super(HierarchyVisCallback, self).validation_start(dataloader)
-        data = self.rng.sample(list(self.valData), k=self.nWindows) 
+        data = self.rng.sample(self.valData, k=self.nWindows) 
         data = list(map(forest2tree, data))
         out = list(map(self.model.greedyTree, data))
         for i in range(self.nWindows) : 
@@ -226,18 +228,19 @@ class BBoxVisCallback (Callback) :
 
 class TreeScoresCallback (Callback) : 
     """ Plot fmi and cted for the validation set after each epoch """
-    def __init__(self, model, valData, frequency=100, env="main"):
+    def __init__(self, model, data, frequency=100, env="main"):
         super(TreeScoresCallback, self).__init__()
         self._api = visdom.Visdom(env=env)
         closeWindow(self._api, 'val_TreeScores')
         self.model = model
-        self.valData = valData
+        trainData, valData, _, _  = data
+        trainGraphics = [t.svgFile for t in trainData]
+        self.valData = [v for v in valData if v.svgFile not in trainGraphics]
         self.frequency = frequency
 
     def validation_end(self, val_data) : 
         super(TreeScoresCallback, self).validation_end(val_data)
-        data = filter(lambda t: t.nPaths < 40, self.valData)
-        data = list(map(forest2tree, data))
+        data = list(filter(lambda t: t.nPaths < 40, self.valData))
         out = list(map(self.model.greedyTree, data))
         scores = list(map(
             lambda k : avg(map(partial(fmi, level=k), data, out)),

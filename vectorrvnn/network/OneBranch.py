@@ -5,7 +5,6 @@ from vectorrvnn.trainutils import *
 from .PositionalEncoding import PositionalEncoding
 from .TripletBase import TripletBase
 from .TwoBranch import convnet
-from torchvision.models import *
 import numpy as np
 
 class OneBranch (TripletBase) :

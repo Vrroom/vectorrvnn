@@ -194,7 +194,7 @@ def addCallbacks (trainer, model, data, opts) :
     trainer.add_callback(
         TreeScoresCallback(
             model_, 
-            valData,
+            data,
             frequency=opts.frequency,
             env=opts.name + "_treeScores"
         )
@@ -202,7 +202,7 @@ def addCallbacks (trainer, model, data, opts) :
     trainer.add_callback(
         HierarchyVisCallback(
             model_,
-            valData,
+            data,
             frequency=opts.frequency,
             env=opts.name + "_hierarchy"
         )

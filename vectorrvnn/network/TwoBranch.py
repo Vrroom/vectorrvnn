@@ -4,8 +4,8 @@ from vectorrvnn.utils import *
 from vectorrvnn.trainutils import *
 from .PositionalEncoding import PositionalEncoding
 from .TripletBase import TripletBase
-from torchvision.models import *
 import numpy as np
+from torchvision.models import *
 
 def convnet (opts) : 
     model = resnet18(pretrained=True)

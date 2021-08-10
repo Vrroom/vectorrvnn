@@ -1,19 +1,14 @@
+import torch
+from torch import nn
 from .UNet import * 
 from .TripletBase import TripletBase
 from vectorrvnn.trainutils import *
 from vectorrvnn.utils import *
 from torchvision.models import *
 
-class Identity(nn.Module):
-    def __init__(self):
-        super(Identity, self).__init__()
-
-    def forward(self, x):
-        return x
-
 def convnet (opts) : 
     model = resnet18(pretrained=True)
-    model.fc = Identity()
+    model.fc = nn.Identity()
     model.float()
     return model
 

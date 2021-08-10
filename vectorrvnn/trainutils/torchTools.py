@@ -2,6 +2,7 @@ import torch
 from more_itertools import flatten
 from functools import partial
 import numpy as np
+from torchvision.models import *
 
 def tensorApply (thing, fn, 
     predicate=lambda x: True, module=torch) : 
