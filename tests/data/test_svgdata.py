@@ -13,11 +13,11 @@ def test_svgdata() :
         '--name', 
         'test',
         '--n_epochs',
-        '2',
+        '4',
         '--batch_size',
         '32',
         '--train_epoch_length',
-        '256',
+        '2560',
         '--val_epoch_length',
         '256',
         '--decay_start',
@@ -32,8 +32,9 @@ def test_svgdata() :
     data = buildData(opts)
     trainData, valData, trainDataLoader, valDataLoader = data
     # confirm that dataloader works properly
-    for batch in tqdm(trainDataLoader) : 
-        pass
+    for _ in range(opts.n_epochs):  
+        for batch in tqdm(trainDataLoader) : 
+            pass
     assert(True)
 
 def test_union () :

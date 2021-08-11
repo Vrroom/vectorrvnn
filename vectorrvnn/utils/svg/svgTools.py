@@ -230,11 +230,11 @@ def globalTransform(doc, transform) :
     group attributes
     """
     groupElement = ET.Element('{http://www.w3.org/2000/svg}g', transform)
-    rootCopy = deepcopy(doc.tree.getroot())
-    # Don't add <defs ... /> to new group element.
-    children = [e for e in rootCopy if e.tag in GRAPHIC_TAGS]
-    groupElement.extend(children)
+    # rootCopy = deepcopy(doc.tree.getroot())
     root = doc.tree.getroot()
+    # Don't add <defs ... /> to new group element.
+    children = [e for e in root if e.tag in GRAPHIC_TAGS]
+    groupElement.extend(children)
     # Remove graphic elements.
     removeGraphicChildren(root)
     root.append(groupElement)
