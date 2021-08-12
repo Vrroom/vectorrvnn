@@ -252,9 +252,10 @@ def iterfilter (root, tagFilter) :
 @immutable_doc
 def subsetSvg(doc, lst) :
     root = doc.tree.getroot()
+    relTags = GRAPHIC_TAGS + ['{http://www.w3.org/2000/svg}svg']
     paths = list(filter(
         lambda x : x.tag in PATH_TAGS,
-        iterfilter(root, lambda tag : tag in GRAPHIC_TAGS)
+        iterfilter(root, lambda tag : tag in relTags)
     ))
     n = len(paths)
     unwanted = list(set(range(n)) - set(lst))
