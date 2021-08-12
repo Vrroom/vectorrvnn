@@ -246,12 +246,18 @@ def crop (doc, box) :
     setDocBBox(doc, box.normalized())
     return doc
 
+def iterfilter (root, tagFilter) : 
+    if not tagFilter(root.tag) : 
+        yield root 
+        for child in root : 
+            yield from iterfilter(child, tagFilter)
+
 @immutable_doc
 def subsetSvg(doc, lst) :
     root = doc.tree.getroot()
     paths = list(filter(
         lambda e : e.tag in PATH_TAGS, 
-        root.iter()
+        iterfilter(root, lambda tag : tag == '{http://www.w3.org/2000/svg}defs')
     ))
     n = len(paths)
     unwanted = list(set(range(n)) - set(lst))
