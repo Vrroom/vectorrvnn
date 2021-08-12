@@ -119,3 +119,21 @@ def isGreyScale (thing, module=torch) :
 
 def toGreyScale (im, module=torch) : 
     return torch.cat((im, im, im), channelDim(im, module))
+
+def moduleGradNorm (module) : 
+    with torch.no_grad() : 
+        paramsWithGrad = list(filter(
+            lambda p: p.grad is not None, 
+            module.parameters()
+        ))
+        nelts = list(map(lambda p: p.nelement(), paramsWithGrad))
+        gradNorms = list(map(
+            lambda p: p.pow(2).mean().item(), 
+            paramsWithGrad
+        ))
+        numerator = sum(map(lambda x, y : x * y, nelts, gradNorms))
+        denominator = sum(elts) + 1e-3
+        return numerator / denominator
+
+
+

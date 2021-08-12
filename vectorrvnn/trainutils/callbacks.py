@@ -5,6 +5,7 @@ from datetime import datetime
 from sklearn import metrics
 from functools import partial
 from itertools import starmap
+from more_itertools import unzip
 from vectorrvnn.utils import *
 from .torchTools import * 
 import numpy as np
@@ -317,3 +318,48 @@ class CheckpointingBestNCallback (Callback) :
             cname = [fname for fname in chkpts if cpref in fname].pop()
             self.checkpointer.delete(cname)
             self.ckptDict.pop(s)
+
+class GradientLoggingCallback (Callback) : 
+    """ Plot gradients of all parameters """
+
+    def __init__ (self, model, frequency=100, server="http://localhost", 
+            port=8097, env="main", base_url="/", win=None, smoothing=0.9) : 
+        super(GradientLoggingCallback, self).__init__()
+        self.model = model 
+        self._api = visdom.Visdom(server=server, port=port, 
+            env=env, base_url=base_url)
+
+        self.win = win
+        closeWindow(self._api, win)
+
+        self.keys = list(unzip(model.named_modules())[0])
+        legend = self.keys
+        self._opts = {
+            "legend": legend,
+            "title": self.win,
+            "xlabel": "epoch",
+        }
+        self._step = 0
+        self.frequency = frequency
+        self.ema = ExponentialMovingAverage(self.keys, alpha=smoothing)
+
+    def batch_end(self, batch, train_step_data):
+        super(GradientLoggingCallback, self).batch_end(batch, train_step_data)
+
+        if self._step % self.frequency != 0:
+            self._step += 1
+            return
+        self._step = 0
+
+        t = self.batch / max(self.datasize, 1) + self.epoch
+
+        modules = unzip(self.model.named_modules())[1]
+        grads = list(map(moduleGradNorm, modules))
+        for k, g in self.keys : 
+            self.ema.update(k, g)
+        data = np.array([self.ema[k] for k in self.keys])
+        data = np.expand_dims(data, 1)
+        self._api.line(data, [t], update="append", win=self.win, opts=self._opts)
+
+        self._step += 1
+

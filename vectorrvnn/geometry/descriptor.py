@@ -7,7 +7,6 @@ from vectorrvnn.utils.comp import *
 from vectorrvnn.utils.svg import *
 from vectorrvnn.utils.graph import *
 from vectorrvnn.utils.boxes import *
-import pathfinder_rasterizer as pr
 
 @lru_cache(maxsize=128)
 def colorHistogram(doc, i, containmentGraph=None) : 
@@ -17,7 +16,12 @@ def colorHistogram(doc, i, containmentGraph=None) :
     else : 
         subset = subsetSvg(doc, 
                 list(descendants(containmentGraph, i)))
-    im = rasterize(subset) 
+    box = getDocBBox(subset)
+    if box.w < box.h : 
+        w, h = 200, (box.h / box.w) * 200
+    else : 
+        w, h = (box.w / box.h) * 200, 200
+    im = rasterize(subset, w=int(w), h=int(h))
     rgb, alpha = im[:, :, :3], im[:, :, 3]
     lab = color.rgb2lab(rgb) 
     l = lab[:, :, 0][alpha > 0]
@@ -114,7 +118,7 @@ def equiDistantSamples (doc, i, nSamples=5, **kwargs) :
     path = cachedPaths(doc)[i].path
     ts = np.linspace(0, 1, nSamples)
     L = path.length()
-    pts = [path.point(path.ilength(t * L, 1e-2)) for t in ts]
+    pts = [path.point(path.ilength(t * L, 1e-1)) for t in ts]
     if kwargs['normalize'] : 
         dx, dy = docbb[2] - docbb[0], docbb[3] - docbb[1]
         x = [p.real / dx for p in pts]
@@ -132,5 +136,10 @@ def pathBitmap (doc, i, fill=True, **kwargs) :
         for path in doc_.paths() : 
             path.element.attrib.pop('style', None)
             path.element.attrib['fill'] = 'black'
-    im = rasterize(doc_)
+    box = getDocBBox(doc_)
+    if box.w < box.h : 
+        w, h = 200, (box.h / box.w) * 200
+    else : 
+        w, h = (box.w / box.h) * 200, 200
+    im = rasterize(doc_, w=int(w), h=int(h))
     return im[:, :, 3]

@@ -49,15 +49,10 @@ def immutable_doc (fn) :
         return fn(doc_, *args, **kwargs)
     return wrapper
 
-def getTreeStructureFromSVG (svgFile) : 
+def getTreeStructureFromSVG (doc) : 
     """
     Infer the tree structure from the
     XML document. 
-
-    Parameters
-    ----------
-    svgFile : str
-        Path to the svgFile.
     """
 
     def buildTreeGraph (element) :
@@ -90,7 +85,6 @@ def getTreeStructureFromSVG (svgFile) :
 
     childTags = PATH_TAGS
     groupTag = GRAPHIC_TAGS[-1]
-    doc = svg.Document(svgFile)
     paths = doc.paths()
     zIndexMap = dict([(p.zIndex, i) for i, p in enumerate(paths)])
     tree = doc.tree
@@ -99,6 +93,7 @@ def getTreeStructureFromSVG (svgFile) :
     T = nx.DiGraph()
     r = 0
     buildTreeGraph (root)
+    T.remove_nodes_from([n for n in T.nodes if len(T.nodes[n]['pathSet']) == 0])
     T = removeOneOutDegreeNodesFromTree(T)
     n = len(leaves(T))
     leafLabels = dict(map(reversed, enumerate(leaves(T))))
@@ -115,6 +110,8 @@ def unparseCSS(cssDict) :
     return ';'.join(items)
 
 def parseCSS(cssString) : 
+    if len(cssString) == 0 :
+        return dict()
     return dict(map(
         lambda x : x.split(':'), 
         cssString.split(';')
@@ -247,7 +244,7 @@ def crop (doc, box) :
     return doc
 
 def iterfilter (root, tagFilter) : 
-    if not tagFilter(root.tag) : 
+    if tagFilter(root.tag) : 
         yield root 
         for child in root : 
             yield from iterfilter(child, tagFilter)
@@ -256,8 +253,8 @@ def iterfilter (root, tagFilter) :
 def subsetSvg(doc, lst) :
     root = doc.tree.getroot()
     paths = list(filter(
-        lambda e : e.tag in PATH_TAGS, 
-        iterfilter(root, lambda tag : tag == '{http://www.w3.org/2000/svg}defs')
+        lambda x : x.tag in PATH_TAGS,
+        iterfilter(root, lambda tag : tag in GRAPHIC_TAGS)
     ))
     n = len(paths)
     unwanted = list(set(range(n)) - set(lst))
