@@ -68,15 +68,7 @@ class TripletInterface (ttools.ModelInterface) :
                     lambda x : x.pow(2).mean(), 
                     module.parameters())
                 )
-                grad = avg(map(
-                    lambda x : x.grad.pow(2).mean(),
-                    filter(
-                        lambda x : x.grad is not None,
-                        module.parameters()
-                    )
-                ))
                 ret[f'{name}_wd'] = wd
-                ret[f'{name}_grad'] = grad
 
     def _log_lr (self, ret) : 
         lr = self.opt.state_dict()['param_groups'][0]['lr']
@@ -134,9 +126,8 @@ class TripletInterface (ttools.ModelInterface) :
 
 def addCallbacks (trainer, model, data, opts) : 
     modelParams = [n for n, _ in model.named_children()]
-    gradNorms = [f'{n}_grad' for n in modelParams]
     weightDecay = [f'{n}_wd' for n in modelParams]
-    keys = ["loss", "hardpct", "lr", *gradNorms, *weightDecay]
+    keys = ["loss", "hardpct", "lr", *weightDecay]
     _, valData, trainDataLoader, _ = data
     if opts.use_swa == 'true' : 
         swaModel = AveragedModel(model)
@@ -197,6 +188,13 @@ def addCallbacks (trainer, model, data, opts) :
             data,
             frequency=opts.frequency,
             env=opts.name + "_treeScores"
+        )
+    )
+    trainer.add_callback(
+        GradientLoggingCallback(
+            model_,
+            frequency=opts.frequency,
+            env=opts.name + "_gradients"
         )
     )
     trainer.add_callback(

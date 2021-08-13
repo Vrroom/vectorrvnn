@@ -10,6 +10,7 @@ from vectorrvnn.utils import *
 from .torchTools import * 
 import numpy as np
 from ttools.callbacks import *
+from ttools.utils import *
 import ttools
 import visdom
 import random
@@ -323,14 +324,14 @@ class GradientLoggingCallback (Callback) :
     """ Plot gradients of all parameters """
 
     def __init__ (self, model, frequency=100, server="http://localhost", 
-            port=8097, env="main", base_url="/", win=None, smoothing=0.9) : 
+            port=8097, env="main", base_url="/", smoothing=0.9) : 
         super(GradientLoggingCallback, self).__init__()
         self.model = model 
         self._api = visdom.Visdom(server=server, port=port, 
             env=env, base_url=base_url)
 
-        self.win = win
-        closeWindow(self._api, win)
+        self.win = "gradients"
+        closeWindow(self._api, self.win)
 
         self.keys = list(unzip(model.named_modules())[0])
         legend = self.keys
@@ -353,9 +354,9 @@ class GradientLoggingCallback (Callback) :
 
         t = self.batch / max(self.datasize, 1) + self.epoch
 
-        modules = unzip(self.model.named_modules())[1]
+        modules = list(unzip(self.model.named_modules())[1])
         grads = list(map(moduleGradNorm, modules))
-        for k, g in self.keys : 
+        for k, g in zip(self.keys, grads) : 
             self.ema.update(k, g)
         data = np.array([self.ema[k] for k in self.keys])
         data = np.expand_dims(data, 1)

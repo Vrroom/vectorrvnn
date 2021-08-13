@@ -132,7 +132,7 @@ def moduleGradNorm (module) :
             paramsWithGrad
         ))
         numerator = sum(map(lambda x, y : x * y, nelts, gradNorms))
-        denominator = sum(elts) + 1e-3
+        denominator = sum(nelts) + 1e-3
         return numerator / denominator
 
 
