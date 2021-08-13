@@ -147,7 +147,7 @@ def convBackbone (opts) :
         model.classifier[-1] = nn.Linear(in_features, opts.embedding_size)
         model.classifier[-1].apply(getInitializer(opts))
     else : 
-        raise ValueError, f'{opts.backbone} not supported' 
+        raise ValueError(f'{opts.backbone} not supported')
     model = model.float()
     return model
 

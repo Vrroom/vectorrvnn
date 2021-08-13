@@ -63,7 +63,7 @@ class Options():
             '--backbone',
             type=str,
             default='resnet18',
-            choices=['resnet18', 'alexnet']
+            choices=['resnet18', 'alexnet'],
             help='Convolutional backbone'
         )
         parser.add_argument(
