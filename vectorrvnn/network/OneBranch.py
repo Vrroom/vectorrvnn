@@ -2,9 +2,7 @@ import torch
 from torch import nn
 from vectorrvnn.utils import * 
 from vectorrvnn.trainutils import *
-from .PositionalEncoding import PositionalEncoding
 from .TripletBase import TripletBase
-from .TwoBranch import convnet
 import numpy as np
 
 class OneBranch (TripletBase) :
@@ -21,7 +19,7 @@ class OneBranch (TripletBase) :
                 env=opts.name + "_vis"
             )
         )
-        self.conv = convnet(opts)
+        self.conv = convBackbone(opts)
 
     def embedding (self, node, **kwargs) : 
         whole = node['whole']

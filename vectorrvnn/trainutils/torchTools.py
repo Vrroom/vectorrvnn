@@ -135,5 +135,21 @@ def moduleGradNorm (module) :
         denominator = sum(nelts) + 1e-3
         return numerator / denominator
 
+def convBackbone (opts) : 
+    if opts.backbone == 'resnet18' : 
+        model = resnet18(pretrained=True)
+        inFeatures = model.fc.in_features
+        model.fc = nn.Linear(inFeatures, opts.embedding_size)
+        model.fc.apply(getInitializer(opts))
+    elif opts.backbone == 'alexnet' : 
+        model = alexnet(pretrained=True)
+        inFeatures = model.classifier[-1].in_features
+        model.classifier[-1] = nn.Linear(in_features, opts.embedding_size)
+        model.classifier[-1].apply(getInitializer(opts))
+    else : 
+        raise ValueError, f'{opts.backbone} not supported' 
+    model = model.float()
+    return model
+
 
 

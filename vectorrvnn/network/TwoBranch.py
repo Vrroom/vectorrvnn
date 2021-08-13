@@ -7,16 +7,6 @@ from .TripletBase import TripletBase
 import numpy as np
 from torchvision.models import *
 
-def convnet (opts) : 
-    model = resnet18(pretrained=True)
-    # Use the weights of the pretrained model to 
-    # create weights for the new model.
-    inFeatures = model.fc.in_features
-    model.fc = nn.Linear(inFeatures, opts.embedding_size)
-    # Make sure that parameters are floats 
-    model = model.float()
-    return model
-
 class TwoBranch (TripletBase) :
     """
     Process the entire image and the path subset 
@@ -25,7 +15,7 @@ class TwoBranch (TripletBase) :
     """
     def __init__ (self, opts) :
         super(TwoBranch, self).__init__(opts)
-        self.conv = convnet(opts)
+        self.conv = convBackbone(opts)
         self.pe = PositionalEncoding(opts)
         if opts.hidden_size is not None : 
             self.nn = nn.Sequential(

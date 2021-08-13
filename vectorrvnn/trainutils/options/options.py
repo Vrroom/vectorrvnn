@@ -60,6 +60,13 @@ class Options():
             help='model class to use'
         )
         parser.add_argument(
+            '--backbone',
+            type=str,
+            default='resnet18',
+            choices=['resnet18', 'alexnet']
+            help='Convolutional backbone'
+        )
+        parser.add_argument(
             '--structure_embedding_size',
             type=int,
             default=None,

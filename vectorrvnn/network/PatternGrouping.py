@@ -1,5 +1,4 @@
 from .UNet import * 
-from .TwoBranch import convnet
 from .TripletBase import TripletBase
 from vectorrvnn.trainutils import *
 
@@ -15,7 +14,7 @@ class PatternGrouping (TripletBase) :
             )
         )
         self.unet = UNet(opts)
-        self.conv = convnet(opts)
+        self.conv = convBackbone(opts)
         self.last = nn.Linear(
             opts.embedding_size + opts.structure_embedding_size + 4,
             opts.embedding_size
