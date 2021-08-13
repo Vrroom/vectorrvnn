@@ -1,8 +1,10 @@
 import torch
+import torch.nn as nn
 from more_itertools import flatten
 from functools import partial
 import numpy as np
 from torchvision.models import *
+from .initializer import getInitializer
 
 def tensorApply (thing, fn, 
     predicate=lambda x: True, module=torch) : 
@@ -144,7 +146,7 @@ def convBackbone (opts) :
     elif opts.backbone == 'alexnet' : 
         model = alexnet(pretrained=True)
         inFeatures = model.classifier[-1].in_features
-        model.classifier[-1] = nn.Linear(in_features, opts.embedding_size)
+        model.classifier[-1] = nn.Linear(inFeatures, opts.embedding_size)
         model.classifier[-1].apply(getInitializer(opts))
     else : 
         raise ValueError(f'{opts.backbone} not supported')

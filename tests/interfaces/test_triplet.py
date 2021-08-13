@@ -14,10 +14,10 @@ def test_interface() :
         'test',
         '--n_epochs',
         '3',
-        '--base_size',
-        '4',
         '--batch_size',
         '4',
+        '--K',
+        '2',
         '--train_epoch_length',
         '128',
         '--val_epoch_length',
@@ -33,7 +33,9 @@ def test_interface() :
         '--augmentation',
         'multiaug',
         '--frequency',
-        '1'
+        '1',
+        '--loss',
+        'hardCosineSimilarity'
     ])
     data = buildData(opts)
     trainData, valData, trainDataLoader, valDataLoader = data
@@ -48,3 +50,5 @@ def test_interface() :
         val_dataloader=valDataLoader
     )
     assert(True)
+
+test_interface()

@@ -144,6 +144,42 @@ class TripletBase (nn.Module) :
             hardpct=hardpct
         )
 
+    def hardCosineSimilarity (self, ref, plus, minus, **kwargs) : 
+        """
+        We follow https://arxiv.org/pdf/1604.03540.pdf in using 
+        the topk loss values while averaging. 
+        """
+        K = self.opts.K
+        temperature = self.opts.temperature
+        bs = self.opts.batch_size
+        assert (K is not None and temperature is not None) 
+        refEmbed   = unitNorm(self.embedding(ref  , **kwargs))
+        plusEmbed  = unitNorm(self.embedding(plus , **kwargs))
+        minusEmbed = unitNorm(self.embedding(minus, **kwargs))
+        # compute the cosine similarity and divide by temperature
+        dplus  = (refEmbed * plusEmbed ).sum(dim=1, keepdim=True) / temperature
+        dminus = (refEmbed * minusEmbed).sum(dim=1, keepdim=True) / temperature
+        # compute losses over minibatch
+        losses = - torch.softmax(torch.cat((dplus, dminus), dim=1), dim=1)[:, 0]
+        # pick the topk to backpropagate on
+        highest, indices = torch.topk(losses, K)
+        loss = highest.mean()
+        # fix dplus and dminus to the picked indices and compute mask, hardpct
+        dplus  = torch.index_select(dplus, 0, indices)
+        dminus = torch.index_select(dminus, 0, indices)
+        mask = torch.zeros((bs, 1), dtype=bool).to(self.opts.device)
+        mask[indices] = True
+        mask_ = (dplus < dminus).view(-1, 1)
+        hardpct = mask_.sum() / mask_.nelement()
+        return dict(
+            loss=loss,
+            mask=mask,
+            dplus=dplus,
+            dminus=dminus,
+            hardpct=hardpct
+        )
+
+
     def forward (self, ref, plus, minus, **kwargs) : 
         # figure out which loss to use from opts.
         lossFn = getattr(self, self.opts.loss)

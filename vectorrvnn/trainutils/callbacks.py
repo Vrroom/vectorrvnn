@@ -185,8 +185,13 @@ class BBoxVisCallback (Callback) :
         self._vstep = 0
         self.frequency = frequency
 
-    def _bbox_df (self, batch, node) : 
-        bbox = batch[node]['bbox'][0].view(-1).detach().cpu().numpy() 
+    def _bbox_df (self, batch, mask, node) : 
+        if mask is None : 
+            bbox = batch[node]['bbox'][0]
+        else : 
+            mask = mask.view(-1)
+            bbox = batch[node]['bbox'][mask][0]
+        bbox = bbox.view(-1).detach().cpu().numpy()
         x, y, w, h = bbox
         y = 1 - y 
         df = pd.DataFrame(data=dict(
@@ -196,10 +201,10 @@ class BBoxVisCallback (Callback) :
         ))
         return df
 
-    def _plot_bbox (self, batch, win) : 
-        refBox   = self._bbox_df(batch, 'ref')
-        plusBox  = self._bbox_df(batch, 'plus')
-        minusBox = self._bbox_df(batch, 'minus')
+    def _plot_bbox (self, batch, mask, win) : 
+        refBox   = self._bbox_df(batch, mask, 'ref')
+        plusBox  = self._bbox_df(batch, mask, 'plus')
+        minusBox = self._bbox_df(batch, mask, 'minus')
         df = pd.concat((refBox, plusBox, minusBox))
         fig = px.line(
             df, 
@@ -217,8 +222,9 @@ class BBoxVisCallback (Callback) :
         if self._tstep % self.frequency != 0:
             self._tstep += 1
             return
+        mask = step_data['mask']
         self._tstep = 1
-        self._plot_bbox(batch, 'bbox-train')
+        self._plot_bbox(batch, mask, 'bbox-train')
 
     def val_batch_end (self, batch, running_data)  :
         super(BBoxVisCallback, self).val_batch_end(batch, running_data)
@@ -363,4 +369,3 @@ class GradientLoggingCallback (Callback) :
         self._api.line(data, [t], update="append", win=self.win, opts=self._opts)
 
         self._step += 1
-

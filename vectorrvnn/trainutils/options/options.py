@@ -228,12 +228,6 @@ class Options():
             default=32, 
             help='input batch size'
         )
-        parser.add_argument(
-            '--base_size',
-            type=int,
-            default=32,
-            help='process batches of base size to create minibatch (to avoid GPU OOM)'
-        )
 
     def add_loss_args(self, parser) : 
         parser.add_argument(
@@ -245,7 +239,8 @@ class Options():
                 'tripletLoss',
                 'hardSemiHardMaxMarginLoss', 
                 'hardTripletLoss', 
-                'cosineSimilarity'
+                'cosineSimilarity',
+                'hardCosineSimilarity',
             ],
             help='loss function for training'
         )
@@ -267,10 +262,15 @@ class Options():
             default=1.0,
             help='temperature control for cosine similarity loss'
         )
-
+        parser.add_argument(
+            '--K',
+            type=int,
+            default=16,
+            help='number of harder triplets to train on'
+        )
 
     def validate_batch_size_args (self, opt) : 
-        assert opt.batch_size % opt.base_size == 0
+        pass
 
     def validate_loss_args (self, opt) : 
         if opt.loss.endswith('MarginLoss') : 
@@ -279,6 +279,8 @@ class Options():
             assert (opt.hard_threshold is not None)
         elif opt.loss == 'cosineSimilarity' : 
             assert (opt.temperature is not None)
+        elif opt.loss == 'hardCosineSimilarity': 
+            assert (opt.temperature is not None and opt.K is not None)
 
     def gather_options(self, testing=[]):
         """Initialize our parser with basic options(only once).
