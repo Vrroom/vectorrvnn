@@ -21,37 +21,7 @@ class Options():
         self.initialized = False
 
     def initialize(self, parser):
-        # Basic Parameters
-        parser.add_argument(
-            '--dataroot', 
-            type=str,
-            default='./',
-            help='path to graphics (should have subfolders Train, Val)'
-        )
-        parser.add_argument(
-            '--name', 
-            type=str, 
-            default='experiment_name', 
-            help='name of the experiment. It decides where to store samples and models'
-        )
-        parser.add_argument(
-            '--checkpoints_dir', 
-            type=str, 
-            default='./results', 
-            help='models are saved here'
-        )
-        parser.add_argument(
-            '--load_ckpt', 
-            default=None,
-            help='load checkpoint from this path'
-        )
-        parser.add_argument(
-            '--device',
-            type=str,
-            default='cuda:0',
-            choices=['cpu', 'cuda:0', 'cuda:1'],
-            help='device to run training on.'
-        )
+        self.add_basic_parameters(parser)
         # Model Parameters
         parser.add_argument(
             '--modelcls',
@@ -65,6 +35,12 @@ class Options():
             default='resnet18',
             choices=['resnet18', 'alexnet'],
             help='Convolutional backbone'
+        )
+        parser.add_argument(
+            '--freeze_layers',
+            type=list,
+            default=[],
+            help='list of names of modules to freeze'
         )
         parser.add_argument(
             '--structure_embedding_size',
@@ -220,6 +196,38 @@ class Options():
         )
         self.initialized = True
         return parser
+
+    def add_basic_parameters (self, parser) : 
+        parser.add_argument(
+            '--dataroot', 
+            type=str,
+            default='./',
+            help='path to graphics (should have subfolders Train, Val)'
+        )
+        parser.add_argument(
+            '--name', 
+            type=str, 
+            default='experiment_name', 
+            help='name of the experiment. It decides where to store samples and models'
+        )
+        parser.add_argument(
+            '--checkpoints_dir', 
+            type=str, 
+            default='./results', 
+            help='models are saved here'
+        )
+        parser.add_argument(
+            '--load_ckpt', 
+            default=None,
+            help='load checkpoint from this path'
+        )
+        parser.add_argument(
+            '--device',
+            type=str,
+            default='cuda:0',
+            choices=['cpu', 'cuda:0', 'cuda:1'],
+            help='device to run training on.'
+        )
     
     def add_batch_args(self, parser): 
         parser.add_argument(

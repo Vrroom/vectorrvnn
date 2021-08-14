@@ -35,7 +35,9 @@ def test_interface() :
         '--frequency',
         '1',
         '--loss',
-        'hardCosineSimilarity'
+        'hardCosineSimilarity',
+        '--freeze_layers',
+        ['conv1', 'bn1', 'layer1', 'layer2', 'layer3', 'layer4']
     ])
     data = buildData(opts)
     trainData, valData, trainDataLoader, valDataLoader = data
@@ -51,4 +53,3 @@ def test_interface() :
     )
     assert(True)
 
-test_interface()

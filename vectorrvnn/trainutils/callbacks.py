@@ -226,14 +226,6 @@ class BBoxVisCallback (Callback) :
         self._tstep = 1
         self._plot_bbox(batch, mask, 'bbox-train')
 
-    def val_batch_end (self, batch, running_data)  :
-        super(BBoxVisCallback, self).val_batch_end(batch, running_data)
-        if self._vstep % self.frequency != 0:
-            self._vstep += 1
-            return
-        self._vstep = 1
-        self._plot_bbox(batch, 'bbox-val')
-
 class TreeScoresCallback (Callback) : 
     """ Plot fmi and cted for the validation set after each epoch """
     def __init__(self, model, data, frequency=100, env="main"):

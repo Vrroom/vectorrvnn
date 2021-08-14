@@ -30,7 +30,8 @@ class TripletInterface (ttools.ModelInterface) :
         self.epoch = 0
         self.dataset = dataset
         self.val_dataset = val_dataset
-        self.opt = optim.Adam(self.model.parameters(), lr=opts.lr, weight_decay=opts.wd)
+        trainedParams = filter(lambda p: p.requires_grad, self.model.parameters())
+        self.opt = optim.Adam(trainedParams, lr=opts.lr, weight_decay=opts.wd)
         self.sched = getScheduler(self.opt, opts)
         self.init = deepcopy(self.model.state_dict())
 

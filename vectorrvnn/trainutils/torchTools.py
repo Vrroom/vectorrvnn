@@ -137,6 +137,11 @@ def moduleGradNorm (module) :
         denominator = sum(nelts) + 1e-3
         return numerator / denominator
 
+def freezeLayers (model, freeze_layers) :
+    for name, module in model.named_modules() : 
+        if name in freeze_layers : 
+            module.requires_grad_(False)
+
 def convBackbone (opts) : 
     if opts.backbone == 'resnet18' : 
         model = resnet18(pretrained=True)
@@ -150,6 +155,7 @@ def convBackbone (opts) :
         model.classifier[-1].apply(getInitializer(opts))
     else : 
         raise ValueError(f'{opts.backbone} not supported')
+    freezeLayers(model, opts.freeze_layers)
     model = model.float()
     return model
 
