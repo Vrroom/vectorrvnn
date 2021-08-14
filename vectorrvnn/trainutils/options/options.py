@@ -39,6 +39,7 @@ class Options():
         parser.add_argument(
             '--freeze_layers',
             type=list,
+            nargs='*',
             default=[],
             help='list of names of modules to freeze'
         )
@@ -355,6 +356,7 @@ class Options():
     def parse(self, testing=[]):
         """Parse our options, create checkpoints directory suffix, and set up gpu device."""
         opt = self.gather_options(testing=testing)
+        opt.freeze_layers = [''.join(_) for _ in opt.freeze_layers]
         self.validate(opt)
         # process opt.suffix
         self.print_options(opt)
