@@ -7,7 +7,8 @@ import ttools
 
 def test_interface() : 
     chdir = osp.split(osp.abspath(__file__))[0]
-    opts = Options().parse(testing=[
+    option = Options()
+    opts = option.parse(testing=[
         '--dataroot',
         osp.join(chdir, '../../data/Toy'),
         '--name', 
@@ -15,9 +16,7 @@ def test_interface() :
         '--n_epochs',
         '3',
         '--batch_size',
-        '4',
-        '--K',
-        '2',
+        '32',
         '--train_epoch_length',
         '128',
         '--val_epoch_length',
@@ -29,15 +28,13 @@ def test_interface() :
         '--samplercls',
         'DiscriminativeSampler',
         '--modelcls',
-        'OneBranch',
+        'TwoBranch',
         '--augmentation',
         'multiaug',
         '--frequency',
         '1',
         '--loss',
-        'hardCosineSimilarity',
-        '--freeze_layers',
-        ['conv1', 'bn1', 'layer1', 'layer2', 'layer3', 'layer4']
+        'cosineSimilarity',
     ])
     data = buildData(opts)
     trainData, valData, trainDataLoader, valDataLoader = data
@@ -52,4 +49,3 @@ def test_interface() :
         val_dataloader=valDataLoader
     )
     assert(True)
-

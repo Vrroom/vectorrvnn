@@ -9,25 +9,25 @@ def test_svgdata() :
     chdir = osp.split(osp.abspath(__file__))[0]
     opts = Options().parse(testing=[
         '--dataroot',
-        osp.join(chdir, '../../data/Toy'),
+        osp.join(chdir, '../../data/All'),
         '--name', 
         'test',
         '--n_epochs',
         '4',
         '--batch_size',
-        '32',
-        '--train_epoch_length',
-        '2560',
-        '--val_epoch_length',
-        '256',
+        '2',
         '--decay_start',
         '0',
+        '--frequency',
+        '1',
         '--samplercls',
         'DiscriminativeSampler',
         '--modelcls',
-        'OneBranch',
+        'TwoBranch',
         '--augmentation',
-        'multiaug'
+        'oneof',
+        '--loss', 
+        'cosineSimilarity',
     ])
     data = buildData(opts)
     trainData, valData, trainDataLoader, valDataLoader = data

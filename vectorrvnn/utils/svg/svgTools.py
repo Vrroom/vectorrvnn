@@ -239,8 +239,13 @@ def globalTransform(doc, transform) :
     doc.updateParentMap()
 
 @immutable_doc
-def crop (doc, box) :
-    setDocBBox(doc, box.normalized())
+def crop (doc, box, docbox) :
+    smallerSide = min(docbox.h, docbox.w)
+    minBoxSize = smallerSide / 10
+    box_ = box.normalized() * 1.5
+    if box_.w < minBoxSize : 
+        box_ = box_ * (minBoxSize / box_.w)
+    setDocBBox(doc, box_)
     return doc
 
 def iterfilter (root, tagFilter) : 
