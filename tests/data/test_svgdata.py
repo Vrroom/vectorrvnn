@@ -13,7 +13,7 @@ def test_svgdata() :
         '--name', 
         'test',
         '--n_epochs',
-        '4',
+        '100',
         '--batch_size',
         '2',
         '--decay_start',
@@ -25,7 +25,7 @@ def test_svgdata() :
         '--modelcls',
         'TwoBranch',
         '--augmentation',
-        'oneof',
+        'multiaug',
         '--loss', 
         'cosineSimilarity',
     ])

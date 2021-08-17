@@ -5,6 +5,7 @@ from functools import partial
 import numpy as np
 from torchvision.models import *
 from .initializer import getInitializer
+from torchvision.ops import *
 
 def tensorApply (thing, fn, 
     predicate=lambda x: True, module=torch) : 
@@ -158,6 +159,3 @@ def convBackbone (opts) :
     freezeLayers(model, opts.freeze_layers)
     model = model.float()
     return model
-
-
-

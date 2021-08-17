@@ -16,7 +16,9 @@ from ttools.callbacks import *
 from ttools.modules import networks
 from copy import deepcopy
 from tqdm import tqdm
+import pdb_attach
 
+pdb_attach.listen(5000)
 LOG = ttools.get_logger(__name__)
 
 class TripletInterface (ttools.ModelInterface) : 
