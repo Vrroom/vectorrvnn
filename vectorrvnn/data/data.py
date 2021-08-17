@@ -27,8 +27,7 @@ class SVGData (nx.DiGraph) :
         self._setPathSets()
         assert nx.is_tree(self)
 
-    def initGraphic (self, doc) :
-        self.doc = withoutDegeneratePaths(doc)
+    def initGraphic (self) :
         paths = cachedPaths(self.doc)
         self.nPaths = len(paths)
         assert(self.nPaths == len(leaves(self)))
@@ -46,15 +45,16 @@ class SVGData (nx.DiGraph) :
     def __init__ (self, svgFile=None, treePickle=None, tree=None) : 
         """ only one of treePickle and tree can be not None """
         assert(treePickle is None or tree is None)
+        self.doc = withoutDegeneratePaths(svg.Document(svgFile))
         if treePickle is not None : 
             super(SVGData, self).__init__(nx.read_gpickle(treePickle))
         elif tree is not None : 
             super(SVGData, self).__init__(tree)
         else :
-            super(SVGData, self).__init__()
+            super(SVGData, self).__init__(getTreeStructureFromSVG(self.doc))
         self.initTree()
         self.svgFile = svgFile
-        self.initGraphic(svg.Document(svgFile))
+        self.initGraphic()
         normalize(self)
 
     def _computeBBoxes (self) : 

@@ -18,9 +18,9 @@ class TwoBranch (TripletBase) :
         self.cropEmbedder  = convBackbone(opts)
 
     def embedding (self, node, **kwargs) : 
-        whole = self.wholeEmbedder(node['whole'])
-        crop  = self.cropEmbedder(node['crop'])
-        return whole + crop
+        whole = unitNorm(self.wholeEmbedder(node['whole']))
+        crop  = unitNorm(self.cropEmbedder(node['crop']))
+        return torch.cat((whole, crop), dim=1)
 
     @classmethod
     def nodeFeatures (cls, t, ps, opts) : 
