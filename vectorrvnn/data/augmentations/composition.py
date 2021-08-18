@@ -2,10 +2,8 @@
 from vectorrvnn.utils import *
 from .transform import SVGDataTransform
 import numpy as np
-import random
 from functools import reduce
 from functional import compose
-from .rng import *
 
 class Compose(SVGDataTransform):
 
@@ -40,7 +38,6 @@ class OneOf(SVGDataTransform):
         self.transforms = transforms
 
     def transform (self, svgdata, *args) :
-        random_state = np.random.RandomState(trng.randint(0, 2 ** 32 - 1))
-        t = random_state.choice(self.transforms, p=self.transforms_ps)
+        t = rng.choice(self.transforms, p=self.transforms_ps)
         return t(svgdata, *args)
 

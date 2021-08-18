@@ -9,3 +9,4 @@ from .visualization import *
 from .boxes import *
 from .boolean import *
 from .image import *
+from .random import *

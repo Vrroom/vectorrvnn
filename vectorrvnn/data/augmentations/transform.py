@@ -1,6 +1,5 @@
 from vectorrvnn.utils import *
 from copy import deepcopy
-from .rng import *
 
 class SVGDataTransform : 
 
@@ -11,7 +10,7 @@ class SVGDataTransform :
         return svgdata
     
     def __call__ (self, svgdata, *args) : 
-        toss = trng.uniform(0, 1)
+        toss = rng.uniform(0, 1)
         if toss < self.p :
             return self.transform(svgdata, *args)
         else :
@@ -38,7 +37,7 @@ class StrokeWidthJitter (SVGDataTransform) :
     def jitterer (self, e) : 
         val = xmlAttributeGet(e, 'stroke-width', None)
         if val is not None: 
-            newVal = float(val) * trng.uniform(*self.scaleRange)
+            newVal = float(val) * rng.uniform(*self.scaleRange)
             return f'{newVal:.3f}'
         else :
             return None
@@ -58,7 +57,7 @@ class OpacityJitter (SVGDataTransform) :
         self.lowerBound=lowerBound
     
     def transform(self, svgdata, *args):  
-        jitterer = lambda e : f'{trng.uniform(self.lowerBound, 1):.3f}'
+        jitterer = lambda e : f'{rng.uniform(self.lowerBound, 1):.3f}'
         modAttrs(
             svgdata, 
             {
@@ -81,12 +80,12 @@ class GraphicCompose (SVGDataTransform) :
         the first. Then sample a distance so that they don't 
         overlap.
         """
-        s = trng.uniform(0.5, 1.5)
-        theta = trng.uniform(0, 2 * np.pi)
+        s = rng.uniform(0.5, 1.5)
+        theta = rng.uniform(0, 2 * np.pi)
         box2 = box2.scaled(s)
         r1 = abs(box1.center() - complex(box1.x, box1.y))
         r2 = abs(box2.center() - complex(box2.x, box2.y))
-        mr = trng.uniform(0, (r1 + r2) / 2)
+        mr = rng.uniform(0, (r1 + r2) / 2)
         center2 = box1.center() + (r1 + r2 + mr) * np.exp(1j * theta)
         tr = center2 - box2.center()
         box2 = box2.translated(tr.real, tr.imag)
@@ -107,7 +106,7 @@ class GraphicCompose (SVGDataTransform) :
         return pt
 
     def transform (self, svgdata, *args) : 
-        other = deepcopy(trng.choice(list(args[0])))
+        other = deepcopy(rng.choice(list(args[0])))
         box1, box2 = self._bbox(svgdata), self._bbox(other)
         box1, box2 = self.sample(box1, box2)
         svgdata = self._fitInBox(svgdata, box1)
@@ -123,6 +122,6 @@ class Rotate (SVGDataTransform) :
     def transform (self, svgdata, *args) : 
         rootNode = svgdata.nodes[findRoot(svgdata)]
         center = rootNode['bbox'].center()
-        degree = random.randint(*self.degreeRange)
+        degree = rng.randint(*self.degreeRange)
         rotate(svgdata, degree, center)
         return svgdata

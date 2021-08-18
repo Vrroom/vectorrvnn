@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:url" content="http://34.72.137.149/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Vector Selection Tool" />
+    <meta
+      property="og:description"
+      content="User study for a perceptually supported selection tool."
+    />
+    <style>
+      /*Chrome*/
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+      }
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #000;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+      }
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+      }
+      input:checked + .slider {
+        background-color: #000;
+      }
+      input:focus + .slider {
+        box-shadow: 0 0 1px #000;
+      }
+      input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+      }
+      .slider.round {
+        border-radius: 34px;
+      }
+      .slider.round:before {
+        border-radius: 50%;
+      }
+      input[type="range"] {
+        -webkit-appearance: none;
+        margin: 18px 0;
+        width: 50%;
+      }
+      input[type="range"]:focus {
+        outline: none;
+      }
+      input[type="range"]::-webkit-slider-runnable-track {
+        width: 100%;
+        height: 8.4px;
+        cursor: pointer;
+        box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+        background: #000000;
+        border-radius: 1.3px;
+        border: 0.2px solid #010101;
+      }
+      input[type="range"]::-webkit-slider-thumb {
+        box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+        border: 1px solid #000000;
+        height: 36px;
+        width: 16px;
+        border-radius: 3px;
+        background: #ffffff;
+        cursor: pointer;
+        -webkit-appearance: none;
+        margin-top: -14px;
+      }
+      input[type="range"]:focus::-webkit-slider-runnable-track {
+        background: #000000;
+      }
+      input[type="range"]::-moz-range-track {
+        width: 100%;
+        height: 8.4px;
+        cursor: pointer;
+        box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+        background: #000000;
+        border-radius: 1.3px;
+        border: 0.2px solid #010101;
+      }
+      input[type="range"]::-moz-range-thumb {
+        box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+        border: 1px solid #000000;
+        height: 36px;
+        width: 16px;
+        border-radius: 3px;
+        background: #ffffff;
+        cursor: pointer;
+      }
+      input[type="range"]::-ms-track {
+        width: 100%;
+        height: 8.4px;
+        cursor: pointer;
+        background: transparent;
+        border-color: transparent;
+        border-width: 16px 0;
+        color: transparent;
+      }
+      input[type="range"]::-ms-fill-lower {
+        background: #000000;
+        border: 0.2px solid #010101;
+        border-radius: 2.6px;
+        box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+      }
+      input[type="range"]::-ms-fill-upper {
+        background: #000000;
+        border: 0.2px solid #010101;
+        border-radius: 2.6px;
+        box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+      }
+      input[type="range"]::-ms-thumb {
+        box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+        border: 1px solid #000000;
+        height: 36px;
+        width: 16px;
+        border-radius: 3px;
+        background: #ffffff;
+        cursor: pointer;
+      }
+      input[type="range"]:focus::-ms-fill-lower {
+        background: #000000;
+      }
+      input[type="range"]:focus::-ms-fill-upper {
+        background: #367ebd;
+      }
+      #demo-graphic {
+        width: 40%;
+        height: auto;
+      }
+      #svg-element,
+      #drawing-canvas-element {
+        width: 100%;
+        height: auto;
+      }
+      #bbox-group {
+        pointer-events: none;
+      }
+      .navbar {
+        min-height: 80px;
+      }
+      .navbar-brand {
+        padding: 0 15px;
+        height: 80px;
+        line-height: 80px;
+        font-size: 3rem !important;
+      }
+      #svg-palette-element {
+        width: auto;
+        height: 40%;
+      }
+    </style>
+    <title>SVG Hierarchy</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+</html>

@@ -1,12 +1,12 @@
 """ vector descriptor for path geometries """
 from skimage import color
 import numpy as np
-import random
 from functools import lru_cache
 from vectorrvnn.utils.comp import *
 from vectorrvnn.utils.svg import *
 from vectorrvnn.utils.graph import *
 from vectorrvnn.utils.boxes import *
+from vectorrvnn.utils.random import *
 
 @lru_cache(maxsize=128)
 def colorHistogram(doc, i, containmentGraph=None) : 
@@ -46,8 +46,8 @@ def d2 (doc, i, bins=10, nSamples=100, **kwargs) :
     L = path.length() 
     rs = []
     for i in range(nSamples) : 
-        pt1 = path.point(path.ilength(random.random() * L, s_tol=1e-2))
-        pt2 = path.point(path.ilength(random.random() * L, s_tol=1e-2))
+        pt1 = path.point(path.ilength(rng.random() * L, s_tol=1e-2))
+        pt2 = path.point(path.ilength(rng.random() * L, s_tol=1e-2))
         rs.append(abs(pt1 - pt2))
     return np.histogram(rs, bins=bins)[0] / nSamples
 
