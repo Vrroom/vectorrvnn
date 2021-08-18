@@ -56,6 +56,13 @@ class Options():
             help='size of the path encoding'
         )
         parser.add_argument(
+            '--use_layer_norm', 
+            type=str,
+            default='false',
+            choices=['true', 'false'],
+            help='whether to use layer norm'
+        )
+        parser.add_argument(
             '--hidden_size', 
             type=int,
             default=None,
