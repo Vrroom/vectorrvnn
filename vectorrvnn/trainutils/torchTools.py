@@ -147,12 +147,12 @@ def convBackbone (opts) :
     if opts.backbone == 'resnet18' : 
         model = resnet18(pretrained=True)
         inFeatures = model.fc.in_features
-        model.fc = nn.Linear(inFeatures, opts.embedding_size, bias=opt.use_layer_norm=='false')
+        model.fc = nn.Linear(inFeatures, opts.embedding_size, bias=opts.use_layer_norm=='false')
         model.fc.apply(getInitializer(opts))
     elif opts.backbone == 'alexnet' : 
         model = alexnet(pretrained=True)
         inFeatures = model.classifier[-1].in_features
-        model.classifier[-1] = nn.Linear(inFeatures, opts.embedding_size, bias=opt.use_layer_norm=='false')
+        model.classifier[-1] = nn.Linear(inFeatures, opts.embedding_size, bias=opts.use_layer_norm=='false')
         model.classifier[-1].apply(getInitializer(opts))
     else : 
         raise ValueError(f'{opts.backbone} not supported')

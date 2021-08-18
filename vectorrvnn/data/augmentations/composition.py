@@ -38,6 +38,7 @@ class OneOf(SVGDataTransform):
         self.transforms = transforms
 
     def transform (self, svgdata, *args) :
-        t = rng.choice(self.transforms, p=self.transforms_ps)
+        nprng = np.random.RandomState(rng.randint(0, 10000))
+        t = nprng.choice(self.transforms, p=self.transforms_ps)
         return t(svgdata, *args)
 
