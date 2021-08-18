@@ -127,6 +127,7 @@ def isometricDistance (doc, i, j, **kwargs) :
 
 def parallelismDistance (doc, i, j, **kwargs) : 
     """ try to figure out if the paths are parallel """
+    rng_ = np.random.RandomState(rng.randint(0, 10000))
     path1, path2 = _getPathPair(doc, i, j) 
     l1, l2 = path1.path.length(), path2.path.length()
     samplingDistance = 0.02 * min(l1, l2)
@@ -143,8 +144,8 @@ def parallelismDistance (doc, i, j, **kwargs) :
     E = []
     stride = max(1, (m - n + 1) // 10)
     for i in range(0, m - n + 1, stride) :
-        seg1 = samples1 + (1e-3 * np.random.randn(n, 2))
-        seg2 = samples2[i:i+n] + (1e-3 * np.random.randn(n, 2))
+        seg1 = samples1 + (1e-3 * rng_.randn(n, 2))
+        seg2 = samples2[i:i+n] + (1e-3 * rng_.randn(n, 2))
         R, t, e = optimalRotationAndTranslation(seg1, seg2)
         theta = abs(np.arctan(R[1, 0] / (R[0, 0] + 1e-3)) * 2 / np.pi)
         B = 1

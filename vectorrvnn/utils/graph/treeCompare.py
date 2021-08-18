@@ -5,7 +5,6 @@ from copy import deepcopy
 import pickle
 import pandas as pd
 import svgpathtools as svg
-import random
 from itertools import product
 import networkx as nx
 import more_itertools

@@ -13,7 +13,6 @@ from ttools.callbacks import *
 from ttools.utils import *
 import ttools
 import visdom
-import random
 import matplotlib.pyplot as plt
 import plotly.express as px
 import pandas as pd
@@ -161,11 +160,10 @@ class HierarchyVisCallback (Callback) :
         trainGraphics = [t.svgFile for t in trainData]
         self.valData = [v for v in valData if v.svgFile not in trainGraphics]
         self.frequency = frequency
-        self.rng = random.Random(0)
 
     def validation_start (self, dataloader) : 
         super(HierarchyVisCallback, self).validation_start(dataloader)
-        data = self.rng.sample(self.valData, k=self.nWindows) 
+        data = rng.sample(self.valData, k=self.nWindows) 
         data = list(map(forest2tree, data))
         out = list(map(self.model.greedyTree, data))
         for i in range(self.nWindows) : 

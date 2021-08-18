@@ -5,7 +5,6 @@ from vectorrvnn.geometry import *
 import networkx as nx
 from more_itertools import collapse
 from itertools import combinations, product
-import random
 from copy import deepcopy
 
 AUTOGROUP = dict(

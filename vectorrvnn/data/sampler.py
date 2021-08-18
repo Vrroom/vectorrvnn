@@ -25,11 +25,11 @@ class TripletSampler () :
                 generator seed if needed.
     """
 
-    def __init__ (self, svgdatas, length, transform=lambda *args: args[0], seed=0, val=False) :
-        self.rng = random.Random(seed) 
+    def __init__ (self, svgdatas, length, transform=lambda *args: args[0], val=False) :
+        self.seed = rng.randint(0, 10000)
+        self.rng = random.Random(self.seed) 
         self.svgdatas = svgdatas
         self.transform = transform 
-        self.seed = seed
         self.val = val # In val mode the same triplets are sampled in each epoch.
         self.length = length
         self.i = 0
