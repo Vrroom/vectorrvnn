@@ -39,7 +39,12 @@ class TripletDataLoader () :
             self.i += 1
             samples = [next(self.sampler) for _ in range(self.opts.batch_size)]
             tensorified = [self._tensorify(*_) for _ in samples]
-            return aggregateDict(tensorified, torch.stack)
+            data = aggregateDict(tensorified, torch.stack)
+            tensorApply(
+                data,
+                lambda t : t.to(self.opts.device)
+            )
+            return data
 
     def reset (self) : 
         self.i = 0

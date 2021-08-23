@@ -33,12 +33,11 @@ class Options():
             '--backbone',
             type=str,
             default='resnet18',
-            choices=['resnet18', 'alexnet'],
             help='Convolutional backbone'
         )
         parser.add_argument(
             '--freeze_layers',
-            type=list,
+            type=str,
             nargs='*',
             default=[],
             help='list of names of modules to freeze'
@@ -65,7 +64,8 @@ class Options():
         parser.add_argument(
             '--hidden_size', 
             type=int,
-            default=None,
+            nargs='*',
+            default=[],
             help='size of hidden layer before output'
         )
         parser.add_argument(
@@ -117,7 +117,6 @@ class Options():
             '--augmentation', 
             type=str,
             default='none',
-            choices=['none', 'simple', 'oneof', 'compose', 'multiaug'],
             help='Augmentation applied to data'
         )
         parser.add_argument(
@@ -363,7 +362,6 @@ class Options():
     def parse(self, testing=[]):
         """Parse our options, create checkpoints directory suffix, and set up gpu device."""
         opt = self.gather_options(testing=testing)
-        opt.freeze_layers = [''.join(_) for _ in opt.freeze_layers]
         self.validate(opt)
         # process opt.suffix
         self.print_options(opt)

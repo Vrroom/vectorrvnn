@@ -119,8 +119,11 @@ class BBox :
         nY = ny + d
         return BBox(nx, ny, nX, nY, d, d)
 
-    def tolist (self) : 
-        return [self.x, self.y, self.w, self.h]
+    def tolist (self, alternate=False) : 
+        if not alternate : 
+            return [self.x, self.y, self.w, self.h]
+        else : 
+            return [self.x, self.y, self.X, self.Y]
 
     def __repr__ (self) : 
         x = self.x

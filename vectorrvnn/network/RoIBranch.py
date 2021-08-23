@@ -1,38 +1,40 @@
-import torch 
+import torch
 from torch import nn
-from torch.nn import functional as F
-from vectorrvnn.utils import *
+from vectorrvnn.utils import * 
 from vectorrvnn.trainutils import *
 from .TripletBase import TripletBase
+import numpy as np
+from .RoIAlignNet import * 
 
-class BBoxNet (TripletBase) : 
-    def __init__(self, opts):  
-        super(BBoxNet, self).__init__(opts)
+class RoIBranch (TripletBase) :
+    """
+    Process the entire image and the path subset 
+    through convnets. Add positional encoding
+    and use another MLP to combine them.
+    """
+    def __init__ (self, opts) :
+        super(RoIBranch, self).__init__(opts)
         self.vis.append(
             BBoxVisCallback(
                 frequency=opts.frequency,
                 env=opts.name + "_vis"
             )
         )
-        self.net = fcn(opts, 4, opts.embedding_size)
+        self.roi = RoIAlignNet(opts)
 
     def embedding (self, node, **kwargs) : 
-        bbox = node['bbox']
-        return self.net(bbox)
+        im   = node['im']
+        bbox = node['bbox_']
+        return self.roi(im, bbox)
 
     @classmethod
-    def nodeFeatures(cls, t, ps, opts) : 
+    def nodeFeatures (cls, t, ps, opts) : 
         data = dict(
             im=rasterize(
                 t.doc,
                 opts.raster_size,
                 opts.raster_size
-            ),
-            whole=rasterize(
-                subsetSvg(t.doc, ps),
-                opts.raster_size,
-                opts.raster_size
-            ),
+            )
         )
         tensorApply(
             data,
@@ -40,7 +42,8 @@ class BBoxNet (TripletBase) :
             module=np
         )
         bbox = pathsetBox(t, ps)
-        docbox = getDocBBox(t.doc)
-        bbox = bbox / docbox
+        bbox = bbox / getDocBBox(t.doc)
         data['bbox'] = torch.tensor(bbox.tolist()).float()
+        data['bbox_'] = torch.tensor(bbox.tolist(alternate=True)).float()
         return data
+

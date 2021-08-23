@@ -1,4 +1,5 @@
 import torch
+from copy import deepcopy
 import torch.nn as nn
 from more_itertools import flatten
 from functools import partial
@@ -123,39 +124,128 @@ def isGreyScale (thing, module=torch) :
 def toGreyScale (im, module=torch) : 
     return torch.cat((im, im, im), channelDim(im, module))
 
-def moduleGradNorm (module) : 
-    with torch.no_grad() : 
-        paramsWithGrad = list(filter(
-            lambda p: p.grad is not None, 
-            module.parameters()
-        ))
-        nelts = list(map(lambda p: p.nelement(), paramsWithGrad))
-        gradNorms = list(map(
-            lambda p: p.pow(2).mean().item(), 
-            paramsWithGrad
-        ))
-        numerator = sum(map(lambda x, y : x * y, nelts, gradNorms))
-        denominator = sum(nelts) + 1e-3
-        return numerator / denominator
-
 def freezeLayers (model, freeze_layers) :
     for name, module in model.named_modules() : 
         if name in freeze_layers : 
             module.requires_grad_(False)
 
+def addLayerNorm (model, output_size) : 
+    return nn.Sequential(
+        model, 
+        nn.LayerNorm(output_size)
+    )
+
 def convBackbone (opts) : 
-    if opts.backbone == 'resnet18' : 
-        model = resnet18(pretrained=True)
+    print('Initializing', opts.backbone)
+    backboneFn = globals()[opts.backbone]
+    model = backboneFn(pretrained=True)
+    use_layer_norm = opts.use_layer_norm == 'true'
+    if opts.backbone.startswith('resnet') : 
         inFeatures = model.fc.in_features
-        model.fc = nn.Linear(inFeatures, opts.embedding_size, bias=opts.use_layer_norm=='false')
+        model.fc = nn.Linear(inFeatures, opts.embedding_size, bias=not use_layer_norm)
         model.fc.apply(getInitializer(opts))
-    elif opts.backbone == 'alexnet' : 
-        model = alexnet(pretrained=True)
+    elif opts.backbone in ['alexnet', 'vgg16', 'vgg16_bn'] : 
         inFeatures = model.classifier[-1].in_features
-        model.classifier[-1] = nn.Linear(inFeatures, opts.embedding_size, bias=opts.use_layer_norm=='false')
+        model.classifier[-1] = nn.Linear(inFeatures, opts.embedding_size, bias=not use_layer_norm)
         model.classifier[-1].apply(getInitializer(opts))
     else : 
         raise ValueError(f'{opts.backbone} not supported')
     freezeLayers(model, opts.freeze_layers)
+    if use_layer_norm : 
+        model = addLayerNorm(model, opts.embedding_size)
     model = model.float()
     return model
+
+def fcn (opts, input_size, output_size) :
+    """
+    Make a fully connected model with given input and output size
+
+    The intermediate layers are provided by the hidden_size parameter
+    in opts. Each linear layer is followed by a ReLU non linearity with 
+    the exception of the final layer. All layers are then initialized 
+    by the initialization scheme in opts.
+    """
+    hidden_size = opts.hidden_size
+    use_layer_norm = opts.use_layer_norm == 'true'
+    repr = f'{input_size} {" ".join(map(str, hidden_size))} {output_size}'
+    print(f'Initializing FCN({repr})')
+    sizes = [input_size, *hidden_size, output_size]
+    inOuts = list(zip(sizes, sizes[1:]))
+    topLayers = [
+        nn.Sequential(
+            nn.Linear(*io),
+            nn.ReLU()
+        )
+        for io in inOuts[:-1]
+    ]
+    lastLayer = nn.Linear(*inOuts[-1], bias=not use_layer_norm)
+    model = nn.Sequential(*topLayers, lastLayer)
+    if use_layer_norm : 
+        model = addLayerNorm(model, output_size)
+    model.apply(getInitializer(opts))
+    return model
+
+def _computeGradient (model, input_shape, index) : 
+    """ 
+    Compute the gradient of output neuron at given
+    index from an input of all ones.
+    """
+    input = torch.ones(input_shape)
+    input.requires_grad = True
+    output = model(input)
+    output[tuple(index)].backward()
+    return input.grad * input.grad
+
+def _dummymodel (model) : 
+    """ 
+    Initialize a copy of the model with all weights being 1
+    """
+    model_ = deepcopy(model)
+    for p in model_.parameters() : 
+        nn.init.constant_(p.data, 1)
+    return model_
+
+def receptiveField (model, input_shape, index) :
+    """ 
+    Find the receptive field or the number of input neurons
+    that effect a particular neuron at output by backpropagation.
+    """
+    model_ = _dummymodel(model)
+    input_shape, index = [1, *input_shape], [0, *index]
+    grad = _computeGradient(model_, input_shape, index)
+    effectedElts = (grad > 0).sum().item()
+    return effectedElts
+
+def cnnReceptiveField (cnn, input_shape, index) : 
+    """
+    Input shape is assumed to be (C, ...). Where
+    C is the number of channels.
+    """
+    C, *_ = input_shape
+    dims = len(input_shape) - 1
+    effectedElts = receptiveField(cnn, input_shape, index)
+    return int((effectedElts / C) ** (1. / dims))
+
+def cnnEffectiveStride (cnn, input_shape, index) : 
+    input_shape, index = [1, *input_shape], [0, *index]
+    cnn_ = _dummymodel(cnn)
+    strides = []
+    idxDims = list(range(len(index)))
+    for i in idxDims[2:] : 
+        # Compute grad map for index 
+        grad1 = _computeGradient(cnn_, input_shape, index)
+        # Compute grad map for index incremented along stride direction
+        index_ = deepcopy(index)
+        index_[i] += 1
+        grad2 = _computeGradient(cnn_, input_shape, index_)
+        # The affected inputs form a hypercube (a square for 2D CNNs). 
+        # We want to find those inputs that effect only one of the output 
+        # neurons i.e. those at index and index_ but not both.
+        symDiff = ((grad1 > 0) ^ (grad2 > 0)).sum()
+        # Now find the size of the hypercube obtained by removing the 
+        # current stride direction. 
+        hyperplaneDims = [_ for _ in idxDims if _ != i]
+        hyperplane = (grad1 > 0).sum(hyperplaneDims).max()
+        stride = (symDiff / (2 * hyperplane)).item()
+        strides.append(stride)
+    return strides

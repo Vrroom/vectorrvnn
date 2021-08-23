@@ -8,3 +8,4 @@ from .PatternGroupingV2 import *
 from .Clip import * 
 from .BBoxNet import *
 from .CropNet import *
+from .RoIBranch import *

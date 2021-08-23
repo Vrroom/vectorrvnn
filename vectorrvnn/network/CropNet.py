@@ -5,6 +5,7 @@ from vectorrvnn.utils import *
 from vectorrvnn.trainutils import *
 from .TripletBase import TripletBase
 import visdom
+import torch.nn.init as init
 
 class CropNet (TripletBase) : 
     def __init__(self, opts):  
@@ -18,23 +19,15 @@ class CropNet (TripletBase) :
                 env=opts.name + "_vis"
             )
         )
-        self.bbox = nn.Sequential(
-            nn.Linear(4, opts.hidden_size),
-            nn.ReLU(),
-            nn.Linear(opts.hidden_size, opts.embedding_size, bias=False)
-        )
-        self.ln1 = nn.LayerNorm(opts.embedding_size)
-        self.ln2 = nn.LayerNorm(opts.embedding_size)
-        # self.ln1.apply(getInitializer(opts))
-        # self.ln2.apply(getInitializer(opts))
-        self.bbox.apply(getInitializer(opts))
+        self.bbox = fcn(opts, 4, opts.embedding_size)
         self.crop = convBackbone(opts)
+        self.combine = fcn(opts, 2 * opts.embedding_size, opts.embedding_size)
 
     def embedding (self, node, **kwargs) : 
         bbox = node['bbox']
         crop = node['crop']
-        F_bbox = self.ln1(self.bbox(bbox))
-        F_crop = self.ln2(self.crop(crop))
+        F_bbox = self.bbox(bbox)
+        F_crop = self.crop(crop)
         joint = torch.cat((F_bbox, F_crop), dim=1)
         if self.i % 100 == 0 : 
             bboxNorm = F_bbox.norm(dim=1).mean().detach().cpu().item()
@@ -42,7 +35,7 @@ class CropNet (TripletBase) :
             self._api.line([bboxNorm], [self.i], win="cropnet-output-norm", update="append", name="bbox")
             self._api.line([cropNorm], [self.i], win="cropnet-output-norm", update="append", name="crop")
         self.i += 1
-        return joint
+        return self.combine(joint)
 
     @classmethod
     def nodeFeatures(cls, t, ps, opts) : 

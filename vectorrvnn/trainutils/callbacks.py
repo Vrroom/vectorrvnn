@@ -157,8 +157,8 @@ class HierarchyVisCallback (Callback) :
             closeWindow(self._api, f'hierarchies-{i}')
         self.model = model
         trainData, valData, _, _  = data
-        trainGraphics = [t.svgFile for t in trainData]
-        self.valData = [v for v in valData if v.svgFile not in trainGraphics]
+        trainGraphics = [repr(t.doc) for t in trainData]
+        self.valData = [v for v in valData if repr(v.doc) not in trainGraphics]
         self.frequency = frequency
 
     def validation_start (self, dataloader) : 
@@ -232,8 +232,8 @@ class TreeScoresCallback (Callback) :
         closeWindow(self._api, 'val_TreeScores')
         self.model = model
         trainData, valData, _, _  = data
-        trainGraphics = [t.svgFile for t in trainData]
-        self.valData = [v for v in valData if v.svgFile not in trainGraphics]
+        trainGraphics = [repr(t.doc) for t in trainData]
+        self.valData = [v for v in valData if repr(v.doc) not in trainGraphics]
         self.frequency = frequency
 
     def validation_end(self, val_data) : 
@@ -329,7 +329,15 @@ class GradientLoggingCallback (Callback) :
         self.win = "gradients"
         closeWindow(self._api, self.win)
 
-        self.keys = list(unzip(model.named_modules())[0])
+        self.trackedParameterDict = dict()
+        seen = set()
+        for name, module in model.named_modules() : 
+            for pname, param in module.named_parameters() : 
+                if param.requires_grad and not param in seen: 
+                    self.trackedParameterDict[f'{name}_{pname}'] = param
+                    seen.add(param)
+
+        self.keys = list(self.trackedParameterDict.keys())
         legend = self.keys
         self._opts = {
             "legend": legend,
@@ -350,10 +358,9 @@ class GradientLoggingCallback (Callback) :
 
         t = self.batch / max(self.datasize, 1) + self.epoch
 
-        modules = list(unzip(self.model.named_modules())[1])
-        grads = list(map(moduleGradNorm, modules))
-        for k, g in zip(self.keys, grads) : 
-            self.ema.update(k, g)
+        for k, p in self.trackedParameterDict.items(): 
+            self.ema.update(k, (p.grad.norm() / p.nelement()).item())
+
         data = np.array([self.ema[k] for k in self.keys])
         data = np.expand_dims(data, 1)
         self._api.line(data, [t], update="append", win=self.win, opts=self._opts)

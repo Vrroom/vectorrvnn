@@ -18,7 +18,6 @@ from copy import deepcopy
 from tqdm import tqdm
 import pdb_attach
 
-pdb_attach.listen(5000)
 LOG = ttools.get_logger(__name__)
 
 class TripletInterface (ttools.ModelInterface) : 
@@ -77,16 +76,9 @@ class TripletInterface (ttools.ModelInterface) :
         lr = self.opt.state_dict()['param_groups'][0]['lr']
         ret['lr'] = lr
 
-    def forward (self, batch) : 
-        tensorApply(
-            batch, 
-            lambda t : t.to(self.opts.device)
-        )
-        return self.model(**batch)
-
     def training_step(self, batch) :
         self.model.train()
-        ret = self.forward(batch)
+        ret = self.model(**batch)
         loss = ret['loss']
         # optimize
         self.opt.zero_grad()
@@ -116,7 +108,7 @@ class TripletInterface (ttools.ModelInterface) :
     def validation_step(self, batch, running_data) : 
         self.model.eval()
         with torch.no_grad():
-            ret = self.forward(batch)
+            ret = self.model(**batch)
             ret['count'] = 1 + running_data['count']
             ret = self._accumulate(ret, running_data)
             tensorApply(
@@ -230,6 +222,7 @@ def buildModel (opts) :
         model.train()
     else :
         model.eval()
+    print(model)
     return model
 
 def buildData (opts) : 
@@ -288,6 +281,7 @@ def test (opts) :
         fd.write(f'F.M.I.(3) = {fmi3score}\n')
 
 if __name__ == "__main__" : 
+    pdb_attach.listen(50000)
     opts = Options().parse()
     if opts.phase == 'train' : 
         train(opts)
