@@ -9,3 +9,4 @@ from .Clip import *
 from .BBoxNet import *
 from .CropNet import *
 from .RoIBranch import *
+from .ThreeBranch import *

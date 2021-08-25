@@ -14,19 +14,9 @@ class RoIAlignNet (nn.Module) :
     def __init__ (self, opts)  :
         super(RoIAlignNet, self).__init__()
         self.opts = opts
-        backboneFn = globals()[opts.backbone]
-        self.resnet = backboneFn(pretrained=True)
+        self.resnet = convBackbone(opts)
         # make the modifications to resnet based on mask rcnn paper.
         self.resnet.layer4.apply(_setUnitStride)
-        # do linear layer customization according to embedding size.
-        use_layer_norm = opts.use_layer_norm == 'true'
-        inFeatures = self.resnet.fc.in_features
-        self.resnet.fc = nn.Linear(inFeatures, opts.embedding_size, bias=not use_layer_norm)
-        self.resnet.fc.apply(getInitializer(opts))
-        if use_layer_norm :
-            self.resnet = addLayerNorm(self.resnet, opts.embedding_size)
-        # choose what layers to freeze
-        freezeLayers(self.resnet, opts.freeze_layers)
 
     def forward (self, ims, boxes) : 
         """
