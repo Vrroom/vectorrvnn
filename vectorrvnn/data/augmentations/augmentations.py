@@ -10,12 +10,13 @@ multiaug = Compose([
     OneOf([
         Rotate(),
         NoFill()
-    ], p=0.3),
+    ], p=0.4),
     OneOf([
         StrokeWidthJitter(scaleRange=(0.7, 1.3)),
-        OpacityJitter(lowerBound=0.7)
-    ], p=0.3),
-    GraphicCompose(p=0.3)
+        OpacityJitter(lowerBound=0.7),
+        HSVJitter()
+    ], p=0.4),
+    GraphicCompose(p=0.4)
 ])
 
 def getGraphicAugmentation (opts) : 

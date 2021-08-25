@@ -1,4 +1,5 @@
 from vectorrvnn.utils import *
+from skimage import color
 from copy import deepcopy
 
 class SVGDataTransform : 
@@ -22,8 +23,39 @@ class NoFill (SVGDataTransform) :
         modAttrs(
             svgdata,
             dict(
-                fill=lambda x: 'none', 
-                stroke=lambda x: 'black'
+                fill=lambda k, x: 'none', 
+                stroke=lambda k, x: 'black'
+            )
+        )
+        return svgdata
+
+class HSVJitter (SVGDataTransform) : 
+
+    def __init__ (self, perturbAmt=0.2, p=1.0) : 
+        super(HSVJitter, self).__init__(p=p)
+        self.perturbAmt = perturbAmt
+
+    def jitterer (self, attr, elt) : 
+        try : 
+            val = xmlAttributeGet(elt, attr, 'none')
+            if val == 'none' : 
+                return 'none'
+            nprng = np.random.RandomState(rng.randint(0, 10000))
+            rgb = np.array(parseColor(val), dtype=np.float)
+            hsv = color.rgb2hsv(rgb)
+            delta = nprng.uniform(-self.perturbAmt, self.perturbAmt, 3)
+            hsv_ = np.clip(hsv + delta, 0, 1)
+            r, g, b = (color.hsv2rgb(hsv_) * 255).astype(np.uint8)
+            return f'rgb({r}, {g}, {b})'
+        except Exception : 
+            return 'none'
+
+    def transform(self, svgdata, *args) : 
+        modAttrs(
+            svgdata, 
+            dict(
+                stroke=self.jitterer, 
+                fill=self.jitterer
             )
         )
         return svgdata
@@ -34,7 +66,7 @@ class StrokeWidthJitter (SVGDataTransform) :
         super(StrokeWidthJitter, self).__init__(p=p)
         self.scaleRange=scaleRange
 
-    def jitterer (self, e) : 
+    def jitterer (self, k, e) : 
         val = xmlAttributeGet(e, 'stroke-width', None)
         if val is not None: 
             newVal = float(val) * rng.uniform(*self.scaleRange)
@@ -57,7 +89,7 @@ class OpacityJitter (SVGDataTransform) :
         self.lowerBound=lowerBound
     
     def transform(self, svgdata, *args):  
-        jitterer = lambda e : f'{rng.uniform(self.lowerBound, 1):.3f}'
+        jitterer = lambda k, e : f'{rng.uniform(self.lowerBound, 1):.3f}'
         modAttrs(
             svgdata, 
             {
