@@ -250,7 +250,7 @@ class TripletBase (nn.Module) :
 
         trees = dict()
         for p, x in zip(parents, siblingSets):  
-            trees[p] = self.greedyTree(t, subtrees=x)
+            trees[p] = nx.DiGraph(self.greedyTree(t, subtrees=x))
             trees[p] = nx.relabel_nodes(trees[p], dict(map(reversed, enumerate(x))))
 
         nestedArray = containmentMerge(n, containmentGraph, trees)[1]
