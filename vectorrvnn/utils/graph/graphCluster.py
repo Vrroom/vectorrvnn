@@ -1,13 +1,11 @@
 import networkx as nx
+from copy import deepcopy
 
 def graphCluster (G, algo, doc) :
     """
-    Hierarchical clustering of a graph into
-    a dendogram. Given an algorithm to 
-    partition a graph into two sets, the
-    this class produces a tree by recursively 
-    partitioning the graphs induced on these
-    subsets till each subset contains only a
+    Hierarchical clustering of a graph into a dendogram. Given an algorithm to 
+    partition a graph into two sets, the this class produces a tree by recursively 
+    partitioning the graphs induced on these subsets till each subset contains only a
     single node.
 
     Parameters
@@ -15,22 +13,14 @@ def graphCluster (G, algo, doc) :
     G : nx.Graph
         The path relationship graph
     algo : lambda
-        The partitioning algorithm
-        to be used
+        The partitioning algorithm to be used
     doc : svg.Document
         Used to set node attributes.
     """
 
     def cluster (lst) :
         """
-        Recursively cluster the
-        subgraph induced by the 
-        vertices present in the 
-        list.
-
-        lst : list
-            List of vertices to
-            be considered.
+        Recursively cluster the subgraph induced by the vertices present in the list.
         """
         nonlocal idx
         tree.add_node(idx)
@@ -43,17 +33,11 @@ def graphCluster (G, algo, doc) :
             rId = cluster(list(r))
             tree.add_edge(curId, lId)
             tree.add_edge(curId, rId)
-            # Add indices of paths in this subtree.
-            tree.nodes[curId]['pathSet'] = lst
-        else :
-            pathId = lst.pop()
-            tree.nodes[curId]['pathSet'] = [pathId]
-
+        tree.nodes[curId]['pathSet'] = deepcopy(lst)
         return curId
 
     paths = doc.paths()
     tree = nx.DiGraph()
-    idx = 0
-    root = 0
+    idx, root = 0, 0
     cluster(list(G.nodes))
     return tree, root

@@ -28,10 +28,8 @@ def test_model () :
     opts = Options().parse(testing=[
         '--dataroot', 
         osp.join(chdir, '../../data/Toy'),
-        '--checkpoints_dir', 
-        osp.join(chdir, '../../results'),
         '--name', 
-        'test_model', 
+        'test', 
         '--embedding_size',
         '32',
         '--modelcls', 

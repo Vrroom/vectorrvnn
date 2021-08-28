@@ -144,15 +144,17 @@ def convBackbone (opts) :
         inFeatures = model.fc.in_features
         model.fc = nn.Linear(inFeatures, opts.embedding_size, bias=not use_layer_norm)
         model.fc.apply(getInitializer(opts))
+        if use_layer_norm : 
+            model.fc = addLayerNorm(model.fc, opts.embedding_size)
     elif opts.backbone in ['alexnet', 'vgg16', 'vgg16_bn'] : 
         inFeatures = model.classifier[-1].in_features
         model.classifier[-1] = nn.Linear(inFeatures, opts.embedding_size, bias=not use_layer_norm)
         model.classifier[-1].apply(getInitializer(opts))
+        if use_layer_norm : 
+            model.classifier[-1] = addLayerNorm(model.classifier[-1], opts.embedding_size)
     else : 
         raise ValueError(f'{opts.backbone} not supported')
     freezeLayers(model, opts.freeze_layers)
-    if use_layer_norm : 
-        model = addLayerNorm(model, opts.embedding_size)
     model = model.float()
     return model
 

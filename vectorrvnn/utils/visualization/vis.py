@@ -232,7 +232,7 @@ def treeMatchVisOnAxis (t1, t2, matchMatrix, fig, ax, prefix=('1-', '2-')) :
     # horizontal space for one tree in pixels
     pixX = fig.get_figwidth() * fig.dpi / 4
     # max number of images that'll be side by side
-    sideBySideIms = max(maxNodesByLevel(t1), maxNodesByLevel(t2)) + 1
+    sideBySideIms = max(maximumNodesAtAnyLevel(t1), maximumNodesAtAnyLevel(t2)) + 1
     # raster size
     imSize = 128
     # zoom for each view

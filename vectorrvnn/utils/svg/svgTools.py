@@ -112,9 +112,9 @@ def unparseCSS(cssDict) :
 def parseCSS(cssString) : 
     if len(cssString) == 0 :
         return dict()
-    return dict(map(
-        lambda x : x.split(':'), 
-        cssString.split(';')
+    return dict(filter(
+        lambda x : len(x) == 2,
+        map(lambda x : x.split(':'), cssString.split(';'))
     ))
 
 def parseDashArray(da) : 

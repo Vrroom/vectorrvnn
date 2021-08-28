@@ -1,7 +1,3 @@
-"""
-Convenience functions for manipulating points 
-as represented in svgpathtools
-"""
 import numpy as np
 
 def complexLE (x, y) :
@@ -22,9 +18,7 @@ def complexLE (x, y) :
 
 def complexDot (x, y) :
     """
-    Dot product between complex
-    numbers treating them as vectors
-    in R^2.
+    Dot product between complex numbers treating them as vectors in R^2.
 
     Parameters
     ----------
@@ -35,9 +29,7 @@ def complexDot (x, y) :
 
 def complexCross (x, y) : 
     """
-    Cross product between complex
-    numbers treating them as vectors
-    in R^2.
+    Cross product between complex numbers treating them as vectors in R^2.
 
     Parameters
     ----------

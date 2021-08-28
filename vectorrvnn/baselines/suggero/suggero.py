@@ -5,6 +5,7 @@ from vectorrvnn.geometry import *
 from vectorrvnn.utils.svg import cachedPaths, withoutDegeneratePaths
 from vectorrvnn.utils.graph import hac2nxDiGraph
 import networkx as nx
+from copy import deepcopy
 
 USE_LITE = True
 
@@ -25,8 +26,8 @@ def combinedAffinityMatrix (doc, affinityFns, weights) :
     combinedMatrix = sum(w * M for w, M in zip(weights, affinityMatrices))
     return combinedMatrix
 
-def suggero (doc) : 
-    doc = withoutDegeneratePaths(doc)
+def suggero (tree) : 
+    doc = tree.doc
     paths = cachedPaths(doc)
     subtrees = list(range(len(paths)))
     paths = [paths[i] for i in subtrees]
@@ -37,4 +38,6 @@ def suggero (doc) :
     M = M[:, subtrees][subtrees, :]
     agg = AgglomerativeClustering(1, affinity='precomputed', linkage='single')
     agg.fit(M)
-    return hac2nxDiGraph(subtrees, agg.children_)
+    cpy = deepcopy(tree)
+    cpy.initTree(hac2nxDiGraph(subtrees, agg.children_))
+    return cpy

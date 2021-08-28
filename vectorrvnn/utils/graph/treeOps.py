@@ -36,6 +36,11 @@ def treeUnion (t1, t2) :
     return union
 
 def trimTreeByDepth (t, levels) : 
+    """ 
+    Remove all nodes lower than a certain depth.
+
+    A copy of the original tree is returned
+    """
     t_ = deepcopy(t)
     setNodeDepths(t_)
     removeNodes = [n for n in t_.nodes 
@@ -59,6 +64,7 @@ def numNodes2Binarize (t) :
     return sum([t.out_degree(n) - 2 for n in t.nodes if t.out_degree(n) > 2])
 
 def lca (t, a, b) : 
+    """ brute force computation for lowest common ancestor """
     setNodeDepths(t)
     test = {a, b}
     r = findRoot(t) 
@@ -78,18 +84,12 @@ def lcaScore (t, a, b) :
     return (d - t.nodes[l]['depth'])
 
 def distanceInTree (t, a, b) : 
+    """ Find the distance between two nodes in a tree """
     l = lca(t, a, b) 
     aDepth = t.nodes[a]['depth']
     bDepth = t.nodes[b]['depth']
     lDepth = t.nodes[l]['depth']
     return (aDepth - lDepth) + (bDepth - lDepth)
-
-def lofScore (t, a, b) :
-    l = lca(t, a, b)
-    sl = t.nodes[l]['subtree-size']
-    sa = t.nodes[a]['subtree-size']
-    sb = t.nodes[b]['subtree-size']
-    return (sl - sa - sb) / sl
 
 def setSubtreeSizes (t) : 
     def dfs (n) : 
@@ -144,11 +144,10 @@ def subtreeSize(s, t, subSize) :
     ----------
     s : int
         The current vertex
-    t : nx.DiGraph()
+    t : nx.DiGraph
         The tree
     subSize : dict
-        Store the size of the subtree
-        rooted at each vertex.
+        Store the size of the subtree rooted at each vertex.
     """
     subSize[s] = 1
     nbrs = list(t.neighbors(s))
@@ -213,8 +212,7 @@ def findRoot (tree) :
 
 def treeMap (T, r, function) : 
     """
-    Apply a function on each node and accumulate
-    results in a list.
+    Apply a function on each node and accumulate results in a list.
 
     Parameters
     ----------
@@ -235,8 +233,7 @@ def treeMap (T, r, function) :
 
 def treeApplyRootFirst (T, r, function) :
     """
-    Apply function to all nodes in the
-    tree.
+    Apply function to all nodes in the tree.
 
     Parameters
     ----------
@@ -275,21 +272,15 @@ def treeApplyChildrenFirst (T, r, function) :
 
 def mergeTrees (trees) : 
     """
-    Merge a list of trees into a single 
-    tree. 
+    Merge a list of trees into a single tree. 
     
-    The catch is that the leaf nodes
-    which represent path indices in our setup
-    have to be distinctly labeled across the
-    trees. 
+    The catch is that the leaf nodes which represent path indices 
+    in our setup have to be distinctly labeled across the trees. 
     
-    So we only relabel the internal
-    nodes so that while composing, we
-    don't introduce edges which shouldn't
-    be there. 
+    So we only relabel the internal nodes so that while composing, we
+    don't introduce edges which shouldn't be there. 
 
-    Finally we add a new root node with
-    these subtrees as the children.
+    Finally we add a new root node with these subtrees as the children.
 
     Example
     -------
@@ -306,8 +297,7 @@ def mergeTrees (trees) :
     def relabelTree (tree) : 
         nonlocal maxIdx
         internalNodes = nonLeaves(tree)
-        newId = range(maxIdx, maxIdx + len(internalNodes))
-        newLabels = dict(zip(internalNodes, newId))
+        newLabels = dict(zip(internalNodes, itertools.count(maxIdx)))
         maxIdx += len(internalNodes)
         return nx.relabel_nodes(tree, newLabels, copy=True)
 
@@ -323,16 +313,14 @@ def mergeTrees (trees) :
 
 def removeOneOutDegreeNodesFromTree (tree) : 
     """
-    In many SVGs, it is the case that 
-    there are unecessary groups which contain
-    one a single group.
+    In many SVGs, it is the case that there are unecessary groups 
+    which contain one a single group.
 
-    In general these don't capture the hierarchy
-    because the one out-degree nodes can be 
-    removed without altering the grouping.
+    In general these don't capture the hierarchy because the one 
+    out-degree nodes can be removed without altering the grouping.
 
-    Hence we have this function which removes
-    one out-degree nodes from a networkx tree.
+    Hence we have this function which removes one out-degree nodes 
+    from a networkx tree.
 
     Example
     -------
@@ -341,10 +329,6 @@ def removeOneOutDegreeNodesFromTree (tree) :
     >>> tree = removeOneOutDegreeNodesFromTree(tree)
     >>> print(tree.number_of_nodes())
 
-    Since the nodes 0 and 2 have out-degree 1,
-    they'll be deleted and we'll be left
-    with 5 nodes.
-   
     Parameters
     ----------
     tree : nx.DiGraph
@@ -361,37 +345,47 @@ def removeOneOutDegreeNodesFromTree (tree) :
             return n
 
     remove(findRoot(tree))
-    topOrder = list(nx.topological_sort(tree))
-    relabelDict = dict(zip(topOrder, range(tree.number_of_nodes())))
-    tree = nx.relabel_nodes(tree, relabelDict)
+    # Leave the leaf nodes alone and relabel the internal nodes consecutively
+    beg = max(leaves(tree)) + 1
+    internalRelabel = dict(zip(nonLeaves(tree), itertools.count(beg)))
+    tree = nx.relabel_nodes(tree, internalRelabel)
     return tree
 
-def treeFromNestedArray (nestedArray) :
-    T = nx.DiGraph()
-    while len(nestedArray) > 0 : 
-        parent = nestedArray.pop()
-        if isinstance(parent, int) :
-            pathSet = [parent]
-        else : 
-            pathSet = list(more_itertools.collapse(parent))
-            for child in parent : 
-                T.add_edge(parent, child)
-            nestedArray.extend(parent)
-        T.nodes[parent]['pathSet'] = pathSet 
-    # Relabel interior nodes.
-    internalNodes = [n for n in T.nodes if T.out_degree(n) > 0]
-    m = max(leaves(T)) + 1
-    newLabels = range(m, m + len(internalNodes))
-    newMapping = dict(zip(internalNodes, newLabels))
-    T = nx.relabel_nodes(T, newMapping)
+def parentheses2tree (par) :
+    """
+    Convert a nested tuple into a DiGraph
+
+    nestedArray := int | tuple of ints
+
+    All tuples are internal nodes and ints are leaf nodes. 
+    """
+    if isinstance(par, int) : 
+        T = nx.DiGraph()
+        T.add_node(par)
+        T.nodes[par]['pathSet'] = (par,) 
+    else : 
+        trees = list(map(parentheses2tree, par))
+        T = mergeTrees(trees)
     assert nx.is_tree(T), "Didn't produce tree"
     return T
 
+def tree2parentheses (tree, symbols, r=None) :
+    """ 
+    Inverse of the above method (when symbols is an identity map)
+    """
+    if r is None: 
+        r = findRoot(tree)
+    if tree.out_degree(r) == 0 : 
+        return symbols[r]
+    else : 
+        return tuple([
+            tree2parentheses(tree, symbols, r=_) 
+            for _ in tree.neighbors(r)
+        ])
+
 def pathInTree (T, x1, x2) : 
     """
-    Return path from x1 to x2 in T.
-
-    Assume that x1 is ancestor of x2.
+    Return path from x1 to x2 in T, assuming x1 is ancestor of x2.
 
     Parameters
     ----------
@@ -425,51 +419,25 @@ def leavesInSubtree (T, x) :
     """
     return descendants(T, x) & set(leaves(T))
 
-def computeLCAMatrix(T) : 
-    """
-    Compute LCA matrix where entries are 
-    max-depth normalized LCA for each pair
-    of nodes.
-
-    Parameters
-    ----------
-    T : nx.DiGraph
-        Tree.
-    """
-    n = T.number_of_nodes()
-    T.lcaMatrix = np.zeros((n, n))
-    T.maxDepth = maxDepth(T)
-    setNodeDepths(T)
-    for i, a in enumerate(T.nodes) : 
-        for j, b in enumerate(T.nodes) : 
-            T.lcaMatrix[i, j] = T.nodes[lca(T, a, b)]['depth'] / T.maxDepth
-
 def parents(t, n) : 
-    """ in a dag """
+    """ Find parents of node n in dag t """
     return [p for p in t.nodes if n in t.neighbors(p)]
 
 def parent(t, n) : 
+    """ Find parent of node n in tree t """ 
     if t.in_degree(n) == 0 : 
         return None
     else : 
         return [p for p in t.nodes if n in t.neighbors(p)].pop()
 
 def siblings(t, n): 
+    """ Find siblings of node n in tree """
     p = parent(t, n)
     return set(t.neighbors(p)) - {n}
 
-def tree2Parenthesis (tree, symbols, r=None) :
-    if r is None: 
-        r = findRoot(tree)
-    if tree.out_degree(r) == 0 : 
-        return symbols[r]
-    else : 
-        return tuple([
-            tree2Parenthesis(tree, symbols, r=_) 
-            for _ in tree.neighbors(r)
-        ])
 
-def maxNodesByLevel (tree) : 
+def maximumNodesInAnyLevel (tree) : 
+    """ Find the thickest level in the tree """
     setNodeDepths(tree)
     M = maxDepth(tree)
     return max([

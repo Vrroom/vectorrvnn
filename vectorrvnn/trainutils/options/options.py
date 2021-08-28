@@ -188,17 +188,10 @@ class Options():
             help='weight decay for optimizer'
         )
         parser.add_argument(
-            '--use_swa',
-            type=str,
-            default='false',
-            choices=['true', 'false'],
-            help='whether to use stochastic weight averaging'
-        )
-        parser.add_argument(
             '--lr_policy', 
             type=str, 
             default='linear', 
-            choices=['linear', 'step', 'plateau', 'cosine', 'swalr'],
+            choices=['linear', 'step', 'plateau', 'cosine'],
             help='learning rate policy.'
         )
         self.initialized = True
@@ -321,7 +314,6 @@ class Options():
     def validate(self, opt): 
         self.validate_loss_args(opt)
         self.validate_batch_size_args(opt)
-        assert((opt.lr_policy == 'swalr') == (opt.use_swa == 'true'))
         assert((opt.structure_embedding_size is not None) \
                 == (opt.modelcls.startswith('PatternGrouping')))
         assert(len(opt.std) == opt.input_nc)

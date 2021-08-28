@@ -17,11 +17,9 @@ def hac2nxDiGraph (leaves, links) :
 
 def contractGraph (G, nodeSet) : 
     """
-    Contract the graph by merging all 
-    nodes in the node set.
+    Contract the graph by merging all nodes in the node set.
 
-    We also change the name of the
-    contracted node to indicate all
+    We also change the name of the contracted node to indicate all
     those original nodes which it had.
 
     Parameters
@@ -41,12 +39,9 @@ def contractGraph (G, nodeSet) :
 
 def subgraph (G, predicate=lambda x : x['weight'] < 1e-3) :
     """ 
-    Get a subgraph of G by
-    removing edges which don't 
-    satisfy a given predicate.
+    Get a subgraph of G by removing edges which don't satisfy a given predicate.
 
-    Useful when filtering those edges
-    from the symmetry graph which have
+    Useful when filtering those edges from the symmetry graph which have
     high error.
 
     Parameters
@@ -54,35 +49,12 @@ def subgraph (G, predicate=lambda x : x['weight'] < 1e-3) :
     G : nx.Graph()
         Normal Graph
     predicate : lambda 
-        Predicate over edges to be kept
-        in the subgraph
+        Predicate over edges to be kept in the subgraph
     """
     G_ = copy.deepcopy(G)
     badEdges = list(itertools.filterfalse(lambda e : predicate(G_.edges[e]), G_.edges))
     G_.remove_edges_from(badEdges)
     return G_
-
-def subtreeSize(s, T, subSize) :
-    """
-    Calculate the size of each
-    subtree in the rooted tree T.
-
-    Parameters
-    ----------
-    s : int
-        The current vertex
-    T : nx.DiGraph()
-        The tree
-    subSize : dict
-        Store the size of the subtree
-        rooted at each vertex.
-    """
-    subSize[s] = 1
-    nbrs = list(T.neighbors(s))
-    if T.out_degree(s) != 0 : 
-        for u in nbrs :
-            subtreeSize(u, T, subSize)
-            subSize[s] += subSize[u]
 
 def nxGraph2appGraph (forest) : 
     appGraph = dict(nodes=[], links=[])
@@ -111,25 +83,6 @@ def nxGraph2appGraph (forest) :
         if nodeParent is not None : 
             appGraph['nodes'][n]['parent'] = int(nodeParent)
     return appGraph
-
-def leqInPO (i, j, po) : 
-    """ is i <= j in the partial order """
-    return i in descendants(po, j) 
-
-def simplifyPO (po) : 
-    """ 
-    If i <= j <= k, then remove links like i <= k 
-    """
-    edgesToBeRemoved = []
-    for n in po.nodes : 
-        neighbors = list(po.neighbors(n)) 
-        for c in neighbors : 
-            gc = descendants(po, c) - {c}
-            needless = set(neighbors).intersection(gc)
-            edgesToBeRemoved.extend([(n, _) for _ in needless])
-    po_ = copy.deepcopy(po)
-    po_.remove_edges_from(edgesToBeRemoved)
-    return po_
 
 def filterNodes (nodes, keyPredicate, key) : 
     return filter(lambda x : keyPredicate(nodes[x][key]), nodes)

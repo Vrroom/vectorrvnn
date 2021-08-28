@@ -6,7 +6,6 @@ from vectorrvnn.trainutils import *
 from .TripletBase import TripletBase
 from .RoIAlignNet import * 
 import visdom
-import torch.nn.init as init
 
 class ThreeBranch (TripletBase) : 
     def __init__(self, opts):  

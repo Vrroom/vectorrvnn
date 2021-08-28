@@ -20,7 +20,7 @@ def getScheduler(optimizer, opt):
     elif opt.lr_policy == 'step':
         scheduler = StepLR(
             optimizer, 
-            step_size=opt.lr_decay_iters, 
+            step_size=opt.decay_start, 
             gamma=0.1
         )
     elif opt.lr_policy == 'plateau':

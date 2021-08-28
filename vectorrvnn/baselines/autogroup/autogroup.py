@@ -15,25 +15,25 @@ AUTOGROUP = dict(
     area=autogroupAreaSimilarity
 )
 
-def _mergeTrees (r, containmentGraph, trees): 
+def containmentMerge (r, containmentGraph, trees): 
     if containmentGraph.out_degree(r) == 0 : 
         return r
     else : 
         childClusters = dict(
             enumerate([
-                _mergeTrees(c, containmentGraph, trees) 
+                containmentMerge(c, containmentGraph, trees) 
                 for c in containmentGraph.neighbors(r)
             ])
         )
-        parenthesis = tree2Parenthesis(trees[r], symbols=childClusters)
-        return (r, parenthesis)
+        parentheses = tree2parentheses(trees[r], symbols=childClusters)
+        return (r, parentheses)
 
 def _descriptorWeightFn (lst, mat, variance) : 
     submat = mat[np.ix_(lst, lst)]
     submatRange = submat.max() - submat.min()
     return float(submatRange > 0.15 * variance)
 
-def _dropExtraParents (graph) : 
+def dropExtraParents (graph) : 
     """ 
     For each node that has more than one parent, keep the one
     parent whose z-index < z-index of the node and whose 
@@ -50,7 +50,7 @@ def _dropExtraParents (graph) :
     graph_.remove_edges_from(extra)
     return graph_
 
-def _contains(doc, i, j, **kwargs) : 
+def bitmapContains(doc, i, j, **kwargs) : 
     # answers whether j is contained in i
     if i == j :
         return 0
@@ -66,15 +66,15 @@ def _contains(doc, i, j, **kwargs) :
     else : 
         return (proj_j > 0.5 and proj_i < 0.1) or proj_j > 0.9 
 
-def autogroup (doc) : 
-    doc = withoutDegeneratePaths(doc)
+def autogroup (tree) : 
+    doc = tree.doc
     paths = cachedPaths(doc)
-    n = len(paths)
+    n = tree.nPaths
     # directed graph where a -> b iff a contains b
-    containmentGraph = _dropExtraParents(
+    containmentGraph = dropExtraParents(
         subgraph(
-            relationshipGraph(doc, _contains, False),
-            lambda x: x['_contains']
+            relationshipGraph(doc, bitmapContains, False),
+            lambda x: x['bitmapContains']
         )
     )
     # find the similarity matrices for each function
@@ -141,6 +141,8 @@ def autogroup (doc) :
         t = hac2nxDiGraph(list(range(len(x))), agg.children_)
         trees[p] = t
 
-    nestedArray = [_mergeTrees(n, containmentGraph, trees)[1]]
-    return treeFromNestedArray(nestedArray)
+    nestedArray = containmentMerge(n, containmentGraph, trees)[1]
+    cpy = deepcopy(tree)
+    cpy.initTree(parentheses2tree(nestedArray))
+    return cpy
 

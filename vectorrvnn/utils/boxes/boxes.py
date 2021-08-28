@@ -4,38 +4,75 @@ import shapely.geometry as sg
 from functools import reduce
 
 def pathBBox (path) : 
+    """
+    Get path bounding box
+    
+    This is to replace the path.bbox
+    method from svgpathtools with better error handling. It
+    also converts the bbox into a nice standard representation.
+    """
     try : 
         x, X, y, Y = path.bbox()
     except Exception : 
+        # An exception is likely when bbox is called on a degenerate path.
         x, X, y, Y = 0, 0, 0, 0
     return BBox(x, y, X, Y, X - x, Y - y)
 
 def getDocBBox (doc) :
+    """
+    Get the view box of the document
+
+    Wrapper for the svgpathtools function for the same purpose.
+    Gives a standard representation for bounding boxes.
+    """
     x, y, w, h = doc.get_viewbox()
     return BBox(x, y, x + w, y + h, w, h)
 
 def setDocBBox (doc, box) : 
+    """ Set the view box of the document """
     string = ' '.join(map(str, box.tolist()))
     doc.set_viewbox(string)
 
 def pathBBoxTooSmall (pathbox, docbox) : 
+    """ Return true if the path occupies a very small portion of the graphic """
     rel = pathbox / docbox
     return rel.normalized().area() <= 5e-4
 
 def union(boxes) : 
+    """ Compute the union of bounding boxes """
     return reduce(lambda x, y: x | y, boxes)
 
 def intersection (boxes) : 
+    """ Compute the intersection of bounding boxes """
     return reduce(lambda x, y: x & y, boxes)
 
 def pathsetBox (t, ps) : 
+    """ Compute the bounding box for a set of paths """
     return union([t.nodes[i]['bbox'] for i in ps])
 
 def isclose(x, y, atol=1e-8, rtol=1e-5):
+    """ 
+    np.isclose replacement.
+
+    Based on profiling evidence, it was found that the
+    numpy equivalent is very slow. This is because np.isclose
+    converts the numbers into internal representation and is 
+    general enough to work on vectors. We need this function 
+    to only work on numbers. Hence this faster alternative.
+    """
     return abs(x - y) <= atol + rtol * abs(y)
 
 class BBox : 
+    """
+    Standard representation for Axis Aligned Bounding Boxes.
 
+    Different modules have different but equivalent representations
+    for bounding boxes. Some represent them as the top left corner
+    along with height and width while others represent them as the
+    top left corner and the bottom left corner. This class unifies
+    both representations so that we can write bounding box methods
+    in a single consistent way.
+    """
     def __init__ (self, x, y, X, Y, w, h) : 
         self.x = x
         self.y = y
@@ -52,15 +89,15 @@ class BBox :
         assert(isclose(self.Y - self.y, self.h))
 
     def iou (self, that) : 
-        if (self + that).isDegenerate() \
-                or (self * that).isDegenerate() :
+        if (self | that).isDegenerate() \
+                or (self & that).isDegenerate() :
             return 0
-        intersection = (self * that).area()
-        union = (self + that).area()
+        intersection = (self & that).area()
+        union = (self | that).area()
         return intersection / union
 
     def isDegenerate (self) : 
-        return np.isclose(self.w, 0) and np.isclose(self.h, 0)
+        return isclose(self.w, 0) and isclose(self.h, 0)
 
     def area (self) : 
         if self.isDegenerate() : 
@@ -81,9 +118,15 @@ class BBox :
                 and self.Y == that.Y
 
     def __mul__ (self, s) : 
+        """ 
+        Scale bounding box by post multiplying by a constant 
+
+        A new box is made, scaled with respect to its origin.
+        """
         return self.scaled(s, origin='center')
 
     def __or__ (self, that) : 
+        """ Union of two boxes """
         x = min(self.x, that.x)
         y = min(self.y, that.y)
         X = max(self.X, that.X)
@@ -91,6 +134,7 @@ class BBox :
         return BBox(x, y, X, Y, X - x, Y - y)
 
     def __and__ (self, that) : 
+        """ Intersection of two boxes """
         x = max(self.x, that.x)
         y = max(self.y, that.y)
         X = min(self.X, that.X)
@@ -103,6 +147,7 @@ class BBox :
                 and not self == that
 
     def __truediv__ (self, that): 
+        """ View of the box normalized to the coordinates of that box """
         nx = (self.x - that.x) / that.w
         ny = (self.y - that.y) / that.h
         nX = (self.X - that.x) / that.w
@@ -112,6 +157,7 @@ class BBox :
         return BBox(nx, ny, nX, nY, nw, nh)
 
     def normalized (self) : 
+        """ Convert this box into the closest fitting square box """
         d = max(self.w, self.h)
         nx = self.x - (d - self.w) / 2
         ny = self.y - (d - self.h) / 2

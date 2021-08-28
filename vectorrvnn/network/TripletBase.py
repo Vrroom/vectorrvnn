@@ -1,10 +1,13 @@
 import torch
 from torch.nn import functional as F
 from vectorrvnn.trainutils import *
+from vectorrvnn.geometry import *
+from vectorrvnn.baselines.autogroup import * 
 from itertools import starmap, combinations
 from more_itertools import collapse
 from functools import lru_cache
 import numpy as np
+from copy import deepcopy
 
 class TripletBase (nn.Module) :
     """
@@ -207,6 +210,7 @@ class TripletBase (nn.Module) :
 
         if subtrees is None : 
             subtrees = leaves(t)
+        subtrees = deepcopy(subtrees)
 
         self.eval()
         with torch.no_grad() : 
@@ -221,7 +225,38 @@ class TripletBase (nn.Module) :
                 subtrees.remove(right)
                 subtrees.append(newSubtree)
 
-        return treeFromNestedArray(subtrees)
+        cpy = deepcopy(t)
+        cpy.initTree(parentheses2tree(subtrees[0]))
+        return cpy
+
+    def containmentGuidedTree (self, t, subtrees=None) : 
+        if subtrees is None : 
+            subtrees = leaves(t)
+
+        n = t.nPaths
+        containmentGraph = dropExtraParents(
+            subgraph(
+                relationshipGraph(t.doc, bitmapContains, False),
+                lambda x: x['bitmapContains']
+            )
+        )
+        containmentGraph.add_edges_from(
+            [(n, _) for _ in containmentGraph.nodes 
+                if containmentGraph.in_degree(_) == 0])
+
+        parents = nonLeaves(containmentGraph)
+        siblingSets = [list(containmentGraph.neighbors(p))
+                for p in parents]
+
+        trees = dict()
+        for p, x in zip(parents, siblingSets):  
+            trees[p] = self.greedyTree(t, subtrees=x)
+            trees[p] = nx.relabel_nodes(trees[p], dict(map(reversed, enumerate(x))))
+
+        nestedArray = containmentMerge(n, containmentGraph, trees)[1]
+        cpy = deepcopy(t)
+        cpy.initTree(parentheses2tree(nestedArray))
+        return cpy
 
     @classmethod
     def nodeFeatures(cls, t, ps1, opts) : 

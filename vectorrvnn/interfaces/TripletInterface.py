@@ -2,12 +2,12 @@ import torch
 import torch.nn.functional as F
 from torch import nn
 import torch.optim as optim
-from torch.optim.swa_utils import *
 import random
 from vectorrvnn.utils import *
 from vectorrvnn.data import *
 from vectorrvnn.trainutils import *
 from vectorrvnn.network import *
+from vectorrvnn.baselines import * 
 from functools import partial
 import os
 import ttools 
@@ -16,7 +16,6 @@ from ttools.callbacks import *
 from ttools.modules import networks
 from copy import deepcopy
 from tqdm import tqdm
-import pdb_attach
 
 LOG = ttools.get_logger(__name__)
 
@@ -124,26 +123,12 @@ def addCallbacks (trainer, model, data, opts) :
     weightDecay = [f'{n}_wd' for n in modelParams]
     keys = ["loss", "hardpct", "lr", *weightDecay]
     _, valData, trainDataLoader, _ = data
-    if opts.use_swa == 'true' : 
-        swaModel = AveragedModel(model)
-        model_ = swaModel.module
-        trainer.add_callback(
-            SWACallback(
-                trainer.interface.sched,
-                model, 
-                swaModel,
-                trainDataLoader, 
-                opts
-            )
-        )
-    else :
-        model_ = model
-        trainer.add_callback(
-            SchedulerCallback(trainer.interface.sched)
-        )
+    trainer.add_callback(
+        SchedulerCallback(trainer.interface.sched)
+    )
     checkpointer = ttools.Checkpointer(
         osp.join(opts.checkpoints_dir, opts.name),
-        model_
+        model
     )
     trainer.add_callback(
         CheckpointingCallback(checkpointer)
@@ -171,7 +156,7 @@ def addCallbacks (trainer, model, data, opts) :
     )
     trainer.add_callback(
         KernelDisplayCallback(
-            model_,
+            model,
             win="kernel", 
             env=opts.name + "_kernel", 
             frequency=opts.frequency
@@ -179,7 +164,7 @@ def addCallbacks (trainer, model, data, opts) :
     )
     trainer.add_callback(
         TreeScoresCallback(
-            model_, 
+            model, 
             data,
             frequency=opts.frequency,
             env=opts.name + "_treeScores"
@@ -187,20 +172,20 @@ def addCallbacks (trainer, model, data, opts) :
     )
     trainer.add_callback(
         GradientLoggingCallback(
-            model_,
+            model,
             frequency=opts.frequency,
             env=opts.name + "_gradients"
         )
     )
     trainer.add_callback(
         HierarchyVisCallback(
-            model_,
+            model,
             data,
             frequency=opts.frequency,
             env=opts.name + "_hierarchy"
         )
     )
-    for vis in model_.vis : 
+    for vis in model.vis : 
         trainer.add_callback(vis)
     trainer.add_callback(
         CheckpointingBestNCallback(checkpointer, key='fmi')
@@ -216,7 +201,7 @@ def buildModel (opts) :
             opts.load_ckpt
         )
         state_dict = torch.load(initPath)
-        model.load_state_dict(state_dict['model'])
+        model.load_state_dict(state_dict['model'], strict=False)
     model.to(opts.device)
     if opts.phase == 'train' : 
         model.train()
@@ -262,26 +247,38 @@ def train (opts) :
         val_dataloader=valDataLoader
     )
 
-def test (opts) : 
-    testData = TripletDataset(osp.join(opts.dataroot, 'Test'))
-    model = buildModel(opts)
-    ts1 = list(map(forest2tree, testData))
-    ts2 = list(map(model.greedyTree, ts1))
+def logScores (ts1, ts2, methodName, fd) : 
     scoreFn = lambda t, t_ : cted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
-    tedscore = avg(map(scoreFn, ts1, tqdm(ts2)))
+    tedscore = avg(map(scoreFn, ts1, ts2))
     fmi1score = avg(map(partial(fmi, level=1), ts1, ts2))
     fmi2score = avg(map(partial(fmi, level=2), ts1, ts2))
     fmi3score = avg(map(partial(fmi, level=3), ts1, ts2))
+    fd.write(methodName + '\n')
+    fd.write(f'C.T.E.D.  = {tedscore}\n')
+    fd.write(f'F.M.I.(1) = {fmi1score}\n')
+    fd.write(f'F.M.I.(2) = {fmi2score}\n')
+    fd.write(f'F.M.I.(3) = {fmi3score}\n')
+
+def test (opts) : 
+    testData = TripletDataset(osp.join(opts.dataroot, 'Test'))
+    trainData = TripletDataset(osp.join(opts.dataroot, 'Train'))
+    graphics = [repr(t.doc) for t in trainData]
+    model = buildModel(opts)
+    ts1 = list(map(forest2tree, testData))
+    ts1 = [_ for _ in ts1 if repr(_.doc) not in graphics]
+    ts2 = list(map(model.greedyTree, ts1))
+    ts3 = list(map(model.containmentGuidedTree, ts1))
+    ts4 = list(map(autogroup, ts1))
+    ts5 = list(map(suggero, ts1))
     exprDir = osp.join(opts.checkpoints_dir, opts.name)
     logFile = osp.join(exprDir, f'{opts.name}.log')
     with open(logFile, 'w+') as fd : 
-        fd.write(f'C.T.E.D.  = {tedscore}\n')
-        fd.write(f'F.M.I.(1) = {fmi1score}\n')
-        fd.write(f'F.M.I.(2) = {fmi2score}\n')
-        fd.write(f'F.M.I.(3) = {fmi3score}\n')
+        logScores(ts1, ts2, "Ours (greedyTree)", fd)
+        logScores(ts1, ts3, "Ours (containment guided)", fd)
+        logScores(ts1, ts4, "Autogroup", fd)
+        logScores(ts1, ts5, "Suggero", fd)
 
 if __name__ == "__main__" : 
-    pdb_attach.listen(50000)
     opts = Options().parse()
     if opts.phase == 'train' : 
         train(opts)
