@@ -15,20 +15,4 @@
 
 1. Unordered tree edit distance
 2. Fowlkes Mallow's Index
-
-## Baselines
-
-1. Suggero
-2. Autogroup (my name for adobe method)
-
-## TODO: 
-- [x] Clean any useless code lying around. 
-- [ ] Blind method evaluation tool (can be given to anyone later also). Add apps
-- [x] Analyse Mike's clusters
-```
-TED   = 0.0822 (down)
-FMI 1 = 0.8669 (up) 
-FMI 2 = 0.5320 (up)
-FMI 3 = 0.1371 (up)
-```
-- [ ] Check scores on only parts of Val/Test data which don't overlap with training data
+3. Constrained tree edit distance
