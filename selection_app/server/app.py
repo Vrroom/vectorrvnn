@@ -1,6 +1,5 @@
 import os
 import os.path as osp
-import base64
 from datetime import datetime
 import uuid
 from flask import Flask, jsonify, request, session, make_response
@@ -11,6 +10,7 @@ from vectorrvnn.data import *
 from vectorrvnn.network import *
 from vectorrvnn.interface import *
 from vectorrvnn.baselines import *
+from vectorrvnn.trainutils import *
 from functools import lru_cache
 import sys
 from strokeAnalyses import suggest
@@ -23,48 +23,41 @@ app.config.from_object(__name__)
 Session(app)
 
 # Setup model.
-model = getModel()
+opts = Options().parse([
+    '--backbone', 'resnet18',
+    '--sim_criteria', 'negativeCosineSimilarity',
+    '--modelcls', 'OneBranch',
+    '--phase', 'test',
+    '--load_ckpt', osp.join(rootdir(), 
+        '/../../results/onebranch/best_0-780-08-20-2021-10-33-29.pth')
+])
+model = buildModel(opts)
 
 # Available Backends
-backends = ['triplet', 'suggero']
+backends = ['triplet', 'suggero', 'autogroup']
 tools = ['slider', 'scribble']
 
 treeInference = {
     'triplet': model.greedyTree,
-    'suggero': suggero
+    'suggero': suggero,
+    'autogroup': autogroup
 }
-
-def boxSelect (t, box): 
-    paths = cachedPaths(t.doc)
-    selected = []
-    for i, p in enumerate(paths) : 
-        if pathBBox(p.path)) in box : 
-            selected.append(i)
-    return selected
-
-@lru_cache(maxsize=16)
-def baseId2Pickle (baseId, backend):
-    file = osp.join(rootdir() + f'/../data/{backend}', f'{baseId}.pkl')
-    with open(file, 'rb') as fd :
-        data = pickle.load(fd)
-    return data
 
 def rootdir():  
     return osp.abspath(osp.dirname(__file__))
 
-def getPrompt (taskDir) : 
-    with open(osp.join(taskDir, 'prompts.txt')) as fp : 
-        promptList = fp.readlines()
-    promptList = [l.strip() for l in promptList]
-    return rng.sample(promptList, k=1).pop()
+@lru_cache(maxsize=1024)
+def baseId2Pickle (baseId, backend):
+    file = osp.join(rootdir(), f'/../data/{backend}', f'{baseId}.pkl')
+    with open(file, 'rb') as fd :
+        data = pickle.load(fd)
+    return data
 
 @app.route('/')
 def root():  
     session['id'] = uuid.uuid4()
-    tool = rng.sample(tools, k=1).pop()
-    backend = rng.sample(backends, k=1).pop()
-    session['tool'] = tool
-    session['backend'] = backend;
+    session['tool'] = tool = rng.choice(tools)
+    session['backend'] = backend = rng.choice(backends)
     with open(f'{app.static_folder}/index.html') as fp :
         content = fp.read()
     resp = make_response(content)
@@ -76,7 +69,7 @@ def root():
 def taskgraphic () : 
     backend = session.get('backend')
     taskList = listdir(osp.join(rootdir(), f'../data/{backend}Trees'))
-    pkl = rng.sample(taskList, k=1).pop()
+    pkl = rng.choice(taskList)
     with open(pkl, 'rb') as fd : 
         forest = pickle.load(fd)
     id = getBaseName(pkl)
@@ -88,7 +81,7 @@ def taskgraphic () :
 @app.route('/db', methods=['POST', 'GET']) 
 def db() :
     backend = session.get('backend')
-    randomFile = rng.sample(listdir(osp.join(rootdir(), 'svgs')), k=1).pop()
+    randomFile = rng.choice(listdir(osp.join(rootdir(), 'svgs')))
     id = getBaseName(randomFile)
     with open(randomFile) as fp : 
         svg = fp.read()
@@ -154,7 +147,6 @@ def logcomments () :
     with open(commentsFile, 'a') as fd : 
         fd.write(f'{id}, {tool}, {backend}, {comments}, {currentTime}\n')
     return 'ok'
-
 
 @app.route('/clicklog', methods=['POST', 'GET'])
 def clicklog () :

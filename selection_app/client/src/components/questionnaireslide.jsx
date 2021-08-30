@@ -66,11 +66,6 @@ class QuestionnaireSlide extends Component {
                 {capitalize(tool) + " selected curves I didn't want to select"}
               </Likert>
             </li>
-            <li>
-              <Likert>
-                {capitalize(tool) + " made the task easier to complete"}
-              </Likert>
-            </li>
           </ol>
         </Row>
         <Row className="justify-content-center">

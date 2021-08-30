@@ -45,22 +45,17 @@ class Controller extends Component {
       cy: 0,
       showSlider: false,
       p: { x: 0, y: 0 },
-      elementsOnCanvas: [],
-      canvasSelected: [],
       mousePosition: { x: 0, y: 0 },
-      showCopyToast: false,
       id: -1,
       graphic,
       forest: createEmptyGraph(graphic),
       scribbleStrokes: [],
       toggleSwitchValue: tool === "scribble",
-      selectedPaletteId: 0,
       selectedByMethod: [],
       beforeSelected: [],
       nGraphics: 0,
       im: undefined
     };
-    this.clipboard = undefined;
     this.canClear = true;
     this.cornerPointerDown = false;
     this.drawingCanvasPointerDown = false;
@@ -87,35 +82,6 @@ class Controller extends Component {
         const { nGraphics } = this.state;
         this.setState({ graphic, id, forest, im, nGraphics: nGraphics + 1 });
       });
-  };
-
-  pasteSelectedItems = evt => {
-    if (typeof this.clipboard === "undefined") {
-      return;
-    }
-    const elementsOnCanvas = cloneDeep(this.state.elementsOnCanvas);
-    const { graphic, pathIdx } = this.clipboard;
-    elementsOnCanvas.push({
-      transforms: initialCanvasTransform(graphic, pathIdx),
-      ...this.clipboard
-    });
-    this.setState({
-      elementsOnCanvas
-    });
-    const data = {
-      task: 2,
-      selectedByMethod: this.state.selectedByMethod
-    };
-    fetch("/clicklog", {
-      method: "post",
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    }).then(res => {
-      this.setState({ selectedByMethod: [] });
-    });
   };
 
   handleWindowPointerDown = () => {
@@ -247,7 +213,6 @@ class Controller extends Component {
     if (this.canClear) {
       this.setState({
         selected: [],
-        canvasSelected: [],
         beforeSelected: [],
         selectedByMethod: []
       });
