@@ -33,7 +33,8 @@ class RoIBranch (TripletBase) :
             im=rasterize(
                 t.doc,
                 opts.raster_size,
-                opts.raster_size
+                opts.raster_size,
+                opts.rasterize_thread_local
             )
         )
         tensorApply(

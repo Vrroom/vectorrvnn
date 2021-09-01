@@ -32,12 +32,14 @@ class OneBranch (TripletBase) :
             im=rasterize(
                 t.doc,
                 opts.raster_size,
-                opts.raster_size
+                opts.raster_size,
+                opts.rasterize_thread_local
             ),
             whole=rasterize(
                 subsetSvg(t.doc, ps),
                 opts.raster_size,
-                opts.raster_size
+                opts.raster_size,
+                opts.rasterize_thread_local
             ),
         )
         tensorApply(

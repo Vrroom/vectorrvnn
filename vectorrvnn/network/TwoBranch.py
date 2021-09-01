@@ -30,17 +30,20 @@ class TwoBranch (TripletBase) :
             im=rasterize(
                 t.doc,
                 opts.raster_size,
-                opts.raster_size
+                opts.raster_size,
+                opts.rasterize_thread_local
             ),
             whole=rasterize(
                 subsetSvg(t.doc, ps),
                 opts.raster_size,
-                opts.raster_size
+                opts.raster_size,
+                opts.rasterize_thread_local
             ),
             crop=rasterize(
                 crop(subsetSvg(t.doc, ps), bbox, docbox), 
                 opts.raster_size, 
-                opts.raster_size
+                opts.raster_size,
+                opts.rasterize_thread_local
             )
         )
         tensorApply(

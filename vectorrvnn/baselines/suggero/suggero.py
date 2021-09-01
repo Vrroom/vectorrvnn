@@ -26,10 +26,12 @@ def combinedAffinityMatrix (doc, affinityFns, weights) :
     combinedMatrix = sum(w * M for w, M in zip(weights, affinityMatrices))
     return combinedMatrix
 
-def suggero (tree) : 
+def suggero (tree, subtrees=None) : 
     doc = tree.doc
     paths = cachedPaths(doc)
-    subtrees = list(range(len(paths)))
+    if subtrees is None : 
+        subtrees = leaves(tree)
+    subtrees = deepcopy(subtrees)
     paths = [paths[i] for i in subtrees]
     affinityFns = SUGGERO_LITE if USE_LITE else SUGGERO_ADVANCED
     nfns = len(affinityFns)

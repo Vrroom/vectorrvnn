@@ -8,7 +8,7 @@ import pickle
 from vectorrvnn.utils import *
 from vectorrvnn.data import *
 from vectorrvnn.network import *
-from vectorrvnn.interface import *
+from vectorrvnn.interfaces import *
 from vectorrvnn.baselines import *
 from vectorrvnn.trainutils import *
 from functools import lru_cache
@@ -16,25 +16,31 @@ import sys
 from strokeAnalyses import suggest
 import svgpathtools as svg
 
+def rootdir():  
+    return osp.abspath(osp.dirname(__file__))
+
 # Setup application.
 app = Flask(__name__, static_url_path='', static_folder='../client/build')
 SESSION_TYPE = 'filesystem'
 app.config.from_object(__name__)
 Session(app)
 
-# Setup model.
+# Setup model and data.
 opts = Options().parse([
     '--backbone', 'resnet18',
     '--sim_criteria', 'negativeCosineSimilarity',
     '--modelcls', 'OneBranch',
     '--phase', 'test',
-    '--load_ckpt', osp.join(rootdir(), 
-        '/../../results/onebranch/best_0-780-08-20-2021-10-33-29.pth')
+    '--checkpoints_dir', osp.join(rootdir(), '../../results'),
+    '--load_ckpt', 'onebranch/best_0-782-08-20-2021-10-53-00.pth',
+    '--dataroot', osp.join(rootdir(), '../../data/Toy'),
+    '--rasterize_thread_local', 'True'
 ])
 model = buildModel(opts)
+data, *_ = buildData(opts)
 
 # Available Backends
-backends = ['triplet', 'suggero', 'autogroup']
+backends = ['triplet', 'suggero']#, 'autogroup']
 tools = ['slider', 'scribble']
 
 treeInference = {
@@ -42,9 +48,6 @@ treeInference = {
     'suggero': suggero,
     'autogroup': autogroup
 }
-
-def rootdir():  
-    return osp.abspath(osp.dirname(__file__))
 
 @lru_cache(maxsize=1024)
 def baseId2Pickle (baseId, backend):
@@ -65,62 +68,31 @@ def root():
     resp.set_cookie('backend', backend)
     return resp
 
-@app.route('/taskgraphic', methods=['POST', 'GET']) 
-def taskgraphic () : 
+@app.route('/task', methods=['POST', 'GET']) 
+def task () : 
     backend = session.get('backend')
-    taskList = listdir(osp.join(rootdir(), f'../data/{backend}Trees'))
-    pkl = rng.choice(taskList)
-    with open(pkl, 'rb') as fd : 
-        forest = pickle.load(fd)
-    id = getBaseName(pkl)
-    svg = forest.svg
-    forest = nxGraph2appGraph(forest)
-    im = f'./target/{id}.png'
-    return jsonify(im=im, svg=svg, id=id, forest=forest)
-
-@app.route('/db', methods=['POST', 'GET']) 
-def db() :
-    backend = session.get('backend')
-    randomFile = rng.choice(listdir(osp.join(rootdir(), 'svgs')))
-    id = getBaseName(randomFile)
-    with open(randomFile) as fp : 
+    T = data[0]
+    with open(T.svgFile) as fp : 
         svg = fp.read()
-    t = nx.DiGraph()
-    nPaths = len(Document(randomFile).flatten_all_paths())
-    t.add_nodes_from(range(nPaths))
-    forest = nxGraph2appGraph(t)
-    return jsonify(svg=svg, id=id, forest=forest)
+    forest = nxGraph2appGraph(T)
+    return jsonify(target=[0, 1], svg=svg, id=0, forest=forest)
 
-@app.route('/demofile') 
-def demofile () :
-    file = '103.pkl'
-    id = getBaseName(file)
-    forest = baseId2Pickle(id, 'triplet')
-    svg = forest.svg
-    forest = nxGraph2appGraph(forest)
-    return jsonify(svg=svg, id=id, forest=forest)
-
-@app.route('/demostroke', methods=['POST', 'GET'])
-def demostroke () :
-    file = '103.pkl'
-    id = getBaseName(file)
-    t = baseId2Pickle(id, 'triplet')
-    userStroke = request.json['stroke']
-    radius = request.json['radius']
-    inference = suggest(t, userStroke, treeInference['triplet'], radius)
-    return jsonify(suggestions=inference)
+@app.route('/example', methods=['POST', 'GET']) 
+def example() :
+    T = data[0]
+    with open(T.svgFile) as fp : 
+        svg = fp.read()
+    forest = nxGraph2appGraph(T)
+    return jsonify(id=0, svg=svg, forest=forest)
 
 @app.route('/stroke', methods=['POST', 'GET']) 
 def stroke () :
     backend = session.get('backend')
-    pkls = listdir(osp.join(rootdir(), f'../data/{backend}Trees'))
     id = request.json['id']
-    pkl = [p for p in pkls if getBaseName(p) == id].pop()
-    with open(pkl, 'rb') as fd : 
-        t = pickle.load(fd)
-    userStroke = request.json['stroke']
+    stroke = request.json['stroke']
     radius = request.json['radius']
-    inference = suggest(t, userStroke, treeInference[backend], radius)
+    t = data[int(id)]
+    inference = suggest(t, stroke, treeInference[backend], radius)
     return jsonify(suggestions=inference)
 
 @app.route('/surveyquestion', methods=['POST', 'GET'])
@@ -146,15 +118,6 @@ def logcomments () :
     commentsFile = osp.join(rootdir(), '../data/comments', str(id) + '.csv')
     with open(commentsFile, 'a') as fd : 
         fd.write(f'{id}, {tool}, {backend}, {comments}, {currentTime}\n')
-    return 'ok'
-
-@app.route('/clicklog', methods=['POST', 'GET'])
-def clicklog () :
-    id = session.get('id')
-    currentTime = str(datetime.now())
-    surveyFile = osp.join(rootdir(), '../data/clicklog', str(id) + '.csv')
-    with open(surveyFile, 'a') as fd :
-        fd.write(f'{id}, {currentTime}, {request.json}\n')
     return 'ok'
 
 if __name__ == '__main__':

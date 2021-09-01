@@ -46,7 +46,7 @@ def treeVisAsDirectory (G) :
         i, j = pos
         subsetDoc = subsetSvg(doc, G_.nodes[n]['pathSet'])
         setDocBBox(subsetDoc, G_.nodes[n]['bbox'].normalized() * 1.2)
-        raster = rasterize(subsetDoc, raster_size, raster_size)
+        raster = rasterize(subsetDoc, raster_size, raster_size, True)
         sI, sJ = i * raster_size, j * raster_size
         canvas[sI:sI + raster_size, sJ:sJ + raster_size, :] = raster
     canvas = alphaComposite(canvas, color=[0.5, 0.5, 0.5])
@@ -62,7 +62,7 @@ def treeAxisFromGraph(G, fig, ax) :
     md = max(1, np.ceil(maxDepth(G_) / 10))
     for n in G_ :
         subsetDoc = subsetSvg(doc, G_.nodes[n]['pathSet'])
-        img = rasterize(subsetDoc, 128, 128)
+        img = rasterize(subsetDoc, 128, 128, True)
         imagebox = OffsetImage(img, zoom=0.2 / md)
         imagebox.image.axes = ax
         ab = AnnotationBbox(imagebox, pos[n], pad=0)
@@ -239,7 +239,7 @@ def treeMatchVisOnAxis (t1, t2, matchMatrix, fig, ax, prefix=('1-', '2-')) :
     zoom = pixX / (sideBySideIms * imSize * 3)
     for n in t1 :
         subsetDoc = subsetSvg(t1.doc, t1.nodes[n]['pathSet'])
-        img = rasterize(subsetDoc, imSize, imSize)
+        img = rasterize(subsetDoc, imSize, imSize, True)
         color = [1, 1, 1]
         if 'color' in a.nodes[n] :
             color = COLOR_MAP[a.nodes[n]['color']]
@@ -251,7 +251,7 @@ def treeMatchVisOnAxis (t1, t2, matchMatrix, fig, ax, prefix=('1-', '2-')) :
 
     for n in t2 :
         subsetDoc = subsetSvg(t2.doc, t2.nodes[n]['pathSet'])
-        img = rasterize(subsetDoc, imSize, imSize)
+        img = rasterize(subsetDoc, imSize, imSize, True)
         color = [1, 1, 1]
         if 'color' in b.nodes[n] :
             color = COLOR_MAP[b.nodes[n]['color']]

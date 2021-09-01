@@ -10,7 +10,7 @@ import { nodeColors } from "./palette";
 
 function descendants(graph, id) {
   const { nodes } = graph;
-  const helper = a => {
+  const helper = (a) => {
     if (nodes[a].children.length > 0) {
       const list = nodes[a].children.map(helper).flat();
       list.push(a);
@@ -22,12 +22,23 @@ function descendants(graph, id) {
   return all;
 }
 
+function ancestors(graph, node) {
+  const ancs = [];
+  let ptr = node;
+  while (!isRoot(ptr, graph)) {
+    ancs.push(ptr);
+    ptr = graph.nodes[ptr].parent;
+  }
+  ancs.push(ptr)
+  return ancs;
+}
+
 function lca(forest, ids) {
   return forest.nodes
-    .map(node => {
+    .map((node) => {
       return { self: node, result: descendants(forest, node.id) };
     })
-    .filter(thing => isSubset(ids, thing.result))
+    .filter((thing) => isSubset(ids, thing.result))
     .sort((a, b) => a.self.depth - b.self.depth)
     .pop().self.id;
 }
@@ -72,7 +83,7 @@ function depth(nodeId, forest) {
  * correct path subsets.
  */
 function gatherSubtreePaths(nodes) {
-  const helper = a => {
+  const helper = (a) => {
     if (nodes[a].children.length > 0) {
       nodes[a].paths = nodes[a].children.map(helper).flat();
     }
@@ -93,30 +104,26 @@ function gatherSubtreePaths(nodes) {
  * @returns {boolean} Whether the nodes are connected or not.
  */
 function connected(a, b, graph, edgeFilter, directed) {
-  const neighbors = id => {
+  const neighbors = (id) => {
     const edges = graph.links.filter(edgeFilter);
     let connectedEdges;
     if (directed) {
-      connectedEdges = edges.filter(e => e.source.id === id);
+      connectedEdges = edges.filter((e) => e.source.id === id);
     } else {
-      connectedEdges = edges.filter(
-        e => e.source.id === id || e.target.id === id
-      );
+      connectedEdges = edges.filter((e) => e.source.id === id || e.target.id === id);
     }
-    return connectedEdges.map(e =>
-      e.source.id === id ? e.target.id : e.source.id
-    );
+    return connectedEdges.map((e) => (e.source.id === id ? e.target.id : e.source.id));
   };
   let marked = new Array(graph.nodes.length).fill(false);
-  const dfs = s => {
+  const dfs = (s) => {
     marked[s] = true;
     if (s === b) {
       return true;
     }
     return neighbors(s)
-      .filter(n => !marked[n])
+      .filter((n) => !marked[n])
       .map(dfs)
-      .some(x => x);
+      .some((x) => x);
   };
   return dfs(a);
 }
@@ -153,7 +160,7 @@ function createEmptyGraph(graphic) {
       radius: minRadius + ratio * minRadius,
       paths: [i],
       children: [],
-      visible: 1
+      visible: 1,
     };
   });
   let links = [];
@@ -170,7 +177,7 @@ function createEmptyGraph(graphic) {
         radius: 0,
         paths: component,
         children: component,
-        visible: 1
+        visible: 1,
       });
       for (let j = 0; j < component.length; j++) {
         const target = component[j];
@@ -204,7 +211,7 @@ function createEmptyGraph(graphic) {
 function nodeRadius(node, nNodes, graphic) {
   const pathIds = node.paths;
   const { bboxes, svg } = graphic;
-  const relevantBoxes = pathIds.map(id => bboxes[id]);
+  const relevantBoxes = pathIds.map((id) => bboxes[id]);
   const box = coveringBBox(relevantBoxes);
   const svgBox = getWidthHeight(svg.properties);
   const ratio = (box.height * box.width) / (svgBox.height * svgBox.width);
@@ -218,7 +225,7 @@ function suggestions2nodes(suggestions, graphic) {
     return { paths: s, id: i };
   });
   const nNodes = nodes.length;
-  const radii = nodes.map(node => nodeRadius(node, nNodes, graphic));
+  const radii = nodes.map((node) => nodeRadius(node, nNodes, graphic));
   nodes = nodes.map((node, i) => {
     return {
       ...node,
@@ -289,18 +296,11 @@ function deleteLinkFromForest(forest, linkId) {
     nodeId = nodes[nodeId].parent;
   }
 
-  nodes[groupId].children.splice(
-    nodes[groupId].children.indexOf(links[linkId].target.id),
-    1
-  );
+  nodes[groupId].children.splice(nodes[groupId].children.indexOf(links[linkId].target.id), 1);
 
   let linksToBeDeleted = links
-    .filter(
-      l =>
-        nodesToBeDeleted.includes(l.source.id) ||
-        nodesToBeDeleted.includes(l.target.id)
-    )
-    .map(l => links.indexOf(l));
+    .filter((l) => nodesToBeDeleted.includes(l.source.id) || nodesToBeDeleted.includes(l.target.id))
+    .map((l) => links.indexOf(l));
   linksToBeDeleted.push(linkId);
 
   for (let i = 0; i < linksToBeDeleted.length; i++) {
@@ -323,9 +323,7 @@ function deleteLinkFromForest(forest, linkId) {
   for (let i = 0; i < nodes.length; i++) {
     nodes[i].id = idMap[nodes[i].id];
     nodes[i].index = nodes[i].id;
-    nodes[i].children = nodes[i].children
-      .filter(cId => !nodesToBeDeleted.includes(cId))
-      .map(cId => idMap[cId]);
+    nodes[i].children = nodes[i].children.filter((cId) => !nodesToBeDeleted.includes(cId)).map((cId) => idMap[cId]);
     if (typeof nodes[i].parent !== "undefined") {
       nodes[i].parent = idMap[nodes[i].parent];
     }
@@ -363,9 +361,7 @@ function addNodeAsChildIfNearby(forest, nodeId) {
   let graph = cloneDeep(forest);
   const thisNode = graph.nodes[nodeId];
   const closeNodes = graph.nodes.filter(
-    node =>
-      distance(thisNode, node) < thisNode.radius + node.radius &&
-      node.id !== nodeId
+    (node) => distance(thisNode, node) < thisNode.radius + node.radius && node.id !== nodeId
   );
   if (closeNodes.length === 1) {
     const thatNode = closeNodes.pop();
@@ -376,7 +372,7 @@ function addNodeAsChildIfNearby(forest, nodeId) {
       graph.links.push({
         source: thatNode.id,
         target: thisNode.id,
-        type: "group"
+        type: "group",
       });
     }
   }
@@ -394,10 +390,10 @@ function addNodeAsChildIfNearby(forest, nodeId) {
 function groupNodes(forest, nodes) {
   const graph = cloneDeep(forest);
   const nNodes = graph.nodes.length;
-  const paths = nodes.map(id => graph.nodes[id].paths).flat();
+  const paths = nodes.map((id) => graph.nodes[id].paths).flat();
   const othersChildren = graph.nodes
-    .filter(n => n.type === "group")
-    .map(n => n.children)
+    .filter((n) => n.type === "group")
+    .map((n) => n.children)
     .flat();
   const correctNumber = nodes.length >= 2;
   const nodeDisjoint = disjoint(othersChildren, nodes);
@@ -411,9 +407,9 @@ function groupNodes(forest, nodes) {
       radius: 0,
       paths,
       children: nodes,
-      visible: 1
+      visible: 1,
     });
-    nodes.forEach(id => {
+    nodes.forEach((id) => {
       graph.links.push({ source: nNodes, target: id, type: "group" });
       graph.nodes[id].parent = nNodes;
     });
@@ -511,6 +507,7 @@ export {
   createEmptyGraph,
   nodeRadius,
   descendants,
+  ancestors,
   canAddNodeAsChild,
   deleteLinkFromForest,
   addNodeAsChildIfNearby,
@@ -521,5 +518,5 @@ export {
   depth,
   setDepths,
   lca,
-  suggestions2nodes
+  suggestions2nodes,
 };

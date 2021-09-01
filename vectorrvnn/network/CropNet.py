@@ -45,12 +45,14 @@ class CropNet (TripletBase) :
             im=rasterize(
                 t.doc,
                 opts.raster_size,
-                opts.raster_size
+                opts.raster_size,
+                opts.rasterize_thread_local
             ),
             crop=rasterize(
                 crop(subsetSvg(t.doc, ps), bbox, docbox), 
                 opts.raster_size, 
-                opts.raster_size
+                opts.raster_size,
+                opts.rasterize_thread_local
             )
         )
         tensorApply(

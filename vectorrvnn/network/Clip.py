@@ -26,7 +26,8 @@ class Clip (TripletBase) :
         image = rasterize(
             subsetSvg(t.doc, ps),
             opts.raster_size,
-            opts.raster_size
+            opts.raster_size,
+            opts.rasterize_thread_local
         )
         eightBit = (image * 255).astype(np.uint8)
         pil = Image.fromarray(eightBit, "RGBA")

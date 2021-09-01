@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import Container from "react-bootstrap/Container";
-import Controller from "./components/controller";
 import Button from "./components/button";
 import Row from "react-bootstrap/Row";
 import leftarrow from "./icons/leftarrow.svg";
 import rightarrow from "./icons/rightarrow.svg";
+import TaskSlide from "./components/taskslide";
 import VectorGraphicSlide from "./components/vectorgraphicslide";
 import SliderSlide from "./components/sliderslide";
 import ScribbleSlide from "./components/scribbleslide";
@@ -64,7 +64,7 @@ class App extends Component {
       case 4:
         return {
           title: "Task",
-          content: <Controller />
+          content: <TaskSlide />
         };
       case 5:
         return {

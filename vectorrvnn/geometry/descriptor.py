@@ -21,7 +21,7 @@ def colorHistogram(doc, i, containmentGraph=None) :
         w, h = 200, (box.h / box.w) * 200
     else : 
         w, h = (box.w / box.h) * 200, 200
-    im = rasterize(subset, w=int(w), h=int(h))
+    im = rasterize(subset, w=int(w), h=int(h), threadLocal=True)
     rgb, alpha = im[:, :, :3], im[:, :, 3]
     lab = color.rgb2lab(rgb) 
     l = lab[:, :, 0][alpha > 0]
@@ -141,5 +141,5 @@ def pathBitmap (doc, i, fill=True, **kwargs) :
         w, h = 200, (box.h / box.w) * 200
     else : 
         w, h = (box.w / box.h) * 200, 200
-    im = rasterize(doc_, w=int(w), h=int(h))
+    im = rasterize(doc_, w=int(w), h=int(h), threadLocal=True)
     return im[:, :, 3]

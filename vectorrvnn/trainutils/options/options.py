@@ -96,6 +96,12 @@ class Options():
             default=256, 
             help='scale rasters to this size'
         )
+        parser.add_argument(
+            '--rasterize_thread_local',
+            type=bool,
+            default=False,
+            help='whether to create a global or thread local raster context'
+        )
         # logging parameters
         parser.add_argument(
             '--frequency', 

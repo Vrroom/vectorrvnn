@@ -8,6 +8,7 @@ import { parse } from "svg-parser";
 import propertiesToCamelCase from "./reacthelpers";
 import { Shape, Path, extend, SVG } from "@svgdotjs/svg.js";
 import { cloneDeep } from "lodash";
+import * as d3 from "d3-color";
 
 extend(Shape, {
   // Convert element to path
@@ -16,14 +17,7 @@ extend(Shape, {
 
     switch (this.type) {
       case "rect": {
-        let { width: w, height: h, rx, ry, x, y } = this.attr([
-          "width",
-          "height",
-          "rx",
-          "ry",
-          "x",
-          "y"
-        ]);
+        let { width: w, height: h, rx, ry, x, y } = this.attr(["width", "height", "rx", "ry", "x", "y"]);
 
         // normalise radius values, just like the original does it (or should do)
         if (rx < 0) rx = 0;
@@ -46,7 +40,7 @@ extend(Shape, {
             ["a", rx, ry, 0, 0, 1, -rx, -ry],
             ["v", -h + 2 * ry],
             ["a", rx, ry, 0, 0, 1, rx, -ry],
-            ["z"]
+            ["z"],
           ];
         } else {
           // no round corners, no need to draw arcs
@@ -61,19 +55,14 @@ extend(Shape, {
         let ry = this.ry();
         let { cx, cy } = this.attr(["cx", "cy"]);
 
-        d = [
-          ["M", cx - rx, cy],
-          ["A", rx, ry, 0, 0, 0, cx + rx, cy],
-          ["A", rx, ry, 0, 0, 0, cx - rx, cy],
-          ["z"]
-        ];
+        d = [["M", cx - rx, cy], ["A", rx, ry, 0, 0, 0, cx + rx, cy], ["A", rx, ry, 0, 0, 0, cx - rx, cy], ["z"]];
 
         break;
       }
       case "polygon":
       case "polyline":
       case "line":
-        d = this.array().map(function(arr) {
+        d = this.array().map(function (arr) {
           return ["L"].concat(arr);
         });
 
@@ -94,12 +83,12 @@ extend(Shape, {
     const path = new Path().plot(d);
 
     return path;
-  }
+  },
 });
 
 function initialCanvasTransform(graphic, pathIdx) {
   const { bboxes } = graphic;
-  const relevantBoxes = pathIdx.map(i => bboxes[i]);
+  const relevantBoxes = pathIdx.map((i) => bboxes[i]);
   const box = coveringBBox(relevantBoxes);
   const center = boxCenter(box);
   const t1 = "translate(50 50)";
@@ -134,9 +123,7 @@ function parseTransform(transform) {
 }
 
 function point(id) {
-  return SVG(`#${id}`)
-    .toPath()
-    .pointAt(0);
+  return SVG(`#${id}`).toPath().pointAt(0);
 }
 
 /**
@@ -214,13 +201,9 @@ function normalizeGraphic(graphic) {
   if (svg.properties.viewBox) {
     const vb = extractViewBox(svg.properties.viewBox);
     if (vb[2] < vb[3]) {
-      svg.properties.viewBox = `${vb[0] - (vb[3] - vb[2]) / 2} ${vb[1]} ${
-        vb[3]
-      } ${vb[3]}`;
+      svg.properties.viewBox = `${vb[0] - (vb[3] - vb[2]) / 2} ${vb[1]} ${vb[3]} ${vb[3]}`;
     } else {
-      svg.properties.viewBox = `${vb[0]} ${vb[1] - (vb[2] - vb[3]) / 2} ${
-        vb[2]
-      } ${vb[2]}`;
+      svg.properties.viewBox = `${vb[0]} ${vb[1] - (vb[2] - vb[3]) / 2} ${vb[2]} ${vb[2]}`;
     }
     svg.properties.height = Math.max(vb[2], vb[3]);
     svg.properties.width = Math.max(vb[2], vb[3]);
@@ -248,10 +231,10 @@ function fitGraphicIn100By100Box(graphic) {
   vb[2] = 100;
   vb[3] = 100;
   svg.properties.viewBox = vb.join(" ");
-  paths = paths.map(path => {
+  paths = paths.map((path) => {
     return { tagName: "g", transform, children: [path] };
   });
-  return { svg, paths, scale: 100/d};
+  return { svg, paths, scale: 100 / d };
 }
 
 /**
@@ -269,23 +252,14 @@ function fitGraphicIn100By100Box(graphic) {
  */
 function findBBox(group) {
   const path = group.children[0];
-  const svgElement = document.createElementNS(
-    "http://www.w3.org/2000/svg",
-    "svg"
-  );
+  const svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svgElement.setAttribute("id", "temp-svg");
   svgElement.setAttribute("height", "100");
   svgElement.setAttribute("width", "100");
   document.body.appendChild(svgElement);
-  const groupElement = document.createElementNS(
-    "http://www.w3.org/2000/svg",
-    group.tagName
-  );
+  const groupElement = document.createElementNS("http://www.w3.org/2000/svg", group.tagName);
   groupElement.setAttribute("transform", group.transform);
-  const pathElement = document.createElementNS(
-    "http://www.w3.org/2000/svg",
-    path.tagName
-  );
+  const pathElement = document.createElementNS("http://www.w3.org/2000/svg", path.tagName);
   for (const p in path.properties) {
     pathElement.setAttribute(p, path.properties[p]);
   }
@@ -319,9 +293,9 @@ function findBBox(group) {
 function flattenTree(tree) {
   let stack = [];
   let elements = [];
-  const helper = node => {
+  const helper = (node) => {
     stack.push(node.properties);
-    const properties = stack.reduceRight(function(a, b) {
+    const properties = stack.reduceRight(function (a, b) {
       return { ...b, ...a };
     });
     let { children, ...rest } = node;
@@ -378,12 +352,10 @@ function degenerateBBox(bbox) {
  */
 function preprocessSVG(svgString) {
   const parseTree = parse(svgString).children[0];
-  let { svg, paths, scale } = fitGraphicIn100By100Box(
-    normalizeGraphic(flattenTree(parseTree))
-  );
-  let bboxes = paths.map(path => findBBox(path));
+  let { svg, paths, scale } = fitGraphicIn100By100Box(normalizeGraphic(flattenTree(parseTree)));
+  let bboxes = paths.map((path) => findBBox(path));
   paths = paths.filter((_, i) => !degenerateBBox(bboxes[i]));
-  bboxes = bboxes.filter(b => !degenerateBBox(b));
+  bboxes = bboxes.filter((b) => !degenerateBBox(b));
   svg = propertiesToCamelCase(svg);
   paths = paths.map(propertiesToCamelCase);
   return { svg, paths, bboxes, scale };
@@ -403,10 +375,10 @@ function preprocessSVG(svgString) {
  * covers all bboxes.
  */
 function coveringBBox(bboxes) {
-  const x = Math.min(...bboxes.map(b => b.x));
-  const y = Math.min(...bboxes.map(b => b.y));
-  const maxX = Math.max(...bboxes.map(b => b.x + b.width));
-  const maxY = Math.max(...bboxes.map(b => b.y + b.height));
+  const x = Math.min(...bboxes.map((b) => b.x));
+  const y = Math.min(...bboxes.map((b) => b.y));
+  const maxX = Math.max(...bboxes.map((b) => b.x + b.width));
+  const maxY = Math.max(...bboxes.map((b) => b.y + b.height));
   const height = maxY - y;
   const width = maxX - x;
   return { x, y, height, width };
@@ -418,7 +390,7 @@ function fourCorners(bbox) {
     { x, y },
     { x: x + width, y },
     { x: x + width, y: y + height },
-    { x, y: y + height }
+    { x, y: y + height },
   ];
   return corners;
 }
@@ -446,8 +418,13 @@ function boxCenter(box) {
  * @return  {Number}  Euclidean distance.
  */
 function distance(a, b) {
-  const d = { x: a.x - b.x, y: a.y - b.y };
+  const d = subtract(a, b);
   return Math.sqrt(d.x * d.x + d.y * d.y);
+}
+
+function subtract(a, b) {
+  const d = { x: a.x - b.x, y: a.y - b.y };
+  return d;
 }
 
 /**
@@ -469,12 +446,61 @@ function convertCoordinates(elementId, x, y) {
   return { x: (x - ctm.e) / ctm.a, y: (y - ctm.f) / ctm.d };
 }
 
-function isStylePropertyNotNone(styleProperty, properties) {
-  if (typeof properties[styleProperty] === "undefined") {
-    if (typeof properties.style === "undefined") return true;
-    else return properties.style[styleProperty].toLowerCase() !== "none";
+function getAttribute (properties, attr) { 
+  if (typeof properties[attr] === "undefined") {
+    if (typeof properties.style === "undefined") return "none";
+    else if (typeof properties.style[attr] === "undefined") return "none";
+    else return properties.style[attr];
   }
-  return properties[styleProperty].toLowerCase() !== "none";
+  return properties[attr];
+}
+
+function setAttribute (properties, attr, newVal) {
+  const prop = cloneDeep(properties);
+  if (typeof properties[attr] === "undefined") {
+    if (typeof properties.style === "undefined") return prop;
+    else if (typeof properties.style[attr] === "undefined") return prop;
+    else {
+      prop.style[attr] = newVal;
+      return prop;
+    }
+  }
+  prop[attr] = newVal;
+  return prop;
+}
+
+function isAttrNotNone(properties, attr) {
+  return getAttribute(properties, attr).toLowerCase() !== "none";
+}
+
+function rgb2gray (color) {
+  const avg = (color.r + color.g + color.b) / 3;
+  color.r = color.g = color.b = avg;
+  return color + "";
+}
+
+function targetGraphic (graphic, target) {
+  const graphic_ = cloneDeep(graphic);
+  for (let i = 0; i < graphic_.paths.length; i++) {
+    let group = graphic_.paths[i];
+    let child = group.children[0];
+    if (target.includes(i)) {
+      child.properties = setAttribute(child.properties, "stroke", "red");
+      child.properties = setAttribute(child.properties, "fill"  , "red");
+    } else {
+      if (isAttrNotNone(child.properties, "stroke")) { 
+        const strokeColor = d3.color(getAttribute(child.properties, "stroke"))
+        const grayStroke  = rgb2gray(strokeColor);
+        child.properties  = setAttribute(child.properties, "stroke", grayStroke);
+      }
+      if (isAttrNotNone(child.properties, "fill")) { 
+        const fillColor   = d3.color(getAttribute(child.properties, "fill"))
+        const grayFill    = rgb2gray(fillColor);
+        child.properties  = setAttribute(child.properties, "fill", grayFill);
+      }
+    }
+  }
+  return graphic_
 }
 
 export {
@@ -484,11 +510,14 @@ export {
   coveringBBox,
   boxCenter,
   distance,
+  subtract,
   convertCoordinates,
   initialCanvasTransform,
   fourCorners,
   parseTransform,
   transformBox,
-  isStylePropertyNotNone,
-  extractViewBox
+  isAttrNotNone,
+  setAttribute,
+  targetGraphic,
+  extractViewBox,
 };

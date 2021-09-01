@@ -4,13 +4,14 @@ import numpy as np
 from scipy.spatial.distance import pdist, squareform
 from shapely.geometry import *
 from vectorrvnn.utils import *
+from vectorrvnn.geometry import *
 
 def strokeCoversPath(path, stroke, doc, radius): 
     def pointPathIntersect (point):  
-        r = (radius / 100) * max(vbox[2], vbox[3])
+        r = (radius / 100) * max(vbox.w, vbox.h)
         p = Point(point['x'], point['y'])
-        return path.path.hull.distance(p) < r
-    vbox = doc.get_viewbox() 
+        return enclosingGeometry(path).distance(p) < r
+    vbox = getDocBBox(doc)
     return any(map(pointPathIntersect, stroke))
 
 def samplePointsFromPolygon (polygon, k=20) :
@@ -53,7 +54,7 @@ def nodeScore (pathSet, paths, stroke) :
     return beta * (muC + muS) + (1 - beta) * (stdC + stdS)
 
 def suggest (t, stroke, treeInferenceMethod, radius) : 
-    paths = cachedFlattenPaths(t.doc)
+    paths = cachedPaths(t.doc)
     relevantPaths = [strokeCoversPath(p, stroke, t.doc, radius) for p in paths]
     relevantPathIndices = [i for i, _ in enumerate(paths) if relevantPaths[i]]
     if len(relevantPathIndices) == 0 : 

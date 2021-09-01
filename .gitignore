@@ -13,4 +13,7 @@ build
 dist
 tests/**/out/
 vectorrvnn.egg-info
-./**/*.log
+*.log
+node_modules
+package-lock.json
+flask_session

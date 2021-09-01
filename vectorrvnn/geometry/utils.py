@@ -2,6 +2,10 @@
 import numpy as np
 from vectorrvnn.utils.svg import cachedPaths
 from skimage import color
+from shapely.geometry import *
+from scipy.spatial import ConvexHull
+import svgpathtools as svg
+from copy import deepcopy
 
 def histScore (a, b) : 
     return np.minimum(a, b).sum() / (np.maximum(a, b).sum() + 1e-5)
@@ -178,3 +182,28 @@ def isometry(path1, path2) :
         return r, R, t, err
     else :
         return isometryWithAlignment(path1, path2)
+
+def enclosingGeometry(path) : 
+    path_ = deepcopy(path)
+    path_.path.approximate_arcs_with_cubics()
+    pts = []
+    for seg in path_.path :
+        if isinstance(seg, svg.Line) :
+            pts.append(seg.start)
+            pts.append(seg.end)
+        elif isinstance(seg, svg.QuadraticBezier) :
+            pts.append(seg.start)
+            pts.append(seg.control)
+            pts.append(seg.end)
+        elif isinstance(seg, svg.CubicBezier) :
+            pts.append(seg.start)
+            pts.append(seg.control1)
+            pts.append(seg.control2)
+            pts.append(seg.end)
+    pts = np.array([[pt.real, pt.imag] for pt in pts])
+    if len(pts) >= 3 :
+        return Polygon(pts[ConvexHull(pts).vertices])
+    elif len(pts) == 2 :
+        return LineString(pts.tolist())
+    else : 
+        return Point(pts.tolist().pop())

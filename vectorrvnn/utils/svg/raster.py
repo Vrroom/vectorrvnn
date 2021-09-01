@@ -24,7 +24,7 @@ def alphaComposite (source, module=np, color=[1,1,1]) :
     return composited
 
 @immutable_doc
-def rasterize (doc, w=None, h=None) : 
+def rasterize (doc, w=None, h=None, threadLocal=False) : 
     """
     Rasterize a document to given height and width.
     Either both height and width are None or both are
@@ -35,4 +35,7 @@ def rasterize (doc, w=None, h=None) :
     fixOrigin(doc)
     if w is not None : 
         scaleToFit(doc, w, h)
-    return pr.numpyRaster(doc)
+    if threadLocal : 
+        return pr.numpyRasterThreadLocal(doc)
+    else : 
+        return pr.numpyRaster(doc)
