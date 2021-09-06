@@ -2,7 +2,7 @@ import torch
 from copy import deepcopy
 import torch.nn as nn
 from more_itertools import flatten
-from functools import partial
+from functools import partial, lru_cache
 import numpy as np
 from torchvision.models import *
 from .initializer import getInitializer
@@ -135,22 +135,25 @@ def addLayerNorm (model, output_size) :
         nn.LayerNorm(output_size)
     )
 
+@lru_cache(maxsize=128)
+def sharedConvBackbone (opts): 
+    return convBackbone(opts)
+
 def convBackbone (opts) : 
     print('Initializing', opts.backbone)
     backboneFn = globals()[opts.backbone]
     model = backboneFn(pretrained=True)
-    use_layer_norm = opts.use_layer_norm == 'true'
     if opts.backbone.startswith('resnet') : 
         inFeatures = model.fc.in_features
-        model.fc = nn.Linear(inFeatures, opts.embedding_size, bias=not use_layer_norm)
+        model.fc = nn.Linear(inFeatures, opts.embedding_size, bias=not opts.use_layer_norm)
         model.fc.apply(getInitializer(opts))
-        if use_layer_norm : 
+        if opts.use_layer_norm : 
             model.fc = addLayerNorm(model.fc, opts.embedding_size)
     elif opts.backbone in ['alexnet', 'vgg16', 'vgg16_bn'] : 
         inFeatures = model.classifier[-1].in_features
-        model.classifier[-1] = nn.Linear(inFeatures, opts.embedding_size, bias=not use_layer_norm)
+        model.classifier[-1] = nn.Linear(inFeatures, opts.embedding_size, bias=not opts.use_layer_norm)
         model.classifier[-1].apply(getInitializer(opts))
-        if use_layer_norm : 
+        if opts.use_layer_norm : 
             model.classifier[-1] = addLayerNorm(model.classifier[-1], opts.embedding_size)
     else : 
         raise ValueError(f'{opts.backbone} not supported')
@@ -168,7 +171,6 @@ def fcn (opts, input_size, output_size) :
     by the initialization scheme in opts.
     """
     hidden_size = opts.hidden_size
-    use_layer_norm = opts.use_layer_norm == 'true'
     repr = f'{input_size} {" ".join(map(str, hidden_size))} {output_size}'
     print(f'Initializing FCN({repr})')
     sizes = [input_size, *hidden_size, output_size]
@@ -180,9 +182,9 @@ def fcn (opts, input_size, output_size) :
         )
         for io in inOuts[:-1]
     ]
-    lastLayer = nn.Linear(*inOuts[-1], bias=not use_layer_norm)
+    lastLayer = nn.Linear(*inOuts[-1], bias=not opts.use_layer_norm)
     model = nn.Sequential(*topLayers, lastLayer)
-    if use_layer_norm : 
+    if opts.use_layer_norm : 
         model = addLayerNorm(model, output_size)
     model.apply(getInitializer(opts))
     return model

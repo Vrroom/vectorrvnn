@@ -17,64 +17,58 @@ import Cookies from "js-cookie";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      slideNo: 0
-    };
+    this.state = { slideNo: 0 };
   }
 
-  navigateSlide = dir => {
+  navigateSlide = (dir) => {
     const { slideNo } = this.state;
     this.setState({ slideNo: (slideNo + 7 + dir) % 7 });
   };
 
-  slideClick = slideNo => {
-    this.setState({ slideNo });
-  };
-
-  getSlide = slideNo => {
+  getSlide = (slideNo) => {
     const tool = Cookies.get("tool");
     switch (slideNo) {
       case 0:
         return {
           title: "Welcome!",
-          content: <WelcomeSlide onClick={this.slideClick} />
+          content: <WelcomeSlide />,
         };
       case 1:
         return {
           title: "About",
-          content: <AboutSlide />
+          content: <AboutSlide />,
         };
       case 2:
         return {
           title: "Vector Graphics",
-          content: <VectorGraphicSlide />
+          content: <VectorGraphicSlide />,
         };
       case 3:
         if (tool === "slider") {
           return {
             title: "Selection Tool",
-            content: <SliderSlide />
+            content: <SliderSlide />,
           };
         } else {
           return {
             title: "Selection Tool",
-            content: <ScribbleSlide />
+            content: <ScribbleSlide />,
           };
         }
       case 4:
         return {
           title: "Task",
-          content: <TaskSlide />
+          content: <TaskSlide />,
         };
       case 5:
         return {
           title: "Questionnaire",
-          content: <QuestionnaireSlide />
+          content: <QuestionnaireSlide />,
         };
-      case 6: 
+      case 6:
         return {
           title: "Bye Bye!",
-          content: <ByeSlide />
+          content: <ByeSlide />,
         };
       default:
         return { title: "", content: null };
@@ -94,14 +88,8 @@ class App extends Component {
             alt="Previous"
             onClick={() => this.navigateSlide(-1)}
           />
-          {slide.title}
-          <Button
-            src={rightarrow}
-            name="Next"
-            active={slideNo < 6}
-            alt="Next"
-            onClick={() => this.navigateSlide(1)}
-          />
+            {slide.title}
+          <Button src={rightarrow} name="Next" active={slideNo < 6} alt="Next" onClick={() => this.navigateSlide(1)} />
         </Row>
         {slide.content}
       </Container>

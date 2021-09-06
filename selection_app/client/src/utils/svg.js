@@ -465,7 +465,7 @@ function setAttribute (properties, attr, newVal) {
       return prop;
     }
   }
-  prop[attr] = newVal;
+  if (prop[attr].toLowerCase() !== "none") prop[attr] = newVal;
   return prop;
 }
 

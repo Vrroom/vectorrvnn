@@ -31,6 +31,19 @@ class SVGHandler extends Component {
     );
   };
 
+  previewElement = (path) => {
+    const child = cloneDeep(path.children[0]);
+    child.properties = setAttribute(child.properties, "fill", selectColor);
+    child.properties = setAttribute(child.properties, "stroke", selectColor);
+    return (
+      <g strokeOpacity="0.7" fillOpacity="0.7">
+        {React.createElement(child.tagName, {
+          ...child.properties,
+        })}
+      </g>
+    );
+  };
+
   /**
    * Create React Elements for SVG paths.
    *
@@ -40,7 +53,7 @@ class SVGHandler extends Component {
    */
   graphicElements = () => {
     const { paths } = this.props.graphic;
-    const { onPointerDown, selected } = this.props;
+    const { onPointerDown, selected, preview } = this.props;
     return paths.map((path, idx) => {
       const child = path.children[0];
       return (
@@ -53,6 +66,7 @@ class SVGHandler extends Component {
           {React.createElement(path.tagName, { id: `path-${idx}` }, [
             React.createElement(child.tagName, child.properties),
           ])}
+          {preview.includes(idx) ? this.previewElement(path) : null}
           {selected.includes(idx) ? this.coverElement(path) : null}
         </g>
       );

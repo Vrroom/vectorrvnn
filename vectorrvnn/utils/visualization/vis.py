@@ -16,7 +16,7 @@ COLOR_MAP = dict(
     yellow=[1, 1, 0],
 )
 
-def treeVisAsDirectory (G) :
+def treeVisAsDirectory (G, threadLocal=False) :
     """
     Display the tree as a directory.
 
@@ -46,13 +46,13 @@ def treeVisAsDirectory (G) :
         i, j = pos
         subsetDoc = subsetSvg(doc, G_.nodes[n]['pathSet'])
         setDocBBox(subsetDoc, G_.nodes[n]['bbox'].normalized() * 1.2)
-        raster = rasterize(subsetDoc, raster_size, raster_size, True)
+        raster = rasterize(subsetDoc, raster_size, raster_size, threadLocal)
         sI, sJ = i * raster_size, j * raster_size
         canvas[sI:sI + raster_size, sJ:sJ + raster_size, :] = raster
     canvas = alphaComposite(canvas, color=[0.5, 0.5, 0.5])
     return canvas
 
-def treeAxisFromGraph(G, fig, ax) :
+def treeAxisFromGraph(G, fig, ax, threadLocal=False) :
     G.graph['nodesep'] = 1
     G_ = trimTreeByDepth(G, 4)
     doc = G_.doc
@@ -62,14 +62,14 @@ def treeAxisFromGraph(G, fig, ax) :
     md = max(1, np.ceil(maxDepth(G_) / 10))
     for n in G_ :
         subsetDoc = subsetSvg(doc, G_.nodes[n]['pathSet'])
-        img = rasterize(subsetDoc, 128, 128, True)
+        img = rasterize(subsetDoc, 128, 128, threadLocal)
         imagebox = OffsetImage(img, zoom=0.2 / md)
         imagebox.image.axes = ax
         ab = AnnotationBbox(imagebox, pos[n], pad=0)
         ax.add_artist(ab)
     ax.axis('off')
 
-def treeImageFromGraph (G) :
+def treeImageFromGraph (G, threadLocal=False) :
     """
     Visualize the paths as depicted by the tree structure 
     of the graph.  This helps us understand whether the 
@@ -81,7 +81,7 @@ def treeImageFromGraph (G) :
         Hierarchy of paths
     """
     fig, ax = plt.subplots(dpi=200)
-    treeAxisFromGraph(G, fig, ax)
+    treeAxisFromGraph(G, fig, ax, threadLocal=threadLocal)
     return (fig, ax)
 
 def putOnCanvas (pts, images) :
@@ -168,12 +168,12 @@ def _calculateShift (pos1, pos2) :
     )
     return pos1, pos2
 
-def treeMatchVis (t1, t2, matchMatrix) :
+def treeMatchVis (t1, t2, matchMatrix, threadLocal=False) :
     fig, ax = plt.subplots(figsize=(20, 5), dpi=200)
-    treeMatchVisOnAxis(t1, t2, matchMatrix, fig, ax)
+    treeMatchVisOnAxis(t1, t2, matchMatrix, fig, ax, threadLocal=threadLocal)
     return (fig, ax)
 
-def treeMatchVisOnAxis (t1, t2, matchMatrix, fig, ax, prefix=('1-', '2-')) :
+def treeMatchVisOnAxis (t1, t2, matchMatrix, fig, ax, prefix=('1-', '2-'), threadLocal=False) :
     t1.graph['nodesep'] = t2.graph['nodesep'] = 1
     pos1 = graphviz_layout(t1, prog='dot')
     pos2 = graphviz_layout(t2, prog='dot')
@@ -239,7 +239,7 @@ def treeMatchVisOnAxis (t1, t2, matchMatrix, fig, ax, prefix=('1-', '2-')) :
     zoom = pixX / (sideBySideIms * imSize * 3)
     for n in t1 :
         subsetDoc = subsetSvg(t1.doc, t1.nodes[n]['pathSet'])
-        img = rasterize(subsetDoc, imSize, imSize, True)
+        img = rasterize(subsetDoc, imSize, imSize, threadLocal)
         color = [1, 1, 1]
         if 'color' in a.nodes[n] :
             color = COLOR_MAP[a.nodes[n]['color']]
@@ -251,7 +251,7 @@ def treeMatchVisOnAxis (t1, t2, matchMatrix, fig, ax, prefix=('1-', '2-')) :
 
     for n in t2 :
         subsetDoc = subsetSvg(t2.doc, t2.nodes[n]['pathSet'])
-        img = rasterize(subsetDoc, imSize, imSize, True)
+        img = rasterize(subsetDoc, imSize, imSize, threadLocal)
         color = [1, 1, 1]
         if 'color' in b.nodes[n] :
             color = COLOR_MAP[b.nodes[n]['color']]

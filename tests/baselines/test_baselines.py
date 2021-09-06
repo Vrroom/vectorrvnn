@@ -1,4 +1,5 @@
 from vectorrvnn.baselines import *
+from vectorrvnn.trainutils import *
 from vectorrvnn.utils import *
 from vectorrvnn.data import *
 from tqdm import tqdm
@@ -34,11 +35,12 @@ def test_distance_from_self_is_zero () :
 def test_autogroup () : 
     chdir = osp.split(osp.abspath(__file__))[0]
     files = listdir(osp.join(chdir, 'data'))
+    opts = Options().parse(testing=['--rasterize_thread_local', 'True'])
     data = [SVGData(f) for f in files]
-    trees = list(map(autogroup, data))
+    trees = list(map(partial(autogroup, opts=opts), data))
     for t, f in zip(trees, files) : 
         fname = getBaseName(f)
-        figure = treeImageFromGraph(t)
+        figure = treeImageFromGraph(t, threadLocal=True)
         matplotlibFigureSaver(figure,
                 osp.join(chdir, 'out', 'autogroup-' + fname))
     assert(True)

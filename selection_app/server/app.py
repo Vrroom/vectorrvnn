@@ -11,7 +11,7 @@ from vectorrvnn.network import *
 from vectorrvnn.interfaces import *
 from vectorrvnn.baselines import *
 from vectorrvnn.trainutils import *
-from functools import lru_cache
+from functools import lru_cache, partial
 import sys
 from strokeAnalyses import suggest
 import svgpathtools as svg
@@ -28,25 +28,31 @@ Session(app)
 # Setup model and data.
 opts = Options().parse([
     '--backbone', 'resnet18',
-    '--sim_criteria', 'negativeCosineSimilarity',
-    '--modelcls', 'OneBranch',
-    '--phase', 'test',
     '--checkpoints_dir', osp.join(rootdir(), '../../results'),
-    '--load_ckpt', 'onebranch/best_0-782-08-20-2021-10-53-00.pth',
     '--dataroot', osp.join(rootdir(), '../../data/Toy'),
-    '--rasterize_thread_local', 'True'
+    '--embedding_size', '64',
+    '--hidden_size', '128', '128',
+    '--load_ckpt', 'aug-25-cropnet_expt-2/epoch_28.pth',
+    '--loss', 'cosineSimilarity',
+    '--modelcls', 'ThreeBranch',
+    '--name', 'test',
+    '--phase', 'test',
+    '--rasterize_thread_local', 'True',
+    '--sim_criteria', 'negativeCosineSimilarity',
+    '--temperature', '0.1',
+    '--use_layer_norm', 'True',
 ])
 model = buildModel(opts)
 data, *_ = buildData(opts)
 
 # Available Backends
-backends = ['triplet', 'suggero']#, 'autogroup']
+backends = ['triplet', 'suggero', 'autogroup']
 tools = ['slider', 'scribble']
 
 treeInference = {
-    'triplet': model.greedyTree,
+    'triplet': model.containmentGuidedTree,
     'suggero': suggero,
-    'autogroup': autogroup
+    'autogroup': partial(autogroup, opts=opts)
 }
 
 @lru_cache(maxsize=1024)
@@ -79,11 +85,12 @@ def task () :
 
 @app.route('/example', methods=['POST', 'GET']) 
 def example() :
-    T = data[0]
+    id = 10
+    T = data[10]
     with open(T.svgFile) as fp : 
         svg = fp.read()
     forest = nxGraph2appGraph(T)
-    return jsonify(id=0, svg=svg, forest=forest)
+    return jsonify(id=id, svg=svg, forest=forest)
 
 @app.route('/stroke', methods=['POST', 'GET']) 
 def stroke () :

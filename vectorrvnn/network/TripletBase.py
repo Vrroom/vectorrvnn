@@ -182,7 +182,6 @@ class TripletBase (nn.Module) :
             hardpct=hardpct
         )
 
-
     def forward (self, ref, plus, minus, **kwargs) : 
         # figure out which loss to use from opts.
         lossFn = getattr(self, self.opts.loss)
@@ -236,7 +235,12 @@ class TripletBase (nn.Module) :
         n = t.nPaths
         containmentGraph = dropExtraParents(
             subgraph(
-                relationshipGraph(t.doc, bitmapContains, False),
+                relationshipGraph(
+                    t.doc, 
+                    bitmapContains, 
+                    False,
+                    threadLocal=self.opts.rasterize_thread_local
+                ),
                 lambda x: x['bitmapContains']
             )
         )

@@ -9,7 +9,7 @@ from vectorrvnn.utils.boxes import *
 from vectorrvnn.utils.random import *
 
 @lru_cache(maxsize=128)
-def colorHistogram(doc, i, containmentGraph=None) : 
+def colorHistogram(doc, i, containmentGraph=None, threadLocal=False) : 
     """ channel wise histograms in lab space """
     if containmentGraph is None : 
         subset = subsetSvg(doc, [i])
@@ -21,7 +21,7 @@ def colorHistogram(doc, i, containmentGraph=None) :
         w, h = 200, (box.h / box.w) * 200
     else : 
         w, h = (box.w / box.h) * 200, 200
-    im = rasterize(subset, w=int(w), h=int(h), threadLocal=True)
+    im = rasterize(subset, w=int(w), h=int(h), threadLocal=threadLocal)
     rgb, alpha = im[:, :, :3], im[:, :, 3]
     lab = color.rgb2lab(rgb) 
     l = lab[:, :, 0][alpha > 0]
@@ -130,7 +130,7 @@ def equiDistantSamples (doc, i, nSamples=5, **kwargs) :
         return [x,y]
 
 @lru_cache(maxsize=128)
-def pathBitmap (doc, i, fill=True, **kwargs) : 
+def pathBitmap (doc, i, fill=True, threadLocal=False, **kwargs) : 
     doc_ = subsetSvg(doc, [i])
     if fill : 
         for path in doc_.paths() : 
@@ -141,5 +141,5 @@ def pathBitmap (doc, i, fill=True, **kwargs) :
         w, h = 200, (box.h / box.w) * 200
     else : 
         w, h = (box.w / box.h) * 200, 200
-    im = rasterize(doc_, w=int(w), h=int(h), threadLocal=True)
+    im = rasterize(doc_, w=int(w), h=int(h), threadLocal=threadLocal)
     return im[:, :, 3]

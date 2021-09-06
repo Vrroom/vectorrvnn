@@ -37,7 +37,7 @@ def test_interface() :
         'cosineSimilarity',
     ])
     data = buildData(opts)
-    trainData, valData, trainDataLoader, valDataLoader = data
+    trainData, valData, trainDataLoader, valDataLoader, _ = data
     model = buildModel(opts) 
     interface = TripletInterface(opts, model, trainData, valData)
     trainer = ttools.Trainer(interface)

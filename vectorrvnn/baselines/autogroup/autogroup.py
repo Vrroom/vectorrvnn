@@ -50,13 +50,13 @@ def dropExtraParents (graph) :
     graph_.remove_edges_from(extra)
     return graph_
 
-def bitmapContains(doc, i, j, **kwargs) : 
+def bitmapContains(doc, i, j, threadLocal=False, **kwargs) : 
     # answers whether j is contained in i
     if i == j :
         return 0
 
-    imi = pathBitmap(doc, i, fill=False)
-    imj = pathBitmap(doc, j, fill=False)
+    imi = pathBitmap(doc, i, fill=False, threadLocal=threadLocal, **kwargs)
+    imj = pathBitmap(doc, j, fill=False, threadLocal=threadLocal, **kwargs)
 
     proj_j = ((imi > 0) * imj).sum() / (imj.sum() + 1e-5)
     proj_i = ((imj > 0) * imi).sum() / (imi.sum() + 1e-5)
@@ -66,14 +66,22 @@ def bitmapContains(doc, i, j, **kwargs) :
     else : 
         return (proj_j > 0.5 and proj_i < 0.1) or proj_j > 0.9 
 
-def autogroup (tree) : 
+def autogroup (tree, opts=None) : 
     doc = tree.doc
     paths = cachedPaths(doc)
     n = tree.nPaths
     # directed graph where a -> b iff a contains b
+    threadLocal = False
+    if opts is not None :
+        threadLocal = opts.rasterize_thread_local
     containmentGraph = dropExtraParents(
         subgraph(
-            relationshipGraph(doc, bitmapContains, False),
+            relationshipGraph(
+                doc, 
+                bitmapContains,
+                False,
+                threadLocal=threadLocal
+            ),
             lambda x: x['bitmapContains']
         )
     )
@@ -82,7 +90,8 @@ def autogroup (tree) :
         lambda k, x: nx.to_numpy_matrix(
             relationshipGraph(
                 doc, x, True, 
-                containmentGraph=containmentGraph
+                containmentGraph=containmentGraph,
+                threadLocal=threadLocal
             ),
             weight=x.__name__
         ),

@@ -31,29 +31,6 @@ class SchedulerCallback (Callback) :
         super(SchedulerCallback, self).epoch_end()
         self.sched.step()
 
-class SWACallback (SchedulerCallback) : 
-    """ Manage stochastic weight averaging """
-    def __init__ (self, sched, model, swaModel, dataloader, opts) : 
-        super(SWACallback, self).__init__(sched)
-        self.model = model
-        self.swaModel = swaModel
-        self.dataloader = dataloader
-        self.opts = opts
-
-    def epoch_end (self) : 
-        self.swaModel.update_parameters(self.model)
-        super(SWACallback, self).epoch_end()
-
-    def training_end (self) : 
-        """ Set BatchNorm Stats """ 
-        super(SWACallback, self).training_end()
-        for batch in self.dataloader:  
-            tensorApply(
-                batch,
-                lambda t : t.to(self.opts.device)
-            )
-            self.swaModel(**batch)
-
 class KernelDisplayCallback (ImageDisplayCallback) : 
     """ display the kernels of the first convolutional layer """
     def __init__ (self, model, env, win, frequency=100) : 
@@ -156,7 +133,7 @@ class HierarchyVisCallback (Callback) :
         for i in range(self.nWindows) : 
             closeWindow(self._api, f'hierarchies-{i}')
         self.model = model
-        trainData, valData, _, _  = data
+        trainData, valData, _, _, _  = data
         trainGraphics = [repr(t.doc) for t in trainData]
         self.valData = [v for v in valData if repr(v.doc) not in trainGraphics]
         self.frequency = frequency
@@ -231,7 +208,7 @@ class TreeScoresCallback (Callback) :
         self._api = visdom.Visdom(env=env)
         closeWindow(self._api, 'val_TreeScores')
         self.model = model
-        trainData, valData, _, _  = data
+        trainData, valData, _, _, _  = data
         trainGraphics = [repr(t.doc) for t in trainData]
         self.valData = [v for v in valData if repr(v.doc) not in trainGraphics]
         self.frequency = frequency

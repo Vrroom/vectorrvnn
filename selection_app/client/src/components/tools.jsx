@@ -6,6 +6,7 @@ import Button from "./button";
 import { distance, subtract, convertCoordinates } from "../utils/svg";
 import { ancestors } from "../utils/graph";
 import { stickColor } from "../utils/palette";
+import addStopPropagation from "../utils/eventModifier";
 
 function withClickTool(Wrapped) {
   return class extends Component {
@@ -47,6 +48,7 @@ function withClickTool(Wrapped) {
               onPointerMove={() => {}}
               onPointerUp={() => {}}
               toolRenderer={() => {}}
+              preview={[]}
               {...this.props}
             />
           </Row>
@@ -197,6 +199,7 @@ function withScribbleTool(Wrapped, svgId) {
               onPointerUp={this.handlePointerUp}
               toolRenderer={this.toolRenderer}
               allStrokes={this.state.allStrokes}
+              preview={[]}
               {...this.props}
             />
           </Row>
@@ -264,7 +267,7 @@ function withSliderTool(Wrapped, svgId) {
           const point = convertCoordinates(svgId, clientX, clientY);
           const dist = distance(point, pointerDownPt);
           const anc = ancestors(forest, initPathId);
-          const frac = 2 * dist / dim;
+          const frac = (2 * dist) / dim;
           const id = Math.min(anc.length - 1, Math.floor(frac * anc.length));
           const newNode = anc[id];
           const newSelected = forest.nodes[newNode].paths;
@@ -300,7 +303,7 @@ function withSliderTool(Wrapped, svgId) {
         if (!prevState.pointerJustReleased) {
           return { selected: [], oldSelected: [] };
         }
-        return { pointerJustReleased: false }; 
+        return { pointerJustReleased: false };
       });
     };
 
@@ -356,4 +359,202 @@ function withSliderTool(Wrapped, svgId) {
   };
 }
 
-export { withClickTool, withScribbleTool, withSliderTool };
+function withToggleTool(Wrapped, svgId) {
+  return class extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        selected: [],
+        pointerDown: false,
+        pointerJustReleased: false,
+        initPathId: -1,
+        hierarchyLevel: 0,
+        oldSelected: [],
+        hoverPlus: false,
+        hoverMinus: false,
+      };
+    }
+
+    handlePointerDown = (evt, id) => {
+      this.setState((prevState) => {
+        if (!prevState.pointerDown) {
+          const changes = {};
+          const { selected } = this.state;
+          const isSelected = selected.includes(id);
+          if (isSelected) {
+            selected.splice(selected.indexOf(id), 1);
+          } else {
+            changes.pointerDown = true;
+            changes.initPathId = id;
+            changes.hierarchyLevel = 0;
+            changes.oldSelected = cloneDeep(selected);
+            selected.push(id);
+          }
+          changes.selected = selected;
+          return changes;
+        }
+      });
+    };
+
+    handlePointerUp = (evt) => {
+      this.setState((prevState) => {
+        if (prevState.pointerDown) {
+          return { pointerDown: false, pointerJustReleased: true };
+        }
+      });
+    };
+
+    componentDidMount() {
+      window.addEventListener("click", this.handleBgPointerDown);
+    }
+
+    componentWillUnmount() {
+      window.removeEventListener("click", this.handleBgPointerDown);
+    }
+
+    handleBgPointerDown = () => {
+      this.setState((prevState) => {
+        if (!prevState.pointerJustReleased) {
+          return { selected: [], oldSelected: [] };
+        }
+        return { pointerJustReleased: false };
+      });
+    };
+
+    handleToggleClick = (delta) => {
+      this.setState((prevState) => {
+        const { forest } = this.props;
+        const { hierarchyLevel, initPathId, oldSelected } = prevState;
+        const anc = ancestors(forest, initPathId);
+        const id = hierarchyLevel + delta;
+        if (id >= 0 && id < anc.length) {
+          const newSelected = forest.nodes[anc[id]].paths;
+          const selected = newSelected.concat(oldSelected);
+          return { hierarchyLevel: id, selected };
+        }
+      });
+    };
+
+    handlePlusPointerEnter = (evt) => {
+      this.setState({ hoverPlus: true });
+    };
+
+    handlePlusPointerLeave = (evt) => {
+      this.setState({ hoverPlus: false });
+    };
+
+    handleMinusPointerEnter = (evt) => {
+      this.setState({ hoverMinus: true });
+    };
+
+    handleMinusPointerLeave = (evt) => {
+      this.setState({ hoverMinus: false });
+    };
+
+    toolRenderer = () => {
+      const { pointerJustReleased } = this.state;
+      if (pointerJustReleased) {
+        return (
+          <g stroke="#000" transform={`translate(80 20)`}>
+            <rect
+              x="-5"
+              y="-10"
+              width="10"
+              height="20"
+              rx=".5"
+              ry=".5"
+              fillOpacity="0"
+              strokeLinecap="round"
+              strokeWidth="2"
+            />
+            <g fill="none">
+              <path d="m-5 0h10" strokeWidth="2" />
+              <g strokeWidth="1px">
+                <path d="m0-7v4" />
+                <path d="m-2-5h4" />
+                <path d="m-2 5h4" />
+              </g>
+            </g>
+            <rect
+              onClick={addStopPropagation((evt) => this.handleToggleClick(-1))}
+              onPointerEnter={this.handleMinusPointerEnter}
+              onPointerLeave={this.handleMinusPointerLeave}
+              id="toggle-button"
+              x="-5"
+              width="10"
+              height="10"
+              rx=".5"
+              ry=".5"
+              fillOpacity={this.state.hoverMinus ? "0.1" : ".25"}
+              strokeLinecap="round"
+              strokeWidth="2"
+            />
+            <rect
+              onClick={addStopPropagation((evt) => this.handleToggleClick(1))}
+              onPointerEnter={this.handlePlusPointerEnter}
+              onPointerLeave={this.handlePlusPointerLeave}
+              id="toggle-button"
+              x="-5"
+              y="-10"
+              width="10"
+              height="10"
+              rx=".5"
+              ry=".5"
+              fillOpacity={this.state.hoverPlus ? "0.1" : ".25"}
+              strokeLinecap="round"
+              strokeWidth="2"
+            />
+          </g>
+        );
+      } else {
+        return <g id="toggle" />;
+      }
+    };
+
+    getPreview = () => {
+      const { initPathId, hoverPlus, hierarchyLevel } = this.state;
+      const { forest } = this.props;
+      let preview = [];
+      if (initPathId >= 0 && hoverPlus) {
+        const anc = ancestors(forest, initPathId);
+        const id = hierarchyLevel + 1;
+        if (id < anc.length) { 
+          const node = anc[id];
+          preview = forest.nodes[node].paths;
+        }
+      }
+      return preview;
+    }
+
+    render() {
+      const { selected, pointerJustReleased } = this.state;
+      return (
+        <>
+          <Row className="justify-content-center">
+            <Wrapped
+              selected={selected}
+              onPointerDown={this.handlePointerDown}
+              onPointerMove={() => {}}
+              onPointerUp={this.handlePointerUp}
+              toolRenderer={this.toolRenderer}
+              pointerJustReleased={pointerJustReleased}
+              preview={this.getPreview()}
+              {...this.props}
+            />
+          </Row>
+          <Row className="justify-content-around">
+            <Button
+              src={clear}
+              name="Clear"
+              active={this.state.selected.length > 0}
+              alt="Clear"
+              onClick={(evt) => this.setState({ selected: [] })}
+            />
+          </Row>
+        </>
+      );
+    }
+  };
+}
+
+export { withClickTool, withScribbleTool, withSliderTool, withToggleTool };

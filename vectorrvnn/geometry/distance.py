@@ -155,13 +155,15 @@ def parallelismDistance (doc, i, j, **kwargs) :
         E.append((theta + e + d) / 3)
     return min(E)
 
-def areaIntersectionDistance(doc, i, j, **kwargs) : 
+def areaIntersectionDistance(doc, i, j, threadLocal=False, **kwargs) : 
     """ find the area of intersection of two paths """
-    imi, imj = pathBitmap(doc, i, fill=False), pathBitmap(doc, j, fill=False)
+    imi = pathBitmap(doc, i, fill=False, threadLocal=threadLocal) 
+    imj = pathBitmap(doc, j, fill=False, threadLocal=threadLocal)
     return (imi * imj).sum()
 
-def autogroupAreaSimilarity (doc, i, j, **kwargs) :
-    imi, imj = pathBitmap(doc, i), pathBitmap(doc, j)
+def autogroupAreaSimilarity (doc, i, j, threadLocal=False, **kwargs) :
+    imi = pathBitmap(doc, i, threadLocal=threadLocal)
+    imj = pathBitmap(doc, j, threadLocal=threadLocal)
     a1 = (imi > 0).sum()
     a2 = (imj > 0).sum()
     return 1 - abs(a1 - a2) / (max(a1, a2) + 1e-6)
@@ -223,9 +225,9 @@ def autogroupStrokeSimilarity (doc, i, j, **kwargs) :
     return avg([colorScore, lcScore, ljScore, daScore, swScore])
 
 def autogroupColorSimilarity (doc, i, j, 
-        containmentGraph=None) : 
-    l1, a1, b1 = colorHistogram(doc, i, containmentGraph)
-    l2, a2, b2 = colorHistogram(doc, j, containmentGraph)
+        containmentGraph=None, threadLocal=False, **kwargs) : 
+    l1, a1, b1 = colorHistogram(doc, i, containmentGraph, threadLocal)
+    l2, a2, b2 = colorHistogram(doc, j, containmentGraph, threadLocal)
     lscore = histScore(l1, l2)
     ascore = histScore(a1, a2)
     bscore = histScore(b1, b2)

@@ -61,6 +61,7 @@ class Slide extends Component {
               onPointerMove={() => {}}
               onPointerUp={() => {}}
               toolRenderer={() => {}}
+              preview={[]}
               graphic={bwGraphic}
             />
           </Col>

@@ -30,7 +30,7 @@ def test_svgdata() :
         'cosineSimilarity',
     ])
     data = buildData(opts)
-    trainData, valData, trainDataLoader, valDataLoader = data
+    trainData, valData, trainDataLoader, valDataLoader, _ = data
     # confirm that dataloader works properly
     for _ in range(opts.n_epochs):  
         for batch in tqdm(trainDataLoader) : 
@@ -66,7 +66,7 @@ def test_union () :
         'none'
     ])
     data = buildData(opts)
-    trainData, _, _, _ = data
+    trainData, _, _, _, _ = data
     for i in range(10) : 
         a, b = random.sample(list(trainData), k=2)
         newPt = a | b 
@@ -85,7 +85,7 @@ def test_union_aug () :
         '--phase', 'test'
     ])
     data = buildData(opts)
-    _, valData, _, _ = data
+    _, valData, _, _, _= data
     aug = GraphicCompose()
     for i in range(4) : 
         graphic = aug(trng.choice(valData), valData)
@@ -96,4 +96,3 @@ def test_union_aug () :
         matplotlibFigureSaver(figure,
                 osp.join(chdir, 'out', f'aug-tree-{i}.png'))
     assert(True)
-

@@ -16,6 +16,7 @@ from ttools.callbacks import *
 from ttools.modules import networks
 from copy import deepcopy
 from tqdm import tqdm
+from subprocess import call
 
 LOG = ttools.get_logger(__name__)
 
@@ -122,7 +123,7 @@ def addCallbacks (trainer, model, data, opts) :
     modelParams = [n for n, _ in model.named_children()]
     weightDecay = [f'{n}_wd' for n in modelParams]
     keys = ["loss", "hardpct", "lr", *weightDecay]
-    _, valData, trainDataLoader, _ = data
+    _, valData, trainDataLoader, _, _ = data
     trainer.add_callback(
         SchedulerCallback(trainer.interface.sched)
     )
@@ -210,9 +211,23 @@ def buildModel (opts) :
     print(model)
     return model
 
+def getDataSplits (opts) : 
+    allData = listdir(opts.dataroot)
+    rng.shuffle(allData)
+    dirs = ['Train', 'Val', 'Test']
+    dirs = [osp.join(f'/tmp/{opts.name}/', _) for _ in dirs]
+    for d in dirs: 
+        mkdir(d)
+    total = len(allData)
+    tPt, vPt = int(0.6 * total), int(0.2 * total)
+    datasets = [allData[:tPt], allData[tPt:tPt + vPt], allData[tPt + vPt:]]
+    for dir, dataset in zip(dirs, datasets) : 
+        [call(['cp', '-r', f, dir]) for f in dataset]
+    return dirs
+
 def buildData (opts) : 
-    trainData = TripletDataset(osp.join(opts.dataroot, 'Train'))
-    valData = TripletDataset(osp.join(opts.dataroot, 'Val'))
+    dataDirs = getDataSplits(opts)
+    trainData, valData, testData = list(map(TripletDataset, dataDirs))
     SamplerCls = globals()[opts.samplercls]
     trainDataLoader = TripletDataLoader(
         opts=opts, 
@@ -230,11 +245,11 @@ def buildData (opts) :
             val=True
         )
     )
-    return trainData, valData, trainDataLoader, valDataLoader
+    return trainData, valData, trainDataLoader, valDataLoader, testData
 
 def train (opts) : 
     data = buildData(opts)
-    trainData, valData, trainDataLoader, valDataLoader = data
+    trainData, valData, trainDataLoader, valDataLoader, _ = data
     model = buildModel(opts) 
     model.train()
     interface = TripletInterface(opts, model, trainData, valData)
@@ -247,39 +262,44 @@ def train (opts) :
         val_dataloader=valDataLoader
     )
 
-def logScores (ts1, ts2, methodName, fd) : 
-    scoreFn = lambda t, t_ : cted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
-    tedscore = avg(map(scoreFn, ts1, ts2))
+def scores2df (ts1, ts2, methodName) : 
+    ctedFn = lambda t, t_ : cted(t, t_) / (t.number_of_nodes() + t_.number_of_nodes())
+    ctedscore = avg(map(ctedFn, ts1, ts2))
     fmi1score = avg(map(partial(fmi, level=1), ts1, ts2))
     fmi2score = avg(map(partial(fmi, level=2), ts1, ts2))
     fmi3score = avg(map(partial(fmi, level=3), ts1, ts2))
-    fd.write(methodName + '\n')
-    fd.write(f'C.T.E.D.  = {tedscore}\n')
-    fd.write(f'F.M.I.(1) = {fmi1score}\n')
-    fd.write(f'F.M.I.(2) = {fmi2score}\n')
-    fd.write(f'F.M.I.(3) = {fmi3score}\n')
+    return pd.DataFrame(
+        data=[[ctedscore, fmi1score, fmi2score, fmi3score]],
+        index=[methodName],
+        columns=['cted', 'fmi1', 'fmi2', 'fmi3']
+    )
 
 def test (opts) : 
-    testData = TripletDataset(osp.join(opts.dataroot, 'Test'))
-    trainData = TripletDataset(osp.join(opts.dataroot, 'Train'))
+    trainData, _, _, _, testData = buildData(opts)
     graphics = [repr(t.doc) for t in trainData]
     model = buildModel(opts)
-    ts1 = list(map(forest2tree, testData))
-    ts1 = [_ for _ in ts1 if repr(_.doc) not in graphics]
+    ts1 = [_ for _ in testData if repr(_.doc) not in graphics]
     ts2 = list(map(model.greedyTree, ts1))
     ts3 = list(map(model.containmentGuidedTree, ts1))
     ts4 = list(map(autogroup, ts1))
     ts5 = list(map(suggero, ts1))
     exprDir = osp.join(opts.checkpoints_dir, opts.name)
-    logFile = osp.join(exprDir, f'{opts.name}.log')
-    with open(logFile, 'w+') as fd : 
-        logScores(ts1, ts2, "Ours (greedyTree)", fd)
-        logScores(ts1, ts3, "Ours (containment guided)", fd)
-        logScores(ts1, ts4, "Autogroup", fd)
-        logScores(ts1, ts5, "Suggero", fd)
+    logFile = osp.join(exprDir, f'{opts.name}.csv')
+    dd = scores2df(ts1, ts2, "Ours-DD") 
+    cg = scores2df(ts1, ts3, "Ours-CG")
+    fi = scores2df(ts1, ts4, "Fisher")
+    su = scores2df(ts1, ts5, "Suggero")
+    combined = pd.concat([dd, cg, fi, su])
+    combined.to_csv(logFile)
+
+def setSeed (opts) : 
+    rng.seed(opts.seed)
+    print("Set rng seed to -", opts.seed)
+    print("First random int -", rng.randint(0, 1000))
 
 if __name__ == "__main__" : 
     opts = Options().parse()
+    setSeed(opts)
     if opts.phase == 'train' : 
         train(opts)
     elif opts.phase == 'test' : 

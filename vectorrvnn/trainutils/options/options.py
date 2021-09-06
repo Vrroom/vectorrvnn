@@ -56,9 +56,8 @@ class Options():
         )
         parser.add_argument(
             '--use_layer_norm', 
-            type=str,
-            default='false',
-            choices=['true', 'false'],
+            type=bool,
+            default=False,
             help='whether to use layer norm'
         )
         parser.add_argument(
@@ -112,6 +111,12 @@ class Options():
         # training parameters
         self.add_loss_args(parser)
         self.add_batch_args(parser)
+        parser.add_argument(
+            '--seed', 
+            type=int,
+            default=1000,
+            help='seed for the random number generator'
+        )
         parser.add_argument(
             '--init_type',
             type=str,
@@ -208,7 +213,7 @@ class Options():
             '--dataroot', 
             type=str,
             default='./',
-            help='path to graphics (should have subfolders Train, Val)'
+            help='path to graphics'
         )
         parser.add_argument(
             '--name', 
