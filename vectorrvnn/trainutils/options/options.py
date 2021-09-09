@@ -134,7 +134,6 @@ class Options():
             '--samplercls',
             type=str,
             default='AllSampler', 
-            choices=['AllSampler', 'SiblingSampler', 'DiscriminativeSampler'],
             help='Class to use to sample triplets'
         )
         parser.add_argument(
