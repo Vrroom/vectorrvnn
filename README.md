@@ -66,7 +66,7 @@ python3 vectorrvnn/interfaces/TripletInterface.py \
     --lr 0.0002 \
     --batch_size 32 \
     --wd 0.00001 \
-    --augmentation none \
+    --augmentation multiaug \
     --use_layer_norm true \
     --lr_policy step \
     --decay_start 7 \
