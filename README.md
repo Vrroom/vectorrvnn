@@ -49,16 +49,29 @@ python3 vectorrvnn/TripletInterface.py -h
 The options we used for the results presented in the paper are:
 
 ```
-python3 vectorrvnn/TripletInterface.py \
-  --backbone resnet18 \
-  --dataroot ../data/All \
-  --embedding_size 64 \
-  --loss cosineSimilarity \
-  --modelcls ThreeBranch
-  --name expt1 \
-  --sim_criteria negativeCosineSimilarity \
-  --temperature 0.1 \
-  --use_layer_norm true \
+python3 vectorrvnn/interfaces/TripletInterface.py \
+    --frequency 50 \
+    --dataroot ./data/All \
+    --name expt-none1 \
+    --backbone resnet18 \
+    --modelcls ThreeBranch \
+    --freeze_layers conv1 bn1 layer1 layer2 \
+    --embedding_size 64 \
+    --loss cosineSimilarity \
+    --temperature 0.1 \
+    --samplercls DiscriminativeSampler \
+    --sim_criteria negativeCosineSimilarity \
+    --n_epochs 28 \
+    --hidden_size 128 128 \
+    --lr 0.0002 \
+    --batch_size 32 \
+    --wd 0.00001 \
+    --augmentation none \
+    --use_layer_norm true \
+    --lr_policy step \
+    --decay_start 7 \
+    --phase train \
+    --seed 0 \
 ```
 
 ## Organization
