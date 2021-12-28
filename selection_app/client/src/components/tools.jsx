@@ -341,6 +341,7 @@ function withSliderTool(Wrapped, svgId) {
               onPointerMove={this.handlePointerMove}
               onPointerUp={this.handlePointerUp}
               toolRenderer={this.toolRenderer}
+              preview={[]}
               {...this.props}
             />
           </Row>

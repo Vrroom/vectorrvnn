@@ -37,14 +37,19 @@ class TripletDataLoader () :
             raise StopIteration
         else : 
             self.i += 1
-            samples = [next(self.sampler) for _ in range(self.opts.batch_size)]
-            tensorified = [self._tensorify(*_) for _ in samples]
-            data = aggregateDict(tensorified, torch.stack)
-            tensorApply(
-                data,
-                lambda t : t.to(self.opts.device)
-            )
-            return data
+            batch = []
+            baseSz = self.opts.base_size
+            batchSz = self.opts.batch_size
+            for i in range(batchSz // baseSz) : 
+                samples = [next(self.sampler) for _ in range(baseSz)]
+                tensorified = [self._tensorify(*_) for _ in samples]
+                data = aggregateDict(tensorified, torch.stack)
+                tensorApply(
+                    data,
+                    lambda t : t.to(self.opts.device)
+                )
+                batch.append(data)
+            return batch
 
     def reset (self) : 
         self.i = 0

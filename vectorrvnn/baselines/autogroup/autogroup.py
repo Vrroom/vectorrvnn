@@ -66,7 +66,7 @@ def bitmapContains(doc, i, j, threadLocal=False, **kwargs) :
     else : 
         return (proj_j > 0.5 and proj_i < 0.1) or proj_j > 0.9 
 
-def autogroup (tree, opts=None) : 
+def autogroup (tree, opts=None, subtrees=None) : 
     doc = tree.doc
     paths = cachedPaths(doc)
     n = tree.nPaths

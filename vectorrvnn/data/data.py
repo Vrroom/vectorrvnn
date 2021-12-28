@@ -32,6 +32,12 @@ class SVGData (nx.DiGraph) :
         self.nPaths = len(paths)
         assert(self.nPaths == len(leaves(self)))
         self._computeBBoxes()
+        self._computeOBBs()
+
+    def _computeOBBs (self) : 
+        self.obbs = []
+        for p in cachedPaths(self.doc) :
+            self.obbs.append(pathOBB(self.doc, p.path))
 
     def recalculateBBoxes(self, fn) : 
         for n in self.nodes : 
@@ -62,7 +68,7 @@ class SVGData (nx.DiGraph) :
         for n in self.nodes : 
             ps = self.nodes[n]['pathSet']
             relPaths = [paths[i] for i in ps]
-            bbox = union(map(pathBBox, relPaths))
+            bbox = union(map(partial(pathAABB, self.doc), relPaths))
             nx.set_node_attributes(self, {n: bbox}, 'bbox')
 
     def _setBBox (self, n) : 

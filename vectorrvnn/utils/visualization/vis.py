@@ -63,7 +63,7 @@ def treeAxisFromGraph(G, fig, ax, threadLocal=False) :
     for n in G_ :
         subsetDoc = subsetSvg(doc, G_.nodes[n]['pathSet'])
         img = rasterize(subsetDoc, 128, 128, threadLocal)
-        imagebox = OffsetImage(img, zoom=0.2 / md)
+        imagebox = OffsetImage(img, zoom=0.15 / md)
         imagebox.image.axes = ax
         ab = AnnotationBbox(imagebox, pos[n], pad=0)
         ax.add_artist(ab)

@@ -25,11 +25,12 @@ class TripletSampler () :
                 generator seed if needed.
     """
 
-    def __init__ (self, svgdatas, length, transform=lambda *args: args[0], val=False) :
+    def __init__ (self, svgdatas, length, opts, transform=lambda *args: args[0], val=False) :
         self.seed = rng.randint(0, 10000)
         self.rng = random.Random(self.seed) 
         self.svgdatas = svgdatas
         self.transform = transform 
+        self.opts = opts
         self.val = val # In val mode the same triplets are sampled in each epoch.
         self.length = length
         self.i = 0
@@ -98,11 +99,13 @@ class DiscriminativeSampler (TripletSampler):
         docbox = getDocBBox(dataPt.doc)
         nodes = list(filterNodes(
             dataPt.nodes,
-            complement(partial(
-                pathBBoxTooSmall, 
-                docbox=docbox
-            )), 
+            complement(pathBBoxTooSmall),
             'bbox'
+        ))
+        nodes = list(filterNodes(
+            dataPt.nodes, 
+            lambda ps : len(ps) < self.opts.max_len, 
+            'pathSet'
         ))
         try : 
             for attempt in range(10) : 
@@ -147,10 +150,7 @@ class AllSampler (TripletSampler):
         docbox = getDocBBox(dataPt.doc)
         nodes = list(filterNodes(
             dataPt.nodes,
-            complement(partial(
-                pathBBoxTooSmall, 
-                docbox=docbox
-            )), 
+            complement(pathBBoxTooSmall), 
             'bbox'
         ))
         try : 
@@ -193,10 +193,7 @@ class LeafSampler (TripletSampler):
         docbox = getDocBBox(dataPt.doc)
         nodes = list(filterNodes(
             dataPt.nodes,
-            complement(partial(
-                pathBBoxTooSmall, 
-                docbox=docbox
-            )), 
+            complement(pathBBoxTooSmall), 
             'bbox'
         ))
         nodes = [n for n in nodes if dataPt.out_degree(n) == 0]

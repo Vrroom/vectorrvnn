@@ -42,9 +42,9 @@ def globalProximity(doc, i, j, **kwargs) :
     distance as the average distance between points
     on the paths.
     """
-    samples1 = equiDistantSamples(doc, i, 
+    samples1 = memoEquiDistantSamples(doc, i, 
             nSamples=10, normalize=False)
-    samples2 = equiDistantSamples(doc, j, 
+    samples2 = memoEquiDistantSamples(doc, j, 
             nSamples=10, normalize=False)
     samples1 = np.array(samples1)
     samples2 = np.array(samples2)
@@ -133,8 +133,8 @@ def parallelismDistance (doc, i, j, **kwargs) :
     samplingDistance = 0.02 * min(l1, l2)
     n = int(l1 / samplingDistance)
     m = int(l2 / samplingDistance)
-    samples1 = np.array(equiDistantSamples(doc, i, nSamples=n, normalize=False)).T
-    samples2 = np.array(equiDistantSamples(doc, j, nSamples=m, normalize=False)).T
+    samples1 = np.array(memoEquiDistantSamples(doc, i, nSamples=n, normalize=False)).T
+    samples2 = np.array(memoEquiDistantSamples(doc, j, nSamples=m, normalize=False)).T
     if m < n : 
         n, m = m, n
         samples1, samples2 = samples2, samples1
@@ -174,9 +174,9 @@ def autogroupPlacementDistance (doc, i, j, **kwargs) :
     samplingDistance = 0.02 * min(l1, l2)
     n = int(l1 / samplingDistance)
     m = int(l2 / samplingDistance)
-    samples1 = list(zip(*equiDistantSamples(doc, i, 
+    samples1 = list(zip(*memoEquiDistantSamples(doc, i, 
         nSamples=n, normalize=False)))
-    samples2 = list(zip(*equiDistantSamples(doc, j, 
+    samples2 = list(zip(*memoEquiDistantSamples(doc, j, 
         nSamples=m, normalize=False)))
     ls1 = LineString(samples1)
     ls2 = LineString(samples2)

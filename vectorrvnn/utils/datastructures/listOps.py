@@ -60,3 +60,6 @@ def pairwiseDisjoint (setList) :
         if not s1.isdisjoint(s2) : 
             return False
     return True
+
+def listIoU (a, b) : 
+    return len(set(a) & set(b)) / len(set(a) | set(b))

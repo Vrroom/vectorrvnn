@@ -8,6 +8,10 @@ from torchvision.models import *
 from .initializer import getInitializer
 from torchvision.ops import *
 
+def clones(module, N) :
+    copies = [deepcopy(module) for _ in range(N)]
+    return nn.ModuleList(copies)
+
 def tensorApply (thing, fn, 
     predicate=lambda x: True, module=torch) : 
     """ 
@@ -75,7 +79,7 @@ def l2 (a, b, eps=1e-5) :
 def unitNorm(a) : 
     return a / a.norm(dim=1, keepdim=True)
 
-def negativeCosineSimilarity (a, b) : 
+def ncs (a, b) : 
     """
     a.shape == b.shape == [B, N].
     B is the batch size and N is the dimension
@@ -178,7 +182,8 @@ def fcn (opts, input_size, output_size) :
     topLayers = [
         nn.Sequential(
             nn.Linear(*io),
-            nn.ReLU()
+            nn.ReLU(),
+            nn.Dropout(p=opts.dropout)
         )
         for io in inOuts[:-1]
     ]

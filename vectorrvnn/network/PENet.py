@@ -32,13 +32,13 @@ class PENet (TripletBase) :
 
     def embedding (self, node, **kwargs) : 
         positions = node['positions']
-        batch_size, max_len = positions.shape
+        bs, max_len = positions.shape
         embedding_size = self.opts.embedding_size
         dim = max_len + 1
         positions = (positions + dim) % dim 
         pes = torch.index_select(self.pe, dim=0, index=positions.view(-1))
         fpes = self.phi(pes)
-        fpes = fpes.view((batch_size, max_len, embedding_size))
+        fpes = fpes.view((bs, max_len, embedding_size))
         fpes = torch.sum(fpes, dim=1)
         spes = self.rho(fpes)
         return spes

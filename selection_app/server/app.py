@@ -29,28 +29,30 @@ Session(app)
 opts = Options().parse([
     '--backbone', 'resnet18',
     '--checkpoints_dir', osp.join(rootdir(), '../../results'),
-    '--dataroot', osp.join(rootdir(), '../../data/Toy'),
+    '--dataroot', osp.join(rootdir(), '../../data/All'),
     '--embedding_size', '64',
     '--hidden_size', '128', '128',
-    '--load_ckpt', 'aug-25-cropnet_expt-2/epoch_28.pth',
+    '--load_ckpt', 'expt3/training_end.pth',
     '--loss', 'cosineSimilarity',
     '--modelcls', 'ThreeBranch',
-    '--name', 'test',
+    '--name', 'server',
     '--phase', 'test',
     '--rasterize_thread_local', 'True',
     '--sim_criteria', 'negativeCosineSimilarity',
     '--temperature', '0.1',
     '--use_layer_norm', 'True',
+    '--seed', '2'
 ])
+setSeed(opts)
+_, _, _, _, data = buildData(opts)
 model = buildModel(opts)
-data, *_ = buildData(opts)
 
 # Available Backends
-backends = ['triplet', 'suggero', 'autogroup']
-tools = ['slider', 'scribble']
+backends = ['triplet'] #, 'suggero', 'autogroup']
+tools = ['slider', 'scribble', 'toggle']
 
 treeInference = {
-    'triplet': model.containmentGuidedTree,
+    'triplet': model.greedyTree,
     'suggero': suggero,
     'autogroup': partial(autogroup, opts=opts)
 }
@@ -85,11 +87,13 @@ def task () :
 
 @app.route('/example', methods=['POST', 'GET']) 
 def example() :
-    id = 10
-    T = data[10]
+    id = rng.randint(0, len(data) - 1)
+    T = data[id]
     with open(T.svgFile) as fp : 
         svg = fp.read()
-    forest = nxGraph2appGraph(T)
+    backend = session.get('backend')
+    print(backend)
+    forest = nxGraph2appGraph(treeInference[backend](T))
     return jsonify(id=id, svg=svg, forest=forest)
 
 @app.route('/stroke', methods=['POST', 'GET']) 

@@ -298,3 +298,19 @@ def cted (t1, t2, matching=False):
         return opt, matchMatrix()
     else : 
         return opt
+
+def norm_cted (x, y) :
+    n = x.number_of_nodes()
+    m = y.number_of_nodes()
+    return cted(x, y) / (n + m)
+
+def node_overlap (tref, t) : 
+    groups = nonLeaves(tref)
+    groups.remove(findRoot(tref))
+    scores = []
+    pss = [t.nodes[_]['pathSet'] for _ in t.nodes]
+    for n in groups :
+        ps = tref.nodes[n]['pathSet']
+        maxIoU = max(listIoU(ps, ps_) for ps_ in pss)
+        scores.append(maxIoU)
+    return avg(scores)

@@ -8,6 +8,7 @@ import TaskSlide from "./components/taskslide";
 import VectorGraphicSlide from "./components/vectorgraphicslide";
 import SliderSlide from "./components/sliderslide";
 import ScribbleSlide from "./components/scribbleslide";
+import ToggleSlide from "./components/toggleslide";
 import WelcomeSlide from "./components/welcomeslide";
 import QuestionnaireSlide from "./components/questionnaireslide";
 import AboutSlide from "./components/aboutslide";
@@ -44,16 +45,9 @@ class App extends Component {
           content: <VectorGraphicSlide />,
         };
       case 3:
-        if (tool === "slider") {
-          return {
-            title: "Selection Tool",
-            content: <SliderSlide />,
-          };
-        } else {
-          return {
-            title: "Selection Tool",
-            content: <ScribbleSlide />,
-          };
+        return {
+          title: "Selection Tool", 
+          content: tool === "slider" ? <SliderSlide /> : (tool === "scribble" ? <ScribbleSlide /> : <ToggleSlide />)
         }
       case 4:
         return {

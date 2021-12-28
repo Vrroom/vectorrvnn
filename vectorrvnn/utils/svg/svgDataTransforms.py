@@ -52,5 +52,5 @@ def modAttrs (tree, attrDict) :
     return tree
 
 def normalize (tree) : 
-    rootBox = tree.nodes[findRoot(tree)]['bbox']
-    setDocBBox(tree.doc, rootBox.normalized() * 1.2)
+    box = union([pathBBox(p.path) for p in cachedPaths(tree.doc)])
+    setDocBBox(tree.doc, box.normalized() * 1.2)

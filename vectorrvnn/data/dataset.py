@@ -1,18 +1,18 @@
 from vectorrvnn.utils import * 
 from .data import *
+import re
 
 class TripletDataset () : 
 
-    def __init__ (self, datadir) : 
+    def __init__ (self, datadir, idsToAvoid=[]) : 
         """
         The datadir will have a pickle file
         for the hierarchy and an svg file. It may 
-        have some other metadata but we don't 
-        care about that.
+        have some other metadata but we don't care about that.
         """
         files = listdir(datadir)
         svgFiles, treeFiles = [], []
-        self.metadata = []
+        self.ids = []
         for f in files : 
             exampleFiles = listdir(f)
             svgFile  = next(filter(
@@ -28,9 +28,15 @@ class TripletDataset () :
                 exampleFiles
             ))
             with open(txtFile) as fd : 
-                self.metadata.append(fd.read().strip())
-            svgFiles.append(svgFile)
-            treeFiles.append(treeFile)
+                id = int(re.findall(r'\d+', fd.read())[0])
+
+            if id not in idsToAvoid :
+                self.ids.append(id)
+                svgFiles.append(svgFile)
+                treeFiles.append(treeFile)
+            else : 
+                print(f'Ignorning Id {id}')
+
         self.data = [SVGData(svgFile=sf, treePickle=tf) 
                 for sf, tf in zip(svgFiles, treeFiles)]
 

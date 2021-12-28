@@ -20,6 +20,30 @@ from subprocess import call
 
 LOG = ttools.get_logger(__name__)
 
+def firstDimCat(x, y, r) :
+    return torch.cat((x, y), dim=0)
+
+def movingAvg (x, y, r) : 
+    nc = r['count']
+    oc = nc - 1
+    return (x + oc * y) / nc
+
+def noneSkipper (fn, a, b, r) :
+    if a is None:
+        return None
+    elif b is None :
+        return a
+    else :
+        return fn(a, b, r)
+
+def dictAccumulate(combiner, b, a) : 
+    c = {}
+    c['count'] = b['count'] + 1
+    for k, fn in combiner.items() : 
+        d, rd = a[k], b[k]
+        c[k] = noneSkipper(fn, d, rd, c)
+    return c
+
 class TripletInterface (ttools.ModelInterface) : 
 
     def __init__(self, opts, model, dataset, val_dataset, 
@@ -32,71 +56,17 @@ class TripletInterface (ttools.ModelInterface) :
         self.dataset = dataset
         self.val_dataset = val_dataset
         trainedParams = filter(lambda p: p.requires_grad, self.model.parameters())
-        self.opt = optim.Adam(trainedParams, lr=opts.lr, weight_decay=opts.wd)
+        self.opt = optim.AdamW(trainedParams, lr=opts.lr, weight_decay=opts.wd)
         self.sched = getScheduler(self.opt, opts)
         self.init = deepcopy(self.model.state_dict())
-
-    def _accumulate(self, data, running_data) : 
-        oc, nc = running_data['count'], data['count']
-        combiners = dict(
-            count=lambda x, y : x,
-            loss=lambda x, y : (x + oc * y) / nc,
-            mask=lambda x, y : torch.cat((x, y), dim=0),
-            dplus=lambda x, y : torch.cat((x, y), dim=0),
-            dminus=lambda x, y : torch.cat((x, y), dim=0),
-            hardpct=lambda x, y: (x + oc * y) / nc
+        self.combiners = dict(
+            loss=movingAvg,
+            mask=firstDimCat,
+            dplus=firstDimCat,
+            dminus=firstDimCat,
+            hardpct=movingAvg
         )
-        ret = {}
-        for k, fn in combiners.items() : 
-            d, rd = data[k], running_data[k]
-            if d is None : 
-                ret[k] = None
-            elif rd is None : 
-                ret[k] = d
-            else : 
-                ret[k] = fn(d, rd)
-        return ret
-
-    def _clip_gradients (self) : 
-        if self.max_grad_norm is not None:
-            nrm = nn.utils.clip_grad_norm_(self.model.parameters(), self.max_grad_norm)
-            if nrm > self.max_grad_norm:
-                LOG.warning("Clipping gradients. norm = %.3f > %.3f", nrm, self.max_grad_norm)
-
-    def _log_wt_stats (self, ret) : 
-        with torch.no_grad() : 
-            for name, module in self.model.named_children() : 
-                wd = avg(map(
-                    lambda x : x.pow(2).mean(), 
-                    module.parameters())
-                )
-                ret[f'{name}_wd'] = wd
-
-    def _log_lr (self, ret) : 
-        lr = self.opt.state_dict()['param_groups'][0]['lr']
-        ret['lr'] = lr
-
-    def training_step(self, batch) :
-        self.model.train()
-        ret = self.model(**batch)
-        loss = ret['loss']
-        # optimize
-        self.opt.zero_grad()
-        loss.backward()
-        self._clip_gradients()
-        self.opt.step()
-        self._log_lr(ret)
-        self._log_wt_stats(ret)
-        # convert all tensor scalars to scalars
-        tensorApply(
-            ret, 
-            lambda t : t.item(), 
-            lambda t : t.nelement() == 1
-        )
-        return ret
-
-    def init_validation(self):
-        return dict(
+        self.retId = dict(
             loss=0,
             mask=None,
             dplus=None,
@@ -105,12 +75,53 @@ class TripletInterface (ttools.ModelInterface) :
             count=0
         )
 
+    def _clip_gradients (self) : 
+        if self.max_grad_norm is not None:
+            nrm = nn.utils.clip_grad_norm_(self.model.parameters(), self.max_grad_norm)
+            if nrm > self.max_grad_norm:
+                LOG.warning("Clipping gradients. norm = %.3f > %.3f", nrm, self.max_grad_norm)
+
+    def _log_lr (self, ret) : 
+        lr = self.opt.state_dict()['param_groups'][0]['lr']
+        ret['lr'] = lr
+
+    def _block_step (self, block) : 
+        self.model.train()
+        ret = self.model(**block)
+        return ret
+
+    def training_step(self, batch) :
+        self.opt.zero_grad()
+        rets = map(self._block_step, batch)
+        ret = reduce(
+            partial(dictAccumulate, self.combiners), 
+            rets, 
+            self.retId
+        )
+        ret['loss'].backward()
+        self._clip_gradients()
+        self.opt.step()
+        self._log_lr(ret)
+        tensorApply(
+            ret, 
+            lambda t : t.item(), 
+            lambda t : t.nelement() == 1
+        )
+        return ret
+
+    def init_validation(self):
+        return self.retId
+
     def validation_step(self, batch, running_data) : 
         self.model.eval()
         with torch.no_grad():
-            ret = self.model(**batch)
-            ret['count'] = 1 + running_data['count']
-            ret = self._accumulate(ret, running_data)
+            rets = map(self._block_step, batch)
+            ret = reduce(
+                partial(dictAccumulate, self.combiners), 
+                rets, 
+                self.retId
+            )
+            ret = dictAccumulate(self.combiners, running_data, ret)
             tensorApply(
                 ret, 
                 lambda t : t.item(), 
@@ -118,11 +129,17 @@ class TripletInterface (ttools.ModelInterface) :
             )
             return ret
 
+def nodeOverlapData(opts) : 
+    dir = opts.otherdata
+    N   = opts.n_otherdata
+    files = [_ for _ in allfiles(dir) if _.endswith('svg')]
+    svgs = rng.choices(files, k=N)
+    data = [SVGData(_) for _ in svgs]
+    return data
 
 def addCallbacks (trainer, model, data, opts) : 
     modelParams = [n for n, _ in model.named_children()]
-    weightDecay = [f'{n}_wd' for n in modelParams]
-    keys = ["loss", "hardpct", "lr", *weightDecay]
+    keys = ["loss", "hardpct", "lr"]
     _, valData, trainDataLoader, _, _ = data
     trainer.add_callback(
         SchedulerCallback(trainer.interface.sched)
@@ -148,6 +165,13 @@ def addCallbacks (trainer, model, data, opts) :
         )
     )
     trainer.add_callback(
+        HardTripletCallback(
+            env=opts.name + "_hard_triplet",
+            win="hard_triplets",
+            frequency=opts.frequency
+        )
+    )
+    trainer.add_callback(
         VisdomLoggingCallback(
             keys=keys, 
             val_keys=keys[:2], 
@@ -164,30 +188,70 @@ def addCallbacks (trainer, model, data, opts) :
         )
     )
     trainer.add_callback(
-        TreeScoresCallback(
-            model, 
-            data,
-            frequency=opts.frequency,
-            env=opts.name + "_treeScores"
-        )
-    )
-    trainer.add_callback(
-        GradientLoggingCallback(
+        GradCallback(
             model,
             frequency=opts.frequency,
             env=opts.name + "_gradients"
         )
     )
     trainer.add_callback(
+        InitDistanceCallback(
+            model,
+            frequency=opts.frequency,
+            env=opts.name + "_init_distance"
+        )
+    )
+    trainer.add_callback(
+        NormCallback(
+            model,
+            frequency=opts.frequency,
+            env=opts.name + "_norms"
+        )
+    )
+    trainer.add_callback(
+        TreeScoresCallback(
+            model, 
+            valData,
+            opts,
+            env=opts.name + "_treeScores"
+        )
+    )
+    trainer.add_callback(
         HierarchyVisCallback(
             model,
-            data,
-            frequency=opts.frequency,
+            valData,
+            opts,
             env=opts.name + "_hierarchy"
         )
     )
-    for vis in model.vis : 
-        trainer.add_callback(vis)
+    trainer.add_callback(
+        NodeOverlapCallback(
+            model, 
+            nodeOverlapData(opts),
+            opts, 
+            env=opts.name + "_no"
+        )
+    )
+    trainer.add_callback(
+        AABBVis(
+            frequency=opts.frequency,
+            env=opts.name + "_vis",
+            win='aabb'
+        )
+    )
+    trainer.add_callback(
+        OBBVis(
+            frequency=opts.frequency,
+            env=opts.name + "_vis",
+            win='obb'
+        )
+    )
+    trainer.add_callback(
+        DistanceHistogramCallback(
+            frequency=opts.frequency,
+            env=opts.name + "_distance"
+        )
+    )
     trainer.add_callback(
         CheckpointingBestNCallback(checkpointer, key='fmi')
     )
@@ -201,8 +265,8 @@ def buildModel (opts) :
             opts.checkpoints_dir, 
             opts.load_ckpt
         )
-        state_dict = torch.load(initPath)
-        model.load_state_dict(state_dict['model'], strict=False)
+        state_dict = torch.load(initPath, map_location=opts.device)
+        model.load_state_dict(state_dict['model'])
     model.to(opts.device)
     if opts.phase == 'train' : 
         model.train()
@@ -217,6 +281,9 @@ def getDataSplits (opts) :
     dirs = ['Train', 'Val', 'Test']
     dirs = [osp.join(f'/tmp/{opts.name}/', _) for _ in dirs]
     for d in dirs: 
+        if osp.exists(d) : 
+            call(['rm', '-r', d])
+    for d in dirs: 
         mkdir(d)
     total = len(allData)
     tPt, vPt = int(0.6 * total), int(0.2 * total)
@@ -227,13 +294,16 @@ def getDataSplits (opts) :
 
 def buildData (opts) : 
     dataDirs = getDataSplits(opts)
-    trainData, valData, testData = list(map(TripletDataset, dataDirs))
+    trainData = TripletDataset(dataDirs[0])
+    valData   = TripletDataset(dataDirs[1], trainData.ids)
+    testData  = TripletDataset(dataDirs[2], trainData.ids)
     SamplerCls = globals()[opts.samplercls]
     trainDataLoader = TripletDataLoader(
         opts=opts, 
         sampler=SamplerCls(
             trainData, 
             opts.train_epoch_length,
+            opts,
             transform=getGraphicAugmentation(opts)
         )
     )
@@ -242,6 +312,7 @@ def buildData (opts) :
         sampler=SamplerCls(
             valData,
             opts.val_epoch_length,
+            opts,
             val=True
         )
     )
@@ -274,22 +345,49 @@ def scores2df (ts1, ts2, methodName) :
         columns=['cted', 'fmi1', 'fmi2', 'fmi3']
     )
 
+def ablations (model, ts, opts) : 
+    m1 = buildModel(opts)
+    m2 = buildModel(opts)
+    m3 = buildModel(opts)
+
+    m1.bbox.apply(getInitializer(opts))
+    m2.crop.apply(getInitializer(opts))
+    m3.roi.apply(getInitializer(opts))
+
+    ts1_dd = list(map(m1.greedyTree, ts))
+    ts1_cg = list(map(m1.containmentGuidedTree, ts))
+
+    ts2_dd = list(map(m2.greedyTree, ts))
+    ts2_cg = list(map(m2.containmentGuidedTree, ts))
+
+    ts3_dd = list(map(m3.greedyTree, ts))
+    ts3_cg = list(map(m3.containmentGuidedTree, ts))
+
+    dd1 = scores2df(ts, ts1_dd, "- BBox (DD)")
+    cg1 = scores2df(ts, ts1_cg, "- BBox (CG)")
+
+    dd2 = scores2df(ts, ts2_dd, "- Crop (DD)")
+    cg2 = scores2df(ts, ts2_cg, "- Crop (CG)")
+
+    dd3 = scores2df(ts, ts3_dd, "- RoI (DD)")
+    cg3 = scores2df(ts, ts3_cg, "- RoI (CG)")
+
+    combined = pd.concat([dd1, cg1, dd2, cg2, dd3, cg3])
+    combined.to_csv(osp.join(opts.checkpoints_dir, opts.name, 'ablations.csv'))
+
 def test (opts) : 
     trainData, _, _, _, testData = buildData(opts)
     graphics = [repr(t.doc) for t in trainData]
     model = buildModel(opts)
     ts1 = [_ for _ in testData if repr(_.doc) not in graphics]
+    ablations(model, ts1, opts)
     ts2 = list(map(model.greedyTree, ts1))
     ts3 = list(map(model.containmentGuidedTree, ts1))
-    ts4 = list(map(autogroup, ts1))
-    ts5 = list(map(suggero, ts1))
     exprDir = osp.join(opts.checkpoints_dir, opts.name)
     logFile = osp.join(exprDir, f'{opts.name}.csv')
     dd = scores2df(ts1, ts2, "Ours-DD") 
     cg = scores2df(ts1, ts3, "Ours-CG")
-    fi = scores2df(ts1, ts4, "Fisher")
-    su = scores2df(ts1, ts5, "Suggero")
-    combined = pd.concat([dd, cg, fi, su])
+    combined = pd.concat([dd, cg])
     combined.to_csv(logFile)
 
 def setSeed (opts) : 

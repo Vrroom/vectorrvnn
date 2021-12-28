@@ -4,7 +4,7 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import SVGHandler from "./svghandler";
 import Cookies from "js-cookie";
-import { withSliderTool, withScribbleTool } from "./tools";
+import { withSliderTool, withScribbleTool, withToggleTool } from "./tools";
 import withGraphicFetcher from "./graphicfetch";
 import next from "../icons/next.svg";
 import Button from "./button";
@@ -19,6 +19,7 @@ const tool = Cookies.get("tool");
 const toolMaker = {
   slider: withSliderTool,
   scribble: withScribbleTool,
+  toggle: withToggleTool
 };
 
 const Tool = toolMaker[tool](SVGHandler, "graphic");

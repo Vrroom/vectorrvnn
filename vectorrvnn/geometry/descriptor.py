@@ -112,22 +112,28 @@ def relbb (doc, i, **kwargs) :
     y2 = (ymax - docbb.y) / (docbb.h)
     return [x1, y1, x2 - x1, y2 - y1]
 
-@lru_cache(maxsize=128)
-def equiDistantSamples (doc, i, nSamples=5, **kwargs) :
+def equiDistantSamples (doc, path, nSamples=5, **kwargs) :
     """ Sample points and concatenate to form a descriptor  """
-    path = cachedPaths(doc)[i].path
     ts = np.linspace(0, 1, nSamples)
     L = path.length()
     pts = [path.point(path.ilength(t * L, 1e-1)) for t in ts]
-    if kwargs['normalize'] : 
-        dx, dy = docbb[2] - docbb[0], docbb[3] - docbb[1]
-        x = [p.real / dx for p in pts]
-        y = [p.imag / dy for p in pts]
+    if 'normalize' in kwargs : 
+        docbox = getDocBBox(doc)
+        x, y = docbox.x, docbox.y
+        dx, dy = docbox.w, docbox.h
+        x = [(p.real - x) / dx for p in pts]
+        y = [1 - ((p.imag - y) / dy) for p in pts]
         return [x,y]
     else : 
         x = [p.real for p in pts]
         y = [p.imag for p in pts]
         return [x,y]
+
+
+@lru_cache(maxsize=128)
+def memoEquiDistantSamples (doc, i, nSamples=5, **kwargs) :
+    path = cachedPaths(doc)[i].path
+    return equiDistantSamples(doc, path, nSamples, **kwargs)
 
 @lru_cache(maxsize=128)
 def pathBitmap (doc, i, fill=True, threadLocal=False, **kwargs) : 

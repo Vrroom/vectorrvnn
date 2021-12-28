@@ -1,6 +1,7 @@
 import numpy as np
 import shapely.affinity as sa
 import shapely.geometry as sg
+from copy import deepcopy
 from functools import reduce
 
 def pathBBox (path) : 
@@ -18,6 +19,27 @@ def pathBBox (path) :
         x, X, y, Y = 0, 0, 0, 0
     return BBox(x, y, X, Y, X - x, Y - y)
 
+def pathAABB(doc, path) :
+    box = pathBBox(path)
+    dbox = getDocBBox(doc)
+    box = box / dbox
+    y = 1 - box.Y
+    Y = 1 - box.y
+    newbox = BBox(box.x, y, box.X, Y, box.w, box.h)
+    return newbox.translated(-0.5, -0.5).scaled(2)
+
+def pathOBB (doc, path) :
+    """ 
+    Get oriented bounding box for the path
+    """
+    from vectorrvnn.geometry import equiDistantSamples
+    pts = np.array(equiDistantSamples(doc, path, 50, normalize=True))
+    pts = (pts - 0.5) * 2
+    pts += 0.002 * np.random.randn(*pts.shape)
+    ls = sg.LineString(list(zip(*pts)))
+    rect = ls.minimum_rotated_rectangle.exterior.coords
+    return corners2canonical(rect)
+
 def getDocBBox (doc) :
     """
     Get the view box of the document
@@ -33,10 +55,9 @@ def setDocBBox (doc, box) :
     string = ' '.join(map(str, box.tolist()))
     doc.set_viewbox(string)
 
-def pathBBoxTooSmall (pathbox, docbox) : 
+def pathBBoxTooSmall (pathbox) : 
     """ Return true if the path occupies a very small portion of the graphic """
-    rel = pathbox / docbox
-    return rel.normalized().area() <= 5e-4
+    return pathbox.normalized().area() <= 5e-4
 
 def union(boxes) : 
     """ Compute the union of bounding boxes """
@@ -220,3 +241,114 @@ class BBox :
             (self.X, self.y)
         ])
 
+def corners2canonical (corners) :
+    """ 
+    Canonical representation of an oriented 
+    bounding box given as rectangles is a
+    BBox centered at origin, a translation 
+    vector and a rotation vector.
+    """
+    if not isinstance(corners, np.ndarray):
+        corners = np.array(corners)
+    a, b, c = corners[-2], corners[0], corners[1]
+    center = (a + c) / 2
+    u1 = ((c - b) / (1e-5 + np.linalg.norm(c - b))).reshape(2, 1)
+    u2 = ((a - b) / (1e-5 + np.linalg.norm(a - b))).reshape(2, 1)
+    corners = corners - center
+    rot = np.hstack([u1, u2])
+    corners = (corners @ rot)
+    m, M = corners.min(0), corners.max(0)
+    box = BBox(m[0], m[1], M[0], M[1], M[0] - m[0], M[1] - m[1])
+    return OBB(box, center, rot)
+
+def canonical2corners (obb) :
+    corners = np.array([
+        [obb.x, obb.y],
+        [obb.X, obb.y],
+        [obb.X, obb.Y],
+        [obb.x, obb.Y],
+        [obb.x, obb.y]
+    ])
+    return obb.center + (corners @ obb.rot.T)
+
+class OBB (BBox) :
+
+    def __init__ (self, box, center, rot) :
+        super(OBB, self).__init__(
+            box.x, box.y, box.X, 
+            box.Y, box.w, box.h
+        )
+        self.center = center
+        self.rot = rot
+
+    def center (self) : 
+        return complex(self.center[0], self.center[1])
+
+    def __eq__ (self, that) : 
+        boxeq = super(OBB, self).__eq__(that)
+        roteq = isclose(0, np.linalg.norm(self.rot - that.rot))
+        ceneq = isclose(0, np.linalg.norm(self.center - that.center))
+        return boxeq and roteq and ceneq
+
+    def __or__ (self, that) : 
+        """ Union of two boxes """
+        return self.toShapely().union(that.toShapely())
+
+    def __and__ (self, that) : 
+        return self.toShapely().intersection(that.toShapely())
+
+    def __contains__ (self, that) :
+        return (self.x <= that.x <= that.X <= self.X \
+                and self.y <= that.y <= that.Y <= self.Y) \
+                and not self == that
+
+    def __truediv__ (self, that): 
+        raise NotImplementedError
+
+    def normalized (self) : 
+        raise NotImplementedError
+
+    def tolist (self, alternate=False) : 
+        boxlist = super(OBB, self).tolist(alternate)
+        rotlist = np.ravel(self.rot).tolist()
+        cenlist = np.ravel(self.center).tolist()
+        return [*boxlist, *rotlist, *cenlist]
+
+    def __xor__ (self, that) : 
+        """ check whether boxes are disjoint """
+        p1 = sg.Polygon(self.corners)
+        p2 = sg.Polygon(that.corners)
+        return p1.disjoint(p2)
+
+    def rotated (self, degree, pt=None) : 
+        if pt is None:  
+            pt = sg.Point(0, 0)
+        else : 
+            pt = sg.Point(pt.real, pt.imag)
+        shape = sa.rotate(self.toShapely(), degree, origin=pt)
+        corners = shape.minimum_rotated_rectangle
+        return corners2canonical(corners)
+
+    def translated (self, tx, ty=0) : 
+        x, y, X, Y = sa.translate(self.toShapely(), tx, ty).bounds
+        return BBox(x, y, X, Y, X - x, Y - y)
+
+    def scaled (self, sx, sy=None, origin=sg.Point(0, 0)) : 
+        if sy is None : 
+            sy = sx
+        shape = sa.scale(self.toShapely(), sx, sy, origin=origin)
+        corners = shape.minimum_rotated_rectangle
+        return corners2canonical(corners)
+
+    def skewX (self, xs) : 
+        shape = sa.skew(self.toShapely(), xs=xs)
+        corners = shape.minimum_rotated_rectangle
+        return corners2canonical(corners)
+
+    def skewY (self, ys) : 
+        shape = sa.skew(self.toShapely(), ys=ys)
+        corners = shape.minimum_rotated_rectangle
+        return corners2canonical(corners)
+
+    def toShapely (self) : 
+        return sg.Polygon(self.corners)

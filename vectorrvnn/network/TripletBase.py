@@ -3,6 +3,7 @@ from torch.nn import functional as F
 from vectorrvnn.trainutils import *
 from vectorrvnn.geometry import *
 from vectorrvnn.baselines.autogroup import * 
+from sklearn.cluster import AgglomerativeClustering
 from itertools import starmap, combinations
 from more_itertools import collapse
 from functools import lru_cache
@@ -11,8 +12,6 @@ from copy import deepcopy
 
 class TripletBase (nn.Module) :
     """
-    Loss functions are named as *Loss. 
-
     Each loss function outputs a dictionary 
     with keys:
         1. loss    - self explanatory.
@@ -23,12 +22,6 @@ class TripletBase (nn.Module) :
     """
     def __init__ (self, opts) :
         super(TripletBase, self).__init__() 
-        self.vis = [
-            DistanceHistogramCallback(
-                frequency=opts.frequency,
-                env=opts.name + "_distance"
-            )
-        ]
         self.opts = opts
         self.sim_criteria = globals()[opts.sim_criteria]
 
@@ -41,14 +34,14 @@ class TripletBase (nn.Module) :
         raise NotImplementedError
 
     def _distances2Ref (self, ref, plus, minus, **kwargs) : 
-        refEmbed   = self.embedding(ref  , **kwargs) 
-        plusEmbed  = self.embedding(plus , **kwargs) 
-        minusEmbed = self.embedding(minus, **kwargs) 
+        refEmbed   = unitNorm(self.embedding(ref  , **kwargs))
+        plusEmbed  = unitNorm(self.embedding(plus , **kwargs))
+        minusEmbed = unitNorm(self.embedding(minus, **kwargs))
         dplus  = l2(refEmbed, plusEmbed)
         dminus = l2(refEmbed, minusEmbed)
         return dplus, dminus
 
-    def maxMarginLoss (self, ref, plus, minus, **kwargs): 
+    def maxMargin (self, ref, plus, minus, **kwargs): 
         maxMargin = self.opts.max_margin
         assert(maxMargin is not None)
         dplus, dminus = self._distances2Ref(ref, plus, minus, **kwargs)
@@ -64,7 +57,7 @@ class TripletBase (nn.Module) :
             hardpct=hardpct
         )
 
-    def hardSemiHardMaxMarginLoss (self, ref, plus, minus, **kwargs) : 
+    def hardMaxMargin (self, ref, plus, minus, **kwargs) : 
         """
         From FaceNet: A Unified Embedding for Face Recognition and Clustering
         """
@@ -83,7 +76,7 @@ class TripletBase (nn.Module) :
             hardpct=hardpct
         )
 
-    def tripletLoss (self, ref, plus, minus, **kwargs) : 
+    def triplet (self, ref, plus, minus, **kwargs) : 
         """ 
         Triplet loss defined in the original triplet learning paper: 
             Deep Metric Learning Using Triplet Network
@@ -106,7 +99,7 @@ class TripletBase (nn.Module) :
             hardpct=hardpct
         )
 
-    def hardTripletLoss (self, ref, plus, minus, **kwargs)  :
+    def hardTriplet (self, ref, plus, minus, **kwargs)  :
         hardThreshold = self.opts.hard_threshold
         assert (hardThreshold is not None)
         dplus, dminus = self._distances2Ref(ref, plus, minus, **kwargs)
@@ -125,7 +118,7 @@ class TripletBase (nn.Module) :
             hardpct=hardpct
         )
 
-    def cosineSimilarity (self, ref, plus, minus, **kwargs) : 
+    def infoNCE (self, ref, plus, minus, **kwargs) : 
         temperature = self.opts.temperature
         assert (temperature is not None)
         # Find and normalize embeddings
@@ -136,47 +129,14 @@ class TripletBase (nn.Module) :
         dplus  = (refEmbed * plusEmbed ).sum(dim=1, keepdim=True) / temperature
         dminus = (refEmbed * minusEmbed).sum(dim=1, keepdim=True) / temperature
         # compute loss, mask and hardpct.
-        loss = - torch.softmax(torch.cat((dplus, dminus), dim=1), dim=1)[:, 0].mean()
+        two = torch.cat((dplus, dminus), dim=1)
+        exp = torch.softmax(two, dim=1)[:, 0]
+        loss = -torch.log(exp).mean()
         mask = (dplus < dminus).view(-1, 1)
         hardpct = mask.sum() / mask.nelement()
         return dict(
             loss=loss,
             mask=None,
-            dplus=dplus,
-            dminus=dminus,
-            hardpct=hardpct
-        )
-
-    def hardCosineSimilarity (self, ref, plus, minus, **kwargs) : 
-        """
-        We follow https://arxiv.org/pdf/1604.03540.pdf in using 
-        the topk loss values while averaging. 
-        """
-        K = self.opts.K
-        temperature = self.opts.temperature
-        bs = self.opts.batch_size
-        assert (K is not None and temperature is not None) 
-        refEmbed   = unitNorm(self.embedding(ref  , **kwargs))
-        plusEmbed  = unitNorm(self.embedding(plus , **kwargs))
-        minusEmbed = unitNorm(self.embedding(minus, **kwargs))
-        # compute the cosine similarity and divide by temperature
-        dplus  = (refEmbed * plusEmbed ).sum(dim=1, keepdim=True) / temperature
-        dminus = (refEmbed * minusEmbed).sum(dim=1, keepdim=True) / temperature
-        # compute losses over minibatch
-        losses = - torch.softmax(torch.cat((dplus, dminus), dim=1), dim=1)[:, 0]
-        # pick the topk to backpropagate on
-        highest, indices = torch.topk(losses, K)
-        loss = highest.mean()
-        # fix dplus and dminus to the picked indices and compute mask, hardpct
-        dplus  = torch.index_select(dplus, 0, indices)
-        dminus = torch.index_select(dminus, 0, indices)
-        mask = torch.zeros((bs, 1), dtype=bool).to(self.opts.device)
-        mask[indices] = True
-        mask_ = (dplus < dminus).view(-1, 1)
-        hardpct = mask_.sum() / mask_.nelement()
-        return dict(
-            loss=loss,
-            mask=mask,
             dplus=dplus,
             dminus=dminus,
             hardpct=hardpct
@@ -199,11 +159,9 @@ class TripletBase (nn.Module) :
             return self.embedding(f)
 
         def distance (ps1, ps2) : 
-            docbox = getDocBBox(t.doc)
             box1 = pathsetBox(t, ps1)
             box2 = pathsetBox(t, ps2)
-            if pathBBoxTooSmall(box1, docbox)\
-                    or pathBBoxTooSmall(box2, docbox) : 
+            if pathBBoxTooSmall(box1) or pathBBoxTooSmall(box2) : 
                 return torch.tensor(np.inf).to(self.opts.device)
             return self.sim_criteria(psEmbedding(ps1), psEmbedding(ps2))
 
@@ -226,6 +184,68 @@ class TripletBase (nn.Module) :
 
         cpy = deepcopy(t)
         cpy.initTree(parentheses2tree(subtrees[0]))
+        return cpy
+
+    def hacTree (self, t, subtrees=None) : 
+        if subtrees is None : 
+            subtrees = leaves(t)
+
+        @lru_cache(maxsize=128)
+        def psEmbedding (ps) : 
+            f = self.nodeFeatures(t, ps, self.opts)
+            tensorApply(
+                f, 
+                lambda x : x.to(self.opts.device).unsqueeze(0)
+            )
+            return self.embedding(f)
+
+        self.eval()
+        with torch.no_grad() :
+            embeddings = [unitNorm(psEmbedding((i,))) for i in subtrees]
+            stacked = torch.cat(embeddings).detach().cpu().numpy()
+
+        cpy = deepcopy(t)
+
+        if len(subtrees) == 1 : 
+            cpy.initTree(hac2nxDiGraph(subtrees, []))
+        else : 
+            agg = AgglomerativeClustering(1, affinity='cosine', linkage='single')
+            agg.fit(stacked)
+            cpy.initTree(hac2nxDiGraph(subtrees, agg.children_))
+        return cpy
+    
+    def containmentGuidedTreeHac(self, t, subtrees=None): 
+        if subtrees is None : 
+            subtrees = leaves(t)
+
+        n = t.nPaths
+        containmentGraph = dropExtraParents(
+            subgraph(
+                relationshipGraph(
+                    t.doc, 
+                    bitmapContains, 
+                    False,
+                    threadLocal=self.opts.rasterize_thread_local
+                ),
+                lambda x: x['bitmapContains']
+            )
+        )
+        containmentGraph.add_edges_from(
+            [(n, _) for _ in containmentGraph.nodes 
+                if containmentGraph.in_degree(_) == 0])
+
+        parents = nonLeaves(containmentGraph)
+        siblingSets = [list(containmentGraph.neighbors(p))
+                for p in parents]
+
+        trees = dict()
+        for p, x in zip(parents, siblingSets):  
+            trees[p] = nx.DiGraph(self.hacTree(t, subtrees=x))
+            trees[p] = nx.relabel_nodes(trees[p], dict(map(reversed, enumerate(x))))
+
+        nestedArray = containmentMerge(n, containmentGraph, trees)[1]
+        cpy = deepcopy(t)
+        cpy.initTree(parentheses2tree(nestedArray))
         return cpy
 
     def containmentGuidedTree (self, t, subtrees=None) : 
@@ -263,7 +283,7 @@ class TripletBase (nn.Module) :
         return cpy
 
     @classmethod
-    def nodeFeatures(cls, t, ps1, opts) : 
+    def nodeFeatures(cls, t, ps, opts) : 
         """ 
         The output should be a deep dict. See `dictOps.py`
         for what a deep dict is. The only permissible values in the 

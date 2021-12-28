@@ -22,11 +22,19 @@ class Options():
 
     def initialize(self, parser):
         self.add_basic_parameters(parser)
-        # Model Parameters
+        self.add_model_parameters(parser)
+        self.add_loss_args(parser)
+        self.add_batch_args(parser)
+        self.add_raster_args(parser)
+        self.add_optimizer_args(parser)
+        self.initialized = True
+        return parser
+
+    def add_model_parameters(self, parser): 
         parser.add_argument(
             '--modelcls',
             type=str,
-            default='TwoBranch',
+            default='ThreeBranch',
             help='model class to use'
         )
         parser.add_argument(
@@ -41,12 +49,6 @@ class Options():
             nargs='*',
             default=[],
             help='list of names of modules to freeze'
-        )
-        parser.add_argument(
-            '--structure_embedding_size',
-            type=int,
-            default=None,
-            help='size of the structure embedding'
         )
         parser.add_argument(
             '--embedding_size',
@@ -68,54 +70,10 @@ class Options():
             help='size of hidden layer before output'
         )
         parser.add_argument(
-            '--phase',
-            type=str,
-            default='train',
-            choices=['train', 'test'],
-            help='phase of the experiment'
-        )
-        # if number of input channels is 3, remember to 
-        # apply some alphacompositing rule and also 
-        # normalize the image correctly.
-        parser.add_argument(
-            '--input_nc', 
-            type=int, 
-            default=3, 
-            help='# of input image channels: 3 for RGB and 4 for RGBA'
-        )
-        parser.add_argument(
             '--max_len',
             type=int,
-            default=500,
+            default=50,
             help='maximum number of paths in a graphic'
-        )
-        parser.add_argument(
-            '--raster_size', 
-            type=int, 
-            default=256, 
-            help='scale rasters to this size'
-        )
-        parser.add_argument(
-            '--rasterize_thread_local',
-            type=bool,
-            default=False,
-            help='whether to create a global or thread local raster context'
-        )
-        # logging parameters
-        parser.add_argument(
-            '--frequency', 
-            type=int, 
-            default=50, 
-            help='frequency of showing visualizations on screen'
-        )
-        # training parameters
-        self.add_loss_args(parser)
-        self.add_batch_args(parser)
-        parser.add_argument(
-            '--seed', 
-            type=int,
-            default=1000,
-            help='seed for the random number generator'
         )
         parser.add_argument(
             '--init_type',
@@ -125,87 +83,23 @@ class Options():
             help='initialized modules that are not pretrained'
         )
         parser.add_argument(
-            '--augmentation', 
-            type=str,
-            default='none',
-            help='Augmentation applied to data'
-        )
-        parser.add_argument(
-            '--samplercls',
-            type=str,
-            default='AllSampler', 
-            help='Class to use to sample triplets'
-        )
-        parser.add_argument(
-            '--train_epoch_length',
-            type=int,
-            default=25600,
-            help='number of triplets per epoch for training'
-        )
-        parser.add_argument(
-            '--mean', 
-            type=tuple,
-            default=(0.485, 0.456, 0.406),
-            help='mean to normalize rasters before forward pass'
-        )
-        parser.add_argument(
-            '--sim_criteria',
-            type=str,
-            default='l2',
-            choices=['l2', 'negativeCosineSimilarity'],
-            help='metric to compare embeddings'
-        )
-        parser.add_argument(
-            '--std',
-            type=tuple,
-            default=(0.229, 0.224, 0.225),
-            help='std to normalize rasters before forward pass'
-        )
-        parser.add_argument(
-            '--val_epoch_length',
-            type=int,
-            default=2560,
-            help='number of triplets per epoch for validation'
-        )
-        parser.add_argument(
-            '--n_epochs', 
-            type=int, 
-            default=100, 
-            help='total number of epochs'
-        )
-        parser.add_argument(
-            '--decay_start', 
-            type=int, 
-            default=50, 
-            help='epoch from which to start lr decay'
-        )
-        parser.add_argument(
-            '--beta1', 
-            type=float, 
-            default=0.5, 
-            help='momentum term of adam'
-        )
-        parser.add_argument(
-            '--lr', 
-            type=float, 
-            default=0.0002, 
-            help='initial learning rate for adam'
-        )
-        parser.add_argument(
-            '--wd',
+            '--dropout',
             type=float,
-            default=0.0001,
-            help='weight decay for optimizer'
+            default=0.0,
+            help='dropout on linear layers'
         )
         parser.add_argument(
-            '--lr_policy', 
-            type=str, 
-            default='linear', 
-            choices=['linear', 'step', 'plateau', 'cosine'],
-            help='learning rate policy.'
+            '--heads',
+            type=int,
+            default=0,
+            help='number of heads in multi-head attention (if using transformers)'
         )
-        self.initialized = True
-        return parser
+        parser.add_argument(
+            '--encoder_layers',
+            type=int,
+            default=0,
+            help='number of self attention layers (if using transformers)'
+        )
 
     def add_basic_parameters (self, parser) : 
         parser.add_argument(
@@ -213,6 +107,18 @@ class Options():
             type=str,
             default='./',
             help='path to graphics'
+        )
+        parser.add_argument(
+            '--otherdata',
+            type=str,
+            default='./',
+            help='path to graphics for node overlap'
+        )
+        parser.add_argument(
+            '--n_otherdata',
+            type=int,
+            default=100,
+            help='number of points from other data'
         )
         parser.add_argument(
             '--name', 
@@ -238,27 +144,163 @@ class Options():
             choices=['cpu', 'cuda:0', 'cuda:1'],
             help='device to run training on.'
         )
+        parser.add_argument(
+            '--seed', 
+            type=int,
+            default=1000,
+            help='seed for the random number generator'
+        )
+        parser.add_argument(
+            '--frequency', 
+            type=int, 
+            default=50, 
+            help='frequency of showing visualizations on screen'
+        )
+        parser.add_argument(
+            '--phase',
+            type=str,
+            default='train',
+            choices=['train', 'test'],
+            help='phase of the experiment'
+        )
+
+    def add_optimizer_args (self, parser) : 
+        """ 
+        We are using adam for all experiments. Even so, we can 
+        use these arguments to control the learning rate, beta1 and 
+        learning rate schedule.
+        """
+        parser.add_argument(
+            '--decay_start', 
+            type=int, 
+            default=50, 
+            help='epoch from which to start lr decay'
+        )
+        parser.add_argument(
+            '--beta1', 
+            type=float, 
+            default=0.5, 
+            help='momentum term of adam'
+        )
+        parser.add_argument(
+            '--lr', 
+            type=float, 
+            default=0.0002, 
+            help='initial learning rate for adam'
+        )
+        parser.add_argument(
+            '--lr_policy', 
+            type=str, 
+            default='linear', 
+            choices=['linear', 'step', 'plateau', 'cosine'],
+            help='learning rate policy.'
+        )
     
     def add_batch_args(self, parser): 
+        """
+        Arguments related to training epochs
+        and batch construction. 
+            1. Which sampler to use? 
+            2. How many samples per epoch?
+            3. Batch size?
+            4. What augmentation to use?
+        """
+        parser.add_argument(
+            '--n_epochs', 
+            type=int, 
+            default=100, 
+            help='total number of epochs'
+        )
+        parser.add_argument(
+            '--train_epoch_length',
+            type=int,
+            default=25600,
+            help='number of triplets per epoch for training'
+        )
+        parser.add_argument(
+            '--val_epoch_length',
+            type=int,
+            default=2560,
+            help='number of triplets per epoch for validation'
+        )
+        parser.add_argument(
+            '--samplercls',
+            type=str,
+            default='DiscriminativeSampler', 
+            help='Class to use to sample triplets'
+        )
         parser.add_argument(
             '--batch_size', 
             type=int, 
             default=32, 
             help='input batch size'
         )
+        parser.add_argument(
+            '--base_size',
+            type=int,
+            default=32,
+            help='blocks used to construct minibatch'
+        )
+        parser.add_argument(
+            '--augmentation', 
+            type=str,
+            default='none',
+            help='Augmentation applied to data'
+        )
+
+    def add_raster_args (self, parser) : 
+        """
+        These parameters are to do with the vector 
+        image. Here we add:
+            1. Size of the raster image
+            2. Number of channels in the image
+            3. Normalization to use for ImageNet pretrained networks.
+        """
+        # if number of input channels is 3, remember to 
+        # apply some alphacompositing rule and also 
+        # normalize the image correctly.
+        parser.add_argument(
+            '--input_nc', 
+            type=int, 
+            default=3, 
+            help='# of input image channels: 3 for RGB and 4 for RGBA'
+        )
+        parser.add_argument(
+            '--mean', 
+            type=tuple,
+            default=(0.485, 0.456, 0.406),
+            help='mean to normalize rasters before forward pass'
+        )
+        parser.add_argument(
+            '--std',
+            type=tuple,
+            default=(0.229, 0.224, 0.225),
+            help='std to normalize rasters before forward pass'
+        )
+        parser.add_argument(
+            '--raster_size', 
+            type=int, 
+            default=256, 
+            help='scale rasters to this size'
+        )
+        parser.add_argument(
+            '--rasterize_thread_local',
+            type=bool,
+            default=False,
+            help='whether to create a global or thread local raster context'
+        )
 
     def add_loss_args(self, parser) : 
         parser.add_argument(
             '--loss',
             type=str,
-            default='maxMarginLoss',
+            default='infoNCE',
             choices=[
-                'maxMarginLoss', 
-                'tripletLoss',
-                'hardSemiHardMaxMarginLoss', 
-                'hardTripletLoss', 
-                'cosineSimilarity',
-                'hardCosineSimilarity',
+                'maxMargin', 
+                'triplet',
+                'hardMaxMargin', 
+                'hardTriplet', 
+                'infoNCE',
             ],
             help='loss function for training'
         )
@@ -277,7 +319,7 @@ class Options():
         parser.add_argument(
             '--temperature',
             type=float,
-            default=1.0,
+            default=0.1,
             help='temperature control for cosine similarity loss'
         )
         parser.add_argument(
@@ -286,26 +328,30 @@ class Options():
             default=16,
             help='number of harder triplets to train on'
         )
+        parser.add_argument(
+            '--wd',
+            type=float,
+            default=0.0001,
+            help='weight decay for optimizer'
+        )
 
     def validate_batch_size_args (self, opt) : 
-        pass
+        assert (opt.batch_size % opt.base_size == 0)
 
     def validate_loss_args (self, opt) : 
-        if opt.loss.endswith('MarginLoss') : 
+        if opt.loss.endswith('Margin') : 
             assert (opt.max_margin is not None)
-        elif opt.loss == 'hardTripletLoss' : 
+        elif opt.loss == 'hardTriplet' : 
             assert (opt.hard_threshold is not None)
-        elif opt.loss == 'cosineSimilarity' : 
+        elif opt.loss == 'infoNCE' : 
             assert (opt.temperature is not None)
-        elif opt.loss == 'hardCosineSimilarity': 
-            assert (opt.temperature is not None and opt.K is not None)
+        l2 = ['maxMargin', 'hardMaxMarginLoss', 'triplet', 'hardTriplet']
+        if opt.loss in l2 : 
+            opt.sim_criteria = 'l2'
+        else : 
+            opt.sim_criteria = 'ncs'
 
     def gather_options(self, testing=[]):
-        """Initialize our parser with basic options(only once).
-        Add additional model-specific and dataset-specific options.
-        These options are defined in the <modify_commandline_options> function
-        in model and dataset classes.
-        """
         if not self.initialized:  # check if it has been initialized
             parser = argparse.ArgumentParser(
                 formatter_class=argparse.ArgumentDefaultsHelpFormatter
@@ -324,8 +370,6 @@ class Options():
     def validate(self, opt): 
         self.validate_loss_args(opt)
         self.validate_batch_size_args(opt)
-        assert((opt.structure_embedding_size is not None) \
-                == (opt.modelcls.startswith('PatternGrouping')))
         assert(len(opt.std) == opt.input_nc)
         assert(len(opt.mean) == opt.input_nc)
 
