@@ -126,14 +126,16 @@ class TripletBase (nn.Module) :
         plusEmbed  = unitNorm(self.embedding(plus , **kwargs))
         minusEmbed = unitNorm(self.embedding(minus, **kwargs))
         # compute the cosine similarity and divide by temperature
-        dplus  = (refEmbed * plusEmbed ).sum(dim=1, keepdim=True) / temperature
-        dminus = (refEmbed * minusEmbed).sum(dim=1, keepdim=True) / temperature
+        splus  = (refEmbed * plusEmbed ).sum(dim=1, keepdim=True) / temperature
+        sminus = (refEmbed * minusEmbed).sum(dim=1, keepdim=True) / temperature
         # compute loss, mask and hardpct.
-        two = torch.cat((dplus, dminus), dim=1)
+        two = torch.cat((splus, sminus), dim=1)
         exp = torch.softmax(two, dim=1)[:, 0]
         loss = -torch.log(exp).mean()
-        mask = (dplus < dminus).view(-1, 1)
+        mask = (splus < sminus).view(-1, 1)
         hardpct = mask.sum() / mask.nelement()
+        dminus = (1 / temperature) - sminus
+        dplus  = (1 / temperature) - splus
         return dict(
             loss=loss,
             mask=None,

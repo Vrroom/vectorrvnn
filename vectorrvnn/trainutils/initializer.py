@@ -2,9 +2,10 @@ import torch
 import torch.nn as nn
 import torch.nn.init as init
 
-def getInitializer(opts, init_gain=0.02):
+def getInitializer(opts):
     """Initialize network weights.
     """
+    init_gain = init.calculate_gain('relu')
     init_type = opts.init_type
     def init_func(m):  # define the initialization function
         classname = m.__class__.__name__

@@ -2,7 +2,6 @@ import torch
 import torch.nn.functional as F
 from torch import nn
 import torch.optim as optim
-import random
 from vectorrvnn.utils import *
 from vectorrvnn.data import *
 from vectorrvnn.trainutils import *
@@ -56,7 +55,12 @@ class TripletInterface (ttools.ModelInterface) :
         self.dataset = dataset
         self.val_dataset = val_dataset
         trainedParams = filter(lambda p: p.requires_grad, self.model.parameters())
-        self.opt = optim.AdamW(trainedParams, lr=opts.lr, weight_decay=opts.wd)
+        optimcls = getattr(optim, opts.optimcls)
+        self.opt = optimcls(
+            trainedParams, 
+            lr=opts.lr, 
+            weight_decay=opts.wd
+        )
         self.sched = getScheduler(self.opt, opts)
         self.init = deepcopy(self.model.state_dict())
         self.combiners = dict(

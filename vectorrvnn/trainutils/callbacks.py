@@ -462,7 +462,7 @@ class GradCallback (ModelStatsCallback) :
         )
 
     def model_fn(self, key, p) : 
-        return (p.grad.norm() / p.nelement()).item()
+        return p.grad.norm().item()
 
 class NormCallback (ModelStatsCallback) : 
     """ Plot norm of all parameters """
@@ -475,7 +475,7 @@ class NormCallback (ModelStatsCallback) :
         )
 
     def model_fn (self, key, p) : 
-        return (p.norm() / p.nelement()).item()
+        return p.norm().item()
 
 class InitDistanceCallback (ModelStatsCallback) :
     """ Plot distance of parameters from init """
@@ -496,4 +496,4 @@ class InitDistanceCallback (ModelStatsCallback) :
 
     def model_fn (self, key, p) :
         norm = (p - self.params[key]).norm()
-        return (norm / p.nelement()).item()
+        return norm.item()

@@ -433,8 +433,9 @@ def parent(t, n) :
 def siblings(t, n): 
     """ Find siblings of node n in tree """
     p = parent(t, n)
+    if p is None: 
+        return {}
     return set(t.neighbors(p)) - {n}
-
 
 def maximumNodesInAnyLevel (tree) : 
     """ Find the thickest level in the tree """

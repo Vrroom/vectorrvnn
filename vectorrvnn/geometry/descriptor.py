@@ -112,6 +112,26 @@ def relbb (doc, i, **kwargs) :
     y2 = (ymax - docbb.y) / (docbb.h)
     return [x1, y1, x2 - x1, y2 - y1]
 
+def samples (doc, path, nSamples=5, **kwargs) :
+    """ Draw samples from a path. 
+    
+    Samples aren't equidistant but we avoid 
+    expensive inverse arclength computation.
+    """
+    ts = np.linspace(0, 1, nSamples)
+    pts = [path.point(t) for t in ts]
+    if 'normalize' in kwargs : 
+        docbox = getDocBBox(doc)
+        x, y = docbox.x, docbox.y
+        dx, dy = docbox.w, docbox.h
+        x = [(p.real - x) / dx for p in pts]
+        y = [1 - ((p.imag - y) / dy) for p in pts]
+        return [x,y]
+    else : 
+        x = [p.real for p in pts]
+        y = [p.imag for p in pts]
+        return [x,y]
+
 def equiDistantSamples (doc, path, nSamples=5, **kwargs) :
     """ Sample points and concatenate to form a descriptor  """
     ts = np.linspace(0, 1, nSamples)

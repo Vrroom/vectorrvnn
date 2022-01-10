@@ -1,4 +1,5 @@
 from vectorrvnn.utils import *
+from vectorrvnn.data import *
 from itertools import product
 import os
 import os.path as osp
@@ -23,4 +24,14 @@ def test_boxes () :
             b2 = pathBBox(pj.path) 
             assert(implies(b1 in b2, not b2 in b1))
             assert(implies(b1 in b2, not b2 in b1))
+
+def test_obbs () :
+    chdir = osp.split(osp.abspath(__file__))[0]
+    files = listdir(osp.join(chdir, 'data'))
+    data = list(map(SVGData, files))
+    for d in data : 
+        for box in d.obbs:
+            assert(box == box.translated(-1, -1).translated(1, 1))
+            assert(box == box.rotated(50).rotated(-50))
+
 

@@ -14,22 +14,19 @@ def test_svgdata() :
         'test',
         '--n_epochs',
         '100',
-        '--batch_size',
-        '2',
-        '--decay_start',
-        '0',
-        '--frequency',
-        '1',
         '--samplercls',
         'DiscriminativeSampler',
         '--modelcls',
-        'TwoBranch',
-        '--augmentation',
-        'multiaug',
+        'BBoxNet',
         '--loss', 
-        'cosineSimilarity',
+        'infoNCE',
     ])
+    import cProfile
+    pro = cProfile.Profile()
+    pro.enable()
     data = buildData(opts)
+    pro.disable()
+    pro.print_stats('cumtime')
     trainData, valData, trainDataLoader, valDataLoader, _ = data
     # confirm that dataloader works properly
     for _ in range(opts.n_epochs):  
@@ -96,3 +93,5 @@ def test_union_aug () :
         matplotlibFigureSaver(figure,
                 osp.join(chdir, 'out', f'aug-tree-{i}.png'))
     assert(True)
+
+test_svgdata()

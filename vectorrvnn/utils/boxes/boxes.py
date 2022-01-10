@@ -28,17 +28,20 @@ def pathAABB(doc, path) :
     newbox = BBox(box.x, y, box.X, Y, box.w, box.h)
     return newbox.translated(-0.5, -0.5).scaled(2)
 
+def shape2obb (shape) : 
+    rect = shape.minimum_rotated_rectangle.exterior.coords
+    return corners2canonical(rect)
+
 def pathOBB (doc, path) :
     """ 
     Get oriented bounding box for the path
     """
-    from vectorrvnn.geometry import equiDistantSamples
-    pts = np.array(equiDistantSamples(doc, path, 50, normalize=True))
+    from vectorrvnn.geometry import samples
+    pts = np.array(samples(doc, path, 50, normalize=True))
     pts = (pts - 0.5) * 2
-    pts += 0.002 * np.random.randn(*pts.shape)
+    pts += 0.002 * np.random.RandomState(0).randn(*pts.shape)
     ls = sg.LineString(list(zip(*pts)))
-    rect = ls.minimum_rotated_rectangle.exterior.coords
-    return corners2canonical(rect)
+    return shape2obb(ls)
 
 def getDocBBox (doc) :
     """
@@ -133,10 +136,10 @@ class BBox :
         )
 
     def __eq__ (self, that) : 
-        return self.x == that.x \
-                and self.X == that.X \
-                and self.y == that.y \
-                and self.Y == that.Y
+        return isclose(self.x, that.x) \
+                and isclose(self.X, that.X) \
+                and isclose(self.y, that.y) \
+                and isclose(self.Y, that.Y)
 
     def __mul__ (self, s) : 
         """ 
@@ -262,14 +265,17 @@ def corners2canonical (corners) :
     return OBB(box, center, rot)
 
 def canonical2corners (obb) :
+    from vectorrvnn.utils import argmin
     corners = np.array([
         [obb.x, obb.y],
         [obb.X, obb.y],
         [obb.X, obb.Y],
         [obb.x, obb.Y],
-        [obb.x, obb.y]
     ])
-    return obb.center + (corners @ obb.rot.T)
+    corners = obb.C + (corners @ obb.rot.T)
+    mi = argmin(corners.tolist())
+    corners = np.vstack((corners[mi:], corners[:(mi + 1)]))
+    return corners
 
 class OBB (BBox) :
 
@@ -278,17 +284,16 @@ class OBB (BBox) :
             box.x, box.y, box.X, 
             box.Y, box.w, box.h
         )
-        self.center = center
+        self.C = center
         self.rot = rot
 
     def center (self) : 
-        return complex(self.center[0], self.center[1])
+        return complex(self.C[0], self.C[1])
 
     def __eq__ (self, that) : 
-        boxeq = super(OBB, self).__eq__(that)
-        roteq = isclose(0, np.linalg.norm(self.rot - that.rot))
-        ceneq = isclose(0, np.linalg.norm(self.center - that.center))
-        return boxeq and roteq and ceneq
+        corner1 = canonical2corners(self)
+        corner2 = canonical2corners(that)
+        return isclose(0, np.linalg.norm(corner1 - corner2), 1e-4)
 
     def __or__ (self, that) : 
         """ Union of two boxes """
@@ -311,7 +316,7 @@ class OBB (BBox) :
     def tolist (self, alternate=False) : 
         boxlist = super(OBB, self).tolist(alternate)
         rotlist = np.ravel(self.rot).tolist()
-        cenlist = np.ravel(self.center).tolist()
+        cenlist = np.ravel(self.C).tolist()
         return [*boxlist, *rotlist, *cenlist]
 
     def __xor__ (self, that) : 
@@ -319,36 +324,32 @@ class OBB (BBox) :
         p1 = sg.Polygon(self.corners)
         p2 = sg.Polygon(that.corners)
         return p1.disjoint(p2)
-
+    
     def rotated (self, degree, pt=None) : 
         if pt is None:  
             pt = sg.Point(0, 0)
         else : 
             pt = sg.Point(pt.real, pt.imag)
         shape = sa.rotate(self.toShapely(), degree, origin=pt)
-        corners = shape.minimum_rotated_rectangle
-        return corners2canonical(corners)
+        return shape2obb(shape)
 
     def translated (self, tx, ty=0) : 
-        x, y, X, Y = sa.translate(self.toShapely(), tx, ty).bounds
-        return BBox(x, y, X, Y, X - x, Y - y)
+        shape = sa.translate(self.toShapely(), tx, ty)
+        return shape2obb(shape)
 
     def scaled (self, sx, sy=None, origin=sg.Point(0, 0)) : 
         if sy is None : 
             sy = sx
         shape = sa.scale(self.toShapely(), sx, sy, origin=origin)
-        corners = shape.minimum_rotated_rectangle
-        return corners2canonical(corners)
+        return shape2obb(shape)
 
     def skewX (self, xs) : 
         shape = sa.skew(self.toShapely(), xs=xs)
-        corners = shape.minimum_rotated_rectangle
-        return corners2canonical(corners)
+        return shape2obb(shape)
 
     def skewY (self, ys) : 
         shape = sa.skew(self.toShapely(), ys=ys)
-        corners = shape.minimum_rotated_rectangle
-        return corners2canonical(corners)
+        return shape2obb(shape)
 
     def toShapely (self) : 
-        return sg.Polygon(self.corners)
+        return sg.Polygon(canonical2corners(self))

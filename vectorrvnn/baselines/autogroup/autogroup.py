@@ -35,9 +35,9 @@ def _descriptorWeightFn (lst, mat, variance) :
 
 def dropExtraParents (graph) : 
     """ 
-    For each node that has more than one parent, keep the one
-    parent whose z-index < z-index of the node and whose 
-    z-index is the maximum among such nodes
+    For each node N that has more than one parent Pi, keep the one
+    parent whose z-index(Pi) < z-index(N) and whose 
+    z-index is the maximum among all Pj.
     """
     extra = [] 
     for i in graph.nodes : 

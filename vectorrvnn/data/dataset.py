@@ -1,6 +1,7 @@
 from vectorrvnn.utils import * 
 from .data import *
 import re
+import warnings
 
 class TripletDataset () : 
 
@@ -13,6 +14,7 @@ class TripletDataset () :
         files = listdir(datadir)
         svgFiles, treeFiles = [], []
         self.ids = []
+        ignored = 0
         for f in files : 
             exampleFiles = listdir(f)
             svgFile  = next(filter(
@@ -35,7 +37,10 @@ class TripletDataset () :
                 svgFiles.append(svgFile)
                 treeFiles.append(treeFile)
             else : 
-                print(f'Ignorning Id {id}')
+                ignored += 1
+
+        if ignored > 0 :
+            warnings.warn(f'Ignored {ignored} graphics')
 
         self.data = [SVGData(svgFile=sf, treePickle=tf) 
                 for sf, tf in zip(svgFiles, treeFiles)]

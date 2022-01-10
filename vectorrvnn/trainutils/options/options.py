@@ -171,6 +171,12 @@ class Options():
         learning rate schedule.
         """
         parser.add_argument(
+            '--optimcls',
+            type=str,
+            default='Adam',
+            help='optimizer to train the network'
+        )
+        parser.add_argument(
             '--decay_start', 
             type=int, 
             default=50, 
