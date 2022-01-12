@@ -258,3 +258,20 @@ def cnnEffectiveStride (cnn, input_shape, index) :
         stride = (symDiff / (2 * hyperplane)).item()
         strides.append(stride)
     return strides
+
+def toNumpyCPU(tens) :
+    return tens.detach().cpu().numpy()
+
+def lte (a, b) : 
+    """
+    Find number of instances when some
+    element in a is <= some element in b
+    """
+    a = a.view((1, -1))
+    b = b.view((-1, 1))
+    a = torch.repeat_interleave(a, b.size(0), 0)
+    return a <= b
+
+def clipGradients (model, max_grad_norm=None) : 
+    if self.max_grad_norm is not None:
+        nrm = nn.utils.clip_grad_norm_(model.parameters(), max_grad_norm)

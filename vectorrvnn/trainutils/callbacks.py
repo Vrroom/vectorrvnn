@@ -23,6 +23,51 @@ def closeWindow (api, name) :
     if api.win_exists(name) : 
         api.close(name)
 
+class LRCallBack (Callback) : 
+    """ Display all learning rates at each epoch """ 
+    def __init__ (self, opt, win="lr", server="localhost", 
+            port=8097, env="main", base_url="/") : 
+        super(LRCallBack, self).__init__()
+        self.opt = opt
+        self._api = visdom.Visdom(server=server, port=port, 
+            env=env, base_url=base_url)
+
+        self.win = win
+        closeWindow(self._api, self.win)
+
+        lrs = len(list(getAll(self.opt.state_dict(), 'lr')))
+        self.keys = list(range(lrs))
+        legend = self.keys
+        self._opts = {
+            "legend": legend,
+            "title" : self.win,
+            "xlabel": "epoch",
+        }
+        self._step = 0
+        self.frequency = frequency
+
+    def batch_end(self, batch, train_step_data):
+        super(LRCallBack, self).batch_end(batch, train_step_data)
+
+        if self._step % self.frequency != 0:
+            self._step += 1
+            return
+        self._step = 0
+
+        t = self.batch / max(self.datasize, 1) + self.epoch
+
+        data = np.array(list(getAll(self.opt.state_dict(), 'lr')))
+        data = np.expand_dims(data, 1)
+        self._api.line(
+            data, 
+            [t], 
+            update="append", 
+            win=self.win, 
+            opts=self._opts
+        )
+
+        self._step += 1
+
 class SchedulerCallback (Callback) : 
     """ Take a step of the lr schedular after each epoch end """
     def __init__ (self, sched) :
@@ -148,14 +193,14 @@ class DistanceHistogramCallback (Callback) :
 
     def batch_end (self, batch, step_data) : 
         super(DistanceHistogramCallback, self).batch_end(batch, step_data)
-        dplus = step_data['dplus'].view(-1).detach().cpu().numpy()
-        dminus = step_data['dminus'].view(-1).detach().cpu().numpy()
+        dplus = toNumpyCPU(step_data['dplus'].view(-1))
+        dminus = toNumpyCPU(step_data['dminus'].view(-1))
         self._plot_distribution(dplus, dminus, 'distance-train')
 
     def val_batch_end (self, batch, running_data)  :
         super(DistanceHistogramCallback, self).val_batch_end(batch, running_data)
-        dplus = running_data['dplus'].view(-1).detach().cpu().numpy()
-        dminus = running_data['dminus'].view(-1).detach().cpu().numpy()
+        dplus = toNumpyCPU(running_data['dplus'].view(-1))
+        dminus = toNumpyCPU(running_data['dminus'].view(-1))
         self._plot_distribution(dplus, dminus, 'distance-val')
 
 class BoundingBoxCallback (Callback) :
@@ -211,7 +256,7 @@ class OBBVis (BoundingBoxCallback) :
         else : 
             mask = mask.view(-1)
             obbs = batch[node]['obb'][mask][0]
-        obbs = obbs.detach().cpu().numpy()
+        obbs = toNumpyCPU(obbs)
         xs, ys = [], []
         for obb in obbs : 
             x, y, w, h = obb[:4]
@@ -242,7 +287,7 @@ class AABBVis (BoundingBoxCallback) :
         else : 
             mask = mask.view(-1)
             bbox = batch[node]['bbox'][mask][0]
-        bbox = bbox.view(-1).detach().cpu().numpy()
+        bbox = toNumpyCPU(bbox.view(-1))
         x, y, w, h = bbox
         df = pd.DataFrame(data=dict(
             x=[x, x, x + w, x + w, x],
@@ -258,6 +303,7 @@ class TreeEvalCallback (Callback) :
         self._api = visdom.Visdom(env=env)
         for win in wins : 
             closeWindow(self._api, win)
+        self.opts = opts
         self.wins = wins
         self.model = model
         self.data = [d for d in data if d.nPaths < opts.max_len]
@@ -269,6 +315,124 @@ class TreeEvalCallback (Callback) :
         super(TreeEvalCallback, self).validation_start(dataloader)
         self.trees = list(map(self.model.greedyTree, self.data))
         self.eval_trees(self.trees) 
+
+
+def siblingVRandomSimilarity(model, sim_criteria, trees, ks) : 
+    """
+    Compute the percentage of times that some random path set is
+    closer to a queried node than one of its siblings. 
+
+    The similarity/distance determines grouping order. Here we 
+    check whether a random path set can group with a node before
+    some of its siblings. 
+
+    We average percentages over the all the trees. The list ks 
+    gives the sizes of the random pathsets.
+    """
+    K = len(ks)
+    success = np.zeros(K)
+    for T in trees :
+        s, a = np.zeros(K), np.zeros(K)
+        ws = [[] for _ in range(K)]
+        ps = tuple(leaves(T))
+        # evaluate some random pathsets for each k
+        for i, k in enumerate(ks) : 
+            for _ in range(20) :
+                rps = tuple(rng.sample(ps, k=min(T.nPaths, k)))
+                w = model.pathSetEmbedding(T, rps) 
+                ws[i].append(w)
+        # compare them against siblings for each node
+        for n in T.nodes :
+            v = model.nodeEmbedding(T, n)
+            sims = []
+            for m in siblings(T, n) :
+                w = model.nodeEmbedding(T, m)
+                sims.append(sim_criteria(v, w).item())
+            # if node is parent, it won't have siblings
+            if len(sims) == 0:
+                continue
+            sim = max(sims) # farthest sibling
+            for i in range(K): 
+                for w in ws[i] :
+                    # check if there is a random node that is closer than the closest sibling. 
+                    if sim_criteria(v, w).item() < sim : 
+                        s[i] += 1
+                    a[i] += 1
+        success += (s / (a + 1e-5));
+    return success / len(trees)
+
+def siblingVRestSimilarity (model, sim_criteria, trees) : 
+    """ 
+    Compute the percentage of instances where some node
+    in the tree (not a sibling/parent/child of a queried 
+    node) is closer to the queried node than some of its 
+    siblings. 
+    """
+    score = 0
+    for T in trees: 
+        s, a = 0, 0
+        for n in T.nodes : 
+            v = model.nodeEmbedding(T, n)
+            sims = []
+            for m in siblings(T, n) : 
+                w = model.nodeEmbedding(T, m) 
+                sims.append(sim_criteria(v, w).item())
+            if len(sims) == 0 : 
+                continue
+            sim = max(sims) # farthest sibling
+            for m in T.nodes : 
+                if distanceInTree(T, n, m) > 1 and m not in siblings(T, n): 
+                    w = model.nodeEmbedding(T, m)
+                    if sim_criteria(v, w).item() < sim : 
+                        s += 1
+                    a += 1
+        score += (s / (a + 1e-5))
+    return score / len(trees)
+
+class SiblingEmbeddingsCallback (TreeEvalCallback) : 
+    """ Check how sibling embeddings compare to randomly sampled groups and
+    to other nodes in a tree. """ 
+
+    def  __init__ (self, model, data, opts, env="main") :
+        super(SiblingEmbeddingsCallback, self).__init__( 
+            model, data, opts, env=env, wins=["sib"])
+        self.opts = dict( 
+            title="% Siblings are closer",
+            ylabel="%", 
+            xlabel="epoch"
+        )
+        self.sim_criteria = globals()[opts.sim_criteria]
+
+    def eval_trees (self, trees) :
+        t = self.epoch + 1
+        score = siblingVRandomSimilarity(
+            self.model, 
+            self.sim_criteria, 
+            self.data, 
+            [2, 3, 4]
+        ).tolist()
+        for i, s in enumerate(score): 
+            self._api.line(
+                [s], 
+                [t], 
+                win=self.wins[0], 
+                update="append", 
+                name=f'random={i}',
+                opts=self.opts
+            )
+        s = siblingVRestSimilarity(
+            self.model,
+            self.sim_criteria,
+            self.data
+        )
+        self._api.line( 
+            [s],
+            [t],
+            win=self.wins[0],
+            update="append", 
+            name=f'rest',
+            opts=self.opts
+        )
 
 class NodeOverlapCallback (TreeEvalCallback) :
     """ Measure node overlap on PublicDomainVectors """ 

@@ -3,7 +3,7 @@ from .data import *
 import re
 import warnings
 
-class TripletDataset () : 
+class SVGDataset () : 
 
     def __init__ (self, datadir, idsToAvoid=[]) : 
         """

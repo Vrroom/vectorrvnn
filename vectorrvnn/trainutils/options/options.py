@@ -236,6 +236,12 @@ class Options():
             help='Class to use to sample triplets'
         )
         parser.add_argument(
+            '--dataloadercls',
+            type=str,
+            default='TripletDataLoader',
+            help='Custom data loader class'
+        )
+        parser.add_argument(
             '--batch_size', 
             type=int, 
             default=32, 

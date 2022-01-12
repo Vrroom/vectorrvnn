@@ -68,8 +68,8 @@ def ted (t1, t2, matching=False) :
     def matchMatrix () :
         topMatches = list(filter(lambda p: v.loc[p[0], p[1]].varValue == 1, product(t1.nodes, t2.nodes)))
         mPairs = []
-        t1Map = dict(map(reversed, enumerate(t1.nodes)))
-        t2Map = dict(map(reversed, enumerate(t2.nodes)))
+        t1Map = serialMapping(t1.nodes)
+        t2Map = serialMapping(t2.nodes)
         while len(topMatches) > 0 :
             p = topMatches.pop()
             mPairs.append(p)
@@ -285,8 +285,8 @@ def cted (t1, t2, matching=False):
         return minCost, best
 
     def matchMatrix () :
-        t1Map = dict(map(reversed, enumerate(t1.nodes)))
-        t2Map = dict(map(reversed, enumerate(t2.nodes)))
+        t1Map = serialMapping(t1.nodes)
+        t2Map = serialMapping(t2.nodes)
         n, m = len(t1.nodes), len(t2.nodes)
         mm = np.zeros((n, m), dtype=int)
         for ti, tj in matches:

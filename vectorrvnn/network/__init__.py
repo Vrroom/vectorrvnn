@@ -7,4 +7,5 @@ from .PENet import *
 from .PositionalEncoding import *
 from .RoIAlignNet import *
 from .ThreeBranch import *
+from .EmbeddingBase import *
 from .TripletBase import *

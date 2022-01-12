@@ -6,6 +6,10 @@ import numpy as np
 from copy import deepcopy
 from vectorrvnn.utils import argmax
 
+def serialMapping (x) : 
+    """ Return a new mapping for x in serial order """
+    return dict(map(reversed, enumerate(x)))
+
 def treeUnion (t1, t2) : 
     """
     Take the union of two trees.
