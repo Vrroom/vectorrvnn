@@ -218,6 +218,12 @@ class Options():
             help='total number of epochs'
         )
         parser.add_argument(
+            '--n_random_samples',
+            type=int,
+            default=2,
+            help='number of random pathsets to use as negatives'
+        )
+        parser.add_argument(
             '--train_epoch_length',
             type=int,
             default=25600,

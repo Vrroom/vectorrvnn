@@ -1,6 +1,7 @@
 import torch
 import torch.nn.functional as F
 from torch import nn
+from torch import optim
 from vectorrvnn.utils import *
 from vectorrvnn.data import *
 from vectorrvnn.trainutils import *
@@ -68,6 +69,7 @@ class Interface (ttools.ModelInterface) :
         )
 
     def training_step(self, batch) :
+        self.model.train()
         self.opt.zero_grad()
         ret = self.model(**batch)
         ret['loss'].backward()
@@ -167,7 +169,7 @@ def buildDataLoader (trainData, valData, opts) :
             val=True
         )
     )
-    return trainDataLoader, val_dataloader
+    return trainDataLoader, valDataLoader
 
 def buildData (opts) : 
     dataDirs = getDataSplits(opts)
@@ -185,7 +187,6 @@ def setSeed (opts) :
 def addGenericCallbacks(trainer, model, data, opts) : 
     keys = ["loss", "hardpct"]
     _, valData, trainDataLoader, _, _ = data
-    trainer.add_callback(LRCallBack(trainer.opt))
     trainer.add_callback(SchedulerCallback(trainer.interface.sched))
     checkpointer = ttools.Checkpointer(
         osp.join(opts.checkpoints_dir, opts.name),
@@ -194,6 +195,12 @@ def addGenericCallbacks(trainer, model, data, opts) :
     trainer.add_callback(CheckpointingCallback(checkpointer))
     trainer.add_callback(
         ProgressBarCallback(keys=keys, val_keys=keys[:1])
+    )
+    trainer.add_callback(
+        LRCallBack(
+            trainer.interface.opt,
+            env=opts.name + "_lr"
+        )
     )
     trainer.add_callback(
         VisdomLoggingCallback(

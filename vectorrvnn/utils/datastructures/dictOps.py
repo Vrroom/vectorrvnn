@@ -43,7 +43,7 @@ def deepKeys (dictionary) :
 def deepGet (dictionary, deepKey) : 
     """ get key in a dict of dicts """
     v = dictionary[deepKey[0]] 
-    if isinstance(v, dict) : 
+    if isinstance(v, dict) and len(deepKey) > 1: 
         return deepGet(v, deepKey[1:])
     else : 
         return v

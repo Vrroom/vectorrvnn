@@ -25,7 +25,7 @@ def closeWindow (api, name) :
 
 class LRCallBack (Callback) : 
     """ Display all learning rates at each epoch """ 
-    def __init__ (self, opt, win="lr", server="localhost", 
+    def __init__ (self, opt, frequency=100, win="lr", server="localhost", 
             port=8097, env="main", base_url="/") : 
         super(LRCallBack, self).__init__()
         self.opt = opt
@@ -218,9 +218,9 @@ class BoundingBoxCallback (Callback) :
         raise NotImplementedError
 
     def plot_bbox (self, batch, mask) : 
-        refBox   = self.bbox_df(batch[0], mask, 'ref')
-        plusBox  = self.bbox_df(batch[0], mask, 'plus')
-        minusBox = self.bbox_df(batch[0], mask, 'minus')
+        refBox   = self.bbox_df(batch, mask, 'ref')
+        plusBox  = self.bbox_df(batch, mask, 'plus')
+        minusBox = self.bbox_df(batch, mask, 'minus')
         df = pd.concat((refBox, plusBox, minusBox))
         fig = px.line(
             df, 
@@ -252,10 +252,10 @@ class OBBVis (BoundingBoxCallback) :
 
     def bbox_df (self, batch, mask, node) : 
         if mask is None : 
-            obbs = batch[node]['obb'][0]
+            obbs = batch[node][0]['obb'][0]
         else : 
             mask = mask.view(-1)
-            obbs = batch[node]['obb'][mask][0]
+            obbs = batch[node][0]['obb'][mask][0]
         obbs = toNumpyCPU(obbs)
         xs, ys = [], []
         for obb in obbs : 
@@ -283,10 +283,10 @@ class AABBVis (BoundingBoxCallback) :
 
     def bbox_df (self, batch, mask, node) : 
         if mask is None : 
-            bbox = batch[node]['bbox'][0]
+            bbox = batch[node][0]['bbox'][0]
         else : 
             mask = mask.view(-1)
-            bbox = batch[node]['bbox'][mask][0]
+            bbox = batch[node][0]['bbox'][mask][0]
         bbox = toNumpyCPU(bbox.view(-1))
         x, y, w, h = bbox
         df = pd.DataFrame(data=dict(

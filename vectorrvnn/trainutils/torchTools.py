@@ -273,5 +273,5 @@ def lte (a, b) :
     return a <= b
 
 def clipGradients (model, max_grad_norm=None) : 
-    if self.max_grad_norm is not None:
+    if max_grad_norm is not None:
         nrm = nn.utils.clip_grad_norm_(model.parameters(), max_grad_norm)

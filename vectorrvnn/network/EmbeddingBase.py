@@ -48,7 +48,7 @@ class EmbeddingBase (nn.Module) :
     def forward (self, batch, **kwargs) : 
         es = []
         for block in batch : 
-            self.embedding(**block)
+            es.append(self.embedding(block))
         return torch.cat(es, 0)
 
     def greedyTree (self, t, subtrees=None) : 
@@ -136,7 +136,7 @@ class EmbeddingBase (nn.Module) :
         for p, x in zip(parents, siblingSets):  
             trees[p] = nx.DiGraph(self.greedyTree(t, subtrees=x))
             newLabels = serialMapping(x)
-            trees[p] = nx.relabel_nodes(trees[p], newLabels))
+            trees[p] = nx.relabel_nodes(trees[p], newLabels)
 
         nestedArray = containmentMerge(n, containmentGraph, trees)[1]
         cpy = deepcopy(t)

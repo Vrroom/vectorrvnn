@@ -45,7 +45,7 @@ class ContrastiveDataLoader () :
                     lambda t : t.to(self.opts.device)
                 )
                 batch.append(data)
-            return batch
+            return aggregateDict(batch, list, [('nodes',), ('ps',), ('ms',)])
 
     def reset (self) : 
         self.i = 0

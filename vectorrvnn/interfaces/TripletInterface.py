@@ -1,4 +1,4 @@
-from .helpers import *
+from vectorrvnn.interfaces.helpers import *
 
 def addCallbacks (trainer, model, data, opts) : 
     addGenericCallbacks(trainer, model, data, opts)

@@ -45,11 +45,9 @@ class ContrastiveBase (EmbeddingBase) :
             hardpct=hardpct
         )
 
-    def forward (self, batch, **kwargs) : 
+    def forward (self, nodes, ps, ms, **kwargs) : 
         sforward = super(ContrastiveBase, self).forward
-        es = sforward(batch['nodes'])
-        ps = batch['ps']
-        ms = batch['ms']
+        es = sforward(nodes)
         lossFn = getattr(self, self.opts.loss)
         return lossFn(es, ps, ms, **kwargs)
         
