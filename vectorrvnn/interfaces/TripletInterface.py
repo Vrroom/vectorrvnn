@@ -16,6 +16,20 @@ def addCallbacks (trainer, model, data, opts) :
             frequency=opts.frequency
         )
     )
+    trainer.add_callback(
+        AABBVis(
+            frequency=opts.frequency,
+            env=opts.name + "_vis",
+            win='aabb'
+        )
+    )
+    trainer.add_callback(
+        OBBVis(
+            frequency=opts.frequency,
+            env=opts.name + "_vis",
+            win='obb'
+        )
+    )
 
 if __name__ == "__main__" : 
     opts = Options().parse()

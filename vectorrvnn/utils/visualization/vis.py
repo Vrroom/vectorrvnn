@@ -45,7 +45,7 @@ def treeVisAsDirectory (G, threadLocal=False) :
     for n, pos in zip(G_.nodes, positions) : 
         i, j = pos
         subsetDoc = subsetSvg(doc, G_.nodes[n]['pathSet'])
-        setDocBBox(subsetDoc, G_.nodes[n]['bbox'].normalized() * 1.2)
+        setDocBBox(subsetDoc, union(G_.bbox).normalized() * 1.2)
         raster = rasterize(subsetDoc, raster_size, raster_size, threadLocal)
         sI, sJ = i * raster_size, j * raster_size
         canvas[sI:sI + raster_size, sJ:sJ + raster_size, :] = raster

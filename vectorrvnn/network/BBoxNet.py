@@ -4,8 +4,9 @@ from torch.nn import functional as F
 from vectorrvnn.utils import *
 from vectorrvnn.trainutils import *
 from .TripletBase import TripletBase
+from .ContrastiveBase import ContrastiveBase
 
-class BBoxNet (TripletBase) : 
+class BBoxNet (ContrastiveBase) : 
     def __init__(self, opts):  
         super(BBoxNet, self).__init__(opts)
         self.net = fcn(opts, 4, opts.embedding_size)
@@ -16,9 +17,8 @@ class BBoxNet (TripletBase) :
 
     @classmethod
     def nodeFeatures(cls, t, ps, opts) : 
-        data = dict()
-        data['tree'] = t
-        data['pathSet'] = ps
+        data_ = super(BBoxNet, cls).nodeFeatures(t, ps, opts)
         bbox = pathsetBox(t, ps)
+        data = dict()
         data['bbox'] = torch.tensor(bbox.tolist()).float()
-        return data
+        return {**data, **data_}

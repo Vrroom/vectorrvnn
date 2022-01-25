@@ -5,8 +5,8 @@ from torch.optim.swa_utils import *
 from datetime import datetime
 from sklearn import metrics
 from functools import partial
-from itertools import starmap
-from more_itertools import unzip, flatten
+from itertools import starmap, count
+from more_itertools import unzip, flatten, take
 from vectorrvnn.utils import *
 from .torchTools import * 
 import numpy as np
@@ -127,9 +127,7 @@ class HardTripletCallback (ImageDisplayCallback) :
                     100,
                     100
                 ))
-        im = alphaComposite(np.vstack(ims))
-        im = torch.from_numpy(im)
-        im = torch.permute(im, (2, 0, 1))
+        im = toTorchImage(np.vstack(ims))
         return im
 
     def visualized_image (self, batch, step_data, is_val) : 
@@ -203,6 +201,53 @@ class DistanceHistogramCallback (Callback) :
         dminus = toNumpyCPU(running_data['dminus'].view(-1))
         self._plot_distribution(dplus, dminus, 'distance-val')
 
+class VisContrastiveExample (Callback) : 
+    
+    def __init__ (self, opts, frequency=100, server="http://localhost", 
+            port=8097, env="main", base_url="/") : 
+        super(VisContrastiveExample, self).__init__()
+        self._api = visdom.Visdom(server=server, port=port, 
+            env=env, base_url=base_url)
+        closeWindow(self._api, 'ref')
+        closeWindow(self._api, 'plus')
+        closeWindow(self._api, 'minus')
+        self._tstep = 1
+        self.frequency = frequency
+        self.opts = opts
+
+    def show_image(self, nodes, lst, win) : 
+        trees = list(flatten([n['tree'] for n in nodes]))
+        pss = [n['pathSet'] for n in nodes]
+        ims = []
+        for i in lst: 
+            im = toTorchImage(rasterize(
+                subsetSvg(trees[i].doc, pss[i][0]),
+                100, 
+                100
+            ))
+            ims.append(im)
+        self._api.images(torch.stack(ims), win=win, opts=dict(caption=win))
+
+    def batch_end (self, batch, step_data) : 
+        super(VisContrastiveExample, self).batch_end(batch, step_data)
+        if self._tstep % self.frequency != 0:
+            self._tstep += 1
+            return
+        self._tstep = 1
+        for i in count(0) : 
+            msz = min(batch['ps'][i].size(0), batch['ms'][i].size(0))
+            if msz > 0 : break
+        try : 
+            nodes = batch['nodes']
+            ref = nodes[i]
+            ps = toNumpyCPU(batch['ps'][i])
+            ms = toNumpyCPU(batch['ms'][i])
+            self.show_image(nodes, [i], 'ref')
+            self.show_image(nodes, ps, 'plus')
+            self.show_image(nodes, ms, 'minus')
+        except Exception : 
+            pass
+
 class BoundingBoxCallback (Callback) :
     def __init__ (self, frequency=100, env="main", win='bboxes') :
         super(BoundingBoxCallback, self).__init__()
@@ -226,7 +271,7 @@ class BoundingBoxCallback (Callback) :
             df, 
             x="x", 
             y="y",
-            color="nodeType",
+            color="nodetype",
             title=self.win
         )
         fig.update_xaxes(range=[-1, 1])
@@ -313,9 +358,50 @@ class TreeEvalCallback (Callback) :
 
     def validation_start(self, dataloader) :
         super(TreeEvalCallback, self).validation_start(dataloader)
+        self.model.eval()
         self.trees = list(map(self.model.greedyTree, self.data))
         self.eval_trees(self.trees) 
 
+class VisHardestCallback (TreeEvalCallback) : 
+    """ 
+    Sample some trees and visualize the instances where 
+    greedy tree strategy will fail.
+    """ 
+    def  __init__ (self, model, data, opts, env="main") :
+        super(VisHardestCallback, self).__init__( 
+            model, data, opts, env=env, wins=["hardest"])
+
+    def eval_trees (self, trees) : 
+        samples = rng.sample(self.data, min(len(self.data), 20))
+        hard = [] 
+        for T in samples :
+            X = [self.model.nodeEmbedding(T, n) for n in T.nodes]
+            X = unitNorm(torch.cat(X, 0))
+            sims = X @ X.t()
+            revMap = dict(zip(T.nodes, range(T.number_of_nodes())))
+            seen = set()
+            for i, n in enumerate(T.nodes) : 
+                sibs = [revMap[s] for s in siblings(T, n)]
+                if len(sibs) == 0 : continue
+                score = sims[i, sibs].min()
+                for m in (T.nodes - (siblings(T, n) | {n})) :
+                    s = sims[i, revMap[m]]
+                    if s > score and (n, m) not in seen: 
+                        seen.add((n, m))
+                        seen.add((m, n))
+                        hard.append((s, n, m, T))
+        hard.sort()
+        hard = list(reversed(hard))
+        ims = []
+        for (s, n, m, T) in hard[:100] : 
+            ps1 = T.nodes[n]['pathSet']
+            ps2 = T.nodes[m]['pathSet']
+            im0 = toTorchImage(rasterize(T.doc, 100, 100))
+            im1 = toTorchImage(rasterize(subsetSvg(T.doc, ps1), 100, 100))
+            im2 = toTorchImage(rasterize(subsetSvg(T.doc, ps2), 100, 100))
+            ims.extend([im0, im1, im2])
+        im = torch.stack(ims)
+        self._api.images(im, nrow=3, win=self.wins[0])
 
 def siblingVRandomSimilarity(model, sim_criteria, trees, ks) : 
     """

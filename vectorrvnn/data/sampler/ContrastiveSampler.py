@@ -15,7 +15,6 @@ class ContrastiveSampler (Sampler):
     def getSample (self) : 
         bs = self.opts.batch_size
         ts, ms, ps = [], [], []
-        # TODO: Add this to options
         rs = self.opts.n_random_samples
         # easy way to shuffle data without deep copying
         ids = list(range(len(self.svgdatas)))
@@ -23,25 +22,27 @@ class ContrastiveSampler (Sampler):
         for i in ids : 
             total = len(ts) 
             if total > bs : break
-            T = self.svgdatas[i]
-            ps  = list(range(T.nPaths))
+            T = self.transform(deepcopy(self.svgdatas[i]), self.svgdatas)
+            pathSet = list(range(T.nPaths))
             # Add the random samples for negatives. 
             # TODO make size of random pathset a command line arg.
             for i in range(rs) : 
-                rps = self.rng.sample(ps, k=min(len(ps), 3))
-                ts.append((T, ps))
+                rps = self.rng.sample(pathSet, k=min(T.nPaths, 3))
+                ts.append((T, rps))
                 ms.append([])
                 ps.append([])
 
-            for n in sorted(T.nodes) : 
-                if n == findRoot(T) : continue
+            root = findRoot(T)
+            nonRoot = sorted(T.nodes - {root})
+            newIdx = dict(zip(nonRoot, range(total + rs, total + rs + len(nonRoot))))
+            for n in nonRoot : 
                 ts.append((T, T.nodes[n]['pathSet']))
                 S = siblings(T, n)
-                p = [total + rs + _ for _ in S]
-                m = [total + rs + _ for _ in (T.nodes - S)] 
-                m += [total + i for i in range(rs)]
-                ps = [_ for _ in ps if _ < bs]
-                ms = [_ for _ in ps if _ < bs]
+                p = [newIdx[_] for _ in S]
+                m = [newIdx[_] for _ in (T.nodes - (S | {n, root}))] 
+                m += list(range(total, total + rs))
+                p = [_ for _ in p if _ < bs]
+                m = [_ for _ in m if _ < bs]
                 ps.append(p)
                 ms.append(m)
 

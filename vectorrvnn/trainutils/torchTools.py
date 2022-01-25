@@ -7,6 +7,7 @@ import numpy as np
 from torchvision.models import *
 from .initializer import getInitializer
 from torchvision.ops import *
+from vectorrvnn.utils import *
 
 def clones(module, N) :
     copies = [deepcopy(module) for _ in range(N)]
@@ -275,3 +276,9 @@ def lte (a, b) :
 def clipGradients (model, max_grad_norm=None) : 
     if max_grad_norm is not None:
         nrm = nn.utils.clip_grad_norm_(model.parameters(), max_grad_norm)
+
+def toTorchImage (im) : 
+    """ convert a raster into a torch image for visdom """
+    im = torch.permute(torch.from_numpy(im), (2, 0, 1))
+    im = alphaComposite(im, module=torch)
+    return im

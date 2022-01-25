@@ -59,8 +59,8 @@ class EmbeddingBase (nn.Module) :
             if pathBBoxTooSmall(box1) or pathBBoxTooSmall(box2) : 
                 return torch.tensor(np.inf).to(self.opts.device)
             return self.sim_criteria(
-                self.pathSetEmbedding(t, ps1), 
-                self.pathSetEmbedding(t, ps2)
+                unitNorm(self.pathSetEmbedding(t, ps1)),
+                unitNorm(self.pathSetEmbedding(t, ps2))
             )
 
         if subtrees is None : 
@@ -147,10 +147,12 @@ class EmbeddingBase (nn.Module) :
     def nodeFeatures(cls, t, ps, opts) : 
         """ 
         The output should be a deep dict. See `dictOps.py`
-        for what a deep dict is. The only permissible values in the 
-        deep dict are np.ndarrays.
+        for what a deep dict is. 
         """
-        raise NotImplementedError
+        data = dict()
+        data['tree'] = t
+        data['pathSet'] = sorted(ps)
+        return data 
 
     def nodeEmbedding(self, T, n) :
         ps = tuple(T.nodes[n]['pathSet'])

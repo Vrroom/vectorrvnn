@@ -11,6 +11,7 @@ import numpy as np
 from vectorrvnn.utils import *
 from vectorrvnn.trainutils import *
 from .TripletBase import TripletBase
+from .ContrastiveBase import ContrastiveBase
 
 class Encoder (nn.Module) : 
 
@@ -48,14 +49,14 @@ class EncoderLayer (nn.Module) :
         x = self.sublayer[1](x, self.ff)
         return x
 
-class OBBNet (TripletBase) : 
+class OBBNet (ContrastiveBase) : 
 
     def __init__ (self, opts) :
         super(OBBNet, self).__init__(opts) 
         c = deepcopy
         attn = nn.MultiheadAttention(opts.embedding_size, opts.heads, opts.dropout)
         ff = fcn(opts, opts.embedding_size, opts.embedding_size)
-        self.embedder =  nn.Linear(10, opts.embedding_size)
+        self.embedder =  nn.Linear(16, opts.embedding_size)
         self.encoder = Encoder(
             EncoderLayer(
                 opts.embedding_size, 
@@ -68,18 +69,24 @@ class OBBNet (TripletBase) :
         self.apply(getInitializer(opts))
 
     def embedding (self, node, **kwargs) : 
-        obb = node['obb']   
-        f = self.embedder(obb)
+        obb, fill, stroke = node['obb'], node['fill'], node['stroke']
+        f = torch.cat((obb, fill, stroke), 2)
+        f = self.embedder(f)
         f = self.encoder(f)
         f = f.mean(1)
         return f
 
     @classmethod 
     def nodeFeatures (cls, t, ps, opts): 
-        data = dict()
-        data['tree'] = t
-        data['pathSet'] = ps
-        obbs = [t.obbs[i].tolist() for i in ps]
-        data['obb'] = torch.tensor(obbs).float()
-        return data
+        data_ = super(OBBNet, cls).nodeFeatures(t, ps, opts)
+        obbs    = np.array([t.obbs[i].tolist() for i in ps])
+        fills   = np.array([t.fills[i] for i in ps])
+        strokes = np.array([t.strokes[i] for i in ps])
+        data = dict(
+            obb=obbs,
+            fill=fills,
+            stroke=strokes
+        )
+        tensorApply(data, lambda x : torch.tensor(x).float(), module=np)
+        return { **data, **data_ }
 

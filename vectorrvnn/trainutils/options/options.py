@@ -319,8 +319,16 @@ class Options():
                 'hardMaxMargin', 
                 'hardTriplet', 
                 'infoNCE',
+                'supCon',
+                'structuredHinge'
             ],
             help='loss function for training'
+        )
+        parser.add_argument(
+            '--kappa',
+            type=float,
+            default=0.05,
+            help='weight factor structured margin'
         )
         parser.add_argument(
             '--hard_threshold',

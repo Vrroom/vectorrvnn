@@ -125,11 +125,11 @@ class GraphicCompose (SVGDataTransform) :
         return box1, box2
     
     def _bbox (self, pt) :
-        box = pt.nodes[findRoot(pt)]['bbox']
+        return union(pt.bbox)
         return box
 
     def _fitInBox (self, pt, box) : 
-        graphicBox = pt.nodes[findRoot(pt)]['bbox']
+        graphicBox = union(pt.bbox)
         center = graphicBox.center()
         pt = translate(pt, -center.real, -center.imag)
         s = box.w / graphicBox.w
@@ -139,7 +139,7 @@ class GraphicCompose (SVGDataTransform) :
 
     def transform (self, svgdata, *args) : 
         other = deepcopy(rng.choice(list(args[0])))
-        box1, box2 = self._bbox(svgdata), self._bbox(other)
+        box1, box2 = union(svgdata.bbox), union(other.bbox)
         box1, box2 = self.sample(box1, box2)
         svgdata = self._fitInBox(svgdata, box1)
         other   = self._fitInBox(other, box2)
@@ -152,8 +152,13 @@ class Rotate (SVGDataTransform) :
         self.degreeRange = degreeRange
 
     def transform (self, svgdata, *args) : 
-        rootNode = svgdata.nodes[findRoot(svgdata)]
-        center = rootNode['bbox'].center()
+        center = union(svgdata.bbox).center()
         degree = rng.randint(*self.degreeRange)
         rotate(svgdata, degree, center)
+        return svgdata
+
+class RandomBinarize (SVGDataTransform) : 
+    """ Randomly binarizes tree """
+    def transform (self, svgdata, *args) :  
+        svgdata.initTree(randomBinaryTree(svgdata))
         return svgdata

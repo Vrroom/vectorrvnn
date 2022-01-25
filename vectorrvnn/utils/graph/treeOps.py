@@ -6,6 +6,33 @@ import numpy as np
 from copy import deepcopy
 from vectorrvnn.utils import argmax
 
+def randomBinaryTree (T) :
+    """ Sample a random binary tree consistent with this tree """
+    from vectorrvnn.utils import rng
+    def rBP(p) :
+        if isinstance(p, int) : return p
+        elif len(p) == 2 : return (rBP(p[0]), rBP(p[1]))
+        else :
+            sz = rng.randint(1, len(p) - 1)
+            p_ = list(p)
+            rng.shuffle(p_)
+            p_ = tuple(p_)
+            if sz == 1 :
+                A = p_[0]
+                B = p_[1:] 
+            elif sz == len(p) - 1 :
+                A = p_[:-1] 
+                B = p_[-1]
+            else : 
+                A = p_[:sz]
+                B = p_[sz:]
+            return (rBP(A), rBP(B))
+
+    L = leaves(T)
+    identity = dict(zip(L, L))
+    p = tree2parentheses(T, identity)
+    return parentheses2tree(rBP(p))
+
 def serialMapping (x) : 
     """ Return a new mapping for x in serial order """
     return dict(map(reversed, enumerate(x)))

@@ -56,7 +56,7 @@ class Interface (ttools.ModelInterface) :
         self.opt = optimcls(
             trainedParams, 
             lr=opts.lr, 
-            weight_decay=opts.wd
+            # TODO: Revert weight_decay=opts.wd
         )
         self.sched = getScheduler(self.opt, opts)
         self.init = deepcopy(self.model.state_dict())
@@ -68,13 +68,19 @@ class Interface (ttools.ModelInterface) :
             hardpct=movingAvg
         )
 
+
     def training_step(self, batch) :
+        def closure () :
+            # TODO : Experimenting with LBFGS.
+            ret = self.model(**batch)
+            return ret['loss']
+
         self.model.train()
         self.opt.zero_grad()
         ret = self.model(**batch)
         ret['loss'].backward()
-        clipGradients(self.model, self.max_grad_norm)
-        self.opt.step()
+        #clipGradients(self.model, self.max_grad_norm)
+        self.opt.step(closure)
         tensorApply(
             ret, 
             lambda t : t.item(), 
@@ -166,6 +172,7 @@ def buildDataLoader (trainData, valData, opts) :
             valData,
             opts.val_epoch_length,
             opts,
+            transform=getGraphicAugmentation(opts),
             val=True
         )
     )
@@ -235,25 +242,19 @@ def addGenericCallbacks(trainer, model, data, opts) :
         )
     )
     trainer.add_callback(
+        VisHardestCallback(
+            model,
+            valData, 
+            opts,
+            env=opts.name + "_hardest"
+        )
+    )
+    trainer.add_callback(
         NodeOverlapCallback(
             model, 
             nodeOverlapData(opts),
             opts, 
             env=opts.name + "_no"
-        )
-    )
-    trainer.add_callback(
-        AABBVis(
-            frequency=opts.frequency,
-            env=opts.name + "_vis",
-            win='aabb'
-        )
-    )
-    trainer.add_callback(
-        OBBVis(
-            frequency=opts.frequency,
-            env=opts.name + "_vis",
-            win='obb'
         )
     )
     trainer.add_callback(

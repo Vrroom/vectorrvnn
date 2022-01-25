@@ -3,10 +3,11 @@ from torch import nn
 from torch.nn import functional as F
 from vectorrvnn.utils import *
 from vectorrvnn.trainutils import *
+from .ContrastiveBase import ContrastiveBase
 from .TripletBase import TripletBase
 from .RoIAlignNet import * 
 
-class ThreeBranch (TripletBase) : 
+class ThreeBranch (ContrastiveBase) : 
     def __init__(self, opts):  
         super(ThreeBranch, self).__init__(opts)
         self.bbox = fcn(opts, 4, opts.embedding_size)
@@ -27,6 +28,7 @@ class ThreeBranch (TripletBase) :
 
     @classmethod
     def nodeFeatures(cls, t, ps, opts) : 
+        data_ = super(ThreeBranch, cls).nodeFeatures(t, ps, opts)
         bbox = pathsetBox(t, ps)
         docbox = getDocBBox(t.doc)
         data = dict(
@@ -50,5 +52,5 @@ class ThreeBranch (TripletBase) :
         )
         data['bbox'] = torch.tensor(bbox.tolist()).float()
         data['bbox_'] = torch.tensor(bbox.tolist(alternate=True)).float()
-        return data
+        return { **data, **data_ } 
 

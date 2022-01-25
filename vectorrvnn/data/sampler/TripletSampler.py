@@ -4,7 +4,7 @@ from functools import partial
 from copy import deepcopy 
 from .Sampler import *
 
-class DiscriminativeSampler (Sampler):  
+class TripletSampler (Sampler):  
     """ ref and plus must be closer to each other than to minus """ 
 
     def getSample(self) : 

@@ -72,7 +72,7 @@ def intersection (boxes) :
 
 def pathsetBox (t, ps) : 
     """ Compute the bounding box for a set of paths """
-    return union([t.nodes[i]['bbox'] for i in ps])
+    return union([t.bbox[i] for i in ps])
 
 def isclose(x, y, atol=1e-8, rtol=1e-5):
     """ 

@@ -9,7 +9,7 @@ class ContrastiveBase (EmbeddingBase) :
     def __init__ (self, opts) : 
         super(ContrastiveBase, self).__init__(opts)
 
-    def supConLoss (self, es, ps, ms, **kwargs) : 
+    def supCon (self, es, ps, ms, **kwargs) : 
         """ 
         Implementation of a contrastive loss from: 
             Supervised Contrastive Learning
@@ -25,12 +25,13 @@ class ContrastiveBase (EmbeddingBase) :
         loss, hardpct = 0, 0
         dplus, dminus = [], []
         for i, (p, m) in enumerate(zip(ps, ms)) : 
+            msz = min(p.size(0), m.size(0))
+            if msz == 0 : continue
             p_, m_ = sims[i, p], sims[i, m]
-            msz = min(p_.size(0), m_.size(0))
             logits = torch.cat((p_, m_))
             cre = -torch.log(torch.softmax(logits, 0))
             hardpct += lte(p_, m_).float().mean()
-            loss  += cre[:p.size(0)].sum() / p.size(0)
+            loss  += cre[:p.size(0)].mean()
             dplus.append(-p_[:msz])
             dminus.append(-m_[:msz])
         loss /= self.opts.batch_size

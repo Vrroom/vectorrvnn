@@ -6,13 +6,15 @@ import numpy as np
 from vectorrvnn.utils import *
 from vectorrvnn.trainutils import *
 from .TripletBase import TripletBase
+from .ContrastiveBase import ContrastiveBase
 
-class OBBGRU (TripletBase) : 
+class PathGRU (ContrastiveBase) : 
 
     def __init__ (self, opts) :
-        super(OBBGRU, self).__init__(opts) 
+        super(PathGRU, self).__init__(opts) 
+        self.encode = nn.Linear(16, opts.embedding_size)
         self.gru = nn.GRU(
-            input_size=10, 
+            input_size=opts.embedding_size, 
             hidden_size=opts.embedding_size,
             num_layers=1,
             bias=True,
@@ -28,19 +30,26 @@ class OBBGRU (TripletBase) :
         self.apply(getInitializer(opts))
 
     def embedding (self, node, **kwargs) : 
-        obb = node['obb']   
-        f = self.gru(obb)[1]
+        obb, fill, stroke = node['obb'], node['fill'], node['stroke']
+        f = torch.cat((obb, fill, stroke), 2)
+        f = self.encode(f)
+        f = self.gru(f)[1]
         f = f.permute((1, 0, 2)).reshape((1, -1))
         f = self.projector(f)
         return f
 
     @classmethod 
     def nodeFeatures (cls, t, ps, opts): 
+        data_ = super(PathGRU, cls).nodeFeatures(t, ps, opts)
         ps = sorted(ps)
-        data = dict()
-        data['tree'] = t
-        data['pathSet'] = ps
-        obbs = [t.obbs[i].tolist() for i in ps]
-        data['obb'] = torch.tensor(obbs).float()
-        return data
+        obbs    = np.array([t.obbs[i].tolist() for i in ps])
+        fills   = np.array([t.fills[i] for i in ps])
+        strokes = np.array([t.strokes[i] for i in ps])
+        data = dict(
+            obb=obbs,
+            fill=fills,
+            stroke=strokes
+        )
+        tensorApply(data, lambda x : torch.tensor(x).float(), module = np)
+        return {**data, **data_}
 

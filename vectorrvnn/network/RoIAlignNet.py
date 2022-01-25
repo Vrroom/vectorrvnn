@@ -28,6 +28,7 @@ class RoIAlignNet (nn.Module) :
         # concatenate the batch index as per
         # https://pytorch.org/vision/stable/ops.html#torchvision.ops.roi_align
         idx = torch.arange(B).unsqueeze(1).to(self.opts.device)
+        boxes = (boxes + 1) / 2
         boxes = torch.cat((idx, boxes), dim=1)
 
         # Do the forward pass till Layer 3
