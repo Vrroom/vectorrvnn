@@ -304,6 +304,11 @@ def norm_cted (x, y) :
     m = y.number_of_nodes()
     return cted(x, y) / (n + m)
 
+def norm_ted (x, y) :
+    n = x.number_of_nodes()
+    m = y.number_of_nodes()
+    return ted(x, y) / (n + m)
+
 def node_overlap (tref, t) : 
     groups = nonLeaves(tref)
     groups.remove(findRoot(tref))

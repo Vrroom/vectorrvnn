@@ -238,7 +238,7 @@ class Options():
         parser.add_argument(
             '--samplercls',
             type=str,
-            default='DiscriminativeSampler', 
+            default='TripletSampler', 
             help='Class to use to sample triplets'
         )
         parser.add_argument(

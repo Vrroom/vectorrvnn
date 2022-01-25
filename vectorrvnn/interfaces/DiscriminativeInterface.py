@@ -81,6 +81,6 @@ if __name__ == "__main__" :
     if opts.phase == 'train' : 
         train(opts, addCallbacks)
     elif opts.phase == 'test' : 
-        test(opts)
+        modeltest(opts)
 
 

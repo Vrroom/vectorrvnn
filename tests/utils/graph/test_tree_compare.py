@@ -15,4 +15,3 @@ def test_cted () :
         a.nodes[n]['pathSet'] = leavesInSubtree(a, n)
     opt, matching = cted(a, a, True)
     assert(opt == 0)
-

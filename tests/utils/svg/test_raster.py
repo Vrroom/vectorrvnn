@@ -16,7 +16,7 @@ def test_raster () :
         fname = getBaseName(f)
         doc = svg.Document(f)
         im = rasterize(doc, 1000, 1000)
-        image.imsave(osp.join(chdir, 'out', fname + '.png'), im)
+        imsave(im, osp.join('/tmp/', fname + '.png'))
         assert(im.min() != im.max())
 
 def test_alphacomposite () : 

@@ -7,7 +7,11 @@ from copy import deepcopy
 from vectorrvnn.utils import argmax
 
 def randomBinaryTree (T) :
-    """ Sample a random binary tree consistent with this tree """
+    """ Sample a random binary tree consistent with this tree 
+
+    We assume that each interior node has more than two 
+    children.
+    """
     from vectorrvnn.utils import rng
     def rBP(p) :
         if isinstance(p, int) : return p

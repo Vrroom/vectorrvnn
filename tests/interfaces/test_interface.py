@@ -1,15 +1,11 @@
-import torch
-from vectorrvnn.utils import * 
-from vectorrvnn.network import *
+from vectorrvnn.utils import *
 from vectorrvnn.data import *
 from vectorrvnn.trainutils import *
+from vectorrvnn.network import *
 from vectorrvnn.interfaces import *
-import os
-import os.path as osp
-from copy import deepcopy
+import ttools
 
-def test_model () : 
-    """ test whether things work """
+def test_interface() : 
     chdir = osp.split(osp.abspath(__file__))[0]
     opts = Options().parse(testing=[
         '--dataroot', 
@@ -20,9 +16,11 @@ def test_model () :
         '--heads', '1',
         '--hidden_size', '128', '128',
         '--modelcls', 'OBBNet', 
-        '--n_epochs', '10',
+        '--n_epochs', '2',
         '--base_size', '1',
         '--batch_size', '32',
+        '--train_epoch_length', '128',
+        '--val_epoch_length', '128',
         '--dataloadercls', 'ContrastiveDataLoader',
         '--samplercls', 'ContrastiveSampler',
         '--loss', 'supCon'
@@ -32,8 +30,11 @@ def test_model () :
     model = buildModel(opts) 
     interface = Interface(opts, model, trainData, valData)
     trainer = ttools.Trainer(interface)
-    addCallbacks(trainer, model, data, opts)
-    for batch in trainDataLoader : 
-        break
-    f1 = model(**batch)
-    assert True
+    # Start training
+    trainer.train(
+        trainDataLoader, 
+        num_epochs=opts.n_epochs, 
+        val_dataloader=valDataLoader
+    )
+    assert(True)
+

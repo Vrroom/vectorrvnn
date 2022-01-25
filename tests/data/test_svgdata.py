@@ -8,25 +8,12 @@ import matplotlib.image as image
 def test_svgdata() :
     chdir = osp.split(osp.abspath(__file__))[0]
     opts = Options().parse(testing=[
-        '--dataroot',
-        osp.join(chdir, '../../data/All'),
-        '--name', 
-        'test',
-        '--n_epochs',
-        '100',
-        '--samplercls',
-        'DiscriminativeSampler',
-        '--modelcls',
-        'BBoxNet',
-        '--loss', 
-        'infoNCE',
+        '--dataroot', osp.join(chdir, '../../data/Toy'),
+        '--name', 'test',
+        '--n_epochs', '1',
+        '--modelcls', 'BBoxNet',
     ])
-    import cProfile
-    pro = cProfile.Profile()
-    pro.enable()
     data = buildData(opts)
-    pro.disable()
-    pro.print_stats('cumtime')
     trainData, valData, trainDataLoader, valDataLoader, _ = data
     # confirm that dataloader works properly
     for _ in range(opts.n_epochs):  
@@ -37,61 +24,44 @@ def test_svgdata() :
 def test_union () :
     chdir = osp.split(osp.abspath(__file__))[0]
     opts = Options().parse(testing=[
-        '--dataroot',
-        osp.join(chdir, '../../data/Toy'),
-        '--name', 
-        'test',
-        '--n_epochs',
-        '2',
-        '--batch_size',
-        '32',
-        '--raster_size',
-        '128',
-        '--train_epoch_length',
-        '256',
-        '--val_epoch_length',
-        '256',
-        '--decay_start',
-        '0',
-        '--samplercls',
-        'DiscriminativeSampler',
-        '--modelcls',
-        'PatternGroupingV2',
-        '--structure_embedding_size',
-        '8',
-        '--augmentation',
-        'none'
+        '--dataroot', osp.join(chdir, '../../data/Toy'),
+        '--name', 'test',
+        '--n_epochs', '1',
+        '--modelcls', 'BBoxNet',
+        '--train_epoch_length', '256',
+        '--val_epoch_length', '256'
     ])
     data = buildData(opts)
     trainData, _, _, _, _ = data
     for i in range(10) : 
-        a, b = random.sample(list(trainData), k=2)
+        a, b = rng.sample(list(trainData), k=2)
         newPt = a | b 
         assert((not id(newPt) == id(b)) and (not id(newPt) == id(a)))
         assert(newPt.number_of_nodes() == (1 + a.number_of_nodes() + b.number_of_nodes()))
         im = rasterize(newPt.doc, 200, 200)
-        fullpath = osp.join(chdir, 'out', f'union-{i}.png')
+        fullpath = osp.join('/tmp/', f'union-{i}.png')
         image.imsave(fullpath, im)
 
 def test_union_aug () : 
     chdir = osp.split(osp.abspath(__file__))[0]
     opts = Options().parse(testing=[
         '--dataroot', osp.join(chdir, '../../data/Toy'),
-        '--embedding_size', '32',
-        '--samplercls', 'DiscriminativeSampler',
-        '--phase', 'test'
+        '--name', 'test',
+        '--n_epochs', '1',
+        '--modelcls', 'BBoxNet',
+        '--train_epoch_length', '256',
+        '--val_epoch_length', '256'
     ])
     data = buildData(opts)
     _, valData, _, _, _= data
     aug = GraphicCompose()
     for i in range(4) : 
-        graphic = aug(trng.choice(valData), valData)
+        graphic = aug(rng.choice(valData), valData)
         im = rasterize(graphic.doc, 200, 200)
-        fullpath = osp.join(chdir, 'out', f'aug-{i}.png')
+        fullpath = osp.join('/tmp/', f'aug-{i}.png')
         image.imsave(fullpath, im)
         figure = treeImageFromGraph(graphic)
         matplotlibFigureSaver(figure,
-                osp.join(chdir, 'out', f'aug-tree-{i}.png'))
+                osp.join('/tmp/', f'aug-tree-{i}.png'))
     assert(True)
 
-test_svgdata()

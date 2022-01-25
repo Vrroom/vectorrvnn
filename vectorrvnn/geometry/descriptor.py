@@ -137,7 +137,7 @@ def equiDistantSamples (doc, path, nSamples=5, **kwargs) :
     ts = np.linspace(0, 1, nSamples)
     L = path.length()
     pts = [path.point(path.ilength(t * L, 1e-1)) for t in ts]
-    if 'normalize' in kwargs : 
+    if 'normalize' in kwargs and kwargs['normalize']: 
         docbox = getDocBBox(doc)
         x, y = docbox.x, docbox.y
         dx, dy = docbox.w, docbox.h

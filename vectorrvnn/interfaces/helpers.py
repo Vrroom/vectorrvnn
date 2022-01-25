@@ -322,7 +322,7 @@ def scores2df (ts1, ts2, methodName) :
         columns=['cted', 'fmi1', 'fmi2', 'fmi3']
     )
 
-def test (opts) : 
+def modeltest (opts) : 
     _, _, _, _, testData = buildData(opts)
     model = buildModel(opts)
     ablations(model, testData, opts)

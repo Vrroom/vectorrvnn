@@ -1,5 +1,6 @@
 from vectorrvnn.geometry.distance import *
 from vectorrvnn.utils import *
+from vectorrvnn.data import *
 import os
 import os.path as osp
 import svgpathtools as svg
@@ -96,9 +97,9 @@ def test_autogroup_stroke_similarity () :
         T.doc = doc
         figure = treeImageFromGraph(T) 
         matplotlibFigureSaver(figure, 
-            osp.join(chdir, 'out', f'autogroup-stroke-{i}'))
-    T_ = getTreeStructureFromSVG(svgs[-1])
-    distance = ted(T, T_) / (T.number_of_nodes() + T_.number_of_nodes())
+            osp.join('/tmp/', f'autogroup-stroke-{i}'))
+    T_ = getTreeStructureFromSVG(docs[-1])
+    distance = norm_ted(T, T_) 
     assert(distance < 0.1)
 
 def test_autogroup_color_similarity () : 
@@ -137,7 +138,7 @@ def test_autogroup_color_similarity () :
         T.doc = doc
         figure = treeImageFromGraph(T) 
         matplotlibFigureSaver(figure, 
-            osp.join(chdir, 'out', f'autogroup-color-{i}'))
+            osp.join('/tmp/', f'autogroup-color-{i}'))
 
 def test_autogroup_shape_similarity () : 
     chdir = osp.split(osp.abspath(__file__))[0]
@@ -158,9 +159,9 @@ def test_autogroup_shape_similarity () :
     T.doc = doc
     figure = treeImageFromGraph(T) 
     matplotlibFigureSaver(figure, 
-        osp.join(chdir, 'out', f'autogroup-shape'))
-    T_ = getTreeStructureFromSVG(fullpath)
-    distance = ted(T, T_) / (T.number_of_nodes() + T_.number_of_nodes())
+        osp.join('/tmp/', f'autogroup-shape'))
+    T_ = getTreeStructureFromSVG(doc)
+    distance = norm_ted(T, T_) 
     assert(distance < 0.15)
 
 def test_autogroup_area_similarity () : 
@@ -179,12 +180,12 @@ def test_autogroup_area_similarity () :
     agg = AgglomerativeClustering(1, affinity='precomputed', linkage='single')
     agg.fit(m)
     T = hac2nxDiGraph(list(range(m.shape[0])), agg.children_)
-    T_ = getTreeStructureFromSVG(fullpath)
+    T_ = getTreeStructureFromSVG(doc)
     T.doc = doc
     figure = treeImageFromGraph(T) 
     matplotlibFigureSaver(figure, 
-        osp.join(chdir, 'out', f'autogroup-area'))
-    distance = ted(T, T_) / (T.number_of_nodes() + T_.number_of_nodes())
+        osp.join('/tmp/', f'autogroup-area'))
+    distance = norm_ted(T, T_) 
     assert(distance < 0.15)
 
 def test_autogroup_space_similarity () : 
@@ -203,11 +204,11 @@ def test_autogroup_space_similarity () :
     agg = AgglomerativeClustering(1, affinity='precomputed', linkage='single')
     agg.fit(m)
     T = hac2nxDiGraph(list(range(m.shape[0])), agg.children_)
-    T_ = getTreeStructureFromSVG(fullpath)
+    T_ = getTreeStructureFromSVG(doc)
     T.doc = doc
     figure = treeImageFromGraph(T) 
     matplotlibFigureSaver(figure, 
-        osp.join(chdir, 'out', f'autogroup-place'))
-    distance = ted(T, T_) / (T.number_of_nodes() + T_.number_of_nodes())
+        osp.join('/tmp/', f'autogroup-place'))
+    distance = norm_ted(T, T_) 
     assert(distance < 0.16)
 

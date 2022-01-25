@@ -12,11 +12,11 @@ class TripletSampler (Sampler):
         dataPt = self.rng.choice(self.svgdatas) # choose random data point
         dataPt = self.transform(deepcopy(dataPt), self.svgdatas) # transform it
         docbox = getDocBBox(dataPt.doc)
-        nodes = list(filterNodes(
-            dataPt.nodes,
-            complement(pathBBoxTooSmall),
-            'bbox'
-        ))
+        nodes = []
+        for n in dataPt.nodes : 
+            box = pathsetBox(dataPt, dataPt.nodes[n]['pathSet'])
+            if complement(pathBBoxTooSmall)(box) :
+                nodes.append(n)
         nodes = list(filterNodes(
             dataPt.nodes, 
             lambda ps : len(ps) < self.opts.max_len, 
