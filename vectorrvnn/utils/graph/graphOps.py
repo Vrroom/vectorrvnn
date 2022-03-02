@@ -94,6 +94,10 @@ def appGraph2nxGraph (graph) :
         pt = nodes[a]
         T.add_edges_from(list(itertools.product([pt['id']], pt['children'])))
         st.extend(pt['children'])
+    pathsetDict = dict()
+    for n in T.nodes : 
+        pathsetDict[n] = list(leavesInSubtree(T, n))
+    nx.set_node_attributes(T, pathsetDict, 'pathSet')
     return T
 
 def filterNodes (nodes, keyPredicate, key) : 
