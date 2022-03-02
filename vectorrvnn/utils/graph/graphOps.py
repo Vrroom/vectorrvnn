@@ -88,11 +88,12 @@ def appGraph2nxGraph (graph) :
     nodes = graph['nodes']
     T = nx.DiGraph()
     root = next(filter(lambda x: x.get('parent', None) is None, nodes))
-    st = [root]
-    while True: 
-        a = st.pop() 
-        T.add_edges_from(itertools.product([a['id']], a['children']))
-        st.extend(*a['children'])
+    st = [root['id']]
+    while len(st) > 0:
+        a = st.pop()
+        pt = nodes[a]
+        T.add_edges_from(list(itertools.product([pt['id']], pt['children'])))
+        st.extend(pt['children'])
     return T
 
 def filterNodes (nodes, keyPredicate, key) : 
