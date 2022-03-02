@@ -84,5 +84,16 @@ def nxGraph2appGraph (forest) :
             appGraph['nodes'][n]['parent'] = int(nodeParent)
     return appGraph
 
+def appGraph2nxGraph (graph) :
+    nodes = graph['nodes']
+    T = nx.DiGraph()
+    root = next(filter(lambda x: x.get('parent', None) is None, nodes))
+    st = [root]
+    while True: 
+        a = st.pop() 
+        T.add_edges_from(itertools.product([a['id']], a['children']))
+        st.extend(*a['children'])
+    return T
+
 def filterNodes (nodes, keyPredicate, key) : 
     return filter(lambda x : keyPredicate(nodes[x][key]), nodes)
