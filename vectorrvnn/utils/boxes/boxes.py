@@ -1,8 +1,10 @@
 import numpy as np
+import svgpathtools as svg
 import shapely.affinity as sa
 import shapely.geometry as sg
 from copy import deepcopy
 from functools import reduce
+from more_itertools import flatten
 
 def pathBBox (path) : 
     """
@@ -19,8 +21,8 @@ def pathBBox (path) :
         x, X, y, Y = 0, 0, 0, 0
     return BBox(x, y, X, Y, X - x, Y - y)
 
-def pathAABB(doc, path) :
-    box = pathBBox(path)
+def polylineAABB(doc, lines) :
+    box = pathBBox(svg.Path(*lines))
     dbox = getDocBBox(doc)
     box = box / dbox
     y = 1 - box.Y
@@ -32,13 +34,9 @@ def shape2obb (shape) :
     rect = shape.minimum_rotated_rectangle.exterior.coords
     return corners2canonical(rect)
 
-def pathOBB (doc, path) :
-    """ 
-    Get oriented bounding box for the path
-    """
-    from vectorrvnn.geometry import samples
-    pts = np.array(samples(doc, path, 50, normalize=True))
-    pts = (pts - 0.5) * 2
+def polylineOBB (doc, lines) : 
+    from vectorrvnn.geometry import normalizePts2Doc, equiDistantPointsOnPolyline
+    pts = np.array(equiDistantPointsOnPolyline(doc, lines, normalize=True))
     pts += 0.002 * np.random.RandomState(0).randn(*pts.shape)
     ls = sg.LineString(list(zip(*pts)))
     return shape2obb(ls)

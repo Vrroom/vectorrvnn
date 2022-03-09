@@ -2,6 +2,9 @@
 from skimage import color
 import numpy as np
 from functools import lru_cache
+from itertools import starmap
+from bisect import bisect
+from copy import deepcopy
 from vectorrvnn.utils.comp import *
 from vectorrvnn.utils.svg import *
 from vectorrvnn.utils.graph import *
@@ -112,6 +115,45 @@ def relbb (doc, i, **kwargs) :
     y2 = (ymax - docbb.y) / (docbb.h)
     return [x1, y1, x2 - x1, y2 - y1]
 
+def normalizePts2Doc (doc, pts) :
+    """ Normalize points on a document to be in [-1, 1] by [-1, 1]
+
+    pts is a list of complex points
+    """
+    docbox = getDocBBox(doc)
+    x, y = docbox.x, docbox.y
+    dx, dy = docbox.w, docbox.h
+    # set points in [0, 1] by [0, 1]
+    xs = [(p.real - x) / dx for p in pts]
+    ys = [1 - ((p.imag - y) / dy) for p in pts]
+    # transform them to [-1, 1] by [-1, 1]
+    xs = [2 * (x - 0.5) for x in xs]
+    ys = [2 * (y - 0.5) for y in ys]
+    return list(starmap(complex, zip(xs, ys)))
+
+def equiDistantPointsOnPolyline (doc, poly, nSamples=5, **kwargs) :
+    """ Sample equidistant points on a polyline """
+    eps = 1e-10
+    ts = np.linspace(0, 1 - eps, nSamples)
+    lens = [l.length() for l in poly]
+    clens = deepcopy(lens)
+    ss = sum(lens) * ts
+    for i in range(1, len(clens)) :
+        clens[i] += clens[i - 1]
+    pts = []
+    if sum(lens) == 0 :
+        pts = [poly[0].start for _ in range(nSamples)] 
+    else : 
+        for s in ss :
+            i = bisect(clens, s)
+            diff = 0 if i == 0 else (s - clens[i - 1])
+            pts.append(poly[i].point(diff / lens[i]))
+    if kwargs.get('normalize', False) :
+        pts = normalizePts2Doc(doc, pts)
+    x = [p.real for p in pts]
+    y = [p.imag for p in pts]
+    return [x,y]
+    
 def samples (doc, path, nSamples=5, **kwargs) :
     """ Draw samples from a path. 
     
@@ -120,35 +162,22 @@ def samples (doc, path, nSamples=5, **kwargs) :
     """
     ts = np.linspace(0, 1, nSamples)
     pts = [path.point(t) for t in ts]
-    if 'normalize' in kwargs : 
-        docbox = getDocBBox(doc)
-        x, y = docbox.x, docbox.y
-        dx, dy = docbox.w, docbox.h
-        x = [(p.real - x) / dx for p in pts]
-        y = [1 - ((p.imag - y) / dy) for p in pts]
-        return [x,y]
-    else : 
-        x = [p.real for p in pts]
-        y = [p.imag for p in pts]
-        return [x,y]
+    if kwargs.get('normalize', False): 
+        pts = normalizePts2Doc(doc, pts)
+    x = [p.real for p in pts]
+    y = [p.imag for p in pts]
+    return [x,y]
 
 def equiDistantSamples (doc, path, nSamples=5, **kwargs) :
     """ Sample points and concatenate to form a descriptor  """
     ts = np.linspace(0, 1, nSamples)
     L = path.length()
     pts = [path.point(path.ilength(t * L, 1e-1)) for t in ts]
-    if 'normalize' in kwargs and kwargs['normalize']: 
-        docbox = getDocBBox(doc)
-        x, y = docbox.x, docbox.y
-        dx, dy = docbox.w, docbox.h
-        x = [(p.real - x) / dx for p in pts]
-        y = [1 - ((p.imag - y) / dy) for p in pts]
-        return [x,y]
-    else : 
-        x = [p.real for p in pts]
-        y = [p.imag for p in pts]
-        return [x,y]
-
+    if kwargs.get('normalize', False): 
+        pts = normalizePts2Doc(doc, pts)
+    x = [p.real for p in pts]
+    y = [p.imag for p in pts]
+    return [x,y]
 
 @lru_cache(maxsize=128)
 def memoEquiDistantSamples (doc, i, nSamples=5, **kwargs) :

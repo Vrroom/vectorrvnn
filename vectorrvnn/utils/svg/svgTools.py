@@ -134,7 +134,8 @@ def parseColor(s):
     s = s.lstrip(' ')
     color = [0, 0, 0]
     if s[0] == '#':
-        color[:3] = parseHex(s)
+        try : color[:3] = parseHex(s)
+        except ValueError : pass
     elif s == 'none':
         color = [0, 0, 0]
     elif s[:4] == 'rgb(':
@@ -145,10 +146,8 @@ def parseColor(s):
             int(rgb[2]) / 255.0
         ]
     else:
-        try : 
-            color = colors.to_rgb(s)
-        except ValueError : 
-            warnings.warn('Unknown color command ' + s)
+        try : color = colors.to_rgb(s)
+        except ValueError : pass
     return color
 
 def xmlAttributeSet (element, attr, value) : 

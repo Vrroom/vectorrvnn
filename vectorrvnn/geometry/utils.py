@@ -207,3 +207,40 @@ def enclosingGeometry(path) :
         return LineString(pts.tolist())
     else : 
         return Point(pts.tolist().pop())
+
+def flattenCubic(curve, tol=1e-2) : 
+    def flat(c, tol) : 
+        u = 3 * c.control1 - 2 * c.start - c.end
+        v = 3 * c.control2 - 2 * c.end - c.start
+        w = complex(max(u.real, v.real), max(u.imag, v.imag))
+        return abs(w) < tol
+    if flat(curve, tol): 
+        return [svg.Line(curve.start, curve.end)]
+    else : 
+        l, r = list(map(
+            lambda x : svg.CubicBezier(*x), 
+            svg.split_bezier(curve, 0.5)
+        ))
+        return flattenCubic(l, tol) + flattenCubic(r, tol)
+
+def quad2cubic (quad) : 
+    s, c, e = quad.bpoints() 
+    c1 = s + (2 / 3) * (c - s)
+    c2 = e + (2 / 3) * (c - e) 
+    return svg.CubicBezier(s, c1, c2, e)
+
+def flattenPath (path, tol=1e-2) :
+    lines = []
+    for curve in path :
+        if isinstance(curve, svg.Line) : 
+            lines.append(curve)
+        elif isinstance(curve, svg.CubicBezier) :
+            lines.extend(flattenCubic(curve, tol))
+        elif isinstance(curve, svg.Arc) : 
+            cubicApprox = curve.as_cubic_curves(4) 
+            for cubic in cubicApprox : 
+                lines.extend(flattenCubic(cubic, tol))
+        elif isinstance(curve, svg.QuadraticBezier): 
+            lines.extend(flattenCubic(quad2cubic(curve), tol))
+    return lines
+

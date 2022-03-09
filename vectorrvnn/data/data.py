@@ -31,6 +31,9 @@ class SVGData (nx.DiGraph) :
         paths = cachedPaths(self.doc)
         self.nPaths = len(paths)
         assert(self.nPaths == len(leaves(self)))
+        box = getDocBBox(self.doc) 
+        tol = max(box.w, box.h) / 100
+        self.lines = [flattenPath(p.path, tol) for p in paths]
         self._computeBBoxes()
         self._computeOBBs()
         self._computeColors()
@@ -43,8 +46,13 @@ class SVGData (nx.DiGraph) :
 
     def _computeOBBs (self) : 
         self.obbs = []
-        for p in cachedPaths(self.doc) :
-            self.obbs.append(pathOBB(self.doc, p.path))
+        for lines in self.lines :
+            self.obbs.append(polylineOBB(self.doc, lines))
+
+    def _computeBBoxes (self) : 
+        self.bbox = []
+        for lines in self.lines :
+            self.bbox.append(polylineAABB(self.doc, lines))
 
     def recalculateBBoxes(self, fn) : 
         for i in range(len(self.bbox)) : 
@@ -55,9 +63,13 @@ class SVGData (nx.DiGraph) :
         for n in self.nodes :
             self.nodes[n]['pathSet'] = tuple(leavesInSubtree(self, n))
 
-    def __init__ (self, svgFile=None, treePickle=None, tree=None) : 
+    def __init__ (self, svgFile=None, treePickle=None, tree=None, convert2usvg=False) : 
         """ only one of treePickle and tree can be not None """
         assert(treePickle is None or tree is None)
+        if convert2usvg :
+            newName = f'/tmp/{getBaseName(svgFile)}.svg'
+            call(['usvg_conv', svgFile, newName])
+            svgFile = newName
         self.doc = withoutDegeneratePaths(svg.Document(svgFile))
         if treePickle is not None : 
             super(SVGData, self).__init__(nx.read_gpickle(treePickle))
@@ -68,12 +80,6 @@ class SVGData (nx.DiGraph) :
         self.initTree()
         self.svgFile = svgFile
         self.initGraphic()
-        normalize(self)
-
-    def _computeBBoxes (self) : 
-        self.bbox = []
-        for p in cachedPaths(self.doc) :
-            self.bbox.append(pathAABB(self.doc, p.path))
 
     def __or__ (self, that) : 
         """
@@ -91,8 +97,6 @@ class SVGData (nx.DiGraph) :
         # set the bbox for the new root
         newRoot = findRoot(dataUnion)
         leafBoxes = self.bbox + that.bbox
-        # normalize into a suitable viewbox
-        normalize(dataUnion)
         return dataUnion
 
     def __lt__ (self, that) : 
