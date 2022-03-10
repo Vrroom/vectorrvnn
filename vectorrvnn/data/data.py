@@ -3,6 +3,7 @@ import svgpathtools as svg
 from skimage import transform
 import networkx as nx
 import numpy as np
+from subprocess import call
 from vectorrvnn.geometry import *
 from vectorrvnn.utils import *
 
@@ -68,8 +69,10 @@ class SVGData (nx.DiGraph) :
         assert(treePickle is None or tree is None)
         if convert2usvg :
             newName = f'/tmp/{getBaseName(svgFile)}.svg'
-            call(['usvg_conv', svgFile, newName])
+            call(['usvg', svgFile, newName])
             svgFile = newName
+        with open(svgFile) as fp:
+            self.svg = fp.read()
         self.doc = withoutDegeneratePaths(svg.Document(svgFile))
         if treePickle is not None : 
             super(SVGData, self).__init__(nx.read_gpickle(treePickle))

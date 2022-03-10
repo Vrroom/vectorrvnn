@@ -21,6 +21,7 @@ This repository contains:
 * python3.6
 * rust
 * EGL
+* usvg
 
 ## Getting Started
 
