@@ -1,7 +1,6 @@
 from copy import deepcopy
 import numpy as np
 import torch
-import pathfinder_rasterizer as pr
 from .svgTools import *
 from vectorrvnn.utils.boxes import *
 
@@ -30,6 +29,7 @@ def rasterize (doc, w=None, h=None, threadLocal=False) :
     Either both height and width are None or both are
     integers.
     """ 
+    import pathfinder_rasterizer as pr
     assert ((w is None and h is None) \
             or (w is not None and h is not None))
     fixOrigin(doc)

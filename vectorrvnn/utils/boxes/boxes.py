@@ -161,6 +161,8 @@ class BBox :
         y = max(self.y, that.y)
         X = min(self.X, that.X)
         Y = min(self.Y, that.Y)
+        if y > Y: y = Y
+        if x > X : x = X
         return BBox(x, y, X, Y, X - x, Y - y)
 
     def __contains__ (self, that) :
