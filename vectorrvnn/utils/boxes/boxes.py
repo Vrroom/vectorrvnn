@@ -116,7 +116,7 @@ class BBox :
             return 0
         intersection = (self & that).area()
         union = (self | that).area()
-        return intersection / union
+        return intersection / (union + 1e-5)
 
     def isDegenerate (self) : 
         return isclose(self.w, 0) and isclose(self.h, 0)

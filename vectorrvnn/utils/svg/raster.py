@@ -3,6 +3,11 @@ import numpy as np
 import torch
 from .svgTools import *
 from vectorrvnn.utils.boxes import *
+from subprocess import call
+from matplotlib.image import imread
+import os
+
+NO_GPU = call(['nvidia-smi']) > 0 
 
 def alphaComposite (source, module=np, color=[1,1,1]) : 
     originalShape = source.shape
@@ -29,6 +34,8 @@ def rasterize (doc, w=None, h=None, threadLocal=False) :
     Either both height and width are None or both are
     integers.
     """ 
+    if NO_GPU : 
+        return rasterizeInkscape(doc, w, h)
     import pathfinder_rasterizer as pr
     assert ((w is None and h is None) \
             or (w is not None and h is not None))
@@ -39,3 +46,15 @@ def rasterize (doc, w=None, h=None, threadLocal=False) :
         return pr.numpyRasterThreadLocal(doc)
     else : 
         return pr.numpyRaster(doc)
+
+@immutable_doc 
+def rasterizeInkscape (doc, w=None, h=None) :
+    """
+    Use inkscape as fallback to rasterize.
+    """
+    doc.save('tmp.svg')
+    call(['inkscape', '--export-type=png', '-h', str(h), '-w', str(w), 'tmp.svg'])
+    arr = imread('tmp.png')
+    os.remove('tmp.svg')
+    os.remove('tmp.png')
+    return arr

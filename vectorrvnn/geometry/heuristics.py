@@ -75,7 +75,8 @@ def shapeContexts (tree, i, nSamples=50) :
     contexts = []
     # Figure out how to vectorize this step.
     for i in range(nSamples) :
-        H, *_ = np.histogram2d(logNorms[i], thetas[i], bins=[xbins, ybins], density=True)
+        H, *_ = np.histogram2d(logNorms[i], thetas[i], bins=[xbins, ybins])
+        H = H / (H.sum() + 1e-6)
         contexts.append(H.ravel())
     return np.stack(contexts)
 
@@ -104,7 +105,7 @@ def groupByShapeContexts (tree) :
         nbrs = kdtree.query_ball_point(ce, 0.2) 
         for j in nbrs : 
             iou = tree.bbox[i].iou(tree.bbox[j])
-            if j != i and iou > 0.25 and shapeContextLoss(scs[i], scs[j]) < 0.5 :
+            if j != i and iou > 0.25 and shapeContextLoss(scs[i], scs[j]) < 0.4 :
                 if not ((i, j) in groups or (j, i) in groups): 
                     groups.add((i, j))
     return list(groups)
