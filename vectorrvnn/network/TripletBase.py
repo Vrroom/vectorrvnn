@@ -20,92 +20,8 @@ class TripletBase (EmbeddingBase) :
     def __init__ (self, opts) :
         super(TripletBase, self).__init__(opts)
 
-    def _distances2Ref (self, ref, plus, minus, **kwargs) : 
-        ref   = unitNorm(ref)
-        plus  = unitNorm(plus)
-        minus = unitNorm(minus)
-        dplus  = l2(ref, plus)
-        dminus = l2(ref, minus)
-        return dplus, dminus
-
-    def maxMargin (self, ref, plus, minus, **kwargs): 
-        maxMargin = self.opts.max_margin
-        assert(maxMargin is not None)
-        dplus, dminus = self._distances2Ref(ref, plus, minus, **kwargs)
-        margin = torch.relu(dplus - dminus + maxMargin)
-        mask = (dplus >= dminus).view(-1, 1)
-        hardpct = mask.sum() / mask.nelement()
-        loss = margin.mean()
-        return dict(
-            loss=loss,
-            mask=None,
-            dplus=dplus,
-            dminus=dminus,
-            hardpct=hardpct
-        )
-
-    def hardMaxMargin (self, ref, plus, minus, **kwargs) : 
-        """
-        From FaceNet: A Unified Embedding for Face Recognition and Clustering
-        """
-        maxMargin = self.opts.max_margin
-        assert(maxMargin is not None)
-        dplus, dminus = self._distances2Ref(ref, plus, minus, **kwargs)
-        margin = torch.relu(dplus - dminus + maxMargin)
-        mask = (dplus >= dminus).view(-1, 1)
-        loss = maskedMean(margin, mask)
-        hardpct = mask.sum() / mask.nelement()
-        return dict(
-            loss=loss,
-            mask=mask,
-            dplus=dplus,
-            dminus=dminus,
-            hardpct=hardpct
-        )
-
-    def triplet (self, ref, plus, minus, **kwargs) : 
-        """ 
-        Triplet loss defined in the original triplet learning paper: 
-            Deep Metric Learning Using Triplet Network
-        """
-        hardThreshold = self.opts.hard_threshold
-        assert (hardThreshold is not None)
-        dplus, dminus = self._distances2Ref(ref, plus, minus, **kwargs)
-        cre = F.softmax(
-            torch.cat((dplus, dminus), dim=1), 
-            dim=1
-        )
-        loss = (cre ** 2).mean()
-        mask = (cre > hardThreshold).view(-1, 1)
-        hardpct = mask.sum() / mask.nelement()
-        return dict(
-            loss=loss,
-            mask=None,
-            dplus=dplus,
-            dminus=dminus,
-            hardpct=hardpct
-        )
-
-    def hardTriplet (self, ref, plus, minus, **kwargs)  :
-        hardThreshold = self.opts.hard_threshold
-        assert (hardThreshold is not None)
-        dplus, dminus = self._distances2Ref(ref, plus, minus, **kwargs)
-        cre = F.softmax(
-            torch.cat((dplus, dminus), dim=1), 
-            dim=1
-        )
-        mask = (cre > hardThreshold).view(-1, 1)
-        loss = maskedMean(cre ** 2, mask)
-        hardpct = mask.sum() / mask.nelement()
-        return dict(
-            loss=loss,
-            mask=mask,
-            dplus=dplus,
-            dminus=dminus,
-            hardpct=hardpct
-        )
-
-    def infoNCE (self, ref, plus, minus, **kwargs) : 
+    def ncs (self, ref, plus, minus, **kwargs) : 
+        # verify and annotate dimensions
         temperature = self.opts.temperature
         assert (temperature is not None)
         # Find and normalize embeddings
@@ -120,7 +36,7 @@ class TripletBase (EmbeddingBase) :
         exp = torch.softmax(two, dim=1)[:, 0]
         loss = -torch.log(exp).mean()
         mask = (splus < sminus).view(-1, 1)
-        hardpct = mask.sum() / mask.nelement()
+        hardpct = mask.sum() / float(mask.nelement())
         dminus = (1 / temperature) - sminus
         dplus  = (1 / temperature) - splus
         return dict(

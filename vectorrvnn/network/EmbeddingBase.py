@@ -101,7 +101,7 @@ class EmbeddingBase (nn.Module) :
         else : 
             agg = AgglomerativeClustering(
                 1, 
-                affinity=_affinity[self.opts.sim_criteria], 
+                affinity=_affinity[self.opts.loss], 
                 linkage='single'
             )
             agg.fit(stacked)

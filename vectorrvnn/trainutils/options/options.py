@@ -1,6 +1,7 @@
 import argparse
 import os
 import os.path as osp
+import pickle
 from vectorrvnn.utils import *
 from collections import namedtuple
 
@@ -57,12 +58,6 @@ class Options():
             help='size of the path encoding'
         )
         parser.add_argument(
-            '--use_layer_norm', 
-            type=bool,
-            default=False,
-            help='whether to use layer norm'
-        )
-        parser.add_argument(
             '--hidden_size', 
             type=int,
             nargs='*',
@@ -89,17 +84,12 @@ class Options():
             help='dropout on linear layers'
         )
         parser.add_argument(
-            '--heads',
-            type=int,
-            default=0,
-            help='number of heads in multi-head attention (if using transformers)'
+            '--use_layer_norm', 
+            type=bool,
+            default=False,
+            help='whether to use layer norm'
         )
-        parser.add_argument(
-            '--encoder_layers',
-            type=int,
-            default=0,
-            help='number of self attention layers (if using transformers)'
-        )
+
 
     def add_basic_parameters (self, parser) : 
         parser.add_argument(
@@ -108,18 +98,18 @@ class Options():
             default='./',
             help='path to graphics'
         )
-        parser.add_argument(
-            '--otherdata',
-            type=str,
-            default='./',
-            help='path to graphics for node overlap'
-        )
-        parser.add_argument(
-            '--n_otherdata',
-            type=int,
-            default=100,
-            help='number of points from other data'
-        )
+        # parser.add_argument(
+        #     '--otherdata',
+        #     type=str,
+        #     default='./',
+        #     help='path to graphics for node overlap'
+        # )
+        # parser.add_argument(
+        #     '--n_otherdata',
+        #     type=int,
+        #     default=100,
+        #     help='number of points from other data'
+        # )
         parser.add_argument(
             '--name', 
             type=str, 
@@ -141,7 +131,6 @@ class Options():
             '--device',
             type=str,
             default='cuda:0',
-            choices=['cpu', 'cuda:0', 'cuda:1'],
             help='device to run training on.'
         )
         parser.add_argument(
@@ -171,12 +160,6 @@ class Options():
         learning rate schedule.
         """
         parser.add_argument(
-            '--optimcls',
-            type=str,
-            default='Adam',
-            help='optimizer to train the network'
-        )
-        parser.add_argument(
             '--decay_start', 
             type=int, 
             default=50, 
@@ -194,13 +177,6 @@ class Options():
             default=0.0002, 
             help='initial learning rate for adam'
         )
-        parser.add_argument(
-            '--lr_policy', 
-            type=str, 
-            default='linear', 
-            choices=['linear', 'step', 'plateau', 'cosine'],
-            help='learning rate policy.'
-        )
     
     def add_batch_args(self, parser): 
         """
@@ -216,12 +192,6 @@ class Options():
             type=int, 
             default=100, 
             help='total number of epochs'
-        )
-        parser.add_argument(
-            '--n_random_samples',
-            type=int,
-            default=2,
-            help='number of random pathsets to use as negatives'
         )
         parser.add_argument(
             '--train_epoch_length',
@@ -312,47 +282,14 @@ class Options():
         parser.add_argument(
             '--loss',
             type=str,
-            default='infoNCE',
-            choices=[
-                'maxMargin', 
-                'triplet',
-                'hardMaxMargin', 
-                'hardTriplet', 
-                'infoNCE',
-                'supCon',
-                'structuredHinge'
-            ],
+            default='ncs',
             help='loss function for training'
-        )
-        parser.add_argument(
-            '--kappa',
-            type=float,
-            default=0.05,
-            help='weight factor structured margin'
-        )
-        parser.add_argument(
-            '--hard_threshold',
-            type=float,
-            default=None,
-            help='margin for triplet loss'
-        )
-        parser.add_argument(
-            '--max_margin',
-            type=float,
-            default=1.0,
-            help='margin for triplet loss'
         )
         parser.add_argument(
             '--temperature',
             type=float,
             default=0.1,
             help='temperature control for cosine similarity loss'
-        )
-        parser.add_argument(
-            '--K',
-            type=int,
-            default=16,
-            help='number of harder triplets to train on'
         )
         parser.add_argument(
             '--wd',
@@ -416,19 +353,10 @@ class Options():
         message += '----------------- End -------------------'
         print(message)
 
-        # save to the disk
-        expr_dir = osp.join(opt.checkpoints_dir, opt.name)
-        mkdir(expr_dir)
-        file_name = osp.join(expr_dir, '{}_opt.txt'.format(opt.name))
-        if osp.exists(file_name) : 
-            file_name += '.swp'
-        with open(file_name, 'wt') as opt_file:
-            opt_file.write(message)
-            opt_file.write('\n')
-
     def toNamedTuple (self, opt) : 
         items = sorted(vars(opt).items())
         Option = namedtuple('Option', [k for k, _ in items])
+        globals()['Option'] = Option
         return Option(*[v for _, v in items])
 
     def parse(self, testing=[]):
@@ -438,4 +366,13 @@ class Options():
         # process opt.suffix
         self.print_options(opt)
         self.opt = self.toNamedTuple(opt)
+        # save to the disk for easy reload 
+        expr_dir = osp.join(opt.checkpoints_dir, opt.name)
+        mkdir(expr_dir)
+        file_name = osp.join(expr_dir, 'opts.pkl')
+        # only save training options
+        if opt.phase == 'train' : 
+            with open(file_name, 'wb') as fp :
+                # convert opt to dictionary 
+                pickle.dump(dict(self.opt._asdict()), fp) 
         return self.opt

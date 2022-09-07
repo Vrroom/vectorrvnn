@@ -11,7 +11,7 @@ class DataLoaderBase() :
 
     def nodefeatures (self, t, node) : 
         paths = t.nodes[node]['pathSet']
-        Cls = globals()[self.opts.modelcls]
+        Cls = self.opts.modelcls
         features = Cls.nodeFeatures(t, paths, self.opts)
         return features
 

@@ -9,14 +9,14 @@ class TripletSampler (Sampler):
 
     def getSample(self) : 
         n = len(self.svgdatas)
-        dataPt = self.rng.choice(self.svgdatas) # choose random data point
-        dataPt = self.transform(deepcopy(dataPt), self.svgdatas) # transform it
+        # choose a random data point
+        dataPt = self.rng.choice(self.svgdatas) 
+        while dataPt.nPaths > self.opts.max_len: 
+            dataPt = self.rng.choice(self.svgdatas) 
+        # transform it
+        dataPt = self.transform(deepcopy(dataPt), self.svgdatas)
         docbox = getDocBBox(dataPt.doc)
-        nodes = []
-        for n in dataPt.nodes : 
-            box = pathsetBox(dataPt, dataPt.nodes[n]['pathSet'])
-            if complement(pathBBoxTooSmall)(box) :
-                nodes.append(n)
+        # filter out nodes that contain too many paths
         nodes = list(filterNodes(
             dataPt.nodes, 
             lambda ps : len(ps) < self.opts.max_len, 
@@ -24,12 +24,15 @@ class TripletSampler (Sampler):
         ))
         try : 
             for attempt in range(10) : 
-                three = self.rng.sample(nodes, k=3) # sample three nodes
-                pairs = list(combinations(three, 2)) # make 3 pairs
+                # sample three nodes
+                three = self.rng.sample(nodes, k=3) 
+                # make pairs
+                pairs = list(combinations(three, 2))
+                # compute distance in tree between pairs
                 distances = list(starmap(
                     partial(distanceInTree, dataPt), 
                     pairs
-                )) # compute distance in tree between pairs
+                )) 
                 # find the permutation, if such exists such that
                 # two nodes are closer to each other than the third node
                 perm = next(

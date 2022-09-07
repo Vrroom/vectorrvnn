@@ -1,5 +1,4 @@
 from torch.optim.lr_scheduler import *
-from torch.optim.swa_utils import *
 
 def getScheduler(optimizer, opt):
     """Return a learning rate scheduler

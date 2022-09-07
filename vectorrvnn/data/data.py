@@ -42,8 +42,8 @@ class SVGData (nx.DiGraph) :
     def _computeColors(self) : 
         self.fills, self.strokes = [], []
         for p in cachedPaths(self.doc) : 
-            self.fills.append(pathColor(p, 'fill'))
-            self.strokes.append(pathColor(p, 'stroke'))
+            self.fills.append(pathColorFeature(p, 'fill'))
+            self.strokes.append(pathColorFeature(p, 'stroke'))
 
     def _computeOBBs (self) : 
         self.obbs = []

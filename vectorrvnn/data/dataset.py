@@ -42,8 +42,12 @@ class SVGDataset () :
         if ignored > 0 :
             warnings.warn(f'Ignored {ignored} graphics')
 
-        self.data = [SVGData(svgFile=sf, treePickle=tf) 
-                for sf, tf in zip(svgFiles, treeFiles)]
+        self.data = []
+        for sf, tf in zip(svgFiles, treeFiles) :
+            try : 
+                self.data.append(SVGData(svgFile=sf, treePickle=tf)) 
+            except Exception :
+                pass
 
     def __getitem__ (self, i) :
         return self.data[i]

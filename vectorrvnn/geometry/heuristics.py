@@ -9,7 +9,7 @@ from itertools import product
 from .descriptor import equiDistantPointsOnPolyline
 import svgpathtools as svg
 
-def fourier_descriptor (tree, i, nSamples=1000, freqs=20) :
+def fourier_descriptor (tree, i, nSamples=500, freqs=20) :
     doc = tree.doc
     lines = deepcopy(tree.lines[i])
     lines.append(svg.Line(lines[-1].end, lines[0].start))
@@ -22,7 +22,7 @@ def fourier_descriptor (tree, i, nSamples=1000, freqs=20) :
     an = np.fft.rfft(lens)
     hf = an[1:(freqs // 2) + 1]
     F = np.abs(np.hstack((hf.real, hf.imag)))
-    F /= np.abs(an[0])
+    F /= np.abs(F).max()
     return F
 
 def centroid (tree, i, nSamples=1000) :

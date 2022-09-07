@@ -279,6 +279,16 @@ def clipGradients (model, max_grad_norm=None) :
 
 def toTorchImage (im) : 
     """ convert a raster into a torch image for visdom """
-    im = torch.permute(torch.from_numpy(im), (2, 0, 1))
+    im = torch.from_numpy(im).permute((2, 0, 1))
     im = alphaComposite(im, module=torch)
     return im
+
+""" obtained this from https://discuss.pytorch.org/t/batched-index-select/9115/8 """
+def batched_index_select(input, dim, index):
+	views = [input.shape[0]] + \
+			[1 if i != dim else -1 for i in range(1, len(input.shape))]
+	expanse = list(input.shape)
+	expanse[0] = -1
+	expanse[dim] = -1
+	index = index.view(views).expand(expanse)
+	return torch.gather(input, dim, index)

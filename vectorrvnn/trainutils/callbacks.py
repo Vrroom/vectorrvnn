@@ -1,7 +1,6 @@
 import torch
 import traceback
 from torch import nn
-from torch.optim.swa_utils import *
 from datetime import datetime
 from sklearn import metrics
 from functools import partial
@@ -135,11 +134,14 @@ class HardTripletCallback (ImageDisplayCallback) :
             dplus  = step_data['dplus']
             dminus = step_data['dminus']
             mask = (dplus > dminus).squeeze()
-            ref   = self.node2Image(batch, 'ref', mask)
-            plus  = self.node2Image(batch, 'plus', mask)
-            minus = self.node2Image(batch, 'minus', mask)
-            viz = torch.stack([ref, plus, minus])
-            return viz
+            try : 
+                ref   = self.node2Image(batch, 'ref', mask)
+                plus  = self.node2Image(batch, 'plus', mask)
+                minus = self.node2Image(batch, 'minus', mask)
+                viz = torch.stack([ref, plus, minus])
+                return viz
+            except Exception : 
+                return torch.ones(1, 3, 224, 224)
 
 class TripletVisCallback(ImageDisplayCallback): 
     """ Visualize the images for each node in triplet
@@ -271,7 +273,7 @@ class BoundingBoxCallback (Callback) :
             df, 
             x="x", 
             y="y",
-            color="nodetype",
+            color="nodeType",
             title=self.win
         )
         fig.update_xaxes(range=[-1, 1])

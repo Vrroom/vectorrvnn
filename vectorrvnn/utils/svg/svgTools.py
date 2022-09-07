@@ -9,6 +9,7 @@ import itertools, more_itertools
 import svgpathtools as svg
 from vectorrvnn.utils.graph import *
 from vectorrvnn.utils.boxes import *
+from skimage.color import *
 
 # Stroke attributes. 
 STROKE_LINECAP = ['butt', 'round', 'square'] # default in butt
@@ -176,6 +177,28 @@ def pathAttributeSet (path, attr, value) :
 def pathAttributeGet (path, attr, default) : 
     return xmlAttributeGet(path.element, attr, default)
     
+def pathColorFeature (path, attr) : 
+    """ 
+    attr can be one of stroke/fill. 
+    This method will return a list of 4 numbers. 
+    The first number will indicate whether the path 
+    color is none or not. The other 3 will indicate the 
+    color in lab space.
+    """ 
+    attr = pathAttributeGet(path, attr, DEFAULT_COLOR)
+    if attr == 'none' : 
+        return [1.0, 0.0, 0.0, 0.0] 
+    else : 
+        rgb = parseColor(attr)
+        lab = rgb2lab(rgb)
+        # normalize 
+        lab[0] /= 100.0
+        lab[0] -= 0.5
+        lab[0] *= 2.0
+        lab[1] /= 127.0
+        lab[2] /= 127.0
+        return [0.0, *lab] 
+
 def pathColor (path, attr) : 
     """ attr can be one of stroke/fill """
     return parseColor(pathAttributeGet(path, attr, DEFAULT_COLOR))

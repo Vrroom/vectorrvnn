@@ -52,13 +52,11 @@ class Interface (ttools.ModelInterface) :
         self.dataset = dataset
         self.val_dataset = val_dataset
         trainedParams = filter(lambda p: p.requires_grad, self.model.parameters())
-        optimcls = getattr(optim, opts.optimcls)
-        self.opt = optimcls(
+        self.opt = optim.Adam(
             trainedParams, 
             lr=opts.lr, 
-            # TODO: Revert weight_decay=opts.wd
+            weight_decay=opts.wd
         )
-        self.sched = getScheduler(self.opt, opts)
         self.init = deepcopy(self.model.state_dict())
         self.combiners = dict(
             loss=movingAvg,
@@ -70,17 +68,12 @@ class Interface (ttools.ModelInterface) :
 
 
     def training_step(self, batch) :
-        def closure () :
-            # TODO : Experimenting with LBFGS.
-            ret = self.model(**batch)
-            return ret['loss']
-
         self.model.train()
         self.opt.zero_grad()
         ret = self.model(**batch)
         ret['loss'].backward()
-        #clipGradients(self.model, self.max_grad_norm)
-        self.opt.step(closure)
+        clipGradients(self.model, self.max_grad_norm)
+        self.opt.step()
         tensorApply(
             ret, 
             lambda t : t.item(), 
@@ -110,17 +103,9 @@ class Interface (ttools.ModelInterface) :
             )
             return ret
 
-def nodeOverlapData(opts) : 
-    dir = opts.otherdata
-    N   = opts.n_otherdata
-    files = [_ for _ in allfiles(dir) if _.endswith('svg')]
-    svgs = rng.choices(files, k=N)
-    data = [SVGData(_) for _ in svgs]
-    return data
-
 def buildModel (opts) : 
     # Load pretrained path module
-    ModelCls = globals()[opts.modelcls]
+    ModelCls = opts.modelcls
     model = ModelCls(opts).float()
     if opts.load_ckpt is not None : 
         initPath = osp.join(
@@ -194,7 +179,6 @@ def setSeed (opts) :
 def addGenericCallbacks(trainer, model, data, opts) : 
     keys = ["loss", "hardpct"]
     _, valData, trainDataLoader, _, _ = data
-    trainer.add_callback(SchedulerCallback(trainer.interface.sched))
     checkpointer = ttools.Checkpointer(
         osp.join(opts.checkpoints_dir, opts.name),
         model
@@ -217,14 +201,14 @@ def addGenericCallbacks(trainer, model, data, opts) :
             frequency=opts.frequency
         )
     )
-    trainer.add_callback(
-        HierarchyVisCallback(
-            model,
-            valData,
-            opts,
-            env=opts.name + "_hierarchy"
-        )
-    )
+    # trainer.add_callback(
+    #     HierarchyVisCallback(
+    #         model,
+    #         valData,
+    #         opts,
+    #         env=opts.name + "_hierarchy"
+    #     )
+    # )
     trainer.add_callback(
         TreeScoresCallback(
             model, 
@@ -233,30 +217,22 @@ def addGenericCallbacks(trainer, model, data, opts) :
             env=opts.name + "_tree_scores"
         )
     )
-    trainer.add_callback(
-        SiblingEmbeddingsCallback(
-            model,
-            valData, 
-            opts,
-            env=opts.name + "_sib"
-        )
-    )
-    trainer.add_callback(
-        VisHardestCallback(
-            model,
-            valData, 
-            opts,
-            env=opts.name + "_hardest"
-        )
-    )
-    trainer.add_callback(
-        NodeOverlapCallback(
-            model, 
-            nodeOverlapData(opts),
-            opts, 
-            env=opts.name + "_no"
-        )
-    )
+    # trainer.add_callback(
+    #     SiblingEmbeddingsCallback(
+    #         model,
+    #         valData, 
+    #         opts,
+    #         env=opts.name + "_sib"
+    #     )
+    # )
+    # trainer.add_callback(
+    #     VisHardestCallback(
+    #         model,
+    #         valData, 
+    #         opts,
+    #         env=opts.name + "_hardest"
+    #     )
+    # )
     trainer.add_callback(
         DistanceHistogramCallback(
             frequency=opts.frequency,
@@ -267,27 +243,19 @@ def addGenericCallbacks(trainer, model, data, opts) :
         CheckpointingBestNCallback(checkpointer, key='fmi')
     )
     trainer.add_callback(
-        KernelDisplayCallback(
-            model,
-            win="kernel", 
-            env=opts.name + "_kernel", 
-            frequency=opts.frequency
-        )
-    )
-    trainer.add_callback(
         GradCallback(
             model,
             frequency=opts.frequency,
             env=opts.name + "_gradients"
         )
     )
-    trainer.add_callback(
-        InitDistanceCallback(
-            model,
-            frequency=opts.frequency,
-            env=opts.name + "_init_distance"
-        )
-    )
+    # trainer.add_callback(
+    #     InitDistanceCallback(
+    #         model,
+    #         frequency=opts.frequency,
+    #         env=opts.name + "_init_distance"
+    #     )
+    # )
     trainer.add_callback(
         NormCallback(
             model,
@@ -311,24 +279,3 @@ def train (opts, callbackFn) :
         val_dataloader=valDataLoader
     )
 
-def scores2df (ts1, ts2, methodName) : 
-    ctedscore = avg(map(norm_cted, ts1, ts2))
-    fmi1score = avg(map(partial(fmi, level=1), ts1, ts2))
-    fmi2score = avg(map(partial(fmi, level=2), ts1, ts2))
-    fmi3score = avg(map(partial(fmi, level=3), ts1, ts2))
-    return pd.DataFrame(
-        data=[[ctedscore, fmi1score, fmi2score, fmi3score]],
-        index=[methodName],
-        columns=['cted', 'fmi1', 'fmi2', 'fmi3']
-    )
-
-def modeltest (opts) : 
-    _, _, _, _, testData = buildData(opts)
-    model = buildModel(opts)
-    ablations(model, testData, opts)
-    ts = list(map(model.greedyTree, testData))
-    exprDir = osp.join(opts.checkpoints_dir, opts.name)
-    logFile = osp.join(exprDir, f'{opts.name}.csv')
-    dd = scores2df(testData, ts, "Ours-DD")
-    combined = pd.concat([dd])
-    combined.to_csv(logFile)

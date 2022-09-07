@@ -4,9 +4,8 @@ from torch.nn import functional as F
 from vectorrvnn.utils import *
 from vectorrvnn.trainutils import *
 from .TripletBase import TripletBase
-from .ContrastiveBase import ContrastiveBase
 
-class BBoxNet (ContrastiveBase) : 
+class BBoxNet (TripletBase) : 
     def __init__(self, opts):  
         super(BBoxNet, self).__init__(opts)
         self.net = fcn(opts, 4, opts.embedding_size)
