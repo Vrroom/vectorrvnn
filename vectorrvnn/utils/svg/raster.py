@@ -48,7 +48,7 @@ def rasterize (doc, w=None, h=None, threadLocal=False) :
         return pr.numpyRaster(doc)
 
 @immutable_doc 
-def rasterizeInkscape (doc, w=None, h=None) :
+def rasterizeInkscape (doc, w=None, h=None, threadLocal=False) :
     """
     Use inkscape as fallback to rasterize.
     """

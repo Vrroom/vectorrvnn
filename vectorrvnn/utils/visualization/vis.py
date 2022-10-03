@@ -263,4 +263,25 @@ def treeMatchVisOnAxis (t1, t2, matchMatrix, fig, ax, prefix=('1-', '2-'), threa
 
     ax.axis('off')
 
+def visBBox (bbox) : 
+    fig, ax = plt.subplots()
+    ax.plot(
+        [bbox.x, bbox.X, bbox.X, bbox.x, bbox.x], 
+        [bbox.y, bbox.y, bbox.Y, bbox.Y, bbox.y]
+    )
+    ax.set_xlim(-1, 1)
+    ax.set_ylim(-1, 1)
+    ax.set_aspect('equal') 
+    return fig, ax
 
+def visOBB (obb) : 
+    from vectorrvnn.utils import canonical2corners
+    corners = canonical2corners(obb)
+    st = corners[0].reshape(1, -1)
+    corners = np.concatenate((corners, st), 0)
+    fig, ax = plt.subplots()
+    ax.plot(corners[:, 0], corners[:, 1])
+    ax.set_xlim(-1, 1)
+    ax.set_ylim(-1, 1)
+    ax.set_aspect('equal') 
+    return fig, ax

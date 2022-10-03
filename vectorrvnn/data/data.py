@@ -29,7 +29,7 @@ class SVGData (nx.DiGraph) :
         assert nx.is_tree(self)
 
     def initGraphic (self) :
-        paths = cachedPaths(self.doc)
+        paths = self.doc.paths()
         self.nPaths = len(paths)
         assert(self.nPaths == len(leaves(self)))
         box = getDocBBox(self.doc) 
@@ -55,33 +55,63 @@ class SVGData (nx.DiGraph) :
         for lines in self.lines :
             self.bbox.append(polylineAABB(self.doc, lines))
 
-    def recalculateBBoxes(self, fn) : 
-        for i in range(len(self.bbox)) : 
-            self.bbox[i] = fn(self.bbox[i])
+    def recalculateBoxes(self) : 
+        self._computeBBoxes()
+        self._computeOBBs()
 
     def _setPathSets (self) : 
         """ set pathsets for each node """
         for n in self.nodes :
             self.nodes[n]['pathSet'] = tuple(leavesInSubtree(self, n))
 
-    def __init__ (self, svgFile=None, treePickle=None, tree=None, convert2usvg=False) : 
-        """ only one of treePickle and tree can be not None """
+    def __init__ (self, svgFile, treePickle=None, tree=None, convert2usvg=False, normalize=False) : 
+        """
+        Data structure containing geometry and topology of the graphic
+
+        This data structure can be instantiated in a few ways. An svg file
+        is compulsory. After that, the topology can be supplied through a 
+        pickle file or a networkx graph (using arguments treePickle and tree). 
+        At most one of these arguments should be supplied. If both are not specified
+        then, we infer the topology from the markup (e.g. <g/>) in the svg document.
+
+        convert2usvg simplifies the svg before extracting geometry so that we have
+        fewer cases to worry about.
+
+        normalize sets the graphic in a fixed viewbox for consistency. 
+        """ 
+        # First initialize the topology of the graphic
         assert(treePickle is None or tree is None)
-        if convert2usvg :
-            newName = f'/tmp/{getBaseName(svgFile)}.svg'
-            call(['usvg', svgFile, newName])
-            svgFile = newName
-        with open(svgFile) as fp:
-            self.svg = fp.read()
-        self.doc = withoutDegeneratePaths(svg.Document(svgFile))
         if treePickle is not None : 
             super(SVGData, self).__init__(nx.read_gpickle(treePickle))
         elif tree is not None : 
             super(SVGData, self).__init__(tree)
         else :
-            super(SVGData, self).__init__(getTreeStructureFromSVG(self.doc))
+            doc = withoutDegeneratePaths(svg.Document(svgFile))
+            super(SVGData, self).__init__(getTreeStructureFromSVG(doc))
         self.initTree()
+
+        # Read the original svg file. Easier for debugging
+        with open(svgFile) as fp:
+            self.svg = fp.read()
         self.svgFile = svgFile
+        
+        # option to simplify svg - helps with wild svgs
+        if convert2usvg :
+            newName = f'/tmp/{getBaseName(svgFile)}.svg'
+            call(['usvg', svgFile, newName])
+            svgFile = newName
+
+        # option to normalize svg - like I do in training
+        if normalize : 
+            newName = f'/tmp/{getBaseName(svgFile)}.svg'
+            doc = svg.Document(svgFile)
+            box = union([pathBBox(p.path) for p in doc.paths()])
+            setDocBBox(doc, box.normalized() * 1.2)
+            with open(newName, 'w+') as fp : 
+                fp.write(repr(doc))
+            svgFile = newName
+    
+        self.doc = withoutDegeneratePaths(svg.Document(svgFile))
         self.initGraphic()
 
     def __or__ (self, that) : 

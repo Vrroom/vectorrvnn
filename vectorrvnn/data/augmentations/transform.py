@@ -152,7 +152,7 @@ class Rotate (SVGDataTransform) :
         self.degreeRange = degreeRange
 
     def transform (self, svgdata, *args) : 
-        center = union(svgdata.bbox).center()
+        center = getDocBBox(svgdata.doc).center()
         degree = rng.randint(*self.degreeRange)
         rotate(svgdata, degree, center)
         return svgdata

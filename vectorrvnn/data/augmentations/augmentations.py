@@ -21,6 +21,12 @@ multiaug = Compose([
 
 binarize = RandomBinarize(p=1)
 
+simple = Compose([
+    RandomBinarize(p=0.5),
+    Rotate(p=0.5),
+    NoFill(p=0.5),
+])
+
 def getGraphicAugmentation (opts) : 
     if opts.augmentation == 'none' : 
         return lambda *args:  args[0]
