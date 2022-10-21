@@ -169,17 +169,16 @@ def autogroupAreaSimilarity (doc, i, j, threadLocal=False, **kwargs) :
     return 1 - abs(a1 - a2) / (max(a1, a2) + 1e-6)
 
 def autogroupPlacementDistance (doc, i, j, **kwargs) : 
+    lines = kwargs['lines']
     path1, path2 = _getPathPair(doc, i, j)
     l1, l2 = path1.path.length(), path2.path.length()
     samplingDistance = 0.02 * min(l1, l2)
     n = int(l1 / samplingDistance)
     m = int(l2 / samplingDistance)
-    samples1 = list(zip(*memoEquiDistantSamples(doc, i, 
-        nSamples=n, normalize=False)))
-    samples2 = list(zip(*memoEquiDistantSamples(doc, j, 
-        nSamples=m, normalize=False)))
-    ls1 = LineString(samples1)
-    ls2 = LineString(samples2)
+    samples1 = np.array(equiDistantPointsOnPolyline(doc, lines[i], nSamples=n, normalize=False)).T
+    samples2 = np.array(equiDistantPointsOnPolyline(doc, lines[j], nSamples=m, normalize=False)).T
+    ls1 = LineString(samples1.tolist())
+    ls2 = LineString(samples2.tolist())
     return ls1.distance(ls2)
 
 def autogroupShapeHistogramSimilarity (doc, i, j, **kwargs) : 
@@ -187,7 +186,9 @@ def autogroupShapeHistogramSimilarity (doc, i, j, **kwargs) :
     Reference : 
         https://diglib.eg.org/bitstream/handle/10.2312/egs20211016/short1005_supp.pdf?sequence=2&isAllowed=y
     """
-    a, b = shapeHistogram(doc, i), shapeHistogram(doc, j)
+    lines = kwargs['lines']
+    a = shapeHistogramPolyline(doc, i, lines=lines)
+    b = shapeHistogramPolyline(doc, j, lines=lines)
     return histScore(a, b)
 
 def autogroupStrokeSimilarity (doc, i, j, **kwargs) : 

@@ -68,6 +68,15 @@ def shapeHistogram (doc, i, nSamples=50) :
     pts = np.abs(pts) / s
     return np.histogram(pts, range=(0, 1), bins=nSamples)[0]
 
+def shapeHistogramPolyline (doc, i, nSamples=50, lines=None) : 
+    assert lines is not None, "Incorrect arguments" 
+    box = pathBBox(svg.Path(*lines[i]))
+    s = max(box.w, box.h) * np.sqrt(2)
+    pts = np.array(equiDistantPointsOnPolyline(doc, lines[i], nSamples=nSamples)).T
+    pts = pts - pts.mean(0)
+    pts = np.linalg.norm(pts, axis=1) / s
+    return np.histogram(pts, range=(0, 1), bins=nSamples)[0]
+
 @lru_cache(maxsize=128)
 def fd (doc, i, nSamples=25, freqs=10, **kwargs) :
     """

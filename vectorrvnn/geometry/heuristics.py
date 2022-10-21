@@ -14,6 +14,7 @@ def fourier_descriptor (tree, i, nSamples=500, freqs=20) :
     lines = deepcopy(tree.lines[i])
     lines.append(svg.Line(lines[-1].end, lines[0].start))
     pts = np.array(equiDistantPointsOnPolyline(doc, lines, nSamples, normalize=True)).T
+    # use distance to origin to canonicalize starting point
     d2o = np.sqrt((pts * pts).sum(1))
     mi = argmin(d2o.tolist())
     pts = np.vstack((pts[mi:], pts[:(mi + 1)]))
@@ -22,7 +23,7 @@ def fourier_descriptor (tree, i, nSamples=500, freqs=20) :
     an = np.fft.rfft(lens)
     hf = an[1:(freqs // 2) + 1]
     F = np.abs(np.hstack((hf.real, hf.imag)))
-    F /= np.abs(F).max()
+    F /= (np.abs(F).max() + 1e-6)
     return F
 
 def centroid (tree, i, nSamples=1000) :
