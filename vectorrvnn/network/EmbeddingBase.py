@@ -51,6 +51,50 @@ class EmbeddingBase (nn.Module) :
             es.append(self.embedding(block))
         return torch.cat(es, 0)
 
+    def beamSearchTree (self, t, subtrees=None, beam_sz=10, expand_sz=10, temperature=0.1):
+        """ grouping is a sequential process. hence beam search is applicable """ 
+        def distance (ps1, ps2) : 
+            box1 = pathsetBox(t, ps1)
+            box2 = pathsetBox(t, ps2)
+            #  if pathBBoxTooSmall(box1) or pathBBoxTooSmall(box2) : 
+            #      return torch.tensor(np.inf).to(self.opts.device)
+            return self.sim_criteria(
+                unitNorm(self.pathSetEmbedding(t, ps1)),
+                unitNorm(self.pathSetEmbedding(t, ps2))
+            )
+
+        if subtrees is None :
+            subtrees = leaves(t) 
+        samples = [(0.0, deepcopy(subtrees)) for _ in range(beam_sz)]
+        for i in range(t.nPaths - 1) : 
+            expanded_set = []
+            for score, subT in samples : 
+                treePairs = list(combinations(subT, 2))
+                ids       = list(range(len(treePairs)))
+                pathSets  = [tuple(collapse(s)) for s in subT]
+                options   = list(combinations(pathSets, 2))
+                distances = list(starmap(distance, options))
+                distances = torch.cat(distances).reshape(-1)
+                sims = -distances / temperature
+                probs = torch.softmax(sims, 0).detach().cpu().numpy().tolist()
+                pickedIds = rng.choices(ids, weights=probs, k=expand_sz)
+                for i in pickedIds : 
+                    nxt = deepcopy(subT) 
+                    left, right = treePairs[i]
+                    newSubtree = (left, right)
+                    nxt.remove(left)
+                    nxt.remove(right)
+                    nxt.append((left, right))
+                    # add random-ness so that expanded set doesn't clash on first key
+                    nxtScore = score + np.log(probs[i]) + 1e-5 * rng.random()
+                    expanded_set.append((nxtScore, nxt))
+            expanded_set.sort()
+            samples = expanded_set[-beam_sz:]
+        print('score:', samples[-1][0])
+        cpy = deepcopy(t)
+        cpy.initTree(parentheses2tree(samples[-1][1][0]))
+        return cpy
+
     def greedyTree (self, t, subtrees=None) : 
 
         def distance (ps1, ps2) : 
