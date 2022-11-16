@@ -62,7 +62,7 @@ class SVGData (nx.DiGraph) :
     def _setPathSets (self) : 
         """ set pathsets for each node """
         for n in self.nodes :
-            self.nodes[n]['pathSet'] = tuple(leavesInSubtree(self, n))
+            self.nodes[n]['pathSet'] = tuple(sorted(list(leavesInSubtree(self, n))))
 
     def __init__ (self, svgFile, treePickle=None, tree=None, convert2usvg=False, normalize=False) : 
         """
