@@ -52,3 +52,6 @@ def allfiles (directory) :
         if osp.isdir(f) : 
             yield from allfiles(f)
 
+def allFilesWithSuffix(directory, suffix) : 
+    """ List full paths of all files that end with suffix """ 
+    return filter(lambda x : x.endswith(suffix), allfiles(directory))

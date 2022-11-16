@@ -12,6 +12,7 @@ from .treeOps import *
 from vectorrvnn.utils.datastructures import *
 from vectorrvnn.utils.bipartite import *
 from collections import defaultdict
+from functools import lru_cache
 
 def ted (t1, t2, matching=False) :
     """
@@ -299,6 +300,148 @@ def cted (t1, t2, matching=False):
     else : 
         return opt
 
+def cted_area_wt (t1, t2, matching=False): 
+    """ 
+    cted stands for constrained tree edit distance. See
+
+        https://link.springer.com/content/pdf/10.1007/BF01975866.pdf
+
+    for more information.
+    """
+    @lru_cache(maxsize=1000)
+    def d (x, y) :
+        from vectorrvnn.utils.svg import subsetSvg, rasterize
+        """
+        Cost of relabeling node x with node y is
+        the symmetric difference of the pathSets divided
+        by their union.
+        """
+        ps1 = t1.nodes[x]['pathSet']
+        ps2 = t2.nodes[y]['pathSet']
+        im1 = rasterize(subsetSvg(t1.doc, ps1), 200, 200)[..., 3] > 0.5
+        im2 = rasterize(subsetSvg(t2.doc, ps2), 200, 200)[..., 3] > 0.5
+        sym_diff = (im1 ^ im2).sum()
+        union = (im1 | im2).sum() + 1e-4
+        return sym_diff / union
+
+    tTable, fTable = dict(), dict()
+    # set up base cases: 
+    # cost for matching empty trees
+    tTable[(None, None)] = fTable[(None, None)] = (0, [])
+    # cost for matching tree with empty tree
+    for n in t1.nodes : 
+        tTable[(n, None)] = (len(descendants(t1, n)) , [])
+        fTable[(n, None)] = (tTable[(n, None)][0] - 1, [])
+    # cost for matching empty tree with tree
+    for m in t2.nodes : 
+        tTable[(None, m)] = (len(descendants(t2, m)) , [])
+        fTable[(None, m)] = (tTable[(None, m)][0] - 1, [])
+
+    def FTable(i, j) : 
+        nonlocal fTable
+        if (i, j) in fTable :
+            return fTable[(i, j)]
+        elif t1.out_degree(i) == 0 : 
+            return fTable[(None, j)]
+        elif t2.out_degree(j) == 0 : 
+            return fTable[(i, None)]
+        deleteBoth = fTable[(None, j)][0] + fTable[(i, None)][0]
+        best1, min1 = [], 0
+        for y in t2.neighbors(j) : 
+            c, matches = FTable(i, y)
+            cost = c - fTable[(None, y)][0] - fTable[(i, None)][0]
+            if cost < min1 : 
+                best1 = matches
+                min1  = cost
+        case1 = deleteBoth + min1
+        best2, min2 = [], 0
+        for x in t1.neighbors(i) : 
+            c, matches = FTable(x, j)
+            cost = c - fTable[(x, None)][0] - fTable[(None, j)][0]
+            if cost < min2 : 
+                best2 = matches
+                min2 = cost
+        case2 = deleteBoth + min2
+        A = [f'a_{_}' for _ in t2.neighbors(j)]
+        B = [f'b_{_}' for _ in t1.neighbors(i)]
+        subCallTable = dict()
+        for p in product(t1.neighbors(i), t2.neighbors(j)) : 
+            subCallTable[p] = TTable(*p)
+        for p in product(t1.neighbors(i), B) : 
+            subCallTable[p] = tTable[(p[0], None)]
+        for p in product(A, t2.neighbors(j)) : 
+            subCallTable[p] = tTable[(None, p[1])]
+        for p in product(A, B) : 
+            subCallTable[p] = (0, [])
+        costTable = dictmap(lambda k, v: v[0], subCallTable)
+        matching = optimalBipartiteMatching(costTable)
+        case3 = sum([costTable[e] for e in matching.items()])
+        minCost = min(case1, case2, case3) 
+        best = []
+        if minCost == case1 : 
+            best = best1
+        elif minCost == case2 : 
+            best = best2
+        else : 
+            for a in t1.neighbors(i) : 
+                best += subCallTable[(a, matching[a])][1]
+        fTable[(i, j)] = (minCost, best)
+        return minCost, best
+            
+    def TTable (i, j) : 
+        nonlocal tTable
+        if (i, j) in tTable : 
+            return tTable[(i, j)]
+        deleteBoth = tTable[(None, j)][0] + tTable[(i, None)][0]
+        best1, min1 = [], 0
+        for y in t2.neighbors(j) : 
+            c, matches = TTable(i, y)
+            cost = c - tTable[(None, y)][0] - tTable[(i, None)][0]
+            if cost < min1 : 
+                best1 = matches
+                min1 = cost
+        case1 = deleteBoth + min1
+        best2, min2 = [], 0
+        for x in t1.neighbors(i) : 
+            c, matches = TTable(x, j)
+            cost = c - tTable[(x, None)][0] - tTable[(None, j)][0]
+            if cost < min2 : 
+                best2 = matches
+                min2 = cost
+        case2 = deleteBoth + min2
+        c, fmatches = FTable(i, j)
+        case3 = c + d(i, j) 
+        minCost = min(case1, case2, case3)
+        best = []
+        if case1 == minCost: 
+            best = best1
+        elif case2 == minCost : 
+            best = best2
+        else : 
+            best = [(i, j)] + fmatches
+        tTable[(i, j)] = (minCost, best)
+        return minCost, best
+
+    def matchMatrix () :
+        t1Map = serialMapping(t1.nodes)
+        t2Map = serialMapping(t2.nodes)
+        n, m = len(t1.nodes), len(t2.nodes)
+        mm = np.zeros((n, m), dtype=int)
+        for ti, tj in matches:
+            mm[t1Map[ti], t2Map[tj]] = 1
+        return mm
+            
+    opt, matches = TTable(findRoot(t1), findRoot(t2))
+    if matching : 
+        return opt, matchMatrix()
+    else : 
+        return opt
+
+def norm_cted_area_wt (x, y) : 
+    n = x.number_of_nodes()
+    m = y.number_of_nodes()
+    return cted_area_wt(x, y) / (n + m)
+    
 def norm_cted (x, y) :
     n = x.number_of_nodes()
     m = y.number_of_nodes()

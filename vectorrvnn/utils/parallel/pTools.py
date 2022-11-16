@@ -10,3 +10,17 @@ def pmap(function, items, chunksize=None) :
     with mp.Pool(cpu_count) as p : 
         mapper = p.imap(function, items, chunksize=chunksize)
         return list(tqdm(mapper, total=len(items)))
+
+def runFnSafely (fn, args, timeout) :
+    """
+    Runs a function safely.
+
+    Runs the function as a seperate process. The function
+    produces some side-effect (possibly by saving stuff
+    to the disk). But it may get stuck. This function makes
+    sure that all this drama happens in a seperate process
+    so that we aren't bothered.
+    """
+    p = mp.Process(target=fn, args=args)
+    p.start()
+    p.join(timeout)
