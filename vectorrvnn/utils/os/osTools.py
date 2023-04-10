@@ -55,3 +55,11 @@ def allfiles (directory) :
 def allFilesWithSuffix(directory, suffix) : 
     """ List full paths of all files that end with suffix """ 
     return filter(lambda x : x.endswith(suffix), allfiles(directory))
+
+def allDirs (directory) : 
+    """ List all directories within this directory """
+    return filter(osp.isdir, listdir(directory))
+
+def allFiles (directory) :
+    """ List all files that are not directories in this directory """
+    return filter(lambda x : not osp.isdir(x), listdir(directory))
