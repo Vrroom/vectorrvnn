@@ -1,5 +1,6 @@
 from tqdm import tqdm
 import multiprocessing as mp
+from functools import wraps
 
 def pmap(function, items, chunksize=None) : 
     """ parallel mapper using Pool with progress bar """
@@ -24,3 +25,25 @@ def runFnSafely (fn, args, timeout) :
     p = mp.Process(target=fn, args=args)
     p.start()
     p.join(timeout)
+
+def safe_run(f):
+    """
+    Sometimes in life, you aren't bothered whether your function fails, 
+    you just want to run it on a lot of inputs. This decorator let's you 
+    annotate your function as such and have it run without crashing your
+    program
+
+    Usage:
+
+    @safe_run
+    def potentially_dubious_fn(x):
+        ...
+    """
+    @wraps(f)
+    def wrapped(*args, **kwargs):
+        try:
+            return f(*args, **kwargs)
+        except Exception as e:
+            print(f"Exception occurred while running {f.__name__}: {e}")
+            return None
+    return wrapped
