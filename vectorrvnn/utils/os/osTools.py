@@ -63,3 +63,9 @@ def allDirs (directory) :
 def allFiles (directory) :
     """ List all files that are not directories in this directory """
     return filter(lambda x : not osp.isdir(x), listdir(directory))
+
+def relpathToAbsPath (x) : 
+    """
+    Returns the absolute path for a relative path. Can be convenient in some scenarios.
+    """
+    return osp.normpath(osp.join(osp.split(osp.abspath(__file__))[0], x))
