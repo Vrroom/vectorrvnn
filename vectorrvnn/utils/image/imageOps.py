@@ -4,6 +4,37 @@ import base64, io
 
 ENCODING = 'utf-8'
 
+def make_image_grid (images, row_major=True):
+    """
+    Make a large image where the images are stacked.
+
+    images: list/list of list of PIL Images
+    row_major: if images is list, whether to lay them down horizontally/vertically
+    """
+    assert isinstance(images, list) and len(images) > 0, "images is either not a list or an empty list"
+    if isinstance(images[0], list) :
+        return make_image_grid([make_image_grid(row) for row in images], False)
+    else :
+        if row_major :
+            H = min(a.size[1] for a in images)
+            images = [a.resize((int(H * a.size[0] / a.size[1]), H)) for a in images]
+            W = sum(a.size[0] for a in images)
+            img = Image.new('RGB', (W, H))
+            cSum = 0
+            for a in images :
+                img.paste(a, (cSum, 0))
+                cSum += a.size[0]
+        else :
+            W = min(a.size[0] for a in images)
+            images = [a.resize((W, int(W * a.size[1] / a.size[0]))) for a in images]
+            H = sum(a.size[1] for a in images)
+            img = Image.new('RGB', (W, H))
+            cSum = 0
+            for a in images :
+                img.paste(a, (0, cSum))
+                cSum += a.size[1]
+        return img
+
 def imsave (arr, fname) : 
     """ utility for saving numpy array """ 
     imgToPIL(arr).save(fname)
