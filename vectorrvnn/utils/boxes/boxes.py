@@ -5,6 +5,7 @@ import shapely.geometry as sg
 from copy import deepcopy
 from functools import reduce
 from more_itertools import flatten
+import matplotlib.pyplot as plt
 
 def pathBBox (path) : 
     """
@@ -243,6 +244,14 @@ class BBox :
             (self.X, self.Y),
             (self.X, self.y)
         ])
+
+    def draw_box (self, ax=None) :
+        if ax is None:
+            ax = plt
+        ax.plot(
+            [self.x, self.X, self.X, self.x, self.x],
+            [self.y, self.y, self.Y, self.Y, self.y]
+        )
 
 def corners2canonical (corners) :
     """ 
