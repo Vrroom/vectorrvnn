@@ -49,6 +49,17 @@ def imgArrayToPIL (arr) :
     chanType = "RGBA" if arr.shape[2] == 4 else "RGB"
     return Image.fromarray(arr, chanType)
 
+def aspectRatioPreservingResizePIL (pil_img, smaller_dim) :
+    """ utility for resizing image, ensuring that smaller dimension matches """
+    h, w = pil_img.size
+    if h < w :
+        h, w = smaller_dim, smaller_dim * w / h
+    else :
+        h, w = smaller_dim * h / w, smaller_dim
+    h, w = int(h), int(w)
+    resized = pil_img.resize((h, w))
+    return pil_img
+    
 def aspectRatioPreservingResize (arr, smaller_dim) :
     """ utility for resizing image, ensuring that smaller dimension matches """
     pil_img = imgArrayToPIL(arr)
