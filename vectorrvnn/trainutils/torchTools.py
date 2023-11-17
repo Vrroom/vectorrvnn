@@ -8,6 +8,17 @@ from torchvision.models import *
 from .initializer import getInitializer
 from torchvision.ops import *
 from vectorrvnn.utils import *
+import hashlib
+
+def hash_model(model):
+    """ Compute model hash for checkpoint sanctity """
+    model.eval()
+    hasher = hashlib.sha256()
+    state_dict = model.state_dict()
+    for key in sorted(state_dict.keys()):
+        hasher.update(key.encode('utf-8'))
+        hasher.update(state_dict[key].cpu().numpy().tobytes())
+    return hasher.hexdigest()
 
 def clones(module, N) :
     copies = [deepcopy(module) for _ in range(N)]
