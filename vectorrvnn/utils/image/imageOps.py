@@ -58,7 +58,7 @@ def aspectRatioPreservingResizePIL (pil_img, smaller_dim) :
         h, w = smaller_dim * h / w, smaller_dim
     h, w = int(h), int(w)
     resized = pil_img.resize((h, w))
-    return pil_img
+    return resized
     
 def aspectRatioPreservingResize (arr, smaller_dim) :
     """ utility for resizing image, ensuring that smaller dimension matches """
