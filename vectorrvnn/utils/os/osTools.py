@@ -64,6 +64,10 @@ def allFiles (directory) :
     """ List all files that are not directories in this directory """
     return filter(lambda x : not osp.isdir(x), listdir(directory))
 
+def allFilesPredicate (directory, predicate) : 
+    """ Return all files in the directory that satisfy predicate """  
+    return filter(predicate, listdir(directory))  
+
 def relpathToAbsPath (x) : 
     """
     Returns the absolute path for a relative path. Can be convenient in some scenarios.
