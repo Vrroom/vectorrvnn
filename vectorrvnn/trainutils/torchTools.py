@@ -114,6 +114,10 @@ def normalize2UnitRange (thing) :
     else : 
         return (thing - m) / (M - m)
 
+def normalizeToRange (x, m, M) : 
+    mx, Mx = x.min(), x.max()
+    return ((x - mx) / (Mx - mx)) * (M - m) + m 
+
 def channelDim (thing, module=torch) : 
     cId = 0 if module == torch else 2
     if len(thing.shape) == 4 : 
