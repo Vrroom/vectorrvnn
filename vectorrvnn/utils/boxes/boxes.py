@@ -120,7 +120,7 @@ class BBox :
         return intersection / (union + 1e-5)
 
     def isDegenerate (self) : 
-        return isclose(self.w, 0) and isclose(self.h, 0)
+        return isclose(self.w, 0) or isclose(self.h, 0)
 
     def area (self) : 
         if self.isDegenerate() : 
