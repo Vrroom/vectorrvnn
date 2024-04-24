@@ -23,14 +23,21 @@ def hasDuplicates (lst) :
     """
     return len(set(lst)) != len(lst)
 
-def removeIndices (lst, indices) :
+def removeIndices (lst, indices, return_=False) :
     """
     In place removal of items at given indices. Obtained from : 
 
         https://stackoverflow.com/questions/497426/deleting-multiple-elements-from-a-list
     """
-    for i in sorted(indices, reverse=True):
-        del lst[i] 
+    if return_ :
+        stuff = []
+        for i in sorted(indices, reverse=True) :
+            stuff.append(lst[i])
+            lst.remove(lst[i])
+        return stuff
+    else :
+        for i in sorted(indices, reverse=True):
+            del lst[i] 
 
 def argmax(lst) :
     """
