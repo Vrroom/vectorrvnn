@@ -7,7 +7,17 @@ from matplotlib.offsetbox import OffsetImage
 from matplotlib.offsetbox import AnnotationBbox
 from vectorrvnn.utils import *
 from itertools import islice, cycle
-from more_itertools import collapse
+from more_itertools import collapse, take
+import matplotlob
+
+def sample_k_colors (k) : 
+    """ Trivial way to obtain distinct colors as uint8 RGB tuples """
+    def unnorm_color (x) : 
+        return tuple(map(lambda y : int(255 * y), x))
+    hexes = list(take(k, cycle(matplotlib.colors.CSS4_COLORS.values())))
+    norm_rgb = map(matplotlib.colors.to_rgb, hexes)
+    unorm_rgb = list(map(unnorm_color, norm_rgb))
+    return unorm_rgb
 
 COLOR_MAP = dict(
     red=[1, 0, 0],
