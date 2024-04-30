@@ -1,6 +1,21 @@
 import itertools
 from itertools import combinations, chain
 
+def mode (lst) : 
+    """ return the most frequently occuring value in list. 
+    Items must be hashable. In case of tie, return any
+    """
+    cnts = dict()
+    for item in lst: 
+        if item not in cnts :
+            cnts[item] = 1
+        else :
+            cnts[item] += 1
+    mf = max(cnts.values())
+    for k, v in cnts.items() : 
+        if v == mf: 
+            return k
+
 def subsets (lst, k) : 
     """ return size k subsets of list """ 
     combs = map(lambda i: combinations(lst, i), range(2, k + 1))
