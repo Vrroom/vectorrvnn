@@ -85,3 +85,6 @@ def pairwiseDisjoint (setList) :
 
 def listIoU (a, b) : 
     return len(set(a) & set(b)) / len(set(a) | set(b))
+
+def transposeList(matrix):
+    return [list(row) for row in zip(*matrix)]
