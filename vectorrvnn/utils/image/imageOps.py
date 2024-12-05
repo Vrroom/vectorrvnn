@@ -4,7 +4,7 @@ import base64, io
 
 ENCODING = 'utf-8'
 
-def make_image_grid (images, row_major=True):
+def make_image_grid (images, row_major=True, gutter=True, gutter_color=(0, 0, 0), img_type='RGB'):
     """
     Make a large image where the images are stacked.
 
@@ -13,28 +13,33 @@ def make_image_grid (images, row_major=True):
     """
     assert isinstance(images, list) and len(images) > 0, "images is either not a list or an empty list"
     if isinstance(images[0], list) :
-        return make_image_grid([make_image_grid(row) for row in images], False)
+        rows = [make_image_grid(row, row_major=True, gutter=gutter, gutter_color=gutter_color, img_type=img_type) for row in images]
+        return make_image_grid(rows, row_major=False, gutter=gutter, gutter_color=gutter_color, img_type=img_type)
     else :
         if row_major :
             H = min(a.size[1] for a in images)
             images = [a.resize((int(H * a.size[0] / a.size[1]), H)) for a in images]
             W = sum(a.size[0] for a in images)
-            img = Image.new('RGB', (W, H))
+            gutter_width = int(0.01 * W) if gutter else 0
+            W += (len(images) - 1) * gutter_width
+            img = Image.new(img_type, (W, H), gutter_color)
             cSum = 0
             for a in images :
-                img.paste(a, (cSum, 0))
-                cSum += a.size[0]
+                img.paste(a.convert(img_type), (cSum, 0))
+                cSum += (a.size[0] + gutter_width)
         else :
             W = min(a.size[0] for a in images)
             images = [a.resize((W, int(W * a.size[1] / a.size[0]))) for a in images]
             H = sum(a.size[1] for a in images)
-            img = Image.new('RGB', (W, H))
+            gutter_width = int(0.01 * W) if gutter else 0
+            H += (len(images) - 1) * gutter_width
+            img = Image.new(img_type, (W, H), gutter_color)
             cSum = 0
             for a in images :
-                img.paste(a, (0, cSum))
-                cSum += a.size[1]
+                img.paste(a.convert(img_type), (0, cSum))
+                cSum += (a.size[1] + gutter_width)
         return img
-
+        
 def imsave (arr, fname) : 
     """ utility for saving numpy array """ 
     imgToPIL(arr).save(fname)
