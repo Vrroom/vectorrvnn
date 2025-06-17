@@ -1,3 +1,5 @@
+Disclaimer: This repository is not well-maintained and hard to use. 
+
 # vectorrvnn
 
 ![image](https://user-images.githubusercontent.com/7254326/143408586-494c7a2c-bcee-4656-b8c2-336ac0587c6d.png)
